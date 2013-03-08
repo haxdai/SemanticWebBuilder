@@ -12,16 +12,18 @@ public class Sala extends mx.gob.inmujeres.swb.base.SalaBase
         super(base);
     }
     
-    public boolean isReservada(final Calendar begin, final Calendar end) {
+    public boolean isReservada(final Calendar begin, final Calendar end)
+    {
         return isReservada(begin.getTime(), end.getTime(), end.getTime().getHours(), end.getTime().getMinutes());
     }
     
-    private synchronized boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes) {
+    private synchronized boolean isReservada(final java.util.Date begin, final java.util.Date end, final int hours, final int minutes)
+    {
         boolean isReservada = false;
-        if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() ) {
+        if( begin.getDate()==end.getDate() && begin.getMonth()==end.getMonth() && begin.getYear()==end.getYear() )
+        {
             Calendar inicio = Calendar.getInstance();
             Calendar fin = Calendar.getInstance();
-//System.out.println("begin="+begin+", end="+end+", h="+hours+", m="+minutes);
             Iterator<ApartadoSala> reservations = ApartadoSala.ClassMgr.listApartadoSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
             reservations = SWBComparator.sortByCreated(reservations, false);
             while(reservations.hasNext()) {
@@ -30,12 +32,7 @@ public class Sala extends mx.gob.inmujeres.swb.base.SalaBase
                 fin.setTime(reservation.getFechaInicio());
                 fin.set(Calendar.HOUR_OF_DAY, reservation.getFechaFin().getHours());
                 fin.set(Calendar.MINUTE, reservation.getFechaFin().getMinutes());
-//System.out.println("..reservation Inicio()="+reservation.getFechaInicio()+", Final()="+reservation.getFechaFinal());
-//System.out.println("inicio="+inicio.getTime()+", fin="+fin.getTime());
-//System.out.println("fin.getTime().compareTo(reservation.getFechaFinal())="+fin.getTime().compareTo(reservation.getFechaFinal()));
                 while(fin.getTime().compareTo(reservation.getFechaFin())<=0) {
-//System.out.println("inicio.getTime().compareTo(begin)="+inicio.getTime().compareTo(begin));
-//System.out.println("fin.getTime().compareTo(end)="+fin.getTime().compareTo(end));
                     if( (inicio.getTime().compareTo(begin)<=0 && fin.getTime().compareTo(end)>=0) ||
                         (inicio.getTime().compareTo(begin)>0 && fin.getTime().compareTo(end)<0) ||
                         (begin.compareTo(inicio.getTime())<=0 && end.compareTo(inicio.getTime())>0 && end.compareTo(fin.getTime())<=0) ||
@@ -46,7 +43,9 @@ public class Sala extends mx.gob.inmujeres.swb.base.SalaBase
                     fin.add(Calendar.DATE, 1);
                 }
             }
-        }else {
+        }
+        else
+        {
             Calendar cbegin = Calendar.getInstance();
             cbegin.setTime(begin);
             Calendar cend = Calendar.getInstance();
@@ -82,14 +81,14 @@ public class Sala extends mx.gob.inmujeres.swb.base.SalaBase
         return isReservada;
     }
     
-    public boolean isReservada(final java.util.Date begin, final java.util.Date end) {
+    public boolean isReservada(final java.util.Date begin, final java.util.Date end)
+    {
         boolean isReservada = false;
         Iterator<ApartadoSala> reservations = ApartadoSala.ClassMgr.listApartadoSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
         reservations = SWBComparator.sortByCreated(reservations, false);
         while(reservations.hasNext()) {
             ApartadoSala reservation = reservations.next();
             if( (reservation.getFechaInicio().compareTo(begin)<=0 && reservation.getFechaFin().compareTo(end)>=0)||(reservation.getFechaInicio().compareTo(begin)<0 && reservation.getFechaFin().compareTo(begin)>0)||(reservation.getFechaInicio().compareTo(end)<0 && reservation.getFechaFin().compareTo(end)>0) ) {
-                //if( begin.getHours()>=reservation.getFechaInicio().getHours() && begin.getMinutes()>=reservation.getFechaInicio().getMinutes() && end.getHours()<=reservation.getFechaFinal().getHours() && end.getMinutes()<=reservation.getFechaFinal().getMinutes() ) {
                 if( tn(begin)>=tn(reservation.getFechaInicio()) && tn(end)<=tn(reservation.getFechaFin()) ) {
                     isReservada = true;
                     break;
@@ -98,8 +97,26 @@ public class Sala extends mx.gob.inmujeres.swb.base.SalaBase
         }
         return isReservada;
     }
+    
+    public ApartadoSala getReserva(final java.util.Date begin, final java.util.Date end)
+    {
+        ApartadoSala reserva = null;
+        Iterator<ApartadoSala> reservations = ApartadoSala.ClassMgr.listApartadoSalaBySala(this, (SWBModel)getSemanticObject().getModel().getModelObject().createGenericInstance());
+        reservations = SWBComparator.sortByCreated(reservations, false);
+        while(reservations.hasNext()) {
+            ApartadoSala reservation = reservations.next();
+            if( (reservation.getFechaInicio().compareTo(begin)<=0 && reservation.getFechaFin().compareTo(end)>=0)||(reservation.getFechaInicio().compareTo(begin)<0 && reservation.getFechaFin().compareTo(begin)>0)||(reservation.getFechaInicio().compareTo(end)<0 && reservation.getFechaFin().compareTo(end)>0) ) {
+                if( tn(begin)>=tn(reservation.getFechaInicio()) && tn(end)<=tn(reservation.getFechaFin()) ) {
+                    reserva = reservation;
+                    break;
+                }
+            }
+        }
+        return reserva;
+    }
         
-    private int tn(java.util.Date date){
+    private int tn(java.util.Date date)
+    {
         int tn = 0;
         tn = date.getHours()*60+date.getMinutes();
         return tn;

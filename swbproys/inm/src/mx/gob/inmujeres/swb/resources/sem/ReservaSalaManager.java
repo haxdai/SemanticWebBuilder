@@ -247,30 +247,17 @@ log.info("----------------------");
                 reservation.setObservaciones(SWBUtils.XML.replaceXMLChars(request.getParameter("obs")));   
                 response.setRenderParameter("alertmsg", response.getLocaleString("msgReservationDoneOk"));
 
-System.out.println("processAction.");
-String suri;
-suri = request.getParameter("suri");
-//try {
-//    suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
-//}catch(UnsupportedEncodingException ue) {
-//    suri = request.getParameter("suri");
-//}
-log.info("processAction. suri="+suri);
+                String suri;
+                suri = request.getParameter("suri");
                 //Obtener la instancia de la tarea -inicia
                 FlowNodeInstance fni = getFlowNodeInstance(suri);
-System.out.println("fni="+fni);
-log.info("fni="+fni);
                 if (fni != null) {
                     //Enviar los datos a process
                     LinkReserva(reservation, fni);
                     String url = getTaskInboxUrl(fni);
-System.out.println("url="+url);
-log.info("url="+url);
                     //Cerrar la tarea
                     fni.close(user, Instance.ACTION_ACCEPT);
                     if (url != null) {
-System.out.println("sendRedirect");
-log.info("sendRedirect");
                         response.sendRedirect(url);
                     }
                 }
@@ -307,7 +294,6 @@ log.info("sendRedirect");
             sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
         }catch(Exception e) {
             log.error(e);
-            e.printStackTrace(System.out);
         }
         
         if(sala==null) {
@@ -526,30 +512,12 @@ log.info("sendRedirect");
     
     private String getForm(HttpServletRequest request, SWBParamRequest paramRequest, List<Sala> salas, Locale locale) {
         StringBuilder html = new StringBuilder();
-        
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-        
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yyyy", locale);
-        //SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).setParameter("suri", request.getParameter("suri"));
-//        SWBResourceURL url;
-        String suri;
-        suri = request.getParameter("suri");
+        String suri = request.getParameter("suri");
         
-System.out.println("getForm...");        
-System.out.println("suri="+suri);
         SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).setParameter("suri", request.getParameter("suri"));
-//        try {
-//            suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
-//        }catch(UnsupportedEncodingException ue) {
-//            suri = request.getParameter("suri");
-//        }
-//        url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", suri);
-//        try {
-//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", URLEncoder.encode(suri, "UTF-8"));
-//        }catch(UnsupportedEncodingException ue) {
-//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri").replaceAll("#", "%23"));
-//        }
         html.append("<form id=\"_rs_\" method=\"post\" dojoType=\"dijit.form.Form\" action=\"").append(url.toString()).append("\">");
         html.append("<div id=\"mainPop\">");
         html.append(" <p id=\"popTop\"></p>");
@@ -566,10 +534,7 @@ System.out.println("suri="+suri);
         html.append(" </div>");
         html.append(" <div class=\"salas4Cols salas-fecha\">");
         html.append("  <p><span class=\"blueCalTit\">Fecha de reservaci&oacute;n:</span></p>");
-//        html.append("     <label for=\"sd\">Del: </label><input type=\"text\" name=\"sd\" id=\"sd\" value=\""+sdf.format(current.getTime())+"\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
         html.append("     <input type=\"text\" name=\"sd\" id=\"sd\" value=\"").append(sdf.format(current.getTime())).append("\" dojoType=\"dijit.form.ValidationTextBox\" readonly=\"readonly\" />");
-//        final GregorianCalendar lastDateOfYear = new GregorianCalendar(current.get(Calendar.YEAR),11,31,22,0,0);
-//        html.append("     <label for=\"fd\">al: </label><input type=\"text\" name=\"fd\" id=\"fd\" value=\""+(request.getParameter("fd")==null?dateDojo.format(current.getTime()):request.getParameter("fd"))+"\" dojoType=\"dijit.form.DateTextBox\" constraints=\"{min:'"+dateDojo.format(current.getTime())+"',max:'"+dateDojo.format(lastDateOfYear.getTime())+"',datePattern:'dd/MMM/yyyy'}\"  required=\"true\" trim=\"true\" promptMessage=\"formato de la fecha dd/MM/yyyy\" invalidMessage=\"Invalid date\" />");
         html.append(" </div>");
         html.append("\n <div class=\"salas4Cols salas-hora\">");
         html.append("\n  <p><span class=\"blueCalTit\">Horario de reservaci&oacute;n:</span></p>");
@@ -577,28 +542,6 @@ System.out.println("suri="+suri);
         html.append("\n  <select name=\"sh\" dojoType=\"dijit.form.FilteringSelect\" required=\"true\" promptMessage=\"Hora inicial\" invalidMessage=\"La hora inicial de la junta es requerida\">");
         StringBuilder fh = new StringBuilder();
         Calendar today = Calendar.getInstance();
-        /*Calendar next = Calendar.getInstance();
-        float h;
-        if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
-            reset(today, START_HOUR, 0);
-            h = START_HOUR;
-        }else {
-            h = current.get(Calendar.HOUR_OF_DAY);
-            if(current.get(Calendar.MINUTE)<30) {
-                reset(today, (int)h, 30);
-                h+=0.5;
-            }else {
-                h++;
-                reset(today, (int)h, 0);
-            }
-        }
-        reset(next, today.get(Calendar.HOUR_OF_DAY), 59);
-        for(float minute=h*60; minute<1290; minute+=30) {
-            html.append("\n<option value=\""+(int)minute+"\">"+HHmm.format(today.getTime())+"</option>");
-            today.add(Calendar.MINUTE, 30);
-            fh.append("\n<option value=\""+((int)minute+59)+"\">"+HHmm.format(next.getTime()) +"</option>");
-            next.add(Calendar.MINUTE, 30);
-        }*/
         int h;
         int minutes;
         if(today.get(Calendar.HOUR_OF_DAY)<START_HOUR || current.get(Calendar.DAY_OF_YEAR)>today.get(Calendar.DAY_OF_YEAR)) {
@@ -695,17 +638,7 @@ System.out.println("suri="+suri);
         html.append(" </div>\n");
         
         html.append(" <div class=\"clear\">&nbsp;</div>");
-        
-        
         html.append("  <p>");
-//        SWBResourceURL url;
-//        try {
-//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", URLEncoder.encode(request.getParameter("suri"), "UTF-8"));
-//        }catch(UnsupportedEncodingException ue) {
-//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri").replaceAll("#", "%23"));
-//        }
-System.out.println("getTaskInboxUrl... suri="+request.getParameter("suri"));     
-System.out.println("--------------------");
         String backUrl = getTaskInboxUrl(getFlowNodeInstance(request.getParameter("suri")));
         if(backUrl!=null)
         {
@@ -724,26 +657,11 @@ System.out.println("--------------------");
     
     private String getCalendar(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) {
         StringBuilder html = new StringBuilder();
-        
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-System.out.println("inicia getCalendar....");
-System.out.println("suri="+request.getParameter("suri"));
-
         SWBResourceURL url;
-//        String suri;
-//        try {
-//            suri = URLDecoder.decode(request.getParameter("suri"), "UTF-8");
-//        }catch(UnsupportedEncodingException ue) {
-//            suri = request.getParameter("suri");
-////        }
-//        try {
         GenericObject sobj = SemanticObject.getSemanticObject(request.getParameter("suri")).createGenericInstance();
-            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", sobj.getSemanticObject().getEncodedURI());
-//        }catch(UnsupportedEncodingException ue) {
-//            url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", suri);
-//        }
-System.out.println("url con suri="+url);
+        url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", sobj.getSemanticObject().getEncodedURI());
         html.append("\n<div id=\"dayselectorCal\">");
         html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
         url.setParameter(Rel, Roll_DATE);
@@ -795,8 +713,6 @@ System.out.println("url con suri="+url);
                 html.append("</li>");
             }
         }
-System.out.println("url al final="+url);
-System.out.println("----------------------");        
         html.append("\n </ul>");
         html.append("\n</div>");        
         return html.toString();
@@ -820,7 +736,6 @@ System.out.println("----------------------");
             current = (GregorianCalendar)session.getAttribute("cur");
         }
         
-//        out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
         Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
@@ -848,17 +763,17 @@ System.out.println("----------------------");
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        ApartadoSala myReservation;
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                if(sala.isReservada(begin.getTime(), end.getTime()))
-                {
-                    out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                }
-                else
-                {
+                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                if( myReservation!=null ) {
+                    out.println("  <td title=\""+myReservation.toString()+"\" class=\""+myReservation.getIconClass()+" sltc trCal1\">&nbsp;</td>");
+                    myReservation = null;
+                }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
                 }
             }
@@ -868,10 +783,13 @@ System.out.println("----------------------");
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                if(sala.isReservada(begin.getTime(), end.getTime()))
-                    out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                else
+                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                if( myReservation!=null ) {
+                    out.println("  <td title=\""+myReservation.toString()+"\" class=\""+myReservation.getIconClass()+" sltc trCal1\">&nbsp;</td>");
+                    myReservation = null;
+                }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                }
             }
             out.println(" </tr>");
             today.add(Calendar.HOUR_OF_DAY, 1);
@@ -891,8 +809,6 @@ System.out.println("----------------------");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
         out.println(" dojo.addOnLoad(function() {");
-//        out.println(  request.getParameter("tpmeet")==null?"collapse('_tpcf_');":(request.getParameter("tpmeet").equals(ApartadoSala.TipoReunion.Interna.name())?"collapse('_tpcf_');":"expande('_tpcf_');")   );
-//        out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ApartadoSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println( "alert('"+request.getParameter("alertmsg")+"');");
         }        
@@ -954,7 +870,6 @@ System.out.println("----------------------");
                 salas.remove(sala);
         }
         out.println(getCalendar(request, paramRequest, locale));
-//        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
         out.println(" <tr class=\"trCalSalas\">");
@@ -972,15 +887,19 @@ System.out.println("----------------------");
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        ApartadoSala myReservation;
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                if(sala.isReservada(begin.getTime(), end.getTime()))
-                    out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                else
+                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                if( myReservation!=null ) {
+                    out.println("  <td title=\""+myReservation.toString()+"\" class=\""+myReservation.getIconClass()+" sltc trCal1\">&nbsp;</td>");
+                    myReservation = null;
+                }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                }
             }
             out.println(" </tr>");
             out.println(" <tr>");
@@ -988,10 +907,13 @@ System.out.println("----------------------");
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                if(sala.isReservada(begin.getTime(), end.getTime()))
-                    out.println("  <td class=\"x sltc trCal1\">&nbsp;</td>");
-                else
+                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                if( myReservation!=null ) {
+                    out.println("  <td title=\""+myReservation.toString()+"\" class=\""+myReservation.getIconClass()+" sltc trCal1\">&nbsp;</td>");
+                    myReservation = null;
+                }else {
                     out.println("  <td class=\"sltc trCal1\">&nbsp;</td>");
+                }
             }
             out.println(" </tr>");
             today.add(Calendar.HOUR_OF_DAY, 1);
@@ -1011,8 +933,6 @@ System.out.println("----------------------");
         out.println("<script type=\"text/javascript\">");
         out.println("<!--");
         out.println(" dojo.addOnLoad(function() {");
-//        out.println(  request.getParameter("tpmeet")==null?"collapse('_tpcf_');":(request.getParameter("tpmeet").equals(ApartadoSala.TipoReunion.Interna.name())?"collapse('_tpcf_');":"expande('_tpcf_');")   );
-//        out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ApartadoSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println( "alert('"+request.getParameter("alertmsg")+"');");
         }        
@@ -1041,7 +961,6 @@ System.out.println("----------------------");
             }
         }catch(Exception e) {
             userCanEdit = false;
-            e.printStackTrace(System.out);
         }
         return userCanEdit;
     }
@@ -1061,10 +980,6 @@ System.out.println("----------------------");
         to.setSala(from.getSala());
         to.setFechaInicio(from.getFechaInicio());
         to.setFechaFin(from.getFechaFin());
-//        to.setAsistentes(from.getAsistentes());
-//        to.setMotivo(from.getMotivo());
-//        to.setTipoReunion(from.getTipoReunion());
-//        if(ApartadoSala.TipoReunion.Externa == ApartadoSala.TipoReunion.valueOf(from.getTipoReunion())) {
         to.setExtension(from.getExtension());
         to.setFolioSolicitud(from.getFolioSolicitud());
         to.setMontaje(from.getMontaje());
@@ -1084,8 +999,6 @@ System.out.println("----------------------");
         to.setServicioAdicional(from.getServicioAdicional());
         to.setUnidadResponsable(from.getUnidadResponsable());
         to.setVoboJefeDirecto(from.getVoboJefeDirecto());
-//        }
-
     }
     
     private void LinkReserva(ApartadoSala res, FlowNodeInstance fni) {
