@@ -314,11 +314,9 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
         boolean hasUserGroup = false;
         boolean hasRole = false;
         boolean ret = true;
-        
         if (filter_obj != null) {
             filterUser = (User) filter_obj.createGenericInstance();
         }
-        
         //No se especificó un grupo o roles para filtrar
         if ((getFilterRoleIds() == null || getFilterRoleIds().trim().length() == 0) && (getFilterUserGroupId() == null || getFilterUserGroupId().trim().length() == 0)) {
             hasUserGroup = true;
@@ -337,7 +335,8 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                 StringTokenizer stk = new StringTokenizer(getFilterRoleIds(), "|");
                 while (stk.hasMoreTokens()) {
                     String roleId = stk.nextToken();
-                    Role filterRole = Role.ClassMgr.getRole(roleId, m);
+                    //Role filterRole = Role.ClassMgr.getRole(roleId, m);
+                    Role filterRole = ((UserRepository)m).getRole(roleId);
                     if (filterUser != null && filterRole != null) {
                         if (filterUser.hasRole(filterRole)) {
                             hasRole = true;
