@@ -323,7 +323,8 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
             hasRole = true;
         } else {
             //Revisar si tiene el grupo de usuarios especificado
-            UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
+            UserGroup filterUserGroup = ((UserRepository)m).getUserGroup(getFilterUserGroupId());
+            //UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
             if (filterUser != null && filterUserGroup != null) {
                 if (filterUser.hasUserGroup(filterUserGroup)) {
                     hasUserGroup = true;
@@ -345,7 +346,7 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                     }
                 }
             } else {
-                Role filterRole = Role.ClassMgr.getRole(getFilterRoleIds(), m);
+                Role filterRole = ((UserRepository)m).getRole(getFilterRoleIds());
                 if (filterUser != null && filterRole != null) {
                     if (filterUser.hasRole(filterRole)) {
                         hasRole = true;
