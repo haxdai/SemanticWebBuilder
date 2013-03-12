@@ -171,9 +171,9 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
 
                 if (isGlobalScope()) {
                     if (cls != null) {
-                        it = SWBComparator.sortSermanticObjects(lang, cls.listInstances());
+                        it = SWBComparator.sortSemanticObjects(lang, cls.listInstances());
                     } else {
-                        it = SWBComparator.sortSermanticObjects(lang,
+                        it = SWBComparator.sortSemanticObjects(lang,
                                 SWBPlatform.getSemanticMgr().getVocabulary().listSemanticClassesAsSemanticObjects());
                     }
                 } else if (isUserRepository()) {
@@ -192,14 +192,14 @@ public class SelectOneUserByUserGroup extends com.infotec.eworkplace.swb.base.Se
                     }
                     //System.out.println("Modelo final:"+m.getId());
 
-                    it = SWBComparator.sortSermanticObjects(lang, model.listInstancesOfClass(cls));
+                    it = SWBComparator.sortSemanticObjects(lang, model.listInstancesOfClass(cls));
                 } else {
                     SemanticModel model = getModel();
                     SWBModel      m     = (SWBModel) model.getModelObject().createGenericInstance();
                     if(m.getParentWebSite()!=null)m=m.getParentWebSite();                    
                     model = m.getSemanticModel();
                     
-                    it = SWBComparator.sortSermanticObjects(firstNameComp, model.listInstancesOfClass(cls));
+                    it = SWBComparator.sortSemanticObjects(firstNameComp, model.listInstancesOfClass(cls));
                 }
 
                 if (it != null) {
