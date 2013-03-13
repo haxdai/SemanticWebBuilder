@@ -6,6 +6,7 @@ package mx.gob.inmujeres.swb.resources;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -218,6 +219,41 @@ public class DNC extends GenericResource
 
     }
 
+    public void addMetasAnt(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
+        WebSite site = response.getWebPage().getWebSite();
+        String suri = request.getParameter("suri");
+        response.setRenderParameter("suri", suri);
+        Enumeration names = request.getParameterNames();
+        while (names.hasMoreElements())
+        {
+            String name = names.nextElement().toString();
+            String value = request.getParameter(name);
+            if (value != null)
+            {
+                int pos = name.indexOf("_");
+                if (pos != -1)
+                {
+                    String idmeta = name.substring(pos + 1);
+                    String tipo = name.substring(0, pos);
+                    MetaEvaluacion meta = ClassMgr.getMetaEvaluacion(idmeta, site);
+                    if (meta != null)
+                    {
+                        if ("comentarios".equals(tipo))
+                        {
+                            meta.setComentarios(value);
+                        }
+                        if ("calificacion".equals(tipo))
+                        {
+                            int ivalue = Integer.parseInt(value);
+                            meta.setEvaluacion(ivalue);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void addCurso(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         WebSite site = response.getWebPage().getWebSite();
@@ -333,7 +369,7 @@ public class DNC extends GenericResource
 
         String loginEvaluado = request.getParameter("evaluado");
 
-        if (sobresaliente!=null && peso != null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
+        if (sobresaliente != null && peso != null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
         {
             TemasPrograma _tema = null;
             Iterator<TemasPrograma> temas = TemasPrograma.ClassMgr.listTemasProgramas();
@@ -502,6 +538,11 @@ public class DNC extends GenericResource
             addCurso(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
 
+        }
+        if (request.getParameter("metasant") != null)
+        {
+            addMetasAnt(request, response);
+            response.setMode(SWBResourceURL.Mode_VIEW);
         }
 
         if (request.getParameter("meta") != null)
