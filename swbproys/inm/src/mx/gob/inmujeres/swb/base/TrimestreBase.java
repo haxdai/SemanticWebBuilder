@@ -1,7 +1,7 @@
 package mx.gob.inmujeres.swb.base;
 
 
-public abstract class TrimestreBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Descriptiveable
+public abstract class TrimestreBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Sortable
 {
     public static final org.semanticwb.platform.SemanticClass inm_Trimestre=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#Trimestre");
    /**
@@ -92,5 +92,23 @@ public abstract class TrimestreBase extends mx.gob.inmujeres.swb.Catalogo implem
     public TrimestreBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Index property
+* @return int with the Index
+*/
+    public int getIndex()
+    {
+        return getSemanticObject().getIntProperty(swb_index);
+    }
+
+/**
+* Sets the Index property
+* @param value long with the Index
+*/
+    public void setIndex(int value)
+    {
+        getSemanticObject().setIntProperty(swb_index, value);
     }
 }

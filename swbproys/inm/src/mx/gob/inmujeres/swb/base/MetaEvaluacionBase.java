@@ -9,6 +9,7 @@ public abstract class MetaEvaluacionBase extends org.semanticwb.model.SWBClass i
     public static final org.semanticwb.platform.SemanticProperty inm_Instrumentog=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#Instrumentog");
     public static final org.semanticwb.platform.SemanticProperty inm_pSatisfactorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pSatisfactorio");
     public static final org.semanticwb.platform.SemanticProperty inm_pMinimoaceptable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pMinimoaceptable");
+    public static final org.semanticwb.platform.SemanticProperty inm_pSobresaliente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pSobresaliente");
     public static final org.semanticwb.platform.SemanticClass inm_TipoMedida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoMedida");
     public static final org.semanticwb.platform.SemanticProperty inm_medida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#medida");
     public static final org.semanticwb.platform.SemanticClass inm_TemasPrograma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TemasPrograma");
@@ -348,6 +349,24 @@ public abstract class MetaEvaluacionBase extends org.semanticwb.model.SWBClass i
     public void setPMinimoaceptable(String value)
     {
         getSemanticObject().setProperty(inm_pMinimoaceptable, value);
+    }
+
+/**
+* Gets the PSobresaliente property
+* @return String with the PSobresaliente
+*/
+    public String getPSobresaliente()
+    {
+        return getSemanticObject().getProperty(inm_pSobresaliente);
+    }
+
+/**
+* Sets the PSobresaliente property
+* @param value long with the PSobresaliente
+*/
+    public void setPSobresaliente(String value)
+    {
+        getSemanticObject().setProperty(inm_pSobresaliente, value);
     }
    /**
    * Sets the value for the property Medida
