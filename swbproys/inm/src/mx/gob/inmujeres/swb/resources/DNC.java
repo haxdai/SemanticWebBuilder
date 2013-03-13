@@ -143,9 +143,9 @@ public class DNC extends GenericResource
                     response.sendRedirect(url.toString());
                     return;
                 }
-                if (imetas > 5)
+                if (imetas > 7)
                 {
-                    String msg = "!Debe capturar por máximo 5 metas!";
+                    String msg = "!Debe capturar por máximo 7 metas!";
                     // no se capturo cursos
                     SWBResourceURL url = paramRequest.getRenderUrl();
                     url.setMode(SWBResourceURL.Mode_VIEW);
