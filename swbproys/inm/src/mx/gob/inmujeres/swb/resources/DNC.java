@@ -135,18 +135,7 @@ public class DNC extends GenericResource
                     total += peso;
                     imetas++;
                 }
-                if (total != 100)
-                {
-                    String msg = "!La suma de los pesos no es del 100%, favor de corregir!";
-                    // no se capturo cursos
-                    SWBResourceURL url = paramRequest.getRenderUrl();
-                    url.setMode(SWBResourceURL.Mode_VIEW);
-                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
-                    url.setParameter("msg", msg);
-                    url.setParameter("suri", suri);
-                    response.sendRedirect(url.toString());
-                    return;
-                }
+               
                 if (imetas < 3)
                 {
                     String msg = "!Debe capturar por lo menos 3 metas!";
@@ -170,6 +159,46 @@ public class DNC extends GenericResource
                     url.setParameter("suri", suri);
                     response.sendRedirect(url.toString());
                     return;
+                }
+                 if (total != 100)
+                {
+                    String msg = "!La suma de los pesos no es del 100%, favor de corregir!";
+                    // no se capturo cursos
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setMode(SWBResourceURL.Mode_VIEW);
+                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
+                    url.setParameter("msg", msg);
+                    url.setParameter("suri", suri);
+                    response.sendRedirect(url.toString());
+                    return;
+                }
+            }
+            int anio_anterior = evaluacion.getAnio() - 1;
+            WebSite site = paramRequest.getWebPage().getWebSite();
+            Iterator<Desempenio> evaluaciones = Desempenio.ClassMgr.listDesempenioByEvaluado(evaluacion.getEvaluado(), site);
+            while (evaluaciones.hasNext())
+            {
+
+                Desempenio evaluacion_ant = evaluaciones.next();
+                if (evaluacion_ant.getAnio() == anio_anterior && evaluacion_ant.getEvaluado() != null && evaluacion_ant.equals(evaluacion.getEvaluado().getId()))
+                {
+                    Iterator<MetaEvaluacion> metas = evaluacion.listMetases();
+                    while (metas.hasNext())
+                    {
+                        MetaEvaluacion meta = metas.next();
+                        if (meta.getEvaluacion() == 0)
+                        {
+                            String msg = "!Debe evaluar las metas de la evaluación anterior!";
+                            // no se capturo cursos
+                            SWBResourceURL url = paramRequest.getRenderUrl();
+                            url.setMode(SWBResourceURL.Mode_VIEW);
+                            url.setCallMethod(SWBResourceURL.Call_CONTENT);
+                            url.setParameter("msg", msg);
+                            url.setParameter("suri", suri);
+                            response.sendRedirect(url.toString());
+                            return;
+                        }
+                    }
                 }
             }
 
