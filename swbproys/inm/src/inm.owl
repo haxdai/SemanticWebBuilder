@@ -203,6 +203,11 @@
     <swb:required rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swb:required>
     <swb:displayProperty rdf:resource="#dp_pNoSatisfactorio"/>
   </rdf:Description>
+  <rdf:Description rdf:about="#comentarios">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+  </rdf:Description>
   <rdf:Description rdf:about="#UnidadResponsable">
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mx.gob.inmujeres.swb</swb:classCodePackage>
@@ -969,6 +974,11 @@
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#DisplayProperty"/>
     <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModel"/>
     <rdfs:label xml:lang="es">Salas</rdfs:label>
+  </rdf:Description>
+  <rdf:Description rdf:about="#evaluacion">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#MetaEvaluacion"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
   </rdf:Description>
   <rdf:Description rdf:about="#1erTrimester">
     <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int">1</swb:index>
