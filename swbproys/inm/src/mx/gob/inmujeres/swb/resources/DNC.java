@@ -125,11 +125,26 @@ public class DNC extends GenericResource
                     return;
                 }
                 int imetas = 0;
+                int total = 0;
                 Iterator<MetaEvaluacion> metas = evaluacion.listMetases();
                 while (metas.hasNext())
                 {
-                    metas.next();
+                    MetaEvaluacion meta = metas.next();
+                    int peso = Integer.parseInt(meta.getPesoMeta());
+                    total += peso;
                     imetas++;
+                }
+                if (total != 100)
+                {
+                    String msg = "!La suma de los pesos no es del 100%, favor de corregir!";
+                    // no se capturo cursos
+                    SWBResourceURL url = paramRequest.getRenderUrl();
+                    url.setMode(SWBResourceURL.Mode_VIEW);
+                    url.setCallMethod(SWBResourceURL.Call_CONTENT);
+                    url.setParameter("msg", msg);
+                    url.setParameter("suri", suri);
+                    response.sendRedirect(url.toString());
+                    return;
                 }
                 if (imetas < 3)
                 {
@@ -308,6 +323,7 @@ public class DNC extends GenericResource
         String instrumentoId = request.getParameter("instrumento");
         String temasId = request.getParameter("temas");
 
+        String sobresaliente = request.getParameter("sobresaliente");
         String satisfactorio = request.getParameter("satisfactorio");
         String minimo = request.getParameter("minimo");
         String nosatisfactorio = request.getParameter("nosatisfactorio");
@@ -317,7 +333,7 @@ public class DNC extends GenericResource
 
         String loginEvaluado = request.getParameter("evaluado");
 
-        if (peso != null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
+        if (sobresaliente!=null && peso != null && nosatisfactorio != null && minimo != null && satisfactorio != null && instrumentoId != null && temasId != null && loginEvaluado != null && meta != null && !"".equals(meta.trim()) && !"".equals(idmedida.trim()))
         {
             TemasPrograma _tema = null;
             Iterator<TemasPrograma> temas = TemasPrograma.ClassMgr.listTemasProgramas();
@@ -355,6 +371,29 @@ public class DNC extends GenericResource
             if (!found)
             {
                 response.setRenderParameter("error", "El evaluado no es subordinado del evaluador");
+                response.setMode(MODE_ERROR);
+                return;
+            }
+
+            try
+            {
+                int ipeso = Integer.parseInt(peso);
+                if (ipeso <= 0)
+                {
+                    response.setRenderParameter("error", "El peso no puede ser negativo o cero");
+                    response.setMode(MODE_ERROR);
+                    return;
+                }
+                if (ipeso >= 100)
+                {
+                    response.setRenderParameter("error", "El peso no puede ser negativo o cero");
+                    response.setMode(MODE_ERROR);
+                    return;
+                }
+            }
+            catch (NumberFormatException nfe)
+            {
+                response.setRenderParameter("error", "El peso no puede ser igual o mayor a 100%");
                 response.setMode(MODE_ERROR);
                 return;
             }
@@ -413,6 +452,7 @@ public class DNC extends GenericResource
             MetaEvaluacion metaEvaluacion = MetaEvaluacion.ClassMgr.createMetaEvaluacion(site);
             metaEvaluacion.setInstrumentog(_instrumento);
             metaEvaluacion.setTemasPrograma(_tema);
+            metaEvaluacion.setPSobresaliente(sobresaliente);
             metaEvaluacion.setMeta(meta);
             metaEvaluacion.setMedida(medida);
             metaEvaluacion.setPSatisfactorio(satisfactorio);
@@ -474,7 +514,7 @@ public class DNC extends GenericResource
         {
             deleteMeta(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
-            response.setRenderParameter("suri",request.getParameter("suri"));
+            response.setRenderParameter("suri", request.getParameter("suri"));
 
         }
 
@@ -482,7 +522,7 @@ public class DNC extends GenericResource
         {
             deleteCurso(request, response);
             response.setMode(SWBResourceURL.Mode_VIEW);
-            response.setRenderParameter("suri",request.getParameter("suri"));            
+            response.setRenderParameter("suri", request.getParameter("suri"));
 
         }
     }
