@@ -3926,8 +3926,8 @@
   <owl:DatatypeProperty rdf:ID="parentesco">
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_parentesco">
+        <swbxf:propSelectValues xml:lang="en">partner:Partner|parent:Parent|brother:Brother|son:Son|grandparent:GrandParent|uncle:Uncle|friend|Friend</swbxf:propSelectValues>
         <swbxf:propSelectValues xml:lang="es">partner:Pareja|parent:Padre|brother:Hermano|son:Hijo|grandparent:Abuelo|uncle:Tío|friend|Amigo</swbxf:propSelectValues>
-        <swbxf:propSelectValues xml:lang="es">partner:Partner|parent:Parent|brother:Brother|son:Son|grandparent:GrandParent|uncle:Uncle|friend|Friend</swbxf:propSelectValues>
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SelectOne_1"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
