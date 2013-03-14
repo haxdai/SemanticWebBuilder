@@ -4,7 +4,7 @@ package com.infotec.rh.syr.swb.base;
    /**
    * Encapsula las propiedades de una bolsa de trabajo para publicación de vacantes 
    */
-public abstract class BolsaTrabajoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class BolsaTrabajoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Encapsula las propiedades de una bolsa de trabajo para publicación de vacantes

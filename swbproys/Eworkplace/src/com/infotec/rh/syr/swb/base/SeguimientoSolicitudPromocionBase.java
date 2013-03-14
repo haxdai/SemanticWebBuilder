@@ -1,7 +1,7 @@
 package com.infotec.rh.syr.swb.base;
 
 
-public abstract class SeguimientoSolicitudPromocionBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SeguimientoSolicitudPromocionBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_autorizadoDirectorPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#autorizadoDirectorPromocion");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaAltaPresupuestoPromocion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaAltaPresupuestoPromocion");
