@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Contiene el Diplomado que ha cursado la persona 
    */
-public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Curso,org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Institucion
+public abstract class DiplomadoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Curso
 {
    /**
    * Contiene el Diplomado que ha cursado la persona
