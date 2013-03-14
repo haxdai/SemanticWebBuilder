@@ -4,7 +4,7 @@ package com.infotec.rh.syr.swb.base;
    /**
    * Encapsula la información relacionada con un capítulo presupuestal 
    */
-public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class CapituloPresupuestoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Encapsula la información relacionada con una partida presupuestal

@@ -4,7 +4,7 @@ package com.infotec.rh.syr.swb.base;
    /**
    * Encapsula las propiedades de seguimiento al proceso ACD de RH 
    */
-public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SeguimientoActACDBase extends com.infotec.eworkplace.swb.Seguimiento implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
    /**
    * Adminsitra las actividades para CCO; DCP, ACD de RH

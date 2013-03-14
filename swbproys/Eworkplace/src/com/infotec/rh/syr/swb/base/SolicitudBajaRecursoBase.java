@@ -1,7 +1,7 @@
 package com.infotec.rh.syr.swb.base;
 
 
-public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable
+public abstract class SolicitudBajaRecursoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Solicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinContratoBaja=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinContratoBaja");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaRecepcionDocumentos=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaRecepcionDocumentos");
