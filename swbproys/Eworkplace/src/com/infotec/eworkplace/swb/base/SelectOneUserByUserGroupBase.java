@@ -5,6 +5,7 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_so_roleIds=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_roleIds");
     public static final org.semanticwb.platform.SemanticProperty intranet_so_userGroupId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#so_userGroupId");
+    public static final org.semanticwb.platform.SemanticProperty intranet_modelId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#modelId");
     public static final org.semanticwb.platform.SemanticClass intranet_SelectOneUserByUserGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#SelectOneUserByUserGroup");
    /**
    * The semantic class that represents the currentObject
@@ -124,5 +125,23 @@ public abstract class SelectOneUserByUserGroupBase extends org.semanticwb.model.
     public void setFilterUserGroupId(String value)
     {
         getSemanticObject().setProperty(intranet_so_userGroupId, value);
+    }
+
+/**
+* Gets the FilterModelId property
+* @return String with the FilterModelId
+*/
+    public String getFilterModelId()
+    {
+        return getSemanticObject().getProperty(intranet_modelId);
+    }
+
+/**
+* Sets the FilterModelId property
+* @param value long with the FilterModelId
+*/
+    public void setFilterModelId(String value)
+    {
+        getSemanticObject().setProperty(intranet_modelId, value);
     }
 }
