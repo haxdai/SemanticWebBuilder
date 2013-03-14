@@ -3,6 +3,7 @@ package mx.gob.inmujeres.swb.resources.sem;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -285,10 +286,8 @@ log.info("----------------------");
             current = (GregorianCalendar)session.getAttribute("cur");
         }
 
-        
-//        String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
-        String uri = request.getParameter("sl");
-        //uri = URLDecoder.decode(uri, "UTF-8");
+        String uri = SWBUtils.XML.replaceXMLChars(request.getParameter("sl"));
+        uri = URLDecoder.decode(uri, "UTF-8");
         Sala sala = null;
         try {
             sala = (Sala)SemanticObject.createSemanticObject(uri).createGenericInstance();
@@ -751,7 +750,7 @@ log.info("----------------------");
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getDisplayDescription(lang)+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
@@ -875,7 +874,7 @@ log.info("----------------------");
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\"\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getDisplayDescription(lang)+")\"\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
