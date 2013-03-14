@@ -4,12 +4,14 @@ package mx.gob.inmujeres.swb.base;
 public abstract class MetaEvaluacionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_pesoMeta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pesoMeta");
+    public static final org.semanticwb.platform.SemanticProperty inm_evaluacion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#evaluacion");
     public static final org.semanticwb.platform.SemanticProperty inm_meta=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#meta");
     public static final org.semanticwb.platform.SemanticClass inm_InstrumentoG=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#InstrumentoG");
     public static final org.semanticwb.platform.SemanticProperty inm_Instrumentog=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#Instrumentog");
     public static final org.semanticwb.platform.SemanticProperty inm_pSatisfactorio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pSatisfactorio");
     public static final org.semanticwb.platform.SemanticProperty inm_pMinimoaceptable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pMinimoaceptable");
     public static final org.semanticwb.platform.SemanticProperty inm_pSobresaliente=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#pSobresaliente");
+    public static final org.semanticwb.platform.SemanticProperty inm_comentarios=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#comentarios");
     public static final org.semanticwb.platform.SemanticClass inm_TipoMedida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoMedida");
     public static final org.semanticwb.platform.SemanticProperty inm_medida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#medida");
     public static final org.semanticwb.platform.SemanticClass inm_TemasPrograma=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TemasPrograma");
@@ -227,6 +229,24 @@ public abstract class MetaEvaluacionBase extends org.semanticwb.model.SWBClass i
     }
 
 /**
+* Gets the Evaluacion property
+* @return int with the Evaluacion
+*/
+    public int getEvaluacion()
+    {
+        return getSemanticObject().getIntProperty(inm_evaluacion);
+    }
+
+/**
+* Sets the Evaluacion property
+* @param value long with the Evaluacion
+*/
+    public void setEvaluacion(int value)
+    {
+        getSemanticObject().setIntProperty(inm_evaluacion, value);
+    }
+
+/**
 * Gets the Meta property
 * @return String with the Meta
 */
@@ -367,6 +387,24 @@ public abstract class MetaEvaluacionBase extends org.semanticwb.model.SWBClass i
     public void setPSobresaliente(String value)
     {
         getSemanticObject().setProperty(inm_pSobresaliente, value);
+    }
+
+/**
+* Gets the Comentarios property
+* @return String with the Comentarios
+*/
+    public String getComentarios()
+    {
+        return getSemanticObject().getProperty(inm_comentarios);
+    }
+
+/**
+* Sets the Comentarios property
+* @param value long with the Comentarios
+*/
+    public void setComentarios(String value)
+    {
+        getSemanticObject().setProperty(inm_comentarios, value);
     }
    /**
    * Sets the value for the property Medida

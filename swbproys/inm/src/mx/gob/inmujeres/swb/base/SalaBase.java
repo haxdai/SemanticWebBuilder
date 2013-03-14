@@ -4,7 +4,7 @@ package mx.gob.inmujeres.swb.base;
    /**
    * Representa una sala de juntas 
    */
-public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable
+public abstract class SalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty inm_tienePantalla=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tienePantalla");
     public static final org.semanticwb.platform.SemanticProperty inm_tieneMultimedia=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.bpmninfotec.com/inm#tieneMultimedia");
