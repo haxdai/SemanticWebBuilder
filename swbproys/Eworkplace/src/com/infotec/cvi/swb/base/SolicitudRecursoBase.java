@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que contiene la información del perfil del usuario requerido 
    */
-public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class SolicitudRecursoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Solicitable
 {
    /**
    * Catálogo utilizado para indicar el grado de avance del Estudio
