@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable
+public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Solicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_horaSalida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#horaSalida");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaSalida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaSalida");

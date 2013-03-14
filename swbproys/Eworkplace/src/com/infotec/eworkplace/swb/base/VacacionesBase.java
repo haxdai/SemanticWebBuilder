@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class VacacionesBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable
+public abstract class VacacionesBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Solicitable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicioVacaciones=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicioVacaciones");
     public static final org.semanticwb.platform.SemanticProperty intranet_periodo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#periodo");

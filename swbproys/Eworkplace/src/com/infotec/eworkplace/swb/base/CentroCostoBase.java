@@ -1,7 +1,7 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class CentroCostoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class CentroCostoBase extends com.infotec.cvi.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_titularArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#titularArea");
     public static final org.semanticwb.platform.SemanticProperty intranet_numeroArea=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#numeroArea");
