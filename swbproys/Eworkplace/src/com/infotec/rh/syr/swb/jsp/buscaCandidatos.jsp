@@ -240,7 +240,8 @@ SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
                     Avance avance = (Avance) ont.getGenericObject(_avance);
                     TipoTalento talento = (TipoTalento) ont.getGenericObject(_talento);
 
-                    Iterator<CV> cvis = CV.ClassMgr.listCVs(site);
+                    WebSite extranet = WebSite.ClassMgr.getWebSite("extranet");
+                    Iterator<CV> cvis = CV.ClassMgr.listCVs(extranet);
                     ArrayList<User> aspirantes = new ArrayList<User>();
                     UserGroup goAspirante = site.getUserRepository().getUserGroup("Candidato");
                     String[] selected = request.getParameterValues("competencias");
