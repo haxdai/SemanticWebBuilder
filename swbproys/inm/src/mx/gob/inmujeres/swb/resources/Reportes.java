@@ -639,7 +639,7 @@ public class Reportes extends GenericResource
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            log.error(e);
         }
     }
 }
