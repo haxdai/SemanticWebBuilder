@@ -180,7 +180,7 @@ public class DNC extends GenericResource
             {
 
                 Desempenio evaluacion_ant = evaluaciones.next();
-                if (evaluacion_ant.getAnio() == anio_anterior && evaluacion_ant.getEvaluado() != null && evaluacion_ant.equals(evaluacion.getEvaluado().getId()))
+                if (evaluacion_ant.getAnio() == anio_anterior && evaluacion_ant.getEvaluado() != null && evaluacion_ant.getEvaluado().getId().equals(evaluacion.getEvaluado().getId()))
                 {
                     Iterator<MetaEvaluacion> metas = evaluacion.listMetases();
                     while (metas.hasNext())
