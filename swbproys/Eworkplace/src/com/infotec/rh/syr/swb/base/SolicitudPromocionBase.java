@@ -1,7 +1,7 @@
 package com.infotec.rh.syr.swb.base;
 
 
-public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,com.infotec.eworkplace.swb.Solicitable
+public abstract class SolicitudPromocionBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Catálogo utilizado para indicar los tipos de puesto
