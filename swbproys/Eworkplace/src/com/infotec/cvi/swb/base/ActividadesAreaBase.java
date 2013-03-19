@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Adminsitra las actividades para CCO; DCP, ACD de RH 
    */
-public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,com.infotec.eworkplace.swb.Solicitable
+public abstract class ActividadesAreaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.

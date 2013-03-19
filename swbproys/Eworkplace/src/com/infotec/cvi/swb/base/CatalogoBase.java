@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Define las propiedades de los catálogos utilizados en el CVI 
    */
-public abstract class CatalogoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class CatalogoBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Define las propiedades de los catálogos utilizados en el CVI
