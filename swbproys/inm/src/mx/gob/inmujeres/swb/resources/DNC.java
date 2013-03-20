@@ -182,7 +182,7 @@ public class DNC extends GenericResource
                 Desempenio evaluacion_ant = evaluaciones.next();
                 if (evaluacion_ant.getAnio() == anio_anterior && evaluacion_ant.getEvaluado() != null && evaluacion_ant.getEvaluado().getId().equals(evaluacion.getEvaluado().getId()))
                 {
-                    Iterator<MetaEvaluacion> metas = evaluacion.listMetases();
+                    Iterator<MetaEvaluacion> metas = evaluacion_ant.listMetases();
                     while (metas.hasNext())
                     {
                         MetaEvaluacion meta = metas.next();
