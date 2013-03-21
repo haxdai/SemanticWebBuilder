@@ -156,17 +156,16 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
 
             if (mode.equals("edit") || mode.equals("create") || mode.equals("filter"))
             {
-                ret.append("<select name=\"" + name + "\"");
+                ret.append("<select name=\"").append(name).append("\"");
 
                 if (DOJO)
                 {
-                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\""
-                            + imsg + "\"" + " value=\"" + uri + "\"");
+                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\"").append(imsg).append("\"" + " value=\"").append(uri).append("\"");
                 }
 
                 if (!mode.equals("filter"))
                 {
-                    ret.append(" required=\"" + required + "\"");
+                    ret.append(" required=\"").append(required).append("\"");
                 }
 
                 if ((mode.equals("filter") || isBlankSuport()) && ((uri == null) || (uri.length() == 0)))
@@ -174,7 +173,7 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
                     ret.append(" displayedvalue=\"\"");
                 }
 
-                ret.append(" " + ext + ">");
+                ret.append(" ").append(ext).append(">");
 
                 // onChange="dojo.byId('oc1').value=arguments[0]"
                 if ((mode.equals("filter") || isBlankSuport()))
@@ -252,7 +251,7 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
                             // System.out.println("display:"+sob.getDisplayName(lang));
                             if (sob.getURI() != null)
                             {
-                                ret.append("<option value=\"" + sob.getURI() + "\" ");
+                                ret.append("<option value=\"").append(sob.getURI()).append("\" ");
 
                                 if (sob.getURI().equals(uri))
                                 {
@@ -262,11 +261,11 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
                                 if (go != null && go instanceof User)
                                 {
                                     User user = (User) go;
-                                    ret.append(">" + user.getFullName() + "</option>");
+                                    ret.append(">").append(user.getFullName()).append("</option>");
                                 }
                                 else
                                 {
-                                    ret.append(">" + sob.getDisplayName(lang) + "</option>");
+                                    ret.append(">").append(sob.getDisplayName(lang)).append("</option>");
                                 }
                             }
                         }
@@ -277,7 +276,7 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
             }
             else if (mode.equals("view"))
             {
-                ret.append("<span _id=\"" + name + "\" name=\"" + name + "\">" + value + "</span>");
+                ret.append("<span _id=\"").append(name).append("\" name=\"").append(name).append("\">").append(value).append("</span>");
             }
         }
         else
@@ -291,15 +290,14 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
                     value = obj.getProperty(prop);
                 }
 
-                ret.append("<select name=\"" + name + "\"");
+                ret.append("<select name=\"").append(name).append("\"");
 
                 if (DOJO)
                 {
-                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\""
-                            + imsg + "\"");
+                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\"").append(imsg).append("\"");
                 }
 
-                ret.append(" " + ext + ">");
+                ret.append(" ").append(ext).append(">");
 
                 StringTokenizer st = new StringTokenizer(selectValues, "|");
 
