@@ -314,14 +314,14 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
                         val = tok.substring(ind + 1);
                     }
 
-                    ret.append("<option value=\"" + id + "\" ");
+                    ret.append("<option value=\"").append(id).append("\" ");
 
                     if (id.equals(value))
                     {
                         ret.append("selected");
                     }
 
-                    ret.append(">" + val + "</option>");
+                    ret.append(">").append(val).append("</option>");
                 }
 
                 ret.append("</select>");
