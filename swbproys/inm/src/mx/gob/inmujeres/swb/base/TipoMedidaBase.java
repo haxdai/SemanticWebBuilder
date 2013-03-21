@@ -1,7 +1,7 @@
 package mx.gob.inmujeres.swb.base;
 
 
-public abstract class TipoMedidaBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Descriptiveable
+public abstract class TipoMedidaBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Sortable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass inm_TipoMedida=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TipoMedida");
    /**
@@ -92,5 +92,23 @@ public abstract class TipoMedidaBase extends mx.gob.inmujeres.swb.Catalogo imple
     public TipoMedidaBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Index property
+* @return int with the Index
+*/
+    public int getIndex()
+    {
+        return getSemanticObject().getIntProperty(swb_index);
+    }
+
+/**
+* Sets the Index property
+* @param value long with the Index
+*/
+    public void setIndex(int value)
+    {
+        getSemanticObject().setIntProperty(swb_index, value);
     }
 }

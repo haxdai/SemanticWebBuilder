@@ -1,7 +1,7 @@
 package mx.gob.inmujeres.swb.base;
 
 
-public abstract class TiempoRLBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Sortable
+public abstract class TiempoRLBase extends mx.gob.inmujeres.swb.Catalogo implements org.semanticwb.model.Sortable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass inm_TiempoRL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.bpmninfotec.com/inm#TiempoRL");
    /**
