@@ -17,13 +17,14 @@ import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
-
-public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOneUserByUserGroupBase 
+public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOneUserByUserGroupBase
 {
+
     public SelectOneUserByUserGroup(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
+
     @Override
     public String renderElement(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName, String type,
             String mode, String lang)
@@ -152,6 +153,11 @@ public class SelectOneUserByUserGroup extends mx.gob.inmujeres.swb.base.SelectOn
             {
                 uri = val.getURI();
                 value = val.getDisplayName(lang);
+                GenericObject go = val.createGenericInstance();
+                if (go != null && go instanceof User)
+                {
+                    value = ((User) go).getFullName();
+                }
             }
 
             if (mode.equals("edit") || mode.equals("create") || mode.equals("filter"))
