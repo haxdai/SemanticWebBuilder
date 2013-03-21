@@ -458,7 +458,7 @@ public class DNC extends GenericResource
             }
             catch (NumberFormatException nfe)
             {
-                response.setRenderParameter("error", "El peso no puede ser igual o mayor a 100%");
+                response.setRenderParameter("error", "El peso debe ser un número entre cero y 100");
                 response.setMode(MODE_ERROR);
                 return;
             }
