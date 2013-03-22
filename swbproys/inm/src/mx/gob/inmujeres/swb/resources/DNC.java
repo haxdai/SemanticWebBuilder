@@ -49,7 +49,7 @@ import org.semanticwb.process.model.UserTask;
 public class DNC extends GenericResource
 {
 
-    static Logger log = SWBUtils.getLogger(Survey.class);
+    public static Logger log = SWBUtils.getLogger(DNC.class);
     public static final String MODE_ERROR = "error";
     public static final String MODE_FILL = "filldnc";
 
