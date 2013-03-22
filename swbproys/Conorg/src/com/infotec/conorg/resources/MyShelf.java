@@ -11,6 +11,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -753,13 +754,33 @@ public class MyShelf extends GenericAdmResource {
                 response.setRenderParameter("wsid", wsid);
             }
         } else if ("updmbr".equals(action)) {
+            
+            
+            
+            
             WorkSpace ws = WorkSpace.ClassMgr.getWorkSpace(wsid, wsite);
-            //System.out.println("update member tipo-miembro "+ws.getId());
+            
+            //System.out.println("update member tipo-miembro wrkSpc:"+ws.getId());
 
             String mbrid = request.getParameter("mbrid");
             String mbrtype = request.getParameter("mbrtype");
+            String mbruri = request.getParameter("mbruri");
             Member mbr = Member.ClassMgr.getMember(mbrid, wsite);
 
+             
+            GenericObject gobj = ont.getGenericObject(mbruri);
+            if(gobj!=null){
+                mbr = (Member)gobj;
+            }
+            
+            //System.out.println("Lista de parámetros recibidos....");
+            //Enumeration<String> enu=request.getParameterNames();
+            //while (enu.hasMoreElements()) {
+                //String paramName = enu.nextElement();
+                //System.out.println("parametro >>>"+paramName+"<<< valor:"+request.getParameter(paramName));
+            //}
+            //System.out.println("MBR: "+ mbr!=null?mbr.getId():"nulo");
+            
             if (ws != null && mbr != null) {
                 //System.out.println("ws !=null y mbr!=null");
                 int intadmin = 0;
@@ -773,7 +794,7 @@ public class MyShelf extends GenericAdmResource {
                 if ((getLevelMember(mbr) == 4 && intadmin > 1 && !mbrtype.equals(MyShelf.USRLEVEL_ADMINISTRADOR)) || (getLevelMember(mbr) < 4)) { // se puede eliminar el miembro 
                     mbr.setMemberType(mbrtype);
 
-                    response.setRenderParameter("alertmsg", "Se actualió correctamente el tipo de miembro.");
+                    response.setRenderParameter("alertmsg", "Se actualizó correctamente el tipo de miembro.");
                     response.setRenderParameter("wsid", wsid);
                 } else if ((getLevelMember(mbr) == 4 && intadmin == 1)) {
                     response.setRenderParameter("alertmsg", "No se pudo actualizar el tipo de miembro. Debe de haber por lo menos un miembro Administrador");
@@ -1275,32 +1296,37 @@ public class MyShelf extends GenericAdmResource {
 
     public static String getSelecTypeMember(String membertype, String options) {
         StringBuffer ret = new StringBuffer();
-        ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" " + options + ">");
-        ret.append("<option value=\"" + USRLEVEL_NO_MIEMBRO + "\"");
+        ret.append("<select dojoType=\"dijit.form.FilteringSelect\" name=\"mbrtype\" " + options + " >");
+        ret.append("<option value=\"" + USRLEVEL_NO_MIEMBRO + "\" ");
         if (membertype.equals(USRLEVEL_NO_MIEMBRO)) {
             ret.append("selected");
         }
         ret.append(">" + USRLEVEL_NO_MIEMBRO + "</option>");
-        ret.append("<option value=\"" + USRLEVEL_INVITADO + "\"");
+        
+        ret.append("<option value=\"" + USRLEVEL_INVITADO + "\" ");
         if (membertype.equals(USRLEVEL_INVITADO)) {
             ret.append("selected");
         }
         ret.append(">" + USRLEVEL_INVITADO + "</option>");
-        ret.append("<option value=\"" + USRLEVEL_MIEMBRO + "\"");
+        
+        ret.append("<option value=\"" + USRLEVEL_MIEMBRO + "\" ");
         if (membertype.equals(USRLEVEL_MIEMBRO)) {
             ret.append("selected");
         }
         ret.append(">" + USRLEVEL_MIEMBRO + "</option>");
-        ret.append("<option value=\"" + USRLEVEL_COORDINADOR + "\"");
+        
+        ret.append("<option value=\"" + USRLEVEL_COORDINADOR + "\" ");
         if (membertype.equals(USRLEVEL_COORDINADOR)) {
             ret.append("selected");
         }
         ret.append(">" + USRLEVEL_COORDINADOR + "</option>");
-        ret.append("<option value=\"" + USRLEVEL_ADMINISTRADOR + "\"");
+        
+        ret.append("<option value=\"" + USRLEVEL_ADMINISTRADOR + "\" ");
         if (membertype.equals(USRLEVEL_ADMINISTRADOR)) {
             ret.append("selected");
         }
         ret.append(">" + USRLEVEL_ADMINISTRADOR + "</option>");
+        
         ret.append("</select>");
 
         //System.out.print(ret.toString());
