@@ -936,6 +936,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                             urlupdmbr2.setParameter("wsid", wsid);
                             urlupdmbr2.setParameter("usrid", mem.getUser().getId());
                             urlupdmbr2.setParameter("mbrid", mem.getId());
+                            urlupdmbr2.setParameter("mbruri", mem.getURI());
                             String options = "id=\"" + mem.getId() + "\" onchange=\"window.location='" + urlupdmbr2.toString() + "&mbrtype='+this.value;return false;\"";
                             String strSelect = MyShelf.getSelecTypeMember(mbrtype, options);
                         %>
@@ -943,7 +944,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                         <td>
                             <%
 
-                                String urlDirectorio = "/es_mx/conorg/Directorio/_aid/10/_act/add/?idco=" + mem.getUser().getId();
+                                String urlDirectorio = "/es_mx/"+wsite.getId()+"/Directorio/_aid/10/_act/add/?idco=" + mem.getUser().getId();
                             %>
                             <span class="icv-compartir"><a href="#" title="agregar colega a mi directorio" onclick="window.location='<%=urlDirectorio%>';">add</a></span>
                             <span class="icv-mensaje">
