@@ -353,10 +353,12 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                         </td>
                     </tr>
                     <tr>
-                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, org.semanticwb.process.schema.Boolean.swps_booleanValue, varPregunta, SWBFormMgr.MODE_VIEW)%></label>
+                        <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, org.semanticwb.process.schema.Boolean.swps_booleanValue, varPregunta, SWBFormMgr.MODE_VIEW)%></label></td>
                         <td>
-                        <%=fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%>
+                            <input type="radio" value="true" <%=pregunta.isValue()?"checked":""%> name="<%=varPregunta+"."+org.semanticwb.process.schema.Boolean.swps_booleanValue.getName()%>"/><label>Si</label>
+                            <input type="radio" value="false" <%=pregunta.isValue()?"":"checked"%> name="<%=varPregunta+"."+org.semanticwb.process.schema.Boolean.swps_booleanValue.getName()%>"/><label>No</label>
                         </td>
+                        <!--fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)-->
                     </tr>
                 </table>
             </fieldset>
