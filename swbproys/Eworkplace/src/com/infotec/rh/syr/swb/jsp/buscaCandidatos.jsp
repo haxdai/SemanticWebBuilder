@@ -243,7 +243,7 @@ SWBProcessFormMgr fmgr = new SWBProcessFormMgr(foi);
                     WebSite extranet = WebSite.ClassMgr.getWebSite("extranet");
                     Iterator<CV> cvis = CV.ClassMgr.listCVs(extranet);
                     ArrayList<User> aspirantes = new ArrayList<User>();
-                    UserGroup goAspirante = site.getUserRepository().getUserGroup("Candidato");
+                    UserGroup goAspirante = extranet.getUserRepository().getUserGroup("Candidato");
                     String[] selected = request.getParameterValues("competencias");
 
                     /*System.out.println("Criterios de búsqueda:");
