@@ -1,3 +1,5 @@
+<%@page import="org.semanticwb.model.FormElement"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.infotec.eworkplace.swb.Telefono"%>
 <%@page import="com.infotec.eworkplace.swb.Persona"%>
@@ -315,7 +317,15 @@ if (paramRequest.getCallMethod() == SWBParamRequest.Call_DIRECT) {
                     <tr>
                         <td width="200px" align="right"><label for="title"><%=fmgr.renderLabel(request, org.semanticwb.process.schema.Boolean.swps_booleanValue, varPregunta, SWBFormMgr.MODE_VIEW)%></label>
                         <td>
-                        <%=fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%>
+                        <%
+                        SemanticObject sofe = ont.getSemanticObject("http://www.semanticwebbuilder.org/swb4/xforms/ontology#BooleanElement_1");
+                        if (null != sofe) {
+                            FormElement frme = (FormElement) sofe.createGenericInstance();
+                            %><%=fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, frme, SWBFormMgr.MODE_EDIT)%><%
+                        } else {
+                            %><%=fmgr.renderElement(request, varPregunta, org.semanticwb.process.schema.Boolean.swps_booleanValue, SWBFormMgr.MODE_EDIT)%><%
+                        }
+                        %>
                         </td>
                     </tr>
                 </table>
