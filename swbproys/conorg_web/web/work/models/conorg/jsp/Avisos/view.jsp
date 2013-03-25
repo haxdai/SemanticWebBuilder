@@ -136,7 +136,7 @@
     dojo.require("dojox.form.TimeSpinner");
     dojo.require("dijit.form.ValidationTextBox");
     dojo.require("dijit.layout.ContentPane");
-    dojo.require("dijit.form.Select");
+    //dojo.require("dijit.form.Select");
     dojo.require("dijit.form.NumberTextBox");
     dojo.require("dijit.form.DropDownButton");
     
