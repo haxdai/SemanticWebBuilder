@@ -29,9 +29,9 @@ import org.semanticwb.model.UserRepository;
  */
 public class Autentificacion
 {
+
     public static String GENERICLDAP_PROPERTIES = "/genericLDAP.properties";
     //public static final String PREFIX_INMUJERES="@inmujeres.local";
-
     public static String PREFIX_INMUJERES = "@inmujeres.local";
     protected UserRepository userRep;
     protected Properties props;
@@ -43,6 +43,15 @@ public class Autentificacion
     private static final String PASSWORD = "secret";
     private static final int PORT = 389;
     static Logger log = SWBUtils.getLogger(Autentificacion.class);
+    private String fieldFirstName;
+    /** The field last name. */
+    private String fieldLastName;
+    /** The field middle name. */
+    private String fieldMiddleName;
+    /** The field email. */
+    private String fieldEmail;
+    /** The value language. */
+    private String valueLanguage;
     //NamingEnumeration answers = null;
 
     static
@@ -54,22 +63,22 @@ public class Autentificacion
             //System.out.println("ip: "+ip);
             if (ip.startsWith("gdnps.infotec.com.mx"))
             {
-                GENERICLDAP_PROPERTIES="/genericLDAPInmujeres.properties";
+                GENERICLDAP_PROPERTIES = "/genericLDAPInmujeres.properties";
                 PREFIX_INMUJERES = "";
             }
             else
             {
-                GENERICLDAP_PROPERTIES="/genericLDAP.properties";
+                GENERICLDAP_PROPERTIES = "/genericLDAP.properties";
                 PREFIX_INMUJERES = "@inmujeres.local";
-                
+
             }
 
         }
         catch (Exception e)
         {
-            GENERICLDAP_PROPERTIES="/genericLDAP.properties";
+            GENERICLDAP_PROPERTIES = "/genericLDAP.properties";
             PREFIX_INMUJERES = "@inmujeres.local";
-            
+
         }
     }
 
@@ -129,7 +138,8 @@ public class Autentificacion
             SearchControls ctls = new SearchControls(); //metodo de java, recuperar, peticion de atributos
             ctls.setReturningAttributes(new String[]
                     {
-                        "*"
+                        seekField, "department", "telephoneNumber", "description", "initials", "facsimileTelephoneNumber",
+                        "title", "givenName", "pager", "sn"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             NamingEnumeration<SearchResult> answers = dir.search(props.getProperty("base", ""),
@@ -137,48 +147,61 @@ public class Autentificacion
 
             if (answers.hasMoreElements())
             {
-                atts = answers.next().getAttributes();
+                SearchResult result = answers.next();
+                if (result != null)
+                {
+                    atts = result.getAttributes();
+                    if (atts != null)
+                    {
+                        /*if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
+                        {
+                        userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
+                        }*/
+                        if (atts.get("department") != null && atts.get("department").get() != null && atts.get("department").get().toString() != null)
+                        {
+                            userLogin.setAreaAdscripcion(atts.get("department").get().toString());
+                        }
+                        if (atts.get("telephoneNumber") != null && atts.get("telephoneNumber").get() != null && atts.get("telephoneNumber").get().toString() != null)
+                        {
+                            userLogin.setExtension(atts.get("telephoneNumber").get().toString());
+                        }
+                        if (atts.get("description") != null && atts.get("description").get() != null && atts.get("description").get().toString() != null)
+                        {
+                            String nivel = atts.get("description").get().toString();
+                            nivel = getNivel(nivel);
+                            userLogin.setNivel(nivel);
+                        }
+                        if (atts.get("initials") != null && atts.get("initials").get() != null && atts.get("initials").get().toString() != null)
+                        {
+                            userLogin.setNoEmpleado(atts.get("initials").get().toString());
+                        }
 
-                /*if (atts.get("departmentNumber") != null && atts.get("departmentNumber").get() != null)
-                {
-                    userLogin.setAreaAdscripcion(atts.get("departmentNumber").get().toString());
-                }*/
-                if (atts.get("department") != null && atts.get("department").get() != null)
-                {
-                    userLogin.setAreaAdscripcion(atts.get("department").get().toString());
-                }
-                if (atts.get("telephoneNumber") != null && atts.get("telephoneNumber").get() != null)
-                {
-                    userLogin.setExtension(atts.get("telephoneNumber").get().toString());
-                }
-                if (atts.get("description") != null && atts.get("description").get() != null)
-                {
-                    String nivel = atts.get("description").get().toString();
-                    nivel = getNivel(nivel);
-                    userLogin.setNivel(nivel);
-                }
-                if (atts.get("initials") != null && atts.get("initials").get() != null)
-                {
-                    userLogin.setNoEmpleado(atts.get("initials").get().toString());
-                }
+                        if (atts.get("facsimileTelephoneNumber") != null && atts.get("facsimileTelephoneNumber").get() != null && atts.get("facsimileTelephoneNumber").get().toString() != null)
+                        {
+                            userLogin.setCc(atts.get("facsimileTelephoneNumber").get().toString());
+                        }
 
-                if (atts.get("facsimileTelephoneNumber") != null && atts.get("facsimileTelephoneNumber").get() != null)
-                {
-                    userLogin.setCc(atts.get("facsimileTelephoneNumber").get().toString());
-                }
-                
-                
-                if (atts.get("title") != null && atts.get("title").get() != null)
-                {
-                    userLogin.setPuesto(atts.get("title").get().toString());
-                }
-                if (atts.get("givenName") != null && atts.get("givenName").get() != null)
-                {
-                    userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
-                }
-                if (atts.get("pager") != null && atts.get("pager").get() != null)
-                {
-                    userLogin.setRfc(atts.get("pager").get().toString());
+
+                        if (atts.get("title") != null && atts.get("title").get() != null && atts.get("title").get().toString() != null)
+                        {
+                            userLogin.setPuesto(atts.get("title").get().toString());
+                        }
+                        if (atts.get("givenName") != null && atts.get("givenName").get() != null && atts.get("givenName").get().toString() != null)
+                        {
+                            if (atts.get("sn") != null && atts.get("sn").get() != null && atts.get("sn").get().toString() != null)
+                            {
+                                userLogin.setNombre(atts.get("givenName").get().toString() + " " + atts.get("sn").get().toString());
+                            }
+                            else
+                            {
+                                userLogin.setNombre(atts.get("givenName").get().toString());
+                            }
+                        }
+                        if (atts.get("pager") != null && atts.get("pager").get() != null && atts.get("pager").get().toString() != null)
+                        {
+                            userLogin.setRfc(atts.get("pager").get().toString());
+                        }
+                    }
                 }
             }
             else
@@ -219,7 +242,7 @@ public class Autentificacion
             SearchControls ctls = new SearchControls();
             ctls.setReturningAttributes(new String[]
                     {
-                        "*"
+                        "givenName", seekField, "sn"
                     });
             ctls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             answers = dir.search(props.getProperty("base", ""), "(&(objectClass=" + userObjectClass + ")(manager=" + cn + "))", ctls);
@@ -299,7 +322,7 @@ public class Autentificacion
         env.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         env.put(Context.PROVIDER_URL, props.getProperty("url", "ldap://" + HOST + ":" + PORT));
         env.put(Context.SECURITY_AUTHENTICATION, "simple");
-        env.put(Context.REFERRAL, "follow");
+        //env.put(Context.REFERRAL, "follow");
         env.put(Context.SECURITY_PRINCIPAL, props.getProperty("principal", PRINCIPAL)); // specify the username
         env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", PASSWORD));
         DirContext ctx = new InitialDirContext(env);
