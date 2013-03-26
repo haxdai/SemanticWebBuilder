@@ -390,7 +390,7 @@ public class Reportes extends GenericResource
                         UserExtended ext = UserExtended.ClassMgr.getUserExtended(evaluado.getId(), evaluado.getUserRepository());
                         UserExtended extJefe = UserExtended.ClassMgr.getUserExtended(evaluador.getId(), evaluador.getUserRepository());
 
-                        if (ext != null)
+                        if (ext != null && extJefe!=null)
                         {
                             String aPaterno = evaluado.getLastName();
                             String pMaterno = evaluado.getSecondLastName();
