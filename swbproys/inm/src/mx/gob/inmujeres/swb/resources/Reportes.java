@@ -382,122 +382,125 @@ public class Reportes extends GenericResource
                 Desempenio desempenio = evaluaciones.next();
                 if (desempenio.getAnio() == ianio)
                 {
-                    
+
                     User evaluado = desempenio.getEvaluado();
                     User evaluador = desempenio.getEvaluador();
-                    UserExtended ext = UserExtended.ClassMgr.getUserExtended(evaluado.getId(), evaluado.getUserRepository());
-                    UserExtended extJefe = UserExtended.ClassMgr.getUserExtended(evaluador.getId(), evaluador.getUserRepository());
-
-                    if (ext != null)
+                    if (evaluado != null && evaluador!=null)
                     {
-                        String aPaterno = evaluado.getLastName();
-                        String pMaterno = evaluado.getSecondLastName();
-                        String nombre = evaluado.getName();
-                        String noEmpleado = ext.getNoEmpleado();
-                        String puesto = ext.getPuesto();
-                        String rfc = ext.getRfc();
-                        String sector = "06  SHCP";
-                        String noEmpleadoJefe = extJefe.getNoEmpleado();
-                        String cc = ext.getCc();
-                        if ("1".equals(cc))
-                        {
-                            cc = "PRESIDENCIA";
-                        }
-                        if ("2".equals(cc))
-                        {
-                            cc = "INSTITUCIONALIZACIÓN";
-                        }
-                        if ("3".equals(cc))
-                        {
-                            cc = "TRANSVERSALIZACIÓN";
-                        }
-                        if ("4".equals(cc))
-                        {
-                            cc = "EVALUACIÓN Y D. ESTADISTICO";
-                        }
-                        if ("5".equals(cc))
-                        {
-                            cc = "ADMINISTRACIÓN Y FINANZAS";
-                        }
-                        if ("6".equals(cc))
-                        {
-                            cc = "ASUNTOS INTERNACIONALES";
-                        }
-                        if ("7".equals(cc))
-                        {
-                            cc = "COMUNICACIÓN SOCIAL Y CAMBIO CULTURAL";
-                        }
-                        if ("8".equals(cc))
-                        {
-                            cc = "CONTRALORÍA";
-                        }
-                        if ("9".equals(cc))
-                        {
-                            cc = "JUNTA DE GOBIERNO";
-                        }
-                        Iterator<MetaEvaluacion> metas = desempenio.listMetases();
+                        UserExtended ext = UserExtended.ClassMgr.getUserExtended(evaluado.getId(), evaluado.getUserRepository());
+                        UserExtended extJefe = UserExtended.ClassMgr.getUserExtended(evaluador.getId(), evaluador.getUserRepository());
 
-                        int imeta = 1;
-                        while (metas.hasNext())
+                        if (ext != null)
                         {
-                            row = s.createRow(irow++);
-                            int icell = 0;
-                            MetaEvaluacion meta = metas.next();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(noEmpleado);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(aPaterno);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(pMaterno);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(nombre);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(rfc);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(puesto);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(sector);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(noEmpleadoJefe);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(cc);
+                            String aPaterno = evaluado.getLastName();
+                            String pMaterno = evaluado.getSecondLastName();
+                            String nombre = evaluado.getName();
+                            String noEmpleado = ext.getNoEmpleado();
+                            String puesto = ext.getPuesto();
+                            String rfc = ext.getRfc();
+                            String sector = "06  SHCP";
+                            String noEmpleadoJefe = extJefe.getNoEmpleado();
+                            String cc = ext.getCc();
+                            if ("1".equals(cc))
+                            {
+                                cc = "PRESIDENCIA";
+                            }
+                            if ("2".equals(cc))
+                            {
+                                cc = "INSTITUCIONALIZACIÓN";
+                            }
+                            if ("3".equals(cc))
+                            {
+                                cc = "TRANSVERSALIZACIÓN";
+                            }
+                            if ("4".equals(cc))
+                            {
+                                cc = "EVALUACIÓN Y D. ESTADISTICO";
+                            }
+                            if ("5".equals(cc))
+                            {
+                                cc = "ADMINISTRACIÓN Y FINANZAS";
+                            }
+                            if ("6".equals(cc))
+                            {
+                                cc = "ASUNTOS INTERNACIONALES";
+                            }
+                            if ("7".equals(cc))
+                            {
+                                cc = "COMUNICACIÓN SOCIAL Y CAMBIO CULTURAL";
+                            }
+                            if ("8".equals(cc))
+                            {
+                                cc = "CONTRALORÍA";
+                            }
+                            if ("9".equals(cc))
+                            {
+                                cc = "JUNTA DE GOBIERNO";
+                            }
+                            Iterator<MetaEvaluacion> metas = desempenio.listMetases();
 
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(imeta);
+                            int imeta = 1;
+                            while (metas.hasNext())
+                            {
+                                row = s.createRow(irow++);
+                                int icell = 0;
+                                MetaEvaluacion meta = metas.next();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(noEmpleado);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(aPaterno);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(pMaterno);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(nombre);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(rfc);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(puesto);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(sector);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(noEmpleadoJefe);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(cc);
 
-                            String objetivo = meta.getMeta();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(objetivo);
-                            String medida = meta.getMedida().getDisplayTitle("es");
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(medida);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(imeta);
 
-                            String peso = meta.getPesoMeta();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(peso);
-                            String instrumento = meta.getInstrumentog().getDisplayTitle("es");
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(instrumento);
-                            String temas = meta.getTemasPrograma().getDisplayTitle("es");
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(temas);
-                            String sobresaliente = meta.getPSobresaliente();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(sobresaliente);
-                            String satisfactorio = meta.getPSatisfactorio();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(satisfactorio);
-                            String minimoaceptable = meta.getPMinimoaceptable();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(minimoaceptable);
-                            String noSatisfactorio = meta.getPNoSatisfactorio();
-                            cell = row.createCell(icell++);
-                            cell.setCellValue(noSatisfactorio);
-                            cell = row.createCell(icell++);
-                            cell.setCellValue("");
-                            cell = row.createCell(icell++);
-                            cell.setCellValue("");
-                            imeta++;
+                                String objetivo = meta.getMeta();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(objetivo);
+                                String medida = meta.getMedida().getDisplayTitle("es");
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(medida);
+
+                                String peso = meta.getPesoMeta();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(peso);
+                                String instrumento = meta.getInstrumentog().getDisplayTitle("es");
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(instrumento);
+                                String temas = meta.getTemasPrograma().getDisplayTitle("es");
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(temas);
+                                String sobresaliente = meta.getPSobresaliente();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(sobresaliente);
+                                String satisfactorio = meta.getPSatisfactorio();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(satisfactorio);
+                                String minimoaceptable = meta.getPMinimoaceptable();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(minimoaceptable);
+                                String noSatisfactorio = meta.getPNoSatisfactorio();
+                                cell = row.createCell(icell++);
+                                cell.setCellValue(noSatisfactorio);
+                                cell = row.createCell(icell++);
+                                cell.setCellValue("");
+                                cell = row.createCell(icell++);
+                                cell.setCellValue("");
+                                imeta++;
+                            }
                         }
                     }
                 }
@@ -555,19 +558,19 @@ public class Reportes extends GenericResource
             Row row = s.createRow(irow++);
 
             Cell cell = row.createCell(1);
-            CellStyle style=wb.createCellStyle();
-            style.setFillForegroundColor((short)Color.CYAN.getRGB());
-            
+            CellStyle style = wb.createCellStyle();
+            style.setFillForegroundColor((short) Color.CYAN.getRGB());
+
             cell.setCellStyle(style);
             cell = row.createCell(2);
             cell = row.createCell(3);
 
-            int region=s.addMergedRegion(new CellRangeAddress(1, 1, 1, 9));
-            
+            int region = s.addMergedRegion(new CellRangeAddress(1, 1, 1, 9));
+
 
 
             row = s.createRow(irow++);
-            
+
             cell = row.createCell(1);
             cell.setCellStyle(style);
             cell.setCellValue("NÚMERO DE EMPLEADA(O)");
