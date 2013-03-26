@@ -380,7 +380,7 @@ public class InmujeresGenericLDAPBridge extends ExtUserRepInt
      */
     public void loadAttrs2RecUser(Attributes attrs, User ru)
     {
-        long tini = System.currentTimeMillis();
+        
         Autentificacion aut = new Autentificacion();
         String login = ru.getLogin();
         if (login.indexOf("@") == -1)
