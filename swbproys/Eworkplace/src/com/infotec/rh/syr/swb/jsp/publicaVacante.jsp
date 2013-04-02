@@ -1,4 +1,3 @@
-<%@page import="mx.com.infotec.intranet.login.Services"%>
 <%@page import="com.infotec.eworkplace.swb.CentroCosto"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
@@ -278,10 +277,12 @@ Services services = new Services();
     pubMgr.setSubmitByAjax(false);
     SWBResourceURL actUrl = paramRequest.getActionUrl().setAction("ADD_PUB");
     pubMgr.setAction(actUrl.toString());
-    pubMgr.addButton(SWBFormButton.newSaveButton());
+    //pubMgr.addButton(SWBFormButton.newSaveButton());
     pubMgr.addHiddenParameter("suri", suri);
     pubMgr.addHiddenParameter("ssr", ssr.getURI());
+    String okButton = "<button id=\""+foi.getId()+"/submit\" dojoType=\"dijit.form.Button\" disabled=\"disabled\" type=\"submit\">Guardar</button>";
     String backButton = "<button dojoType=\"dijit.form.Button\" onclick=\"hideDialog('addDialog_" + foi.getId() + "');\">Regresar</button>";
+    pubMgr.addButton(okButton);
     pubMgr.addButton(backButton);
     %>
     <div id="processForm">
@@ -289,6 +290,19 @@ Services services = new Services();
     </div>
 </div>
 <script>
+    var fileUpload_Callback = function(data,ioArgs,widgetRef){
+    if(data){
+        if(data.status && data.status == "success"){
+            widgetRef.overlay.innerHTML = "El archivo " + data.detail + " se ha cargado correctamente";
+            dijit.byId("<%=foi.getId()%>/submit").setAttribute('disabled', false);
+        }else{
+            widgetRef.overlay.innerHTML = "Ocurrió un error al cargar " + data.detail+". Recargue la página e intente nuevamente";
+            console.log('error',data,ioArgs);
+        }
+    }else{
+        console.log('ugh?',arguments);
+    }
+}
     dojo.require("dijit.Dialog");
     function showFormDialog() {            
         var dialog = dijit.byId('addDialog_<%=foi.getId()%>');
