@@ -77,7 +77,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
-        if(!user.isSigned() || user.haveAccess(this)) {
+        if(!user.isSigned() || !user.haveAccess(this)) {
+            System.out.println("Usuario "+user+" intenta acceder al recurso ReservaSalaManager");
+            log.info("Usuario "+user+" intenta acceder al recurso ReservaSalaManager");
             return;
         }
         
