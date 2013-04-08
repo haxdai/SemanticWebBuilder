@@ -125,8 +125,8 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        User user = response.getUser();
-        if(!user.isSigned() || user.haveAccess(this)) {
+        User user = response.getUser();        
+        if(!user.isSigned() || !user.haveAccess(this)) {
             return;
         }
         
