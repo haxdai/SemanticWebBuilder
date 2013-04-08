@@ -35,26 +35,29 @@ public class ReservacionSala extends com.infotec.eworkplace.swb.base.Reservacion
         Locale locale = new Locale(lang);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MMM/yy HH:mm", locale);
         StringBuilder sb = new StringBuilder();
-        sb.append(getSala().getDisplayTitle(lang));
-        sb.append(", ");
-        sb.append(getFolio());
-        sb.append(", ");
-        sb.append(sdf.format(getFechaInicio()));
-        sb.append(", ");
-        sb.append(sdf.format(getFechaFinal()));
-        sb.append(", ");
-        sb.append(getCreator().getFullName());
-        sb.append(", ");
-        sb.append(getMotivo());
-        sb.append(", ");
-        sb.append(getAsistentes());
-        sb.append(", ");
-        sb.append(getTipoReunion());
-        if(isRequiereProyector()) {
-            sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireProjector", locale));
-        }
-        if(isRequiereComputo()) {
-            sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireComputer", locale));
+        try {
+            sb.append(getSala().getDisplayTitle(lang));
+            sb.append(", ");
+            sb.append(getPId());
+            sb.append(", ");
+            sb.append(sdf.format(getFechaInicio()));
+            sb.append(", ");
+            sb.append(sdf.format(getFechaFinal()));
+            sb.append(", ");
+            sb.append(getCreator().getFullName());
+            sb.append(", ");
+            sb.append(getMotivo());
+            sb.append(", ");
+            sb.append(getAsistentes());
+            sb.append(", ");
+            sb.append(getTipoReunion());
+            if(isRequiereProyector()) {
+                sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireProjector", locale));
+            }
+            if(isRequiereComputo()) {
+                sb.append(", ").append(SWBUtils.TEXT.getLocaleString("com.infotec.eworkplace.swb.resources.sem.ReservaSalaManager", "lblRequireComputer", locale));
+            }
+        }catch(Exception e) {            
         }
         return sb.toString();
     }
