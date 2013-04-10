@@ -508,7 +508,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println("</tbody>");
         out.println("</table>");
         out.println("<div id=\"salas-regresar\">");
-        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", request.getParameter("suri"))+"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
         out.println("</div>");
     }
     
@@ -829,7 +829,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()).setParameter("suri", request.getParameter("suri"))+"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getCapacidad()+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
