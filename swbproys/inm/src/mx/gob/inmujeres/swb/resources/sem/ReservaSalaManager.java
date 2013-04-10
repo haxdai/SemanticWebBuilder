@@ -434,7 +434,7 @@ log.info("----------------------");
         }
         out.println("</table>");
         out.println("<div id=\"salas-regresar\">");
-        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) +"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
+        out.println(" <a href=\""+paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", request.getParameter("suri"))+"\" title=\"Regresar\" class=\"backCal\">Regresar</a>");
         out.println("</div>");
     }
     
@@ -654,40 +654,41 @@ log.info("----------------------");
         return html.toString();
     }
     
-    private String getCalendar(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) {
+    private String getCalendar(HttpServletRequest request, SWBParamRequest paramRequest, Locale locale) throws SWBResourceException
+    {
         StringBuilder html = new StringBuilder();
+        
         HttpSession session = request.getSession(true);
         GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
-        SWBResourceURL url;
-        GenericObject sobj = SemanticObject.getSemanticObject(request.getParameter("suri")).createGenericInstance();
-        url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", sobj.getSemanticObject().getEncodedURI());
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", request.getParameter("suri"));
+        
         html.append("\n<div id=\"dayselectorCal\">");
-        html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
+        html.append("\n <p class=\"disponibilidadSalas\">"+paramRequest.getLocaleString("lblAvailability")+"</p>");
         url.setParameter(Rel, Roll_DATE);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
         SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
         html.append("\n <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
+        html.append("\n <p><a href=\"javascript:window.location='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
         html.append("\n</div>");
         
         html.append("\n<div id=\"salasCal\">");
         url.setParameter(Rel, Roll_MONTH);
         url.setParameter(Roll, Roll_LEFT);
-        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAtras\">atr&aacute;s</a>");
         sdf = new SimpleDateFormat("MMMM yyyy", locale);
         html.append("\n <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
         url.setParameter(Roll, Roll_RIGHT);
-        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
+        html.append("\n <a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\" class=\"salasAdelante\">adelante</a>");
         html.append("\n <ul class=\"daysTop\">");
-        html.append("\n  <li>D</li>");
-        html.append("\n  <li>L</li>");
-        html.append("\n  <li>M</li>");
-        html.append("\n  <li>M</li>");
-        html.append("\n  <li>J</li>");
-        html.append("\n  <li>V</li>");
-        html.append("\n  <li>S</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblSundayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblMondayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblThrusdayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblWednesdayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblTuesdayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblFridayE")+"</li>");
+        html.append("\n  <li>"+paramRequest.getLocaleString("lblSaturdayE")+"</li>");
         html.append("\n </ul>");
         int daysInMonth = current.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
         GregorianCalendar ci = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),1,0,0);
@@ -702,7 +703,7 @@ log.info("----------------------");
                 html.append("\n<li>");
                 if( loopCounter>=firstDay && dayCounter<=daysInMonth ) {
                     url.setParameter(Roll, sdf.format(ci.getTime()));
-                    html.append("<a href=\"javascript:location.href='"+url+"'\">");
+                    html.append("<a href=\"\" onclick=\"javascript:location.href='"+url+"'; return false;\">");
                     html.append(sdf.format(ci.getTime())+"</a>");
                     
                     ci.add(GregorianCalendar.DAY_OF_MONTH, 1);
@@ -715,6 +716,67 @@ log.info("----------------------");
         html.append("\n </ul>");
         html.append("\n</div>");        
         return html.toString();
+        
+//        StringBuilder html = new StringBuilder();
+//        HttpSession session = request.getSession(true);
+//        GregorianCalendar current = (GregorianCalendar)session.getAttribute("cur");
+//        SWBResourceURL url;
+//        GenericObject sobj = SemanticObject.getSemanticObject(request.getParameter("suri")).createGenericInstance();
+//        url = paramRequest.getRenderUrl().setMode(Mode_ROLL).setParameter("suri", sobj.getSemanticObject().getEncodedURI());
+//        html.append("\n<div id=\"dayselectorCal\">");
+//        html.append("\n <p class=\"disponibilidadSalas\">Disponibilidad de salas</p>");
+//        url.setParameter(Rel, Roll_DATE);
+//        url.setParameter(Roll, Roll_LEFT);
+//        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a></p>");
+//        SimpleDateFormat sdf = new SimpleDateFormat("EEEE d 'de' MMMM", locale);
+//        html.append("\n <p id=\"current\" class=\"dayAndMonth\">"+sdf.format(current.getTime())+"</p>");
+//        url.setParameter(Roll, Roll_RIGHT);
+//        html.append("\n <p><a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a></p>");
+//        html.append("\n</div>");
+//        
+//        html.append("\n<div id=\"salasCal\">");
+//        url.setParameter(Rel, Roll_MONTH);
+//        url.setParameter(Roll, Roll_LEFT);
+//        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAtras\">atr&aacute;s</a>");
+//        sdf = new SimpleDateFormat("MMMM yyyy", locale);
+//        html.append("\n <span id=\"month\" class=\"salasMonthYear\">"+sdf.format(current.getTime()) +"</span>");
+//        url.setParameter(Roll, Roll_RIGHT);
+//        html.append("\n <a href=\"javascript:location.href='"+url+"'\" class=\"salasAdelante\">adelante</a>");
+//        html.append("\n <ul class=\"daysTop\">");
+//        html.append("\n  <li>D</li>");
+//        html.append("\n  <li>L</li>");
+//        html.append("\n  <li>M</li>");
+//        html.append("\n  <li>M</li>");
+//        html.append("\n  <li>J</li>");
+//        html.append("\n  <li>V</li>");
+//        html.append("\n  <li>S</li>");
+//        html.append("\n </ul>");
+//        int daysInMonth = current.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+//        GregorianCalendar ci = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),1,0,0);
+//        int dayCounter = 1;
+//        int loopCounter = 1;
+//        int firstDay = ci.get(GregorianCalendar.DAY_OF_WEEK);
+//        html.append("\n <ul class=\"daysCal\">");
+//        sdf = new SimpleDateFormat("dd");
+//        url.setParameter(Rel, Set_DATE);
+//        for(int i=1; i<=6; i++) {
+//            for(int j=1; j<8; j++) {
+//                html.append("\n<li>");
+//                if( loopCounter>=firstDay && dayCounter<=daysInMonth ) {
+//                    url.setParameter(Roll, sdf.format(ci.getTime()));
+//                    html.append("<a href=\"javascript:location.href='"+url+"'\">");
+//                    html.append(sdf.format(ci.getTime())+"</a>");
+//                    
+//                    ci.add(GregorianCalendar.DAY_OF_MONTH, 1);
+//                    dayCounter++;
+//                }
+//                loopCounter++;
+//                html.append("</li>");
+//            }
+//        }
+//        html.append("\n </ul>");
+//        html.append("\n</div>");        
+//        return html.toString();
     }
     
     private void renderReservations(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -750,7 +812,7 @@ log.info("----------------------");
         out.println(" <tr class=\"trCalSalas\">");
         out.println("  <th class=\"thCalHora\">Hora</td>");
         for(Sala sala:salas) {
-            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()) +"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getDisplayDescription(lang)+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
+            out.println("  <th class=\"thCalS_"+sala.getId()+"\"><a href=\""+paramRequest.getRenderUrl().setMode(Mode_SALA).setParameter("sl", sala.getEncodedURI()).setParameter("suri", request.getParameter("suri"))+"\" title=\""+sala.getDisplayTitle(lang)+" ("+sala.getDisplayDescription(lang)+")\">"+sala.getDisplayTitle(lang)+"</a></td>");
         }
         out.println(" </tr>");
         out.println("</thead>");
