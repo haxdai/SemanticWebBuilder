@@ -1617,10 +1617,12 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
             <%
                 SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
                 so = ont.getSemanticObject(suri);
-                GenericObject go = so.createGenericInstance();
-                Tile tile = (Tile) so.createGenericInstance();
-                if(tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
-                out.println("<h4>" + MyShelf.getTileTypeName((Tile) (so.createGenericInstance())) + "</h4>");
+                GenericObject go = null;
+                if(null!=so) go = so.createGenericInstance();
+                Tile tile = null;
+                if(go!=null)tile = (Tile) go;
+                if(null!=tile && tile.getResource()==null) tile.setResource(paramRequest.getResourceBase());
+                if(null!=go) out.println("<h4>" + MyShelf.getTileTypeName((Tile) go) + "</h4>");
                 if (tile != null) {
 
                     urlupdate = paramRequest.getActionUrl();
@@ -2055,7 +2057,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                     }
 
                 }
-                if (so.createGenericInstance() instanceof Versionable) {
+                if (so!=null && so.createGenericInstance() instanceof Versionable) {
                     out.println("<h3>Archivo asociado:</h3>");
                     Document doc = null;
                     VersionInfo vl = null;
@@ -2244,14 +2246,16 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                     }
 
                 }  // fin versionable
-                String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
-                String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
-                String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
-                String fusrmod = (tile.getModifiedBy() != null && tile.getModifiedBy().getFullName() != null ? tile.getModifiedBy().getFullName() : "---");
+                if(null!=tile){
+                        String fcreated = (tile.getCreated() != null ? sdf.format(tile.getCreated()) : "---");
+                        String fcreator = (tile.getCreator() != null && tile.getCreator().getFullName() != null ? tile.getCreator().getFullName() : "---");
+                        String fmod = (tile.getUpdated() != null ? sdf.format(tile.getUpdated()) : "---");
+                        String fusrmod = (tile.getModifiedBy() != null && tile.getModifiedBy().getFullName() != null ? tile.getModifiedBy().getFullName() : "---");
             %>
             <p>Documento Creado:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<%=fcreated%>  por <%=fcreator%></p>
             <p>Documento Modificado:&nbsp;<%=fmod%>  por <%=fusrmod%></p> 
             <%
+                    }
                 }
             %>
 
