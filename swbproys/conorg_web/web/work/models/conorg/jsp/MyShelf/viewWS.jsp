@@ -204,11 +204,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
 
     <a class="conorg-add" href="<%=urladd%>">Añadir Espacio de trabajo</a>
 
-<% if(wsid==null){%>
-    </div>
-<%
-    }
-%>
+
 <%
     if (action.equals(SWBResourceURL.Action_ADD) && actType.equals("addworkspace")) { //
 
@@ -233,6 +229,12 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
 
         }
     }
+   if(wsid==null){
+       %>
+    </div>
+<%
+    }
+
     // membresias del usuario a los diferentes ws
     Iterator<Member> itmem = Member.ClassMgr.listMemberByUser(usr, wsite);
     HashMap<WorkSpace, Member> hmmem = new HashMap<WorkSpace, Member>();
