@@ -1828,6 +1828,9 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
             </form>
             <%
                 if (tile instanceof Mosaic) {
+                    SWBResourceURL addformurl = paramRequest.getActionUrl();
+                    addformurl.setAction(SWBResourceURL.Action_ADD);
+                    addformurl.setParameter("muri",tile.getURI());
                     String addtiurl = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD).toString();
 
                     SWBResourceURL urlrem = new SWBResourceURLImp(request, base, wpconfig, SWBResourceURLImp.UrlType_ACTION);
@@ -1859,7 +1862,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                     if (wsid != null && !wsid.equals("")) {
 
             %>
-            <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=urladd%>">
+            <form  id="form1sc" name="form1ct" method="post" dojoType="dijit.form.Form" action="<%=addformurl%>">
                 <%
                     if (request.getParameter("wsid") != null) {
                 %>
