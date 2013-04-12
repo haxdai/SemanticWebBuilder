@@ -761,7 +761,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                 if (editMode) {
                     boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\" >Guardar</button>";
                     out.println(boton); //SWBFormButton.newSaveButton()
-                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Cancelar</button>";
+                    boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
                     out.println(boton);
                 } else {
                     boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + "';return false;\">Regresar</button>";
@@ -1737,7 +1737,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                         frmgr.setAction(urlupdate.toString());
                          boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
                         frmgr.addButton(boton);
-                        boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                        boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
                         frmgr.addButton(boton);
                        
                         //frmgr.addButton(SWBFormButton.newSaveButton());
@@ -1815,7 +1815,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                                 //frmgr.setAction(urlupdate.toString());
                                 boton = "<button dojoType=\"dijit.form.Button\" type=\"submit\">Guardar</button>";
                                 out.println(boton);
-                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Cancelar</button>";
+                                boton = "<button dojoType=\"dijit.form.Button\" onclick=\"window.location='" + paramRequest.getRenderUrl() + (null != wsid ? "?wsid=" + wsid : "") + "';return false;\">Regresar</button>";
                                 out.println(boton);
                                 
                                 //frmgr.addButton(SWBFormButton.newSaveButton());
