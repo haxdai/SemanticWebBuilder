@@ -1350,6 +1350,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                                 %>
                                 <input type="hidden" name="suri" value="<%=tile.getURI()%>"/>
                                 <input type="hidden" name="msid" value=""/>
+                                <input type="hidden" name="ouri" value="<%=workSpace.getURI()%>"/>
                                 <select name="muri" dojoType="dijit.form.FilteringSelect">
                                     <!--option value="-1">Selecciona....</option-->
                                     <%
@@ -1941,6 +1942,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                     <%} else {
 
                         Iterator<Tile> itmt = mosaic.listTiles();
+                        int cont=1;
                         while (itmt.hasNext()) {
                             Tile ltile = itmt.next();
                             if(ltile.getResource()==null) ltile.setResource(paramRequest.getResourceBase());
@@ -2029,7 +2031,56 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                                     }
                                     urldel.setParameter("ruri", tile.getURI());
                             %>
-                            <span class="icv-mover"><a href="#" title="Mover" onclick="if(confirm('¿Deseas mover este azulejo?')){window.location='<%=urlrem%>';} else return false;">M&nbsp;</a></span>
+                             <%
+//                                    boolean canMove = false;
+                            String urlmove = paramRequest.getActionUrl().setAction("movTile").toString();
+                        %>
+                        <div class="aviso-sys" dojoType="dijit.Dialog"  id="msg<%=cont%>" execute="" title="Mover<%//=strTitle%>">
+                            <form id="formmos<%=cont%>" name="formmos" method="post" dojoType="dijit.form.Form" action="<%=urlmove%>">
+                                <%
+                                    if (request.getParameter("wsid") != null) {
+                                %>
+                                <input type="hidden" name="wsid" value="<%=request.getParameter("wsid")%>"/>
+                                <%
+                                    }
+                                %>
+                                <input type="hidden" name="suri" value="<%=ltile.getURI()%>"/>
+                                <input type="hidden" name="msid" value=""/>
+                                <input type="hidden" name="ouri" value="<%=tile.getURI()%>"/>
+                                <select name="muri" dojoType="dijit.form.FilteringSelect">
+                                    <option value="<%=workSpace.getURI()%>">Espacio:<%=workSpace.getTitle()%></option-->
+                                    <%
+                                        //Iterator<Tile> itti = shelf.listTiles();
+                                        Mosaic mo=null;
+                                        if(ltile instanceof Mosaic){
+                                            mo=(Mosaic)ltile;
+                                        }
+                                        Iterator<Mosaic> itmo=MyShelf.findMosaics(null,mo,workSpace.listTiles());
+                                        while (itmo.hasNext()) {
+                                            Mosaic lmo = itmo.next();
+                                            if (!lmo.equals(tile)) {
+                                    %>
+                                    <option value="<%=lmo.getURI()%>"><%=lmo.getTitle()%></option>
+                                    <%
+//                                                canMove = true;
+                                            }
+                                        }
+                                    %>
+                                </select>
+                                <button dojoType="dijit.form.Button" type="submit">Mover</button>
+                            </form>
+                        </div>
+                        <%
+                            //if (canMove) {
+                        %>
+                        <span class="icv-mover"><a href="#" title="Mover"  onclick="dijit.byId('msg<%=cont%>').show()">MM&nbsp;</a></span>
+                        <%
+                       // } else {
+                        %>
+                        <!--span class="icv-vacio"></span-->
+                        <%
+                          // }
+                        %>
                             <span class="icv-borrar"><a href="#" title="Borrar" onclick="if(confirm('¿Deseas eliminar este azulejo?')){window.location='<%=urldel%>';} else return false;">B&nbsp;</a></span>
                             <%
                                 } else {
@@ -2051,6 +2102,7 @@ Role rol = wsite.getUserRepository().getRole(base.getAttribute(MyShelf.ROL_ADMIN
                         </td>
                     </tr>
                     <%
+                            cont++;
                             }
                         }
                     %>
