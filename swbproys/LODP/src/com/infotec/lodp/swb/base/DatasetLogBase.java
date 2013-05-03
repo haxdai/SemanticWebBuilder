@@ -8,6 +8,10 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
    */
     public static final org.semanticwb.platform.SemanticProperty swb_valid=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#valid");
    /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+   /**
    * Persona que ejecutó la acción sobre el dataset
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_logUser=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logUser");
@@ -15,7 +19,7 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
    * Descripción de la acción sobre el dataset
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_logDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logDescription");
-    public static final org.semanticwb.platform.SemanticClass lodp_Dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Dataset");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Dataset");
     public static final org.semanticwb.platform.SemanticProperty lodp_dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#dataset");
     public static final org.semanticwb.platform.SemanticProperty lodp_logCreated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logCreated");
     public static final org.semanticwb.platform.SemanticClass lodpcg_DatasetLog=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#DatasetLog");
@@ -93,6 +97,52 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
         {
             return (getDatasetLog(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetLog with a determined LogUser
+       * @param value LogUser of the type org.semanticwb.model.User
+       * @param model Model of the com.infotec.lodp.swb.DatasetLog
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetLog
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetLog> listDatasetLogByLogUser(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_logUser, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetLog with a determined LogUser
+       * @param value LogUser of the type org.semanticwb.model.User
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetLog
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetLog> listDatasetLogByLogUser(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetLog> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_logUser,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetLog with a determined Dataset
+       * @param value Dataset of the type com.infotec.lodp.swb.Dataset
+       * @param model Model of the com.infotec.lodp.swb.DatasetLog
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetLog
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetLog> listDatasetLogByDataset(com.infotec.lodp.swb.Dataset value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetLog> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_dataset, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetLog with a determined Dataset
+       * @param value Dataset of the type com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetLog
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetLog> listDatasetLogByDataset(com.infotec.lodp.swb.Dataset value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetLog> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_dataset,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static DatasetLogBase.ClassMgr getDatasetLogClassMgr()
@@ -128,25 +178,42 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
         //Override this method in DatasetLog object
         getSemanticObject().setBooleanProperty(swb_valid, value,false);
     }
+   /**
+   * Sets the value for the property LogUser
+   * @param value LogUser to set
+   */
 
-    public void setLogUser(org.semanticwb.platform.SemanticObject value)
+    public void setLogUser(org.semanticwb.model.User value)
     {
-        getSemanticObject().setObjectProperty(lodp_logUser, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_logUser, value.getSemanticObject());
+        }else
+        {
+            removeLogUser();
+        }
     }
+   /**
+   * Remove the value for LogUser property
+   */
 
     public void removeLogUser()
     {
         getSemanticObject().removeProperty(lodp_logUser);
     }
 
-/**
-* Gets the LogUser property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getLogUser()
+   /**
+   * Gets the LogUser
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getLogUser()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_logUser);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_logUser);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -167,25 +234,42 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
     {
         getSemanticObject().setProperty(lodp_logDescription, value);
     }
+   /**
+   * Sets the value for the property Dataset
+   * @param value Dataset to set
+   */
 
-    public void setDataset(org.semanticwb.platform.SemanticObject value)
+    public void setDataset(com.infotec.lodp.swb.Dataset value)
     {
-        getSemanticObject().setObjectProperty(lodp_dataset, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_dataset, value.getSemanticObject());
+        }else
+        {
+            removeDataset();
+        }
     }
+   /**
+   * Remove the value for Dataset property
+   */
 
     public void removeDataset()
     {
         getSemanticObject().removeProperty(lodp_dataset);
     }
 
-/**
-* Gets the Dataset property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getDataset()
+   /**
+   * Gets the Dataset
+   * @return a com.infotec.lodp.swb.Dataset
+   */
+    public com.infotec.lodp.swb.Dataset getDataset()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_dataset);
+         com.infotec.lodp.swb.Dataset ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_dataset);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Dataset)obj.createGenericInstance();
+         }
          return ret;
     }
 
