@@ -1,29 +1,29 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Hitable
+public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Commentable
 {
    /**
    * URL al dataset (endpoint)
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetURL");
-    public static final org.semanticwb.platform.SemanticClass lodp_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Topic");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Topic");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasTopic");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetCreated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetCreated");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetActive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetActive");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetFormat=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetFormat");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetSize=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetSize");
-    public static final org.semanticwb.platform.SemanticClass lodp_Publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Publisher");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Publisher");
    /**
    * Enlace técnico, es el que publica(carga) el dataset
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#publisher");
-    public static final org.semanticwb.platform.SemanticClass lodp_Tag=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Tag");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Tag=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Tag");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasTag=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasTag");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetTitle");
-    public static final org.semanticwb.platform.SemanticClass lodp_LicenseType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#LicenseType");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_LicenseType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#LicenseType");
     public static final org.semanticwb.platform.SemanticProperty lodp_license=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#license");
-    public static final org.semanticwb.platform.SemanticClass lodp_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Institution");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Institution");
     public static final org.semanticwb.platform.SemanticProperty lodp_institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#institution");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetView=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetView");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetUpdated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetUpdated");
@@ -104,6 +104,167 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
             return (getDataset(id, model)!=null);
         }
        /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Topic
+       * @param value Topic of the type com.infotec.lodp.swb.Topic
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByTopic(com.infotec.lodp.swb.Topic value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_hasTopic, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Topic
+       * @param value Topic of the type com.infotec.lodp.swb.Topic
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByTopic(com.infotec.lodp.swb.Topic value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_hasTopic,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined ActualVersion
+       * @param value ActualVersion of the type com.infotec.lodp.swb.DatasetVersion
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByActualVersion(com.infotec.lodp.swb.DatasetVersion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_actualVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined ActualVersion
+       * @param value ActualVersion of the type com.infotec.lodp.swb.DatasetVersion
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByActualVersion(com.infotec.lodp.swb.DatasetVersion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_actualVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Publisher
+       * @param value Publisher of the type com.infotec.lodp.swb.Publisher
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByPublisher(com.infotec.lodp.swb.Publisher value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_publisher, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Publisher
+       * @param value Publisher of the type com.infotec.lodp.swb.Publisher
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByPublisher(com.infotec.lodp.swb.Publisher value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_publisher,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Tag
+       * @param value Tag of the type com.infotec.lodp.swb.Tag
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByTag(com.infotec.lodp.swb.Tag value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_hasTag, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Tag
+       * @param value Tag of the type com.infotec.lodp.swb.Tag
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByTag(com.infotec.lodp.swb.Tag value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_hasTag,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined License
+       * @param value License of the type com.infotec.lodp.swb.LicenseType
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByLicense(com.infotec.lodp.swb.LicenseType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_license, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined License
+       * @param value License of the type com.infotec.lodp.swb.LicenseType
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByLicense(com.infotec.lodp.swb.LicenseType value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_license,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Institution
+       * @param value Institution of the type com.infotec.lodp.swb.Institution
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByInstitution(com.infotec.lodp.swb.Institution value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_institution, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined Institution
+       * @param value Institution of the type com.infotec.lodp.swb.Institution
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByInstitution(com.infotec.lodp.swb.Institution value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_institution,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined LastVersion
+       * @param value LastVersion of the type com.infotec.lodp.swb.DatasetVersion
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByLastVersion(com.infotec.lodp.swb.DatasetVersion value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_lastVersion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined LastVersion
+       * @param value LastVersion of the type com.infotec.lodp.swb.DatasetVersion
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByLastVersion(com.infotec.lodp.swb.DatasetVersion value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_lastVersion,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.lodp.swb.Dataset with a determined Comment
        * @param value Comment of the type com.infotec.lodp.swb.Comment
        * @param model Model of the com.infotec.lodp.swb.Dataset
@@ -159,36 +320,69 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setProperty(lodp_datasetURL, value);
     }
+   /**
+   * Gets all the com.infotec.lodp.swb.Topic
+   * @return A GenericIterator with all the com.infotec.lodp.swb.Topic
+   */
 
-    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listTopics()
+    public org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Topic> listTopics()
     {
-        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(lodp_hasTopic.getRDFProperty());
-        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
+        return new org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Topic>(getSemanticObject().listObjectProperties(lodp_hasTopic));
     }
 
-    public void addTopic(org.semanticwb.platform.SemanticObject value)
+   /**
+   * Gets true if has a Topic
+   * @param value com.infotec.lodp.swb.Topic to verify
+   * @return true if the com.infotec.lodp.swb.Topic exists, false otherwise
+   */
+    public boolean hasTopic(com.infotec.lodp.swb.Topic value)
     {
-        getSemanticObject().addObjectProperty(lodp_hasTopic, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(lodp_hasTopic,value.getSemanticObject());
+        }
+        return ret;
     }
+   /**
+   * Adds a Topic
+   * @param value com.infotec.lodp.swb.Topic to add
+   */
+
+    public void addTopic(com.infotec.lodp.swb.Topic value)
+    {
+        getSemanticObject().addObjectProperty(lodp_hasTopic, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Topic
+   */
 
     public void removeAllTopic()
     {
         getSemanticObject().removeProperty(lodp_hasTopic);
     }
+   /**
+   * Removes a Topic
+   * @param value com.infotec.lodp.swb.Topic to remove
+   */
 
-    public void removeTopic(org.semanticwb.platform.SemanticObject value)
+    public void removeTopic(com.infotec.lodp.swb.Topic value)
     {
-        getSemanticObject().removeObjectProperty(lodp_hasTopic,value);
+        getSemanticObject().removeObjectProperty(lodp_hasTopic,value.getSemanticObject());
     }
 
-/**
-* Gets the Topic property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getTopic()
+   /**
+   * Gets the Topic
+   * @return a com.infotec.lodp.swb.Topic
+   */
+    public com.infotec.lodp.swb.Topic getTopic()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_hasTopic);
+         com.infotec.lodp.swb.Topic ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_hasTopic);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Topic)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -227,25 +421,42 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setDateProperty(lodp_datasetCreated, value);
     }
+   /**
+   * Sets the value for the property ActualVersion
+   * @param value ActualVersion to set
+   */
 
-    public void setActualVersion(org.semanticwb.platform.SemanticObject value)
+    public void setActualVersion(com.infotec.lodp.swb.DatasetVersion value)
     {
-        getSemanticObject().setObjectProperty(lodp_actualVersion, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_actualVersion, value.getSemanticObject());
+        }else
+        {
+            removeActualVersion();
+        }
     }
+   /**
+   * Remove the value for ActualVersion property
+   */
 
     public void removeActualVersion()
     {
         getSemanticObject().removeProperty(lodp_actualVersion);
     }
 
-/**
-* Gets the ActualVersion property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getActualVersion()
+   /**
+   * Gets the ActualVersion
+   * @return a com.infotec.lodp.swb.DatasetVersion
+   */
+    public com.infotec.lodp.swb.DatasetVersion getActualVersion()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_actualVersion);
+         com.infotec.lodp.swb.DatasetVersion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_actualVersion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.DatasetVersion)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -356,25 +567,42 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setLongProperty(lodp_downloads, value);
     }
+   /**
+   * Sets the value for the property Publisher
+   * @param value Publisher to set
+   */
 
-    public void setPublisher(org.semanticwb.platform.SemanticObject value)
+    public void setPublisher(com.infotec.lodp.swb.Publisher value)
     {
-        getSemanticObject().setObjectProperty(lodp_publisher, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_publisher, value.getSemanticObject());
+        }else
+        {
+            removePublisher();
+        }
     }
+   /**
+   * Remove the value for Publisher property
+   */
 
     public void removePublisher()
     {
         getSemanticObject().removeProperty(lodp_publisher);
     }
 
-/**
-* Gets the Publisher property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getPublisher()
+   /**
+   * Gets the Publisher
+   * @return a com.infotec.lodp.swb.Publisher
+   */
+    public com.infotec.lodp.swb.Publisher getPublisher()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_publisher);
+         com.infotec.lodp.swb.Publisher ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_publisher);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Publisher)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -395,36 +623,69 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setBooleanProperty(lodp_reviewed, value);
     }
+   /**
+   * Gets all the com.infotec.lodp.swb.Tag
+   * @return A GenericIterator with all the com.infotec.lodp.swb.Tag
+   */
 
-    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listTags()
+    public org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Tag> listTags()
     {
-        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(lodp_hasTag.getRDFProperty());
-        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
+        return new org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Tag>(getSemanticObject().listObjectProperties(lodp_hasTag));
     }
 
-    public void addTag(org.semanticwb.platform.SemanticObject value)
+   /**
+   * Gets true if has a Tag
+   * @param value com.infotec.lodp.swb.Tag to verify
+   * @return true if the com.infotec.lodp.swb.Tag exists, false otherwise
+   */
+    public boolean hasTag(com.infotec.lodp.swb.Tag value)
     {
-        getSemanticObject().addObjectProperty(lodp_hasTag, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(lodp_hasTag,value.getSemanticObject());
+        }
+        return ret;
     }
+   /**
+   * Adds a Tag
+   * @param value com.infotec.lodp.swb.Tag to add
+   */
+
+    public void addTag(com.infotec.lodp.swb.Tag value)
+    {
+        getSemanticObject().addObjectProperty(lodp_hasTag, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Tag
+   */
 
     public void removeAllTag()
     {
         getSemanticObject().removeProperty(lodp_hasTag);
     }
+   /**
+   * Removes a Tag
+   * @param value com.infotec.lodp.swb.Tag to remove
+   */
 
-    public void removeTag(org.semanticwb.platform.SemanticObject value)
+    public void removeTag(com.infotec.lodp.swb.Tag value)
     {
-        getSemanticObject().removeObjectProperty(lodp_hasTag,value);
+        getSemanticObject().removeObjectProperty(lodp_hasTag,value.getSemanticObject());
     }
 
-/**
-* Gets the Tag property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getTag()
+   /**
+   * Gets the Tag
+   * @return a com.infotec.lodp.swb.Tag
+   */
+    public com.infotec.lodp.swb.Tag getTag()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_hasTag);
+         com.infotec.lodp.swb.Tag ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_hasTag);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Tag)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -445,46 +706,80 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setProperty(lodp_datasetTitle, value);
     }
+   /**
+   * Sets the value for the property License
+   * @param value License to set
+   */
 
-    public void setLicense(org.semanticwb.platform.SemanticObject value)
+    public void setLicense(com.infotec.lodp.swb.LicenseType value)
     {
-        getSemanticObject().setObjectProperty(lodp_license, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_license, value.getSemanticObject());
+        }else
+        {
+            removeLicense();
+        }
     }
+   /**
+   * Remove the value for License property
+   */
 
     public void removeLicense()
     {
         getSemanticObject().removeProperty(lodp_license);
     }
 
-/**
-* Gets the License property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getLicense()
+   /**
+   * Gets the License
+   * @return a com.infotec.lodp.swb.LicenseType
+   */
+    public com.infotec.lodp.swb.LicenseType getLicense()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_license);
+         com.infotec.lodp.swb.LicenseType ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_license);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.LicenseType)obj.createGenericInstance();
+         }
          return ret;
     }
+   /**
+   * Sets the value for the property Institution
+   * @param value Institution to set
+   */
 
-    public void setInstitution(org.semanticwb.platform.SemanticObject value)
+    public void setInstitution(com.infotec.lodp.swb.Institution value)
     {
-        getSemanticObject().setObjectProperty(lodp_institution, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_institution, value.getSemanticObject());
+        }else
+        {
+            removeInstitution();
+        }
     }
+   /**
+   * Remove the value for Institution property
+   */
 
     public void removeInstitution()
     {
         getSemanticObject().removeProperty(lodp_institution);
     }
 
-/**
-* Gets the Institution property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getInstitution()
+   /**
+   * Gets the Institution
+   * @return a com.infotec.lodp.swb.Institution
+   */
+    public com.infotec.lodp.swb.Institution getInstitution()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_institution);
+         com.infotec.lodp.swb.Institution ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_institution);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Institution)obj.createGenericInstance();
+         }
          return ret;
     }
 
@@ -541,25 +836,42 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     {
         getSemanticObject().setLongProperty(lodp_views, value);
     }
+   /**
+   * Sets the value for the property LastVersion
+   * @param value LastVersion to set
+   */
 
-    public void setLastVersion(org.semanticwb.platform.SemanticObject value)
+    public void setLastVersion(com.infotec.lodp.swb.DatasetVersion value)
     {
-        getSemanticObject().setObjectProperty(lodp_lastVersion, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_lastVersion, value.getSemanticObject());
+        }else
+        {
+            removeLastVersion();
+        }
     }
+   /**
+   * Remove the value for LastVersion property
+   */
 
     public void removeLastVersion()
     {
         getSemanticObject().removeProperty(lodp_lastVersion);
     }
 
-/**
-* Gets the LastVersion property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getLastVersion()
+   /**
+   * Gets the LastVersion
+   * @return a com.infotec.lodp.swb.DatasetVersion
+   */
+    public com.infotec.lodp.swb.DatasetVersion getLastVersion()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_lastVersion);
+         com.infotec.lodp.swb.DatasetVersion ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_lastVersion);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.DatasetVersion)obj.createGenericInstance();
+         }
          return ret;
     }
    /**

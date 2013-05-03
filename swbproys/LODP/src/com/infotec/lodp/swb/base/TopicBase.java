@@ -7,11 +7,10 @@ public abstract class TopicBase extends org.semanticwb.model.base.GenericObjectB
    * Indica si el elemento es válido
    */
     public static final org.semanticwb.platform.SemanticProperty swb_valid=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#valid");
-    public static final org.semanticwb.platform.SemanticClass lodp_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Topic");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Topic");
     public static final org.semanticwb.platform.SemanticProperty lodp_parentTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#parentTopic");
     public static final org.semanticwb.platform.SemanticProperty lodp_topicTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#topicTitle");
     public static final org.semanticwb.platform.SemanticProperty lodp_topicDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#topicDescription");
-    public static final org.semanticwb.platform.SemanticClass lodpcg_Topic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Topic");
    /**
    * The semantic class that represents the currentObject
    */
@@ -86,6 +85,29 @@ public abstract class TopicBase extends org.semanticwb.model.base.GenericObjectB
         {
             return (getTopic(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.lodp.swb.Topic with a determined ParentTopic
+       * @param value ParentTopic of the type com.infotec.lodp.swb.Topic
+       * @param model Model of the com.infotec.lodp.swb.Topic
+       * @return Iterator with all the com.infotec.lodp.swb.Topic
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Topic> listTopicByParentTopic(com.infotec.lodp.swb.Topic value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Topic> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_parentTopic, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Topic with a determined ParentTopic
+       * @param value ParentTopic of the type com.infotec.lodp.swb.Topic
+       * @return Iterator with all the com.infotec.lodp.swb.Topic
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Topic> listTopicByParentTopic(com.infotec.lodp.swb.Topic value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Topic> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_parentTopic,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static TopicBase.ClassMgr getTopicClassMgr()
@@ -121,25 +143,42 @@ public abstract class TopicBase extends org.semanticwb.model.base.GenericObjectB
         //Override this method in Topic object
         getSemanticObject().setBooleanProperty(swb_valid, value,false);
     }
+   /**
+   * Sets the value for the property ParentTopic
+   * @param value ParentTopic to set
+   */
 
-    public void setParentTopic(org.semanticwb.platform.SemanticObject value)
+    public void setParentTopic(com.infotec.lodp.swb.Topic value)
     {
-        getSemanticObject().setObjectProperty(lodp_parentTopic, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_parentTopic, value.getSemanticObject());
+        }else
+        {
+            removeParentTopic();
+        }
     }
+   /**
+   * Remove the value for ParentTopic property
+   */
 
     public void removeParentTopic()
     {
         getSemanticObject().removeProperty(lodp_parentTopic);
     }
 
-/**
-* Gets the ParentTopic property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getParentTopic()
+   /**
+   * Gets the ParentTopic
+   * @return a com.infotec.lodp.swb.Topic
+   */
+    public com.infotec.lodp.swb.Topic getParentTopic()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_parentTopic);
+         com.infotec.lodp.swb.Topic ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_parentTopic);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Topic)obj.createGenericInstance();
+         }
          return ret;
     }
 

@@ -3,7 +3,7 @@ package com.infotec.lodp.swb.base;
 
 public abstract class InstitutionBase extends org.semanticwb.model.base.GenericObjectBase 
 {
-    public static final org.semanticwb.platform.SemanticClass lodp_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Sector");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Sector");
     public static final org.semanticwb.platform.SemanticProperty lodp_sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#sector");
     public static final org.semanticwb.platform.SemanticProperty lodp_institutionTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#institutionTitle");
    /**
@@ -101,6 +101,29 @@ public abstract class InstitutionBase extends org.semanticwb.model.base.GenericO
         {
             return (getInstitution(id, model)!=null);
         }
+       /**
+       * Gets all com.infotec.lodp.swb.Institution with a determined Sector
+       * @param value Sector of the type com.infotec.lodp.swb.Sector
+       * @param model Model of the com.infotec.lodp.swb.Institution
+       * @return Iterator with all the com.infotec.lodp.swb.Institution
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Institution> listInstitutionBySector(com.infotec.lodp.swb.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Institution> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_sector, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Institution with a determined Sector
+       * @param value Sector of the type com.infotec.lodp.swb.Sector
+       * @return Iterator with all the com.infotec.lodp.swb.Institution
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Institution> listInstitutionBySector(com.infotec.lodp.swb.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Institution> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_sector,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static InstitutionBase.ClassMgr getInstitutionClassMgr()
@@ -116,25 +139,42 @@ public abstract class InstitutionBase extends org.semanticwb.model.base.GenericO
     {
         super(base);
     }
+   /**
+   * Sets the value for the property Sector
+   * @param value Sector to set
+   */
 
-    public void setSector(org.semanticwb.platform.SemanticObject value)
+    public void setSector(com.infotec.lodp.swb.Sector value)
     {
-        getSemanticObject().setObjectProperty(lodp_sector, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_sector, value.getSemanticObject());
+        }else
+        {
+            removeSector();
+        }
     }
+   /**
+   * Remove the value for Sector property
+   */
 
     public void removeSector()
     {
         getSemanticObject().removeProperty(lodp_sector);
     }
 
-/**
-* Gets the Sector property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getSector()
+   /**
+   * Gets the Sector
+   * @return a com.infotec.lodp.swb.Sector
+   */
+    public com.infotec.lodp.swb.Sector getSector()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_sector);
+         com.infotec.lodp.swb.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_sector);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Sector)obj.createGenericInstance();
+         }
          return ret;
     }
 
