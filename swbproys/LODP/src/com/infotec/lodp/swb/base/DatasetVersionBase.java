@@ -8,7 +8,7 @@ public abstract class DatasetVersionBase extends org.semanticwb.model.base.Gener
    * Validacion del sistema de si es correcto el archivo
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_validated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#validated");
-    public static final org.semanticwb.platform.SemanticClass lodp_Publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Publisher");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Publisher");
     public static final org.semanticwb.platform.SemanticProperty lodp_verPublisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#verPublisher");
    /**
    * URL directa (generada automáticamente)
@@ -97,6 +97,29 @@ public abstract class DatasetVersionBase extends org.semanticwb.model.base.Gener
         public static boolean hasDatasetVersion(String id, org.semanticwb.model.SWBModel model)
         {
             return (getDatasetVersion(id, model)!=null);
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetVersion with a determined VerPublisher
+       * @param value VerPublisher of the type com.infotec.lodp.swb.Publisher
+       * @param model Model of the com.infotec.lodp.swb.DatasetVersion
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetVersion
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetVersion> listDatasetVersionByVerPublisher(com.infotec.lodp.swb.Publisher value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetVersion> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_verPublisher, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.DatasetVersion with a determined VerPublisher
+       * @param value VerPublisher of the type com.infotec.lodp.swb.Publisher
+       * @return Iterator with all the com.infotec.lodp.swb.DatasetVersion
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.DatasetVersion> listDatasetVersionByVerPublisher(com.infotec.lodp.swb.Publisher value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.DatasetVersion> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_verPublisher,value.getSemanticObject(),sclass));
+            return it;
         }
        /**
        * Gets all com.infotec.lodp.swb.DatasetVersion with a determined NextVersion
@@ -195,25 +218,42 @@ public abstract class DatasetVersionBase extends org.semanticwb.model.base.Gener
     {
         getSemanticObject().setBooleanProperty(lodp_validated, value);
     }
+   /**
+   * Sets the value for the property VerPublisher
+   * @param value VerPublisher to set
+   */
 
-    public void setVerPublisher(org.semanticwb.platform.SemanticObject value)
+    public void setVerPublisher(com.infotec.lodp.swb.Publisher value)
     {
-        getSemanticObject().setObjectProperty(lodp_verPublisher, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_verPublisher, value.getSemanticObject());
+        }else
+        {
+            removeVerPublisher();
+        }
     }
+   /**
+   * Remove the value for VerPublisher property
+   */
 
     public void removeVerPublisher()
     {
         getSemanticObject().removeProperty(lodp_verPublisher);
     }
 
-/**
-* Gets the VerPublisher property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getVerPublisher()
+   /**
+   * Gets the VerPublisher
+   * @return a com.infotec.lodp.swb.Publisher
+   */
+    public com.infotec.lodp.swb.Publisher getVerPublisher()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_verPublisher);
+         com.infotec.lodp.swb.Publisher ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_verPublisher);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Publisher)obj.createGenericInstance();
+         }
          return ret;
     }
 

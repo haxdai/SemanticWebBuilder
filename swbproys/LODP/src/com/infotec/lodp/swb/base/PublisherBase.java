@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Expirable,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.CalendarRefable
+public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Expirable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable
 {
     public static final org.semanticwb.platform.SemanticProperty lodp_pubPosition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubPosition");
    /**
