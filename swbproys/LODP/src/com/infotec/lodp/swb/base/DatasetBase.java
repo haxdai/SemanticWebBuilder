@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Commentable
+public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Commentable
 {
    /**
    * URL al dataset (endpoint)
@@ -27,6 +27,8 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     public static final org.semanticwb.platform.SemanticProperty lodp_institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#institution");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetView=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetView");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetUpdated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetUpdated");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Sector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Sector");
+    public static final org.semanticwb.platform.SemanticProperty lodpcg_datasetSector=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/lodpCodeGen#datasetSector");
     public static final org.semanticwb.platform.SemanticProperty lodp_datasetDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#datasetDescription");
     public static final org.semanticwb.platform.SemanticClass lodpcg_Dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Dataset");
    /**
@@ -239,6 +241,29 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
         public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByInstitution(com.infotec.lodp.swb.Institution value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_institution,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined DatasetSector
+       * @param value DatasetSector of the type com.infotec.lodp.swb.Sector
+       * @param model Model of the com.infotec.lodp.swb.Dataset
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByDatasetSector(com.infotec.lodp.swb.Sector value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodpcg_datasetSector, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Dataset with a determined DatasetSector
+       * @param value DatasetSector of the type com.infotec.lodp.swb.Sector
+       * @return Iterator with all the com.infotec.lodp.swb.Dataset
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Dataset> listDatasetByDatasetSector(com.infotec.lodp.swb.Sector value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Dataset> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodpcg_datasetSector,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -817,6 +842,44 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
     public void setDatasetUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(lodp_datasetUpdated, value);
+    }
+   /**
+   * Sets the value for the property DatasetSector
+   * @param value DatasetSector to set
+   */
+
+    public void setDatasetSector(com.infotec.lodp.swb.Sector value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodpcg_datasetSector, value.getSemanticObject());
+        }else
+        {
+            removeDatasetSector();
+        }
+    }
+   /**
+   * Remove the value for DatasetSector property
+   */
+
+    public void removeDatasetSector()
+    {
+        getSemanticObject().removeProperty(lodpcg_datasetSector);
+    }
+
+   /**
+   * Gets the DatasetSector
+   * @return a com.infotec.lodp.swb.Sector
+   */
+    public com.infotec.lodp.swb.Sector getDatasetSector()
+    {
+         com.infotec.lodp.swb.Sector ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodpcg_datasetSector);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Sector)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
