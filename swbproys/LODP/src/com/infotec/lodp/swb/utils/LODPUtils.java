@@ -34,6 +34,7 @@ public class LODPUtils {
             ret = Boolean.TRUE;
         } catch (Exception e) {
             log.error("Error al generar el log del DataSet",e);
+            ret = Boolean.FALSE;
         }
         
         return ret;
