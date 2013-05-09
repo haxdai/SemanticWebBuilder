@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable
+public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Commentable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_ApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#ApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasApplicationType");

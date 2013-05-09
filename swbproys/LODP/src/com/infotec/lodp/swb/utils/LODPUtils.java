@@ -6,7 +6,9 @@ package com.infotec.lodp.swb.utils;
 
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
+import com.infotec.lodp.swb.Tag;
 import java.util.Date;
+import java.util.Iterator;
 
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
@@ -147,6 +149,21 @@ public class LODPUtils {
             ret = Boolean.FALSE;
         }
         return ret;
+    }
+    
+    public static final String getDSTagList(Dataset ds){
+        StringBuilder ret = new StringBuilder("");
+        if(null!=ds && ds.listTags().hasNext()){
+            Iterator<Tag> ittag = ds.listTags();
+            while (ittag.hasNext()) {
+                Tag tag = ittag.next();
+                ret.append(tag.getTagName()!=null?tag.getTagName().trim():"");
+                if(ittag.hasNext()){
+                    ret.append(" ");
+                }
+            }
+        }
+        return ret.toString();
     }
     
 }
