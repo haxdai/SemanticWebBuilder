@@ -43,6 +43,7 @@ public class DataSetResource extends GenericAdmResource {
 
         String basePath = "/work/models/" + paramsRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "view.jsp";
+        //System.out.println("basePath:"+path);
         if (request != null) {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             if (null != dis) {
