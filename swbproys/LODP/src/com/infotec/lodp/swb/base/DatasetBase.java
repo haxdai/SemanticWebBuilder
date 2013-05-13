@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Commentable
+public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Hitable
 {
    /**
    * URL al dataset (endpoint)

@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Expirable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Activeable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Traceable,org.semanticwb.model.CalendarRefable
+public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupable
 {
     public static final org.semanticwb.platform.SemanticProperty lodp_pubPosition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubPosition");
    /**
@@ -52,6 +52,12 @@ public abstract class PublisherBase extends org.semanticwb.model.User implements
         {
             java.util.Iterator it=sclass.listInstances();
             return new org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Publisher>(it, true);
+        }
+
+        public static com.infotec.lodp.swb.Publisher createPublisher(org.semanticwb.model.SWBModel model)
+        {
+            long id=model.getSemanticObject().getModel().getCounter(sclass);
+            return com.infotec.lodp.swb.Publisher.ClassMgr.createPublisher(String.valueOf(id), model);
         }
        /**
        * Gets a com.infotec.lodp.swb.Publisher
