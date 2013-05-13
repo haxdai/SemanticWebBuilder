@@ -6,7 +6,10 @@ package com.infotec.lodp.swb.resources;
 
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
+import com.infotec.lodp.swb.DatasetVersion;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
@@ -15,8 +18,18 @@ import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBContext;
+import org.semanticwb.model.User;
+import org.semanticwb.model.VersionInfo;
+import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -29,6 +42,13 @@ import org.semanticwb.portal.api.SWBResourceException;
 public class DataSetResource extends GenericAdmResource {
 
     public static final Logger log = SWBUtils.getLogger(DataSetResource.class);
+    public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
+    public static final String KML_MIME_TYPE = "application/octet-stream";
+    public static final String CSV_MIME_TYPE = "application/octet-stream";
+    public static final String RDF_MIME_TYPE = "application/rdf+xml";
+    public static final String JSON_MIME_TYPE = "application/json";
+    public static final String META_FORMAT_RDF = "rdf";
+    public static final String META_FORMAT_JSON = "json";
     public static final String FILTER_SECTOR = "sector";
     public static final String FILTER_INSTITUTION = "institution";
     public static final String FILTER_TOPIC = "topic";
@@ -58,27 +78,135 @@ public class DataSetResource extends GenericAdmResource {
         }
     }
 
+    public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        String action = request.getParameter("meta");
+        String metaformat = request.getParameter("mformat");
+        String dsuri = request.getParameter("suri");
+
+        if (null == action) {
+            action = "";
+        }
+        if (null != metaformat) {
+            metaformat = META_FORMAT_RDF;
+        }
+
+        User user = paramRequest.getUser();
+        String fid = request.getParameter("fid");
+        String verNumber = request.getParameter("verNum");
+
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+        SemanticObject obj = null;
+        GenericObject gobj = null;
+
+        if ("meta".equals(action)) {
+            
+            obj = ont.getSemanticObject(dsuri);
+            if(obj!=null && obj.createGenericInstance() instanceof Dataset){
+                Dataset ds = (Dataset)obj.createGenericInstance() ;
+                String dsname = ds.getDatasetTitle();
+                dsname=SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
+                if (META_FORMAT_RDF.equals(metaformat)) {
+                    //Se crea RDF con meta del Dataset
+                    response.setContentType("Content-Type: application/rdf+xml");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".rdf\";");
+
+                    
+                } else if (META_FORMAT_JSON.equals(metaformat)) {
+                    //Se crea JSON con meta del Dataset
+
+                    response.setContentType("Content-Type: application/json");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".json\";");
+                    try {
+                        JSONObject json = new JSONObject();
+                        JSONArray results=new JSONArray();
+                        json.putOpt("results", results);
+                    //{ results: [	{ id: "1", value: "Foobar", info: "Cheshire" },
+                    //	{ id: "2", value: "Foobarfly", info: "Shropshire" },
+                    //	{ id: "3", value: "Foobarnacle", info: "Essex" }] }
+                    } catch (Exception e) {
+                    }
+                    
+                    
+                    
+                } else {
+                    //format not supported
+                    
+                }
+            }
+        } else if ("file".equals(action)) {
+
+
+            int intVer = 1;
+            if (verNumber != null) {
+                intVer = Integer.parseInt(verNumber);
+            }
+
+
+            if (null != fid) {
+                obj = ont.getSemanticObject(fid);
+            }
+            if (obj != null) {
+                gobj = obj.createGenericInstance();
+            }
+
+            Dataset doc = null;
+            if (gobj instanceof Dataset) {
+                doc = (Dataset) gobj;
+            }
+
+            if (doc != null) {
+
+
+                DatasetVersion ver = null;
+                DatasetVersion vl = doc.getLastVersion();
+                if (null != vl) {
+                    ver = vl;
+                    while (ver.getPreviousVersion() != null) { //
+                        if (ver.getVersion() == intVer) {
+                            break;
+                        }
+                        ver = ver.getPreviousVersion();
+                    }
+                }
+                try {
+                    response.setContentType(DEFAULT_MIME_TYPE);
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath()+ "\";");
+
+                    OutputStream out = response.getOutputStream();
+                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+                } catch (Exception e) {
+                    log.error("Error al obtener el archivo del Repositorio de documentos.", e);
+                }
+            }
+        }
+    }
+
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         super.processAction(request, response); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
-     *  Ordena el dataset por orderby
-     * @param it  Iterador con Dataset
+     * Ordena el dataset por orderby
+     *
+     * @param it Iterador con Dataset
      * @param orderby tipo de ordenamiento
-     * @return  Iterador de dataset ordenado 
+     * @return Iterador de dataset ordenado
      */
     public static Iterator<Dataset> orderDS(Iterator<Dataset> it, String orderby) {
 
         Set set = null;
-        if (null!=orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
+        if (null != orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
             set = sortByCreated(it, false);
-        } else if (null!=orderby && DataSetResource.ORDER_DOWNLOAD.equals(orderby)) {
+        } else if (null != orderby && DataSetResource.ORDER_DOWNLOAD.equals(orderby)) {
             set = sortByDownloads(it, false);
-        } else if (null!=orderby && DataSetResource.ORDER_VIEW.equals(orderby)) {
+        } else if (null != orderby && DataSetResource.ORDER_VIEW.equals(orderby)) {
             set = sortByViews(it, false);
-        } else if (null!=orderby && DataSetResource.ORDER_RANK.equals(orderby)) {
+        } else if (null != orderby && DataSetResource.ORDER_RANK.equals(orderby)) {
             set = sortByRank(it, false);
         } else {
             set = new TreeSet();
@@ -197,8 +325,8 @@ public class DataSetResource extends GenericAdmResource {
 
         return set;
     }
-    
-     /**
+
+    /**
      * Sort by views.
      *
      * @param it the it
@@ -240,8 +368,8 @@ public class DataSetResource extends GenericAdmResource {
 
         return set;
     }
-    
-     /**
+
+    /**
      * Sort by rank.
      *
      * @param it the it
