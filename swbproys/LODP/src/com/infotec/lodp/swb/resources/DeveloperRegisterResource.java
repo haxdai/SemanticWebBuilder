@@ -8,9 +8,7 @@ package com.infotec.lodp.swb.resources;
 import com.infotec.lodp.swb.Developer;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,7 +34,7 @@ import javax.mail.internet.InternetAddress;
  * @author rene.jara
  */
 public class DeveloperRegisterResource extends GenericAdmResource {
-    public static final Logger log = SWBUtils.getLogger(DataSetResource.class);
+    public static final Logger log = SWBUtils.getLogger(DeveloperRegisterResource.class);
     /** Clave para el cifrador del URL que se envia por correo  */
     private static String PassPhrase="f:,+#u4w=EkJ0R[";
     /** Accion personalizada para editar la administraciono     */
@@ -87,8 +85,10 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
                     msg.append("Un correo electrónico válido es requerido, ");
                 }
-                if( pwd==null || pwd.isEmpty() || login.equals(pwd) ) {
+                if( pwd==null || pwd.isEmpty()) {
                     msg.append("La contraseña es requerida, ");
+                }else if(login.equals(pwd)){
+                    msg.append("La contraseña no puede ser igual al login, ");
                 }
                 if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
                     msg.append("El texto de la imagen es requerido, ");
@@ -104,8 +104,8 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                     try {
                         User swbUser = ur.createUser();
 //                        Developer  dev=(Developer)swbUser;
-                        User dev=swbUser;
-//                        Developer dev=Developer.ClassMgr.createDeveloper(ur);
+//                        User dev=swbUser;
+                        Developer dev=Developer.ClassMgr.createDeveloper(ur);
                                 
 
 
@@ -178,6 +178,7 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                     response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                     response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                     response.setRenderParameter("email", email);
+                    response.setRenderParameter("login", login);
                     response.setRenderParameter("msg", msg.toString());
                     response.setMode(response.Mode_VIEW);
                 }
@@ -186,14 +187,14 @@ public class DeveloperRegisterResource extends GenericAdmResource {
             String code= request.getParameter("id");
             try {
                 String decCode = new String(SWBUtils.CryptoWrapper.PBEAES128Decipher(PassPhrase, SFBase64.decode(code)));
-                User usrAct = ur.getUser(decCode);
-//                setAspirante(usrAct);
-
+//                User usrAct = ur.getUser(decCode);
+                Developer usrAct=Developer.ClassMgr.getDeveloper(decCode,ur);
                 usrAct.setActive(true);
                 response.setMode(Mode_FINAL);
             }catch(Exception ne) {
                 ne.printStackTrace(System.out);
                 log.error(ne);
+                response.setRenderParameter("msg","No se pudo activar la cuenta");
             }
         }else if(Action_ADMEDIT.equals(action)) {
 //            String editaccess = request.getParameter("editar");
