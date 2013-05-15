@@ -4,6 +4,7 @@
  */
 package com.infotec.lodp.swb.utils;
 
+import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
 import com.infotec.lodp.swb.Tag;
@@ -146,6 +147,70 @@ public class LODPUtils {
             ret = Boolean.TRUE;
         } catch (Exception e) {
             log.error("Error al actualizar la información de valoración del DataSet",e);
+            ret = Boolean.FALSE;
+        }
+        return ret;
+    }
+    
+    /**
+     *  Update application evaluated information 
+     * @param app application to modify evaluated information
+     * @param value,  value of evaluated application
+     * @return 
+     */
+    public static boolean updateAppRank(Application app, float value){
+        boolean ret = Boolean.FALSE;  
+        try {
+            //Date now = new Date(System.currentTimeMillis());
+            //ds.setLastDownload(now);
+            float average = value;
+            long ranks = 0;
+            try {
+                ranks = app.getRanks();
+                
+                if(ranks>0){
+                    float promedio = app.getAverage();
+                    average = (promedio * ranks)/(ranks+1);
+                    app.setAverage(promedio);
+                }  else if(ranks==0){
+                    app.setAverage(average);
+                }
+                ranks++;
+                app.setRanks(ranks);
+            } catch (Exception e) {
+                ranks=0;
+            }
+            app.setRanks(ranks);
+            ret = Boolean.TRUE;
+        } catch (Exception e) {
+            log.error("Error al actualizar la información de valoración del Aplicacion",e);
+            ret = Boolean.FALSE;
+        }
+        return ret;
+    }
+    
+        /**
+     * Updates application views information and last view date
+     * @param app application to modify views information
+     * @return true or false
+     */
+    public static boolean updateAppViews(Application app){
+        boolean ret = Boolean.FALSE;  
+        try {
+            Date now = new Date(System.currentTimeMillis());
+            app.setLastView(now);
+           
+            long views = 0;
+            try {
+                views = app.getViews();
+                views++;
+            } catch (Exception e) {
+                views=1;
+            }
+            app.setViews(views);
+            ret = Boolean.TRUE;
+        } catch (Exception e) {
+            log.error("Error al actualizar la información de vistas de la Aplicacion",e);
             ret = Boolean.FALSE;
         }
         return ret;
