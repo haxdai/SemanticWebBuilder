@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupable
+public abstract class PublisherBase extends org.semanticwb.model.User implements org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Referensable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty lodp_pubPosition=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubPosition");
    /**
@@ -21,7 +21,7 @@ public abstract class PublisherBase extends org.semanticwb.model.User implements
    */
     public static final org.semanticwb.platform.SemanticProperty lodp_pubDirGral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubDirGral");
     public static final org.semanticwb.platform.SemanticProperty lodp_pubPhone=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubPhone");
-    public static final org.semanticwb.platform.SemanticClass lodp_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#Institution");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Institution");
     public static final org.semanticwb.platform.SemanticProperty lodp_pubInstitution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubInstitution");
     public static final org.semanticwb.platform.SemanticProperty lodp_pubRFC=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#pubRFC");
     public static final org.semanticwb.platform.SemanticClass lodpcg_Publisher=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Publisher");
@@ -238,6 +238,29 @@ public abstract class PublisherBase extends org.semanticwb.model.User implements
             return it;
         }
        /**
+       * Gets all com.infotec.lodp.swb.Publisher with a determined PubInstitution
+       * @param value PubInstitution of the type com.infotec.lodp.swb.Institution
+       * @param model Model of the com.infotec.lodp.swb.Publisher
+       * @return Iterator with all the com.infotec.lodp.swb.Publisher
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Publisher> listPublisherByPubInstitution(com.infotec.lodp.swb.Institution value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Publisher> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_pubInstitution, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Publisher with a determined PubInstitution
+       * @param value PubInstitution of the type com.infotec.lodp.swb.Institution
+       * @return Iterator with all the com.infotec.lodp.swb.Publisher
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Publisher> listPublisherByPubInstitution(com.infotec.lodp.swb.Institution value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Publisher> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_pubInstitution,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.lodp.swb.Publisher with a determined CalendarRef
        * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
        * @param model Model of the com.infotec.lodp.swb.Publisher
@@ -401,25 +424,42 @@ public abstract class PublisherBase extends org.semanticwb.model.User implements
     {
         getSemanticObject().setProperty(lodp_pubPhone, value);
     }
+   /**
+   * Sets the value for the property PubInstitution
+   * @param value PubInstitution to set
+   */
 
-    public void setPubInstitution(org.semanticwb.platform.SemanticObject value)
+    public void setPubInstitution(com.infotec.lodp.swb.Institution value)
     {
-        getSemanticObject().setObjectProperty(lodp_pubInstitution, value);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_pubInstitution, value.getSemanticObject());
+        }else
+        {
+            removePubInstitution();
+        }
     }
+   /**
+   * Remove the value for PubInstitution property
+   */
 
     public void removePubInstitution()
     {
         getSemanticObject().removeProperty(lodp_pubInstitution);
     }
 
-/**
-* Gets the PubInstitution property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getPubInstitution()
+   /**
+   * Gets the PubInstitution
+   * @return a com.infotec.lodp.swb.Institution
+   */
+    public com.infotec.lodp.swb.Institution getPubInstitution()
     {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(lodp_pubInstitution);
+         com.infotec.lodp.swb.Institution ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_pubInstitution);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Institution)obj.createGenericInstance();
+         }
          return ret;
     }
 
