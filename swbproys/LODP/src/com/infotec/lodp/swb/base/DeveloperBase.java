@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class DeveloperBase extends org.semanticwb.model.User implements org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Expirable,org.semanticwb.model.UserGroupable
+public abstract class DeveloperBase extends org.semanticwb.model.User implements org.semanticwb.model.Expirable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Referensable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_Developer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Developer");
    /**

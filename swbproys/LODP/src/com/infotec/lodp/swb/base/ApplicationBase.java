@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable
+public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Hitable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_ApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#ApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasApplicationType");
@@ -232,6 +232,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     {
         super(base);
     }
+
+/**
+* Gets the LastDownload property
+* @return java.util.Date with the LastDownload
+*/
+    public java.util.Date getLastDownload()
+    {
+        return getSemanticObject().getDateProperty(lodp_lastDownload);
+    }
+
+/**
+* Sets the LastDownload property
+* @param value long with the LastDownload
+*/
+    public void setLastDownload(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(lodp_lastDownload, value);
+    }
    /**
    * Gets all the com.infotec.lodp.swb.ApplicationType
    * @return A GenericIterator with all the com.infotec.lodp.swb.ApplicationType
@@ -448,6 +466,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
          ret=getSemanticObject().getObjectProperty(lodp_appAuthor);
          return ret;
     }
+
+/**
+* Gets the Downloads property
+* @return long with the Downloads
+*/
+    public long getDownloads()
+    {
+        return getSemanticObject().getLongProperty(lodp_downloads);
+    }
+
+/**
+* Sets the Downloads property
+* @param value long with the Downloads
+*/
+    public void setDownloads(long value)
+    {
+        getSemanticObject().setLongProperty(lodp_downloads, value);
+    }
    /**
    * Gets all the com.infotec.lodp.swb.Category
    * @return A GenericIterator with all the com.infotec.lodp.swb.Category
@@ -531,6 +567,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     {
         getSemanticObject().setProperty(lodp_appTitle, value);
     }
+
+/**
+* Gets the Views property
+* @return long with the Views
+*/
+    public long getViews()
+    {
+        return getSemanticObject().getLongProperty(lodp_views);
+    }
+
+/**
+* Sets the Views property
+* @param value long with the Views
+*/
+    public void setViews(long value)
+    {
+        getSemanticObject().setLongProperty(lodp_views, value);
+    }
    /**
    * Gets all the com.infotec.lodp.swb.Comment
    * @return A GenericIterator with all the com.infotec.lodp.swb.Comment
@@ -595,6 +649,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
              ret=(com.infotec.lodp.swb.Comment)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the LastView property
+* @return java.util.Date with the LastView
+*/
+    public java.util.Date getLastView()
+    {
+        return getSemanticObject().getDateProperty(lodp_lastView);
+    }
+
+/**
+* Sets the LastView property
+* @param value long with the LastView
+*/
+    public void setLastView(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(lodp_lastView, value);
     }
    /**
    * Gets all the com.infotec.lodp.swb.Dataset

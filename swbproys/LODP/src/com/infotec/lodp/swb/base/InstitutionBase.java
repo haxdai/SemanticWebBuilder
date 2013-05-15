@@ -216,6 +216,23 @@ public abstract class InstitutionBase extends org.semanticwb.model.base.GenericO
         getSemanticObject().setBooleanProperty(swb_valid, value,false);
     }
 
+    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listPublishers()
+    {
+        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(lodp_hasPublisher.getRDFProperty());
+        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
+    }
+
+/**
+* Gets the Publisher property
+* @return the value for the property as org.semanticwb.platform.SemanticObject
+*/
+    public org.semanticwb.platform.SemanticObject getPublisher()
+    {
+         org.semanticwb.platform.SemanticObject ret=null;
+         ret=getSemanticObject().getObjectProperty(lodp_hasPublisher);
+         return ret;
+    }
+
 /**
 * Gets the InstitutionDescription property
 * @return String with the InstitutionDescription
