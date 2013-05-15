@@ -4,9 +4,13 @@
  */
 package com.infotec.lodp.swb.resources;
 
+import com.hp.hpl.jena.rdf.model.Model;
+import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetVersion;
+import com.infotec.lodp.swb.utils.LODPUtils;
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -30,6 +34,7 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.VersionInfo;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
+import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -56,6 +61,7 @@ public class DataSetResource extends GenericAdmResource {
     public static final String ORDER_VIEW = "view";
     public static final String ORDER_DOWNLOAD = "hit";
     public static final String ORDER_RANK = "rank";
+    public static final String MODE_FILE = "file";
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -83,7 +89,7 @@ public class DataSetResource extends GenericAdmResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-        String action = request.getParameter("meta");
+        String action = request.getParameter("act");
         String metaformat = request.getParameter("mformat");
         String dsuri = request.getParameter("suri");
 
@@ -103,18 +109,34 @@ public class DataSetResource extends GenericAdmResource {
         GenericObject gobj = null;
 
         if ("meta".equals(action)) {
-            
+
             obj = ont.getSemanticObject(dsuri);
-            if(obj!=null && obj.createGenericInstance() instanceof Dataset){
-                Dataset ds = (Dataset)obj.createGenericInstance() ;
+            if (obj != null && obj.createGenericInstance() instanceof Dataset) {
+                Dataset ds = (Dataset) obj.createGenericInstance();
+                boolean dowloaded = LODPUtils.updateDSDownload(ds);
+                
                 String dsname = ds.getDatasetTitle();
-                dsname=SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
+                dsname = SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
                 if (META_FORMAT_RDF.equals(metaformat)) {
                     //Se crea RDF con meta del Dataset
-                    response.setContentType("Content-Type: application/rdf+xml");
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".rdf\";");
+                    try {
+                        ByteArrayOutputStream bout = new ByteArrayOutputStream();
 
-                    
+                        Model model = ModelFactory.createDefaultModel();
+                        model.add(obj.getRDFResource().listProperties());
+                        // "RDF/XML", "RDF/XML-ABBREV", "N-TRIPLE" and "N3"
+                        model.write(bout, "RDF/XML");
+
+                        String txt = bout.toString("UTF8");
+                        OutputStream out = response.getOutputStream();
+                        SWBUtils.IO.copyStream(SWBUtils.IO.getStreamFromString(txt), out);
+                    } catch (Exception e) {
+                        log.error("Error al exportar el Dataset a RDF", e);
+                    }
+                    //SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+
+
                 } else if (META_FORMAT_JSON.equals(metaformat)) {
                     //Se crea JSON con meta del Dataset
 
@@ -122,19 +144,24 @@ public class DataSetResource extends GenericAdmResource {
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".json\";");
                     try {
                         JSONObject json = new JSONObject();
-                        JSONArray results=new JSONArray();
-                        json.putOpt("results", results);
-                    //{ results: [	{ id: "1", value: "Foobar", info: "Cheshire" },
-                    //	{ id: "2", value: "Foobarfly", info: "Shropshire" },
-                    //	{ id: "3", value: "Foobarnacle", info: "Essex" }] }
+                        JSONArray results = new JSONArray();
+                        json.putOpt("dataset", results);
+                        //{ results: [	{ id: "1", value: "Foobar", info: "Cheshire" },
+                        //	{ id: "2", value: "Foobarfly", info: "Shropshire" },
+                        //	{ id: "3", value: "Foobarnacle", info: "Essex" }] }
+                        Iterator<SemanticProperty> itsemprop = ds.getSemanticObject().listProperties();
+                        while (itsemprop.hasNext()) {
+                            SemanticProperty semprop = itsemprop.next();
+                            
+                        }
                     } catch (Exception e) {
+                        log.error("Error al exportar el Dataset a JSON", e);
                     }
-                    
-                    
-                    
+
+
+
                 } else {
                     //format not supported
-                    
                 }
             }
         } else if ("file".equals(action)) {
@@ -174,7 +201,7 @@ public class DataSetResource extends GenericAdmResource {
                 }
                 try {
                     response.setContentType(DEFAULT_MIME_TYPE);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath()+ "\";");
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
 
                     OutputStream out = response.getOutputStream();
                     SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
@@ -182,6 +209,15 @@ public class DataSetResource extends GenericAdmResource {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }
             }
+        }
+    }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        if(paramRequest.getMode().equals(MODE_FILE)){
+            doGetFile(request, response, paramRequest);
+        } else {
+        super.processRequest(request, response, paramRequest); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
@@ -199,6 +235,7 @@ public class DataSetResource extends GenericAdmResource {
      */
     public static Iterator<Dataset> orderDS(Iterator<Dataset> it, String orderby) {
 
+        System.out.println("Ordenamiento...");
         Set set = null;
         if (null != orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
             set = sortByCreated(it, false);
