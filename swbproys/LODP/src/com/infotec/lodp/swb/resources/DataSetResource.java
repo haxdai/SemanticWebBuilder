@@ -62,6 +62,7 @@ public class DataSetResource extends GenericAdmResource {
     public static final String ORDER_DOWNLOAD = "hit";
     public static final String ORDER_RANK = "rank";
     public static final String MODE_FILE = "file";
+    
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -96,7 +97,7 @@ public class DataSetResource extends GenericAdmResource {
         if (null == action) {
             action = "";
         }
-        if (null != metaformat) {
+        if (null == metaformat) {
             metaformat = META_FORMAT_RDF;
         }
 
@@ -110,11 +111,13 @@ public class DataSetResource extends GenericAdmResource {
 
         if ("meta".equals(action)) {
 
+            System.out.println("Entro a meta");
             obj = ont.getSemanticObject(dsuri);
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
-                boolean dowloaded = LODPUtils.updateDSDownload(ds);
                 
+                System.out.println("Recibe DataSET");
+                System.out.println("Formato a generar:"+metaformat);
                 String dsname = ds.getDatasetTitle();
                 dsname = SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
                 if (META_FORMAT_RDF.equals(metaformat)) {
@@ -139,79 +142,92 @@ public class DataSetResource extends GenericAdmResource {
 
                 } else if (META_FORMAT_JSON.equals(metaformat)) {
                     //Se crea JSON con meta del Dataset
-
-                    response.setContentType("Content-Type: application/json");
+                    System.out.println("JSON File");
+                    //response.setContentType("Content-Type: text/javascript");
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".json\";");
                     try {
-                        JSONObject json = new JSONObject();
-                        JSONArray results = new JSONArray();
-                        json.putOpt("dataset", results);
-                        //{ results: [	{ id: "1", value: "Foobar", info: "Cheshire" },
-                        //	{ id: "2", value: "Foobarfly", info: "Shropshire" },
-                        //	{ id: "3", value: "Foobarnacle", info: "Essex" }] }
+                        JSONObject json = new JSONObject();                      
                         Iterator<SemanticProperty> itsemprop = ds.getSemanticObject().listProperties();
                         while (itsemprop.hasNext()) {
                             SemanticProperty semprop = itsemprop.next();
-                            
+                            //if(ds.getSemanticObject().getProperty(semprop)!=null){
+                                json.put(semprop.getName(),getValueSemProp(ds.getSemanticObject(),semprop));
+                           // }
                         }
+                        String txt = json.toString(); 
+                         OutputStream out = response.getOutputStream();
+                        SWBUtils.IO.copyStream(SWBUtils.IO.getStreamFromString(txt), out);
                     } catch (Exception e) {
                         log.error("Error al exportar el Dataset a JSON", e);
                     }
-
-
-
                 } else {
                     //format not supported
+                    String retmsg = "Formato no soportado...";
                 }
             }
         } else if ("file".equals(action)) {
 
+            
+            obj = ont.getSemanticObject(dsuri);
+            if (obj != null && obj.createGenericInstance() instanceof Dataset) {
 
-            int intVer = 1;
-            if (verNumber != null) {
-                intVer = Integer.parseInt(verNumber);
-            }
+            Dataset ds = (Dataset) obj.createGenericInstance();
+            
+            if (ds != null) {
 
+                //actualizo el numero de descragas del dataset
+                boolean dowloaded = LODPUtils.updateDSDownload(ds);
 
-            if (null != fid) {
-                obj = ont.getSemanticObject(fid);
-            }
-            if (obj != null) {
-                gobj = obj.createGenericInstance();
-            }
-
-            Dataset doc = null;
-            if (gobj instanceof Dataset) {
-                doc = (Dataset) gobj;
-            }
-
-            if (doc != null) {
-
-
-                DatasetVersion ver = null;
-                DatasetVersion vl = doc.getLastVersion();
-                if (null != vl) {
-                    ver = vl;
-                    while (ver.getPreviousVersion() != null) { //
-                        if (ver.getVersion() == intVer) {
-                            break;
-                        }
-                        ver = ver.getPreviousVersion();
-                    }
-                }
+                DatasetVersion ver = ds.getActualVersion();               
+                
                 try {
                     response.setContentType(DEFAULT_MIME_TYPE);
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
 
                     OutputStream out = response.getOutputStream();
-                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + ds.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
                 } catch (Exception e) {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }
             }
         }
+        }
     }
 
+     /**
+     * Gets the value sem prop.
+     * 
+     * @param obj the obj
+     * @param prop the prop
+     * @return the value sem prop
+     * @return
+     */
+    public String getValueSemProp(SemanticObject obj, SemanticProperty prop) {
+        String ret = "";
+        try {
+            if (prop.isDataTypeProperty()) {
+                log.debug("getValueSemProp(" + prop.getName() + ")" + obj.getProperty(prop));
+                if (prop.isBoolean()) {
+                    ret = "" + obj.getBooleanProperty(prop);
+                }
+                if (prop.isInt() || prop.isFloat()) {
+                    ret = "" + obj.getLongProperty(prop);
+                }
+                if (prop.isString()) {
+                    ret = obj.getProperty(prop);
+                }
+                if (prop.isDateTime()) {
+                    ret = "" + obj.getDateProperty(prop);
+                }
+            } else if (prop.isObjectProperty()) {
+                ret = obj.getObjectProperty(prop).getURI();
+            }
+        } catch (Exception e) {
+            ret = "Not set";
+        }
+        return ret;
+    }
+    
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         if(paramRequest.getMode().equals(MODE_FILE)){

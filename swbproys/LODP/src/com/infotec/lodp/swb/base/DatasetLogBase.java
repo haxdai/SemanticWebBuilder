@@ -3,6 +3,7 @@ package com.infotec.lodp.swb.base;
 
 public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericObjectBase 
 {
+    public static final org.semanticwb.platform.SemanticProperty lodp_logCreated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logCreated");
    /**
    * Indica si el elemento es válido
    */
@@ -21,7 +22,7 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
     public static final org.semanticwb.platform.SemanticProperty lodp_logDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logDescription");
     public static final org.semanticwb.platform.SemanticClass lodpcg_Dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Dataset");
     public static final org.semanticwb.platform.SemanticProperty lodp_dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#dataset");
-    public static final org.semanticwb.platform.SemanticProperty lodp_logCreated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#logCreated");
+    public static final org.semanticwb.platform.SemanticProperty lodpcg_logType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/lodpCodeGen#logType");
     public static final org.semanticwb.platform.SemanticClass lodpcg_DatasetLog=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#DatasetLog");
    /**
    * The semantic class that represents the currentObject
@@ -160,6 +161,24 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
     }
 
 /**
+* Gets the LogCreated property
+* @return java.util.Date with the LogCreated
+*/
+    public java.util.Date getLogCreated()
+    {
+        return getSemanticObject().getDateProperty(lodp_logCreated);
+    }
+
+/**
+* Sets the LogCreated property
+* @param value long with the LogCreated
+*/
+    public void setLogCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(lodp_logCreated, value);
+    }
+
+/**
 * Gets the Valid property
 * @return boolean with the Valid
 */
@@ -274,21 +293,21 @@ public abstract class DatasetLogBase extends org.semanticwb.model.base.GenericOb
     }
 
 /**
-* Gets the LogCreated property
-* @return java.util.Date with the LogCreated
+* Gets the LogType property
+* @return int with the LogType
 */
-    public java.util.Date getLogCreated()
+    public int getLogType()
     {
-        return getSemanticObject().getDateProperty(lodp_logCreated);
+        return getSemanticObject().getIntProperty(lodpcg_logType);
     }
 
 /**
-* Sets the LogCreated property
-* @param value long with the LogCreated
+* Sets the LogType property
+* @param value long with the LogType
 */
-    public void setLogCreated(java.util.Date value)
+    public void setLogType(int value)
     {
-        getSemanticObject().setDateProperty(lodp_logCreated, value);
+        getSemanticObject().setIntProperty(lodpcg_logType, value);
     }
 
     public void remove()
