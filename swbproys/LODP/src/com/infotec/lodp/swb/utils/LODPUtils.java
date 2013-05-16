@@ -22,11 +22,15 @@ import org.semanticwb.model.WebSite;
  */
 public class LODPUtils {
     public static final Logger log = SWBUtils.getLogger(LODPUtils.class);
+    public static final int Log_Type_View = 1;
+    public static final int Log_Type_Download = 2;
+    public static final int Log_Type_Other = 3;
     
-    /*
+    /**
+     * 
      *  Agrega Acción realizada a determinado DataSet
      */
-    public static boolean addDSLog(WebSite wsite, Dataset ds, User usr, String description){
+    public static boolean addDSLog(WebSite wsite, Dataset ds, User usr, String description, int type){
         boolean ret = Boolean.FALSE;
         
         try {
@@ -34,13 +38,13 @@ public class LODPUtils {
             dslog.setDataset(ds);
             dslog.setLogUser(usr);
             dslog.setLogDescription(description);
+            dslog.setLogType(type);
             dslog.setLogCreated(new java.util.Date(System.currentTimeMillis()));
             ret = Boolean.TRUE;
         } catch (Exception e) {
             log.error("Error al generar el log del DataSet",e);
             ret = Boolean.FALSE;
         }
-        
         return ret;
     }
     
