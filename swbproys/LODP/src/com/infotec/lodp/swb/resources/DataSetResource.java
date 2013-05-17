@@ -111,13 +111,13 @@ public class DataSetResource extends GenericAdmResource {
 
         if ("meta".equals(action)) {
 
-            System.out.println("Entro a meta");
+            //System.out.println("Entro a meta");
             obj = ont.getSemanticObject(dsuri);
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
                 
-                System.out.println("Recibe DataSET");
-                System.out.println("Formato a generar:"+metaformat);
+                //System.out.println("Recibe DataSET");
+                //System.out.println("Formato a generar:"+metaformat);
                 String dsname = ds.getDatasetTitle();
                 dsname = SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
                 if (META_FORMAT_RDF.equals(metaformat)) {
