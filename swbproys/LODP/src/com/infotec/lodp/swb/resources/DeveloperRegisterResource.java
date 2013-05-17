@@ -36,7 +36,7 @@ import javax.mail.internet.InternetAddress;
 public class DeveloperRegisterResource extends GenericAdmResource {
     public static final Logger log = SWBUtils.getLogger(DeveloperRegisterResource.class);
     /** Clave para el cifrador del URL que se envia por correo  */
-    private static String PassPhrase="f:,+#u4w=EkJ0R[";
+    private static String PassPhrase="f:,+#u4w=EkJoR[";
     /** Accion personalizada para editar la administraciono     */
     public static final String Action_ADMEDIT="aed";
     /** Accion personalizada todo OK     */
@@ -77,27 +77,27 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                 String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
                 StringBuilder msg = new StringBuilder();
                 if( request.getParameter("firstName").isEmpty() ) {
-                    msg.append("El nombre es requerido, ");
+                    msg.append(response.getLocaleString("msgErrFirstNameRequired")).append(",");
                 }
                 if( request.getParameter("lastName").isEmpty() ) {
-                    msg.append("El apellido es requerido, ");
+                    msg.append(response.getLocaleString("msgErrLastNameRequired")).append(",");
                 }
                 if( !SWBUtils.EMAIL.isValidEmailAddress(email) ) {
-                    msg.append("Un correo electrónico válido es requerido, ");
+                    msg.append(response.getLocaleString("msgErrInvalidEmail")).append(",");
                 }
                 if( pwd==null || pwd.isEmpty()) {
-                    msg.append("La contraseña es requerida, ");
+                    msg.append(response.getLocaleString("msgErrPasswordRequired")).append(",");
                 }else if(login.equals(pwd)){
-                    msg.append("La contraseña no puede ser igual al login, ");
+                    msg.append(response.getLocaleString("msgErrPasswordEquals")).append(",");
                 }
                 if(securCodeCreated!=null && !securCodeCreated.equalsIgnoreCase(securCodeSent)) {
-                    msg.append("El texto de la imagen es requerido, ");
+                    msg.append(response.getLocaleString("msgErrSecureCodeRequired")).append(",");
                 }
                 if(ur.getUserByLogin(login)!=null){
-                    msg.append("El usuario ya esta en uso, ");
+                    msg.append(response.getLocaleString("lblLoginDupl")).append(",");
                 }
                 if(ur.getUserByEmail(email)!=null){
-                    msg.append("El correo ya fue registrado, ");
+                    msg.append(response.getLocaleString("lblEmailDupl")).append(",");
                 }
                 if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && msg.length()==0 ) {
                     request.getSession(true).removeAttribute("cdlog");
@@ -194,34 +194,15 @@ public class DeveloperRegisterResource extends GenericAdmResource {
             }catch(Exception ne) {
                 ne.printStackTrace(System.out);
                 log.error(ne);
-                response.setRenderParameter("msg","No se pudo activar la cuenta");
+                response.setRenderParameter("msg",response.getLocaleString("msgErrAct"));
             }
         }else if(Action_ADMEDIT.equals(action)) {
-//            String editaccess = request.getParameter("editar");
-//            String emailAgreeMsg = request.getParameter("emailAgreeMsg");
-//            String emailBcc = request.getParameter("emailBcc");
-//            String agreement = request.getParameter("agreement");
-//            if(editaccess!=null) {
-//                base.setAttribute("editRole", editaccess);
-//            }
-            base.setAttribute("instructions", request.getParameter("instructions"));
-//            base.setAttribute("gratefulness", request.getParameter("gratefulness"));
-//            base.setAttribute("congratulations", request.getParameter("congratulations"));
-//            if (emailAgreeMsg != null) {
-//                base.setAttribute("emailAgreeMsg", emailAgreeMsg);
-//            }
-//            if (emailBcc != null) {
-//                base.setAttribute("emailBcc", emailBcc);
-//            }
-//            if (agreement != null) {
-//                base.setAttribute("agreement", agreement);
-//            }
-            
+            base.setAttribute("instructions", request.getParameter("instructions")); 
             try {
                 base.updateAttributesToDB();
                 response.setAction(Action_OK);
             } catch (Exception e) {
-                log.error("Error al guardar atributos del DeveloperRegister. ", e);
+                log.error("Error Action_ADMEDIT"+ base.getClass(), e);
             }
         }
 
@@ -282,140 +263,53 @@ public class DeveloperRegisterResource extends GenericAdmResource {
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
 
-        //String resourceUpdatedMessage = paramRequest.getLocaleString("msgRecursoActualizado");
-        //final String legend = paramRequest.getLocaleString("lblData");
-        //final String userGroupMessage = paramRequest.getLocaleString("lblRoleGroup");
-        //final String listMessage = paramRequest.getLocaleString("lblListMessage");
-        //final String saveButtonText = paramRequest.getLocaleString("lblGuardar");
-        //final String resetButtonText = paramRequest.getLocaleString("lblReset");
         String noMsg = "";
 
         String action = paramRequest.getAction();
         if(Action_OK.equals(action)) {
             out.println("<script type=\"text/javascript\">");
-            out.println("   alert('El recurso se actualizo satisfactoriamente');");
+            out.println("   alert('"+request.getParameter("instructions")+" "+base.getId()+"');");
             //out.println("   location='"+paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT).toString()+"';");
             out.println("</script>");
         }
         WebPage wpage = paramRequest.getWebPage();
         WebSite wsite = wpage.getWebSite();
 
-//        String str_role = base.getAttribute("editRole", "0");
-
         SWBResourceURL urlAction = paramRequest.getActionUrl();
         urlAction.setAction(Action_ADMEDIT);
 
         out.println("<div class=\"swbform\">");
         out.println("<form id=adm_edit_\""+base.getId()+"\" name=\"ilta_"+base.getId()+"\" action=\""+urlAction+"\" method=\"post\" >");
-        out.println("<fieldset><legend>Datos</legend>");
-/*
-        String strTemp = "<option value=\"-1\">" + "No se encontaron roles" + "</option>";
-        Iterator<Role> iRoles = wsite.getUserRepository().listRoles();
-        StringBuilder strRules = new StringBuilder();
-        String selected = "";
-        if (str_role.equals("0")) {
-            selected = " selected=\"selected\"";
-        }
-        strRules.append("\n<option value=\"0\" ");
-        strRules.append(selected);
-        strRules.append(">");
-        strRules.append(listMessage);
-        strRules.append("</option>");
-        strRules.append("\n<optgroup label=\"Roles\">");
-        while (iRoles.hasNext()) {
-            Role oRole = iRoles.next();
-            selected = "";
-            if(str_role.trim().equals(oRole.getURI())) {
-                selected = " selected=\"selected\"";
-            }
-            strRules.append("\n<option value=\"");
-            strRules.append(oRole.getURI());
-            strRules.append("\"");
-            strRules.append(selected);
-            strRules.append(">");
-            strRules.append(oRole.getDisplayTitle(user.getLanguage()));
-            strRules.append("</option>");
-        }
-        strRules.append("\n</optgroup>");
-        strRules.append("\n<optgroup label=\"User Groups\">");
-        Iterator<UserGroup> iugroups = wsite.getUserRepository().listUserGroups();
-        while (iugroups.hasNext()) {
-            UserGroup oUG = iugroups.next();
-            selected = "";
-            if (str_role.trim().equals(oUG.getURI())) {
-                selected = " selected=\"selected\"";
-            }
-            strRules.append("\n<option value=\"");
-            strRules.append(oUG.getURI());
-            strRules.append("\"");
-            strRules.append(selected);
-            strRules.append(">");
-            strRules.append(oUG.getDisplayTitle(user.getLanguage()));
-            strRules.append("</option>");
-        }
-        strRules.append("\n</optgroup>");
-        if(strRules.toString().length() > 0) {
-            strTemp = strRules.toString();
-        }
-*/
+        out.println("<fieldset><legend>"+request.getParameter("lblData")+"</legend>");
         out.println("<ul class=\"swbform-ul\">");
- /*       out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"editar\" class=\"swbform-label\">"+userGroupMessage+"</label>");
-        out.print("     <select id=\"editar\" name=\"editar\">"+strTemp+"</select>");
-        out.println("</li>");
-*/
         out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"instructions\" class=\"swbform-label\">Correo de instrucciones de activación</label>");
+        out.println("   <label for=\"instructions\" class=\"swbform-label\">"+request.getParameter("lblInsToActivate")+"</label>");
         out.println("   <textarea name=\"instructions\" id=\"instructions\" cols=\"25\" rows=\"5\">"+base.getAttribute("instructions",noMsg)+"</textarea>");
         out.println("</li>");
-/*
-        out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"gratefulness\" class=\"swbform-label\">Correo</label>");
-        out.println("   <textarea name=\"gratefulness\" id=\"gratefulness\" cols=\"25\" rows=\"5\">"+base.getAttribute("gratefulness",noMsg)+"</textarea>");
-        out.println("</li>");
-
-        out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"congratulations\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblCongratulations")+"</label>");
-        out.println("   <textarea name=\"congratulations\" id=\"congratulations\" cols=\"25\" rows=\"5\">"+base.getAttribute("congratulations",noMsg)+"</textarea>");
-        out.println("</li>");
-
-        out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"emailBcc\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblEmailBcc") + "</label>");
-        out.println("   <input type=\"text\" name=\"emailBcc\" id=\"emailBcc\" value=\"" + base.getAttribute("emailBcc", "") + "\" />");
-        out.println("</li>");
-        out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"emailAgreeMsg\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblEmailAgreeMsg") + "</label>");
-        out.println("   <textarea name=\"emailAgreeMsg\" id=\"emailAgreeMsg\" cols=\"25\" rows=\"5\">" + base.getAttribute("emailAgreeMsg", "") + "</textarea>");
-        out.println("</li>");
-        out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"agreement\" class=\"swbform-label\">" + paramRequest.getLocaleString("lblAgreement") + "</label>");
-        out.println("   <textarea name=\"agreement\" id=\"agreement\" cols=\"25\" rows=\"5\">" + base.getAttribute("agreement", "") + "</textarea>");
-        out.println("</li>");
-*/
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname} Nombre de la persona </font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname}  "+request.getParameter("lblFirstName")+" </font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{fullname} Nombre completo de la persona</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{fullname} "+request.getParameter("lblFullName")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.login} Nombre de usuario</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.login} "+request.getParameter("lblLogin")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} Correo de la persona</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} "+request.getParameter("lblEmail")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{link} Liga</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{link} "+request.getParameter("lblLink")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{date} Fecha de envio del mensaje</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{date} "+request.getParameter("lblDate")+"</font>");
         out.println("</li>");
         out.println("</ul>");
         out.println("</fieldset>");
 
         out.println("<fieldset>");
-        out.println("<button id=\"botonEnviar\" dojoType=\"dijit.form.Button\"  onClick=\"setCookie();\" type=\"submit\">Enviar</button>");
-        out.println("<button id=\"botonReset\" dojoType=\"dijit.form.Button\" type=\"reset\" >Borrar</button>");
+        out.println("<button id=\"botonEnviar\" dojoType=\"dijit.form.Button\"  onClick=\"setCookie();\" type=\"submit\">"+request.getParameter("lblSubmit")+"</button>");
+        out.println("<button id=\"botonReset\" dojoType=\"dijit.form.Button\" type=\"reset\" >"+request.getParameter("lblReset")+"</button>");
         out.println("</fieldset>");
         out.println("</form>");
         out.println("</div>");
