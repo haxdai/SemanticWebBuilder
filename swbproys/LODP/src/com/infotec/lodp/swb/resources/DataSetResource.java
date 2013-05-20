@@ -8,6 +8,7 @@ import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
+import com.infotec.lodp.swb.DatasetLog;
 import com.infotec.lodp.swb.DatasetVersion;
 import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.ByteArrayOutputStream;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -32,6 +34,7 @@ import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.VersionInfo;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.platform.SemanticProperty;
@@ -94,6 +97,9 @@ public class DataSetResource extends GenericAdmResource {
         String metaformat = request.getParameter("mformat");
         String dsuri = request.getParameter("suri");
 
+        WebSite wsite = paramRequest.getWebPage().getWebSite();
+        
+        
         if (null == action) {
             action = "";
         }
@@ -177,6 +183,7 @@ public class DataSetResource extends GenericAdmResource {
 
                 //actualizo el numero de descragas del dataset
                 boolean dowloaded = LODPUtils.updateDSDownload(ds);
+                boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
 
                 DatasetVersion ver = ds.getActualVersion();               
                 
@@ -463,5 +470,84 @@ public class DataSetResource extends GenericAdmResource {
         }
 
         return set;
+    }
+    
+    /**
+     * Sort by created set.
+     *
+     * @param it the iterator of datasets
+     * @param ascendente the ascendente
+     * @return the sets ordered by created
+     */
+    public static Set sortDSLogByCreated(Iterator<DatasetLog> it, boolean ascendente) {
+        TreeSet set = null;
+        if (it == null) {
+            return null;
+        }
+        if (ascendente) {
+            set = new TreeSet(new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Date d1;
+                    Date d2;
+                    d1 = ((DatasetLog) o1).getLogCreated();
+                    d2 = ((DatasetLog) o2).getLogCreated();
+                    if (d1 == null && d2 != null) {
+                        return -1;
+                    }
+                    if (d1 != null && d2 == null) {
+                        return 1;
+                    }
+                    if (d1 == null && d2 == null) {
+                        return -1;
+                    } else {
+                        int ret = d1.getTime() > d2.getTime() ? 1 : -1;
+                        return ret;
+                    }
+                }
+            });
+        } else {
+            set = new TreeSet(new Comparator() {
+                public int compare(Object o1, Object o2) {
+                    Date d1;
+                    Date d2;
+                    d1 = ((DatasetLog) o1).getLogCreated();
+                    d2 = ((DatasetLog) o2).getLogCreated();
+                    if (d1 == null && d2 != null) {
+                        return -1;
+                    }
+                    if (d1 != null && d2 == null) {
+                        return 1;
+                    }
+                    if (d1 == null && d2 == null) {
+                        return -1;
+                    } else {
+                        int ret = d1.getTime() > d2.getTime() ? -1 : 1;
+                        return ret;
+                    }
+
+                }
+            });
+        }
+
+        while (it.hasNext()) {
+            set.add(it.next());
+        }
+
+        return set;
+    }
+    
+    public static boolean reviewQuery(HashMap<String, String> hm, String texto) {
+        boolean res = Boolean.FALSE;
+        if (null != hm) {
+            Iterator<String> itstr = hm.keySet().iterator();
+            while (itstr.hasNext()) {
+                String skey = itstr.next();
+                if (texto.indexOf(skey) > -1) {
+                    res = Boolean.TRUE;
+                    break;
+                } 
+            }
+        }
+        return res;
     }
 }
