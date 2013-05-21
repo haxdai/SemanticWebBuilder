@@ -7,6 +7,8 @@ package com.infotec.lodp.swb.utils;
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
+import com.infotec.lodp.swb.Developer;
+import com.infotec.lodp.swb.Publisher;
 import com.infotec.lodp.swb.Tag;
 import java.util.Date;
 import java.util.Iterator;
@@ -233,6 +235,34 @@ public class LODPUtils {
             }
         }
         return ret.toString();
+    }
+    
+    /**
+     * 
+     * @param usr
+     * @return 
+     */
+    public static Developer getDeveloper(User usr){
+        Developer dev = null;
+        if(usr.getSemanticObject().createGenericInstance() instanceof Developer)
+        {
+            dev = (Developer)usr.getSemanticObject().createGenericInstance();
+        }
+        return dev;
+    }
+    
+    /**
+     * 
+     * @param usr
+     * @return 
+     */
+    public static Publisher getPublisher(User usr){
+        Publisher pub = null;
+        if(usr.getSemanticObject().createGenericInstance() instanceof Publisher)
+        {
+            pub = (Publisher)usr.getSemanticObject().createGenericInstance();
+        }
+        return pub;
     }
     
 }
