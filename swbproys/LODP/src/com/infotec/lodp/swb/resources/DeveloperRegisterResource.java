@@ -99,15 +99,16 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                 if(ur.getUserByEmail(email)!=null){
                     msg.append(response.getLocaleString("lblEmailDupl")).append(",");
                 }
-                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent) && msg.length()==0 ) {
+                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent)){
+                    msg.append(response.getLocaleString("lblCaptchaFault")).append(",");
+                }
+                if(msg.length()==0 ) {
                     request.getSession(true).removeAttribute("cdlog");
                     try {
                         User swbUser = ur.createUser();
 //                        Developer  dev=(Developer)swbUser;
 //                        User dev=swbUser;
                         Developer dev=Developer.ClassMgr.createDeveloper(ur);
-                                
-
 
                         String strCode = SFBase64.encodeBytes(SWBUtils.CryptoWrapper.PBEAES128Cipher(PassPhrase, dev.getId().getBytes()));
                         dev.setActive(false);
@@ -192,12 +193,14 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                 usrAct.setActive(true);
                 response.setMode(Mode_FINAL);
             }catch(Exception ne) {
-                ne.printStackTrace(System.out);
+//                ne.printStackTrace(System.out);
                 log.error(ne);
                 response.setRenderParameter("msg",response.getLocaleString("msgErrAct"));
             }
         }else if(Action_ADMEDIT.equals(action)) {
             base.setAttribute("instructions", request.getParameter("instructions")); 
+            base.setAttribute("page_activation", request.getParameter("page_activation")); 
+            base.setAttribute("page_login", request.getParameter("page_login"));
             try {
                 base.updateAttributesToDB();
                 response.setAction(Action_OK);
@@ -261,14 +264,14 @@ public class DeveloperRegisterResource extends GenericAdmResource {
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         Resource base = getResourceBase();
-        User user = paramRequest.getUser();
+        //User user = paramRequest.getUser();
 
         String noMsg = "";
 
         String action = paramRequest.getAction();
         if(Action_OK.equals(action)) {
             out.println("<script type=\"text/javascript\">");
-            out.println("   alert('"+request.getParameter("instructions")+" "+base.getId()+"');");
+            out.println("   alert('"+paramRequest.getLocaleString("msgActResource")+" "+base.getId()+"');");
             //out.println("   location='"+paramRequest.getRenderUrl().setAction(paramRequest.Action_EDIT).toString()+"';");
             out.println("</script>");
         }
@@ -280,36 +283,43 @@ public class DeveloperRegisterResource extends GenericAdmResource {
 
         out.println("<div class=\"swbform\">");
         out.println("<form id=adm_edit_\""+base.getId()+"\" name=\"ilta_"+base.getId()+"\" action=\""+urlAction+"\" method=\"post\" >");
-        out.println("<fieldset><legend>"+request.getParameter("lblData")+"</legend>");
+        out.println("<fieldset><legend>"+paramRequest.getLocaleString("lblData")+"</legend>");
         out.println("<ul class=\"swbform-ul\">");
         out.println("<li class=\"swbform-li\">");
-        out.println("   <label for=\"instructions\" class=\"swbform-label\">"+request.getParameter("lblInsToActivate")+"</label>");
+        out.println("   <label for=\"instructions\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblInsEmailActivate")+"</label>");
         out.println("   <textarea name=\"instructions\" id=\"instructions\" cols=\"25\" rows=\"5\">"+base.getAttribute("instructions",noMsg)+"</textarea>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname}  "+request.getParameter("lblFirstName")+" </font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{firstname}  "+paramRequest.getLocaleString("lblFirstName")+" </font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{fullname} "+request.getParameter("lblFullName")+"</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{fullname} "+paramRequest.getLocaleString("lblFullName")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.login} "+request.getParameter("lblLogin")+"</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.login} "+paramRequest.getLocaleString("lblLogin")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} "+request.getParameter("lblEmail")+"</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{user.email} "+paramRequest.getLocaleString("lblEmail")+"</font>");
         out.println("</li>");
         out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{link} "+request.getParameter("lblLink")+"</font>");
+        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{link} "+paramRequest.getLocaleString("lblLink")+"</font>");
         out.println("</li>");
-        out.println("<li>");
-        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{date} "+request.getParameter("lblDate")+"</font>");
+//        out.println("<li>");
+//        out.println("<font style=\"color: #428AD4; font-family: Verdana; font-size: 10px;\">{date} "+paramRequest.getLocaleString("lblDate")+"</font>");
+//        out.println("</li>");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"page_activation\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblInsToActivate")+"</label>");
+        out.println("   <textarea name=\"page_activation\" id=\"page_activation\" cols=\"25\" rows=\"5\">"+base.getAttribute("page_activation",noMsg)+"</textarea>");
+        out.println("</li>");
+        out.println("<li class=\"swbform-li\">");
+        out.println("   <label for=\"page_login\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblInsToLogin")+"</label>");
+        out.println("   <textarea name=\"page_login\" id=\"page_login\" cols=\"25\" rows=\"5\">"+base.getAttribute("page_login",noMsg)+"</textarea>");
         out.println("</li>");
         out.println("</ul>");
         out.println("</fieldset>");
-
         out.println("<fieldset>");
-        out.println("<button id=\"botonEnviar\" dojoType=\"dijit.form.Button\"  onClick=\"setCookie();\" type=\"submit\">"+request.getParameter("lblSubmit")+"</button>");
-        out.println("<button id=\"botonReset\" dojoType=\"dijit.form.Button\" type=\"reset\" >"+request.getParameter("lblReset")+"</button>");
+        out.println("<button id=\"botonEnviar\" dojoType=\"dijit.form.Button\"  onClick=\"setCookie();\" type=\"submit\">"+paramRequest.getLocaleString("lblSubmit")+"</button>");
+        out.println("<button id=\"botonReset\" dojoType=\"dijit.form.Button\" type=\"reset\" >"+paramRequest.getLocaleString("lblReset")+"</button>");
         out.println("</fieldset>");
         out.println("</form>");
         out.println("</div>");
