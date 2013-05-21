@@ -36,11 +36,13 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author rene.jara
  */
-public class CommentsViewResource extends GenericResource {
+public class CommentsManageResource extends GenericResource {
 
-    public static final Logger log = SWBUtils.getLogger(CommentsViewResource.class);
-    /** Accion personalizada para marcar un comentario inapropiado    */
-    public static final String Action_INAPPROPRIATE="inp";
+    public static final Logger log = SWBUtils.getLogger(CommentsManageResource.class);
+    /** Accion personalizada para marcar un comentario validado    */
+    public static final String Action_APPROVE="apv";
+    /** Accion personalizada para marcar un comentario validado    */
+    public static final String Action_REVIEWED="rvw";
     /** Accion personalizada para editar la administraciono     */
     public static final String Action_ADMEDIT="aed";
     /** Accion personalizada todo OK     */
@@ -57,65 +59,20 @@ public class CommentsViewResource extends GenericResource {
         WebPage wpage = response.getWebPage();
         WebSite wsite = wpage.getWebSite();
         Resource base = getResourceBase();
-        User usr = response.getUser();
         UserRepository ur = wsite.getUserRepository();
-        String suri = null;
-        String npag =request.getParameter("npag");
-        if (response.Action_ADD.equals(action)) {
-            String name = null;
-            String email = null;
-            String strComment = null;
-            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj = null;
-            Comment comment = null;
-            gobj = usr.getSemanticObject().getGenericInstance();
-            if (gobj instanceof Developer) {
-                Developer developer = (Developer) gobj;
-                name = developer.getFullName();
-                email = developer.getEmail();
-            } else {
-                name = request.getParameter("name");
-                email = request.getParameter("email");
-            }
-            strComment=request.getParameter("comment");
-            suri=request.getParameter("suri");
-            if (name != null && !name.equals("")
-                    && email != null && !name.equals("")
-                    && strComment != null && !strComment.equals("")) {
-                comment = Comment.ClassMgr.createComment(wsite);                
-                comment.setCommUserName(name);
-                comment.setCommUserEmail(email);
-                comment.setComment(strComment);
-                comment.setApproved(false);
-                comment.setReviewed(false);
-            }
-            if (suri != null && !suri.equals("") && comment!= null) {
-                gobj = ont.getGenericObject(suri);
-                if (gobj != null && gobj instanceof Application) {
-                    Application ap = (Application) gobj;
-                    ap.addComment(comment);
-                } else if (gobj != null && gobj instanceof Dataset) {
-                    Dataset ds = (Dataset) gobj;
-                    ds.addComment(comment);
-                } 
-            }
-            if(suri!=null&&!suri.equals("")){
-                response.setRenderParameter("suri", suri);
-            }
-            if(npag!=null&&!npag.equals("")){
-                response.setRenderParameter("npag", npag);
-            }
-        }else if(Action_INAPPROPRIATE.equals(action)) {
+        if(Action_APPROVE.equals(action)) {
             String cid=request.getParameter("cid");
             if(cid!=null&&!cid.equals("")){
                 Comment comment=Comment.ClassMgr.getComment(cid,wsite);
-                comment.setInappropriate(comment.getInappropriate()+1);
+                comment.setApproved(true);
+                comment.setReviewed(true);
             }
-            if(suri!=null&&!suri.equals("")){
-                response.setRenderParameter("suri", suri);
-            }
-            if(npag!=null&&!npag.equals("")){
-                response.setRenderParameter("npag", npag);
+        }else if (Action_REVIEWED.equals(action)) {
+            String cid=request.getParameter("cid");
+            if(cid!=null&&!cid.equals("")){
+                Comment comment=Comment.ClassMgr.getComment(cid,wsite);
+                comment.setApproved(false);
+                comment.setReviewed(true);
             }
         }else if(Action_ADMEDIT.equals(action)) {
             int nInappropriate=0;
@@ -208,7 +165,7 @@ public class CommentsViewResource extends GenericResource {
         ArrayList ret=new ArrayList();
         while (itco.hasNext()) {
             Comment co = itco.next();
-            if(co.getInappropriate()<nInappropriate||co.isApproved()){
+            if(co.getInappropriate()>=nInappropriate&&!co.isReviewed()){
                 ret.add(co);
             }
         }
