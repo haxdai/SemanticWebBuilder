@@ -148,7 +148,7 @@ public class ApplicationResource extends GenericResource{
          User usr = response.getUser();
          WebSite ws = response.getWebPage().getWebSite();
          
-        if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr instanceof Developer || usr instanceof Publisher))){
+        if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr.getSemanticObject().createGenericInstance() instanceof Developer || usr.getSemanticObject().createGenericInstance() instanceof Publisher))){
             String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
             System.out.println(dataSet);
             if(!dataSet.equals("-1")){
