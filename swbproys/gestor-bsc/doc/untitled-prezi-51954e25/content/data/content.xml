@@ -1,0 +1,1197 @@
+<zuiprezi>
+  <version>5</version>
+  <zui-table>
+    <settings>
+      
+      <autoplay>
+        
+        <delay>4000</delay>
+        
+      </autoplay>
+      
+      <bounds x="-1040134.3514306633" y="-780361.3182702496" width="2080268.7028613265" height="1560722.6365404993"/>
+      <aspectratio>off</aspectratio>
+      <languages>
+        <language>es</language>
+      </languages>
+    </settings>
+    <object id="72" type="button" x="4.9681672296586895e-12" y="4.286024464862761e-11" r="0" s="2605.5469725217017" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>799.4366197183099</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="35" type="image" x="198610.60307112293" y="309726.0573384193" r="0" s="1993.4073683171935">
+      <source w="440" h="280" bt="433.05" bl="360">280247055.swf<url>280247055.swf</url>
+      </source>
+      <sourceUrl>asztal.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247055
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/a/9/5029c3b295241d2b0297327b55bddf16e27a0.swf</url></resource></object>
+    <object id="56" type="image" x="-445612.8979495025" y="309849.26213887474" r="0" s="1993.4073683171935">
+      <source w="440" h="280" bt="433.05" bl="360">280247055.swf<url>280247055.swf</url>
+      </source>
+      <sourceUrl>asztal.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247055
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/a/9/5029c3b295241d2b0297327b55bddf16e27a0.swf</url></resource></object>
+    <object id="48" type="image" x="-327662.70223032933" y="-274205.49451385514" r="0" s="2116.3099739704835">
+      <source w="344" h="229" bt="191.8" bl="456.8">280247091.swf<url>280247091.swf</url>
+      </source>
+      <sourceUrl>tabla.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247091
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/0/b/9/e3eb6189ac9074774a9f21c2a5c7760953501.swf</url></resource></object>
+    <object id="33" type="image" x="-286049.49146687466" y="80518.61580081393" r="0" s="2496.0645262679736">
+      <source w="75" h="33" bt="440.7" bl="653.45">280247051.swf<url>280247051.swf</url>
+      </source>
+      <sourceUrl>tányér.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247051
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/c/1/5a51e10aebcc069307d6470f386acd4ac5938.swf</url></resource></object>
+    <object id="34" type="image" x="-479647.0126392215" y="221937.17813100692" r="0" s="2645.33193043003">
+      <source w="39" h="22" bt="519.75" bl="1032.5">280247053.swf<url>280247053.swf</url>
+      </source>
+      <sourceUrl>mobil.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247053
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/3/6/6/6b0806b816b5b9abdba3f2a17c0b7bd6faf25.swf</url></resource></object>
+    <object id="38" type="image" x="36353.695857365914" y="174495.21448428865" r="0" s="2648.2901004321743">
+      <source w="35" h="15" bt="493.05" bl="1002.85">280247061.swf<url>280247061.swf</url>
+      </source>
+      <sourceUrl>pinkpi.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247061
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/2/9/2/d423a69b704cf41b1edb93fad0f783a0dea0e.swf</url></resource></object>
+    <object id="36" type="image" x="36341.66057957996" y="163665.87153227362" r="0" s="2648.2901004321743">
+      <source w="35" h="15" bt="488.75" bl="1002.85">280247057.swf<url>280247057.swf</url>
+      </source>
+      <sourceUrl>kekpi.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247057
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/7/2/f/fed18dc72473cd2c93fd06bc12ff0bdb1c017.swf</url></resource></object>
+    <object id="41" type="image" x="-377928.7323802187" y="205152.5571890948" r="0" s="2057.4376542638256">
+      <source w="108" h="47" bt="492.35" bl="928.95">280247067.swf<url>280247067.swf</url>
+      </source>
+      <sourceUrl>lap.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247067
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/b/c/4/91b0145b75dc51416ba61625cf76208dc47b9.swf</url></resource></object>
+    <object id="42" type="image" x="377636.65874936944" y="-18440.329079991545" r="0" s="2169.7815740495375">
+      <source w="59" h="117" bt="369.75" bl="908.45">280247069.swf<url>280247069.swf</url>
+      </source>
+      <sourceUrl>dossziékek.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247069
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/2/7/f/763d53f96ac0c32b1be56cc13b6815fa9e1c4.swf</url></resource></object>
+    <object id="49" type="image" x="36353.695857365914" y="153067.60591375362" r="0" s="2648.2901004321743">
+      <source w="35" h="15" bt="484.35" bl="1002.75">280247093.swf<url>280247093.swf</url>
+      </source>
+      <sourceUrl>zöldpi.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247093
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/8/3/8/f5fac6eb6c650d49eafb81602060030b3aeec.swf</url></resource></object>
+    <object id="52" type="image" x="299001.8671925463" y="-18466.699338230897" r="0" s="2188.4865876189297">
+      <source w="59" h="116" bt="371.15" bl="949.9">280247099.swf<url>280247099.swf</url>
+      </source>
+      <sourceUrl>dossziépiros.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247099
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/f/f/6/4c22fc85c0851e3ed022fc6f390f09e954800.swf</url></resource></object>
+    <object id="51" type="image" x="3162.987803107633" y="-32591.280446592755" r="0" s="2056.6500271895584">
+      <source w="163" h="127" bt="340.6" bl="728.95">280247097.swf<url>280247097.swf</url>
+      </source>
+      <sourceUrl>monitor.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247097
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/4/7/0a8310076da92f2a67fcb1155ddb8b11ac3ad.swf</url></resource></object>
+    <object id="32" type="image" x="437519.1808535805" y="206447.53331483965" r="0" s="1942.848698492649">
+      <source w="86" h="41" bt="499.4" bl="458.9">280247049.swf<url>280247049.swf</url>
+      </source>
+      <sourceUrl>ipad.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247049
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/9/f/d/c9401dc77759efd099d1dad4f34a1ffd69cc8.swf</url></resource></object>
+    <object id="42_301795" type="shape" x="409173.9723668471" y="235635.07128484093" r="-8.757643735742589e-15" s="389.3041881520358" class="line5">
+      <geom type="line">
+        <sp>-27.279135563446044 0</sp>
+        <ep>27.279135563446047 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="50" type="image" x="264597.1741202672" y="145391.65434127217" r="0" s="2278.183068157441">
+      <source w="131" h="97" bt="436.3" bl="798.3">280247095.swf<url>280247095.swf</url>
+      </source>
+      <sourceUrl>laptop.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247095
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/9/0/9/47fbc33388936b5495f42cd34e9e5ae70f031.swf</url></resource></object>
+    <object id="54" type="image" x="-397478.7140199154" y="171889.8906708347" r="0" s="2057.4376542638256">
+      <source w="108" h="47" bt="492.35" bl="928.95">280247067.swf<url>280247067.swf</url>
+      </source>
+      <sourceUrl>lap.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247067
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/b/c/4/91b0145b75dc51416ba61625cf76208dc47b9.swf</url></resource></object>
+    <object id="29" type="image" x="-54924.58406585861" y="-368617.99718426756" r="0" s="2047.293051859796">
+      <source w="29" h="29" bt="236.05" bl="717.2">280247043.swf<url>280247043.swf</url>
+      </source>
+      <sourceUrl>ppostit.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247043
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/4/f/4/a4630ac3a096301c20a14dcb295103c4f4d4b.swf</url></resource></object>
+    <object id="30" type="image" x="-94879.35803899009" y="-337323.1567587316" r="0" s="2047.293051859796">
+      <source w="29" h="29" bt="225.35" bl="745.15">280247047.swf<url>280247047.swf</url>
+      </source>
+      <sourceUrl>kpostit.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247047
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/c/d/c/fde923387cbe3e50dd2727d1cdabea859edde.swf</url></resource></object>
+    <object id="37" type="image" x="-152883.74733097156" y="-359906.64714217075" r="0" s="2047.293051859796">
+      <source w="29" h="29" bt="227.2" bl="686.2">280247059.swf<url>280247059.swf</url>
+      </source>
+      <sourceUrl>zposzit.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247059
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/3/e/05d21bdf0df20402d6fcd307ef0c4554a1daf.swf</url></resource></object>
+    <object id="40" type="image" x="-533421.0117853485" y="-49350.73051918732" r="0" s="2029.8294457066102">
+      <source w="45" h="4" bt="409.55" bl="516.65">280247065.swf<url>280247065.swf</url>
+      </source>
+      <sourceUrl>tollzold.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247065
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/3/3/b/a6f4214abf71f4c7de665e8265d5770bc70bf.swf</url></resource></object>
+    <object id="39" type="image" x="-549535.3471025302" y="-45890.998646410466" r="0" s="2029.8294457066102">
+      <source w="45" h="4" bt="412.1" bl="497.85">280247063.swf<url>280247063.swf</url>
+      </source>
+      <sourceUrl>tollpink.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247063
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/1/8/5/bf8bd4595e2c92361d4bb31a6ad3bddb2241c.swf</url></resource></object>
+    <object id="28" type="image" x="-306776.79825522477" y="80171.20056284902" r="0" s="2485.4283871047687">
+      <source w="28" h="31" bt="441.85" bl="668.45">280247039.swf<url>280247039.swf</url>
+      </source>
+      <sourceUrl>szenya.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247039
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/2/6/6/c3fe817f8b83ed04f16616218a21e376dab7d.swf</url></resource></object>
+    <object id="27" type="image" x="-282396.41536686325" y="75770.57791269069" r="0" s="2173.39004142875">
+      <source w="37" h="39" bt="435.1" bl="672.35">280247037.swf<url>280247037.swf</url>
+      </source>
+      <sourceUrl>HARAPSZENYA.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247037
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/a/e/d/a2cc7853b7001ce4e2a76e5228cd1436b1fda.swf</url></resource></object>
+    <object id="43" type="image" x="-502379.72662918514" y="126039.67980387821" r="0" s="2684.2916202547476">
+      <source w="38" h="4" bt="476.7" bl="872.55">280247071.swf<url>280247071.swf</url>
+      </source>
+      <sourceUrl>sc.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247071
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/3/2/5/719cc92787e13d44af81b367f92579ad894a8.swf</url></resource></object>
+    <object id="45" type="image" x="-527877.52244553" y="129900.18881328427" r="0" s="2684.2916202547476">
+      <source w="38" h="4" bt="467.85" bl="876.55">280247077.swf<url>280247077.swf</url>
+      </source>
+      <sourceUrl>nc.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247077
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/c/3/d/1d78ce0b91b60ec994c02396ee379e684ea29.swf</url></resource></object>
+    <object id="46" type="image" x="-497632.6302961559" y="143452.23364862276" r="0" s="2684.2916202547476">
+      <source w="38" h="4" bt="474.35" bl="880.55">280247083.swf<url>280247083.swf</url>
+      </source>
+      <sourceUrl>pc.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247083
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/0/e/5/669c5fe226b778ea0c6c9067c27c4375d133e.swf</url></resource></object>
+    <object id="44" type="image" x="-479634.4043353278" y="149107.63829736866" r="0" s="2684.2916202547476">
+      <source w="38" h="4" bt="482.45" bl="876.55">280247073.swf<url>280247073.swf</url>
+      </source>
+      <sourceUrl>zc.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247073
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/4/9/39af589e5bf884362669f4306bd696bcf4591.swf</url></resource></object>
+    <object id="47" type="image" x="-486002.8932610952" y="154615.23424381917" r="0" s="2684.2916202547476">
+      <source w="38" h="4" bt="480.65" bl="888.5">280247089.swf<url>280247089.swf</url>
+      </source>
+      <sourceUrl>kc.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247089
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/1/3/ba518aec6663701ce5ffab4cd150bab07f2e3.swf</url></resource></object>
+    <object id="59" type="image" x="-58364.60028525889" y="116763.36155843384" r="0" s="2029.8294457066102">
+      <source w="45" h="4" bt="412.1" bl="497.85">280247063.swf<url>280247063.swf</url>
+      </source>
+      <sourceUrl>tollpink.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247063
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/1/8/5/bf8bd4595e2c92361d4bb31a6ad3bddb2241c.swf</url></resource></object>
+    <object id="61" type="button" x="-423340.48614703544" y="-286322.84632696514" r="0" s="521.4180564147173" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>877.9816513761468</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="62" type="button" x="-152881.72696937335" y="-362559.4670436174" r="0" s="64.69732013259808" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>796.011396011396</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="66" type="button" x="93.63287484963885" y="-53741.521340221145" r="0" s="273.64504337532867" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>794.1907945724203</w>
+        <h>595.643095929315</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="64" type="image" x="112118.09351857779" y="-126851.31300960231" r="-3.185014168801551" s="2047.2930518597934">
+      <source w="29" h="29" bt="225.35" bl="745.15">280247047.swf<url>280247047.swf</url>
+      </source>
+      <sourceUrl>kpostit.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247047
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/c/d/c/fde923387cbe3e50dd2727d1cdabea859edde.swf</url></resource></object>
+    <object id="65" type="button" x="112141.66676394075" y="-126858.89416598051" r="-3.1850141688015556" s="63.65282398610779" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>796.3320463320464</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="67" type="button" x="225227.90092496172" y="113462.92155908214" r="0" s="282.7881814476158" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>818.1000794933622</w>
+        <h>613.5750596200216</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="68" type="labelwithplaceholder" x="334902.4440992524" y="-23989.95113725364" r="0" s="187.3775650961405" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9"/>
+    </object>
+    <object id="69" type="labelwithplaceholder" x="413598.31034343387" y="-23989.95113725353" r="0" s="187.3775650961405" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9"/>
+    </object>
+    <object id="70" type="button" x="-374429.9074820553" y="188922.06465709282" r="0" s="200.14615948128892" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>793.7743190661479</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="71" type="button" x="433008.0687948051" y="204525.47203831206" r="0" s="72.803597382096" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>793.7743190661479</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="77" type="label" x="40436.7673627229" y="-62459.590585732905" r="0" s="417.14404293402913" class="body">
+      <textfield>
+        <x>-339.8</x>
+        <y>-61.7</y>
+        <text><![CDATA[Nos permitiremos mostrarles los avances
+del proyecto.
+
+Gracias]]></text>
+        <annotations>r0-40 { align: left; }
+r40-54 { align: left; }
+r55-62 { align: left; }
+r55-62 { blockIndent: 216; }</annotations>
+      </textfield>
+    </object>
+    <object id="79" type="label" x="221876.22601482074" y="82200.76611018248" r="0" s="296.8575301589761" class="body">
+      <textfield autoSize="true">
+        <x>-267.2</x>
+        <y>-16.9</y>
+        <text><![CDATA[Actualmente, estamos en nuestro primer sprint.]]></text>
+        <annotations>r0-46 { align: left; }</annotations>
+      </textfield>
+    </object>
+    <object id="80" type="labelwithplaceholder" x="432728.36536676285" y="187505.55881079324" r="0" s="110.76121911042888" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9" align="center" width="224.7"/>
+    </object>
+    <object id="81" type="labelwithplaceholder" x="416105.59373493976" y="196259.4455484939" r="0" s="106.7154955040139" class="body">
+      <placeholder text="Click to add text" x="-94.2" y="-16.9"/>
+    </object>
+    <object id="82" type="labelwithplaceholder" x="111402.88337644227" y="-141044.5218736269" r="-3.185014168801554" s="95.80372310735893" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9" align="center" width="224.7"/>
+    </object>
+    <object id="83" type="labelwithplaceholder" x="97467.79372214404" y="-132685.6334849378" r="-3.1850141688015574" s="92.30434501030622" class="body">
+      <placeholder text="Click to add text" x="-94.2" y="-16.9"/>
+    </object>
+    <object id="16" type="image" x="-381164.2" y="195710.85" r="0" s="193.26381048041057">
+      <source w="310" h="203">653194095.png<url>653194095.png</url>
+      </source>
+      <sourceUrl>BSCOM.png</sourceUrl>
+    <resource><id>
+        653194095
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/f/8/2/9e8613a37bb74f41e1c345a972e953c26d8be.png</url></resource></object>
+    <object id="85" type="label" x="-392138.4" y="170830.45" r="0" s="164.92091101199776" class="body">
+      <textfield>
+        <x>-264.7</x>
+        <y>-46.75</y>
+        <text><![CDATA[Estamos desarrollando la ontología basándonos en un trabajo preliminar de la Universidad de Sonora.]]></text>
+        <w>529.4</w>
+        <h>93.55</h>
+        <annotations>r0-99 { align: left; }</annotations>
+      </textfield>
+    </object>
+    <object id="86" type="labelwithplaceholder" x="-151764.07154715137" y="-376376.0926376477" r="0" s="102.3524746741073" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9" align="center" width="224.7"/>
+    </object>
+    <object id="87" type="labelwithplaceholder" x="-167124.87947364492" y="-368286.78143453423" r="0" s="98.61389337020186" class="body">
+      <placeholder text="Click to add text" x="-94.2" y="-16.9"/>
+    </object>
+    <object id="88" type="button" x="-94258.64282537368" y="-337192.0786485366" r="0" s="64.69732013259808" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>796.011396011396</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="89" type="labelwithplaceholder" x="-93140.98740315177" y="-351008.7042425671" r="0" s="102.3524746741073" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9" align="center" width="224.7"/>
+    </object>
+    <object id="90" type="labelwithplaceholder" x="-108501.79532964551" y="-342919.3930394534" r="0" s="98.61389337020184" class="body">
+      <placeholder text="Click to add text" x="-94.2" y="-16.9"/>
+    </object>
+    <object id="91" type="label" x="-423983.55057942047" y="-345441.6739124806" r="-3.185014168801553" s="1351.1959442535376" class="body">
+      <textfield>
+        <x>-157.25</x>
+        <y>-31.85</y>
+        <text><![CDATA[Este proyecto lo llevaremos con Scrum]]></text>
+        <w>314.5</w>
+        <h>63.7</h>
+        <annotations>r0-37 { align: left; }</annotations>
+      </textfield>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="92" type="label" x="3224.6126304947584" y="-113853.92198421457" r="0" s="1136.4945061218286" class="head">
+      <textfield autoSize="true">
+        <x>-47.3</x>
+        <y>-16.35</y>
+        <text><![CDATA[Results]]></text>
+        <annotations>r0-7 { align: left; }</annotations>
+      </textfield>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="93" type="label" x="227952.43395055874" y="58812.95775001657" r="0" s="632.9124159055898" class="strong">
+      <textfield autoSize="true">
+        <x>-63.6</x>
+        <y>-17.9</y>
+        <text><![CDATA[Realisation]]></text>
+        <annotations>r0-11 { align: left; }</annotations>
+      </textfield>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="94" type="label" x="-393489.7281343467" y="149937.4213372797" r="-7.302426771253769" s="614.791523067586" class="strong">
+      <textfield autoSize="true">
+        <x>-54.2</x>
+        <y>-17.9</y>
+        <text><![CDATA[Sketches]]></text>
+        <annotations>r0-8 { align: left; }</annotations>
+      </textfield>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="10_301795" type="image" x="-554907.4652394552" y="35774.95719971413" r="0" s="301.0847049196867">
+      <source w="193" h="278" bt="299.6" bl="469.35">280374479.swf<url>280374479.swf</url>
+      </source>
+      <sourceUrl>cica.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280374479
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/b/a/8/2c7522637fd50c50328a3baa6e00057d8383f.swf</url></resource></object>
+    <object id="53" type="image" x="-692000.0963659593" y="45051.06250131051" r="0" s="2028.7474857242169">
+      <source w="120" h="56" bt="428.7" bl="419.9">280247101.swf<url>280247101.swf</url>
+      </source>
+      <sourceUrl>PROJEKTOR.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247101
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/9/5/dc6bc81cced53ab5bf3b71e804d229d93d713.swf</url></resource></object>
+    <object id="21_301795" type="image" x="-350729.30770931306" y="-282538.7070732318" r="0" s="70.82859842052572">
+      <source w="524" h="447" bt="315.8" bl="762.65">245882308.swf<url>245882308.swf</url>
+      </source>
+      <sourceUrl>125_brain.swf</sourceUrl>
+      <extra>
+        <fixed_avm1_pos>1</fixed_avm1_pos>
+      </extra>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        245882308
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/5/e/7/1b56aad73b19547ca3098ecc06b9269ccd023.swf</url></resource></object>
+    <object id="22_301795" type="shape" x="-359338.6566610512" y="-242324.37443113577" r="99.4695452652064" s="205.9571154754013" class="line1">
+      <geom type="arrow">
+        <sp>-106.2601641911993 0</sp>
+        <ep>106.2601641911993 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="26_301795" type="button" x="-266344.4013900245" y="-197396.30224316884" r="9.469545265206406" s="62.96876353219906" class="roundrect">
+      <type>roundrect</type>
+      <size>
+        <w>795.7219251336899</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="23_301795" type="shape" x="-311043.0809620956" y="-241930.9682683079" r="47.39415269516737" s="205.95711547540145" class="line2">
+      <geom type="arrow">
+        <sp>-174.80460948180743 0</sp>
+        <ep>174.8046094818074 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="24_301795" type="shape" x="-303327.91166598" y="-279248.21911573346" r="9.469545265206408" s="205.95711547540122" class="line3">
+      <geom type="arrow">
+        <sp>-115.2731057309734 0</sp>
+        <ep>115.27310573097338 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="25_301795" type="button" x="-252666.92323828847" y="-270684.9297899216" r="9.469545265206406" s="57.75014400018336" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="27_301795" type="button" x="-365940.31644164096" y="-192080.82264375917" r="9.469545265206406" s="70.71358471530381" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>714.2857142857143</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="30_301795" type="button" x="-347738.55338533653" y="-158881.4640201501" r="1.7518142890817425" s="28.86918815279512" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>792.4528301886792</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="33_301795" type="button" x="-222663.67760946712" y="-288562.0796614193" r="17.187276241331045" s="24.66948171734076" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="34_301795" type="button" x="-217942.253051508" y="-264893.7329344609" r="1.7518142890817416" s="24.66948171734078" class="circle">
+      <type>circle</type>
+      <size>
+        <w>800</w>
+        <h>800</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="36_301795" type="shape" x="-232752.1319853629" y="-282549.12146816653" r="-27.902887547991156" s="102.97855773770068" class="line3">
+      <geom type="line">
+        <sp>-42.76796688625916 0</sp>
+        <ep>42.76796688625916 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="37_301795" type="shape" x="-229044.00656025764" y="-266763.73386008065" r="9.469545265206408" s="102.97855773770065" class="line3">
+      <geom type="line">
+        <sp>-44.45510983348788 0</sp>
+        <ep>44.45510983348788 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="40_301795" type="shape" x="-348759.72092373983" y="-169480.57594208623" r="66.42911909282566" s="102.97855773770092" class="line1">
+      <geom type="line">
+        <sp>-38.30941244662933 0</sp>
+        <ep>38.30941244662933 0</ep>
+        <t>8</t>
+      </geom>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="43_301795" type="image" x="-261374.64287389733" y="199363.6885702115" r="0" s="2648.2901004321743">
+      <source w="35" h="15" bt="484.35" bl="1002.75">280247093.swf<url>280247093.swf</url>
+      </source>
+      <sourceUrl>zöldpi.swf</sourceUrl>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    <resource><id>
+        280247093
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/8/3/8/f5fac6eb6c650d49eafb81602060030b3aeec.swf</url></resource></object>
+    <object id="44_301795" type="button" x="-261315.0902394579" y="199363.68857021155" r="0" s="63.639916331334184" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>793.7743190661479</w>
+        <h>600</h>
+      </size>
+      <meta>
+        <parentTemplate>workflow</parentTemplate>
+      </meta>
+    </object>
+    <object id="45_301795" type="labelwithplaceholder" x="-261559.58781098298" y="184486.04663060827" r="0" s="96.81986839125256" class="strong">
+      <placeholder text="Click to add text" x="-112.35" y="-17.9" align="center" width="224.7"/>
+    </object>
+    <object id="46_301795" type="label" x="-260537.73112558993" y="193407.36590759087" r="-7.302426771253767" s="141.75396931163291" class="body">
+      <textfield>
+        <x>-161.1</x>
+        <y>-46.75</y>
+        <text><![CDATA[Investigar estado del arte de
+modelos ontológicos para
+Balanced Scorecard]]></text>
+        <annotations>r0-30 { align: left; }
+r30-55 { align: left; }
+r55-73 { align: left; }</annotations>
+      </textfield>
+    </object>
+    <object id="0" type="image" x="590692.1180365342" y="-439352.6473035378" r="0" s="650.2055682017037">
+      <source w="223" h="226">652772755.jpeg<url>652772755.jpeg</url>
+      </source>
+      <sourceUrl>BSC.jpeg</sourceUrl>
+    <resource><id>
+        652772755
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/e/8/0/45503383c7272fed03e3fd834d83c248d49ef.jpeg</url></resource></object>
+    <object id="1" type="button" x="-522839.11705899745" y="-317881.1717730966" r="0" s="3.0233275946303095" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>791.5550978372811</w>
+        <h>516.5</h>
+      </size>
+    </object>
+    <object id="3" type="image" x="-522839.0193053907" y="-317769.4394006459" r="0" s="2.9801698334744096">
+      <source w="688" h="358">652822133.png<url>652822133.png</url>
+      </source>
+      <sourceUrl>scrum-panorama.png</sourceUrl>
+    <resource><id>
+        652822133
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/6/2/8/43f7f351f23475388ae608b898da4c47c0cd2.png</url></resource></object>
+    <object id="4" type="shape" x="-523655.1083862641" y="-318066.0480302456" r="-90" s="1.9550721338698205" class="line3">
+      <geom type="arrow">
+        <sp>-68.75353781839482 0</sp>
+        <ep>68.75353781839482 0</ep>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="5" type="image" x="-523666.50358605105" y="-318345.403651284" r="0" s="1.5175978708436617">
+      <source w="160" h="160">652856943.jpg<url>652856943.jpg</url>
+      </source>
+      <sourceUrl>excel-doc.jpg</sourceUrl>
+    <resource><id>
+        652856943
+        </id><url>http://0103.static.prezi.com.s3.amazonaws.com/media/1/7/0/2ed47372387477a883ab8ab85d54b488f5ed0.jpg</url></resource></object>
+    <object id="6" type="shape" x="-523461.74109996186" y="-318172.3895989759" r="73.14720270452412" s="1.9550721338698196" class="line3">
+      <geom type="arrow">
+        <sp>-91.86955060282948 9.111961413591471</sp>
+        <ep>91.86955060282946 9.111961413591471</ep>
+        <b>-18.223922827182943</b>
+        <t>8</t>
+      </geom>
+    </object>
+    <object id="7" type="button" x="-523274.0345594067" y="-317661.3551895686" r="-29.292171840704693" s="0.06529502659434643" class="bracket">
+      <type>bracket</type>
+      <size>
+        <w>726.9541755499229</w>
+        <h>622.0933644004981</h>
+      </size>
+    </object>
+    <object id="8" type="label" x="-523279.39163331565" y="-317670.9366146336" r="-29.292171840704693" s="0.07259029348353795" class="strong">
+      <textfield>
+        <x>-244.75</x>
+        <y>-49.75</y>
+        <text><![CDATA[Revisar requerimientos
+Priorizarlos
+Estimar su tiempo de implementación]]></text>
+        <annotations>r0-71 { color: #000; }
+r0-23 { bullet: true; }
+r0-23 { align: left; }
+r0-23 { blockIndent: 36; }
+r23-36 { bullet: true; }
+r23-36 { align: left; }
+r23-36 { blockIndent: 36; }
+r36-71 { bullet: true; }
+r36-71 { align: left; }
+r36-71 { blockIndent: 36; }</annotations>
+      </textfield>
+    </object>
+    <object id="9" type="label" x="-523280.818558111" y="-317676.3202683106" r="-29.292171840704693" s="0.07259029348353795" class="head">
+      <textfield autoSize="true">
+        <x>-83.35</x>
+        <y>-16.35</y>
+        <text><![CDATA[Grooming:]]></text>
+        <w>166.7</w>
+        <h>32.75</h>
+        <annotations>r0-9 { align: center; }</annotations>
+      </textfield>
+    </object>
+    <object id="10" type="button" x="592177.9114704436" y="-500732.60549221846" r="0" s="670.4323889852398" class="invisible">
+      <type>invisible</type>
+      <size>
+        <w>624.1206030150754</w>
+        <h>453.0152966691153</h>
+      </size>
+    </object>
+    <object id="11" type="label" x="592157.412527162" y="-610364.7940791876" r="0" s="1039.3047982362702" class="head">
+      <textfield>
+        <x>-176.8</x>
+        <y>-16.35</y>
+        <text><![CDATA[Avances del nuevo producto]]></text>
+        <annotations>r0-26 { align: center; }</annotations>
+      </textfield>
+    </object>
+    <object id="12" type="label" x="590677.371469703" y="-552834.2360068685" r="0" s="1383.3146864524767" class="strong">
+      <textfield>
+        <x>-120.25</x>
+        <y>-17.9</y>
+        <text><![CDATA[Semantic Strategies]]></text>
+        <annotations>r0-19 { align: center; }</annotations>
+      </textfield>
+    </object>
+    <object id="13" type="label" x="-523273.4" y="-317663.6500000001" r="-29.292171840704693" s="0.07259029348353795" class="body">
+      <textfield>
+        <x>-196.65</x>
+        <y>-46.75</y>
+        <text><![CDATA[65 Semanas
+Para un equipo de 3 personas el proyecto durará 5 meses]]></text>
+        <w>393.35</w>
+        <h>93.55</h>
+        <annotations>r0-11 { bullet: true; }
+r0-11 { align: left; }
+r0-11 { blockIndent: 36; }
+r11-66 { bullet: true; }
+r11-66 { align: left; }
+r11-66 { blockIndent: 36; }</annotations>
+      </textfield>
+    </object>
+    <object id="15" type="label" x="-523270.3" y="-317654.25" r="-29.292171840704693" s="0.06488362905272234" class="body">
+      <textfield>
+        <x>-278.35</x>
+        <y>-46.75</y>
+        <text><![CDATA[Aunque vale la pena señalar que algunos requerimientos no han sido estimados tales como Riesgos, Acciones (Juntas RAE) y acuerdos.]]></text>
+        <w>556.75</w>
+        <h>93.55</h>
+        <annotations>r0-130 { align: left; }</annotations>
+      </textfield>
+    </object>
+  </zui-table>
+  <path>
+    <s>
+      <eagle o="72"/>
+    </s>
+    <s>
+      <eagle o="10"/>
+    </s>
+    <s>
+      <eagle o="48"/>
+    </s>
+    <s>
+      <eagle o="1"/>
+    </s>
+    <s>
+      <eagle o="7"/>
+    </s>
+    <s>
+      <eagle o="70"/>
+    </s>
+    <s>
+      <eagle o="67"/>
+    </s>
+    <s>
+      <eagle o="51"/>
+    </s>
+  </path>
+  <style type="text/css"><![CDATA[
+@font-face
+{
+	src: url('jd.swf');
+	fontFamily: strong;
+}
+
+@font-face
+{
+	src: url('LoveYaLikeASister.swf');
+	fontFamily: body;
+}
+
+@font-face
+{
+	src: url('Crial-Black.swf');
+	fontFamily: head;
+}
+
+ZLabel
+{
+	padding: 1.2;
+}
+
+ZLabel.head
+{
+	color: #003666;
+	fontFamily: head;
+}
+
+.line5
+{
+	gradEndColor: #270066;
+	color: #270066;
+	borderColor: #270066;
+	gradStartColor: #270066;
+}
+
+.poly5
+{
+	gradEndColor: #fff;
+	gradStartColor: #fff;
+	borderColor: #270066;
+	borderThickness: 9;
+}
+
+ZLabel.strong
+{
+	color: #d03e3e;
+	fontFamily: strong;
+}
+
+.line1
+{
+	gradEndColor: #009ce5;
+	color: #009ce5;
+	borderColor: #009ce5;
+	gradStartColor: #009ce5;
+}
+
+.poly1
+{
+	gradStartAlpha: 1;
+	gradEndALpha: 1;
+	gradStartColor: #fff;
+	gradEndColor: #fff;
+	borderColor: #009ce5;
+	borderThickness: 9;
+}
+
+ZLabel.body
+{
+	color: #270066;
+	fontFamily: body;
+}
+
+Background
+{
+	gradStart: #fff;
+	gradEnd: #fff;
+}
+
+Grid
+{
+	color: #b8b8b8;
+}
+
+ZFrame.circle
+{
+	gradEndColor: #7f0000;
+	gradStartColor: #c34444;
+	borderColor: #e56666;
+	borderThickness: 0;
+}
+
+.line4
+{
+	gradEndColor: #f00;
+	color: #f00;
+	borderColor: #f00;
+	gradStartColor: #f00;
+}
+
+.poly4
+{
+	gradEndColor: #d03e3e;
+	gradStartColor: #d03e3e;
+	borderColor: #d03e3e;
+	borderThickness: 0;
+}
+
+ZFrame.bracket
+{
+	gradEndColor: #009ce5;
+	gradStartColor: #44e0ff;
+	borderColor: #6ff;
+	borderThickness: 0;
+}
+
+.line2
+{
+	gradEndColor: #ffe000;
+	color: #ffe000;
+	borderColor: #ffe000;
+	gradStartColor: #ffe000;
+}
+
+.poly2
+{
+	gradEndColor: #009ce5;
+	gradStartColor: #009ce5;
+	borderColor: #009ce5;
+	borderThickness: 0;
+}
+
+ZFrame.roundrect
+{
+	gradEndColor: #ffff7e;
+	gradStartColor: #ffff7e;
+	borderColor: #6ff;
+	radius: 5;
+	borderThickness: 0;
+}
+
+ZCurveLine
+{
+	color: #333;
+}
+
+ZArrow
+{
+	gradEndColor: #333;
+	borderThickness: 0;
+	borderColor: #7f7f7f;
+	lockTintAlpha: 0;
+	gradStartColor: #333;
+}
+
+.line3
+{
+	gradEndColor: #7f0000;
+	color: #7f0000;
+	borderColor: #7f0000;
+	gradStartColor: #7f0000;
+}
+
+.poly3
+{
+	gradEndColor: #fff;
+	gradStartColor: #fff;
+	borderColor: #7f0000;
+	borderThickness: 9;
+}
+
+ZMarker
+{
+	color: #e4fe92;
+}
+
+ZPath
+{
+	color: #5aa7cb;
+	textColor: #fff;
+	alpha: 0.8;
+	thickness: 5;
+}
+
+ZPath Ball.base
+{
+	fillColor: #5aa7cb;
+	alpha: 0.8;
+	radius: 15;
+}
+
+ZPath Ball.mid
+{
+	fillColor: #5aa7cb;
+	alpha: 0.8;
+	radius: 7;
+}
+
+ZVideo
+{
+	padding: 1.2;
+}
+
+ZSmartGroup.circle
+{
+	skinClass: hu.kibu.zui.model.skins.CircleFrameSkin;
+}
+
+CircleFrameSkin
+{
+	editOpenAlpha: 0.6;
+	gradEndAlpha: 0.7;
+	highlightBorderColor: #fff;
+	gradStartAlpha: 1;
+	borderColor: #fff;
+	borderAlpha: 1;
+	thickness: 25;
+	highlightFillColor: #fff;
+	gradStartColor: #fff;
+	gradEndColor: #fff;
+	highlightFillAlpha: 0.2;
+	highlightBorderAlpha: 0.6;
+	borderThickness: 0;
+}
+
+ZSmartGroup.bracket
+{
+	skinClass: hu.kibu.zui.model.skins.BracketFrameSkin;
+}
+
+BracketFrameSkin
+{
+	editOpenAlpha: 0.8;
+	gradEndAlpha: 1;
+	highlightBorderColor: #888;
+	gradStartAlpha: 1;
+	borderColor: #888;
+	borderAlpha: 0.5;
+	thickness: 25;
+	highlightFillColor: #fff;
+	gradStartColor: #444;
+	gradEndColor: #000;
+	highlightFillAlpha: 0.2;
+	highlightBorderAlpha: 0.5;
+	borderThickness: 0;
+}
+
+ZSmartGroup.roundrect
+{
+	skinClass: hu.kibu.zui.model.skins.RoundRectFrameSkin;
+}
+
+RoundRectFrameSkin
+{
+	editOpenAlpha: 0.6;
+	gradEndAlpha: 0.7;
+	highlightBorderColor: #333;
+	radius: 0;
+	gradEndColor: #fff;
+	borderColor: #fff;
+	borderAlpha: 0.7;
+	highlightFillColor: #333;
+	gradStartColor: #fff;
+	gradStartAlpha: 1;
+	highlightFillAlpha: 0.2;
+	highlightBorderAlpha: 0.7;
+	borderThickness: 0;
+}
+
+ZSmartGroup.hidden
+{
+	skinClass: hu.kibu.zui.model.skins.HiddenFrameSkin;
+}
+
+HiddenFrameSkin
+{
+	gradEndColor: #fff;
+	gradEndAlpha: 0.01;
+	highlightFillColor: #fff;
+	highlightBorderColor: #000;
+	radius: 40;
+	gradStartColor: #fff;
+	gradStartAlpha: 0.6;
+	highlightFillAlpha: 0.4;
+	highlightBorderAlpha: 0.6;
+	borderThickness: -1;
+}
+
+ZYoutube
+{
+	lockTintColor: #fff;
+}
+
+ZLoadedImage
+{
+	lockTintColor: #fff;
+}
+
+ZCircle
+{
+	radius: 0;
+	gradEndAlpha: 1;
+	lockTintALpha: 0;
+	borderThickness: 0;
+	gradStartAlpha: 1;
+	color: #fff;
+	borderColor: #000;
+	alpha: 0.8;
+	borderAlpha: 1;
+	thickness: 100;
+}
+
+ZPoly
+{
+	radius: 0;
+	gradEndAlpha: 1;
+	lockTintALpha: 0;
+	borderThickness: 0;
+	gradStartAlpha: 1;
+	color: #fff;
+	borderColor: #000;
+	alpha: 1;
+	borderAlpha: 1;
+	thickness: 100;
+}
+
+]]></style>
+  <hash>-6faf6400</hash>
+<sync><oid>qtlwszhgqhyl</oid><hash>-6faf6400</hash></sync><config>QmFu3ymsm66ov1lqK3D2XUDz7P/pQnyBmLXImD7WD9l5L6m/DGE2y2xfQDVg79FhmdtzH1FzK8mi1hgI9oy1Ui2KKUSqtnL6cz+fbvLm2dDPXzd+969WgaKVHt80D3ZqIPn7HanH0gwfWqRU20LQq9jlQoOsLS6OuFjttO62mCH3S51bMLQ04yw52U3idetq5GclynT2iSWIz0vZt2X8nsiWpH2jPNaZexsorr7rYsYwxLGBaI0Ivo+DFH2MV3vT4hksZviJyWMbz4/sFdsQEFtSMyv3PA4349odlTNtPnijJIkCyny1dzUPcEYkzN7DBhWMdAqMpOC1E0LZdfuneQ==</config></zuiprezi>
