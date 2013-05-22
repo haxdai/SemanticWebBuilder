@@ -77,7 +77,7 @@ public class CSVFileSplitter {
             try {
                 BufferedInputStream in = new BufferedInputStream(new FileInputStream(parameters.getFile()));
                 for (Long curr : list) {
-                    FileOutputStream fos = new FileOutputStream(destPath + parameters.getFile().getName() + "_" + file_num);
+                    FileOutputStream fos = new FileOutputStream(destPath + "/" + parameters.getFile().getName() + "_" + file_num);
                     fillFile(fos, in, last_val, curr);
                     fos.flush();
                     fos.close();
@@ -85,13 +85,13 @@ public class CSVFileSplitter {
                     last_val = curr;
                 }
                 if (last_val < parameters.getFile().length()) {
-                    FileOutputStream fos = new FileOutputStream(destPath + parameters.getFile().getName() + "_" + file_num);
+                    FileOutputStream fos = new FileOutputStream(destPath + "/" + parameters.getFile().getName() + "_" + file_num);
                     fillFile(fos, in, last_val, parameters.getFile().length());
                     fos.flush();
                     fos.close();
                 }
                 in.close();
-                PrintWriter pw = new PrintWriter(destPath + parameters.getFile().getName()+"_idx");
+                PrintWriter pw = new PrintWriter(destPath + "/" + parameters.getFile().getName()+"_idx");
                 pw.println(parameters.getFile().getCanonicalPath());
                 pw.println(""+parameters.getRecordsPerFile());
                 pw.println(""+hasHeader);

@@ -47,7 +47,7 @@ public class SendFileTask implements Callable<TaskInfo> {
     public TaskInfo call() throws Exception {
         try {
             String dir = ti.getRelatedObject().getSemanticObject().
-                    getSemanticClass().getClassCodeName() + ti.getRelatedObject().getId();
+                    getSemanticClass().getClassCodeName() +"/"+ ti.getRelatedObject().getId();
             File path = new File(ti.getBase(), dir);
             if (!path.exists()) {
                 path.mkdirs();
@@ -71,6 +71,7 @@ public class SendFileTask implements Callable<TaskInfo> {
                 fis.close();
                 fos.flush();
                 fos.close();
+                ti.setResultMessage(" The File was copied. ");
             }
             ti.getFileToSend().delete();
             ti.setResultMessage(ti.getResultMessage() + "The original file was deleted. ");
