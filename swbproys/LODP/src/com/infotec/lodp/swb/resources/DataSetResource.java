@@ -182,8 +182,13 @@ public class DataSetResource extends GenericAdmResource {
             if (ds != null) {
 
                 //actualizo el numero de descragas del dataset
-                boolean dowloaded = LODPUtils.updateDSDownload(ds);
-                boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
+                //boolean dowloaded = LODPUtils.updateDSDownload(ds);
+               // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
+                
+                //TODO: Revisar la parte de generación del log
+                
+                boolean dowloaded = ds.incHits();
+                
 
                 DatasetVersion ver = ds.getActualVersion();               
                 
