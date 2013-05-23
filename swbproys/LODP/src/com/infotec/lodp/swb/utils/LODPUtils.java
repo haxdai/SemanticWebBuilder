@@ -222,14 +222,18 @@ public class LODPUtils {
         return ret;
     }
     
-    public static final String getDSTagList(Dataset ds){
+    public static final String getDSTagList(Dataset ds, String separador){
         StringBuilder ret = new StringBuilder("");
+        if(null==separador){
+            separador="";
+        }
         if(null!=ds && ds.listTags().hasNext()){
             Iterator<Tag> ittag = ds.listTags();
             while (ittag.hasNext()) {
                 Tag tag = ittag.next();
                 ret.append(tag.getTagName()!=null?tag.getTagName().trim():"");
                 if(ittag.hasNext()){
+                    ret.append(separador);
                     ret.append(" ");
                 }
             }
