@@ -263,13 +263,16 @@ public class DataSetResource extends GenericAdmResource {
      */
     public static Iterator<Dataset> orderDS(Iterator<Dataset> it, String orderby) {
 
-        System.out.println("Ordenamiento...");
+        System.out.println("Ordenamiento..."+orderby);
         Set set = null;
         if (null != orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
-            set = sortByCreated(it, false);
+            //mas reciente
+            set = sortByCreated(it, true);
         } else if (null != orderby && DataSetResource.ORDER_DOWNLOAD.equals(orderby)) {
+            // mas descargado
             set = sortByDownloads(it, false);
         } else if (null != orderby && DataSetResource.ORDER_VIEW.equals(orderby)) {
+            //mas visto
             set = sortByViews(it, false);
         } else if (null != orderby && DataSetResource.ORDER_RANK.equals(orderby)) {
             set = sortByRank(it, false);
@@ -449,10 +452,10 @@ public class DataSetResource extends GenericAdmResource {
         if (ascendente) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1;
-                    long d2;
-                    d1 = ((Dataset) o1).getRanks();
-                    d2 = ((Dataset) o2).getRanks();
+                    float d1;
+                    float d2;
+                    d1 = ((Dataset) o1).getAverage();
+                    d2 = ((Dataset) o2).getAverage();
                     int ret = d1 > d2 ? 1 : -1;
                     return ret;
                 }
@@ -460,10 +463,10 @@ public class DataSetResource extends GenericAdmResource {
         } else {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1;
-                    long d2;
-                    d1 = ((Dataset) o1).getRanks();
-                    d2 = ((Dataset) o2).getRanks();
+                    float d1;
+                    float d2;
+                    d1 = ((Dataset) o1).getAverage();
+                    d2 = ((Dataset) o2).getAverage();
                     int ret = d1 > d2 ? -1 : 1;
                     return ret;
                 }
