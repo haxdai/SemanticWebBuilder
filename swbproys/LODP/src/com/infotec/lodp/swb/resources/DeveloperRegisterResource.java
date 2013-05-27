@@ -140,9 +140,9 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                         InternetAddress address = new InternetAddress();
                         address.setAddress(email);
                         aTo.add(address);
-                        SWBUtils.EMAIL.sendBGEmail(SWBPortal.getEnv("af/adminEmail","lodp@infotec.com.mx"),"",aTo,
+                        /*SWBUtils.EMAIL.sendBGEmail(SWBPortal.getEnv("af/adminEmail","lodp@infotec.com.mx"),"",aTo,
                         null,null, sitename+" - "+response.getLocaleString("msgSubject"),"html", emailMsg,
-                        null,null,null);
+                        null,null,null);*/
                         log.event(emailMsg);
 /*
                         emailMsg = base.getAttribute("emailAgreeMsg");
