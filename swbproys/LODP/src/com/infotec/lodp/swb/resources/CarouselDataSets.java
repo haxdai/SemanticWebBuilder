@@ -4,16 +4,8 @@
  */
 package com.infotec.lodp.swb.resources;
 
-import com.infotec.lodp.swb.Dataset;
 import static com.infotec.lodp.swb.resources.CommentsViewResource.log;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByCreated;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByDownloads;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByViews;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
