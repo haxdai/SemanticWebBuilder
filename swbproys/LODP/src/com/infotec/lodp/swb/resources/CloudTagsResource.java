@@ -115,7 +115,7 @@ public class CloudTagsResource extends GenericAdmResource{
         int rango = maxTags / 5; //5 = Número de clases CSS
         while(listTags.hasNext() && count < maxTags){
             Tag tag = listTags.next();
-            tag.setProperty("classCSS", "class0"+String.valueOf((count+rango)/rango));
+            tag.setProperty("classCSS", "n"+String.valueOf((count+rango)/rango));
             cloudTags.add(tag);
             count++;
         }
