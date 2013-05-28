@@ -171,5 +171,18 @@ public class CommentsManageResource extends GenericResource {
         }
         return ret;
     }
-
+    static public ArrayList<Comment> listCommentsByDataset(Iterator<Dataset> itds,int nInappropriate){
+        ArrayList<Comment> ret=new ArrayList<Comment>();
+        while(itds.hasNext()){
+            Dataset ds=itds.next();
+            Iterator<Comment> itco=ds.listComments();
+            while(itco.hasNext()){
+                Comment co =itco.next();
+                if(co.getInappropriate()>=nInappropriate&&!co.isReviewed()){
+                    ret.add(co);
+                }
+            }
+        }
+        return ret;
+    }
 }
