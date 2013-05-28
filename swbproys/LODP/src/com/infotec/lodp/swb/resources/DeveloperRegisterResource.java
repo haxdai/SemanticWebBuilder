@@ -99,7 +99,7 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                 if(ur.getUserByEmail(email)!=null){
                     msg.append(response.getLocaleString("lblEmailDupl")).append(",");
                 }
-                if( securCodeCreated!=null && securCodeCreated.equalsIgnoreCase(securCodeSent)){
+                if( securCodeCreated==null || !securCodeCreated.equalsIgnoreCase(securCodeSent)){
                     msg.append(response.getLocaleString("lblCaptchaFault")).append(",");
                 }
                 if(msg.length()==0 ) {
