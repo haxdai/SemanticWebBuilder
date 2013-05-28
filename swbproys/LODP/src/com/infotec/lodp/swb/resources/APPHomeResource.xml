@@ -5,7 +5,7 @@
 		<admdbconnmgr defconn="true"/>
         <fieldset>
             <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
-             <input type="TEXT" name="appid" label="Página web en donde se  mostrará el detalle del dataset:" size="5" jsrequired="true"/>
+             <input type="TEXT" name="appid" label="Página web en donde se  mostrará el detalle de la aplicacion:" size="5" jsrequired="true"/>
              <input type="TEXT" name="numapp" label="Número de elementos más nuevo a mostrar como estratégia:" size="5" jsrequired="true"/>
         </fieldset>
 
