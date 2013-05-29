@@ -146,7 +146,7 @@ public class DataSetResource extends GenericAdmResource {
 
                 } else if (META_FORMAT_JSON.equals(metaformat)) {
                     //Se crea JSON con meta del Dataset
-                    System.out.println("JSON File");
+                    //System.out.println("JSON File");
                     //response.setContentType("Content-Type: text/javascript");
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".json\";");
                     try {
