@@ -39,6 +39,8 @@ import org.semanticwb.portal.api.SWBResourceURL;
 public class CommentsViewResource extends GenericResource {
 
     public static final Logger log = SWBUtils.getLogger(CommentsViewResource.class);
+    /** Accion personalizada para comentar    */
+    public static final String Action_COMMENT="inp";
     /** Accion personalizada para marcar un comentario inapropiado    */
     public static final String Action_INAPPROPRIATE="inp";
     /** Accion personalizada para editar la administraciono     */
@@ -61,7 +63,7 @@ public class CommentsViewResource extends GenericResource {
         UserRepository ur = wsite.getUserRepository();
         String suri = null;
         String npag =request.getParameter("npag");
-        if (response.Action_ADD.equals(action)) {
+        if (Action_COMMENT.equals(action)) {
             String name = null;
             String email = null;
             String strComment = null;
@@ -99,6 +101,7 @@ public class CommentsViewResource extends GenericResource {
                     ds.addComment(comment);
                 } 
             }
+            response.setRenderParameter("act","detail");
             if(suri!=null&&!suri.equals("")){
                 response.setRenderParameter("suri", suri);
             }
@@ -111,6 +114,7 @@ public class CommentsViewResource extends GenericResource {
                 Comment comment=Comment.ClassMgr.getComment(cid,wsite);
                 comment.setInappropriate(comment.getInappropriate()+1);
             }
+            response.setRenderParameter("act","detail");
             if(suri!=null&&!suri.equals("")){
                 response.setRenderParameter("suri", suri);
             }
