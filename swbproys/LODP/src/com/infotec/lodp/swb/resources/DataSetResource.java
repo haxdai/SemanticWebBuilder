@@ -6,11 +6,9 @@ package com.infotec.lodp.swb.resources;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
 import com.infotec.lodp.swb.DatasetVersion;
-import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -24,17 +22,16 @@ import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.base.SWBObserver;
 import org.semanticwb.model.GenericObject;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
-import org.semanticwb.model.VersionInfo;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SWBMessageCenter;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.platform.SemanticProperty;
@@ -65,7 +62,8 @@ public class DataSetResource extends GenericAdmResource {
     public static final String ORDER_DOWNLOAD = "hit";
     public static final String ORDER_RANK = "rank";
     public static final String MODE_FILE = "file";
-    
+
+            
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -181,16 +179,19 @@ public class DataSetResource extends GenericAdmResource {
             
             if (ds != null) {
 
+                 DatasetVersion ver = ds.getActualVersion();   
                 //actualizo el numero de descragas del dataset
                 //boolean dowloaded = LODPUtils.updateDSDownload(ds);
                // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
                 
                 //TODO: Revisar la parte de generación del log
+
+                ds.buildHits(request, response, null, user, paramRequest.getWebPage(), true, "descarga del archivo: "+ver.getFilePath(), null);
                 
                 boolean dowloaded = ds.incHits();
                 
-
-                DatasetVersion ver = ds.getActualVersion();               
+                //TODO: Hacer el sendRedirect a la ruta en donde estarán los archivos, revisarlo con Serch
+                
                 
                 try {
                     response.setContentType(DEFAULT_MIME_TYPE);
@@ -304,8 +305,19 @@ public class DataSetResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    d1 = ((Dataset) o1).getActualVersion().getVersionCreated();
-                    d2 = ((Dataset) o2).getActualVersion().getVersionCreated();
+                    
+                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
+                     DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
+                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
+                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
+                     if(d1==null){
+                        d1=((Dataset) o1).getDatasetCreated();
+                    }
+                    if(d2==null){
+                        d2=((Dataset) o2).getDatasetCreated();
+                    }
+                    
+                    
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
@@ -325,8 +337,20 @@ public class DataSetResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    d1 = ((Dataset) o1).getActualVersion().getVersionCreated();
-                    d2 = ((Dataset) o2).getActualVersion().getVersionCreated();
+                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
+                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
+                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
+                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
+                    
+                    if(d1==null){
+                        d1=((Dataset) o1).getDatasetCreated();
+                    }
+                    if(d2==null){
+                        d2=((Dataset) o2).getDatasetCreated();
+                    }
+                    
+                    
+                    
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
