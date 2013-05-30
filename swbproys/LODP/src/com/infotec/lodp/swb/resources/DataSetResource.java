@@ -116,7 +116,7 @@ public class DataSetResource extends GenericAdmResource {
         if ("meta".equals(action)) {
 
             //System.out.println("Entro a meta");
-            obj = ont.getSemanticObject(dsuri);
+            obj = ont.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
                 
@@ -172,7 +172,7 @@ public class DataSetResource extends GenericAdmResource {
         } else if ("file".equals(action)) {
 
             
-            obj = ont.getSemanticObject(dsuri);
+            obj = ont.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
 
             Dataset ds = (Dataset) obj.createGenericInstance();
