@@ -64,7 +64,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
             public void sendDBNotify(String s, Object obj)
             {
                 String str=(String)obj;
-                
+                System.out.println("mensaje: "+str);
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
