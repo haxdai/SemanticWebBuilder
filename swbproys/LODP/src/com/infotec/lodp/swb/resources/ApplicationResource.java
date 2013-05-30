@@ -41,6 +41,7 @@ public class ApplicationResource extends GenericResource{
     
     public static final String MODE_TERMINOS = "ACEPTATERMINOS";
     public static final String ADD_APPLICATION = "ADDAPPLICATION";
+    public static final String REDIRECT_URL = "URLREDIRECT";
     public static final String ORDER_RANK = "rank";
     public static final String ORDER_COMMENTS = "comments";
     public static final String ORDER_CREATED = "date";
@@ -77,7 +78,9 @@ public class ApplicationResource extends GenericResource{
                 doAddApplication(request, response, paramRequest);
             }else if(mode.equals(MODE_TERMINOS)){
                 viewConditions(request, response, paramRequest);
-            }         
+            }else if(mode.equals(REDIRECT_URL)){
+                redirectURL(request, response, paramRequest);
+            }       
             else{
                 super.processRequest(request, response, paramRequest);
             }
@@ -140,6 +143,16 @@ public class ApplicationResource extends GenericResource{
             }
         }
        
+    }
+    
+    public void redirectURL(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String uri = request.getParameter("uri");
+        System.out.println("se obtiene la uri mandada de la platilla" + uri);
+        SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
+        Application apl = (Application)semObj.createGenericInstance();
+        apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
+        System.out.println("Esta es la url que se mando para redireccionar: " + apl.getAppURL());
+        response.sendRedirect(apl.getAppURL());
     }
 
     @Override
