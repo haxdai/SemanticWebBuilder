@@ -1,36 +1,18 @@
 package com.infotec.lodp.swb;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.StringTokenizer;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.SWBObserver;
-import org.semanticwb.model.Resource;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.portal.SWBResourceMgr;
-import static org.semanticwb.portal.access.SWBAccessIncrement.log;
-import static org.semanticwb.portal.access.SWBAccessLog.log;
 import org.semanticwb.portal.access.SWBHitCounter;
-import org.semanticwb.portal.api.SWBParamRequestImp;
-import org.semanticwb.portal.api.SWBResource;
-import org.semanticwb.portal.api.SWBResourceModes;
-import org.semanticwb.portal.util.SWBIFMethod;
-import org.semanticwb.portal.util.SWBMethod;
-import org.semanticwb.servlet.SWBHttpServletRequestWrapper;
-import org.semanticwb.servlet.SWBHttpServletResponseWrapper;
-import org.semanticwb.servlet.internal.DistributorParams;
 
 
 public class Dataset extends com.infotec.lodp.swb.base.DatasetBase 
