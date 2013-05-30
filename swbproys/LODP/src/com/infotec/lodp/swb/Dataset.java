@@ -140,7 +140,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                     
                     if (!SWBPortal.isClient())
                     {
-                        
+                        str=str.substring(prefijo.length()+1);
                         SWBPortal.getAccessLog().log(logh,map,"_ds_hits",str);
                         
                         String sdate = date.substring(0, 10);

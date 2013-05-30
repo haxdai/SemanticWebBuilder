@@ -64,6 +64,8 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
         
         logv=new HashMap();
         logh=new HashMap();
+         appviewsmap =new HashMap();
+         apphitsmap =new HashMap();
         
         SWBPortal.getMessageCenter().registerObserver("apv", new SWBObserver() {
             @Override
@@ -74,6 +76,7 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
+                    String prefijo = st.nextToken();
                     String date = st.nextToken();
                     String ipuser = st.nextToken();
                     String ipserver = st.nextToken();
@@ -87,9 +90,9 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                     String lang = st.nextToken();
                     String ds = st.nextToken();
                     
-                    
                     if (!SWBPortal.isClient())
-                    {                    
+                    {      
+                        str=str.substring(prefijo.length()+1);
                         SWBPortal.getAccessLog().log(logv,map,"_app_views",str);
                         
                         String sdate = date.substring(0, 10);
@@ -123,6 +126,7 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
+                    String prefijo = st.nextToken();
                     String date = st.nextToken();
                     String ipuser = st.nextToken();
                     String ipserver = st.nextToken();
@@ -138,7 +142,8 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                     
                     
                     if (!SWBPortal.isClient())
-                    {                    
+                    {             
+                        str=str.substring(prefijo.length()+1);
                         SWBPortal.getAccessLog().log(logh,map,"_app_hits",str);
                         
                         String sdate = date.substring(0, 10);
