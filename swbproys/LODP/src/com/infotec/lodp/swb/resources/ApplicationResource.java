@@ -147,11 +147,11 @@ public class ApplicationResource extends GenericResource{
     
     public void redirectURL(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String uri = request.getParameter("uri");
-        System.out.println("se obtiene la uri mandada de la platilla" + uri);
+//        System.out.println("se obtiene la uri mandada de la platilla" + uri);
         SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
         Application apl = (Application)semObj.createGenericInstance();
         apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
-        System.out.println("Esta es la url que se mando para redireccionar: " + apl.getAppURL());
+//        System.out.println("Esta es la url que se mando para redireccionar: " + apl.getAppURL());
         response.sendRedirect(apl.getAppURL());
     }
 
