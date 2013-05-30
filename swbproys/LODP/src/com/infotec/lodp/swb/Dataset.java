@@ -41,7 +41,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
     /** The hitted. */
     private boolean hitted = false;
     
-    private static HashMap logv, logh, dsviewsmap,dshitsmap;
+    private static HashMap logv, logh, dsviewsmap, dshitsmap;
     
     private static String dbpatern=null;
     
@@ -58,6 +58,8 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
         
         logv=new HashMap();
         logh=new HashMap();
+        dsviewsmap=new HashMap(); 
+        dshitsmap=new HashMap();
         
         SWBPortal.getMessageCenter().registerObserver("odv", new SWBObserver() {
             @Override
