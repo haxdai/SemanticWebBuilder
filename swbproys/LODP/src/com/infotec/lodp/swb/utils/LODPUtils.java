@@ -32,94 +32,94 @@ public class LODPUtils {
      * 
      *  Agrega Acción realizada a determinado DataSet
      */
-    public static boolean addDSLog(WebSite wsite, Dataset ds, User usr, String description, int type){
-        boolean ret = Boolean.FALSE;
-        
-        try {
-            DatasetLog dslog = DatasetLog.ClassMgr.createDatasetLog(wsite);
-            dslog.setDataset(ds);
-            dslog.setLogUser(usr);
-            dslog.setLogDescription(description);
-            dslog.setLogType(type);
-            dslog.setLogCreated(new java.util.Date(System.currentTimeMillis()));
-            ret = Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Error al generar el log del DataSet",e);
-            ret = Boolean.FALSE;
-        }
-        return ret;
-    }
+//    public static boolean addDSLog(WebSite wsite, Dataset ds, User usr, String description, int type){
+//        boolean ret = Boolean.FALSE;
+//        
+//        try {
+//            DatasetLog dslog = DatasetLog.ClassMgr.createDatasetLog(wsite);
+//            dslog.setDataset(ds);
+//            dslog.setLogUser(usr);
+//            dslog.setLogDescription(description);
+//            dslog.setLogType(type);
+//            dslog.setLogCreated(new java.util.Date(System.currentTimeMillis()));
+//            ret = Boolean.TRUE;
+//        } catch (Exception e) {
+//            log.error("Error al generar el log del DataSet",e);
+//            ret = Boolean.FALSE;
+//        }
+//        return ret;
+//    }
     
     /**
      *  Update lastupdate information of the dataset
      * @param ds dataset to update date information
      * @return true or false
      */
-    public static boolean updateDSLastUpdate(Dataset ds){
-        boolean ret = Boolean.FALSE;  
-        try {
-            Date now = new Date(System.currentTimeMillis());
-            ds.setDatasetUpdated(now);
-            ret = Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Error al actualizar la fecha de ultima actualización del DataSet",e);
-            ret = Boolean.FALSE;
-        }
-        return ret;
-    }
+//    public static boolean updateDSLastUpdate(Dataset ds){
+//        boolean ret = Boolean.FALSE;  
+//        try {
+//            Date now = new Date(System.currentTimeMillis());
+//            ds.setDatasetUpdated(now);
+//            ret = Boolean.TRUE;
+//        } catch (Exception e) {
+//            log.error("Error al actualizar la fecha de ultima actualización del DataSet",e);
+//            ret = Boolean.FALSE;
+//        }
+//        return ret;
+//    }
    
     /**
      *  Add last download date and update number of downloads
      * @param ds dataset to modify download information
      * @return true or false
      */
-    public static boolean updateDSDownload(Dataset ds){
-        boolean ret = Boolean.FALSE;  
-        try {
-            Date now = new Date(System.currentTimeMillis());
-            ds.setLastDownload(now);
-            long downloads = 0;
-            try {
-                downloads = ds.getDownloads();
-                downloads++;
-            } catch (Exception e) {
-                downloads=1;
-            }
-            ds.setDownloads(downloads);
-            ret = Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Error al actualizar la información de descargas del DataSet",e);
-            ret = Boolean.FALSE;
-        }
-        return ret;
-    }
+//    public static boolean updateDSDownload(Dataset ds){
+//        boolean ret = Boolean.FALSE;  
+//        try {
+//            Date now = new Date(System.currentTimeMillis());
+//            ds.setLastDownload(now);
+//            long downloads = 0;
+//            try {
+//                downloads = ds.getDownloads();
+//                downloads++;
+//            } catch (Exception e) {
+//                downloads=1;
+//            }
+//            ds.setDownloads(downloads);
+//            ret = Boolean.TRUE;
+//        } catch (Exception e) {
+//            log.error("Error al actualizar la información de descargas del DataSet",e);
+//            ret = Boolean.FALSE;
+//        }
+//        return ret;
+//    }
     
     /**
      * Updates dataset views information and last view date
      * @param ds dataset to modify views information
      * @return true or false
      */
-    public static boolean updateDSViews(Dataset ds){
-        boolean ret = Boolean.FALSE;  
-        try {
-            Date now = new Date(System.currentTimeMillis());
-            ds.setLastView(now);
-           
-            long views = 0;
-            try {
-                views = ds.getViews();
-                views++;
-            } catch (Exception e) {
-                views=1;
-            }
-            ds.setViews(views);
-            ret = Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Error al actualizar la información de vistas del DataSet",e);
-            ret = Boolean.FALSE;
-        }
-        return ret;
-    }
+//    public static boolean updateDSViews(Dataset ds){
+//        boolean ret = Boolean.FALSE;  
+//        try {
+//            Date now = new Date(System.currentTimeMillis());
+//            ds.setLastView(now);
+//           
+//            long views = 0;
+//            try {
+//                views = ds.getViews();
+//                views++;
+//            } catch (Exception e) {
+//                views=1;
+//            }
+//            ds.setViews(views);
+//            ret = Boolean.TRUE;
+//        } catch (Exception e) {
+//            log.error("Error al actualizar la información de vistas del DataSet",e);
+//            ret = Boolean.FALSE;
+//        }
+//        return ret;
+//    }
     
     /**
      *  Update dataset evaluated information 
@@ -200,27 +200,27 @@ public class LODPUtils {
      * @param app application to modify views information
      * @return true or false
      */
-    public static boolean updateAppViews(Application app){
-        boolean ret = Boolean.FALSE;  
-        try {
-            Date now = new Date(System.currentTimeMillis());
-            app.setLastView(now);
-           
-            long views = 0;
-            try {
-                views = app.getViews();
-                views++;
-            } catch (Exception e) {
-                views=1;
-            }
-            app.setViews(views);
-            ret = Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Error al actualizar la información de vistas de la Aplicacion",e);
-            ret = Boolean.FALSE;
-        }
-        return ret;
-    }
+//    public static boolean updateAppViews(Application app){
+//        boolean ret = Boolean.FALSE;  
+//        try {
+//            Date now = new Date(System.currentTimeMillis());
+//            app.setLastView(now);
+//           
+//            long views = 0;
+//            try {
+//                views = app.getViews();
+//                views++;
+//            } catch (Exception e) {
+//                views=1;
+//            }
+//            app.setViews(views);
+//            ret = Boolean.TRUE;
+//        } catch (Exception e) {
+//            log.error("Error al actualizar la información de vistas de la Aplicacion",e);
+//            ret = Boolean.FALSE;
+//        }
+//        return ret;
+//    }
     
     public static final String getDSTagList(Dataset ds, String separador){
         StringBuilder ret = new StringBuilder("");
