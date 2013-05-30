@@ -64,7 +64,9 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
             public void sendDBNotify(String s, Object obj)
             {
                 String str=(String)obj;
-                System.out.println("mensaje: "+str);
+                //System.out.println("mensaje: "+str);
+                //odv|2013-05-30 12:33:32|127.0.0.1|127.0.0.1|-1927777061|LODP|Datos|LODP_usr|_|swb:User|safari|es|LODP:lodpcg_Dataset:1
+
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
@@ -117,6 +119,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
+                     String prefijo = st.nextToken();
                     String date = st.nextToken();
                     String ipuser = st.nextToken();
                     String ipserver = st.nextToken();
