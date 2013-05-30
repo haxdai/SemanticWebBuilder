@@ -119,7 +119,8 @@ public class DSPublisherResource extends GenericAdmResource {
         }
     }
 
-/**
+    
+    /**
  * 
  * @param request
  * @param response
@@ -401,18 +402,21 @@ public class DSPublisherResource extends GenericAdmResource {
             newver.setPreviousVersion(ver);
             ver.setNextVersion(newver);
             newver.setVersion(ver.getVersion()+1);
-            String newveruri = newver.getEncodedURI();
             
+            String wpiduploadfile = base.getAttribute("uploadfileid","Subir_archivo");
+
             SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
             urlredirect.setAction("addVersionStep2");
             urlredirect.setParameter("suri", ds.getEncodedURI());
             urlredirect.setParameter("dsveruri", newver.getEncodedURI());
             String returnurl = urlredirect.toString(true);
             
-            
             //redireccionar para subir archivo
             //url en donde está el archivo
             //url de retorno para actualizar datos finales de la versión
+            
+            String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl()+"?suri="+ds.getEncodedURI()+"&returl="+returnurl;
+            response.sendRedirect(redirectuploadfile);
             
         } else if(action.equals("addVersionStep2")){
             
