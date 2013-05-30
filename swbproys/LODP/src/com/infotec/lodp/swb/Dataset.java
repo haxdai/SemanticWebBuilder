@@ -70,6 +70,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                 StringTokenizer st = new StringTokenizer(str, "|");
                 if (st.hasMoreTokens())
                 {
+                    String prefijo = st.nextToken();
                     String date = st.nextToken();
                     String ipuser = st.nextToken();
                     String ipserver = st.nextToken();
@@ -85,7 +86,8 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                     
                     
                     if (!SWBPortal.isClient())
-                    {                    
+                    {             
+                        str=str.substring(prefijo.length()+1);
                         SWBPortal.getAccessLog().log(logv,map,"_ds_views",str);
                         
                         String sdate = date.substring(0, 10);
@@ -135,7 +137,8 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                     
                     
                     if (!SWBPortal.isClient())
-                    {                    
+                    {
+                        
                         SWBPortal.getAccessLog().log(logh,map,"_ds_hits",str);
                         
                         String sdate = date.substring(0, 10);
