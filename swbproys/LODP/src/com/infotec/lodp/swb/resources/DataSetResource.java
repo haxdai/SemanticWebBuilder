@@ -183,15 +183,10 @@ public class DataSetResource extends GenericAdmResource {
                 //actualizo el numero de descragas del dataset
                 //boolean dowloaded = LODPUtils.updateDSDownload(ds);
                // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
-                
-                //TODO: Revisar la parte de generación del log
 
-                ds.buildHits(request, response, null, user, paramRequest.getWebPage(), true, "descarga del archivo: "+ver.getFilePath(), null);
-                
-                boolean dowloaded = ds.incHits();
-                
+                ds.sendHit(request, user, paramRequest.getWebPage());
+
                 //TODO: Hacer el sendRedirect a la ruta en donde estarán los archivos, revisarlo con Serch
-                
                 
                 try {
                     response.setContentType(DEFAULT_MIME_TYPE);
