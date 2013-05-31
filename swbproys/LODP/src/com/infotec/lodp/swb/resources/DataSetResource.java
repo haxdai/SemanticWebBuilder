@@ -189,11 +189,11 @@ public class DataSetResource extends GenericAdmResource {
                 //TODO: Hacer el sendRedirect a la ruta en donde estarán los archivos, revisarlo con Serch
                 
                 try {
-                    response.setContentType(DEFAULT_MIME_TYPE);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
-
-                    OutputStream out = response.getOutputStream();
-                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + ds.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+//                    response.setContentType(DEFAULT_MIME_TYPE);
+//                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
+//
+//                    OutputStream out = response.getOutputStream();
+//                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + ds.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
                 } catch (Exception e) {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }

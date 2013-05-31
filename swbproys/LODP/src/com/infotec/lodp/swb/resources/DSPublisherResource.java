@@ -9,6 +9,7 @@ import com.hp.hpl.jena.rdf.model.ModelFactory;
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetVersion;
+import com.infotec.lodp.swb.LicenseType;
 import com.infotec.lodp.swb.Publisher;
 import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.ByteArrayOutputStream;
@@ -89,14 +90,14 @@ public class DSPublisherResource extends GenericAdmResource {
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @param request
      * @param response
      * @param paramsRequest
      * @throws SWBResourceException
-     * @throws IOException 
+     * @throws IOException
      */
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -119,15 +120,14 @@ public class DSPublisherResource extends GenericAdmResource {
         }
     }
 
-    
     /**
- * 
- * @param request
- * @param response
- * @param paramsRequest
- * @throws SWBResourceException
- * @throws IOException 
- */
+     *
+     * @param request
+     * @param response
+     * @param paramsRequest
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public void doStat(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         //super.doView(request, response, paramsRequest); //To change body of generated methods, choose Tools | Templates.
 
@@ -147,16 +147,15 @@ public class DSPublisherResource extends GenericAdmResource {
             }
         }
     }
-    
-    
-/**
- * 
- * @param request
- * @param response
- * @param paramsRequest
- * @throws SWBResourceException
- * @throws IOException 
- */
+
+    /**
+     *
+     * @param request
+     * @param response
+     * @param paramsRequest
+     * @throws SWBResourceException
+     * @throws IOException
+     */
     public void doGraph(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         //super.doView(request, response, paramsRequest); //To change body of generated methods, choose Tools | Templates.
 
@@ -176,14 +175,14 @@ public class DSPublisherResource extends GenericAdmResource {
             }
         }
     }
-    
+
     /**
-     * 
+     *
      * @param request
      * @param response
      * @param paramRequest
      * @throws SWBResourceException
-     * @throws IOException 
+     * @throws IOException
      */
     public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -214,8 +213,7 @@ public class DSPublisherResource extends GenericAdmResource {
             obj = ont.getSemanticObject(dsuri);
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
-                boolean dowloaded = LODPUtils.updateDSDownload(ds);
-                
+
                 String dsname = ds.getDatasetTitle();
                 dsname = SWBUtils.TEXT.replaceSpecialCharacters(dsname, true);
                 if (META_FORMAT_RDF.equals(metaformat)) {
@@ -257,6 +255,7 @@ public class DSPublisherResource extends GenericAdmResource {
         } else if ("file".equals(action)) {
 
 
+
             int intVer = 1;
             if (verNumber != null) {
                 intVer = Integer.parseInt(verNumber);
@@ -290,11 +289,12 @@ public class DSPublisherResource extends GenericAdmResource {
                     }
                 }
                 try {
-                    response.setContentType(DEFAULT_MIME_TYPE);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
+                    doc.sendHit(request, user, paramRequest.getWebPage());
+                    //response.setContentType(DEFAULT_MIME_TYPE);
+                    //response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
 
-                    OutputStream out = response.getOutputStream();
-                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+                    //OutputStream out = response.getOutputStream();
+                    //SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + doc.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
                 } catch (Exception e) {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }
@@ -304,23 +304,23 @@ public class DSPublisherResource extends GenericAdmResource {
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals(MODE_FILE)){
+        if (paramRequest.getMode().equals(MODE_FILE)) {
             doGetFile(request, response, paramRequest);
-        } else  if(paramRequest.getMode().equals(MODE_STATS)){
+        } else if (paramRequest.getMode().equals(MODE_STATS)) {
             doStat(request, response, paramRequest);
-        } else  if(paramRequest.getMode().equals(MODE_GRAPH)){
+        } else if (paramRequest.getMode().equals(MODE_GRAPH)) {
             doGraph(request, response, paramRequest);
         } else {
-        super.processRequest(request, response, paramRequest); //To change body of generated methods, choose Tools | Templates.
+            super.processRequest(request, response, paramRequest); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        
+
         String action = response.getAction();
-        if(null==action){
-            action="";
+        if (null == action) {
+            action = "";
         }
         User usr = response.getUser();
         Resource base = getResourceBase();
@@ -332,36 +332,36 @@ public class DSPublisherResource extends GenericAdmResource {
         DatasetVersion ver = null;
         Date dsdate = new Date(System.currentTimeMillis());
         String suri = request.getParameter("suri");
-        
-            if(null!=suri&&suri.trim().length()>0){
-                so = ont.getSemanticObject(suri);
-            }
-            Dataset ds = null;
-            
-    String dstitle = request.getParameter("dstitle");
-    String dsdescription = request.getParameter("dsdescription");
-    String dsemail = request.getParameter("dsemail");
-    String dscreated = request.getParameter("dscreated");
-    String dsupdated = request.getParameter("dsupdated");
-    String dsformat = request.getParameter("dsformat");
-    String dsversion = request.getParameter("dsversion");
-    String dspubname= request.getParameter("dspubname");
-    String dstoplevelname = request.getParameter("dstoplevelname");
-    String dswebsite = request.getParameter("dswebsite");
-    String dsurl = request.getParameter("dsurl");
-            
-        if(SWBActionResponse.Action_ADD.equals(action) || SWBActionResponse.Action_EDIT.equals(action)){
+
+        if (null != suri && suri.trim().length() > 0) {
+            so = ont.getSemanticObject(suri);
+        }
+        Dataset ds = null;
+
+        String dstitle = request.getParameter("dstitle");
+        String dsdescription = request.getParameter("dsdescription");
+        String dsemail = request.getParameter("dsemail");
+        String dscreated = request.getParameter("dscreated");
+        String dsupdated = request.getParameter("dsupdated");
+        String dsformat = request.getParameter("dsformat");
+        String dsversion = request.getParameter("dsversion");
+        String dspubname = request.getParameter("dspubname");
+        String dstoplevelname = request.getParameter("dstoplevelname");
+        String dswebsite = request.getParameter("dswebsite");
+        String dsurl = request.getParameter("dsurl");
+
+        if (SWBActionResponse.Action_ADD.equals(action) || SWBActionResponse.Action_EDIT.equals(action)) {
             String dsuri = null;
-            
-            if(null!=so){
+
+            if (null != so) {
                 go = so.createGenericInstance();
-                if(null!=go && go instanceof Dataset){
+                if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
-                    ds = (Dataset)go;
+                    ds = (Dataset) go;
                 }
             }
-            
-            if(null==ds){
+
+            if (null == ds) {
                 // Se crea nuevo dataset y la version inicial
                 ds = Dataset.ClassMgr.createDataset(wsite);
                 ver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
@@ -370,30 +370,54 @@ public class DSPublisherResource extends GenericAdmResource {
                 ver.setVerComment("Versión inicial");
                 ver.setVersion(1);
                 ds.setActualVersion(ver);
-                ds.setDatasetCreated(dsdate);  
+                ds.setDatasetCreated(dsdate);
+                ds.setAverage(0);
+                ds.setRanks(0);
+                ds.setViews(0);
+                ds.setDownloads(0);
                 //redireccionar para agregar archivo
-                
+                ds.setPublisher(pub);
+                ds.setInstitution(pub.getPubInstitution());
+                ds.setDatasetSector(null);
             }
 
             //Se procesan parámetros
-            String title = request.getParameter("dstitle");
-            String descrition = request.getParameter("dsdescription");
-            
-            ds.setDatasetTitle(title);
-            ds.setDatasetDescription(descrition);
+            ds.setDatasetTitle(dstitle);
+            ds.setDatasetDescription(dsdescription);
             ds.setDatasetUpdated(dsdate);
-            ds.setDatasetSector(null);
+            
+            ds.setApproved(true);
+            ds.setDatasetActive(true);
+
+            if(ds.getPublisher()==null) ds.setPublisher(pub);
+
+            // procesar tags
+            String[] arrtags = request.getParameterValues("dslabels");
+            if(null!=arrtags){
+                
+            }
+            
+            // procesar temas
+            request.getParameterValues("dstopic");
+            
+            // asignar licencia
+            String licid = request.getParameter("dslicense");
+            LicenseType lictype =  (LicenseType)SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(licid)).createGenericInstance();
+            ds.setLicense(lictype);
+            
             
             // se necesita saber si el ds tiene alguna version 
-            
             // se necesita redireccionar para el archivo del ds a subir
-        } else if(action.equals("addVersion")){
             
-            if(null!=so){
+            
+            
+        } else if (action.equals("addVersion")) {
+
+            if (null != so) {
                 go = so.createGenericInstance();
-                if(null!=go && go instanceof Dataset){
+                if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
-                    ds = (Dataset)go;
+                    ds = (Dataset) go;
                     ver = ds.getActualVersion();
                 }
             }
@@ -401,51 +425,51 @@ public class DSPublisherResource extends GenericAdmResource {
             DatasetVersion newver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
             newver.setPreviousVersion(ver);
             ver.setNextVersion(newver);
-            newver.setVersion(ver.getVersion()+1);
-            
-            String wpiduploadfile = base.getAttribute("uploadfileid","Subir_archivo");
+            newver.setVersion(ver.getVersion() + 1);
+
+            String wpiduploadfile = base.getAttribute("uploadfileid", "Subir_archivo");
 
             SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
             urlredirect.setAction("addVersionStep2");
             urlredirect.setParameter("suri", ds.getEncodedURI());
             urlredirect.setParameter("dsveruri", newver.getEncodedURI());
             String returnurl = urlredirect.toString(true);
-            
+
             //redireccionar para subir archivo
             //url en donde está el archivo
             //url de retorno para actualizar datos finales de la versión
-            
-            String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl()+"?suri="+ds.getEncodedURI()+"&returl="+returnurl;
+
+            String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl() + "?suri=" + ds.getEncodedURI() + "&returl=" + returnurl;
             response.sendRedirect(redirectuploadfile);
-            
-        } else if(action.equals("addVersionStep2")){
-            
+
+        } else if (action.equals("addVersionStep2")) {
+
             // se tendría que revisar si se subió correctamente el archivo
             // corecto si existe el nombre del archivo en la version del dataset
-            
+
             //parametros
             String dsveruri = request.getParameter("dsveruri");
             // falta generar la ruta en donde se guardaran los archhivos
             String urlfilesystempath = base.getAttribute("filesystempath");
-            if(null!=so){
+            if (null != so) {
                 go = so.createGenericInstance();
-                if(null!=go && go instanceof Dataset){
+                if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
-                    ds = (Dataset)go;
+                    ds = (Dataset) go;
                     ver = ds.getActualVersion();
-                    if(null!=dsveruri&&dsveruri.equals(ver.getURI())){
-                        if(ver.getFilePath()!=null&&ver.getFilePath().trim().length()>0){
-                            File f = new File(urlfilesystempath+"/"+ver.getFilePath());
-                            if(null!=f&&f.exists()&&f.isFile()){
-                            long filesize = f.getTotalSpace()/1024;  //kbytes
-                            
-                            String fileformat = ver.getFilePath();
-                            fileformat = fileformat.substring(fileformat.lastIndexOf(".")+1);
-                            
-                            ds.setDatasetSize(filesize);
-                            ds.setDatasetFormat(dsurl);
+                    if (null != dsveruri && dsveruri.equals(ver.getURI())) {
+                        if (ver.getFilePath() != null && ver.getFilePath().trim().length() > 0) {
+                            File f = new File(urlfilesystempath + "/" + ver.getFilePath());
+                            if (null != f && f.exists() && f.isFile()) {
+                                long filesize = f.getTotalSpace() / 1024;  //kbytes
+
+                                String fileformat = ver.getFilePath();
+                                fileformat = fileformat.substring(fileformat.lastIndexOf(".") + 1);
+
+                                ds.setDatasetSize(filesize);
+                                ds.setDatasetFormat(dsurl);
                             }
-                            
+
                         }
                     }
                 }
@@ -454,22 +478,22 @@ public class DSPublisherResource extends GenericAdmResource {
             DatasetVersion newver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
             newver.setPreviousVersion(ver);
             ver.setNextVersion(newver);
-            newver.setVersion(ver.getVersion()+1);
+            newver.setVersion(ver.getVersion() + 1);
             String newveruri = newver.getEncodedURI();
-            
+
             SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
             urlredirect.setAction("addVersionStep2");
             urlredirect.setParameter("suri", ds.getEncodedURI());
             urlredirect.setParameter("dsveruri", newver.getEncodedURI());
             String returnurl = urlredirect.toString(true);
-            
-            
+
+
             //redireccionar para subir archivo
             //url en donde está el archivo
             //url de retorno para actualizar datos finales de la versión
-            
+
         }
-        
+
     }
 
     /**
@@ -694,5 +718,4 @@ public class DSPublisherResource extends GenericAdmResource {
 
         return set;
     }
-    
 }
