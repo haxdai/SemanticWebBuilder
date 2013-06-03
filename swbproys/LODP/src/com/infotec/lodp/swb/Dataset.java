@@ -97,7 +97,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                         if(!sdate.equals(dbpatern))
                         {
                             SWBPortal.getAccessLog().updateHitsIter(dsviewsmap.values().iterator());
-                            SWBPortal.getAccessLog().updateHitsIter(dshitsmap.values().iterator());
+                            //SWBPortal.getAccessLog().updateHitsIter(dshitsmap.values().iterator());
                             dbpatern=sdate;
                         }                        
                         datasetDBView(map, ds, sdate);
@@ -140,18 +140,23 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                     
                     if (!SWBPortal.isClient())
                     {
+
                         str=str.substring(prefijo.length()+1);
                         SWBPortal.getAccessLog().log(logh,map,"_ds_hits",str);
                         
                         String sdate = date.substring(0, 10);
-                        
+                        if(!sdate.equals(dbpatern))
+                        {
+                            SWBPortal.getAccessLog().updateHitsIter(dshitsmap.values().iterator());
+                            dbpatern=sdate;
+                        }                        
                         datasetDBHit(map, ds, sdate);
                     }
                     
                     try
                     {
                         Dataset dataset=(Dataset)SemanticObject.createSemanticObject(SemanticObject.shortToFullURI(ds)).createGenericInstance();
-                        if(dataset.incHits() && !SWBPortal.isClient()) dataset.updateViews();
+                        if(dataset.incHits() && !SWBPortal.isClient()) dataset.updateHits();
                     } catch (Exception e)
                     {
                         log.error("Error to increment Hits of Dataset:"+ds,e);
@@ -260,24 +265,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
         }
     }
     
-    /**
-     * Update views.
-     */
-    public void updateViews()
-    {
-        if(viewed || hitted)
-        {
-            timer = System.currentTimeMillis();
-            setViews(views);
-            setDownloads(hits);
-            if(viewed)setLastView(new Date());
-            if(hitted)setLastDownload(new Date());
-            viewed = false;
-            hitted = false;
-            //System.out.println("******************************** Update WebPage ************************");
-            //System.out.println((char)7);
-        }
-    }    
+  
     
      /**
      * Inc views.
@@ -303,7 +291,41 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
         }
     }
     
-
+        /**
+     * Update views.
+     */
+    public void updateViews()
+    {
+        if(viewed )
+        {
+            timer = System.currentTimeMillis();
+            setViews(views);
+            //setDownloads(hits);
+            if(viewed) setLastView(new Date());
+            //if(hitted)setLastDownload(new Date());
+            viewed = false;
+            //hitted = false;
+            //System.out.println("******************************** Update WebPage ************************");
+            //System.out.println((char)7);
+        }
+    }  
+    
+ /**
+     * Update views.
+     */
+    public void updateHits()
+    {
+        System.out.println("update..hits...");
+        if(hitted)
+        {
+            timer = System.currentTimeMillis();
+            setDownloads(hits);
+            if(hitted)setLastDownload(new Date());
+            hitted = false;
+            System.out.println("******************************** Update DSHits ************************");
+            System.out.println((char)7);
+        }
+    }    
        
     
    
@@ -428,9 +450,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
                 logbuf.append("_");
             logbuf.append("|");
             logbuf.append(this.getShortURI());
-        }
-        if (true)
-        {
+
             SWBPortal.getMessageCenter().sendMessage(logbuf.toString());
         }
     }
