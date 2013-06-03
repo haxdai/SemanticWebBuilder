@@ -6,15 +6,15 @@ package com.infotec.lodp.swb.resources;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetVersion;
 import com.infotec.lodp.swb.LicenseType;
 import com.infotec.lodp.swb.Publisher;
+import com.infotec.lodp.swb.Tag;
+import com.infotec.lodp.swb.Topic;
 import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
@@ -25,7 +25,6 @@ import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -33,7 +32,6 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
@@ -254,8 +252,6 @@ public class DSPublisherResource extends GenericAdmResource {
             }
         } else if ("file".equals(action)) {
 
-
-
             int intVer = 1;
             if (verNumber != null) {
                 intVer = Integer.parseInt(verNumber);
@@ -289,6 +285,7 @@ public class DSPublisherResource extends GenericAdmResource {
                     }
                 }
                 try {
+                    System.out.println("Antes de ejecutar envio de hit....");
                     doc.sendHit(request, user, paramRequest.getWebPage());
                     //response.setContentType(DEFAULT_MIME_TYPE);
                     //response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
@@ -326,7 +323,8 @@ public class DSPublisherResource extends GenericAdmResource {
         Resource base = getResourceBase();
         Publisher pub = LODPUtils.getPublisher(usr);
         WebSite wsite = response.getWebPage().getWebSite();
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+
+        String wpiduploadfile = base.getAttribute("uploadfileid", "Subir_archivo");
         SemanticObject so = null;
         GenericObject go = null;
         DatasetVersion ver = null;
@@ -334,7 +332,7 @@ public class DSPublisherResource extends GenericAdmResource {
         String suri = request.getParameter("suri");
 
         if (null != suri && suri.trim().length() > 0) {
-            so = ont.getSemanticObject(suri);
+            so = SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(suri));
         }
         Dataset ds = null;
 
@@ -349,6 +347,12 @@ public class DSPublisherResource extends GenericAdmResource {
         String dstoplevelname = request.getParameter("dstoplevelname");
         String dswebsite = request.getParameter("dswebsite");
         String dsurl = request.getParameter("dsurl");
+        String dsactive = request.getParameter("dsactive");
+        boolean isNew = Boolean.FALSE;
+        boolean isActive = Boolean.FALSE;
+        if (null != dsactive) {
+            isActive = Boolean.TRUE;
+        }
 
         if (SWBActionResponse.Action_ADD.equals(action) || SWBActionResponse.Action_EDIT.equals(action)) {
             String dsuri = null;
@@ -363,6 +367,7 @@ public class DSPublisherResource extends GenericAdmResource {
 
             if (null == ds) {
                 // Se crea nuevo dataset y la version inicial
+                isNew = Boolean.TRUE;
                 ds = Dataset.ClassMgr.createDataset(wsite);
                 ver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
                 dsuri = ver.getURI();
@@ -385,32 +390,75 @@ public class DSPublisherResource extends GenericAdmResource {
             ds.setDatasetTitle(dstitle);
             ds.setDatasetDescription(dsdescription);
             ds.setDatasetUpdated(dsdate);
-            
-            ds.setApproved(true);
-            ds.setDatasetActive(true);
 
-            if(ds.getPublisher()==null) ds.setPublisher(pub);
+            ds.setApproved(true);
+            ds.setDatasetActive(isActive);
+
+            if (ds.getPublisher() == null) {
+                ds.setPublisher(pub);
+            }
 
             // procesar tags
             String[] arrtags = request.getParameterValues("dslabels");
-            if(null!=arrtags){
-                
+            if (null != arrtags) {
+                ds.removeAllTag();
+              //  System.out.println("Tamaño de arrtags..." + arrtags.length);
+                if (arrtags.length > 0) {
+                   // if (arrtags.length == 1) {
+                        for (String tagparam : arrtags) {
+                            try {
+                                Tag tagitem = (Tag) SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(tagparam)).createGenericInstance();
+                                ds.addTag(tagitem);
+                            } catch (Exception e) {
+                                e.printStackTrace(System.out);
+                                log.error(e);
+                            }
+                        }
+                   // }
+                }
             }
-            
+
             // procesar temas
-            request.getParameterValues("dstopic");
-            
+            String[] arrttopic = request.getParameterValues("dstopic");
+            if (null != arrttopic) {
+                ds.removeAllTopic();
+                if (arrttopic.length > 0) {
+                    for (String topicitem : arrttopic) {
+                        try {
+                            Topic topicparam = (Topic) SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(topicitem)).createGenericInstance();
+                            ds.addTopic(topicparam);
+                        } catch (Exception e) {
+                            e.printStackTrace(System.out);
+                            log.error(e);
+                        }
+                    }
+                }
+            }
+
             // asignar licencia
             String licid = request.getParameter("dslicense");
-            LicenseType lictype =  (LicenseType)SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(licid)).createGenericInstance();
+            LicenseType lictype = (LicenseType) SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(licid)).createGenericInstance();
             ds.setLicense(lictype);
-            
-            
+
             // se necesita saber si el ds tiene alguna version 
             // se necesita redireccionar para el archivo del ds a subir
-            
-            
-            
+
+            if (isNew) {
+                SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
+                urlredirect.setAction("addVersionStep2");
+                //redireccionar para subir archivo
+                //url en donde está el archivo
+                //url de retorno para actualizar datos finales de la versión
+
+                String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl() + "?suri=" + ver.getEncodedURI() + "&returl=" +  urlredirect.toString(true)+"?luri="+ds.getShortURI()+"%26dsveruri="+ver.getShortURI();
+                response.sendRedirect(redirectuploadfile);
+            } else {
+                response.setRenderParameter("msg", "Se actualizó correctamente la información del Dataset");
+                response.setMode(SWBActionResponse.Mode_EDIT);
+                response.setRenderParameter("suri", ds.getShortURI());
+                response.setRenderParameter("act", "detail");
+            }
+
         } else if (action.equals("addVersion")) {
 
             if (null != so) {
@@ -421,25 +469,31 @@ public class DSPublisherResource extends GenericAdmResource {
                     ver = ds.getActualVersion();
                 }
             }
-            ds.setDatasetUpdated(dsdate);
+            ds.setDatasetUpdated(new Date());
             DatasetVersion newver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
             newver.setPreviousVersion(ver);
             ver.setNextVersion(newver);
             newver.setVersion(ver.getVersion() + 1);
+            newver.setVerPublisher(pub);
+            newver.setVersionCreated(new Date());
 
-            String wpiduploadfile = base.getAttribute("uploadfileid", "Subir_archivo");
+            String dsvercomment = request.getParameter("dsvercomment");
+            if (null == dsvercomment) {
+                dsvercomment = "";
+            }
+            newver.setVerComment(dsvercomment);
 
+            ds.setActualVersion(newver);
+            
+            
             SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
             urlredirect.setAction("addVersionStep2");
-            urlredirect.setParameter("suri", ds.getEncodedURI());
-            urlredirect.setParameter("dsveruri", newver.getEncodedURI());
-            String returnurl = urlredirect.toString(true);
 
             //redireccionar para subir archivo
             //url en donde está el archivo
             //url de retorno para actualizar datos finales de la versión
 
-            String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl() + "?suri=" + ds.getEncodedURI() + "&returl=" + returnurl;
+            String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl() + "?suri=" + newver.getEncodedURI() + "&returl=" +  urlredirect.toString(true)+"?luri="+ds.getShortURI()+"%26dsveruri="+newver.getShortURI();
             response.sendRedirect(redirectuploadfile);
 
         } else if (action.equals("addVersionStep2")) {
@@ -449,17 +503,38 @@ public class DSPublisherResource extends GenericAdmResource {
 
             //parametros
             String dsveruri = request.getParameter("dsveruri");
+            suri = request.getParameter("luri");
+            
+            System.out.println("parametros recibidos...");
+            System.out.println("suri: param(luri)==="+suri);
+            System.out.println("dsveruri:==="+dsveruri);
+
+            String luri = SemanticObject.shortToFullURI(suri);
+            System.out.println("luri:==="+luri);
+            
+            so = SemanticObject.getSemanticObject(luri);
+            
+            System.out.println("so:"+so);
             // falta generar la ruta en donde se guardaran los archhivos
-            String urlfilesystempath = base.getAttribute("filesystempath");
+            //String urlfilesystempath = base.getAttribute("filesystempath");
+            
+            String basepath = SWBPortal.getWorkPath();
             if (null != so) {
                 go = so.createGenericInstance();
                 if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
+                    System.out.println("so != null ");
                     ds = (Dataset) go;
                     ver = ds.getActualVersion();
-                    if (null != dsveruri && dsveruri.equals(ver.getURI())) {
+                    System.out.println("actualversion:"+ver);
+                    System.out.println("Archivo en la version: "+ver.getFilePath());
+                    if (null != dsveruri && dsveruri.equals(ver.getShortURI())) {
+                        
                         if (ver.getFilePath() != null && ver.getFilePath().trim().length() > 0) {
-                            File f = new File(urlfilesystempath + "/" + ver.getFilePath());
+                            
+                            System.out.println("Archivo en la version: "+ver.getFilePath());
+                            
+                            File f = new File(basepath+ver.getWorkPath() + "/" +  ver.getFilePath());
                             if (null != f && f.exists() && f.isFile()) {
                                 long filesize = f.getTotalSpace() / 1024;  //kbytes
 
@@ -467,30 +542,20 @@ public class DSPublisherResource extends GenericAdmResource {
                                 fileformat = fileformat.substring(fileformat.lastIndexOf(".") + 1);
 
                                 ds.setDatasetSize(filesize);
-                                ds.setDatasetFormat(dsurl);
+                                ds.setDatasetFormat(fileformat);
+                                ds.setDatasetUpdated(new Date());
+                                
                             }
 
                         }
                     }
                 }
             }
-            ds.setDatasetUpdated(dsdate);
-            DatasetVersion newver = DatasetVersion.ClassMgr.createDatasetVersion(wsite);
-            newver.setPreviousVersion(ver);
-            ver.setNextVersion(newver);
-            newver.setVersion(ver.getVersion() + 1);
-            String newveruri = newver.getEncodedURI();
-
-            SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
-            urlredirect.setAction("addVersionStep2");
-            urlredirect.setParameter("suri", ds.getEncodedURI());
-            urlredirect.setParameter("dsveruri", newver.getEncodedURI());
-            String returnurl = urlredirect.toString(true);
-
-
-            //redireccionar para subir archivo
-            //url en donde está el archivo
-            //url de retorno para actualizar datos finales de la versión
+            
+                response.setRenderParameter("msg", "Se actualizó correctamente la información del Dataset");
+                response.setMode(SWBActionResponse.Mode_EDIT);
+                response.setRenderParameter("suri", ds.getShortURI());
+                response.setRenderParameter("act", "detail");
 
         }
 
@@ -505,7 +570,7 @@ public class DSPublisherResource extends GenericAdmResource {
      */
     public static Iterator<Dataset> orderDS(Iterator<Dataset> it, String orderby) {
 
-        System.out.println("Ordenamiento...");
+        //System.out.println("Ordenamiento...");
         Set set = null;
         if (null != orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
             set = sortByCreated(it, false);
@@ -543,8 +608,16 @@ public class DSPublisherResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    d1 = ((Dataset) o1).getActualVersion().getVersionCreated();
-                    d2 = ((Dataset) o2).getActualVersion().getVersionCreated();
+                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
+                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
+                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
+                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
+                     if(d1==null){
+                        d1=((Dataset) o1).getDatasetCreated();
+                    }
+                    if(d2==null){
+                        d2=((Dataset) o2).getDatasetCreated();
+                    }
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
@@ -564,8 +637,16 @@ public class DSPublisherResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    d1 = ((Dataset) o1).getActualVersion().getVersionCreated();
-                    d2 = ((Dataset) o2).getActualVersion().getVersionCreated();
+                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
+                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
+                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
+                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
+                     if(d1==null){
+                        d1=((Dataset) o1).getDatasetCreated();
+                    }
+                    if(d2==null){
+                        d2=((Dataset) o2).getDatasetCreated();
+                    }
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
