@@ -107,7 +107,7 @@ public class DataSetResource extends GenericAdmResource {
 
         User user = paramRequest.getUser();
         String fid = request.getParameter("fid");
-        String verNumber = request.getParameter("verNum");
+       
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject obj = null;
@@ -119,6 +119,8 @@ public class DataSetResource extends GenericAdmResource {
             obj = ont.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
+                
+                ds.sendHit(request, user, paramRequest.getWebPage());
                 
                 //System.out.println("Recibe DataSET");
                 //System.out.println("Formato a generar:"+metaformat);
@@ -180,20 +182,19 @@ public class DataSetResource extends GenericAdmResource {
             if (ds != null) {
 
                  DatasetVersion ver = ds.getActualVersion();   
+                 
                 //actualizo el numero de descragas del dataset
                 //boolean dowloaded = LODPUtils.updateDSDownload(ds);
                // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
 
                 ds.sendHit(request, user, paramRequest.getWebPage());
 
-                //TODO: Hacer el sendRedirect a la ruta en donde estarán los archivos, revisarlo con Serch
-                
                 try {
-//                    response.setContentType(DEFAULT_MIME_TYPE);
-//                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
-//
-//                    OutputStream out = response.getOutputStream();
-//                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + ds.getWorkPath() + "/" + verNumber + "/" + ver.getVersion()), out);
+                    response.setContentType(DEFAULT_MIME_TYPE);
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
+
+                    OutputStream out = response.getOutputStream();
+                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath()), out);
                 } catch (Exception e) {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }
@@ -263,7 +264,7 @@ public class DataSetResource extends GenericAdmResource {
         Set set = null;
         if (null != orderby && DataSetResource.ORDER_CREATED.equals(orderby)) {
             //mas reciente
-            set = sortByCreated(it, true);
+            set = sortByCreated(it, false);
         } else if (null != orderby && DataSetResource.ORDER_DOWNLOAD.equals(orderby)) {
             // mas descargado
             set = sortByDownloads(it, false);
@@ -302,7 +303,7 @@ public class DataSetResource extends GenericAdmResource {
                     Date d2;
                     
                     DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
-                     DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
+                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
                     d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
                     d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
                      if(d1==null){
@@ -343,9 +344,7 @@ public class DataSetResource extends GenericAdmResource {
                     if(d2==null){
                         d2=((Dataset) o2).getDatasetCreated();
                     }
-                    
-                    
-                    
+
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
