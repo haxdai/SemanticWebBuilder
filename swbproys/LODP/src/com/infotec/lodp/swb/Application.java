@@ -88,7 +88,7 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                     String usertype = st.nextToken();
                     String device = st.nextToken();
                     String lang = st.nextToken();
-                    String ds = st.nextToken();
+                    String app = st.nextToken();
                     
                     if (!SWBPortal.isClient())
                     {      
@@ -103,16 +103,16 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                             SWBPortal.getAccessLog().updateHitsIter(apphitsmap.values().iterator());
                             dbpatern=sdate;
                         }                        
-                        datasetDBView(map, ds, sdate);
+                        applicationDBView(map, app, sdate);
                     }
                     
                     try
                     {
-                        Dataset dataset=(Dataset)SemanticObject.createSemanticObject(SemanticObject.shortToFullURI(ds)).createGenericInstance();
-                        if(dataset.incViews() && !SWBPortal.isClient()) dataset.updateViews();
+                        Application appl=(Application)SemanticObject.createSemanticObject(SemanticObject.shortToFullURI(app)).createGenericInstance();
+                        if(appl.incViews() && !SWBPortal.isClient()) appl.updateViews();
                     } catch (Exception e)
                     {
-                        log.error("Error to increment views of Application:"+ds,e);
+                        log.error("Error to increment views of Application:"+app,e);
                     }
                 }
             }
@@ -138,7 +138,7 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                     String usertype = st.nextToken();
                     String device = st.nextToken();
                     String lang = st.nextToken();
-                    String ds = st.nextToken();
+                    String app = st.nextToken();
                     
                     
                     if (!SWBPortal.isClient())
@@ -148,16 +148,16 @@ public class Application extends com.infotec.lodp.swb.base.ApplicationBase
                         
                         String sdate = date.substring(0, 10);
                         
-                        datasetDBHit(map, ds, sdate);
+                        applicationDBHit(map, app, sdate);
                     }
                     
                     try
                     {
-                        Dataset dataset=(Dataset)SemanticObject.createSemanticObject(SemanticObject.shortToFullURI(ds)).createGenericInstance();
-                        if(dataset.incHits() && !SWBPortal.isClient()) dataset.updateViews();
+                         Application appl=(Application)SemanticObject.createSemanticObject(SemanticObject.shortToFullURI(app)).createGenericInstance();
+                        if(appl.incHits() && !SWBPortal.isClient()) appl.updateViews();
                     } catch (Exception e)
                     {
-                        log.error("Error to increment Hits of Application:"+ds,e);
+                        log.error("Error to increment Hits of Application:"+app,e);
                     }
                 }                
             }
