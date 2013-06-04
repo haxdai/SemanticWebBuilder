@@ -9,6 +9,8 @@ import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -52,6 +55,8 @@ public class RankingResource extends GenericResource{
         int average=0;
         try{
             rank=Integer.parseInt(request.getParameter("rank"));
+            if(rank<1)rank=1;
+            if(rank>5)rank=5;
         }catch(NumberFormatException ignored){
             rank=0;
         }
@@ -59,16 +64,29 @@ public class RankingResource extends GenericResource{
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             GenericObject gobj = null;
             if (suri != null && !suri.equals("")&&rank>0) {
-                gobj = ont.getGenericObject(suri);
+                gobj = ont.getGenericObject(SemanticObject.shortToFullURI(suri));
+                boolean canRank=false;
+                List lir=(List)request.getSession().getAttribute("ro");
+                if(lir==null){
+                    lir =new ArrayList();
+                    lir.add(suri);
+                    canRank=true;
+                }else{
+                    if(!lir.contains(suri)){
+                        lir.add(suri);
+                        canRank=true;
+                    }
+                }
                 if (gobj != null && gobj instanceof Application) {
                     Application ap = (Application) gobj;
-                    LODPUtils.updateAppRank(ap,rank);
+                    if(canRank)LODPUtils.updateAppRank(ap,rank);
                     average=Math.round(ap.getAverage());
                 } else if (gobj != null && gobj instanceof Dataset) {
                     Dataset ds = (Dataset) gobj;
-                    LODPUtils.updateDSRank(ds, rank);
+                    if(canRank)LODPUtils.updateDSRank(ds, rank);
                     average=Math.round(ds.getAverage());
                 }
+                request.getSession().setAttribute("ro", lir);
                 response.setRenderParameter("rank", average+"");
             }
         }

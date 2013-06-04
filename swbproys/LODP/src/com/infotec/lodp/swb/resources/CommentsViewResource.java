@@ -12,9 +12,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.ws.Response;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -40,7 +42,7 @@ public class CommentsViewResource extends GenericResource {
 
     public static final Logger log = SWBUtils.getLogger(CommentsViewResource.class);
     /** Accion personalizada para comentar    */
-    public static final String Action_COMMENT="inp";
+    public static final String Action_COMMENT="com";
     /** Accion personalizada para marcar un comentario inapropiado    */
     public static final String Action_INAPPROPRIATE="inp";
     /** Accion personalizada para editar la administraciono     */
@@ -61,7 +63,8 @@ public class CommentsViewResource extends GenericResource {
         Resource base = getResourceBase();
         User usr = response.getUser();
         UserRepository ur = wsite.getUserRepository();
-        String suri = null;
+        String suri =request.getParameter("suri");
+        String url =wpage.getUrl();
         String npag =request.getParameter("npag");
         if (Action_COMMENT.equals(action)) {
             String name = null;
@@ -80,7 +83,6 @@ public class CommentsViewResource extends GenericResource {
                 email = request.getParameter("email");
             }
             strComment=request.getParameter("comment");
-            suri=request.getParameter("suri");
             if (name != null && !name.equals("")
                     && email != null && !name.equals("")
                     && strComment != null && !strComment.equals("")) {
@@ -92,7 +94,7 @@ public class CommentsViewResource extends GenericResource {
                 comment.setReviewed(false);
             }
             if (suri != null && !suri.equals("") && comment!= null) {
-                gobj = ont.getGenericObject(suri);
+                gobj = ont.getGenericObject(SemanticObject.shortToFullURI(suri));
                 if (gobj != null && gobj instanceof Application) {
                     Application ap = (Application) gobj;
                     ap.addComment(comment);
@@ -101,26 +103,41 @@ public class CommentsViewResource extends GenericResource {
                     ds.addComment(comment);
                 } 
             }
-            response.setRenderParameter("act","detail");
+            url+="?act=detail";
             if(suri!=null&&!suri.equals("")){
-                response.setRenderParameter("suri", suri);
+                url+="&suri="+suri;
             }
             if(npag!=null&&!npag.equals("")){
-                response.setRenderParameter("npag", npag);
+                url+="&npag="+npag;
             }
+            response.sendRedirect(url);
         }else if(Action_INAPPROPRIATE.equals(action)) {
             String cid=request.getParameter("cid");
-            if(cid!=null&&!cid.equals("")){
+            boolean canRank=false;
+            List lii=(List)request.getSession().getAttribute("io");
+            if(lii==null){
+                lii =new ArrayList();
+                lii.add(cid);
+                canRank=true;
+            }else{
+                if(!lii.contains(suri)){
+                    lii.add(suri);
+                    canRank=true;
+                }
+            }
+            if(cid!=null&&!cid.equals("")&&canRank){
                 Comment comment=Comment.ClassMgr.getComment(cid,wsite);
                 comment.setInappropriate(comment.getInappropriate()+1);
             }
-            response.setRenderParameter("act","detail");
+            request.getSession().setAttribute("io", lii);
+            url+="?act=detail";
             if(suri!=null&&!suri.equals("")){
-                response.setRenderParameter("suri", suri);
+                url+="&suri="+suri;
             }
             if(npag!=null&&!npag.equals("")){
-                response.setRenderParameter("npag", npag);
+                url+="&npag="+npag;
             }
+            response.sendRedirect(url);
         }else if(Action_ADMEDIT.equals(action)) {
             int nInappropriate=0;
             int nCommentsPage=0;
