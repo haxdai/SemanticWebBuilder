@@ -38,7 +38,8 @@ import org.semanticwb.model.GenericObject;
 /**
  * Service to move Files to it's final destination, the destination path is set to 
  * /apps/dataLink but it can be redefined by setting the web.properties parameter
- * LODP/basePath
+ * LODP/basePath para pruebas locales
+ *  Para recuperar el archivo /cgi-bin/recover/[classid]/[objid]/[filename]
  * 
  * To use it invoke:
  * SenderService.getSender().submitFile2Send(fileToMove, relatedObject)
@@ -106,11 +107,11 @@ public class SenderService {
     /**
      * Submits a CSV file to be placed in the Delivery platform
      * @param file
-     * @param object
-     * @param hasHeader
-     * @param quote
-     * @param delimiter
-     * @param recordsPerPage
+     * @param object seria el datasetversion
+     * @param hasHeader nombres de columnas en la primera linea del archivo
+     * @param quote serían para del " si se tienen enter, comas, tabs o caracteres especiales dentro de una misma columna.
+     * @param delimiter separador de columnas
+     * @param recordsPerPage numero de registros a procesar por página, se podria configurar en las propiedades del sitio
      * @return the key to search for completed jobs
      */
     public String submitCSVFile2Send(File file, GenericObject object, boolean hasHeader, char quote, char delimiter, int recordsPerPage) {
