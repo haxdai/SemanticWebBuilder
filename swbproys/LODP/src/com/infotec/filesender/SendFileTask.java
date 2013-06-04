@@ -52,7 +52,8 @@ public class SendFileTask implements Callable<TaskInfo> {
             if (!path.exists()) {
                 path.mkdirs();
             }
-
+            log.debug("SendFileTask: path to work with: "+path.toString()
+                    +" - exists? "+path.exists());
             if (ti.getFileParameters() != null) {
                 log.debug("SendFileTask: Processing CSV file");
                 CSVFileSplitter csvfs = new CSVFileSplitter(ti.getFileParameters(), path);
@@ -61,6 +62,7 @@ public class SendFileTask implements Callable<TaskInfo> {
                 ti.setResultMessage("The CSV was proceced and stored. ");
             } else {
                 File dest = new File(path, ti.getFileToSend().getName());
+                log.debug("SendFileTask: writing to: "+dest.toString());
                 FileInputStream fis = new FileInputStream(ti.getFileToSend());
                 FileOutputStream fos = new FileOutputStream(dest);
                 byte[] buffer = new byte[8192];
@@ -71,6 +73,7 @@ public class SendFileTask implements Callable<TaskInfo> {
                 fis.close();
                 fos.flush();
                 fos.close();
+                log.debug("SendFileTask: File was copied.");
                 ti.setResultMessage(" The File was copied. ");
             }
             ti.getFileToSend().delete();

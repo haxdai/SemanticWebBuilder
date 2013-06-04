@@ -81,7 +81,7 @@ public class SenderService {
     private void init() {
         senderService = Executors.newCachedThreadPool();
         basePath = new File (SWBPortal.getEnv("LODP/basePath", "/apps/dataLink"));
-        
+        log.debug("SenderService: init basePath "+basePath);
     }
 
     /**
