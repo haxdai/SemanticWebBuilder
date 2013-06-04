@@ -139,8 +139,8 @@ public class LODPUtils {
                 
                 if(ranks>0){
                     float promedio = ds.getAverage();
-                    average = (promedio * ranks)/(ranks+1);
-                    ds.setAverage(promedio);
+                    average = ((promedio * ranks)+average)/(ranks+1);
+                    ds.setAverage(average);
                 }  else if(ranks==0){
                     ds.setAverage(average);
                 }
@@ -176,8 +176,8 @@ public class LODPUtils {
                 
                 if(ranks>0){
                     float promedio = app.getAverage();
-                    average = (promedio * ranks)/(ranks+1);
-                    app.setAverage(promedio);
+                    average = ((promedio * ranks)+average)/(ranks+1);
+                    app.setAverage(average);
                 }  else if(ranks==0){
                     app.setAverage(average);
                 }
