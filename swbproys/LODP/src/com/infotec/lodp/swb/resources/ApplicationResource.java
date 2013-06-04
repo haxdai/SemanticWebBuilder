@@ -148,7 +148,7 @@ public class ApplicationResource extends GenericResource{
     public void redirectURL(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String uri = request.getParameter("uri");
 //        System.out.println("se obtiene la uri mandada de la platilla" + uri);
-        SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
+        SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(SemanticObject.shortToFullURI(uri)));
         Application apl = (Application)semObj.createGenericInstance();
         apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
 //        System.out.println("Esta es la url que se mando para redireccionar: " + apl.getAppURL());
@@ -164,7 +164,7 @@ public class ApplicationResource extends GenericResource{
         if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr.getSemanticObject().createGenericInstance() instanceof Developer || usr.getSemanticObject().createGenericInstance() instanceof Publisher))){
             String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
             System.out.println(dataSet);
-            if(!dataSet.equals("-1")){
+            if(!dataSet.equals("")){
             Application app = Application.ClassMgr.createApplication(ws);           
             String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
             String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
