@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Rankable
+public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_ApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#ApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasApplicationType");
@@ -353,19 +353,19 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     }
 
 /**
-* Gets the AppValid property
-* @return boolean with the AppValid
+* Gets the Valid property
+* @return boolean with the Valid
 */
-    public boolean isAppValid()
+    public boolean isValid()
     {
         return getSemanticObject().getBooleanProperty(lodp_appValid);
     }
 
 /**
-* Sets the AppValid property
-* @param value long with the AppValid
+* Sets the Valid property
+* @param value long with the Valid
 */
-    public void setAppValid(boolean value)
+    public void setValid(boolean value)
     {
         getSemanticObject().setBooleanProperty(lodp_appValid, value);
     }
