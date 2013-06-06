@@ -5,15 +5,13 @@
 package com.infotec.lodp.swb.resources;
 
 import com.infotec.lodp.swb.Application;
+import com.infotec.lodp.swb.Category;
 import com.infotec.lodp.swb.Comment;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.Developer;
 import com.infotec.lodp.swb.LicenseType;
 import com.infotec.lodp.swb.Publisher;
 import static com.infotec.lodp.swb.resources.DataSetResource.log;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByCreated;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByDownloads;
-import static com.infotec.lodp.swb.resources.DataSetResource.sortByViews;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.Comparator;
@@ -27,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -37,7 +35,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author Lennin
  */
-public class ApplicationResource extends GenericResource{
+public class ApplicationResource extends GenericAdmResource{
     
     public static final String MODE_TERMINOS = "ACEPTATERMINOS";
     public static final String ADD_APPLICATION = "ADDAPPLICATION";
@@ -51,14 +49,13 @@ public class ApplicationResource extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        System.out.println("Entro metodo doView");
+      
         String basePath = "/work/models/" + paramsRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "view.jsp";
         if (request != null) {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             if (null != dis) {
-                try {
-                    System.out.println("Entro metodo doView");      
+                try {    
                     request.setAttribute("paramRequest", paramsRequest);
                     request.setAttribute("this", this);
                     dis.include(request, response);
@@ -89,7 +86,6 @@ public class ApplicationResource extends GenericResource{
     
     public void doAddApplication(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-        System.out.println("Entro metodo doAddApplication");
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "addApplication.jsp";
         if (request != null) {
@@ -108,7 +104,6 @@ public class ApplicationResource extends GenericResource{
     
     public void viewConditions(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
-        System.out.println("Entro metodo viewConditions");
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "terminosCondiciones.jsp";
         if (request != null) {
@@ -132,8 +127,7 @@ public class ApplicationResource extends GenericResource{
         if (request != null) {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             if (null != dis) {
-                try {
-                    System.out.println("Entro metodo doEdit");  
+                try { 
                     request.setAttribute("paramRequest", paramRequest);
                     request.setAttribute("this", this);
                     dis.include(request, response);
@@ -147,11 +141,9 @@ public class ApplicationResource extends GenericResource{
     
     public void redirectURL(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String uri = request.getParameter("uri");
-//        System.out.println("se obtiene la uri mandada de la platilla" + uri);
         SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(SemanticObject.shortToFullURI(uri)));
         Application apl = (Application)semObj.createGenericInstance();
         apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
-//        System.out.println("Esta es la url que se mando para redireccionar: " + apl.getAppURL());
         response.sendRedirect(apl.getAppURL());
     }
 
@@ -163,51 +155,62 @@ public class ApplicationResource extends GenericResource{
          
         if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr.getSemanticObject().createGenericInstance() instanceof Developer || usr.getSemanticObject().createGenericInstance() instanceof Publisher))){
             String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
-            System.out.println(dataSet);
             if(!dataSet.equals("")){
-            Application app = Application.ClassMgr.createApplication(ws);           
-            String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
-            String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
-            String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia");           
-            String url = request.getParameter("url")==null ? "" : request.getParameter("url");
-            LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
-            Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);           
-            app.setAppTitle(titleApp);
-            app.setAppDescription(descripcion);
-            System.out.println("guardado de datasets string" + " " + dataSet);
-            System.out.println("guardado de datasets objeto" + " " + dataSetClass);           
-            app.addRelatedDataset(dataSetClass);           
-            app.setAppAuthor(usr.getSemanticObject());
-            app.setAppLicense(lic);
-            app.setAppCreated(new Date());
-            app.setAppURL(url); 
+                Application app = Application.ClassMgr.createApplication(ws); 
+                String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
+                String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
+                String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia");  
+                String cat = request.getParameter("idCat")==null ? "" : request.getParameter("idCat"); 
+                String url = request.getParameter("url")==null ? "" : request.getParameter("url");
+                LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
+                Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);
+                Category category = Category.ClassMgr.getCategory(cat,ws);
+                app.setAppTitle(titleApp);
+                app.setAppDescription(descripcion);         
+                app.addRelatedDataset(dataSetClass);           
+                app.setAppAuthor(usr.getSemanticObject());
+                app.setAppLicense(lic);
+                if(category!=null){
+                    app.addCategory(category);
+                }
+                app.setAppValid(false);    
+                app.setAppCreated(new Date());
+                app.setAppURL(url); 
+                response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
+                System.out.println("Saliio del metodo de guardado");
             }
+            
         }
         else if(action.equals(SWBResourceURL.Action_EDIT)){
-        String uri = request.getParameter("uri");
-        SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
-        Application apl = (Application)semObj.createGenericInstance();
-        String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
-        String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
-        String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia"); 
-        String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
-        String url = request.getParameter("url")==null ? "" : request.getParameter("url");
-        LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
-        Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);
-        apl.setAppTitle(titleApp);
-        apl.setAppDescription(descripcion);
-        apl.addRelatedDataset(dataSetClass);
-        apl.setAppCreated(new Date());
-        apl.setAppAuthor(usr.getSemanticObject());
-        apl.setAppLicense(lic);
-        apl.setAppURL(url);        
+            String uri = request.getParameter("uri");
+            SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
+            Application apl = (Application)semObj.createGenericInstance();
+            String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
+            String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
+            String cat = request.getParameter("idCat")==null ? "" : request.getParameter("idCat"); 
+            String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia"); 
+            String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
+            String url = request.getParameter("url")==null ? "" : request.getParameter("url");
+            LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
+            Category category = Category.ClassMgr.getCategory(cat, ws);
+            Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);
+            apl.setAppTitle(titleApp);
+            apl.setAppDescription(descripcion);
+            apl.addCategory(category);
+            apl.addRelatedDataset(dataSetClass);
+            apl.setAppCreated(new Date());
+            apl.setValid(false);
+            apl.setAppAuthor(usr.getSemanticObject());
+            apl.setAppLicense(lic);
+            apl.setAppURL(url);  
+            apl.setAppValid(false);
+            response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
         }
         response.setMode(SWBResourceURL.Mode_VIEW);
     }
     
     public static Iterator<Application> orderDS(Iterator<Application> it, String orderby) {
 
-        System.out.println("Ordenamiento...");
         Set set = null;
         
         if (null != orderby && ApplicationResource.ORDER_RANK.equals(orderby)) {
