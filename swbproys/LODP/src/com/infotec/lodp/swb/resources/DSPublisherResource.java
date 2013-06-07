@@ -6,6 +6,7 @@ package com.infotec.lodp.swb.resources;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.infotec.filesender.SenderService;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetVersion;
 import com.infotec.lodp.swb.LicenseType;
@@ -15,6 +16,7 @@ import com.infotec.lodp.swb.Topic;
 import com.infotec.lodp.swb.utils.LODPUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Comparator;
@@ -285,7 +287,7 @@ public class DSPublisherResource extends GenericAdmResource {
                     }
                 }
                 try {
-                    System.out.println("Antes de ejecutar envio de hit....");
+                    //System.out.println("Antes de ejecutar envio de hit....");
                     doc.sendHit(request, user, paramRequest.getWebPage());
                     //response.setContentType(DEFAULT_MIME_TYPE);
                     //response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
@@ -375,6 +377,7 @@ public class DSPublisherResource extends GenericAdmResource {
                 ver.setVerComment("Versión inicial");
                 ver.setVersion(1);
                 ds.setActualVersion(ver);
+                ds.setLastVersion(ver);
                 ds.setDatasetCreated(dsdate);
                 ds.setAverage(0);
                 ds.setRanks(0);
@@ -384,6 +387,7 @@ public class DSPublisherResource extends GenericAdmResource {
                 ds.setPublisher(pub);
                 ds.setInstitution(pub.getPubInstitution());
                 ds.setDatasetSector(null);
+                ds.setApproved(Boolean.FALSE);
             }
 
             //Se procesan parámetros
@@ -391,7 +395,7 @@ public class DSPublisherResource extends GenericAdmResource {
             ds.setDatasetDescription(dsdescription);
             ds.setDatasetUpdated(dsdate);
 
-            ds.setApproved(true);
+            
             ds.setDatasetActive(isActive);
 
             if (ds.getPublisher() == null) {
@@ -484,7 +488,7 @@ public class DSPublisherResource extends GenericAdmResource {
             newver.setVerComment(dsvercomment);
 
             ds.setActualVersion(newver);
-            
+            ds.setLastVersion(newver);
             
             SWBResourceURLImp urlredirect = new SWBResourceURLImp(request, getResourceBase(), response.getWebPage(), SWBResourceURLImp.UrlType_ACTION);
             urlredirect.setAction("addVersionStep2");
@@ -505,16 +509,16 @@ public class DSPublisherResource extends GenericAdmResource {
             String dsveruri = request.getParameter("dsveruri");
             suri = request.getParameter("luri");
             
-            System.out.println("parametros recibidos...");
-            System.out.println("suri: param(luri)==="+suri);
-            System.out.println("dsveruri:==="+dsveruri);
+            //System.out.println("parametros recibidos...");
+            //System.out.println("suri: param(luri)==="+suri);
+            //System.out.println("dsveruri:==="+dsveruri);
 
             String luri = SemanticObject.shortToFullURI(suri);
-            System.out.println("luri:==="+luri);
+            //System.out.println("luri:==="+luri);
             
             so = SemanticObject.getSemanticObject(luri);
             
-            System.out.println("so:"+so);
+            //System.out.println("so:"+so);
             // falta generar la ruta en donde se guardaran los archhivos
             //String urlfilesystempath = base.getAttribute("filesystempath");
             
@@ -523,28 +527,52 @@ public class DSPublisherResource extends GenericAdmResource {
                 go = so.createGenericInstance();
                 if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
-                    System.out.println("so != null ");
+                    //System.out.println("so != null ");
                     ds = (Dataset) go;
                     ver = ds.getActualVersion();
-                    System.out.println("actualversion:"+ver);
-                    System.out.println("Archivo en la version: "+ver.getFilePath());
+                    //System.out.println("actualversion:"+ver);
+                    //System.out.println("Archivo en la version: "+ver.getFilePath());
                     if (null != dsveruri && dsveruri.equals(ver.getShortURI())) {
                         
                         if (ver.getFilePath() != null && ver.getFilePath().trim().length() > 0) {
                             
-                            System.out.println("Archivo en la version: "+ver.getFilePath());
+                            //System.out.println("Archivo en la version: "+ver.getFilePath());
                             
                             File f = new File(basepath+ver.getWorkPath() + "/" +  ver.getFilePath());
                             if (null != f && f.exists() && f.isFile()) {
-                                long filesize = f.getTotalSpace() / 1024;  //kbytes
-
+                                
+                                 long res_size =   f.length(); //bytes
+                          int veces = 0; 
+                          String bytes_unit = "bytes";
+                          while((res_size>1024)&&veces<5){
+                              veces ++;
+                              res_size = res_size / 1024; 
+                              //System.out.println("Size:"+res_size);
+                              //System.out.println("modulo:"+(res_size % 1024));
+                          }
+                          if(veces == 0){
+                              bytes_unit = "bytes";
+                          } else  if(veces == 1){
+                              bytes_unit = "KB";
+                          } else  if(veces == 2){
+                              bytes_unit = "MB";
+                          } else  if(veces == 3){
+                              bytes_unit = "GB";
+                          } else  if(veces == 4){
+                              bytes_unit = "TB";
+                          } 
+                                
+                                
+                                
                                 String fileformat = ver.getFilePath();
                                 fileformat = fileformat.substring(fileformat.lastIndexOf(".") + 1);
 
-                                ds.setDatasetSize(filesize);
+                                ds.setDatasetSize(res_size+" "+bytes_unit);
                                 ds.setDatasetFormat(fileformat);
                                 ds.setDatasetUpdated(new Date());
-                                
+                             
+                                String llave = SenderService.getSender().submitFile2Send(f, ver.getSemanticObject().createGenericInstance());
+                                ver.setVerComment(llave);
                             }
 
                         }

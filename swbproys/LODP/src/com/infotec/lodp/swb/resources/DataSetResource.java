@@ -6,6 +6,7 @@ package com.infotec.lodp.swb.resources;
 
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.ModelFactory;
+import com.infotec.filesender.SenderService;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
 import com.infotec.lodp.swb.DatasetVersion;
@@ -29,6 +30,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.SWBObserver;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SWBMessageCenter;
@@ -190,11 +192,40 @@ public class DataSetResource extends GenericAdmResource {
                 ds.sendHit(request, user, paramRequest.getWebPage());
 
                 try {
+
+                    String protocol = "";
+                    if(request.getProtocol().toLowerCase().startsWith("http/")){
+                        protocol="http://";
+                    } else if(request.getProtocol().toLowerCase().startsWith("https/")){
+                        protocol="https://";
+                    }
+                    String servername=request.getServerName();
+                    String serverport = ""+request.getServerPort();
+                    if(serverport.equals("80")){
+                        serverport = "";
+                    } else {
+                        serverport=":"+serverport;
+                    }
+
+                    String redirectURL = protocol+servername+serverport+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
+                    //System.out.println("Redirect URL:"+redirectURL);
+                    
                     response.setContentType(DEFAULT_MIME_TYPE);
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
 
-                    OutputStream out = response.getOutputStream();
-                    SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath()), out);
+                    response.sendRedirect(redirectURL);
+                    
+                    //OutputStream out = response.getOutputStream();
+                    //SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath()), out);
+                    //ver.getSemanticObject().getSemanticClass().getClassCodeName()
+                    //   ver.getSemanticObject().getId()
+                     //  ver.getFilePath()
+                    // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
+                   // String redirectURL = request.getLocalAddr()+request.getLocalPort()+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
+                    //System.out.println("Redirect URL:"+redirectURL);
+                    //response.sendRedirect(redirectURL);
+                    
+                    
                 } catch (Exception e) {
                     log.error("Error al obtener el archivo del Repositorio de documentos.", e);
                 }
