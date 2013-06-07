@@ -11,6 +11,7 @@ import com.infotec.lodp.swb.Developer;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -28,7 +29,7 @@ import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
-import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -38,7 +39,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author rene.jara
  */
-public class CommentsViewResource extends GenericResource {
+public class CommentsViewResource extends GenericAdmResource {
 
     public static final Logger log = SWBUtils.getLogger(CommentsViewResource.class);
     /** Accion personalizada para comentar    */
@@ -46,15 +47,15 @@ public class CommentsViewResource extends GenericResource {
     /** Accion personalizada para marcar un comentario inapropiado    */
     public static final String Action_INAPPROPRIATE="inp";
     /** Accion personalizada para editar la administraciono     */
-    public static final String Action_ADMEDIT="aed";
+//    public static final String Action_ADMEDIT="aed";
     /** Accion personalizada todo OK     */
-    public static final String Action_OK="ok";
+/*    public static final String Action_OK="ok";
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String mode = paramRequest.getMode();
         super.processRequest(request, response, paramRequest);
     }
-
+*/
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
@@ -82,16 +83,31 @@ public class CommentsViewResource extends GenericResource {
                 name = request.getParameter("name");
                 email = request.getParameter("email");
             }
-            strComment=request.getParameter("comment");
+            strComment=SWBUtils.XML.replaceXMLChars(request.getParameter("comment"));
+            String securCodeSent = request.getParameter("cmnt_seccode");
+            String securCodeCreated = (String) request.getSession(true).getAttribute("cdlog");
             if (name != null && !name.equals("")
                     && email != null && !name.equals("")
-                    && strComment != null && !strComment.equals("")) {
+                    && strComment != null && !strComment.equals("")
+                    && securCodeCreated!=null && securCodeSent!=null && securCodeCreated.equalsIgnoreCase(securCodeSent)) {
                 comment = Comment.ClassMgr.createComment(wsite);                
                 comment.setCommUserName(name);
                 comment.setCommUserEmail(email);
                 comment.setComment(strComment);
                 comment.setApproved(false);
                 comment.setReviewed(false);
+                if (haveDirtyWords(strComment)){
+                    int nInappropriate=0;
+                    try{
+                        nInappropriate=Integer.parseInt(request.getParameter("inappropriate"));
+                        if(nInappropriate<1){
+                            nInappropriate=1;
+                        }
+                    }catch(NumberFormatException ignored){
+                        nInappropriate=1;
+                    }
+                    comment.setInappropriate(nInappropriate);
+                }
             }
             if (suri != null && !suri.equals("") && comment!= null) {
                 gobj = ont.getGenericObject(SemanticObject.shortToFullURI(suri));
@@ -120,8 +136,8 @@ public class CommentsViewResource extends GenericResource {
                 lii.add(cid);
                 canRank=true;
             }else{
-                if(!lii.contains(suri)){
-                    lii.add(suri);
+                if(!lii.contains(cid)){
+                    lii.add(cid);
                     canRank=true;
                 }
             }
@@ -138,7 +154,7 @@ public class CommentsViewResource extends GenericResource {
                 url+="&npag="+npag;
             }
             response.sendRedirect(url);
-        }else if(Action_ADMEDIT.equals(action)) {
+/*        }else if(Action_ADMEDIT.equals(action)) {
             int nInappropriate=0;
             int nCommentsPage=0;
             try{
@@ -165,7 +181,7 @@ public class CommentsViewResource extends GenericResource {
             } catch (Exception e) {
                 log.error("Error Action_ADMEDIT "+base.getClass(), e);
             }
-        }
+*/        }
     }
 
     @Override
@@ -185,7 +201,7 @@ public class CommentsViewResource extends GenericResource {
             }
         }
     }
-    @Override
+/*    @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         Resource base = getResourceBase();
@@ -225,6 +241,7 @@ public class CommentsViewResource extends GenericResource {
         out.println("</form>");
         out.println("</div>");
     }
+*/
     static public ArrayList<Comment> listComments(Iterator<Comment> itco,int nInappropriate){
         ArrayList ret=new ArrayList();
         while (itco.hasNext()) {
@@ -235,5 +252,23 @@ public class CommentsViewResource extends GenericResource {
         }
         return ret;
     }
-
+    public boolean haveDirtyWords(String str){
+        boolean ret=false;
+        Resource base = getResourceBase();
+        String tdw=base.getAttribute("dirtywords","");
+        tdw=tdw.toLowerCase().replaceAll("[^a-zA-Z\u00C0-\u00FF]",",");
+        List<String> ldw=Arrays.asList(tdw.split(","));
+        String tstr=str.toLowerCase().replaceAll("[^a-zA-Z\u00C0-\u00FF]",",");
+        List<String> lstr=Arrays.asList(tstr.split(","));
+        for(int i =0; i<ldw.size()&&!ret;i++){
+            if(!ldw.get(i).equals("")){
+                for(int j=0;j<lstr.size()&&!ret;j++){
+                    if(lstr.get(j).equals(ldw.get(i))){
+                        ret=true;
+                    }
+                }
+            }
+        }        
+        return ret;
+    }
 }
