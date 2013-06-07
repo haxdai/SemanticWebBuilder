@@ -152,9 +152,10 @@ public class ApplicationResource extends GenericAdmResource{
         String action = response.getAction();
          User usr = response.getUser();
          WebSite ws = response.getWebPage().getWebSite();
+         String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
          
         if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr.getSemanticObject().createGenericInstance() instanceof Developer || usr.getSemanticObject().createGenericInstance() instanceof Publisher))){
-            String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
+            
             if(!dataSet.equals("")){
                 Application app = Application.ClassMgr.createApplication(ws); 
                 String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
@@ -177,19 +178,18 @@ public class ApplicationResource extends GenericAdmResource{
                 app.setAppCreated(new Date());
                 app.setAppURL(url); 
                 response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
-                System.out.println("Saliio del metodo de guardado");
             }
             
-        }
-        else if(action.equals(SWBResourceURL.Action_EDIT)){
+        } else if (action.equals(SWBResourceURL.Action_EDIT)){
             String uri = request.getParameter("uri");
             SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
             Application apl = (Application)semObj.createGenericInstance();
+            System.out.println("Es el id del dataset :" + apl.getRelatedDataset().getId());
             String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
             String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
             String cat = request.getParameter("idCat")==null ? "" : request.getParameter("idCat"); 
             String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia"); 
-            String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
+            System.out.println("Es el id del dataset :" + dataSet);
             String url = request.getParameter("url")==null ? "" : request.getParameter("url");
             LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
             Category category = Category.ClassMgr.getCategory(cat, ws);
@@ -197,6 +197,7 @@ public class ApplicationResource extends GenericAdmResource{
             apl.setAppTitle(titleApp);
             apl.setAppDescription(descripcion);
             apl.addCategory(category);
+            apl.getRelatedDataset().remove();
             apl.addRelatedDataset(dataSetClass);
             apl.setAppCreated(new Date());
             apl.setValid(false);
