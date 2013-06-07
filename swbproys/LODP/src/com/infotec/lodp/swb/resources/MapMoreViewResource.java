@@ -26,7 +26,13 @@ public class MapMoreViewResource extends GenericAdmResource{
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
-        String path = basePath + "view.jsp";
+        int call=paramRequest.getCallMethod();
+        String path;
+//        if(call==paramRequest.Call_STRATEGY){
+            path = basePath + "strategy.jsp";
+ //       }else{
+ //           path = basePath + "view.jsp";
+ //       }
         if (request != null) {
             RequestDispatcher dis = request.getRequestDispatcher(path);
             if (null != dis) {
