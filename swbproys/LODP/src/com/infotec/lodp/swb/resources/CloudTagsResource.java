@@ -59,25 +59,27 @@ public class CloudTagsResource extends GenericAdmResource{
         List<Tag> cloudTags = getTagsSet(listTags);
         while(listDataset.hasNext()){
             Dataset ds = listDataset.next();
-            Iterator dsTags = ds.listTags();
-            long numView = ds.getViews();            
-            while(dsTags.hasNext()){
-                Tag dsTag = (Tag) dsTags.next();
-                Iterator<Tag> itCloud = cloudTags.iterator();
-                while(itCloud.hasNext()){ 
-                    Tag cloudtag = itCloud.next();                    
-                    if(cloudtag.getTagName().equals(dsTag.getTagName())){
-                        String weight = cloudtag.getProperty("weight");
-                        if(!(weight.contains("0"))){
-                            long peso = Long.parseLong(weight) + numView;
-                            cloudtag.setProperty("weight", String.valueOf(peso));
-                        }else{
-                            cloudtag.setProperty("weight", String.valueOf(numView));
+            if(ds.isApproved() && ds.isDatasetActive()){
+                Iterator dsTags = ds.listTags();
+                long numView = ds.getViews();            
+                while(dsTags.hasNext()){
+                    Tag dsTag = (Tag) dsTags.next();
+                    Iterator<Tag> itCloud = cloudTags.iterator();
+                    while(itCloud.hasNext()){ 
+                        Tag cloudtag = itCloud.next();                    
+                        if(cloudtag.getTagName().equals(dsTag.getTagName())){
+                            String weight = cloudtag.getProperty("weight");
+                            if(!(weight.contains("0"))){
+                                long peso = Long.parseLong(weight) + numView;
+                                cloudtag.setProperty("weight", String.valueOf(peso));
+                            }else{
+                                cloudtag.setProperty("weight", String.valueOf(numView));
+                            }
+                            break;
                         }
-                        break;
-                    }
-                }                
-            }            
+                    }                
+                } 
+            }           
         }
         Set<Tag> cloudTagsTop = orderedTagsSet(cloudTags.iterator());
         Set<Tag> cloudTagsTopOrdered = getTagsSetOrdered(cloudTagsTop.iterator(),maxTags);
