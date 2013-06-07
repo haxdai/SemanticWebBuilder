@@ -1,0 +1,612 @@
+<?xml version="1.0"?>
+<rdf:RDF
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:swb="http://www.semanticwebbuilder.org/swb4/ontology#"
+    xmlns:cts="http://www.survey/costs#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xml:base="http://www.survey/costs">
+  <owl:Ontology rdf:about="">
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Created with TopBraid Composer</owl:versionInfo>
+    <owl:imports rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology"/>
+  </owl:Ontology>
+  <owl:Class rdf:ID="P11">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P7">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="UnidadSustantiva">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Unidad">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Interface"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P5">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="CostoAplicacion">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P6">
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:subClassOf>
+      <swb:Interface rdf:ID="CostoUnidad">
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Interface>
+    </rdfs:subClassOf>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P2">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="CostoAplicacionAnio">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P4">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="IncrementoCosto">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Tramite">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdfs:subClassOf rdf:resource="#Unidad"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P8">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Aplicacion">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="CostoUnidadSustantiva">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdfs:subClassOf rdf:resource="#CostoUnidad"/>
+    <rdfs:subClassOf rdf:resource="#Unidad"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P3">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="CostoTramite">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P9">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="Survey">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:Class rdf:ID="P10">
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+    <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+    >true</swb:autogenId>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+  </owl:Class>
+  <owl:ObjectProperty rdf:ID="p9">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P9"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasCostoAplicacionAnio">
+    <rdfs:domain rdf:resource="#CostoAplicacion"/>
+    <rdfs:range rdf:resource="#CostoAplicacionAnio"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="unidadSustantiva">
+    <rdfs:range rdf:resource="#UnidadSustantiva"/>
+    <rdfs:domain rdf:resource="#Unidad"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p8">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P8"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p13">
+    <rdfs:range>
+      <swb:Class rdf:ID="P13">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain rdf:resource="#Survey"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasCostoAplicacion">
+    <rdfs:domain rdf:resource="#P9"/>
+    <rdfs:range rdf:resource="#CostoAplicacion"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasIncrementoCosto">
+    <rdfs:domain rdf:resource="#P8"/>
+    <rdfs:range rdf:resource="#IncrementoCosto"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p12">
+    <rdfs:range>
+      <swb:Class rdf:ID="P12">
+        <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swb:autogenId>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Class>
+    </rdfs:range>
+    <rdfs:domain rdf:resource="#Survey"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasTramites">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#Tramite"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasAplicaciones">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#Aplicacion"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p3">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P3"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p2">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P2"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p10">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P10"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p6">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P6"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p11">
+    <rdfs:range rdf:resource="#P11"/>
+    <rdfs:domain rdf:resource="#Survey"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p7">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P7"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p5">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P5"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasUnidadesSustantivas">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#UnidadSustantiva"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasCostosTramites">
+    <rdfs:domain rdf:resource="#P7"/>
+    <rdfs:range rdf:resource="#CostoTramite"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="tramite">
+    <rdfs:domain rdf:resource="#CostoTramite"/>
+    <rdfs:range rdf:resource="#Tramite"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="aplicacion">
+    <rdfs:domain rdf:resource="#CostoAplicacion"/>
+    <rdfs:range rdf:resource="#Aplicacion"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="p4">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="#P4"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="Consultant">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#User"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="hasCostosUnidades">
+    <rdfs:domain rdf:resource="#P6"/>
+    <rdfs:range rdf:resource="#CostoUnidadSustantiva"/>
+  </owl:ObjectProperty>
+  <owl:DatatypeProperty rdf:ID="p11_6_Proveeduria_Abierta">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="costoapp">
+    <rdfs:domain rdf:resource="#CostoAplicacionAnio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Cambio_porcentual_anual_del_Portafolio_de_servicios_de_aplicaciones">
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="claveUnidad">
+    <rdfs:domain rdf:resource="#UnidadSustantiva"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_9_VOIP">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Administracion_de_TIC_Otros_Costos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P4"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_1_Requerimientos_de_Areas_Sustantivas">
+    <rdfs:domain rdf:resource="#P10"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_6_Movilidad">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_11_Otros2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Desarrollo_de_Proyecto_Otros_Costos">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Cambio_porcentual_anual_del_Portafolio_de_Servicios_a_Usuarios">
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="P_Total_del_Portafolio_de_servicios_de_aplicaciones">
+    <rdfs:domain rdf:resource="#CostoAplicacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_5_Computo_de_Nube">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Soporte_a_Usuarios_Costo_de_Personal">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Operaciones_e_Infraestructura_Costos_de_Outsourcing">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_7_Retiros_de_Aplicaciones">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="anio_costo">
+    <rdfs:domain rdf:resource="#CostoAplicacionAnio"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_9_Traiga_sus_Propios_Dispositivos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_5_Cumplimiento">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p2_costo_personal">
+    <rdfs:domain rdf:resource="#P2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_7_ERP">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_de_Servicio_de_Aplicacion">
+    <rdfs:domain rdf:resource="#CostoTramite"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_del_Portafolio_de_servicios">
+    <rdfs:domain rdf:resource="#CostoUnidad"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nombreDependencia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Survey"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_10_Traiga_sus_Propios_Dispositivos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_3_Practicas_de_Administracion_de_Servicios">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costo_de_las_Actividades_de_Operaciones_de_Infraestructura_Actividades_Directas_de_Servicio_a_Infraestructura">
+    <rdfs:domain rdf:resource="#P5"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="actividades_de_aplicacion_otros_costos">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costo_de_las_Actividades_de_Operaciones_de_Infraestructura_Actividades_de_Aplicaciones">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P5"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p2_costo_otros">
+    <rdfs:domain rdf:resource="#P2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Soporte_a_Usuarios_Costos_de_Outsourcing">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="costo_total_de_outsourcing">
+    <rdfs:domain rdf:resource="#P3"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Soporte_a_Usuarios_Otros_Costos">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_del_Portafolio_de_Servicios_de_Gestion">
+    <rdfs:domain rdf:resource="#CostoUnidad"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_del_Portafolio_de_Servicios_al_Usuario">
+    <rdfs:domain rdf:resource="#CostoUnidad"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p3_costo_total_de_personal">
+    <rdfs:domain rdf:resource="#P3"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_8_Salarios">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p2_costo_outsourcing">
+    <rdfs:domain rdf:resource="#P2"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_4_Salarios_de_TI">
+    <rdfs:domain rdf:resource="#P10"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Administracion_de_TIC_Costos_de_Outsourcing">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P4"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costo_de_las_Actividades_de_Operaciones_de_Infraestructura_Actividades_Directas_de_Servicio_a_Infraestructura_Actividades_de_Soporte_a_Usuarios">
+    <rdfs:domain rdf:resource="#P5"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_7_Administracion_de_Energia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_12_Otros2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_4_Aplicaciones_comerciales_disponibles_en_el_mercado">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_2_Renovaciones_Tecnologicas">
+    <rdfs:domain rdf:resource="#P10"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_10_Otros1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_3_Incrementos_de_Productividad">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_4_Consolidacion_de_Hardware">
+    <rdfs:domain rdf:resource="#P11"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Operaciones_e_Infraestructura_Costo_de_Personal">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p13_Porcentaje_del_Costo_total_de_TIC_en_apoyo_del_Back_Office">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P13"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="anio">
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_del_Portafolio_de_Servicios_Propios">
+    <rdfs:domain rdf:resource="#CostoUnidad"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_2_Outsourcing">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_11_Otros1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Tramite_apoyado_por_TIC">
+    <rdfs:domain rdf:resource="#CostoTramite"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_2_Outsourcing">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costo_de_las_Actividades_de_Operaciones_de_Infraestructura_Actividades_de_Desarrollo_del_Proyecto">
+    <rdfs:domain rdf:resource="#P5"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_6_Administracion_de_Demanda">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_12_Otros2">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nombreUnidad">
+    <rdfs:domain rdf:resource="#UnidadSustantiva"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="actividades_de_aplicacion_costo_de_personal">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_1_Demandas_de_la_Institucion_para_Reduccion_de_Costos_de_TIC">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_9_Energia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="claveAplicacion">
+    <rdfs:domain rdf:resource="#Aplicacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_8_Conexiones_de_Red">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_3_Seguridad">
+    <rdfs:domain rdf:resource="#P10"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p13_Porcentaje_del_Costo_total_de_TIC_en_apoyo_del_Front_Office">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P13"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="nombreAplicacion">
+    <rdfs:domain rdf:resource="#Aplicacion"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Cambio_porcentual_anual_del_Portafolio_de_Servicios_de_Gestion">
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p12_1_Consolidacion">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P12"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Cambio_porcentual_anual_del_Portafolio_de_Servicios_Propios">
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_11_Otros1">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P10"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Cambio_porcentual_anual_del_Portafolio_de_Servicios_de_Proyectos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#IncrementoCosto"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_5_Reduccion_de_Costos_de_Tecnologia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p1">
+    <rdfs:domain rdf:resource="#Survey"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="actividades_de_aplicacion_costos_de_outsourcing">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costo_de_las_Actividades_de_Operaciones_de_Infraestructura_Actividades_de_Administración_de">
+    <rdfs:domain rdf:resource="#P5"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_del_Portafolio_de_Servicios_de_Proyecto">
+    <rdfs:domain rdf:resource="#CostoUnidad"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Costos_de_Servicio_de_Infraestructura">
+    <rdfs:domain rdf:resource="#CostoTramite"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Desarrollo_de_Proyecto_Costo_de_Personal">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p3_Porcentaje_de_los_costos_de_outsourcing_que_representan_al_personal">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P3"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p10_6_Recuperación_de_Desastres">
+    <rdfs:domain rdf:resource="#P10"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Desarrollo_de_Proyecto_Costos_de_Outsourcing">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_8_Reduccion_de_la_Demanda_de_TI">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="claveDependencia">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:domain rdf:resource="#Survey"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="costo_total_de_otros_costos">
+    <rdfs:domain rdf:resource="#P3"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Numero_de_Tramites_Anuales">
+    <rdfs:domain rdf:resource="#CostoTramite"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Operaciones_e_Infraestructura_Otros_Costos">
+    <rdfs:domain rdf:resource="#P4"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="Actividades_de_Administracion_de_TIC_Costo_de_Personal">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <rdfs:domain rdf:resource="#P4"/>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="p11_10_Traiga_sus_Propios_Dispositivos">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#P11"/>
+  </owl:DatatypeProperty>
+  <swb:CodePackage rdf:ID="pkg">
+    <swb:prefix rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >cts</swb:prefix>
+    <swb:package rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >org.semanticwb.model.survey</swb:package>
+  </swb:CodePackage>
+</rdf:RDF>
+
+<!-- Created with TopBraid Composer -->
