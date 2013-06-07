@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Commentable
+public abstract class DatasetBase extends org.semanticwb.model.SWBClass implements com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Versionable,com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable
 {
    /**
    * URL al dataset (endpoint)
@@ -559,20 +559,20 @@ public abstract class DatasetBase extends org.semanticwb.model.SWBClass implemen
 
 /**
 * Gets the DatasetSize property
-* @return float with the DatasetSize
+* @return String with the DatasetSize
 */
-    public float getDatasetSize()
+    public String getDatasetSize()
     {
-        return getSemanticObject().getFloatProperty(lodp_datasetSize);
+        return getSemanticObject().getProperty(lodp_datasetSize);
     }
 
 /**
 * Sets the DatasetSize property
 * @param value long with the DatasetSize
 */
-    public void setDatasetSize(float value)
+    public void setDatasetSize(String value)
     {
-        getSemanticObject().setFloatProperty(lodp_datasetSize, value);
+        getSemanticObject().setProperty(lodp_datasetSize, value);
     }
 
 /**
