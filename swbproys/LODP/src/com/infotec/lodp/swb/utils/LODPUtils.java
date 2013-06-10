@@ -241,6 +241,22 @@ public class LODPUtils {
         return ret.toString();
     }
     
+        public static final String getDSTagList_UL(Dataset ds){
+        StringBuilder ret = new StringBuilder("");
+        ret.append("<ul>");
+        if(null!=ds && ds.listTags().hasNext()){
+            Iterator<Tag> ittag = ds.listTags();
+            while (ittag.hasNext()) {
+                ret.append("<li>");
+                Tag tag = ittag.next();
+                ret.append(tag.getTagName()!=null?tag.getTagName().trim():"");
+                ret.append("</li>");
+            }
+        }
+        ret.append("</ul>");
+        return ret.toString();
+    }
+    
     /**
      * 
      * @param usr
