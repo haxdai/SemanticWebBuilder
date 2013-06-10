@@ -423,7 +423,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((AplByDSBean) o1).getInstitution();
                     String d2 = ((AplByDSBean) o2).getInstitution();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -450,7 +450,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((AplByDSBean) o1).getInstitution();
                     String d2 = ((AplByDSBean) o2).getInstitution();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                   
                 }
             });
@@ -491,7 +491,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getInstitution();
                     String d2 = ((UseDSBean) o2).getInstitution();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -500,7 +500,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getDataset();
                     String d2 = ((UseDSBean) o2).getDataset();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -543,9 +543,9 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("false") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1 = ((UseDSBean) o1).getHits();
-                    long d2 = ((UseDSBean) o2).getHits();                    
-                    int ret = d1>d2?-1:1;                    
+                    long d1 = ((UseDSBean) o1).getTotalHits();
+                    long d2 = ((UseDSBean) o2).getTotalHits();                    
+                    int ret = d2<d1?-1:1;                    
                     return ret;                 
                 }
             });
@@ -554,7 +554,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getInstitution();
                     String d2 = ((UseDSBean) o2).getInstitution();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -563,7 +563,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getDataset();
                     String d2 = ((UseDSBean) o2).getDataset();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                   
                 }
             });
@@ -630,7 +630,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getInstitution();
                     String d2 = ((UseAppBean) o2).getInstitution();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -639,7 +639,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getApplication();
                     String d2 = ((UseAppBean) o2).getApplication();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -682,8 +682,8 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("false") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1 = ((UseAppBean) o1).getHits();
-                    long d2 = ((UseAppBean) o2).getHits();                    
+                    long d1 = ((UseAppBean) o1).getTotalHits();
+                    long d2 = ((UseAppBean) o2).getTotalHits();                    
                     int ret = d1>d2?-1:1;                    
                     return ret;                 
                 }
@@ -693,7 +693,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getInstitution();
                     String d2 = ((UseAppBean) o2).getInstitution();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -702,7 +702,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getApplication();
                     String d2 = ((UseAppBean) o2).getApplication();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                   
                 }
             });
@@ -759,7 +759,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UsersSatBean) o1).getInstitution();
                     String d2 = ((UsersSatBean) o2).getInstitution();                    
-                    int ret = d1.compareTo(d2);                    
+                    int ret = d1.compareTo(d2)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -795,7 +795,7 @@ public class StatisticsResource extends GenericAdmResource{
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UsersSatBean) o1).getInstitution();
                     String d2 = ((UsersSatBean) o2).getInstitution();                    
-                    int ret = d2.compareTo(d1);                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
