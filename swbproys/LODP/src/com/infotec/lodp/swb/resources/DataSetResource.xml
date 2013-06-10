@@ -6,6 +6,7 @@
         <fieldset >
                 <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
+                <input type="TEXT" name="appwebpage" label="Id de la sección donde se muestran las aplicaciones:" size="5" jsrequired="true"/>
             </fieldset>
 
  
