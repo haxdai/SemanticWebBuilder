@@ -22,6 +22,7 @@ import java.util.TreeSet;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
@@ -150,27 +151,33 @@ public class ApplicationResource extends GenericAdmResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-         User usr = response.getUser();
-         WebSite ws = response.getWebPage().getWebSite();
-         String dataSet = request.getParameter("dataSet")==null ? "" : request.getParameter("dataSet");
+        User usr = response.getUser();
+        WebSite ws = response.getWebPage().getWebSite();
+        String[] itAppList = request.getParameterValues("dataSet");
          
         if(action.equals(SWBResourceURL.Action_ADD)&& (usr.isSigned() && (usr.getSemanticObject().createGenericInstance() instanceof Developer || usr.getSemanticObject().createGenericInstance() instanceof Publisher))){
             
-            if(!dataSet.equals("")){
-                Application app = Application.ClassMgr.createApplication(ws); 
+                Application app = Application.ClassMgr.createApplication(ws);
+                
+                         
                 String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
                 String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
                 String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia");  
                 String cat = request.getParameter("idCat")==null ? "" : request.getParameter("idCat"); 
                 String url = request.getParameter("url")==null ? "" : request.getParameter("url");
                 LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
-                Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);
                 Category category = Category.ClassMgr.getCategory(cat,ws);
                 app.setAppTitle(titleApp);
-                app.setAppDescription(descripcion);         
-                app.addRelatedDataset(dataSetClass);           
+                app.setAppDescription(descripcion);   
+                
+                for(int i=0; i<itAppList.length; i++){
+                    Dataset dataSetClass = Dataset.ClassMgr.getDataset(itAppList[i], ws);
+                    app.addRelatedDataset(dataSetClass); 
+                } 
+                
                 app.setAppAuthor(usr.getSemanticObject());
                 app.setAppLicense(lic);
+                
                 if(category!=null){
                     app.addCategory(category);
                 }
@@ -178,27 +185,35 @@ public class ApplicationResource extends GenericAdmResource{
                 app.setAppCreated(new Date());
                 app.setAppURL(url); 
                 response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
-            }
+            
             
         } else if (action.equals(SWBResourceURL.Action_EDIT)){
             String uri = request.getParameter("uri");
             SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
             Application apl = (Application)semObj.createGenericInstance();
-            System.out.println("Es el id del dataset :" + apl.getRelatedDataset().getId());
+            
+            Iterator<Dataset> itds = apl.listRelatedDatasets();
+            
+            apl.removeAllRelatedDataset();
+            
+            System.out.println("Estos son los dataset relacionados"+itds);
+            
             String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
             String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
             String cat = request.getParameter("idCat")==null ? "" : request.getParameter("idCat"); 
             String licencia = request.getParameter("licencia")==null ? "" : request.getParameter("licencia"); 
-            System.out.println("Es el id del dataset :" + dataSet);
             String url = request.getParameter("url")==null ? "" : request.getParameter("url");
             LicenseType lic = LicenseType.ClassMgr.getLicenseType(licencia,ws);
             Category category = Category.ClassMgr.getCategory(cat, ws);
-            Dataset dataSetClass = Dataset.ClassMgr.getDataset(dataSet, ws);
+            
+            for(int i=0; i<itAppList.length; i++){
+                Dataset dataSetClass = Dataset.ClassMgr.getDataset(itAppList[i], ws);
+                apl.addRelatedDataset(dataSetClass);
+            }
+            
             apl.setAppTitle(titleApp);
             apl.setAppDescription(descripcion);
             apl.addCategory(category);
-            apl.getRelatedDataset().remove();
-            apl.addRelatedDataset(dataSetClass);
             apl.setAppCreated(new Date());
             apl.setValid(false);
             apl.setAppAuthor(usr.getSemanticObject());
@@ -239,10 +254,10 @@ public class ApplicationResource extends GenericAdmResource{
         if (ascendente) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1;
-                    long d2;
-                    d1 = ((Application) o1).getRanks();
-                    d2 = ((Application) o2).getRanks();
+                    float d1;
+                    float d2;
+                    d1 = ((Application) o1).getAverage();
+                    d2 = ((Application) o2).getAverage();
                     int ret = d1 > d2 ? 1 : -1;
                     return ret;
                 }
@@ -250,10 +265,10 @@ public class ApplicationResource extends GenericAdmResource{
         } else {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1;
-                    long d2;
-                    d1 = ((Application) o1).getRanks();
-                    d2 = ((Application) o2).getRanks();
+                    float d1;
+                    float d2;
+                    d1 = ((Application) o1).getAverage();
+                    d2 = ((Application) o2).getAverage();
                     int ret = d1 > d2 ? -1 : 1;
                     return ret;
                 }
@@ -275,43 +290,43 @@ public class ApplicationResource extends GenericAdmResource{
         if (ascendente) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    String d1;
-                    String d2;
-                    d1 = ((Comment) o1).getComment();
-                    d2 = ((Comment) o2).getComment();
-                    if (d1 == null && d2 != null) {
-                        return -1;
+                    
+                    Iterator<Application> itapp = ((Application) o1).listComments();
+                    Iterator<Application> itapp1 = ((Application) o2).listComments();
+                    
+                    long d1 = 0;
+                    long d2 = 0;
+                    
+                    while(itapp.hasNext()){
+                       d1= d1++;
                     }
-                    if (d1 != null && d2 == null) {
-                        return 1;
+                    
+                    while(itapp1.hasNext()){
+                       d2 = d2++;
                     }
-                    if (d1 == null && d2 == null) {
-                        return -1;
-                    } else {
-                        int ret = 1;
-                        return ret;
-                    }
+                    
+                    int ret = d1 > d2 ? 1 : -1;
+                    return ret;
                 }
             });
         } else {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    String d1;
-                    String d2;
-                    d1 = ((Comment) o1).getComment();
-                    d2 = ((Comment) o2).getComment();
-                    if (d1 == null && d2 != null) {
-                        return -1;
+                    Iterator<Application> itapp = ((Application) o1).listComments();
+                    Iterator<Application> itapp1 = ((Application) o2).listComments();
+                    
+                    long d1 = 0;
+                    long d2 = 0;
+                    
+                    while(itapp.hasNext()){
+                       d1= d1++;
                     }
-                    if (d1 != null && d2 == null) {
-                        return 1;
+                    
+                    while(itapp1.hasNext()){
+                       d2 = d2++;
                     }
-                    if (d1 == null && d2 == null) {
-                        return -1;
-                    } else {
-                       int ret = -1;
-                       return ret;
-                    }
+                    int ret = d1 > d2 ? -1 : 1;
+                    return ret;
                 }
             });
         }
