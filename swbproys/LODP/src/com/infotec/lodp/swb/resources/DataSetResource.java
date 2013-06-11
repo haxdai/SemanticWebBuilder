@@ -193,22 +193,8 @@ public class DataSetResource extends GenericAdmResource {
 
                 try {
 
-                    String protocol = "";
-                    if(request.getProtocol().toLowerCase().startsWith("http/")){
-                        protocol="http://";
-                    } else if(request.getProtocol().toLowerCase().startsWith("https/")){
-                        protocol="https://";
-                    }
-                    String servername=request.getServerName();
-                    String serverport = ""+request.getServerPort();
-                    if(serverport.equals("80")){
-                        serverport = "";
-                    } else {
-                        serverport=":"+serverport;
-                    }
-
-                    String redirectURL = protocol+servername+serverport+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
-                    //System.out.println("Redirect URL:"+redirectURL);
+                    
+                    String redirectURL = getDSWebFileURL(request, ver);
                     
                     response.setContentType(DEFAULT_MIME_TYPE);
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
@@ -234,6 +220,28 @@ public class DataSetResource extends GenericAdmResource {
         }
     }
 
+    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver){
+        
+                    String protocol = "";
+                    if(request.getProtocol().toLowerCase().startsWith("http/")){
+                        protocol="http://";
+                    } else if(request.getProtocol().toLowerCase().startsWith("https/")){
+                        protocol="https://";
+                    }
+                    String servername=request.getServerName();
+                    String serverport = ""+request.getServerPort();
+                    if(serverport.equals("80")){
+                        serverport = "";
+                    } else {
+                        serverport=":"+serverport;
+                    }
+
+                    String retURL = protocol+servername+serverport+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
+                    //System.out.println("Redirect URL:"+redirectURL);
+                   return retURL;
+    }
+    
+    
      /**
      * Gets the value sem prop.
      * 
