@@ -70,7 +70,7 @@ public class DeveloperRegisterResource extends GenericAdmResource {
 
         if(response.Action_ADD.equals(action)) {
 //                response.setCallMethod(response.Call_CONTENT);
-                String login = SWBUtils.XML.replaceXMLChars(request.getParameter("login"));
+                String login = SWBUtils.XML.replaceXMLChars(request.getParameter("user"));
                 String email = SWBUtils.XML.replaceXMLChars(request.getParameter("email"));
                 String pwd = request.getParameter("passwd");
                 String securCodeSent = request.getParameter("cmnt_seccode");
@@ -179,7 +179,7 @@ public class DeveloperRegisterResource extends GenericAdmResource {
                     response.setRenderParameter("lastName", SWBUtils.XML.replaceXMLChars(request.getParameter("lastName")));
                     response.setRenderParameter("secondLastName", SWBUtils.XML.replaceXMLChars(request.getParameter("secondLastName")));
                     response.setRenderParameter("email", email);
-                    response.setRenderParameter("login", login);
+                    response.setRenderParameter("user", login);
                     response.setRenderParameter("msg", msg.toString());
                     response.setMode(response.Mode_VIEW);
                 }
