@@ -9,10 +9,10 @@ public abstract class QuestionnaireBase extends org.semanticwb.model.SWBClass
     public static final org.semanticwb.platform.SemanticProperty que_image=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#image");
     public static final org.semanticwb.platform.SemanticProperty que_presentation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#presentation");
     public static final org.semanticwb.platform.SemanticProperty que_title=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#title");
-    public static final org.semanticwb.platform.SemanticClass que_Question=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#Question");
-    public static final org.semanticwb.platform.SemanticProperty que_question=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#question");
     public static final org.semanticwb.platform.SemanticClass que_BankInstitution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#BankInstitution");
     public static final org.semanticwb.platform.SemanticProperty que_institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#institution");
+    public static final org.semanticwb.platform.SemanticClass que_Question=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#Question");
+    public static final org.semanticwb.platform.SemanticProperty que_hasQuestion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#hasQuestion");
     public static final org.semanticwb.platform.SemanticClass que_Questionnaire=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#Questionnaire");
    /**
    * The semantic class that represents the currentObject
@@ -112,29 +112,6 @@ public abstract class QuestionnaireBase extends org.semanticwb.model.SWBClass
             return it;
         }
        /**
-       * Gets all org.semanticwb.questionnaire.Questionnaire with a determined Question
-       * @param value Question of the type org.semanticwb.questionnaire.Question
-       * @param model Model of the org.semanticwb.questionnaire.Questionnaire
-       * @return Iterator with all the org.semanticwb.questionnaire.Questionnaire
-       */
-
-        public static java.util.Iterator<org.semanticwb.questionnaire.Questionnaire> listQuestionnaireByQuestion(org.semanticwb.questionnaire.Question value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Questionnaire> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(que_question, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.questionnaire.Questionnaire with a determined Question
-       * @param value Question of the type org.semanticwb.questionnaire.Question
-       * @return Iterator with all the org.semanticwb.questionnaire.Questionnaire
-       */
-
-        public static java.util.Iterator<org.semanticwb.questionnaire.Questionnaire> listQuestionnaireByQuestion(org.semanticwb.questionnaire.Question value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Questionnaire> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(que_question,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.questionnaire.Questionnaire with a determined Institution
        * @param value Institution of the type org.semanticwb.questionnaire.BankInstitution
        * @param model Model of the org.semanticwb.questionnaire.Questionnaire
@@ -155,6 +132,29 @@ public abstract class QuestionnaireBase extends org.semanticwb.model.SWBClass
         public static java.util.Iterator<org.semanticwb.questionnaire.Questionnaire> listQuestionnaireByInstitution(org.semanticwb.questionnaire.BankInstitution value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Questionnaire> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(que_institution,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.questionnaire.Questionnaire with a determined Question
+       * @param value Question of the type org.semanticwb.questionnaire.Question
+       * @param model Model of the org.semanticwb.questionnaire.Questionnaire
+       * @return Iterator with all the org.semanticwb.questionnaire.Questionnaire
+       */
+
+        public static java.util.Iterator<org.semanticwb.questionnaire.Questionnaire> listQuestionnaireByQuestion(org.semanticwb.questionnaire.Question value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Questionnaire> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(que_hasQuestion, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.questionnaire.Questionnaire with a determined Question
+       * @param value Question of the type org.semanticwb.questionnaire.Question
+       * @return Iterator with all the org.semanticwb.questionnaire.Questionnaire
+       */
+
+        public static java.util.Iterator<org.semanticwb.questionnaire.Questionnaire> listQuestionnaireByQuestion(org.semanticwb.questionnaire.Question value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Questionnaire> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(que_hasQuestion,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -283,44 +283,6 @@ public abstract class QuestionnaireBase extends org.semanticwb.model.SWBClass
         getSemanticObject().setProperty(que_title, value);
     }
    /**
-   * Sets the value for the property Question
-   * @param value Question to set
-   */
-
-    public void setQuestion(org.semanticwb.questionnaire.Question value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(que_question, value.getSemanticObject());
-        }else
-        {
-            removeQuestion();
-        }
-    }
-   /**
-   * Remove the value for Question property
-   */
-
-    public void removeQuestion()
-    {
-        getSemanticObject().removeProperty(que_question);
-    }
-
-   /**
-   * Gets the Question
-   * @return a org.semanticwb.questionnaire.Question
-   */
-    public org.semanticwb.questionnaire.Question getQuestion()
-    {
-         org.semanticwb.questionnaire.Question ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(que_question);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.questionnaire.Question)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
    * Sets the value for the property Institution
    * @param value Institution to set
    */
@@ -355,6 +317,71 @@ public abstract class QuestionnaireBase extends org.semanticwb.model.SWBClass
          if(obj!=null)
          {
              ret=(org.semanticwb.questionnaire.BankInstitution)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.questionnaire.Question
+   * @return A GenericIterator with all the org.semanticwb.questionnaire.Question
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Question> listQuestions()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.Question>(getSemanticObject().listObjectProperties(que_hasQuestion));
+    }
+
+   /**
+   * Gets true if has a Question
+   * @param value org.semanticwb.questionnaire.Question to verify
+   * @return true if the org.semanticwb.questionnaire.Question exists, false otherwise
+   */
+    public boolean hasQuestion(org.semanticwb.questionnaire.Question value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(que_hasQuestion,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a Question
+   * @param value org.semanticwb.questionnaire.Question to add
+   */
+
+    public void addQuestion(org.semanticwb.questionnaire.Question value)
+    {
+        getSemanticObject().addObjectProperty(que_hasQuestion, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Question
+   */
+
+    public void removeAllQuestion()
+    {
+        getSemanticObject().removeProperty(que_hasQuestion);
+    }
+   /**
+   * Removes a Question
+   * @param value org.semanticwb.questionnaire.Question to remove
+   */
+
+    public void removeQuestion(org.semanticwb.questionnaire.Question value)
+    {
+        getSemanticObject().removeObjectProperty(que_hasQuestion,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the Question
+   * @return a org.semanticwb.questionnaire.Question
+   */
+    public org.semanticwb.questionnaire.Question getQuestion()
+    {
+         org.semanticwb.questionnaire.Question ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(que_hasQuestion);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.questionnaire.Question)obj.createGenericInstance();
          }
          return ret;
     }
