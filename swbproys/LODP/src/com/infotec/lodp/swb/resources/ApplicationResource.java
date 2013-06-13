@@ -192,11 +192,7 @@ public class ApplicationResource extends GenericAdmResource{
             SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(uri) );
             Application apl = (Application)semObj.createGenericInstance();
             
-            Iterator<Dataset> itds = apl.listRelatedDatasets();
-            
             apl.removeAllRelatedDataset();
-            
-            System.out.println("Estos son los dataset relacionados"+itds);
             
             String titleApp = request.getParameter("titleApp")==null ? "" : request.getParameter("titleApp");
             String descripcion = request.getParameter("descripcion")==null ? "" : request.getParameter("descripcion");
