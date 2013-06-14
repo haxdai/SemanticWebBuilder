@@ -1,8 +1,9 @@
 package org.semanticwb.questionnaire.base;
 
 
-public abstract class PartBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
+public abstract class PartBase extends org.semanticwb.model.base.GenericObjectBase implements org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticProperty que_namePart=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#namePart");
     public static final org.semanticwb.platform.SemanticClass que_Part=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#Part");
    /**
    * The semantic class that represents the currentObject
@@ -128,6 +129,24 @@ public abstract class PartBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the Active property
+* @return boolean with the Active
+*/
+    public boolean isActive()
+    {
+        return getSemanticObject().getBooleanProperty(swb_active);
+    }
+
+/**
+* Sets the Active property
+* @param value long with the Active
+*/
+    public void setActive(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_active, value);
+    }
+
+/**
 * Gets the Title property
 * @return String with the Title
 */
@@ -158,5 +177,33 @@ public abstract class PartBase extends org.semanticwb.model.SWBClass implements 
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the NamePart property
+* @return String with the NamePart
+*/
+    public String getNamePart()
+    {
+        return getSemanticObject().getProperty(que_namePart);
+    }
+
+/**
+* Sets the NamePart property
+* @param value long with the NamePart
+*/
+    public void setNamePart(String value)
+    {
+        getSemanticObject().setProperty(que_namePart, value);
+    }
+
+    public void remove()
+    {
+        getSemanticObject().remove();
+    }
+
+    public java.util.Iterator<org.semanticwb.model.GenericObject> listRelatedObjects()
+    {
+        return new org.semanticwb.model.GenericIterator(getSemanticObject().listRelatedObjects(),true);
     }
 }
