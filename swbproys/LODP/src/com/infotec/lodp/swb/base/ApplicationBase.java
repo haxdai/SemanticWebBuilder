@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Rankable
+public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Commentable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_ApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#ApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasApplicationType");
@@ -231,6 +231,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     public ApplicationBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the Approved property
+* @return boolean with the Approved
+*/
+    public boolean isApproved()
+    {
+        return getSemanticObject().getBooleanProperty(lodp_approved);
+    }
+
+/**
+* Sets the Approved property
+* @param value long with the Approved
+*/
+    public void setApproved(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(lodp_approved, value);
     }
 
 /**
@@ -483,6 +501,24 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     public void setDownloads(long value)
     {
         getSemanticObject().setLongProperty(lodp_downloads, value);
+    }
+
+/**
+* Gets the Reviewed property
+* @return boolean with the Reviewed
+*/
+    public boolean isReviewed()
+    {
+        return getSemanticObject().getBooleanProperty(lodp_reviewed);
+    }
+
+/**
+* Sets the Reviewed property
+* @param value long with the Reviewed
+*/
+    public void setReviewed(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(lodp_reviewed, value);
     }
    /**
    * Gets all the com.infotec.lodp.swb.Category
