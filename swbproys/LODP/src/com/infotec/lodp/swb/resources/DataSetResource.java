@@ -10,16 +10,19 @@ import com.infotec.filesender.SenderService;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.DatasetLog;
 import com.infotec.lodp.swb.DatasetVersion;
+import com.infotec.lodp.swb.Publisher;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +32,7 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.SWBObserver;
+import org.semanticwb.base.util.SWBMail;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
@@ -287,7 +291,76 @@ public class DataSetResource extends GenericAdmResource {
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        super.processAction(request, response); //To change body of generated methods, choose Tools | Templates.
+        String action = response.getAction();
+        if(null==action){
+            action="";
+        }
+
+        
+        
+        if("review".equals(action)){
+            String dsuri = request.getParameter("dsuri");
+            String comment = request.getParameter("comment");
+            String btnok = request.getParameter("btnok");
+            String btnreject = request.getParameter("btnreject");
+            if(null!=dsuri && dsuri.trim().length()>0){
+                SemanticObject so = SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
+                if(null!=so){
+                    Dataset ds = (Dataset) so.createGenericInstance();
+                    ds.setReviewed(Boolean.TRUE);
+                    String mensaje = "";
+                    if(null!=ds){
+                        if(null!=btnok){
+                            ds.setApproved(Boolean.TRUE);
+                           
+                        } else if(null!=btnreject){
+                            ds.setApproved(Boolean.FALSE);
+                        }
+                        // Envio de notificación al usuario creador
+                        Publisher pub = ds.getPublisher();
+                        if(null!=pub&&pub.getEmail()!=null){
+                            try {
+                            if(SWBUtils.EMAIL.isValidEmailAddress(pub.getEmail())){
+                                InternetAddress intaddr = new InternetAddress(pub.getEmail());
+                                ArrayList<InternetAddress> arr = new ArrayList<InternetAddress>();
+                                arr.add(intaddr);
+                               SWBMail mail = new SWBMail();
+                               mail.setToEmail(arr);
+                               String fromEmail = SWBPortal.getEnv("af/adminEmail","webbuilder@infotec.com.mx");
+                               mail.setFromEmail(fromEmail);
+                               mail.setFromName("WebMaster");
+                               
+                               // falta armar el mensaje para el envio del correo
+                               String subject = "Notificación Revisión Dataset "+ds.getDatasetTitle();   // cambiar por properties
+                               if( null!=pub.getLanguage() && pub.getLanguage().equals("es") && ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgaprobado_es","");
+                                } else if( null!=pub.getLanguage() && pub.getLanguage().equals("es") && !ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgreject_es","");
+                                } else  if( null!=pub.getLanguage() && pub.getLanguage().equals("en") && ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgaprobado_en","");
+                                } else if( null!=pub.getLanguage() && pub.getLanguage().equals("en") && !ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgreject_en","");
+                                } else  if( ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgaprobado_es","");
+                                } else if(  !ds.isApproved() ) { 
+                                    mensaje = getResourceBase().getAttribute("msgreject_es","");
+                                } 
+                               
+                               if(comment!=null) mensaje = "<br/><br/>"+comment;
+                               mail.setData(mensaje);
+                               
+                               // TODO: falta armar el mensaje de notificación
+                               
+                               SWBUtils.EMAIL.sendBGEmail(mail);
+                            }
+                            } catch (Exception e) {
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
