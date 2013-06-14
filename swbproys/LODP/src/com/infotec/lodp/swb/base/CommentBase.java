@@ -1,7 +1,7 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class CommentBase extends org.semanticwb.model.base.GenericObjectBase implements org.semanticwb.model.Traceable,com.infotec.lodp.swb.Approveable
+public abstract class CommentBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Approveable,org.semanticwb.model.Traceable
 {
     public static final org.semanticwb.platform.SemanticProperty lodp_inappropriate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#inappropriate");
     public static final org.semanticwb.platform.SemanticProperty lodp_comment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#comment");
