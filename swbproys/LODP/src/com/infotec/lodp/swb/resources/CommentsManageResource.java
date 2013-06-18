@@ -20,6 +20,7 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
@@ -87,24 +88,36 @@ public class CommentsManageResource extends GenericAdmResource {
             }
         }
     }
-    static public ArrayList<Comment> listComments(Iterator<Comment> itco,int nInappropriate){
+    static public ArrayList<Comment> listComments(Iterator<Comment> itco){
         ArrayList ret=new ArrayList();
         while (itco.hasNext()) {
             Comment co = itco.next();
-            if(co.getInappropriate()>=nInappropriate&&!co.isReviewed()){
+            if(!co.isApproved()&&!co.isReviewed()){
                 ret.add(co);
             }
         }
         return ret;
     }
-    static public ArrayList<Comment> listCommentsByDataset(Iterator<Dataset> itds,int nInappropriate){
+    static public ArrayList<Comment> listCommentsByDatasetApplication(SWBModel wsite){
+        Iterator<Dataset> itds=Dataset.ClassMgr.listDatasets(wsite);
+        Iterator<Application> itap=Application.ClassMgr.listApplications(wsite);
         ArrayList<Comment> ret=new ArrayList<Comment>();
         while(itds.hasNext()){
             Dataset ds=itds.next();
             Iterator<Comment> itco=ds.listComments();
             while(itco.hasNext()){
                 Comment co =itco.next();
-                if(co.getInappropriate()>=nInappropriate&&!co.isReviewed()){
+                if(!co.isApproved()&&!co.isReviewed()){
+                    ret.add(co);
+                }
+            }
+        }
+        while(itap.hasNext()){
+            Application ap=itap.next();
+            Iterator<Comment> itco=ap.listComments();
+            while(itco.hasNext()){
+                Comment co =itco.next();
+                if(!co.isApproved()&&!co.isReviewed()){
                     ret.add(co);
                 }
             }

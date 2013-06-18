@@ -5,7 +5,6 @@
 		<admdbconnmgr defconn="true"/>
         <fieldset>
             <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
-            <input type="TEXT" name="inappropriate" label="Votos para ocultar un comentario:" size="5" regExp="\d{1,2}"  jsrequired="true"/>
             <input type="TEXT" name="num_comments_p_page" label="Comentarios por pagina:" size="5" regExp="\d{1,2}" jsrequired="true"/>
         </fieldset>
         <fieldset>
