@@ -6,7 +6,6 @@ package com.infotec.lodp.swb.resources;
 
 import com.infotec.lodp.swb.Application;
 import com.infotec.lodp.swb.Category;
-import com.infotec.lodp.swb.Comment;
 import com.infotec.lodp.swb.Dataset;
 import com.infotec.lodp.swb.Developer;
 import com.infotec.lodp.swb.LicenseType;
@@ -14,15 +13,20 @@ import com.infotec.lodp.swb.Publisher;
 import static com.infotec.lodp.swb.resources.DataSetResource.log;
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.base.util.SWBMail;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
@@ -47,6 +51,8 @@ public class ApplicationResource extends GenericAdmResource{
     public static final String FILTER_CATEGORY = "categoria";
     public static final String FILTER_INSTITUTION = "institution";
     public static final String FILTER_AUTHOR = "autor";
+    public static final String ADMIN_COMMENT = "SECCADMIN";
+
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
@@ -78,7 +84,9 @@ public class ApplicationResource extends GenericAdmResource{
                 viewConditions(request, response, paramRequest);
             }else if(mode.equals(REDIRECT_URL)){
                 redirectURL(request, response, paramRequest);
-            }       
+            }else if (mode.equals(ADMIN_COMMENT)){
+                adminApp(request, response, paramRequest);
+            }      
             else{
                 super.processRequest(request, response, paramRequest);
             }
@@ -147,10 +155,19 @@ public class ApplicationResource extends GenericAdmResource{
         apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
         response.sendRedirect(apl.getAppURL());
     }
+    
+     public void adminApp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String uri = request.getParameter("uri");
+        SemanticObject semObj = SemanticObject.createSemanticObject(URLDecoder.decode(SemanticObject.shortToFullURI(uri)));
+        Application apl = (Application)semObj.createGenericInstance();
+        apl.sendHit(request, paramRequest.getUser(), paramRequest.getWebPage());
+        response.sendRedirect(apl.getAppURL());
+    }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
+        System.out.println("Action mandado" + action);
         User usr = response.getUser();
         WebSite ws = response.getWebPage().getWebSite();
         String[] itAppList = request.getParameterValues("dataSet");
@@ -181,7 +198,8 @@ public class ApplicationResource extends GenericAdmResource{
                 if(category!=null){
                     app.addCategory(category);
                 }
-                app.setAppValid(false);    
+                app.setApproved(false);
+                app.setReviewed(false);
                 app.setAppCreated(new Date());
                 app.setAppURL(url); 
                 response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
@@ -215,8 +233,107 @@ public class ApplicationResource extends GenericAdmResource{
             apl.setAppAuthor(usr.getSemanticObject());
             apl.setAppLicense(lic);
             apl.setAppURL(url);  
-            apl.setAppValid(false);
+            apl.setApproved(false);
+            apl.setReviewed(false);
             response.setRenderParameter("msgExitoAPP", response.getLocaleString("msg_appExito"));
+            
+        }else if(action.equals(ADMIN_COMMENT)){
+            String appUri = request.getParameter("appUri");
+            String comment = request.getParameter("commentAPPAdmin");
+            String btnApprove = request.getParameter("btnApprove");
+            String btnReject = request.getParameter("btnReject");
+            String lenguaje = "";
+            String correo = "";
+            
+            System.out.println("appUri" + appUri);
+            System.out.println("comment" + comment);
+            System.out.println("btnApprove" + btnApprove );
+            System.out.println("btnReject" + btnReject);
+            
+            
+            if(null!=appUri && appUri.trim().length()>0){
+                
+                SemanticObject so = SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(appUri));
+                
+                if(null!=so){
+                    
+                    Application app = (Application) so.createGenericInstance();
+                    app.setReviewed(Boolean.TRUE);
+                    String mensaje = "";
+                    
+                    System.out.println("setReviewed" + app.isReviewed());
+                    
+                    if(null!=app){
+                        
+                        if(null!=btnApprove){
+                            app.setApproved(Boolean.TRUE);
+                           
+                        } else if(null!=btnReject){
+                            app.setApproved(Boolean.FALSE);
+                        }
+                        System.out.println("setApproved" + app.isApproved());
+            // Envio de notificación al usuario creador
+            GenericObject ob = app.getAppAuthor().createGenericInstance();
+
+            if(ob instanceof Developer  ){
+                Developer db = (Developer)ob ;
+                lenguaje= db.getLanguage();
+                correo = db.getEmail();
+            }
+
+            if(ob instanceof Publisher){
+                Publisher pb = (Publisher)ob ;
+                lenguaje= pb.getLanguage();
+                correo = pb.getEmail();
+                
+            }  
+                                         
+            if(!correo.equals("")){
+                try {
+                if(SWBUtils.EMAIL.isValidEmailAddress(correo)){
+                   InternetAddress intaddr = new InternetAddress(correo);
+                   ArrayList<InternetAddress> arr = new ArrayList<InternetAddress>();
+                   arr.add(intaddr);
+                   SWBMail mail = new SWBMail();
+                   mail.setToEmail(arr);
+                   String fromEmail = SWBPortal.getEnv("af/adminEmail","webbuilder@infotec.com.mx");
+                   mail.setFromEmail(fromEmail);
+                   mail.setFromName("WebMaster");
+
+                   // falta armar el mensaje para el envio del correo
+//                   String subject = "Notificación Revisión Dataset "+ds.getDatasetTitle();   // cambiar por properties
+                   if( lenguaje.equals("es") && app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPAprobada_es","");
+                    } else if( lenguaje.equals("es") && !app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPRechazada_es","");
+                    } else  if( lenguaje.equals("en") && app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPAprobada_en","");
+                    } else if( lenguaje.equals("en") && !app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPRechazada_en","");
+                    } else  if( app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPAprobada_es","");
+                    } else if(  !app.isApproved() ) { 
+                        mensaje = getResourceBase().getAttribute("msjAPPRechazada_es","");
+                    } 
+
+                   if(comment!=null){
+                       mensaje = "<br/><br/>"+comment;
+                   }
+                   
+                   mail.setData(mensaje);
+
+                   // TODO: falta armar el mensaje de notificación
+
+                   SWBUtils.EMAIL.sendBGEmail(mail);
+                }
+                } catch (Exception e) {
+                }
+
+            }
+                    }
+                }
+            }
+            
         }
         response.setMode(SWBResourceURL.Mode_VIEW);
     }
