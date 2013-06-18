@@ -15,11 +15,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 import javax.mail.internet.InternetAddress;
@@ -69,8 +71,6 @@ public class DataSetResource extends GenericAdmResource {
     public static final String ORDER_RANK = "rank";
     public static final String MODE_FILE = "file";
 
-            
-
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
         //super.doView(request, response, paramsRequest); //To change body of generated methods, choose Tools | Templates.
@@ -102,8 +102,8 @@ public class DataSetResource extends GenericAdmResource {
         String dsuri = request.getParameter("suri");
 
         WebSite wsite = paramRequest.getWebPage().getWebSite();
-        
-        
+
+
         if (null == action) {
             action = "";
         }
@@ -113,7 +113,7 @@ public class DataSetResource extends GenericAdmResource {
 
         User user = paramRequest.getUser();
         String fid = request.getParameter("fid");
-       
+
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject obj = null;
@@ -125,9 +125,9 @@ public class DataSetResource extends GenericAdmResource {
             obj = ont.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
                 Dataset ds = (Dataset) obj.createGenericInstance();
-                
+
                 ds.sendHit(request, user, paramRequest.getWebPage());
-                
+
                 //System.out.println("Recibe DataSET");
                 //System.out.println("Formato a generar:"+metaformat);
                 String dsname = ds.getDatasetTitle();
@@ -158,16 +158,16 @@ public class DataSetResource extends GenericAdmResource {
                     //response.setContentType("Content-Type: text/javascript");
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + dsname + ".json\";");
                     try {
-                        JSONObject json = new JSONObject();                      
+                        JSONObject json = new JSONObject();
                         Iterator<SemanticProperty> itsemprop = ds.getSemanticObject().listProperties();
                         while (itsemprop.hasNext()) {
                             SemanticProperty semprop = itsemprop.next();
                             //if(ds.getSemanticObject().getProperty(semprop)!=null){
-                                json.put(semprop.getName(),getValueSemProp(ds.getSemanticObject(),semprop));
-                           // }
+                            json.put(semprop.getName(), getValueSemProp(ds.getSemanticObject(), semprop));
+                            // }
                         }
-                        String txt = json.toString(); 
-                         OutputStream out = response.getOutputStream();
+                        String txt = json.toString();
+                        OutputStream out = response.getOutputStream();
                         SWBUtils.IO.copyStream(SWBUtils.IO.getStreamFromString(txt), out);
                     } catch (Exception e) {
                         log.error("Error al exportar el Dataset a JSON", e);
@@ -179,76 +179,70 @@ public class DataSetResource extends GenericAdmResource {
             }
         } else if ("file".equals(action)) {
 
-            
+
             obj = ont.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
             if (obj != null && obj.createGenericInstance() instanceof Dataset) {
 
-            Dataset ds = (Dataset) obj.createGenericInstance();
-            
-            if (ds != null) {
+                Dataset ds = (Dataset) obj.createGenericInstance();
 
-                 DatasetVersion ver = ds.getActualVersion();   
-                 
-                //actualizo el numero de descragas del dataset
-                //boolean dowloaded = LODPUtils.updateDSDownload(ds);
-               // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
+                if (ds != null) {
 
-                ds.sendHit(request, user, paramRequest.getWebPage());
+                    DatasetVersion ver = ds.getActualVersion();
 
-                try {
+                    //actualizo el numero de descragas del dataset
+                    //boolean dowloaded = LODPUtils.updateDSDownload(ds);
+                    // boolean okAddLog = LODPUtils.addDSLog(wsite, ds, user, "Descarga de dataset", LODPUtils.Log_Type_Download);
 
-                    
-                    String redirectURL = getDSWebFileURL(request, ver);
-                    
-                    response.setContentType(DEFAULT_MIME_TYPE);
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
+                    ds.sendHit(request, user, paramRequest.getWebPage());
 
-                    response.sendRedirect(redirectURL);
-                    
-                    //OutputStream out = response.getOutputStream();
-                    //SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath()), out);
-                    //ver.getSemanticObject().getSemanticClass().getClassCodeName()
-                    //   ver.getSemanticObject().getId()
-                     //  ver.getFilePath()
-                    // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
-                   // String redirectURL = request.getLocalAddr()+request.getLocalPort()+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
-                    //System.out.println("Redirect URL:"+redirectURL);
-                    //response.sendRedirect(redirectURL);
-                    
-                    
-                } catch (Exception e) {
-                    log.error("Error al obtener el archivo del Repositorio de documentos.", e);
+                    try {
+
+                        response.setContentType(DEFAULT_MIME_TYPE);
+                        response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
+
+                        //LODP/basePath
+                        String pathConfig = SWBPortal.getEnv("LODP/basePath");
+                        if(null!=pathConfig&&pathConfig.trim().length()>0){
+                            // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
+                            String redirectURL = getDSWebFileURL(request, ver);
+                            response.sendRedirect(redirectURL);
+                        } else {
+                            OutputStream out = response.getOutputStream();
+                            SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath()), out);
+                        }
+
+                    } catch (Exception e) {
+                        log.error("Error al obtener el archivo del Repositorio de documentos.", e);
+                    }
                 }
             }
         }
+    }
+
+    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver) {
+
+        String protocol = "";
+        if (request.getProtocol().toLowerCase().startsWith("http/")) {
+            protocol = "http://";
+        } else if (request.getProtocol().toLowerCase().startsWith("https/")) {
+            protocol = "https://";
         }
+        String servername = request.getServerName();
+        String serverport = "" + request.getServerPort();
+        if (serverport.equals("80")) {
+            serverport = "";
+        } else {
+            serverport = ":" + serverport;
+        }
+
+        String retURL = protocol + servername + serverport + "/cgi-bin/recover/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
+        //System.out.println("Redirect URL:"+redirectURL);
+        return retURL;
     }
 
-    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver){
-        
-                    String protocol = "";
-                    if(request.getProtocol().toLowerCase().startsWith("http/")){
-                        protocol="http://";
-                    } else if(request.getProtocol().toLowerCase().startsWith("https/")){
-                        protocol="https://";
-                    }
-                    String servername=request.getServerName();
-                    String serverport = ""+request.getServerPort();
-                    if(serverport.equals("80")){
-                        serverport = "";
-                    } else {
-                        serverport=":"+serverport;
-                    }
-
-                    String retURL = protocol+servername+serverport+"/cgi-bin/recover/"+ver.getSemanticObject().getSemanticClass().getClassCodeName()+"/"+ver.getSemanticObject().getId()+"/"+ver.getFilePath();
-                    //System.out.println("Redirect URL:"+redirectURL);
-                   return retURL;
-    }
-    
-    
-     /**
+    /**
      * Gets the value sem prop.
-     * 
+     *
      * @param obj the obj
      * @param prop the prop
      * @return the value sem prop
@@ -279,87 +273,98 @@ public class DataSetResource extends GenericAdmResource {
         }
         return ret;
     }
-    
+
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals(MODE_FILE)){
+        if (paramRequest.getMode().equals(MODE_FILE)) {
             doGetFile(request, response, paramRequest);
         } else {
-        super.processRequest(request, response, paramRequest); //To change body of generated methods, choose Tools | Templates.
+            super.processRequest(request, response, paramRequest); //To change body of generated methods, choose Tools | Templates.
         }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        if(null==action){
-            action="";
+        if (null == action) {
+            action = "";
         }
 
-        
-        
-        if("review".equals(action)){
+
+
+        if ("review".equals(action)) {
             String dsuri = request.getParameter("dsuri");
             String comment = request.getParameter("comment");
             String btnok = request.getParameter("btnok");
             String btnreject = request.getParameter("btnreject");
-            if(null!=dsuri && dsuri.trim().length()>0){
+            String msg = "";
+            if (null != dsuri && dsuri.trim().length() > 0) {
                 SemanticObject so = SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(dsuri));
-                if(null!=so){
+                if (null != so) {
                     Dataset ds = (Dataset) so.createGenericInstance();
                     ds.setReviewed(Boolean.TRUE);
                     String mensaje = "";
-                    if(null!=ds){
-                        if(null!=btnok){
+                    if (null != ds) {
+                        if (null != btnok) {
                             ds.setApproved(Boolean.TRUE);
-                           
-                        } else if(null!=btnreject){
+                            msg = "Dataset aprobado.";
+                        } else if (null != btnreject) {
                             ds.setApproved(Boolean.FALSE);
+                            msg = "Dataset rechazado.";
                         }
                         // Envio de notificación al usuario creador
                         Publisher pub = ds.getPublisher();
-                        if(null!=pub&&pub.getEmail()!=null){
+                        if (null != pub && pub.getEmail() != null) {
                             try {
-                            if(SWBUtils.EMAIL.isValidEmailAddress(pub.getEmail())){
-                                InternetAddress intaddr = new InternetAddress(pub.getEmail());
-                                ArrayList<InternetAddress> arr = new ArrayList<InternetAddress>();
-                                arr.add(intaddr);
-                               SWBMail mail = new SWBMail();
-                               mail.setToEmail(arr);
-                               String fromEmail = SWBPortal.getEnv("af/adminEmail","webbuilder@infotec.com.mx");
-                               mail.setFromEmail(fromEmail);
-                               mail.setFromName("WebMaster");
-                               
-                               // falta armar el mensaje para el envio del correo
-                               String subject = "Notificación Revisión Dataset "+ds.getDatasetTitle();   // cambiar por properties
-                               if( null!=pub.getLanguage() && pub.getLanguage().equals("es") && ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgaprobado_es","");
-                                } else if( null!=pub.getLanguage() && pub.getLanguage().equals("es") && !ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgreject_es","");
-                                } else  if( null!=pub.getLanguage() && pub.getLanguage().equals("en") && ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgaprobado_en","");
-                                } else if( null!=pub.getLanguage() && pub.getLanguage().equals("en") && !ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgreject_en","");
-                                } else  if( ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgaprobado_es","");
-                                } else if(  !ds.isApproved() ) { 
-                                    mensaje = getResourceBase().getAttribute("msgreject_es","");
-                                } 
-                               
-                               if(comment!=null) mensaje = "<br/><br/>"+comment;
-                               mail.setData(mensaje);
-                               
-                               // TODO: falta armar el mensaje de notificación
-                               
-                               SWBUtils.EMAIL.sendBGEmail(mail);
-                            }
+                                if (SWBUtils.EMAIL.isValidEmailAddress(pub.getEmail())) {
+                                    InternetAddress intaddr = new InternetAddress(pub.getEmail());
+                                    ArrayList<InternetAddress> arr = new ArrayList<InternetAddress>();
+                                    arr.add(intaddr);
+                                    SWBMail mail = new SWBMail();
+                                    mail.setToEmail(arr);
+                                    String fromEmail = SWBPortal.getEnv("af/adminEmail", "webbuilder@infotec.com.mx");
+                                    mail.setFromEmail(fromEmail);
+                                    mail.setFromName("WebMaster");
+
+                                    // falta armar el mensaje para el envio del correo
+                                    String subject = "Notificación Revisión Dataset " + ds.getDatasetTitle();   // cambiar por properties
+                                    if (null != pub.getLanguage() && pub.getLanguage().equals("es") && ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgaprobado_es", "Dataset ha sido aprobado: "+ds.getDatasetTitle());
+                                    } else if (null != pub.getLanguage() && pub.getLanguage().equals("es") && !ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgreject_es", "Dataset ha sido rechazado: "+ds.getDatasetTitle());
+                                    } else if (null != pub.getLanguage() && pub.getLanguage().equals("en") && ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgaprobado_en", "Dataset Approved"+ds.getDatasetTitle());
+                                    } else if (null != pub.getLanguage() && pub.getLanguage().equals("en") && !ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgreject_en", "Dataset Rejected"+ds.getDatasetTitle());
+                                    } else if (ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgaprobado_es", "Dataset ha sido aprobado: "+ds.getDatasetTitle());
+                                    } else if (!ds.isApproved()) {
+                                        mensaje = getResourceBase().getAttribute("msgreject_es", "Dataset ha sido rechazado: "+ds.getDatasetTitle());
+                                    }
+                                    
+                                    mail.setSubject(subject);
+
+                                    // TODO: falta armar el mensaje de notificación
+                                    SimpleDateFormat sdf = new SimpleDateFormat("dd de MMMM de yyyy",new Locale("es"));
+                                    if (comment != null) {
+                                        mensaje = sdf.format(new Date())+"<br/><br/>"+mensaje + "<br/><br/>" + comment;
+                                    }
+
+                                    mail.setData(mensaje);
+
+                                    SWBUtils.EMAIL.sendBGEmail(mail);
+                                }
                             } catch (Exception e) {
                             }
-                            
+
                         }
                     }
                 }
             }
+            
+            response.setRenderParameter("msg", "Se envió notificación de revisión al publicador del Dataset. Cambio de estatus a: "+msg);
+            response.setRenderParameter("act","");
+            response.setMode(SWBActionResponse.Mode_VIEW);            
         }
     }
 
@@ -413,19 +418,19 @@ public class DataSetResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    
-                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
-                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
-                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
-                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
-                     if(d1==null){
-                        d1=((Dataset) o1).getDatasetCreated();
+
+                    DatasetVersion ver1 = ((Dataset) o1).getActualVersion();
+                    DatasetVersion ver2 = ((Dataset) o2).getActualVersion();
+                    d1 = ver1 != null && ver1.getVersionCreated() != null ? ver1.getVersionCreated() : null;
+                    d2 = ver2 != null && ver2.getVersionCreated() != null ? ver2.getVersionCreated() : null;
+                    if (d1 == null) {
+                        d1 = ((Dataset) o1).getDatasetCreated();
                     }
-                    if(d2==null){
-                        d2=((Dataset) o2).getDatasetCreated();
+                    if (d2 == null) {
+                        d2 = ((Dataset) o2).getDatasetCreated();
                     }
-                    
-                    
+
+
                     if (d1 == null && d2 != null) {
                         return -1;
                     }
@@ -445,16 +450,16 @@ public class DataSetResource extends GenericAdmResource {
                 public int compare(Object o1, Object o2) {
                     Date d1;
                     Date d2;
-                    DatasetVersion ver1 =  ((Dataset) o1).getActualVersion();
-                    DatasetVersion ver2 =  ((Dataset) o2).getActualVersion();
-                    d1 =ver1!=null&&ver1.getVersionCreated()!=null?ver1.getVersionCreated():null;
-                    d2 =ver2!=null&&ver2.getVersionCreated()!=null?ver2.getVersionCreated():null;
-                    
-                    if(d1==null){
-                        d1=((Dataset) o1).getDatasetCreated();
+                    DatasetVersion ver1 = ((Dataset) o1).getActualVersion();
+                    DatasetVersion ver2 = ((Dataset) o2).getActualVersion();
+                    d1 = ver1 != null && ver1.getVersionCreated() != null ? ver1.getVersionCreated() : null;
+                    d2 = ver2 != null && ver2.getVersionCreated() != null ? ver2.getVersionCreated() : null;
+
+                    if (d1 == null) {
+                        d1 = ((Dataset) o1).getDatasetCreated();
                     }
-                    if(d2==null){
-                        d2=((Dataset) o2).getDatasetCreated();
+                    if (d2 == null) {
+                        d2 = ((Dataset) o2).getDatasetCreated();
                     }
 
                     if (d1 == null && d2 != null) {
@@ -609,7 +614,7 @@ public class DataSetResource extends GenericAdmResource {
 
         return set;
     }
-    
+
     /**
      * Sort by created set.
      *
@@ -673,7 +678,7 @@ public class DataSetResource extends GenericAdmResource {
 
         return set;
     }
-    
+
     public static boolean reviewQuery(HashMap<String, String> hm, String texto) {
         boolean res = Boolean.FALSE;
         if (null != hm) {
@@ -683,7 +688,7 @@ public class DataSetResource extends GenericAdmResource {
                 if (texto.indexOf(skey) > -1) {
                     res = Boolean.TRUE;
                     break;
-                } 
+                }
             }
         }
         return res;
