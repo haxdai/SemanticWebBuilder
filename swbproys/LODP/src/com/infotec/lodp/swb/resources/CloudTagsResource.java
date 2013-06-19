@@ -68,9 +68,9 @@ public class CloudTagsResource extends GenericAdmResource{
                     while(itCloud.hasNext()){ 
                         Tag cloudtag = itCloud.next();                    
                         if(cloudtag.getTagName().equals(dsTag.getTagName())){
-                            String weight = cloudtag.getProperty("weight");
-                            if(!(weight.contains("0"))){
-                                long peso = Long.parseLong(weight) + numView;
+                            long weight = Long.parseLong(cloudtag.getProperty("weight"));
+                            if(weight > 0L){
+                                long peso = weight + numView;
                                 cloudtag.setProperty("weight", String.valueOf(peso));
                             }else{
                                 cloudtag.setProperty("weight", String.valueOf(numView));
