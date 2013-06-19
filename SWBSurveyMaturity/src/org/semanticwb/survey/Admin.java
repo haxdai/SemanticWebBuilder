@@ -22,6 +22,7 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.questionnaire.Part;
 import org.semanticwb.questionnaire.Questionnaire;
 import org.semanticwb.questionnaire.Section;
 
@@ -36,22 +37,28 @@ public class Admin extends GenericResource
     public static final String MODE_ADMON_SURVEY = "admonSurvey";
     public static final String MODE_ADMON_SECTION = "admonSection";
     public static final String MODE_ADMON_PART = "admonParte";
+    public static final String MODE_ADMON_SHOW_QUESTIONS = "showQuestions";
+    public static final String MODE_ADMON_ADD_PART = "addPart";
     private static final Logger log = SWBUtils.getLogger(SurveyMaturity.class);
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        
     }
+
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        
+
         SWBResourceURL urlResponse = paramRequest.getRenderUrl();
-        
+
         if (paramRequest.getMode().equals(MODE_ADMON_QUESTION))
         {
             doReload(request, response, paramRequest, MODE_ADMON_QUESTION);
+        }
+        if (paramRequest.getMode().equals(MODE_ADMON_ADD_PART))
+        {
+            doReload(request, response, paramRequest, MODE_ADMON_ADD_PART);
         }
         else if (paramRequest.getMode().equals(MODE_ADMON_SURVEY))
         {
@@ -65,21 +72,24 @@ public class Admin extends GenericResource
         {
             doReload(request, response, paramRequest, MODE_ADMON_PART);
         }
-        
-        
-         else if(paramRequest.getMode().equals("reloadComments")){
+        else if (paramRequest.getMode().equals(MODE_ADMON_SHOW_QUESTIONS))
+        {
+            doReload(request, response, paramRequest, MODE_ADMON_SHOW_QUESTIONS);
+        }
+        else if (paramRequest.getMode().equals("reloadComments"))
+        {
             PrintWriter out = response.getWriter();
             Iterator<Questionnaire> report = Questionnaire.ClassMgr.listQuestionnaires(paramRequest.getWebPage().getWebSite());
             SWBResourceURL url = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
             urlResponse = paramRequest.getRenderUrl();
-            
+
             out.println("<script type=\"text/javascript\">");
             out.println("function showEditSurvey()");
             out.println("{");
             out.println("dijit.byId(\"dialogeditSurvey\").show(); ");
             out.println("}");
             out.println("</script>");
-            
+
 
             out.println("<fieldset>");
             out.println(" <legend>Cuestionarios</legend>");
@@ -92,28 +102,28 @@ public class Admin extends GenericResource
             out.println("     Acciones");
             out.println(" </th>");
             out.println(" </thead>");
-            while (report.hasNext()) {
+            while (report.hasNext())
+            {
                 Questionnaire rp = report.next();
-            out.println("<tr> ");
-            out.println("<td class=\"tban-tarea\">");
-            out.println(     "  "+ rp.getTitle()+"");
-            out.println("</td>");
-            out.println("<td style=\"text-align: center;\" class=\"tban-tarea\">");
-            String suri = rp.getURI();
-            String surii = URLEncoder.encode(suri);
-            urlResponse.setMode("edit");
-            out.println(" <a href=\"#\" title=\"Editar\" onclick=\" showEditSurvey();\"><img src=\"/swbadmin/jsp/Questionnaire/images/edit.png\"></a>");
-            url.setParameter("uri", suri);                    
-            out.println(" <a href=\"#\" title=\"Eliminar\" onclick=\"postHtml('"+url.setAction(SWBResourceURL.Action_REMOVE)+"','respuesta'); return false;\" ><img src=\"/swbadmin/jsp/Questionnaire/images/delete.png\"></a>");
-            out.println("  <a href=\" # \" title=\"Vista previa\"><img src=\"/swbadmin/jsp/Questionnaire/images/preview.png\"></a> ");
-            out.println("</td>");
-            out.println(" </tr>");
-             }
+                out.println("<tr> ");
+                out.println("<td class=\"tban-tarea\">");
+                out.println("  " + rp.getTitle() + "");
+                out.println("</td>");
+                out.println("<td style=\"text-align: center;\" class=\"tban-tarea\">");
+                String suri = rp.getURI();
+                String surii = URLEncoder.encode(suri);
+                urlResponse.setMode("edit");
+                out.println(" <a href=\"#\" title=\"Editar\" onclick=\" showEditSurvey();\"><img src=\"/swbadmin/jsp/Questionnaire/images/edit.png\"></a>");
+                url.setParameter("uri", suri);
+                out.println(" <a href=\"#\" title=\"Eliminar\" onclick=\"postHtml('" + url.setAction(SWBResourceURL.Action_REMOVE) + "','respuesta'); return false;\" ><img src=\"/swbadmin/jsp/Questionnaire/images/delete.png\"></a>");
+                out.println("  <a href=\" # \" title=\"Vista previa\"><img src=\"/swbadmin/jsp/Questionnaire/images/preview.png\"></a> ");
+                out.println("</td>");
+                out.println(" </tr>");
+            }
             out.println("  </table>");
-            out.println("</fieldset>");          
+            out.println("</fieldset>");
 
         }
-        
         else
         {
             super.processRequest(request, response, paramRequest);
@@ -157,48 +167,84 @@ public class Admin extends GenericResource
         }
     }
 
+    public void editPart(HttpServletRequest request, SWBActionResponse response,String id) throws SWBResourceException, IOException
+    {
+        String tituloparte = request.getParameter("tituloparte");
+        String descriptionparte = request.getParameter("descriptionparte");
+        String namepart = request.getParameter("namepart");
+        if (tituloparte != null && descriptionparte != null && namepart != null)
+        {
+            WebSite ws = response.getWebPage().getWebSite();
+            Part part = Part.ClassMgr.getPart(id,ws);
+            part.setNamePart(namepart);
+            part.setTitle(tituloparte);
+            part.setDescription(descriptionparte);
+        }
+    }
+    public void addPart(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
+
+        String tituloparte = request.getParameter("tituloparte");
+        String descriptionparte = request.getParameter("descriptionparte");
+        String namepart = request.getParameter("namepart");
+        if (tituloparte != null && descriptionparte != null && namepart != null)
+        {
+            WebSite ws = response.getWebPage().getWebSite();
+            Part part = Part.ClassMgr.createPart(ws);
+            part.setNamePart(namepart);
+            part.setTitle(tituloparte);
+            part.setDescription(descriptionparte);
+        }
+
+    }
+
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
+
         WebSite ws = response.getWebPage().getWebSite();
         Resource base = getResourceBase();
         String action = response.getAction();
         System.out.println("Entro al action");
-        System.out.println("Action"+action);
-        if(SWBResourceURL.Action_ADD.equals(action)){   
-         
+        System.out.println("Action" + action);
+        if (SWBResourceURL.Action_ADD.equals(action))
+        {
+
             System.out.println("entro al add");
             String title = request.getParameter("title");
             String presentacion = request.getParameter("presentacion");
-            String instrucciones = request.getParameter("instrucciones");            
+            String instrucciones = request.getParameter("instrucciones");
 
             Questionnaire q = Questionnaire.ClassMgr.createQuestionnaire(ws);
-            q.setTitle(title);      
-            q.setPresentation(presentacion);  
+            q.setTitle(title);
+            q.setPresentation(presentacion);
             q.setInstructions(instrucciones);
-            
+
 
         }
-        else if(SWBResourceURL.Action_REMOVE.equals(action)){
-    
-            
+        else if (SWBResourceURL.Action_REMOVE.equals(action))
+        {
+
+
             String uri = request.getParameter("uri");
             System.out.println("URI" + uri);
             Questionnaire rec = (Questionnaire) SemanticObject.createSemanticObject(uri).createGenericInstance();
 
             System.out.println("Cuestionario eliminado:" + uri);
-            if (rec != null) {
+            if (rec != null)
+            {
                 rec.remove();                                       //elimina el registro
                 //Elimina filesystem de thread
                 SWBUtils.IO.removeDirectory(SWBPortal.getWorkPath() + base.getWorkPath() + "/products/" + rec.getId() + "/");
-                
-            }  
-             response.setMode("reloadComments");
-        
-    }
-        else if(SWBResourceURL.Action_EDIT.equals(action)){
+
+            }
+            response.setMode("reloadComments");
+
+        }
+        else if (SWBResourceURL.Action_EDIT.equals(action))
+        {
             System.out.println("entro al edit");
-            
+
             String textInst = request.getParameter("textInst");
             String title = request.getParameter("title");
             String textPre = request.getParameter("textPre");
@@ -208,23 +254,38 @@ public class Admin extends GenericResource
             rec.setTitle(title);
             rec.setInstructions(textInst);
             rec.setPresentation(textPre);
-        
+
         }
-        
-        else if("addSection".equals(action) ){
+        else if ("addPart".equals(action))
+        {
+            if(request.getParameter("part")==null)
+            {
+                addPart(request, response);
+            }
+            else
+            {
+                String id=request.getParameter("part");
+                editPart(request, response,id);
+            }
+        }
+        else if ("addSection".equals(action))
+        {
             System.out.println("entro al addsection");
             String title = request.getParameter("titleSection");
             String description = request.getParameter("descriptionSection");
             Section q = Section.ClassMgr.createSection(ws);
-            q.setTitle(title);      
+            q.setTitle(title);
             q.setDescription(description);
-            
+
         }
-    
-    
-    
+        else if ("removePart".equals(action))
+        {
+            String uri = request.getParameter("uri");            
+            Part rec = (Part) SemanticObject.createSemanticObject(uri).createGenericInstance();            
+            if (rec != null)
+            {
+                rec.remove();                                       //elimina el registro
+            }
+        }
     }
-    
-    
-    
 }
