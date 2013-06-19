@@ -23,7 +23,7 @@ public class DirectoryResource extends GenericResource{
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        System.out.println("Entrooooo metodo doView");
+        
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "view.jsp";
         if (request != null) {
@@ -55,7 +55,7 @@ public class DirectoryResource extends GenericResource{
     }
     
     public void doViewDetail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        System.out.println("Entrooooo metodo doView");
+        
         String basePath = "/work/models/" + paramRequest.getWebPage().getWebSite().getId() + "/jsp/" + this.getClass().getSimpleName() + "/";
         String path = basePath + "detailPublisher.jsp";
         if (request != null) {
