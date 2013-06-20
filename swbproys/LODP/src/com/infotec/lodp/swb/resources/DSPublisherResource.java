@@ -503,6 +503,8 @@ public class DSPublisherResource extends GenericAdmResource {
 
         } else if (action.equals("addVersionStep2")) {
 
+            System.out.println("addVersion2");
+            
             // se tendría que revisar si se subió correctamente el archivo
             // corecto si existe el nombre del archivo en la version del dataset
 
@@ -510,6 +512,10 @@ public class DSPublisherResource extends GenericAdmResource {
             String dsveruri = request.getParameter("dsveruri");
             suri = request.getParameter("luri");
 
+            System.out.println("dsversion: "+dsveruri);
+            System.out.println("uri:"+suri);
+            
+            
             String luri = SemanticObject.shortToFullURI(suri);
 
             so = SemanticObject.getSemanticObject(luri);
@@ -519,28 +525,17 @@ public class DSPublisherResource extends GenericAdmResource {
                 go = so.createGenericInstance();
                 if (null != go && go instanceof Dataset) {
                     // se carga Dataset para actualizar datos.
-                    //System.out.println("so != null ");
                     ds = (Dataset) go;
                     ver = ds.getActualVersion();
-                    //System.out.println("actualversion:"+ver);
-                    //System.out.println("Archivo en la version: "+ver.getFilePath());
+
                     if (null != dsveruri && dsveruri.equals(ver.getShortURI())) {
 
                         if (ver.getFilePath() != null && ver.getFilePath().trim().length() > 0) {
-
-                            //System.out.println("Archivo en la version: "+ver.getFilePath());
-                            String path_file = DataSetResource.getDSWebFileURL(request, ver);
-
-                            //LODP/basePath
-                            String pathConfig = SWBPortal.getEnv("LODP/basePath");
-                            if (null != pathConfig && pathConfig.trim().length() > 0) {
-                                path_file = DataSetResource.getDSWebFileURL(request, ver);
-                            } else {
-                                path_file = basepath + ver.getWorkPath() + "/" + ver.getFilePath();
-                            }
-
+                            String path_file = basepath + ver.getWorkPath() + "/" + ver.getFilePath();
+                            //System.out.println("path: "+path_file);
                             File f = new File(path_file);
                             if (null != f && f.exists() && f.isFile()) {
+                                //System.out.println("Se encontró archivo");
                                 long res_size = f.length(); //bytes
                                 int veces = 0;
                                 String bytes_unit = "bytes";
@@ -561,12 +556,15 @@ public class DSPublisherResource extends GenericAdmResource {
                                 }
 
                                 String fileformat = ver.getFilePath();
+                                //System.out.println("Before Format:"+fileformat);
                                 fileformat = fileformat.substring(fileformat.lastIndexOf(".") + 1);
-
+                               // System.out.println("After Format:"+fileformat);
+                                //System.out.println(res_size + " " + bytes_unit);
                                 ds.setDatasetSize(res_size + " " + bytes_unit);
                                 ds.setDatasetFormat(fileformat);
                                 ds.setDatasetUpdated(new Date());
 
+                                //Envia el archivo al otro servidor
                                 String llave = SenderService.getSender().submitFile2Send(f, ver.getSemanticObject().createGenericInstance());
                                 ver.setVerComment(llave);
                             }
