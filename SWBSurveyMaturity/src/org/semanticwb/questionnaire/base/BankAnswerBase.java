@@ -3,6 +3,8 @@ package org.semanticwb.questionnaire.base;
 
 public abstract class BankAnswerBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
+    public static final org.semanticwb.platform.SemanticClass que_MultipleBankAnswer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#MultipleBankAnswer");
+    public static final org.semanticwb.platform.SemanticProperty que_hasMultipleBankAnswer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#hasMultipleBankAnswer");
     public static final org.semanticwb.platform.SemanticProperty que_typeAnswer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://org.semanticwb.resources/Questionnaire#typeAnswer");
     public static final org.semanticwb.platform.SemanticClass que_BankAnswer=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://org.semanticwb.resources/Questionnaire#BankAnswer");
    /**
@@ -79,6 +81,29 @@ public abstract class BankAnswerBase extends org.semanticwb.model.SWBClass imple
         {
             return (getBankAnswer(id, model)!=null);
         }
+       /**
+       * Gets all org.semanticwb.questionnaire.BankAnswer with a determined MultipleBankAnswer
+       * @param value MultipleBankAnswer of the type org.semanticwb.questionnaire.MultipleBankAnswer
+       * @param model Model of the org.semanticwb.questionnaire.BankAnswer
+       * @return Iterator with all the org.semanticwb.questionnaire.BankAnswer
+       */
+
+        public static java.util.Iterator<org.semanticwb.questionnaire.BankAnswer> listBankAnswerByMultipleBankAnswer(org.semanticwb.questionnaire.MultipleBankAnswer value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.BankAnswer> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(que_hasMultipleBankAnswer, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.questionnaire.BankAnswer with a determined MultipleBankAnswer
+       * @param value MultipleBankAnswer of the type org.semanticwb.questionnaire.MultipleBankAnswer
+       * @return Iterator with all the org.semanticwb.questionnaire.BankAnswer
+       */
+
+        public static java.util.Iterator<org.semanticwb.questionnaire.BankAnswer> listBankAnswerByMultipleBankAnswer(org.semanticwb.questionnaire.MultipleBankAnswer value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.BankAnswer> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(que_hasMultipleBankAnswer,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static BankAnswerBase.ClassMgr getBankAnswerClassMgr()
@@ -93,6 +118,71 @@ public abstract class BankAnswerBase extends org.semanticwb.model.SWBClass imple
     public BankAnswerBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.questionnaire.MultipleBankAnswer
+   * @return A GenericIterator with all the org.semanticwb.questionnaire.MultipleBankAnswer
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.MultipleBankAnswer> listMultipleBankAnswers()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.questionnaire.MultipleBankAnswer>(getSemanticObject().listObjectProperties(que_hasMultipleBankAnswer));
+    }
+
+   /**
+   * Gets true if has a MultipleBankAnswer
+   * @param value org.semanticwb.questionnaire.MultipleBankAnswer to verify
+   * @return true if the org.semanticwb.questionnaire.MultipleBankAnswer exists, false otherwise
+   */
+    public boolean hasMultipleBankAnswer(org.semanticwb.questionnaire.MultipleBankAnswer value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(que_hasMultipleBankAnswer,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a MultipleBankAnswer
+   * @param value org.semanticwb.questionnaire.MultipleBankAnswer to add
+   */
+
+    public void addMultipleBankAnswer(org.semanticwb.questionnaire.MultipleBankAnswer value)
+    {
+        getSemanticObject().addObjectProperty(que_hasMultipleBankAnswer, value.getSemanticObject());
+    }
+   /**
+   * Removes all the MultipleBankAnswer
+   */
+
+    public void removeAllMultipleBankAnswer()
+    {
+        getSemanticObject().removeProperty(que_hasMultipleBankAnswer);
+    }
+   /**
+   * Removes a MultipleBankAnswer
+   * @param value org.semanticwb.questionnaire.MultipleBankAnswer to remove
+   */
+
+    public void removeMultipleBankAnswer(org.semanticwb.questionnaire.MultipleBankAnswer value)
+    {
+        getSemanticObject().removeObjectProperty(que_hasMultipleBankAnswer,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the MultipleBankAnswer
+   * @return a org.semanticwb.questionnaire.MultipleBankAnswer
+   */
+    public org.semanticwb.questionnaire.MultipleBankAnswer getMultipleBankAnswer()
+    {
+         org.semanticwb.questionnaire.MultipleBankAnswer ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(que_hasMultipleBankAnswer);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.questionnaire.MultipleBankAnswer)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
