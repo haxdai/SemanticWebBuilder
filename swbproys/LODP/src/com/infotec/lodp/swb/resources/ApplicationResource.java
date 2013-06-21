@@ -167,7 +167,6 @@ public class ApplicationResource extends GenericAdmResource{
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        System.out.println("Action mandado" + action);
         User usr = response.getUser();
         WebSite ws = response.getWebPage().getWebSite();
         String[] itAppList = request.getParameterValues("dataSet");
@@ -245,12 +244,6 @@ public class ApplicationResource extends GenericAdmResource{
             String lenguaje = "";
             String correo = "";
             
-            System.out.println("appUri" + appUri);
-            System.out.println("comment" + comment);
-            System.out.println("btnApprove" + btnApprove );
-            System.out.println("btnReject" + btnReject);
-            
-            
             if(null!=appUri && appUri.trim().length()>0){
                 
                 SemanticObject so = SemanticObject.getSemanticObject(SemanticObject.shortToFullURI(appUri));
@@ -261,8 +254,6 @@ public class ApplicationResource extends GenericAdmResource{
                     app.setReviewed(Boolean.TRUE);
                     String mensaje = "";
                     
-                    System.out.println("setReviewed" + app.isReviewed());
-                    
                     if(null!=app){
                         
                         if(null!=btnApprove){
@@ -271,7 +262,7 @@ public class ApplicationResource extends GenericAdmResource{
                         } else if(null!=btnReject){
                             app.setApproved(Boolean.FALSE);
                         }
-                        System.out.println("setApproved" + app.isApproved());
+        
             // Envio de notificación al usuario creador
             GenericObject ob = app.getAppAuthor().createGenericInstance();
 
