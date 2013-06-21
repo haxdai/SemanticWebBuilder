@@ -38,14 +38,14 @@ import org.semanticwb.portal.api.SWBResourceException;
  * @author Sabino
  */
 public class ChartsResource extends GenericAdmResource {
-    public final static long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
-    final static int FIRST_YEAR = 1900;
-    public final static String RANGO_DIAS = "Días";
-    public final static String RANGO_MESES = "Meses";
-    public final static String RANGO_YEARS = "Años";
-    final static int HITS_TYPE_HIT = 12;
-    final static int HITS_TYPE_VIEW = 11;
-    final static String MODELID = "LODP";
+    public static final long MILLSECS_PER_DAY = 24 * 60 * 60 * 1000; //Milisegundos al día
+    static final int FIRST_YEAR = 1900;
+    public static final String RANGO_DIAS = "Días";
+    public static final String RANGO_MESES = "Meses";
+    public static final String RANGO_YEARS = "Años";
+    static final int HITS_TYPE_HIT = 12;
+    static final int HITS_TYPE_VIEW = 11;
+    static final String MODELID = "LODP";
     
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, 
