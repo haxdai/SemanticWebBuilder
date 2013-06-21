@@ -4,6 +4,8 @@
  */
 package com.infotec.lodp.swb.resources;
 
+import java.util.Date;
+
 /**
  *
  * @author Sabino
@@ -11,7 +13,8 @@ package com.infotec.lodp.swb.resources;
 public class ChartData {
     private String title;
     private long count;
-
+    private Date startDate;
+    private Date finalDate;
     public String getTitle() {
         return title;
     }
@@ -28,10 +31,38 @@ public class ChartData {
         this.count = count;
     }
 
-    public ChartData() { }
+    public Date getStartDate() {
+        return startDate;
+    }
 
-    public ChartData(String title, long count) {
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getFinalDate() {
+        return finalDate;
+    }
+
+    public void setFinalDate(Date finalDate) {
+        this.finalDate = finalDate;
+    }   
+    
+    public ChartData() { }
+    
+    public ChartData(String title, long count, Date startDate) {
         this.title = title;
         this.count = count;
-    }   
+        this.startDate = startDate;
+    }
+    
+    public ChartData(String title, long count, Date startDate, Date finalDate) {
+        this.title = title;
+        this.count = count;
+        this.startDate = startDate;
+        this.finalDate = finalDate;
+    }
+    public ChartData(String title, long count) {
+        this.title = title;
+        this.count = count;        
+    }
 }
