@@ -8,6 +8,8 @@
             <input type="TEXT" name="inappropriate" label="Votos para ocultar un comentario:" size="5" regExp="\d{1,2}"  jsrequired="true"/>
             <input type="TEXT" name="num_comments_p_page" label="Comentarios por pagina:" size="5" regExp="\d{1,2}" jsrequired="true"/>
             <textarea name="dirtywords" label="Palabras  prohibidas" rows="5" cols="50" wrap="virtual" promptMessage="Palabras prohibidas separadas por coma" />
+            <input type="TEXT" name="rolid" label="Id rol de administración de los comentarios inapropiados" size="25" jsrequired="true"/>
+            <input type="TEXT" name="manageid" label="Id seccion donde se administran los comentarios inapropiados" size="5" jsrequired="true"/>
         </fieldset>
         <fieldset>
             <statictext name="b">
