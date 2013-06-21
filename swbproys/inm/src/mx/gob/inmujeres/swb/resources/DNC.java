@@ -135,7 +135,7 @@ public class DNC extends GenericResource
                     total += peso;
                     imetas++;
                 }
-               
+
                 if (imetas < 3)
                 {
                     String msg = "!Debe capturar por lo menos 3 metas!";
@@ -160,7 +160,7 @@ public class DNC extends GenericResource
                     response.sendRedirect(url.toString());
                     return;
                 }
-                 if (total != 100)
+                if (total != 100)
                 {
                     String msg = "!La suma de los pesos no es del 100%, favor de corregir!";
                     // no se capturo cursos
