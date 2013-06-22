@@ -458,7 +458,7 @@ public class DSPublisherResource extends GenericAdmResource {
                 String redirectuploadfile = wsite.getWebPage(wpiduploadfile).getUrl() + "?suri=" + ver.getEncodedURI() + "&returl=" + urlredirect.toString(true) + "?luri=" + ds.getShortURI() + "%26dsveruri=" + ver.getShortURI();
                 response.sendRedirect(redirectuploadfile);
             } else {
-                response.setRenderParameter("msg", "Se actualizó correctamente la información del Dataset");
+                response.setRenderParameter("msg", response.getLocaleString("msg_uptokdataset"));
                 response.setMode(SWBActionResponse.Mode_EDIT);
                 response.setRenderParameter("suri", ds.getShortURI());
                 response.setRenderParameter("act", "detail");
@@ -503,7 +503,7 @@ public class DSPublisherResource extends GenericAdmResource {
 
         } else if (action.equals("addVersionStep2")) {
 
-            System.out.println("addVersion2");
+            //System.out.println("addVersion2");
             
             // se tendría que revisar si se subió correctamente el archivo
             // corecto si existe el nombre del archivo en la version del dataset
@@ -512,8 +512,8 @@ public class DSPublisherResource extends GenericAdmResource {
             String dsveruri = request.getParameter("dsveruri");
             suri = request.getParameter("luri");
 
-            System.out.println("dsversion: "+dsveruri);
-            System.out.println("uri:"+suri);
+            //System.out.println("dsversion: "+dsveruri);
+            //System.out.println("uri:"+suri);
             
             
             String luri = SemanticObject.shortToFullURI(suri);
@@ -574,7 +574,7 @@ public class DSPublisherResource extends GenericAdmResource {
                 }
             }
 
-            response.setRenderParameter("msg", "Se actualizó correctamente la información del Dataset");
+            response.setRenderParameter("msg",response.getLocaleString("msg_uptokdataset"));
             response.setMode(SWBActionResponse.Mode_EDIT);
             response.setRenderParameter("suri", ds.getShortURI());
             response.setRenderParameter("act", "detail");
