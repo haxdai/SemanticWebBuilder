@@ -344,7 +344,7 @@ public class DataSetResource extends GenericAdmResource {
                                     
                                     mail.setSubject(subject);
 
-                                    // TODO: falta armar el mensaje de notificación
+                                    
                                     SimpleDateFormat sdf = new SimpleDateFormat("dd de MMMM de yyyy",new Locale("es"));
                                     if (comment != null) {
                                         mensaje = sdf.format(new Date())+"<br/><br/>"+mensaje + "<br/><br/>" + comment;
@@ -362,7 +362,7 @@ public class DataSetResource extends GenericAdmResource {
                 }
             }
             
-            response.setRenderParameter("msg", "Se envió notificación de revisión al publicador del Dataset. Cambio de estatus a: "+msg);
+            response.setRenderParameter("msg", response.getLocaleString("msg_emailNotify")+": "+msg);
             response.setRenderParameter("act","");
             response.setMode(SWBActionResponse.Mode_VIEW);            
         }
