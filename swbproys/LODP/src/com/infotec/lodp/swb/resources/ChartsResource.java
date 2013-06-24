@@ -68,51 +68,6 @@ public class ChartsResource extends GenericAdmResource {
         }
     }
     
-    public HttpServletRequest graphic(HttpServletRequest request, HttpServletResponse response,
-            SWBParamRequest paramRequest) throws SWBResourceException, IOException {        
-        String fechaInicial = request.getParameter("startDate");
-        String fechaFinal = request.getParameter("finishDate");
-        String dataset = request.getParameter("dataset");
-        String chartType = request.getParameter("chartType");
-        String DataType = request.getParameter("dataType")==null?"views":request.getParameter("dataType");
-        Date dStart = null;
-        Date dFinal = null;        
-        if(fechaInicial.equals("") && fechaFinal.equals("")){
-            dFinal = new Date();                   
-            dStart = new Date(dFinal.getTime()-(7*MILLSECS_PER_DAY));            
-        }else {
-            try {
-                DateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
-                dStart = fechaInicial.equals("")?new Date():sdf1.parse(fechaInicial);                
-                dFinal = fechaFinal.equals("")?new Date():sdf1.parse(fechaFinal);                
-            } catch (ParseException ex) {
-                ex.printStackTrace();
-            }
-        }       
-        request.setAttribute("startDate", formatFecha(dStart));
-        request.setAttribute("finishDate", formatFecha(dFinal));
-        if(chartType != null){
-            request.setAttribute("chartType",chartType);
-        }        
-        long dias = 1+(dFinal.getTime()-dStart.getTime())/MILLSECS_PER_DAY;
-        String rango = getRango(dias,dStart,dFinal);
-        request.setAttribute("rango",rango);
-        request.setAttribute("dataType", DataType);
-        WebPage wpage = paramRequest.getWebPage();
-        WebSite wsite = wpage.getWebSite();
-        Dataset datasetObj = Dataset.ClassMgr.getDataset(dataset, wsite);        
-        System.out.println("Días:::"+dias);
-        System.out.println("chartType:::"+chartType);
-        System.out.println("dataset:::"+datasetObj.getId()+":::"+datasetObj.getDatasetTitle());
-        System.out.println("DataType:::"+DataType);
-        System.out.println("Rango:::"+rango);
-        List<ChartData> datos = getDatos(DataType, dFinal, dStart, dias, rango, datasetObj, wsite);
-        for(ChartData cd : datos){
-            System.out.println("Title:"+cd.getTitle()+",Count:"+cd.getCount());
-        }
-        //request.setAttribute("datos", datos);
-        return request;
-    } 
         
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, 
@@ -156,10 +111,7 @@ public class ChartsResource extends GenericAdmResource {
         List<ChartData> datos = null;
         if(DataType.equals("views")){
             datos = getDatosViews(dFinal,dStart,rango,datasetObj,dias);
-        }
-        else if(DataType.equals("ranking")){
-            datos = getDatosRanking(dFinal,dStart,rango,datasetObj,dias);
-        }
+        }        
         else if(DataType.equals("hits")){
             datos = getDatosHits(dFinal,dStart,rango,datasetObj,dias);
         }
@@ -237,7 +189,7 @@ public class ChartsResource extends GenericAdmResource {
                         }
                         SimpleDateFormat  sdf = new SimpleDateFormat("MMM");
                         String mes = sdf.format(rangoInicial).toUpperCase();
-                        datos.add(new ChartData(mes ,count));
+                        datos.add(new ChartData(mes ,count, rangoInicial));
                         if(!sigue){ break;}
                         rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);                        
                         if(rangoInicial.getYear()+FIRST_YEAR==añoFinal && rangoInicial.getMonth() ==mesFinal){
@@ -276,7 +228,7 @@ public class ChartsResource extends GenericAdmResource {
                                 count = rs.getInt(1);                            
                             }
                         }
-                        datos.add(new ChartData( label,count));
+                        datos.add(new ChartData( label,count, rangoInicial));
                         if(!sigue){ break;}
                         rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);
                         if(rangoInicial.getYear()+FIRST_YEAR==añoFinal){
@@ -301,114 +253,7 @@ public class ChartsResource extends GenericAdmResource {
         }
         return datos;
     }
-
-    private static List getDatosRanking(Date dFinal, Date dStart, String rango, Dataset datasetObj,long dias) {
-        List<ChartData> datos = new ArrayList(); 
-        /*List<Comment> listComment =null;
-        if(datasetObj!=null){
-            Iterator<Comment> itListComments = datasetObj.listComments();
-            listComment = new ArrayList();
-            while(itListComments.hasNext()){
-                Comment comment = itListComments.next();
-                listComment.add(comment);
-            }
-        }*/
-         
-        if(rango.equals(RANGO_DIAS)){
-            for(int i=0;i<dias;i++){
-                Date date = new Date(dStart.getTime()+(i*MILLSECS_PER_DAY));
-                datos.add(new ChartData(String.valueOf(date.getDate()),0,date));
-            } 
-            /*if(listComment!=null){
-                for(Comment comment: listComment){
-                    if(comment.isApproved()){
-                        if(comment.getCreated().getTime() >= dStart.getTime() && comment.getCreated().getTime() <= dFinal.getTime() ){
-                            for(ChartData cd: datos){
-                                if(formatFecha(comment.getCreated()).equals(cd.getTitle())){
-                                    cd.setCount(cd.getCount()+1);
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }*/
-        }                
-        else if(rango.equals(RANGO_MESES)){            
-            int mesFinal = dFinal.getMonth();
-            int añoFinal = dFinal.getYear()+FIRST_YEAR;
-            Date rangoInicial = dStart;                    
-            Calendar pCal= GregorianCalendar.getInstance();
-            pCal.set(rangoInicial.getYear()+FIRST_YEAR, rangoInicial.getMonth(), rangoInicial.getDate());                    
-            pCal.set(rangoInicial.getYear()+FIRST_YEAR, rangoInicial.getMonth(), pCal.getActualMaximum(Calendar.DAY_OF_MONTH));                    
-            Date rangoFinal = pCal.getTime();
-            boolean sigue = true;
-            while(rangoInicial.getYear()+FIRST_YEAR <= añoFinal && rangoInicial.getMonth() <= mesFinal){
-                long count = 0;
-                /*if(listComment!=null){
-                    for(Comment comment: listComment){
-                        if(comment.isApproved()){
-                            if(comment.getCreated().getTime() >= rangoInicial.getTime() && 
-                                comment.getCreated().getTime() <= rangoFinal.getTime() ){
-                                count++;
-                            }
-                        }
-                    }    
-                }*/
-                SimpleDateFormat  sdf = new SimpleDateFormat("MMM");
-                String mes = sdf.format(rangoInicial).toUpperCase();
-                datos.add(new ChartData(mes ,count));
-                if(!sigue){ break;}
-                rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);                        
-                if(rangoInicial.getYear()+FIRST_YEAR==añoFinal && rangoInicial.getMonth() ==mesFinal){
-                    rangoFinal = dFinal;
-                    sigue = false;
-                }
-                else{
-                    pCal= GregorianCalendar.getInstance();
-                    pCal.set(rangoInicial.getYear()+FIRST_YEAR, rangoInicial.getMonth(), rangoInicial.getDate()); 
-                    pCal.set(rangoInicial.getYear()+FIRST_YEAR, rangoInicial.getMonth(), pCal.getActualMaximum(Calendar.DAY_OF_MONTH));
-                    rangoFinal = pCal.getTime();
-                } 
-            }
-        }
-        else if(rango.equals(RANGO_YEARS)){
-            int añoFinal = dFinal.getYear()+FIRST_YEAR;
-            Date rangoInicial = dStart;
-            Calendar pCal= GregorianCalendar.getInstance();
-            pCal.set(rangoInicial.getYear()+FIRST_YEAR, 12, 31);                    
-            Date rangoFinal = pCal.getTime();
-            boolean sigue = true;
-            while(rangoInicial.getYear()+FIRST_YEAR <= añoFinal){
-                String label = String.valueOf(rangoInicial.getYear()+FIRST_YEAR);
-                long count = 0;
-                /*if(listComment!=null){
-                    for(Comment comment: listComment){
-                        if(comment.isApproved()){
-                            if(comment.getCreated().getTime() >= rangoInicial.getTime() && 
-                                comment.getCreated().getTime() <= rangoFinal.getTime() ){
-                                count++;
-                            }
-                        }
-                    }
-                } */   
-                datos.add(new ChartData( label,count));
-                if(!sigue){ break;}
-                rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);
-                if(rangoInicial.getYear()+FIRST_YEAR==añoFinal){
-                    rangoFinal = dFinal;
-                    sigue = false;
-                } 
-                 else{
-                    pCal= GregorianCalendar.getInstance();
-                    pCal.set(rangoInicial.getYear()+FIRST_YEAR, 12, 31);                             
-                    rangoFinal = pCal.getTime();
-                }
-            }
-        }
-        
-        return datos;
-    }
+    
 
     private static List<ChartData> getDatosHits(Date dFinal, Date dStart, String rango, 
             Dataset datasetObj,long dias) {
@@ -476,7 +321,7 @@ public class ChartsResource extends GenericAdmResource {
                         }
                         SimpleDateFormat  sdf = new SimpleDateFormat("MMM");
                         String mes = sdf.format(rangoInicial).toUpperCase();
-                        datos.add(new ChartData(mes ,count));
+                        datos.add(new ChartData(mes ,count, rangoInicial));
                         if(!sigue){ break;}
                         rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);                        
                         if(rangoInicial.getYear()+FIRST_YEAR==añoFinal && rangoInicial.getMonth() ==mesFinal){
@@ -515,7 +360,7 @@ public class ChartsResource extends GenericAdmResource {
                                 count = rs.getInt(1);                            
                             }
                         }
-                        datos.add(new ChartData( label,count));
+                        datos.add(new ChartData( label,count, rangoInicial));
                         if(!sigue){ break;}
                         rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);
                         if(rangoInicial.getYear()+FIRST_YEAR==añoFinal){
@@ -550,7 +395,7 @@ public class ChartsResource extends GenericAdmResource {
             listComment = new ArrayList();
             while(itListComments.hasNext()){
                 Comment comment = itListComments.next();
-                listComment.add(comment);
+                listComment.add(comment);                
             }
         }
          
@@ -560,9 +405,9 @@ public class ChartsResource extends GenericAdmResource {
                 datos.add(new ChartData(String.valueOf(date.getDate()),0,date));
             } 
             if(listComment!=null){
-                for(Comment comment: listComment){
-                    if(comment.isApproved()){
-                        if(comment.getCreated().getTime() >= dStart.getTime() && comment.getCreated().getTime() <= dFinal.getTime() ){
+                for(Comment comment: listComment){                    
+                    if(comment.isApproved()){                        
+                        if(comment.getCreated().getTime() >= dStart.getTime() && comment.getCreated().getTime() <= dFinal.getTime()+MILLSECS_PER_DAY ){
                             for(ChartData cd: datos){
                                 if(formatFecha(comment.getCreated()).equals(formatFecha(cd.getStartDate()))){
                                     cd.setCount(cd.getCount()+1);
@@ -586,10 +431,10 @@ public class ChartsResource extends GenericAdmResource {
             while(rangoInicial.getYear()+FIRST_YEAR <= añoFinal && rangoInicial.getMonth() <= mesFinal){
                 long count = 0;
                 if(listComment!=null){
-                    for(Comment comment: listComment){
+                    for(Comment comment: listComment){                        
                         if(comment.isApproved()){
                             if(comment.getCreated().getTime() >= rangoInicial.getTime() && 
-                                comment.getCreated().getTime() <= rangoFinal.getTime() ){
+                                comment.getCreated().getTime() <= rangoFinal.getTime()+MILLSECS_PER_DAY ){                                
                                 count++;
                             }
                         }
@@ -597,7 +442,7 @@ public class ChartsResource extends GenericAdmResource {
                 }
                 SimpleDateFormat  sdf = new SimpleDateFormat("MMM");
                 String mes = sdf.format(rangoInicial).toUpperCase();
-                datos.add(new ChartData(mes ,count));
+                datos.add(new ChartData(mes ,count, rangoInicial));
                 if(!sigue){ break;}
                 rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);                        
                 if(rangoInicial.getYear()+FIRST_YEAR==añoFinal && rangoInicial.getMonth() ==mesFinal){
@@ -626,13 +471,13 @@ public class ChartsResource extends GenericAdmResource {
                     for(Comment comment: listComment){
                         if(comment.isApproved()){
                             if(comment.getCreated().getTime() >= rangoInicial.getTime() && 
-                                comment.getCreated().getTime() <= rangoFinal.getTime() ){
+                                comment.getCreated().getTime() <= rangoFinal.getTime()+MILLSECS_PER_DAY ){
                                 count++;
                             }
                         }
                     }
                 }    
-                datos.add(new ChartData( label,count));
+                datos.add(new ChartData( label,count, rangoInicial));
                 if(!sigue){ break;}
                 rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);
                 if(rangoInicial.getYear()+FIRST_YEAR==añoFinal){
@@ -661,16 +506,18 @@ public class ChartsResource extends GenericAdmResource {
                 Application appl = itListAppl.next();
                 listAppls.add(appl);
             }
+            System.out.println("listSize::"+listAppls.size());
         }
         if(rango.equals(RANGO_DIAS)){
             for(int i=0;i<dias;i++){
                 Date date = new Date(dStart.getTime()+(i*MILLSECS_PER_DAY));
                 datos.add(new ChartData(String.valueOf(date.getDate()),0,date));
             } 
-            if(listAppls==null){
+            if(!listAppls.isEmpty()){
                 for(Application appl: listAppls){
+                    System.out.println(appl.getId()+"::"+appl.isAppValid());
                     if(appl.isAppValid()){
-                        if(appl.getAppCreated().getTime() >= dStart.getTime() && appl.getAppCreated().getTime() <= dFinal.getTime() ){
+                        if(appl.getAppCreated().getTime() >= dStart.getTime() && appl.getAppCreated().getTime() <= dFinal.getTime()+MILLSECS_PER_DAY ){
                             for(ChartData cd: datos){
                                 if(formatFecha(appl.getAppCreated()).equals(formatFecha(cd.getStartDate()))){
                                     cd.setCount(cd.getCount()+1);
@@ -693,11 +540,11 @@ public class ChartsResource extends GenericAdmResource {
             boolean sigue = true;
             while(rangoInicial.getYear()+FIRST_YEAR <= añoFinal && rangoInicial.getMonth() <= mesFinal){
                 long count = 0;
-                if(listAppls==null){
+                if(!listAppls.isEmpty()){
                     for(Application appl: listAppls){
                         if(appl.isAppValid()){
                             if(appl.getAppCreated().getTime() >= rangoInicial.getTime() && 
-                                appl.getAppCreated().getTime() <= rangoFinal.getTime() ){
+                                appl.getAppCreated().getTime() <= rangoFinal.getTime()+MILLSECS_PER_DAY){
                                 count++;
                             }
                         }
@@ -705,7 +552,7 @@ public class ChartsResource extends GenericAdmResource {
                 }
                 SimpleDateFormat  sdf = new SimpleDateFormat("MMM");
                 String mes = sdf.format(rangoInicial).toUpperCase();
-                datos.add(new ChartData(mes ,count));
+                datos.add(new ChartData(mes ,count, rangoInicial));
                 if(!sigue){ break;}
                 rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);                        
                 if(rangoInicial.getYear()+FIRST_YEAR==añoFinal && rangoInicial.getMonth() ==mesFinal){
@@ -730,17 +577,18 @@ public class ChartsResource extends GenericAdmResource {
             while(rangoInicial.getYear()+FIRST_YEAR <= añoFinal){
                 String label = String.valueOf(rangoInicial.getYear()+FIRST_YEAR);
                 long count = 0;
-                if(listAppls==null){
+                if(!listAppls.isEmpty()){
                     for(Application appl: listAppls){
+                        System.out.println(appl.getId()+"::"+appl.isAppValid());
                         if(appl.isAppValid()){
                             if(appl.getAppCreated().getTime() >= rangoInicial.getTime() && 
-                                appl.getAppCreated().getTime() <= rangoFinal.getTime() ){
+                                appl.getAppCreated().getTime() <= rangoFinal.getTime()+MILLSECS_PER_DAY){
                                 count++;
                             }
                         }
                     }
                 }
-                datos.add(new ChartData( label,count));
+                datos.add(new ChartData( label,count, rangoInicial));
                 if(!sigue){ break;}
                 rangoInicial = new Date(rangoFinal.getTime()+MILLSECS_PER_DAY);
                 if(rangoInicial.getYear()+FIRST_YEAR==añoFinal){
