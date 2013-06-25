@@ -397,8 +397,7 @@ public class ChartsResource extends GenericAdmResource {
                 Comment comment = itListComments.next();
                 listComment.add(comment);                
             }
-        }
-         
+        }         
         if(rango.equals(RANGO_DIAS)){
             for(int i=0;i<dias;i++){
                 Date date = new Date(dStart.getTime()+(i*MILLSECS_PER_DAY));
@@ -505,8 +504,7 @@ public class ChartsResource extends GenericAdmResource {
             while(itListAppl.hasNext()){
                 Application appl = itListAppl.next();
                 listAppls.add(appl);
-            }
-            System.out.println("listSize::"+listAppls.size());
+            }            
         }
         if(rango.equals(RANGO_DIAS)){
             for(int i=0;i<dias;i++){
@@ -514,8 +512,7 @@ public class ChartsResource extends GenericAdmResource {
                 datos.add(new ChartData(String.valueOf(date.getDate()),0,date));
             } 
             if(!listAppls.isEmpty()){
-                for(Application appl: listAppls){
-                    System.out.println(appl.getId()+"::"+appl.isAppValid());
+                for(Application appl: listAppls){                    
                     if(appl.isAppValid()){
                         if(appl.getAppCreated().getTime() >= dStart.getTime() && appl.getAppCreated().getTime() <= dFinal.getTime()+MILLSECS_PER_DAY ){
                             for(ChartData cd: datos){
@@ -578,8 +575,7 @@ public class ChartsResource extends GenericAdmResource {
                 String label = String.valueOf(rangoInicial.getYear()+FIRST_YEAR);
                 long count = 0;
                 if(!listAppls.isEmpty()){
-                    for(Application appl: listAppls){
-                        System.out.println(appl.getId()+"::"+appl.isAppValid());
+                    for(Application appl: listAppls){                        
                         if(appl.isAppValid()){
                             if(appl.getAppCreated().getTime() >= rangoInicial.getTime() && 
                                 appl.getAppCreated().getTime() <= rangoFinal.getTime()+MILLSECS_PER_DAY){
