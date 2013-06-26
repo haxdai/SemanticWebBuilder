@@ -14,6 +14,7 @@
                 <input type="TEXT" name="msgaprobado_en" label="Mensaje de aprobado envio email en inglés:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msgreject_es" label="Mensaje de rechazo envio email en español:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msgreject_en" label="Mensaje de aprobado envio email en inglés:" size="5" jsrequired="true"/>
+                <input type="TEXT" name="urlcgi" label="URL del servidor de archivos:" size="10" jsrequired="true"/>
                 <!-- input type="CHECKBOX" name="useproduction" label="Utilizar en producción:" value="1"/ -->
             </fieldset>
 
