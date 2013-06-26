@@ -36,6 +36,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.base.SWBObserver;
 import org.semanticwb.base.util.SWBMail;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
@@ -202,9 +203,9 @@ public class DataSetResource extends GenericAdmResource {
 
                         //LODP/basePath
                         String pathConfig = SWBPortal.getEnv("LODP/basePath");
-                        if(null!=pathConfig&&pathConfig.trim().length()>0){
+                        if(null==pathConfig){
                             // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
-                            String redirectURL = getDSWebFileURL(request, ver);
+                            String redirectURL = getDSWebFileURL(request, ver, getResourceBase());
                             response.sendRedirect(redirectURL);
                         } else {
                             OutputStream out = response.getOutputStream();
@@ -219,24 +220,29 @@ public class DataSetResource extends GenericAdmResource {
         }
     }
 
-    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver) {
+    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver, Resource base) {
 
-        String protocol = "";
-        if (request.getProtocol().toLowerCase().startsWith("http/")) {
-            protocol = "http://";
-        } else if (request.getProtocol().toLowerCase().startsWith("https/")) {
-            protocol = "https://";
+        String urlcgi = base.getAttribute("urlcgi"); 
+        
+        if(null==urlcgi){
+            String protocol = "";
+            if (request.getProtocol().toLowerCase().startsWith("http/")) {
+                protocol = "http://";
+            } else if (request.getProtocol().toLowerCase().startsWith("https/")) {
+                protocol = "https://";
+            }
+            String servername = request.getServerName();
+            String serverport = "" + request.getServerPort();
+            if (serverport.equals("80")) {
+                serverport = "";
+            } else {
+                serverport = ":" + serverport;
+            }
+            urlcgi = protocol + servername + serverport;
         }
-        String servername = request.getServerName();
-        String serverport = "" + request.getServerPort();
-        if (serverport.equals("80")) {
-            serverport = "";
-        } else {
-            serverport = ":" + serverport;
-        }
-
-        String retURL = protocol + servername + serverport + "/cgi-bin/recover/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
-        //System.out.println("Redirect URL:"+redirectURL);
+        
+        String retURL = urlcgi + "/cgi-bin/deliver/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
+        System.out.println("Redirect URL:"+retURL);
         return retURL;
     }
 
