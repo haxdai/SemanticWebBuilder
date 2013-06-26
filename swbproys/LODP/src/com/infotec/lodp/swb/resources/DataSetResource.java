@@ -205,7 +205,7 @@ public class DataSetResource extends GenericAdmResource {
                         String pathConfig = SWBPortal.getEnv("LODP/basePath");
                         if(null==pathConfig){
                             // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
-                            String redirectURL = getDSWebFileURL(request, ver, getResourceBase());
+                            String redirectURL = getDSWebFileURL(request, ver, getResourceBase().getId(),wsite);
                             response.sendRedirect(redirectURL);
                         } else {
                             OutputStream out = response.getOutputStream();
@@ -220,8 +220,9 @@ public class DataSetResource extends GenericAdmResource {
         }
     }
 
-    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver, Resource base) {
+    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver, String resid, WebSite wsite) {
 
+        Resource base = Resource.ClassMgr.getResource(resid, wsite);
         String urlcgi = base.getAttribute("urlcgi"); 
         
         if(null==urlcgi){
