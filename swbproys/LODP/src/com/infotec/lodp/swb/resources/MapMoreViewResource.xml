@@ -6,6 +6,7 @@
         <fieldset>
             <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
             <input type="TEXT" name="datosid" label="Página web en donde se  mostrará el detalle del dataset:" size="5" jsrequired="true"/>
+            <input type="TEXT" name="recid" label="Id recurso de publicacion de dataset" size="5" jsrequired="true"/>
         </fieldset>
         <fieldset>
             <statictext name="b">
