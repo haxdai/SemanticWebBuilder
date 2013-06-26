@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
@@ -19,7 +19,7 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author rene.jara
  */
-public class DatasetViewResource extends GenericResource{
+public class DatasetViewResource extends GenericAdmResource{
 
     public static final Logger log = SWBUtils.getLogger(DatasetViewResource.class);
 
