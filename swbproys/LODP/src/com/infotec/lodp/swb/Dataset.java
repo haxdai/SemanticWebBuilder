@@ -274,9 +274,9 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
             hitted = true;
             if(hits==-1)
             {
-                System.out.println("Entro incHits");
+                //System.out.println("Entro incHits");
                 hits=getDownloads();
-                System.out.println("Entro incHits ("+hits+")");
+               // System.out.println("Entro incHits ("+hits+")");
             }
             hits+=1;
             long t = System.currentTimeMillis() - timer;
@@ -293,7 +293,7 @@ public class Dataset extends com.infotec.lodp.swb.base.DatasetBase
      */
     public void updateViews()
     {
-        System.out.println("update views....v("+views+") h("+hits+")");
+        //System.out.println("update views....v("+views+") h("+hits+")");
         if(viewed || hitted)
         {
             timer = System.currentTimeMillis();

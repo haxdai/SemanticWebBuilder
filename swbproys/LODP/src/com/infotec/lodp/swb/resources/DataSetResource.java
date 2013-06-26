@@ -242,7 +242,7 @@ public class DataSetResource extends GenericAdmResource {
         }
         
         String retURL = urlcgi + "/cgi-bin/deliver/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
-        System.out.println("Redirect URL:"+retURL);
+        //System.out.println("Redirect URL:"+retURL);
         return retURL;
     }
 
