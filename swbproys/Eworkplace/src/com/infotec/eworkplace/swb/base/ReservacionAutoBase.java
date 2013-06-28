@@ -525,24 +525,6 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the ActividadARealizar property
-* @return String with the ActividadARealizar
-*/
-    public String getActividadARealizar()
-    {
-        return getSemanticObject().getProperty(intranet_actividadARealizar);
-    }
-
-/**
-* Sets the ActividadARealizar property
-* @param value long with the ActividadARealizar
-*/
-    public void setActividadARealizar(String value)
-    {
-        getSemanticObject().setProperty(intranet_actividadARealizar, value);
-    }
-
-/**
 * Gets the Autoriza property
 * @return String with the Autoriza
 */
@@ -558,6 +540,24 @@ public abstract class ReservacionAutoBase extends org.semanticwb.model.SWBClass 
     public void setAutoriza(String value)
     {
         getSemanticObject().setProperty(intranet_autoriza, value);
+    }
+
+/**
+* Gets the ActividadARealizar property
+* @return String with the ActividadARealizar
+*/
+    public String getActividadARealizar()
+    {
+        return getSemanticObject().getProperty(intranet_actividadARealizar);
+    }
+
+/**
+* Sets the ActividadARealizar property
+* @param value long with the ActividadARealizar
+*/
+    public void setActividadARealizar(String value)
+    {
+        getSemanticObject().setProperty(intranet_actividadARealizar, value);
     }
 
 /**

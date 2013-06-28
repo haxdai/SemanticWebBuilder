@@ -1,11 +1,12 @@
 package com.infotec.eworkplace.swb.base;
 
 
-public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass implements com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Iconable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Iconable,com.infotec.eworkplace.swb.Solicitable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaFinal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaFinal");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereCafeSoluble=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereCafeSoluble");
     public static final org.semanticwb.platform.SemanticProperty intranet_horarioServicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#horarioServicio");
+    public static final org.semanticwb.platform.SemanticProperty intranet_hasFechaReservada=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#hasFechaReservada");
     public static final org.semanticwb.platform.SemanticProperty intranet_fechaInicio=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#fechaInicio");
     public static final org.semanticwb.platform.SemanticProperty intranet_requiereComputo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.infotec.com.mx/intranet#requiereComputo");
     public static final org.semanticwb.platform.SemanticClass intranet_Sala=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.infotec.com.mx/intranet#Sala");
@@ -377,24 +378,6 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
 * Gets the RequiereCafeSoluble property
 * @return boolean with the RequiereCafeSoluble
 */
@@ -410,6 +393,24 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public void setRequiereCafeSoluble(boolean value)
     {
         getSemanticObject().setBooleanProperty(intranet_requiereCafeSoluble, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
     }
 
 /**
@@ -461,6 +462,33 @@ public abstract class ReservacionSalaBase extends org.semanticwb.model.SWBClass 
     public void setHorarioServicio(String value)
     {
         getSemanticObject().setProperty(intranet_horarioServicio, value);
+    }
+
+    public java.util.Iterator<String> listFechaReservadas()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(intranet_hasFechaReservada);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addFechaReservada(String value)
+    {
+        getSemanticObject().addLiteralProperty(intranet_hasFechaReservada, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllFechaReservada()
+    {
+        getSemanticObject().removeProperty(intranet_hasFechaReservada);
+    }
+
+    public void removeFechaReservada(String value)
+    {
+        getSemanticObject().removeLiteralProperty(intranet_hasFechaReservada,new org.semanticwb.platform.SemanticLiteral(value));
     }
 
 /**
