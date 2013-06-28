@@ -100,21 +100,27 @@ public class ReservaSalaResume extends GenericResource {
 //        out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-        List<Sala> _remove=new ArrayList<Sala>();
-        for(Sala sala:salas) {
-            if(!user.haveAccess(sala) || !sala.isActive())
-                //salas.remove(sala);
-                _remove.add(sala);
-
+        Iterator<Sala> isalas = SWBComparator.sortByDisplayName(Sala.ClassMgr.listSalas(base.getWebSite()), lang);
+        //isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = new ArrayList<Sala>();//SWBUtils.Collections.copyIterator(isalas);
+        while (isalas.hasNext()) {
+            Sala sala = isalas.next();
+            if (user.haveAccess(sala) && sala.isActive()) {
+                salas.add(sala);
+            }
         }
-        for(Sala _sala : _remove)
-        {
-            salas.remove(_sala);
-            
-        }
+//        List<Sala> _remove=new ArrayList<Sala>();
+//        for(Sala sala:salas) {
+//            if(!user.haveAccess(sala) || !sala.isActive())
+//                //salas.remove(sala);
+//                _remove.add(sala);
+//
+//        }
+//        for(Sala _sala : _remove)
+//        {
+//            salas.remove(_sala);
+//            
+//        }
         out.println(getCalendar(request, paramRequest, locale));
 //        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
@@ -134,13 +140,25 @@ public class ReservaSalaResume extends GenericResource {
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.YEAR, begin.get(Calendar.YEAR));
+        c.set(Calendar.MONTH, begin.get(Calendar.MONTH));
+        c.set(Calendar.DAY_OF_MONTH, begin.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        
+        //Obtener todas las reservas del día seleccionado
+        List<ReservacionSala> reservas = ReservacionSala.getReservationsByDay(c.getTime(), paramRequest.getWebPage().getWebSite().getSemanticModel());
+        
         ReservacionSala myReservation;
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
@@ -154,7 +172,7 @@ public class ReservaSalaResume extends GenericResource {
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
@@ -305,22 +323,27 @@ public class ReservaSalaResume extends GenericResource {
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println("<h1>"+request.getParameter("alertmsg")+"</h1>");
         }
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-
-        ArrayList<Sala> _remove=new ArrayList<Sala>();
-
-        for(Sala sala:salas) {
-            if(!user.haveAccess(sala) || !sala.isActive())
-                //salas.remove(sala);
-                _remove.add(sala);
-
+        Iterator<Sala> isalas = SWBComparator.sortByDisplayName(Sala.ClassMgr.listSalas(base.getWebSite()), lang);
+        //isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = new ArrayList<Sala>();//SWBUtils.Collections.copyIterator(isalas);
+        while (isalas.hasNext()) {
+            Sala sala = isalas.next();
+            if (user.haveAccess(sala) && sala.isActive()) {
+                salas.add(sala);
+            }
         }
-        for(Sala _sala : _remove)
-        {
-            salas.remove(_sala);
-        }
+//        List<Sala> _remove=new ArrayList<Sala>();
+//        for(Sala sala:salas) {
+//            if(!user.haveAccess(sala) || !sala.isActive())
+//                //salas.remove(sala);
+//                _remove.add(sala);
+//
+//        }
+//        for(Sala _sala : _remove)
+//        {
+//            salas.remove(_sala);
+//            
+//        }
         out.println(getCalendar(request, paramRequest, locale));
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
@@ -339,13 +362,25 @@ public class ReservaSalaResume extends GenericResource {
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.YEAR, begin.get(Calendar.YEAR));
+        c.set(Calendar.MONTH, begin.get(Calendar.MONTH));
+        c.set(Calendar.DAY_OF_MONTH, begin.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        
+        //Obtener todas las reservas del día seleccionado
+        List<ReservacionSala> reservas = ReservacionSala.getReservationsByDay(c.getTime(), paramRequest.getWebPage().getWebSite().getSemanticModel());
+        
         ReservacionSala myReservation, raux=null;
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     raux = myReservation;
@@ -359,7 +394,7 @@ public class ReservaSalaResume extends GenericResource {
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
