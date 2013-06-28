@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Cursos de TIC capturados por el usuario 
    */
-public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Curso,com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable
+public abstract class CursoTICBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,org.semanticwb.model.Descriptiveable,com.infotec.cvi.swb.Curso
 {
    /**
    * Cursos de TIC capturados por el usuario
