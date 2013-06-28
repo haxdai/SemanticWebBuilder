@@ -788,7 +788,44 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
     
     private void renderReservations(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        //long _start = System.currentTimeMillis();
         response.setContentType("text/html; charset=utf-8");
+        
+//        Iterator<ReservacionSala> _it = ReservacionSala.ClassMgr.listReservacionSalas();
+//        while (_it.hasNext()) {
+//            ReservacionSala reservacionSala = _it.next();
+//            if (reservacionSala.listFechaReservadas().hasNext()) {
+//                reservacionSala.removeAllFechaReservada();
+//                //System.out.println("Tiene fechas reservadas, se borran");
+//            }
+//            else {
+//                Calendar _s = GregorianCalendar.getInstance();
+//                Calendar _e = GregorianCalendar.getInstance();
+//
+//                if (reservacionSala.getFechaInicio() != null && reservacionSala.getFechaFinal() != null) {
+//                    _s.setTime(reservacionSala.getFechaInicio());
+//                    _e.setTime(reservacionSala.getFechaFinal());
+//
+//                    _s.set(Calendar.HOUR_OF_DAY, 0);
+//                    _s.set(Calendar.MINUTE, 0);
+//                    _e.set(Calendar.HOUR_OF_DAY, 0);
+//                    _e.set(Calendar.MINUTE, 0);
+//
+//                    //System.out.println(reservacionSala.getId()+" - start date: "+SWBUtils.TEXT.iso8601DateFormat(_s.getTime())+" - end date: "+SWBUtils.TEXT.iso8601DateFormat(_e.getTime()));
+//                    //System.out.println("Fechas a agregar:");
+//                    //System.out.println("---------------------------");
+//
+//                    //System.out.println(SWBUtils.TEXT.iso8601DateFormat(_s.getTime()));
+//                    reservacionSala.addFechaReservada(SWBUtils.TEXT.iso8601DateFormat(_s.getTime()));
+//                    while (_s.compareTo(_e) < 0) {
+//                        _s.add(Calendar.DAY_OF_MONTH, 1);
+//                        reservacionSala.addFechaReservada(SWBUtils.TEXT.iso8601DateFormat(_s.getTime()));
+//                        //System.out.println(SWBUtils.TEXT.iso8601DateFormat(_s.getTime()));
+//                    }
+//                    //System.out.println("\n\n");
+//                }
+//            }
+//        }
         
         Resource base = getResourceBase();
         User user = paramRequest.getUser();
@@ -808,21 +845,28 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(getScript(request, paramRequest, locale));       
         out.println("<div id=\"apartadoSalas\">");
         
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-        List<Sala> _remove=new ArrayList<Sala>();
-        for(Sala sala:salas) {
-            if(!user.haveAccess(sala) || !sala.isActive())
-                //salas.remove(sala);
-                _remove.add(sala);
-
+        Iterator<Sala> isalas = SWBComparator.sortByDisplayName(Sala.ClassMgr.listSalas(base.getWebSite()), lang);
+        //isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = new ArrayList<Sala>();//SWBUtils.Collections.copyIterator(isalas);
+        while (isalas.hasNext()) {
+            Sala sala = isalas.next();
+            if (user.haveAccess(sala) && sala.isActive()) {
+                salas.add(sala);
+            }
         }
-        for(Sala _sala : _remove)
-        {
-            salas.remove(_sala);
-            
-        }
+//        List<Sala> _remove=new ArrayList<Sala>();
+//        for(Sala sala:salas) {
+//            if(!user.haveAccess(sala) || !sala.isActive())
+//                //salas.remove(sala);
+//                _remove.add(sala);
+//
+//        }
+//        for(Sala _sala : _remove)
+//        {
+//            salas.remove(_sala);
+//            
+//        }
+        
         out.println(getCalendar(request, paramRequest, locale));
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
@@ -841,13 +885,25 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.YEAR, begin.get(Calendar.YEAR));
+        c.set(Calendar.MONTH, begin.get(Calendar.MONTH));
+        c.set(Calendar.DAY_OF_MONTH, begin.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        
+        //Obtener todas las reservas del día seleccionado
+        List<ReservacionSala> reservas = ReservacionSala.getReservationsByDay(c.getTime(), paramRequest.getWebPage().getWebSite().getSemanticModel());
+        
         ReservacionSala myReservation;
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
@@ -861,7 +917,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
@@ -891,14 +947,19 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(  request.getParameter("tmsrvc")==null?"collapse('_tmsrvc_');":(request.getParameter("tmsrvc").equals(ReservacionSala.Horario.Durante.name())?"collapse('_tmsrvc_');":"expande('_tmsrvc_');")   );
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println( "alert('"+request.getParameter("alertmsg")+"');");
-        }        
+        }
         out.println(" });");
         out.println("-->");
         out.println("</script>");
+//        long _end = System.currentTimeMillis();
+//        long _total = _end - _start;
+//        System.out.println("Tiempo total renderReservations: "+_total +"ms");
     }
     
     public void doRoll(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        //long _start = System.currentTimeMillis();
+        
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -943,22 +1004,27 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         if(request.getParameter("alertmsg")!=null && !request.getParameter("alertmsg").isEmpty()) {
             out.println("<h1>"+request.getParameter("alertmsg")+"</h1>");
         }
-        Iterator<Sala> isalas = Sala.ClassMgr.listSalas(base.getWebSite());        
-        isalas = SWBComparator.sortByDisplayName(isalas, lang);
-        List<Sala> salas = SWBUtils.Collections.copyIterator(isalas);
-
-        ArrayList<Sala> _remove=new ArrayList<Sala>();
-
-        for(Sala sala:salas) {
-            if(!user.haveAccess(sala) || !sala.isActive())
-                //salas.remove(sala);
-                _remove.add(sala);
-
+        Iterator<Sala> isalas = SWBComparator.sortByDisplayName(Sala.ClassMgr.listSalas(base.getWebSite()), lang);
+        //isalas = SWBComparator.sortByDisplayName(isalas, lang);
+        List<Sala> salas = new ArrayList<Sala>();//SWBUtils.Collections.copyIterator(isalas);
+        while (isalas.hasNext()) {
+            Sala sala = isalas.next();
+            if (user.haveAccess(sala) && sala.isActive()) {
+                salas.add(sala);
+            }
         }
-        for(Sala _sala : _remove)
-        {
-            salas.remove(_sala);
-        }
+        //ArrayList<Sala> _remove=new ArrayList<Sala>();
+
+//        for(Sala sala:salas) {
+//            if(!user.haveAccess(sala) || !sala.isActive())
+//                //salas.remove(sala);
+//                _remove.add(sala);
+//
+//        }
+//        for(Sala _sala : _remove)
+//        {
+//            salas.remove(_sala);
+//        }
         out.println(getCalendar(request, paramRequest, locale));
         out.println("<table id=\"mainTableCal\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">");
         out.println("<thead>");
@@ -977,13 +1043,26 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         GregorianCalendar end = new GregorianCalendar(current.get(Calendar.YEAR),current.get(Calendar.MONTH),current.get(Calendar.DATE),0,0,0);
         end.set(Calendar.MINUTE, 449);
         
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.YEAR, begin.get(Calendar.YEAR));
+        c.set(Calendar.MONTH, begin.get(Calendar.MONTH));
+        c.set(Calendar.DAY_OF_MONTH, begin.get(Calendar.DAY_OF_MONTH));
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+        
         ReservacionSala myReservation, raux=null;
+        
+        //Obtener todas las reservas del día seleccionado
+        List<ReservacionSala> reservas = ReservacionSala.getReservationsByDay(c.getTime(), paramRequest.getWebPage().getWebSite().getSemanticModel());
+        
         out.println("<tbody>");
         for(int i=START_MIN; i<=1260; i+=30) {
             out.println(" <tr>");
             out.println("  <td rowspan=\"2\" class=\"theHoursCal\"><p>"+HHmm.format(today.getTime())+"</p></td>");
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     raux = myReservation;
@@ -997,7 +1076,7 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
             begin.add(Calendar.MINUTE, 30);
             end.add(Calendar.MINUTE, 30);
             for(Sala sala:salas) {
-                myReservation = sala.getReserva(begin.getTime(), end.getTime());
+                myReservation = sala.getReservation(reservas, begin.getTime(), end.getTime());
                 if(myReservation!=null) {
                     out.println("  <td class=\""+myReservation.getIconClass()+" sltc trCal1\" title=\""+myReservation.toString()+"\">&nbsp;</td>");
                     myReservation = null;
@@ -1031,6 +1110,9 @@ public class ReservaSalaManager extends com.infotec.eworkplace.swb.resources.sem
         out.println(" });");
         out.println("-->");
         out.println("</script>");
+//        long _end = System.currentTimeMillis();
+//        long _total = _end-_start;
+//        System.out.println("Tiempo total doroll: "+_total+"ms, ");
     }
     
     private boolean userCanEdit(User user) {
