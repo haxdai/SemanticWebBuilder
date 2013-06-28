@@ -2,7 +2,9 @@ package com.infotec.eworkplace.swb;
 
 import com.infotec.eworkplace.swb.base.ReservacionSalaBase;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBModel;
 
@@ -201,6 +203,24 @@ public class Sala extends com.infotec.eworkplace.swb.base.SalaBase
             }
         }
         return reserva;
+    }
+    
+        public ReservacionSala getReservation(List<ReservacionSala> reservas, Date begin, Date end) {
+        ReservacionSala myRes = null;
+        Iterator<ReservacionSala> reservations = SWBComparator.sortByCreated(reservas.iterator(), false);
+        while(reservations.hasNext()) {
+            ReservacionSala reservation = reservations.next();
+            if (reservation.getSala().equals(this)) {
+                if( (reservation.getFechaInicio().compareTo(begin)<=0 && reservation.getFechaFinal().compareTo(end)>=0)||(reservation.getFechaInicio().compareTo(begin)<0 && reservation.getFechaFinal().compareTo(begin)>0)||(reservation.getFechaInicio().compareTo(end)<0 && reservation.getFechaFinal().compareTo(end)>0) ) {
+                    //if( begin.getHours()>=reservation.getFechaInicio().getHours() && begin.getMinutes()>=reservation.getFechaInicio().getMinutes() && end.getHours()<=reservation.getFechaFinal().getHours() && end.getMinutes()<=reservation.getFechaFinal().getMinutes() ) {
+                    if( tn(begin)>=tn(reservation.getFechaInicio()) && tn(end)<=tn(reservation.getFechaFinal()) ) {
+                        myRes = reservation;
+                        break;
+                    }
+                }
+            }
+        }
+        return myRes;
     }
         
     private int tn(java.util.Date date){
