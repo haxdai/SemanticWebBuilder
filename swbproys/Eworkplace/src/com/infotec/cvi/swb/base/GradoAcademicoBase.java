@@ -4,7 +4,7 @@ package com.infotec.cvi.swb.base;
    /**
    * Elemento que almacena la información del Grado Académico de la persona 
    */
-public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Periodo,com.infotec.cvi.swb.Institucion
+public abstract class GradoAcademicoBase extends org.semanticwb.model.SWBClass implements com.infotec.cvi.swb.Institucion,com.infotec.cvi.swb.Periodo
 {
    /**
    * Catálogo utilizado para indicar la Situación Académica del Grado Académico
