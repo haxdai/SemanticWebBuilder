@@ -27,6 +27,7 @@
 <%@page import="org.semanticwb.platform.SemanticOntology"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
+<%@page import="mx.com.infotec.intranet.login.Services"%>
 
 <%!
 private String getAdscriptionAreaName(int adscriptionNumber, WebSite model) {
@@ -54,17 +55,17 @@ String varSolicitud = "solicitudRecurso";
 String varSeguimiento = "seguimientoSR";
 String varArchivoSolicitud = "archivoSolicitud";
 
-//Verificar parámetro para recuperar instancia de tarea
+//Verificar parï¿½metro para recuperar instancia de tarea
 String suri = request.getParameter("suri");
 if (suri == null) {
-    out.println("Parámetro no definido...");
+    out.println("Parï¿½metro no definido...");
     return;
 }
 
 //Recuperar instancia de tarea
 FlowNodeInstance foi = (FlowNodeInstance) ont.getGenericObject(suri);
 
- //Validar redirección
+ //Validar redirecciï¿½n
 if (null != request.getSession(true).getAttribute("msg")) {
     String message = (String) request.getSession(true).getAttribute("msg");
     if (message.equals("redirect")) {
@@ -79,7 +80,7 @@ if (null != request.getSession(true).getAttribute("msg")) {
     }
 }
 
-//Revisar asignación a usuario
+//Revisar asignaciï¿½n a usuario
 User asigned = foi.getAssignedto();
 if(asigned == null) {
     foi.setAssigned(new Date());
@@ -89,7 +90,7 @@ if(asigned == null) {
     return;
 }
 
-//Obtención de objetos de datos
+//Obtenciï¿½n de objetos de datos
 SolicitudRecurso sr = null;
 SeguimientoSolicitudRecurso ssr = null;
 org.semanticwb.process.schema.File archivoSol = null;
@@ -108,7 +109,7 @@ while (it.hasNext()) {
     }
 }
 
-//Creación e inicialización del formulario de procesos
+//Creaciï¿½n e inicializaciï¿½n del formulario de procesos
 SWBProcessFormMgr mgr = new SWBProcessFormMgr(foi);
 mgr.setAction(paramRequest.getActionUrl().setAction("process").toString());
 mgr.clearProperties();
@@ -268,7 +269,7 @@ Services services = new Services();
         </fieldset>
     </form>
 </div>
-<div id="addDialog_<%=foi.getId()%>" dojoType="dijit.Dialog" title="Agregar publicación de vacante">
+<div id="addDialog_<%=foi.getId()%>" dojoType="dijit.Dialog" title="Agregar publicaciï¿½n de vacante">
     <%
     SemanticObject tobj = new SemanticObject(site.getSemanticModel(), PublicacionVacante.sclass);
     SWBFormMgr pubMgr = new SWBFormMgr(PublicacionVacante.sclass, site.getSemanticObject(), null);
@@ -296,7 +297,7 @@ Services services = new Services();
             widgetRef.overlay.innerHTML = "El archivo " + data.detail + " se ha cargado correctamente";
             dijit.byId("<%=foi.getId()%>/submit").setAttribute('disabled', false);
         }else{
-            widgetRef.overlay.innerHTML = "Ocurrió un error al cargar " + data.detail+". Recargue la página e intente nuevamente";
+            widgetRef.overlay.innerHTML = "Ocurriï¿½ un error al cargar " + data.detail+". Recargue la pï¿½gina e intente nuevamente";
             console.log('error',data,ioArgs);
         }
     }else{
