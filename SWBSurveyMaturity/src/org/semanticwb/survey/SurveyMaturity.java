@@ -62,11 +62,12 @@ public class SurveyMaturity extends GenericResource
     {
         String mode = "view";
         String siteId = paramRequest.getWebPage().getWebSiteId();
-        String path = "/work/models/" + siteId + "/jsp/" + SurveyMaturity.class.getSimpleName() + "/" + mode + ".jsp";
+        
+        String path = "/swbadmin/jsp/" + SurveyMaturity.class.getSimpleName() + "/" + mode + ".jsp";
         if (request.getParameter("step") != null)
         {
             String step = request.getParameter("step");
-            path = "/work/models/" + siteId + "/jsp/" + SurveyMaturity.class.getSimpleName() + "/" + step + ".jsp";
+            path = "/swbadmin/jsp/" + SurveyMaturity.class.getSimpleName() + "/" + step + ".jsp";
         }
 
         RequestDispatcher dis = request.getRequestDispatcher(path);
