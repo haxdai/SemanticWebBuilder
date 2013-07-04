@@ -382,9 +382,11 @@ public class DSPublisherResource extends GenericAdmResource {
                 ver.setVerPublisher(pub);
                 ver.setVerComment("Versión inicial");
                 ver.setVersion(1);
+                ver.setVersionCreated(dsdate);
                 ds.setActualVersion(ver);
                 ds.setLastVersion(ver);
                 ds.setDatasetCreated(dsdate);
+                ds.setDatasetUpdated(dsdate);
                 ds.setAverage(0);
                 ds.setRanks(0);
                 ds.setViews(0);
