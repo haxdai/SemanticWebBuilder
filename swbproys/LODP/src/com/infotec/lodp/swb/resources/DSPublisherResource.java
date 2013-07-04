@@ -325,6 +325,13 @@ public class DSPublisherResource extends GenericAdmResource {
         Publisher pub = LODPUtils.getPublisher(usr);
         WebSite wsite = response.getWebPage().getWebSite();
 
+        String autoapprove = base.getAttribute("autoapprove","0");
+        boolean isAutoApprove = Boolean.FALSE;
+        if(null!=autoapprove && "1".equals(autoapprove)){
+            isAutoApprove = Boolean.TRUE;
+        }
+        
+        
         String wpiduploadfile = base.getAttribute("uploadfileid", "Subir_archivo");
         SemanticObject so = null;
         GenericObject go = null;
@@ -350,10 +357,10 @@ public class DSPublisherResource extends GenericAdmResource {
         String dsurl = request.getParameter("dsurl");
         String dsactive = request.getParameter("dsactive");
         boolean isNew = Boolean.FALSE;
-        boolean isActive = Boolean.FALSE;
+        boolean isActive = Boolean.TRUE;
         if (null != dsactive) {
             isActive = Boolean.TRUE;
-        }
+        } 
 
         if (SWBActionResponse.Action_ADD.equals(action) || SWBActionResponse.Action_EDIT.equals(action)) {
             String dsuri = null;
@@ -386,7 +393,12 @@ public class DSPublisherResource extends GenericAdmResource {
                 ds.setPublisher(pub);
                 ds.setInstitution(pub.getPubInstitution());
                 ds.setDatasetSector(null);
-                ds.setApproved(Boolean.FALSE);
+                if(isAutoApprove) {
+                    ds.setApproved(Boolean.TRUE);
+                } else {
+                    ds.setApproved(Boolean.FALSE);
+                }
+                ds.setDatasetActive(Boolean.TRUE);
             }
 
             //Se procesan parámetros
@@ -395,7 +407,7 @@ public class DSPublisherResource extends GenericAdmResource {
             ds.setDatasetUpdated(dsdate);
 
 
-            ds.setDatasetActive(isActive);
+            if(!isNew) ds.setDatasetActive(isActive);
 
             if (ds.getPublisher() == null) {
                 ds.setPublisher(pub);

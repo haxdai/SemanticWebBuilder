@@ -15,6 +15,8 @@
                 <input type="TEXT" name="msgreject_es" label="Mensaje de rechazo envio email en español:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msgreject_en" label="Mensaje de aprobado envio email en inglés:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="urlcgi" label="URL del servidor de archivos:" size="10" jsrequired="true"/>
+                 <input type="CHECKBOX" name="autoapprove" label="Auto aprobación de datasets:" value="1"/>
+                  <input type="TEXT" name="licid" label="Id de la sección donde se muestra el tipo licencia:" size="10" jsrequired="true"/>
                 <!-- input type="CHECKBOX" name="useproduction" label="Utilizar en producción:" value="1"/ -->
             </fieldset>
 

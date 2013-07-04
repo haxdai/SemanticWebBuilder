@@ -13,6 +13,7 @@
                  <input type="TEXT" name="filesystempath" label="Ruta en donde se guardaran los archivos:" size="5" jsrequired="true"/>
                  <input type="TEXT" name="statswebpage" label="Id de la sección donde se muestran las estadísticas:" size="5" jsrequired="true"/>
                  <input type="TEXT" name="graphwebpage" label="Id de la sección donde se muestran las gráficas:" size="5" jsrequired="true"/>
+                 <input type="CHECKBOX" name="autoapprove" label="Auto aprobación de datasets:" value="1"/>
             </fieldset>
 
  
