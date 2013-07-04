@@ -7,6 +7,7 @@
                 <statictext name="used">Configuración Funcionamiento del Recurso</statictext>
                 <input type="TEXT" name="numpag" label="Número de elementos a mostrar por paginación:" size="5" jsrequired="true"/>
                 <input type="TEXT" name="idAdminAPP" label="Rol de administrador" size="5" jsrequired="true"/>
+                <input type="TEXT" name="idPageLicence" label="Identificador de pagina para detalle de licencia" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msjAPPAprobada_es" label="Mensaje para la aplicacion que ha sido Aceptada en Español" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msjAPPAprobada_en" label="Mensaje para la aplicacion que ha sido Aceptada en Ingles" size="5" jsrequired="true"/>
                 <input type="TEXT" name="msjAPPRechazada_es" label="Mensaje para la aplicacion que ha sido Rechazada en Español" size="5" jsrequired="true"/>
