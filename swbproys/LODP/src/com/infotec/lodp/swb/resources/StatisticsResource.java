@@ -78,23 +78,23 @@ public class StatisticsResource extends GenericAdmResource{
             case 3:{                
                 columns.add(0,paramRequest.getLocaleString("lbl_title_table_UseDS"));
                 columns.add(1,paramRequest.getLocaleString("lbl_col1_table_UseDS"));
-                columns.add(2,paramRequest.getLocaleString("lbl_col2_table_UseDS"));
-                columns.add(3,paramRequest.getLocaleString("lbl_col3_table_UseDS"));
-                columns.add(4,paramRequest.getLocaleString("lbl_col4_table_UseDS"));
-                columns.add(5,paramRequest.getLocaleString("lbl_col5_table_UseDS"));
-                columns.add(6,paramRequest.getLocaleString("lbl_col6_table_UseDS"));
-                columns.add(7,paramRequest.getLocaleString("lbl_col7_table_UseDS"));
+                //columns.add(2,paramRequest.getLocaleString("lbl_col2_table_UseDS"));
+                columns.add(2,paramRequest.getLocaleString("lbl_col3_table_UseDS"));
+                columns.add(3,paramRequest.getLocaleString("lbl_col4_table_UseDS"));
+                columns.add(4,paramRequest.getLocaleString("lbl_col5_table_UseDS"));
+                columns.add(5,paramRequest.getLocaleString("lbl_col6_table_UseDS"));
+                columns.add(6,paramRequest.getLocaleString("lbl_col7_table_UseDS"));
                 break;
             }
             case 4:{                
                 columns.add(0,paramRequest.getLocaleString("lbl_title_table_UseApp"));
                 columns.add(1,paramRequest.getLocaleString("lbl_col1_table_UseApp"));
-                columns.add(2,paramRequest.getLocaleString("lbl_col2_table_UseApp"));
-                columns.add(3,paramRequest.getLocaleString("lbl_col3_table_UseApp"));
-                columns.add(4,paramRequest.getLocaleString("lbl_col4_table_UseApp"));
-                columns.add(5,paramRequest.getLocaleString("lbl_col5_table_UseApp"));
-                columns.add(6,paramRequest.getLocaleString("lbl_col6_table_UseApp"));
-                columns.add(7,paramRequest.getLocaleString("lbl_col7_table_UseApp"));
+                //columns.add(2,paramRequest.getLocaleString("lbl_col2_table_UseApp"));
+                columns.add(2,paramRequest.getLocaleString("lbl_col3_table_UseApp"));
+                columns.add(3,paramRequest.getLocaleString("lbl_col4_table_UseApp"));
+                columns.add(4,paramRequest.getLocaleString("lbl_col5_table_UseApp"));
+                columns.add(5,paramRequest.getLocaleString("lbl_col6_table_UseApp"));
+                columns.add(6,paramRequest.getLocaleString("lbl_col7_table_UseApp"));
                 break;
             } 
             case 5:{                
@@ -161,18 +161,12 @@ public class StatisticsResource extends GenericAdmResource{
         while(listInst.hasNext()){
             Institution institution = listInst.next();
             Iterator<Dataset> listDS = Dataset.ClassMgr.listDatasetByInstitution(institution, wsite);
-            long totHits = 0;
-            while(listDS.hasNext()){
-                Dataset ds = listDS.next();
-                if(ds.isApproved() && ds.isDatasetActive()){
-                    totHits += ds.getDownloads();
-                }
-            }
+            
             listDS = Dataset.ClassMgr.listDatasetByInstitution(institution, wsite);
             while(listDS.hasNext()){
                 Dataset ds = listDS.next();
                 if(ds.isApproved() && ds.isDatasetActive()){
-                    UseDSBean useds = new UseDSBean(totHits,institution.getInstitutionTitle(),
+                    UseDSBean useds = new UseDSBean(institution.getInstitutionTitle(),
                         ds.getDatasetTitle(),ds.getDownloads(),ds.getLastDownload(),ds.getViews(), 
                         ds.getLastView());
                     list.add(useds);
@@ -194,17 +188,7 @@ public class StatisticsResource extends GenericAdmResource{
         while(listInst.hasNext()){
             Institution institution = listInst.next();
             Iterator<Dataset> listDS = Dataset.ClassMgr.listDatasetByInstitution(institution, wsite);
-            long totHits = 0;
-            while(listDS.hasNext()){
-                Dataset ds = listDS.next();
-                Iterator<Application> listApp = Application.ClassMgr.listApplicationByRelatedDataset(ds, wsite);
-                while(listApp.hasNext()){
-                    Application app = listApp.next();
-                    if(app.isAppValid()){
-                        totHits += app.getDownloads();
-                    }
-                }    
-            }
+            
             listDS = Dataset.ClassMgr.listDatasetByInstitution(institution, wsite);
             while(listDS.hasNext()){
                 Dataset ds = listDS.next();
@@ -212,7 +196,7 @@ public class StatisticsResource extends GenericAdmResource{
                 while(listApp.hasNext()){
                     Application app = listApp.next();
                     if(app.isAppValid()){
-                        UseAppBean useapp = new UseAppBean(totHits,institution.getInstitutionTitle(),
+                        UseAppBean useapp = new UseAppBean(institution.getInstitutionTitle(),
                                 app.getAppTitle(),app.getDownloads(),app.getLastDownload(),
                                 app.getViews(), app.getLastView());
                         list.add(useapp); 
@@ -310,8 +294,7 @@ public class StatisticsResource extends GenericAdmResource{
         }
         if(statistic.trim().equals("3")){
             Set<UseDSBean> list = StatisticsResource.getDSUse(wsite,column,asc);            
-            for(UseDSBean useds : list){
-                csv+=useds.getTotalHits()+",";
+            for(UseDSBean useds : list){                
                 csv+=useds.getInstitution()+",";
                 csv+=useds.getDataset()+",";
                 csv+=useds.getHits()+",";
@@ -323,7 +306,6 @@ public class StatisticsResource extends GenericAdmResource{
         if(statistic.trim().equals("4")){
             Set<UseAppBean> list = StatisticsResource.getAppUse(wsite,column,asc);            
             for(UseAppBean appl : list){
-                csv+=appl.getTotalHits()+",";
                 csv+=appl.getInstitution()+",";
                 csv+=appl.getApplication()+",";
                 csv+=appl.getHits()+",";
@@ -477,16 +459,7 @@ public class StatisticsResource extends GenericAdmResource{
         if (it == null) {
             return null;
         }
-        if (asc.equals("true") && attribute.equals("1")) {
-            set = new TreeSet(new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    long d1 = ((UseDSBean) o1).getTotalHits();
-                    long d2 = ((UseDSBean) o2).getTotalHits();                    
-                    int ret = d1<d2?-1:1;                    
-                    return ret;                    
-                }
-            });
-        } else if (asc.equals("true") && attribute.equals("2")) {
+        else if (asc.equals("true") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getInstitution();
@@ -495,7 +468,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("3")) {
+        }else if (asc.equals("true") && attribute.equals("2")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getDataset();
@@ -504,7 +477,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("4")) {
+        }else if (asc.equals("true") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseDSBean) o1).getHits();
@@ -513,7 +486,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("5")) {
+        }else if (asc.equals("true") && attribute.equals("4")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseDSBean) o1).getLastDownload();
@@ -522,7 +495,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("6")) {
+        }else if (asc.equals("true") && attribute.equals("5")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseDSBean) o1).getViews();
@@ -531,7 +504,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("7")) {
+        }else if (asc.equals("true") && attribute.equals("6")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseDSBean) o1).getLastView();
@@ -543,22 +516,13 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("false") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1 = ((UseDSBean) o1).getTotalHits();
-                    long d2 = ((UseDSBean) o2).getTotalHits();                    
-                    int ret = d2<d1?-1:1;                    
-                    return ret;                 
-                }
-            });
-        }else if (asc.equals("false") && attribute.equals("2")) {
-            set = new TreeSet(new Comparator() {
-                public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getInstitution();
                     String d2 = ((UseDSBean) o2).getInstitution();                    
                     int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("3")) {
+        }else if (asc.equals("false") && attribute.equals("2")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseDSBean) o1).getDataset();
@@ -567,7 +531,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                   
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("4")) {
+        }else if (asc.equals("false") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseDSBean) o1).getHits();
@@ -576,7 +540,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("5")) {
+        }else if (asc.equals("false") && attribute.equals("4")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseDSBean) o1).getLastDownload();
@@ -585,7 +549,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("6")) {
+        }else if (asc.equals("false") && attribute.equals("5")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseDSBean) o1).getViews();
@@ -594,7 +558,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("7")) {
+        }else if (asc.equals("false") && attribute.equals("6")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseDSBean) o1).getLastView();
@@ -616,16 +580,7 @@ public class StatisticsResource extends GenericAdmResource{
         if (it == null) {
             return null;
         }
-        if (asc.equals("true") && attribute.equals("1")) {
-            set = new TreeSet(new Comparator() {
-                public int compare(Object o1, Object o2) {
-                    long d1 = ((UseAppBean) o1).getTotalHits();
-                    long d2 = ((UseAppBean) o2).getTotalHits();                    
-                    int ret = d1<d2?-1:1;                    
-                    return ret;                    
-                }
-            });
-        } else if (asc.equals("true") && attribute.equals("2")) {
+         else if (asc.equals("true") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getInstitution();
@@ -634,7 +589,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("3")) {
+        }else if (asc.equals("true") && attribute.equals("2")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getApplication();
@@ -643,7 +598,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("4")) {
+        }else if (asc.equals("true") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseAppBean) o1).getHits();
@@ -652,7 +607,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("5")) {
+        }else if (asc.equals("true") && attribute.equals("4")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseAppBean) o1).getLastDownload();
@@ -661,7 +616,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("6")) {
+        }else if (asc.equals("true") && attribute.equals("5")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseAppBean) o1).getViews();
@@ -670,7 +625,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("true") && attribute.equals("7")) {
+        }else if (asc.equals("true") && attribute.equals("6")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseAppBean) o1).getLastView();
@@ -682,22 +637,13 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("false") && attribute.equals("1")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    long d1 = ((UseAppBean) o1).getTotalHits();
-                    long d2 = ((UseAppBean) o2).getTotalHits();                    
-                    int ret = d1>d2?-1:1;                    
-                    return ret;                 
-                }
-            });
-        }else if (asc.equals("false") && attribute.equals("2")) {
-            set = new TreeSet(new Comparator() {
-                public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getInstitution();
                     String d2 = ((UseAppBean) o2).getInstitution();                    
                     int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("3")) {
+        }else if (asc.equals("false") && attribute.equals("2")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     String d1 = ((UseAppBean) o1).getApplication();
@@ -706,7 +652,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                   
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("4")) {
+        }else if (asc.equals("false") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseAppBean) o1).getHits();
@@ -715,7 +661,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("5")) {
+        }else if (asc.equals("false") && attribute.equals("4")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseAppBean) o1).getLastDownload();
@@ -724,7 +670,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("6")) {
+        }else if (asc.equals("false") && attribute.equals("5")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     long d1 = ((UseAppBean) o1).getViews();
@@ -733,7 +679,7 @@ public class StatisticsResource extends GenericAdmResource{
                     return ret;                    
                 }
             });
-        }else if (asc.equals("false") && attribute.equals("7")) {
+        }else if (asc.equals("false") && attribute.equals("6")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
                     Date d1 = ((UseAppBean) o1).getLastView();
