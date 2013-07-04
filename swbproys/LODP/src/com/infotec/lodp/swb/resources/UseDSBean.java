@@ -11,21 +11,12 @@ import java.util.Date;
  * @author Sabino
  */
 public class UseDSBean {
-    private long totalHits;
     private long Hits;
     private long views;
     private String Institution;
     private String dataset;
     private Date lastDownload;
-    private Date lastView;    
-
-    public long getTotalHits() {
-        return totalHits;
-    }
-
-    public void setTotalHits(long totalHits) {
-        this.totalHits = totalHits;
-    }
+    private Date lastView;
 
     public long getHits() {
         return Hits;
@@ -75,8 +66,7 @@ public class UseDSBean {
         this.lastView = lastView;
     }
 
-    public UseDSBean(long totalHits,String Institution,String dataset,long Hits,Date lastDownload,long views,Date lastView) {
-        this.totalHits = totalHits;
+    public UseDSBean(String Institution,String dataset,long Hits,Date lastDownload,long views,Date lastView) {
         this.Hits = Hits;
         this.views = views;
         this.Institution = Institution;

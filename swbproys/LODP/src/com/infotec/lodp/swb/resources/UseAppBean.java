@@ -11,7 +11,7 @@ import java.util.Date;
  * @author Sabino
  */
 public class UseAppBean {
-     private long totalHits;
+    
     private long Hits;
     private long views;
     private String Institution;
@@ -19,13 +19,7 @@ public class UseAppBean {
     private Date lastDownload;
     private Date lastView;    
 
-    public long getTotalHits() {
-        return totalHits;
-    }
-
-    public void setTotalHits(long totalHits) {
-        this.totalHits = totalHits;
-    }
+    
 
     public long getHits() {
         return Hits;
@@ -75,9 +69,8 @@ public class UseAppBean {
         this.lastView = lastView;
     }
 
-    public UseAppBean(long totalHits,String Institution,String application,
-            long Hits,Date lastDownload,long views,Date lastView) {
-        this.totalHits = totalHits;
+    public UseAppBean(String Institution,String application,
+            long Hits,Date lastDownload,long views,Date lastView) {        
         this.Hits = Hits;
         this.views = views;
         this.Institution = Institution;
