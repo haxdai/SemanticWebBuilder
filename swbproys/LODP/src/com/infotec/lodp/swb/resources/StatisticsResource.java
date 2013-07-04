@@ -213,7 +213,7 @@ public class StatisticsResource extends GenericAdmResource{
         return listArray;
     }
     
-    public static Set<UsersSatBean> getUsersSat(WebSite wsite,String column,String asc){ 
+    public static Set<UsersSatBean> getUsersSat(WebSite wsite,String column,String asc,SWBParamRequest paramRequest) throws SWBResourceException{ 
         List<UsersSatBean> list = new ArrayList();
         Iterator<Institution> listInst = Institution.ClassMgr.listInstitutions(wsite);
         while(listInst.hasNext()){
@@ -228,8 +228,17 @@ public class StatisticsResource extends GenericAdmResource{
                         itComments.next();
                         totComments++;
                     }
+                    int average = Math.round(ds.getAverage());
+                    String titleAverage ="";
+                    switch(average){
+                        case 1: {titleAverage=paramRequest.getLocaleString("lbl_Average1");break;}
+                        case 2: {titleAverage=paramRequest.getLocaleString("lbl_Average2");break;}
+                        case 3: {titleAverage=paramRequest.getLocaleString("lbl_Average3");break;}
+                        case 4: {titleAverage=paramRequest.getLocaleString("lbl_Average4");break;}
+                        case 5: {titleAverage=paramRequest.getLocaleString("lbl_Average5");break;}
+                    }
                     UsersSatBean userssat = new UsersSatBean(institution.getInstitutionTitle(),
-                            ds.getDatasetTitle(),ds.getAverage(),totComments);
+                            ds.getDatasetTitle(),titleAverage,totComments);
                     list.add(userssat); 
                 }
             }
@@ -315,7 +324,7 @@ public class StatisticsResource extends GenericAdmResource{
             }
         }
         if(statistic.trim().equals("5")){
-            Set<UsersSatBean> list = StatisticsResource.getUsersSat(wsite,column,asc);            
+            Set<UsersSatBean> list = StatisticsResource.getUsersSat(wsite,column,asc,paramRequest);            
             for(UsersSatBean userssat : list){
                 csv+=userssat.getInstitution()+",";
                 csv+=userssat.getDataset()+",";
@@ -721,9 +730,9 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("true") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    float d1 = ((UsersSatBean) o1).getAverage();
-                    float d2 = ((UsersSatBean) o2).getAverage();                    
-                    int ret = d1<d2?-1:1;                    
+                    String d1 = ((UsersSatBean) o1).getAverage();
+                    String d2 = ((UsersSatBean) o2).getAverage();                    
+                    int ret = d2.compareTo(d1)<=0?-1:1;                    
                     return ret;                    
                 }
             });
@@ -757,9 +766,9 @@ public class StatisticsResource extends GenericAdmResource{
         }else if (asc.equals("false") && attribute.equals("3")) {
             set = new TreeSet(new Comparator() {
                 public int compare(Object o1, Object o2) {
-                    float d1 = ((UsersSatBean) o1).getAverage();
-                    float d2 = ((UsersSatBean) o2).getAverage();                     
-                    int ret = d1>d2?-1:1;                    
+                    String d1 = ((UsersSatBean) o1).getAverage();
+                    String d2 = ((UsersSatBean) o2).getAverage();                     
+                    int ret = d2.compareTo(d1)<=0?-1:1;                   
                     return ret;                    
                 }
             });

@@ -11,7 +11,7 @@ package com.infotec.lodp.swb.resources;
 public class UsersSatBean {
     private String institution;
     private String dataset;
-    private float average;
+    private String average;
     private long numComments;
 
     public String getInstitution() {
@@ -30,11 +30,11 @@ public class UsersSatBean {
         this.dataset = dataset;
     }
 
-    public float getAverage() {
+    public String getAverage() {
         return average;
     }
 
-    public void setAverage(float average) {
+    public void setAverage(String average) {
         this.average = average;
     }
 
@@ -46,7 +46,7 @@ public class UsersSatBean {
         this.numComments = numComments;
     }
 
-    public UsersSatBean(String institution, String dataset, float average, long numComments) {
+    public UsersSatBean(String institution, String dataset, String average, long numComments) {
         this.institution = institution;
         this.dataset = dataset;
         this.average = average;
