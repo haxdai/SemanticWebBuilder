@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  *
@@ -47,7 +48,10 @@ public class DirectoryResource extends GenericResource{
         
             if(mode.equals(MODE_DETAIL)){
                 doViewDetail(request, response, paramRequest);
-            } else {
+            }else if(mode.equals(SWBResourceURL.Mode_VIEW)){
+                doView(request, response, paramRequest);
+            } 
+            else {
                 super.processRequest(request, response, paramRequest);
             }
         
