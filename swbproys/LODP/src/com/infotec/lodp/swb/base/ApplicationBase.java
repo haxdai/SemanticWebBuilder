@@ -1,11 +1,13 @@
 package com.infotec.lodp.swb.base;
 
 
-public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Rankable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Commentable
+public abstract class ApplicationBase extends org.semanticwb.model.base.GenericObjectBase implements com.infotec.lodp.swb.Commentable,com.infotec.lodp.swb.Hitable,com.infotec.lodp.swb.Approveable,com.infotec.lodp.swb.Rankable
 {
     public static final org.semanticwb.platform.SemanticClass lodpcg_ApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#ApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasApplicationType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasApplicationType");
     public static final org.semanticwb.platform.SemanticProperty lodp_appCreated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#appCreated");
+    public static final org.semanticwb.platform.SemanticClass lodpcg_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Category");
+    public static final org.semanticwb.platform.SemanticProperty lodp_category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#category");
    /**
    * Si la aplicación ha sido aprobada
    */
@@ -21,8 +23,6 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     public static final org.semanticwb.platform.SemanticClass lodpcg_LicenseType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#LicenseType");
     public static final org.semanticwb.platform.SemanticProperty lodp_appLicense=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#appLicense");
     public static final org.semanticwb.platform.SemanticProperty lodp_appAuthor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#appAuthor");
-    public static final org.semanticwb.platform.SemanticClass lodpcg_Category=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Category");
-    public static final org.semanticwb.platform.SemanticProperty lodp_hasCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasCategory");
     public static final org.semanticwb.platform.SemanticProperty lodp_appTitle=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#appTitle");
     public static final org.semanticwb.platform.SemanticClass lodpcg_Dataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/lodpCodeGen#Dataset");
     public static final org.semanticwb.platform.SemanticProperty lodp_hasRelatedDataset=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org.mx/ontology/lodp.owl#hasRelatedDataset");
@@ -126,6 +126,29 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
             return it;
         }
        /**
+       * Gets all com.infotec.lodp.swb.Application with a determined Category
+       * @param value Category of the type com.infotec.lodp.swb.Category
+       * @param model Model of the com.infotec.lodp.swb.Application
+       * @return Iterator with all the com.infotec.lodp.swb.Application
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Application> listApplicationByCategory(com.infotec.lodp.swb.Category value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Application> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_category, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all com.infotec.lodp.swb.Application with a determined Category
+       * @param value Category of the type com.infotec.lodp.swb.Category
+       * @return Iterator with all the com.infotec.lodp.swb.Application
+       */
+
+        public static java.util.Iterator<com.infotec.lodp.swb.Application> listApplicationByCategory(com.infotec.lodp.swb.Category value)
+        {
+            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Application> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_category,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all com.infotec.lodp.swb.Application with a determined AppLicense
        * @param value AppLicense of the type com.infotec.lodp.swb.LicenseType
        * @param model Model of the com.infotec.lodp.swb.Application
@@ -146,29 +169,6 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
         public static java.util.Iterator<com.infotec.lodp.swb.Application> listApplicationByAppLicense(com.infotec.lodp.swb.LicenseType value)
         {
             org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Application> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_appLicense,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.lodp.swb.Application with a determined Category
-       * @param value Category of the type com.infotec.lodp.swb.Category
-       * @param model Model of the com.infotec.lodp.swb.Application
-       * @return Iterator with all the com.infotec.lodp.swb.Application
-       */
-
-        public static java.util.Iterator<com.infotec.lodp.swb.Application> listApplicationByCategory(com.infotec.lodp.swb.Category value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Application> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(lodp_hasCategory, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all com.infotec.lodp.swb.Application with a determined Category
-       * @param value Category of the type com.infotec.lodp.swb.Category
-       * @return Iterator with all the com.infotec.lodp.swb.Application
-       */
-
-        public static java.util.Iterator<com.infotec.lodp.swb.Application> listApplicationByCategory(com.infotec.lodp.swb.Category value)
-        {
-            org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Application> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(lodp_hasCategory,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -369,6 +369,44 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     {
         getSemanticObject().setLongProperty(lodp_ranks, value);
     }
+   /**
+   * Sets the value for the property Category
+   * @param value Category to set
+   */
+
+    public void setCategory(com.infotec.lodp.swb.Category value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(lodp_category, value.getSemanticObject());
+        }else
+        {
+            removeCategory();
+        }
+    }
+   /**
+   * Remove the value for Category property
+   */
+
+    public void removeCategory()
+    {
+        getSemanticObject().removeProperty(lodp_category);
+    }
+
+   /**
+   * Gets the Category
+   * @return a com.infotec.lodp.swb.Category
+   */
+    public com.infotec.lodp.swb.Category getCategory()
+    {
+         com.infotec.lodp.swb.Category ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_category);
+         if(obj!=null)
+         {
+             ret=(com.infotec.lodp.swb.Category)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the AppValid property
@@ -519,71 +557,6 @@ public abstract class ApplicationBase extends org.semanticwb.model.base.GenericO
     public void setReviewed(boolean value)
     {
         getSemanticObject().setBooleanProperty(lodp_reviewed, value);
-    }
-   /**
-   * Gets all the com.infotec.lodp.swb.Category
-   * @return A GenericIterator with all the com.infotec.lodp.swb.Category
-   */
-
-    public org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Category> listCategories()
-    {
-        return new org.semanticwb.model.GenericIterator<com.infotec.lodp.swb.Category>(getSemanticObject().listObjectProperties(lodp_hasCategory));
-    }
-
-   /**
-   * Gets true if has a Category
-   * @param value com.infotec.lodp.swb.Category to verify
-   * @return true if the com.infotec.lodp.swb.Category exists, false otherwise
-   */
-    public boolean hasCategory(com.infotec.lodp.swb.Category value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(lodp_hasCategory,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Category
-   * @param value com.infotec.lodp.swb.Category to add
-   */
-
-    public void addCategory(com.infotec.lodp.swb.Category value)
-    {
-        getSemanticObject().addObjectProperty(lodp_hasCategory, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Category
-   */
-
-    public void removeAllCategory()
-    {
-        getSemanticObject().removeProperty(lodp_hasCategory);
-    }
-   /**
-   * Removes a Category
-   * @param value com.infotec.lodp.swb.Category to remove
-   */
-
-    public void removeCategory(com.infotec.lodp.swb.Category value)
-    {
-        getSemanticObject().removeObjectProperty(lodp_hasCategory,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Category
-   * @return a com.infotec.lodp.swb.Category
-   */
-    public com.infotec.lodp.swb.Category getCategory()
-    {
-         com.infotec.lodp.swb.Category ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(lodp_hasCategory);
-         if(obj!=null)
-         {
-             ret=(com.infotec.lodp.swb.Category)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
