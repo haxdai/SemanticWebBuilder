@@ -195,7 +195,7 @@ public class ApplicationResource extends GenericAdmResource{
                 app.setAppLicense(lic);
                 
                 if(category!=null){
-                    app.addCategory(category);
+                    app.setCategory(category);
                 }
                 app.setApproved(false);
                 app.setReviewed(false);
@@ -226,7 +226,7 @@ public class ApplicationResource extends GenericAdmResource{
             
             apl.setAppTitle(titleApp);
             apl.setAppDescription(descripcion);
-            apl.addCategory(category);
+            apl.setCategory(category);
             apl.setAppCreated(new Date());
             apl.setValid(false);
             apl.setAppAuthor(usr.getSemanticObject());
