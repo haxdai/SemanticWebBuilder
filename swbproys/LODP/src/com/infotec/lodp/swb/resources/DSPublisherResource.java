@@ -591,6 +591,27 @@ public class DSPublisherResource extends GenericAdmResource {
             response.setRenderParameter("suri", ds.getShortURI());
             response.setRenderParameter("act", "detail");
 
+        } else if(SWBActionResponse.Action_REMOVE.equals(action)){
+            String luri = SemanticObject.shortToFullURI(suri);
+            String msg_remove = "";
+
+            so = SemanticObject.getSemanticObject(luri);
+            
+            if(null!=so && so.getGenericInstance() instanceof Dataset){
+                //System.out.println("Antes de eliminar el Dataset");
+                ds = (Dataset) so.createGenericInstance();
+                //System.out.println(">>>>>>>>>>>"+ds.getDatasetTitle());
+                ds.remove();
+                //System.out.println("Despues de elinar el dataset...");
+                msg_remove = response.getLocaleString("msg_delokdataset");
+            } else {
+               msg_remove = response.getLocaleString("msg_delNOTokdataset"); 
+            }
+                    
+                    
+            response.setRenderParameter("msg",msg_remove);
+            response.setMode(SWBActionResponse.Mode_VIEW);
+            response.setRenderParameter("act", "myds");
         }
 
     }
