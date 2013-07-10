@@ -230,7 +230,7 @@ public class DataSetResource extends GenericAdmResource {
 
     public static String getDSWebFileURL(HttpServletRequest request, Dataset ds, String resid, WebSite wsite) {
 
-         System.out.println("in getDSWebFileURL");
+         //System.out.println("in getDSWebFileURL");
         Resource res = Resource.ClassMgr.getResource(resid, wsite);
         String urlcgi = res.getAttribute("urlcgi"); 
         String retURL = null;
@@ -262,7 +262,7 @@ public class DataSetResource extends GenericAdmResource {
         } else {
             
             WebPage wpage = (WebPage)res.getResourceable();
-            System.out.println("wpage: "+wpage.getId()+" --- "+wpage.getUrl());
+            //System.out.println("wpage: "+wpage.getId()+" --- "+wpage.getUrl());
             
             SWBResourceURLImp urldown = new SWBResourceURLImp(request, res, wpage , SWBResourceURLImp.UrlType_RENDER); 
             urldown.setParameter("suri",ds.getShortURI());
@@ -272,7 +272,7 @@ public class DataSetResource extends GenericAdmResource {
             retURL = urlcgi +urldown.toString(); // urlcgi + "/"+SWBPortal.getWebWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath();
             
         }
-        System.out.println("retURL: "+retURL);
+        //System.out.println("retURL: "+retURL);
         return retURL;
     }
 
