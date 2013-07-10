@@ -527,7 +527,10 @@ public class DSPublisherResource extends GenericAdmResource {
             //System.out.println("dsversion: "+dsveruri);
             //System.out.println("uri:"+suri);
             
-            
+            boolean isLocalUsed = Boolean.FALSE;
+            if(base.getAttribute("localused","0").equals("1")){
+                isLocalUsed = Boolean.TRUE;
+            }
             String luri = SemanticObject.shortToFullURI(suri);
 
             so = SemanticObject.getSemanticObject(luri);
@@ -576,9 +579,11 @@ public class DSPublisherResource extends GenericAdmResource {
                                 ds.setDatasetFormat(fileformat);
                                 ds.setDatasetUpdated(new Date());
 
-                                //Envia el archivo al otro servidor
-                                String llave = SenderService.getSender().submitFile2Send(f, ver.getSemanticObject().createGenericInstance());
-                                ver.setVerComment(llave);
+                                if(!isLocalUsed){
+                                  //Envia el archivo al otro servidor
+                                  String llave = SenderService.getSender().submitFile2Send(f, ver.getSemanticObject().createGenericInstance());
+                                  ver.setVerComment(llave);
+                                }
                             }
 
                         }
