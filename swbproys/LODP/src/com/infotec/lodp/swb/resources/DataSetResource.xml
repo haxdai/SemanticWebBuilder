@@ -17,7 +17,7 @@
                 <input type="TEXT" name="urlcgi" label="URL del servidor de archivos:" size="10" jsrequired="true"/>
                  <input type="CHECKBOX" name="autoapprove" label="Auto aprobación de datasets:" value="1"/>
                   <input type="TEXT" name="licid" label="Id de la sección donde se muestra el tipo licencia:" size="10" jsrequired="true"/>
-                <!-- input type="CHECKBOX" name="useproduction" label="Utilizar en producción:" value="1"/ -->
+                <input type="CHECKBOX" name="localused" label="Para utilizar de forma local el guardado de los datasets:" value="1"/>
             </fieldset>
 
  

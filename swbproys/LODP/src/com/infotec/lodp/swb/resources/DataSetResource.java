@@ -39,6 +39,7 @@ import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SWBMessageCenter;
 import org.semanticwb.platform.SemanticObject;
@@ -48,6 +49,7 @@ import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURLImp;
 
 /**
  *
@@ -102,6 +104,8 @@ public class DataSetResource extends GenericAdmResource {
         String metaformat = request.getParameter("mformat");
         String dsuri = request.getParameter("suri");
 
+        Resource base = getResourceBase();
+        
         WebSite wsite = paramRequest.getWebPage().getWebSite();
 
 
@@ -198,14 +202,18 @@ public class DataSetResource extends GenericAdmResource {
 
                     try {
 
+                        boolean isLocalUsed = Boolean.FALSE;
+                        if(base.getAttribute("localused","0").equals("1")){
+                            isLocalUsed = Boolean.TRUE;
+                        }
                         response.setContentType(DEFAULT_MIME_TYPE);
                         response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getFilePath() + "\";");
 
                         //LODP/basePath
                         String pathConfig = SWBPortal.getEnv("LODP/basePath");
-                        if(null==pathConfig){
+                        if(null==pathConfig && !isLocalUsed){
                             // hacer un sendredirect a: [app]/cgi-bin/recover/[classid]/[objid]/[filename]"
-                            String redirectURL = getDSWebFileURL(request, ver, getResourceBase().getId(),wsite);
+                            String redirectURL = getDSWebFileURL(request, ds, getResourceBase().getId(),wsite);
                             response.sendRedirect(redirectURL);
                         } else {
                             OutputStream out = response.getOutputStream();
@@ -220,12 +228,19 @@ public class DataSetResource extends GenericAdmResource {
         }
     }
 
-    public static String getDSWebFileURL(HttpServletRequest request, DatasetVersion ver, String resid, WebSite wsite) {
+    public static String getDSWebFileURL(HttpServletRequest request, Dataset ds, String resid, WebSite wsite) {
 
-        Resource base = Resource.ClassMgr.getResource(resid, wsite);
-        String urlcgi = base.getAttribute("urlcgi"); 
-        
-        if(null==urlcgi){
+         System.out.println("in getDSWebFileURL");
+        Resource res = Resource.ClassMgr.getResource(resid, wsite);
+        String urlcgi = res.getAttribute("urlcgi"); 
+        String retURL = null;
+        boolean isLocalUsed = Boolean.FALSE;
+        if(res.getAttribute("localused","0").equals("1")){
+           isLocalUsed = Boolean.TRUE;
+        }
+        DatasetVersion ver = ds.getActualVersion();
+        if(null==urlcgi || isLocalUsed){
+           
             String protocol = "";
             if (request.getProtocol().toLowerCase().startsWith("http/")) {
                 protocol = "http://";
@@ -241,9 +256,23 @@ public class DataSetResource extends GenericAdmResource {
             }
             urlcgi = protocol + servername + serverport;
         }
-        
-        String retURL = urlcgi + "/cgi-bin/deliver/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
+        if(!isLocalUsed){
+        retURL = urlcgi + "/cgi-bin/deliver/" + ver.getSemanticObject().getSemanticClass().getClassCodeName() + "/" + ver.getSemanticObject().getId() + "/" + ver.getFilePath();
         //System.out.println("Redirect URL:"+retURL);
+        } else {
+            
+            WebPage wpage = (WebPage)res.getResourceable();
+            System.out.println("wpage: "+wpage.getId()+" --- "+wpage.getUrl());
+            
+            SWBResourceURLImp urldown = new SWBResourceURLImp(request, res, wpage , SWBResourceURLImp.UrlType_RENDER); 
+            urldown.setParameter("suri",ds.getShortURI());
+            urldown.setParameter("act","file");
+            urldown.setMode(DataSetResource.MODE_FILE);
+            urldown.setCallMethod(SWBResourceURLImp.Call_DIRECT);
+            retURL = urlcgi +urldown.toString(); // urlcgi + "/"+SWBPortal.getWebWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath();
+            
+        }
+        System.out.println("retURL: "+retURL);
         return retURL;
     }
 
