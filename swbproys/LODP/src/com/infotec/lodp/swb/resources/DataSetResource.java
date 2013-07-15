@@ -239,7 +239,7 @@ public class DataSetResource extends GenericAdmResource {
            isLocalUsed = Boolean.TRUE;
         }
         DatasetVersion ver = ds.getActualVersion();
-        if(null==urlcgi || isLocalUsed){
+        if(null==urlcgi ||(isLocalUsed&&null==urlcgi)){
            
             String protocol = "";
             if (request.getProtocol().toLowerCase().startsWith("http/")) {
@@ -269,7 +269,7 @@ public class DataSetResource extends GenericAdmResource {
             urldown.setParameter("act","file");
             urldown.setMode(DataSetResource.MODE_FILE);
             urldown.setCallMethod(SWBResourceURLImp.Call_DIRECT);
-            retURL = urlcgi +urldown.toString(); // urlcgi + "/"+SWBPortal.getWebWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath();
+            retURL = urlcgi +urldown.toString(); // urlcgi + "/"+SWBPortal.getWebWorkPath() +ver.getWorkPath() + "/" + ver.getFilePath();  //
             
         }
         //System.out.println("retURL: "+retURL);
