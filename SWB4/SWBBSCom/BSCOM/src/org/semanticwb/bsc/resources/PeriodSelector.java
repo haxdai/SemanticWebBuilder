@@ -164,7 +164,6 @@ public class PeriodSelector extends GenericResource {
         if(Action_CHANGE_PERIOD.equals(action)) {
             String periodId = request.getParameter("periodId");
             WebSite website = response.getWebPage().getWebSite();
-            //if (periodId != null) {
             if( Period.ClassMgr.hasPeriod(periodId, website) ) {
                 Period period = Period.ClassMgr.getPeriod(periodId, website);
                 if (period != null) {
