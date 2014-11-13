@@ -22,12 +22,15 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceModes;
 
 /**
  * Muestra la interface para que el usuario seleccione el período deseado a fin de visualizar la información.
  * @author Jose.Jimenez
  */
 public class PeriodSelector extends GenericResource {
+    
+    public static final String Action_CHANGE_PERIOD = "changep";
     
     private Period getNearestPeriod(final List<Period> periods) {
         final User user = SWBContext.getSessionUser(getResourceBase().getWebSite().getUserRepository().getId());
@@ -101,7 +104,7 @@ public class PeriodSelector extends GenericResource {
             nearestPeriod = Period.ClassMgr.getPeriod(periodId, currentBsc);
         }
 
-        String actionUrl = paramRequest.getActionUrl().setAction("setPeriod").toString();
+        String actionUrl = paramRequest.getActionUrl().setAction(Action_CHANGE_PERIOD).toString();
         
         output.append("  <li class=\"dropdown\">\n");
         output.append("<script type=\"text/javascript\">\n");
@@ -158,16 +161,17 @@ public class PeriodSelector extends GenericResource {
         
         String action = response.getAction();
         
-        if (action != null && action.equals("setPeriod")) {
+        if(Action_CHANGE_PERIOD.equals(action)) {
             String periodId = request.getParameter("periodId");
             WebSite website = response.getWebPage().getWebSite();
-            if (periodId != null) {
+            //if (periodId != null) {
+            if( Period.ClassMgr.hasPeriod(periodId, website) ) {
                 Period period = Period.ClassMgr.getPeriod(periodId, website);
                 if (period != null) {
                     request.getSession(true).setAttribute(website.getId(), period.getId());
                 }
             }
-        } else {
+        }else {
             super.processAction(request, response);
         }
     }
