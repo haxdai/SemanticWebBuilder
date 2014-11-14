@@ -45,8 +45,8 @@ public class GraphPeriodStatus extends GenericAdmResource {
         StringBuilder firstOutput = new StringBuilder(128);
         StringBuilder svgOutput = new StringBuilder(64);
         StringBuilder usedColors = new StringBuilder(32);
-        String graphHeight = base.getAttribute("graphPSHeight").equals("")?"300px":base.getAttribute("graphPSHeight");
-        String graphWidth = base.getAttribute("graphPSWidth").equals("")?"650px":base.getAttribute("graphPSWidth");
+        String graphHeight = base.getAttribute("graphPSHeight").equals("")?"100%":base.getAttribute("graphPSHeight");
+        String graphWidth = base.getAttribute("graphPSWidth").equals("")?"100%":base.getAttribute("graphPSWidth");
         String marginLeftH = base.getAttribute("marginLeftH").equals("Seleccione")?"125":base.getAttribute("marginLeftH");
         String marginRightH = base.getAttribute("marginRightH").equals("Seleccione")?"20":base.getAttribute("marginRightH");
         String marginTopH = base.getAttribute("marginTopH").equals("Seleccione")?"30":base.getAttribute("marginTopH");
