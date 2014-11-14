@@ -12,8 +12,10 @@ import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.tracing.PeriodStatus;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -22,7 +24,7 @@ import org.semanticwb.portal.api.SWBResourceException;
  *
  * @author ana.garcias
  */
-public class GraphPeriodStatus extends GenericResource {
+public class GraphPeriodStatus extends GenericAdmResource {
 
     private static final String[] colors = {
         "#58FAF4", "#9F81F7", "#FA58F4", "#8A0829", "#F5A9D0","#81F7BE"};
@@ -33,7 +35,7 @@ public class GraphPeriodStatus extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        
+        Resource base = getResourceBase();
         final String suri = request.getParameter("suri");
         SemanticObject semanticObj = SemanticObject.getSemanticObject(suri);
         final User user = paramRequest.getUser();
@@ -43,8 +45,17 @@ public class GraphPeriodStatus extends GenericResource {
         StringBuilder firstOutput = new StringBuilder(128);
         StringBuilder svgOutput = new StringBuilder(64);
         StringBuilder usedColors = new StringBuilder(32);
-        final String graphHeight = "300";
-        final String graphWidth = "650";
+        String graphHeight = base.getAttribute("graphPSHeight").equals("")?"300px":base.getAttribute("graphPSHeight");
+        String graphWidth = base.getAttribute("graphPSWidth").equals("")?"650px":base.getAttribute("graphPSWidth");
+        String marginLeftH = base.getAttribute("marginLeftH").equals("Seleccione")?"125":base.getAttribute("marginLeftH");
+        String marginRightH = base.getAttribute("marginRightH").equals("Seleccione")?"20":base.getAttribute("marginRightH");
+        String marginTopH = base.getAttribute("marginTopH").equals("Seleccione")?"30":base.getAttribute("marginTopH");
+        String marginBottomH = base.getAttribute("marginBottomH").equals("Seleccione")?"40":base.getAttribute("marginBottomH");
+        String marginLeftV = base.getAttribute("marginLeftV").equals("Seleccione")?"125":base.getAttribute("marginLeftV");
+        String marginRightV = base.getAttribute("marginRightV").equals("Seleccione")?"20":base.getAttribute("marginRightV");
+        String marginTopV = base.getAttribute("marginTopV").equals("Seleccione")?"10":base.getAttribute("marginTopV");
+        String marginBottomV = base.getAttribute("marginBottomVt").equals("Seleccione")?"90":base.getAttribute("marginBottomVt");
+        String rotateLabels = base.getAttribute("rotateLabelV").equals("Seleccione")?"-90":base.getAttribute("rotateLabelV");
 
         /*if(!user.isSigned() || !user.haveAccess(semanticObj.createGenericInstance()))     {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNotPermissions")+"</div>");
@@ -163,7 +174,15 @@ public class GraphPeriodStatus extends GenericResource {
                 output.append("  chart = nv.models.multiBarHorizontalChart()\n");
                 output.append("      .x(function(d) { return d.label })\n");
                 output.append("      .y(function(d) { return d.value })\n");
-                output.append("    .margin({top: 30, right: 20, bottom: 40, left: 125})\n");
+                output.append("    .margin({top: ");
+                output.append(marginTopH);
+                output.append(", right: ");
+                output.append(marginRightH);
+                output.append(", bottom: ");
+                output.append(marginBottomH);
+                output.append(", left: ");
+                output.append(marginLeftH);
+                output.append(" })\n");
                 output.append("    .transitionDuration(250)\n");
                 output.append("    .showControls(false);\n");
                 output.append("  chart.yAxis\n");
@@ -178,12 +197,22 @@ public class GraphPeriodStatus extends GenericResource {
                 output.append("  chart2 = nv.models.multiBarChart()\n");
                 output.append("      .x(function(d) { return d.label })\n");
                 output.append("      .y(function(d) { return d.value })\n");
-                output.append("    .margin({top: 10, right: 20, bottom: 90, left: 125})\n");
+                output.append("    .margin({top: ");
+                output.append(marginTopV);
+                output.append(", right: ");
+                output.append(marginRightV);
+                output.append(", bottom: ");
+                output.append(marginBottomV);
+                output.append(", left: ");
+                output.append(marginLeftV);
+                output.append(" })\n");
                 output.append("      .transitionDuration(350)\n");
                 output.append("      .reduceXTicks(false)\n");   //If 'false', every single x-axis tick label will be rendered.
                 output.append("      .staggerLabels(true)\n");     //Intercala etiquetas en el eje 1 arriba, 1 abajo.//
                 output.append("      .showControls(false)\n");   //Allow user to switch between 'Grouped' and 'Stacked' mode.
-                output.append("      .rotateLabels(-90)\n"); 
+                output.append("      .rotateLabels(");
+                output.append(rotateLabels);
+                output.append(")\n"); 
                 output.append("      .groupSpacing(0.1);\n");    //Distance between each group of bars.
                 output.append("  chart2.yAxis\n");
                 output.append("      .tickFormat(d3.format(',.2f'));\n");
@@ -207,13 +236,12 @@ public class GraphPeriodStatus extends GenericResource {
 
                 svgOutput.append("       <div class=\"panel-body body-detalle\">\n");
                 svgOutput.append("       <div class=\"centerSvg\">\n");
-                /*svgOutput.append("       <svg style=\"height:");
+                svgOutput.append("       <svg style=\"height:");
                 svgOutput.append(graphHeight);
-                svgOutput.append("px; width:");
+                svgOutput.append("; width:");
                 svgOutput.append(graphWidth);
-                svgOutput.append("px;");
-                svgOutput.append("\"></svg>\n");*/
-                svgOutput.append("       <svg style=\"height:400px\"></svg>");
+                svgOutput.append(";");
+                svgOutput.append("\"></svg>\n");
                 svgOutput.append("   </div>\n");
                 svgOutput.append("   </div>\n");
 
