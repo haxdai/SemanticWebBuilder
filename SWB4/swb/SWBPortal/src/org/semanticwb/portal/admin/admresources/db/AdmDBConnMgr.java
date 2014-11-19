@@ -251,6 +251,9 @@ public class AdmDBConnMgr {
         if (dom != null) {
             NodeList ndl = dom.getElementsByTagName(attribute);
             for (int i = 0; i < ndl.getLength(); i++) {
+                if(ndl.item(i).getChildNodes().item(0)==null) {
+                    continue;
+                }
                 if (ndl.item(i).getChildNodes().item(0).getNodeValue() != null) {
                     attrvalues.add(ndl.item(i).getChildNodes().item(0).getNodeValue());
                 }
