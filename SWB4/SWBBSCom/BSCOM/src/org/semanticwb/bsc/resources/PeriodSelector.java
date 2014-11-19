@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
+import org.semanticwb.base.util.URLEncoder;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.model.SWBContext;
@@ -22,7 +23,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceModes;
+import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  * Muestra la interface para que el usuario seleccione el período deseado a fin de visualizar la información.
@@ -72,7 +73,10 @@ public class PeriodSelector extends GenericResource {
         //Validar usuario autorizado
         if (!user.isSigned()) {
             response.flushBuffer();
+            return;
         }
+        final String lang = user.getLanguage()==null?"es":user.getLanguage();
+        
         
         PrintWriter out = response.getWriter();
         StringBuilder output = new StringBuilder(64);
@@ -89,63 +93,42 @@ public class PeriodSelector extends GenericResource {
                 }
             });
         
-        
+        Period nearestPeriod = null;
         //Obtener el Periodo actual
         String periodId = (String) request.getSession().getAttribute(currentBsc.getId());
         //Verificar que exista el periodo válido en sesión. Si no existe, ponerlo
-        Period nearestPeriod = null;
-        if (periodId == null || (!Period.ClassMgr.hasPeriod(periodId, currentBsc))) {
+        if(Period.ClassMgr.hasPeriod(periodId, currentBsc)) {
+            nearestPeriod = Period.ClassMgr.getPeriod(periodId, currentBsc);
+        }else {
             nearestPeriod = getNearestPeriod(periods);
-            if (nearestPeriod != null) {
+            if(nearestPeriod != null) {
                 periodId = nearestPeriod.getId();
                 request.getSession(true).setAttribute(currentBsc.getId(), periodId);
+            }else {
+                return;
             }
-        } else if (Period.ClassMgr.hasPeriod(periodId, currentBsc)) {
-            nearestPeriod = Period.ClassMgr.getPeriod(periodId, currentBsc);
-        }
-
-        String actionUrl = paramRequest.getActionUrl().setAction(Action_CHANGE_PERIOD).toString();
-        
+        }        
+        SWBResourceURL actionUrl = paramRequest.getActionUrl().setAction(Action_CHANGE_PERIOD);
+        final String suri = request.getParameter("suri");
+        if(suri!=null) {
+            actionUrl.setParameter("suri", URLEncoder.encode(request.getParameter("suri"),"utf-8"));
+        }        
         output.append("  <li class=\"dropdown\">\n");
-        output.append("<script type=\"text/javascript\">\n");
-        output.append("  function settingPeriod(value) {\n");
-        output.append("      if (value && value != \"\") {\n");
-        output.append("        var urlToGo = \"");
-        output.append(actionUrl);
-        output.append("\";\n");
-        output.append("        urlToGo += ('?periodId=' + value);\n");
-        output.append("        var xmlhttp;\n");
-        output.append("        if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari\n");
-        output.append("          xmlhttp = new XMLHttpRequest();\n");
-        output.append("        } else { // code for IE6, IE5\n");
-        output.append("          xmlhttp = new ActiveXObject(\"Microsoft.XMLHTTP\");\n");
-        output.append("        }\n");
-        output.append("        xmlhttp.onreadystatechange = function() {\n");
-        output.append("          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {\n");
-        output.append("            location.reload(true);\n");
-        output.append("          }\n");
-        output.append("        }\n");
-        output.append("        xmlhttp.open(\"GET\", urlToGo, true);\n");
-        output.append("        xmlhttp.send();\n");
-        output.append("      }\n");
-        output.append("  }\n");
-        output.append("</script>\n");
         output.append("    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"hidden-xs\">");
         output.append(paramRequest.getLocaleString("lbl_title"));
         output.append(":&nbsp;</span>");
         output.append(nearestPeriod != null ? nearestPeriod.getTitle() : "");
-        if (periods.size() > 1) {
+        if(periods.size() > 1) {
             output.append("<span class=\"caret\"></span>");
         }
         output.append("</a>\n");
-        if (!periods.isEmpty()) {
+        if(!periods.isEmpty()) {
             output.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n");
             for(Period nextPeriod:periods) {
-                if (nextPeriod != nearestPeriod) {
-                    output.append("      <li><a href=\"#\" onclick=\"settingPeriod(");
-                    output.append(nextPeriod.getId());
-                    output.append(");\">");
-                    output.append(nextPeriod.getTitle());
+                if(nextPeriod != nearestPeriod) {
+                    actionUrl.setParameter("periodId", nextPeriod.getId());
+                    output.append("      <li><a href=\"#\" onclick=\"location.href='"+actionUrl.toString()+"'\">");
+                    output.append(nextPeriod.getDisplayTitle(lang)==null?nextPeriod.getTitle():nextPeriod.getDisplayTitle(lang));
                     output.append("</a></li>\n");
                 }
             }
@@ -159,9 +142,11 @@ public class PeriodSelector extends GenericResource {
     public void processAction(HttpServletRequest request,
             SWBActionResponse response) throws SWBResourceException, IOException {
         
-        String action = response.getAction();
+        final String action = response.getAction();
+        final String lang = response.getUser().getLanguage()==null?"es":response.getUser().getLanguage();
         
-        if(Action_CHANGE_PERIOD.equals(action)) {
+        if(Action_CHANGE_PERIOD.equals(action))
+        {
             String periodId = request.getParameter("periodId");
             WebSite website = response.getWebPage().getWebSite();
             if( Period.ClassMgr.hasPeriod(periodId, website) ) {
@@ -170,9 +155,17 @@ public class PeriodSelector extends GenericResource {
                     request.getSession(true).setAttribute(website.getId(), period.getId());
                 }
             }
-        }else {
+            final String suri = request.getParameter("suri");
+            if(suri != null) {
+                response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+suri);
+            }else {
+                response.sendRedirect(response.getWebPage().getUrl(lang));
+            }
+            
+        }
+        else
+        {
             super.processAction(request, response);
         }
     }
-    
 }
