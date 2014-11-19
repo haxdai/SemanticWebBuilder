@@ -16,7 +16,6 @@ import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericAdmResource;
-import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 
@@ -45,23 +44,24 @@ public class GraphPeriodStatus extends GenericAdmResource {
         StringBuilder firstOutput = new StringBuilder(128);
         StringBuilder svgOutput = new StringBuilder(64);
         StringBuilder usedColors = new StringBuilder(32);
-        String graphHeight = base.getAttribute("graphPSHeight").equals("")?"100%":base.getAttribute("graphPSHeight");
-        String graphWidth = base.getAttribute("graphPSWidth").equals("")?"100%":base.getAttribute("graphPSWidth");
-        String marginLeftH = base.getAttribute("marginLeftH").equals("Seleccione")?"125":base.getAttribute("marginLeftH");
-        String marginRightH = base.getAttribute("marginRightH").equals("Seleccione")?"20":base.getAttribute("marginRightH");
-        String marginTopH = base.getAttribute("marginTopH").equals("Seleccione")?"30":base.getAttribute("marginTopH");
-        String marginBottomH = base.getAttribute("marginBottomH").equals("Seleccione")?"40":base.getAttribute("marginBottomH");
-        String marginLeftV = base.getAttribute("marginLeftV").equals("Seleccione")?"125":base.getAttribute("marginLeftV");
-        String marginRightV = base.getAttribute("marginRightV").equals("Seleccione")?"20":base.getAttribute("marginRightV");
-        String marginTopV = base.getAttribute("marginTopV").equals("Seleccione")?"10":base.getAttribute("marginTopV");
-        String marginBottomV = base.getAttribute("marginBottomVt").equals("Seleccione")?"90":base.getAttribute("marginBottomVt");
-        String rotateLabels = base.getAttribute("rotateLabelV").equals("Seleccione")?"-90":base.getAttribute("rotateLabelV");
+        
+        String graphHeight = base.getAttribute("graphPSHeight","300px");
+        String graphWidth = base.getAttribute("graphPSWidth","100%");
+        String marginLeftH = base.getAttribute("marginLeftH","125");
+        String marginRightH = base.getAttribute("marginRightH","20");
+        String marginTopH = base.getAttribute("marginTopH","30");
+        String marginBottomH = base.getAttribute("marginBottomH","40");
+        String marginLeftV = base.getAttribute("marginLeftV","125");
+        String marginRightV = base.getAttribute("marginRightV","20");
+        String marginTopV = base.getAttribute("marginTopV","10");
+        String marginBottomV = base.getAttribute("marginBottomVt","110");
+        String rotateLabels = base.getAttribute("rotateLabelV","-80");
 
-        /*if(!user.isSigned() || !user.haveAccess(semanticObj.createGenericInstance()))     {
+        if(!user.isSigned() || !user.haveAccess(semanticObj.createGenericInstance()))     {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNotPermissions")+"</div>");
             response.flushBuffer();
             return;
-        }*/
+        }
 
         if (semanticObj != null)
         {
@@ -90,7 +90,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 firstOutput.append("<div id=\"graphContainer\">\n");
                 firstOutput.append("   <div id=\"chart1\" class=\'with-3d-shadow with-transitions\'>\n");
                 firstOutput.append("       <div class=\"panel-heading head-detalle\">");
-                firstOutput.append(obj.getTitle());
+                firstOutput.append(obj.getDisplayTitle(lang)==null?obj.getTitle():obj.getDisplayTitle(lang));
                 firstOutput.append("       </div>\n");
                 firstOutput.append("       <div class=\"panel-body body-detalle\">\n");
                 firstOutput.append("       <div class=\"centerSvg\">\n");
@@ -127,7 +127,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                             output.append("{");
                             //Se coloca el identificador de cada estado
                             output.append("  key: \"");
-                            output.append(st.getTitle() != null?st.getTitle():"Sin título");
+                            output.append(st.getDisplayTitle(lang)==null?st.getTitle():st.getDisplayTitle(lang));
                             output.append("\" ,\n");
 
                             //Se coloca el color a utilizar para cada estado
