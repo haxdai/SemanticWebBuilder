@@ -84,6 +84,7 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
         StringBuilder svgOutput = new StringBuilder(64);
         String graphHeight = base.getAttribute("graphHeight", "500");
         String graphWidth = base.getAttribute("graphWidth", "600");
+        String rotateLabels = base.getAttribute("rotateLabelV","-80");
         String barWidth = base.getAttribute("barWidth", null);
         int periodsQuantity = 0;  //numero de periodos a graficar
         
@@ -261,9 +262,12 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("  chart2 = nv.models.multiBarChart()\n");
                 output.append("      .x(function(d) { return d.label })\n");
                 output.append("      .y(function(d) { return d.value })\n");
+                output.append("      .margin({top: 30, right: 20, bottom: 93, left: 125})\n");
                 output.append("      .transitionDuration(350)\n");
                 output.append("      .reduceXTicks(true)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
-                //output.append("      .rotateLabels(90)\n");      /*Angle to rotate x-axis labels.*/
+                output.append("      .rotateLabels(");
+                output.append(rotateLabels);
+                output.append(")\n"); 
                 output.append("      .staggerLabels(true)\n");     /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
                 output.append("      .showControls(true)\n");   /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
                 output.append("      .groupSpacing(0.1);\n");    /*Distance between each group of bars.*/
