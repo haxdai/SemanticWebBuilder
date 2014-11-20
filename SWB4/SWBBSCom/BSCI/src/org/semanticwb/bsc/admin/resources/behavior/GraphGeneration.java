@@ -82,10 +82,18 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
         StringBuilder output = new StringBuilder(512);
         StringBuilder firstOutput = new StringBuilder(128);
         StringBuilder svgOutput = new StringBuilder(64);
-        String graphHeight = base.getAttribute("graphHeight", "500");
-        String graphWidth = base.getAttribute("graphWidth", "600");
+        
+        String graphHeight = base.getAttribute("graphPSHeight","500px");
+        String graphWidth = base.getAttribute("graphPSWidth","100%");
+        String marginLeftH = base.getAttribute("marginLeftH","125");
+        String marginRightH = base.getAttribute("marginRightH","20");
+        String marginTopH = base.getAttribute("marginTopH","30");
+        String marginBottomH = base.getAttribute("marginBottomH","40");
+        String marginLeftV = base.getAttribute("marginLeftV","125");
+        String marginRightV = base.getAttribute("marginRightV","20");
+        String marginTopV = base.getAttribute("marginTopV","10");
+        String marginBottomV = base.getAttribute("marginBottomVt","110");
         String rotateLabels = base.getAttribute("rotateLabelV","-80");
-        String barWidth = base.getAttribute("barWidth", null);
         int periodsQuantity = 0;  //numero de periodos a graficar
         
         if (semanticObj != null) {
@@ -246,8 +254,15 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("  chart = nv.models.multiBarHorizontalChart()\n");
                 output.append("      .x(function(d) { return d.label })\n");
                 output.append("      .y(function(d) { return d.value })\n");
-                output.append("    .margin({top: 30, right: 20, bottom: 30, left: 125})\n");
-                //output.append("    .margin({top: 0, right: 0, bottom: 0, left: 0})\n");
+                output.append("    .margin({top: ");
+                output.append(marginTopH);
+                output.append(", right: ");
+                output.append(marginRightH);
+                output.append(", bottom: ");
+                output.append(marginBottomH);
+                output.append(", left: ");
+                output.append(marginLeftH);
+                output.append(" })\n");
                 output.append("    .transitionDuration(250)\n");
                 output.append("    .showControls(true);\n");
                 output.append("  chart.yAxis\n");
@@ -262,7 +277,15 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("  chart2 = nv.models.multiBarChart()\n");
                 output.append("      .x(function(d) { return d.label })\n");
                 output.append("      .y(function(d) { return d.value })\n");
-                output.append("      .margin({top: 30, right: 20, bottom: 93, left: 125})\n");
+                output.append("    .margin({top: ");
+                output.append(marginTopV);
+                output.append(", right: ");
+                output.append(marginRightV);
+                output.append(", bottom: ");
+                output.append(marginBottomV);
+                output.append(", left: ");
+                output.append(marginLeftV);
+                output.append(" })\n");
                 output.append("      .transitionDuration(350)\n");
                 output.append("      .reduceXTicks(true)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
                 output.append("      .rotateLabels(");
@@ -291,38 +314,13 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("  </script>\n");
                 output.append("</div>\n");
 
-                if (barWidth != null) {
-                    //Se calcula el ancho y alto de grafica si se configuró el ancho de cada barra
-                    int width4bars = Integer.parseInt(barWidth);
-                    int width = width4bars * periodsQuantity * seriesCount + 100 + 30; //100 para etiqueta eje Y; 30 del padding derecho
-                    //Se debe cumplir con un mínimo y un máximo del tamaño de la gráfica
-                    if (width > 850) {
-                        width = 850;
-                    } else if (width < 550) {
-                        width = 550;
-                    }
-                    graphWidth = String.valueOf(width);
-                    int height = width4bars * periodsQuantity * seriesCount + 30;  //30 para etiqueta eje X
-                    if (seriesCount > 2) {  //Para etiquetas de las series a graficar
-                        height += (seriesCount % 2) * 20;
-                    } else {
-                        height += 20;
-                    }
-                    //Se debe cumplir con un mínimo y un máximo del tamaño de la gráfica
-                    if (height > 850) {
-                        height = 850;
-                    } else if (height < 450) {
-                        height = 450;
-                    }
-                    graphHeight = String.valueOf(height);
-                }
                 svgOutput.append("       <div class=\"panel-body body-detalle\">\n");
                 svgOutput.append("       <div class=\"centerSvg\">\n");
                 svgOutput.append("       <svg style=\"height:");
                 svgOutput.append(graphHeight);
-                svgOutput.append("px; width:");
+                svgOutput.append("; width:");
                 svgOutput.append(graphWidth);
-                svgOutput.append("px;");
+                svgOutput.append(";");
                 svgOutput.append("\"></svg>\n");
                 svgOutput.append("   </div>\n");
                 svgOutput.append("   </div>\n");
