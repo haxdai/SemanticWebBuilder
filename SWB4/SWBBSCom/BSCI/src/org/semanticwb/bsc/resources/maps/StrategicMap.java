@@ -24,6 +24,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
 import static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF;
 import static org.semanticwb.bsc.PDFExportable.Mode_StreamPNG;
+import org.semanticwb.bsc.Theme;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.model.Resource;
@@ -81,6 +82,19 @@ public class StrategicMap extends GenericResource
     public static final int PADDING_DOWN = 4; // Especifica el espacio libre a la derecha entre rectángulos para pintar las ligas
     public static final String SVG_NS_URI = "http://www.w3.org/2000/svg";
     public static final String XLNK_NS_URI = "http://www.w3.org/1999/xlink";
+    
+    private String urlObjectivePage = null;
+    private String urlThemePage = null;
+
+    @Override
+    public void setResourceBase(Resource base) throws SWBResourceException {
+        super.setResourceBase(base);
+        WebPage wp;
+        wp = base.getWebSite().getWebPage(Objective.class.getSimpleName());
+        urlObjectivePage = wp.getUrl();
+        wp = base.getWebSite().getWebPage(Theme.class.getSimpleName());
+        urlThemePage = wp.getUrl();
+    }
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -92,17 +106,6 @@ public class StrategicMap extends GenericResource
         }else {
             super.processRequest(request, response, paramRequest);
         }
-        /*switch (mode) {
-            case Mode_StreamPNG:
-                doGetPNGImage(request, response, paramRequest);
-                break;
-            case Mode_StreamPDF:
-                doGetPDFDocument(request, response, paramRequest);
-                break;
-            default:
-                super.processRequest(request, response, paramRequest);
-                break;
-        }*/
     }
 
     /**
@@ -129,18 +132,18 @@ public class StrategicMap extends GenericResource
             PrintWriter out = response.getWriter();
             SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
             
-out.println(" <script type=\"text/javascript\">");
-out.println("  function getFile(url) {");
-out.println("   var form = document.getElementById('exportsmfrm');");
-out.println("   var svg = document.getElementsByTagName('svg')[0];");
-//out.println("   var dom = new DOMParser().parseFromString(svg, 'text/xml');");
-out.println("   var svg_xml = (new XMLSerializer()).serializeToString(svg);");
-out.println("console.log('data='+svg_xml);");            
-out.println("   form.action = url;");
-out.println("   form['data'].value = svg_xml;");
-out.println("   form.submit();");
-out.println("  }");
-out.println(" </script>");
+            out.println(" <script type=\"text/javascript\">");
+            out.println("  function getFile(url) {");
+            out.println("   var form = document.getElementById('exportsmfrm');");
+            out.println("   var svg = document.getElementsByTagName('svg')[0];");
+            //out.println("   var dom = new DOMParser().parseFromString(svg, 'text/xml');");
+            out.println("   var svg_xml = (new XMLSerializer()).serializeToString(svg);");
+            out.println("console.log('data='+svg_xml);");            
+            out.println("   form.action = url;");
+            out.println("   form['data'].value = svg_xml;");
+            out.println("   form.submit();");
+            out.println("  }");
+            out.println(" </script>");
             out.println(" <form id=\"exportsmfrm\" style=\"display:none;\" accept-charset=\"utf-8\" method=\"post\" action=\"#\">");
             out.println("  <input type=\"hidden\" name=\"suri\" value=\"" + suri + "\" />");
             out.println("  <input type=\"hidden\" id=\"data\" name=\"data\" value=\"\" />");
@@ -373,14 +376,6 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
         }
         return period;
     }
-    private String urlBase = null;
-
-    @Override
-    public void setResourceBase(Resource base) throws SWBResourceException {
-        super.setResourceBase(base);
-        WebPage wp = base.getWebSite().getWebPage(Objective.class.getSimpleName());
-        urlBase = wp.getUrl();
-    }
     
     public Document getDom(final Period period) throws XPathExpressionException, ClassCastException, NumberFormatException
     {
@@ -480,7 +475,9 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                             t.setAttribute("width", Integer.toString(tw - BOX_SPACING_RIGHT));
                             tx = px + k * tw;
                             t.setAttribute("x", Integer.toString(tx));
-
+                            href = t.getAttribute("href");
+                            t.setAttribute("href", urlThemePage+"?suri="+href);
+                            
                             //relaciones con este tema
                             expression = "//rel[@to='" + uri + "']";
                             NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(documentBSC, XPathConstants.NODESET);
@@ -506,7 +503,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                                         href = o.getAttribute("href");
                                         o.setAttribute("width", Integer.toString(tw - BOX_SPACING_LEFT));
                                         o.setAttribute("x", Integer.toString(ox + BOX_SPACING_LEFT));
-                                        o.setAttribute("href", urlBase+"?suri="+href);
+                                        o.setAttribute("href", urlObjectivePage+"?suri="+href);
 
                                         //relaciones con este objetivo
                                         expression = "//rel[@to='" + uri + "']";
@@ -804,6 +801,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                         attrs = nodeT.getAttributes();
                         boolean isHidden = Boolean.parseBoolean(attrs.getNamedItem("hidden").getNodeValue());
                         String tid = attrs.getNamedItem("id").getNodeValue();
+                        String href = attrs.getNamedItem("href").getNodeValue();
                         w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                         x_ = assertValue(attrs.getNamedItem("x").getNodeValue());
                         // r guarda algunas valores de la perspectiva actual para después recuperarlas por su identificador
@@ -817,16 +815,23 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                         if(!isHidden) {
                             expression = "/bsc/perspective[@id='" + pid + "']/themes/theme[@id='" + tid + "']/title";
                             title = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
+System.out.println("tema "+title+", href="+href);
+
+                            SVGjs.append(" lnk = createLink('" + href + "');").append("\n");
+                            SVGjs.append(" g.appendChild(lnk);").append("\n");
+
                             SVGjs.append(" txt = createText('" + title + "'," + x_ + ",y__," + HEADER_4 + ",'Verdana');").append("\n");
                             SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+HEADER_4+"px;');").append("\n");
-                            SVGjs.append(" g.appendChild(txt);").append("\n");
+                            //SVGjs.append(" g.appendChild(txt);").append("\n");
+                            SVGjs.append(" lnk.appendChild(txt);").append("\n");
                             SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
                             SVGjs.append(" framingRect(rect,'" + tid + "'," + w_ + ",rect.height.baseVal.value," + x_ + ",y__);").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'style','stroke-width:0;fill:#30b8ae;');").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
-                            SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
+                            //SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
+                            SVGjs.append(" g.insertBefore(rect,lnk);").append("\n");
                         }
                             
                         if(!isHidden) {
@@ -886,7 +891,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                             {
                                 attrs = nodeO.getAttributes();
                                 String oid = attrs.getNamedItem("id").getNodeValue();
-                                String href = attrs.getNamedItem("href").getNodeValue();
+                                href = attrs.getNamedItem("href").getNodeValue();
                                 w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                                 x_ = assertValue(attrs.getNamedItem("x").getNodeValue());
                                 String color = attrs.getNamedItem("status").getNodeValue();
