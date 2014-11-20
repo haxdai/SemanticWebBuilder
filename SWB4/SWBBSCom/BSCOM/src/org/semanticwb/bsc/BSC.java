@@ -400,6 +400,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                     etheme.setAttribute("id", t.getURI());
                     etheme.setAttribute("orden", Integer.toString(t.getIndex()));
                     etheme.setAttribute("hidden", Boolean.toString(t.isHidden()));
+                    etheme.setAttribute("href", t.getEncodedURI());
                     ethemes.appendChild(etheme);
                     //title
                     e = doc.createElement("title");
@@ -486,6 +487,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                             e.setAttribute("type", "theme");
                             eobj.appendChild(e);
                         }
+                        
                         //relaciones objetivo - objetivo
                         itrel = o.listCausalObjectives();
                         while(itrel.hasNext()) {
