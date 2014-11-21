@@ -55,10 +55,17 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
                     if (baseUrl != null) {
                         viewString.append(baseUrl);
                     }
+                    
+                    String imsg = "Ver detalle";
+                    if (lang.equals("en")) {
+                        imsg = "See details";
+                    }
+                    
                     viewString.append(genObject.getClass().getSimpleName());
                     viewString.append("?suri=");
                     viewString.append(obj.getEncodedURI());
-                    viewString.append("\" ><span class=\"summary-grid glyphicon glyphicon-eye-open\"></span>");
+                    viewString.append("\" title=\"").append(imsg).append("\">");
+                    viewString.append("<span class=\"summary-grid glyphicon glyphicon-eye-open\"></span>");
                     viewString.append("</a>");
                 }
             }
