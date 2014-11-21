@@ -18,6 +18,7 @@ d3.gantt = function(taskNames) {
         bottom : 60,
         left : 10
     };
+    var rotateLabel = 0;
     var timeDomainStart = d3.time.day.offset(new Date(), -3);
     var timeDomainEnd = d3.time.hour.offset(new Date(), +3);
     var timeDomainMode = FIT_TIME_DOMAIN_MODE;// fixed or fit
@@ -137,7 +138,7 @@ d3.gantt = function(taskNames) {
             .transition()
             .call(xAxis);
         svg.selectAll("text")
-            .attr("transform", "rotate(-65)")
+            .attr("transform", "rotate("+gantt.rotateLabel()+")")
             .style("text-anchor", "end");
          
         svg.append("g").attr("class", "y axis")
@@ -244,6 +245,13 @@ d3.gantt = function(taskNames) {
         if (!arguments.length)
             return tickFormat;
         tickFormat = value;
+        return gantt;
+    };
+    
+    gantt.rotateLabel = function(value) {
+        if (!arguments.length)
+            return rotateLabel;
+        rotateLabel = value;
         return gantt;
     };
     
