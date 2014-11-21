@@ -267,8 +267,8 @@ abbr
   font:10pt verdana;
   padding-bottom:0px;
   padding-right:0px;
-  padding-top:0px
-   padding-left:0px
+  padding-top:0px;
+  padding-left:0px;
 }
 .block-info-left a:hover, .block-info-right a:hover  {
   color:#000099;
@@ -854,7 +854,7 @@ TD.forumRollOut   {
 	text-align:left; 
 	/* part 2 of 2 centering hack */
 	width: 620px; /* ie5win fudge begins */
-	voice-family: "\"}\"";
+	/*voice-family: "\"}\"";*/
 	voice-family:inherit;
 	width: 584px;
 	}
