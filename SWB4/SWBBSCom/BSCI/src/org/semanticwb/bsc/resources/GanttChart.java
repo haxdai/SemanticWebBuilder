@@ -92,8 +92,9 @@ public class GanttChart extends GenericAdmResource implements ComponentExportabl
         Resource base = this.getResourceBase();
         StringBuilder output = new StringBuilder(512);
         StringBuilder dataOut = new StringBuilder(512);
-        final String graphHeight = base.getAttribute("graphHeight", "200");
-        final String graphWidth = base.getAttribute("graphWidth", "1000");
+        String graphHeight = base.getAttribute("graphHeight", "200px");
+        String graphWidth = base.getAttribute("graphWidth", "100%");
+        String rotateLabel = base.getAttribute("rotateLabel","-80");
 
         if (semanticObj != null) {
             GenericObject genericObj = semanticObj.createGenericInstance();
@@ -216,9 +217,9 @@ public class GanttChart extends GenericAdmResource implements ComponentExportabl
                 output.append("<div class=\"panel-body body-detalle\">\n");                
                 output.append("<div id=\"ganttChart\" style=\"height:");
                 output.append(graphHeight);
-                output.append("px; width:");
+                output.append("; width:");
                 output.append(graphWidth);
-                output.append("px;\">");
+                output.append(";\">");
                 output.append("  <script type=\"text/javascript\" src=\"");
                 output.append(SWBPlatform.getContextPath());
                 output.append("/swbadmin/js/d3/gantt-chart-d3.js\"></script>\n");
@@ -248,7 +249,7 @@ public class GanttChart extends GenericAdmResource implements ComponentExportabl
                 output.append("  var minDate = tasks[0].startDate;\n");
                 output.append("  var format = \"%d/%m/%Y\";\n");
                 output.append("  \n");
-                output.append("  var gantt = d3.gantt(taskNames).taskTypes(taskNames).tickFormat(format).timeDomainMode(\"fit\");\n");
+                output.append("  var gantt = d3.gantt(taskNames).taskTypes(taskNames).rotateLabel("+rotateLabel+").tickFormat(format).timeDomainMode(\"fit\");\n");
                 output.append("  gantt(tasks);\n");
                 output.append("  \n");
                 output.append("  \n");
