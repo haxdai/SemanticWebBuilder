@@ -1,6 +1,5 @@
 package org.semanticwb.bsc.resources.charts;
 
-import org.semanticwb.bsc.admin.resources.behavior.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
