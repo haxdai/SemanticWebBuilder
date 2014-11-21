@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<admresource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <xslfile>admresource.xslt</xslfile>
+    <form name="frmAdmRes" action="true" id="frmAdmRes" method="POST">
+        <fieldset legend="Dimensional configuration">
+            <statictext name="fixed">If you want all the graphs of this type have the same size, configure the following:</statictext>   
+            <input type="text" id="graphPSWidth"  name="graphPSWidth" label="Width" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Ancho Inválido. Ejemplo: 600px o 100%" promptMessage="Ejemplo: 600px o 100%" />
+            <input type="text" id="graphPSHeight" name="graphPSHeight" label="Height" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Altura Inválida. Ejemplo: 400px o 100%" promptMessage="Ejemplo: 400px o 100%" />
+        </fieldset>
+        <fieldset legend="Horizontal Chart">
+            <select name="marginLeftH" label="Pixels to the left margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginRightH" label="Pixels to the right margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginTopH" label="Pixels to the top margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginBottomH" label="Pixels to the bottom margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+        </fieldset>
+        <fieldset legend="Vertical Graph">
+            <select name="marginLeftV" label="Pixels to the left margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginRightV" label="Pixels to the right margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginTopV" label="Pixels to the top margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="marginBottomVt" label="Pixels to the bottom margin">
+                <option value="">Select</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+                <option value="60">60</option>
+                <option value="70">70</option>
+                <option value="80">80</option>
+                <option value="90">90</option>
+                <option value="100">100</option>
+                <option value="110">110</option>
+                <option value="120">120</option>
+                <option value="130">130</option>
+                <option value="140">140</option>
+                <option value="150">150</option>
+            </select>
+            <select name="rotateLabelV" label="Rotating labels">
+                <option value="">Select</option>
+                <option value="-90">-90°</option>
+                <option value="-85">-85°</option>
+                <option value="-80">-80°</option>
+                <option value="-75">-75°</option>
+                <option value="-70">-70°</option>
+                <option value="-65">-65°</option>
+                <option value="-60">-60°</option>
+                <option value="-55">-55°</option>
+                <option value="-50">-50°</option>
+                <option value="-45">-45°</option>
+                <option value="-40">-40°</option>
+                <option value="-35">-35°</option>
+                <option value="-30">-30°</option>
+                <option value="-25">-25°</option>
+                <option value="-20">-20°</option>
+                <option value="-15">-15°</option>
+                <option value="-10">-10°</option>
+                <option value="-5">-5°</option>
+                <option value="0">0°</option>
+                <option value="5">5°</option>
+                <option value="10">10°</option>
+                <option value="15">15°</option>
+                <option value="20">20°</option>
+                <option value="25">25°</option>
+                <option value="30">30°</option>
+                <option value="35">35°</option>
+                <option value="40">40°</option>
+                <option value="45">45°</option>
+                <option value="50">50°</option>
+                <option value="55">55°</option>
+                <option value="60">60°</option>
+                <option value="65">65°</option>
+                <option value="70">70°</option>
+                <option value="75">75°</option>
+                <option value="80">80°</option>
+                <option value="85">85°</option>
+                <option value="90">90°</option>
+            </select>              
+        </fieldset>
+        <fieldset>
+            <input type="submit" name="btnSave" value="Save"/>
+            <input type="reset"  name="btnReset" value="Reset" />
+        </fieldset>
+    </form>
+</admresource>
