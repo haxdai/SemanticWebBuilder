@@ -13,12 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.Committable;
 import org.semanticwb.bsc.Seasonable;
 import org.semanticwb.bsc.accessory.Period;
-import org.semanticwb.bsc.element.Indicator;
-import org.semanticwb.bsc.element.Initiative;
-import org.semanticwb.bsc.element.Objective;
-import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Undeleteable;
 import org.semanticwb.model.User;
@@ -70,26 +67,25 @@ public class PeriodsManager extends GenericResource {
         out.println("</script>");
 
         if (semObj != null) {
-//            BSC bsc = (BSC) semObj.getModel().getModelObject().getGenericInstance();
             SWBResourceURL urlAdd;
 
             GenericObject genericObject = semObj.getGenericInstance();
             Iterator<Period> itPeriods;
             
-//                SemanticObject objParent = semObj.getObjectProperty(Indicator.bsc_objectiveInv);
-//                itPeriods = new GenericIterator<Period>(objParent.listObjectProperties(Seasonable.bsc_hasPeriod));            
-            
-            /*if (genericObject instanceof Indicator) {
-                Indicator indicator = (Indicator)genericObject;
-                itPeriods = indicator.getObjective().listPeriods(true);
-            }else if(genericObject instanceof Objective || genericObject instanceof Initiative) {
-                itPeriods = bsc.listPeriods(true);
-            }else {
-                itPeriods = new GenericIterator<Period>(semObj.listObjectProperties(Seasonable.bsc_hasPeriod));
-            }*/
-            Seasonable seasonable = (Seasonable)genericObject;
+            final Seasonable seasonable = (Seasonable)genericObject;
             itPeriods = seasonable.listAvailablePeriods(false);
             
+            final String disabled;
+            if(genericObject instanceof Committable) {
+                final Committable committable = (Committable)genericObject;
+                if( committable.isCommited() &&  user.hasUserGroup(user.getUserRepository().getUserGroup("editor")) ) {
+                    disabled = " disabled ";
+                }else {
+                    disabled = "";
+                }
+            }else {
+                disabled = "";
+            }
             
             boolean hasPeriods = itPeriods.hasNext();
             final String data = semObj.getSemanticClass().getName() + semObj.getId();
@@ -111,8 +107,6 @@ public class PeriodsManager extends GenericResource {
             out.println("    </tr>");
             out.println("   </thead>");
             out.println("   <tbody>");
-
-            /*Seasonable seasonable = (Seasonable) semObj.getGenericInstance();*/
             
             while (itPeriods.hasNext())
             {
@@ -187,6 +181,7 @@ public class PeriodsManager extends GenericResource {
                             "</td>");
 
                     out.println("     <td align=\"center\"><input name=\"period\""
+                            + disabled
                             + " type=\"checkbox\" value=\"" + period.getId() + "\" "
                             + " onchange=\"submitUrl('" + urlAdd + "',this.domNode)\" "
                             + " dojoType=\"dijit.form.CheckBox\" " + (seasonable.hasPeriod(period)?"checked=\"checked\"":"") + "/></td>");
@@ -245,7 +240,6 @@ public class PeriodsManager extends GenericResource {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
-        
         User user = response.getUser();
         if(!user.isSigned() || !user.haveAccess(semObj.getGenericInstance())) {
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
