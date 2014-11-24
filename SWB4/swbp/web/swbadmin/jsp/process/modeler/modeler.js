@@ -3799,6 +3799,11 @@ var _GraphicalElement = function(obj) {
                         continue;
                     }
 
+                    if (isNaN(tmp.x) || isNaN(tmp.y)) {
+                        obj.remove();
+                        continue;
+                    }
+                        
                     obj.setURI(tmp.uri);
                     if (tmp.title && tmp.title !== null) {
                         obj.setText(tmp.title);
