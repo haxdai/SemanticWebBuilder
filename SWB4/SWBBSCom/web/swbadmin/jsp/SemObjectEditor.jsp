@@ -1,4 +1,6 @@
 <%@page import="java.lang.reflect.Field"%>
+<%@page import="java.lang.ClassCastException"%>
+<%@page import="org.semanticwb.bsc.Committable"%>
 <%@page contentType="text/html"%>
 <%@page pageEncoding="UTF-8"%>
 <%@page import="org.semanticwb.*,org.semanticwb.platform.*,org.semanticwb.portal.*,org.semanticwb.model.*,java.util.*,org.semanticwb.base.util.*"%>
@@ -153,7 +155,8 @@ try
                 
                 out.println("<script type=\"text/javascript\">");
                 out.println("hideDialog();");
-                out.println("reloadTreeNodeByURI('"+ref.getURI()+"');");
+                if(!ref.instanceOf(SWBModel.sclass))out.println("reloadTreeNodeByURI('"+ref.getURI()+"');");                
+                else out.println("reloadTreeNode();");                
                 if(reloadTab!=null && reloadTab.equals("true"))out.println("reloadTab('"+ref.getURI()+"');");
                 out.println("showStatus('"+SWBUtils.TEXT.scape4Script(obj.getSemanticClass().getDisplayName(lang))+" creado');");
                 out.println("addNewTab('"+obj.getURI()+"','"+SWBPlatform.getContextPath()+"/swbadmin/jsp/objectTab.jsp"+"','"+SWBUtils.TEXT.scape4Script(obj.getDisplayName(lang))+"');");
@@ -175,15 +178,23 @@ try
 
         SemanticObject obj=ont.getSemanticObject(suri);
         SemanticClass cls=obj.getSemanticClass();
+        
+System.out.println("\n\nSemObjEditor....");
+System.out.println("cls="+cls);
 
         boolean canEdit=SWBPortal.getAdminFilterMgr().haveClassAction(user, cls, AdminFilter.ACTION_EDIT) && SWBPortal.getAdminFilterMgr().haveAccessToSemanticObject(user, obj);
         
-        boolean classFullAccess=DisplayObject.getDisplayMode(cls).equals(DisplayObject.DISPLAYMODE_FULL_ACCESS) || DisplayObject.getDisplayMode(cls).equals(DisplayObject.DISPLAYMODE_FINAL);        //Nivel de acceso definido por clase en la ontologia
         
+        try {
+            Committable committable = (Committable)(obj.getGenericInstance());
+            if( committable.isCommited() &&  user.hasUserGroup(user.getUserRepository().getUserGroup("editor")) ) {
+                canEdit = Boolean.FALSE;
+            }
+        }catch(ClassCastException cce) {
+            System.out.println("obj="+obj);
+        }
         
-        //out.println("<fieldset>");
-        //out.println("<div class=\"swbIcon2"+cls.getName()+"\"></div>");
-        //out.println("</fieldset>");
+        boolean classFullAccess = DisplayObject.getDisplayMode(cls).equals(DisplayObject.DISPLAYMODE_FULL_ACCESS) || DisplayObject.getDisplayMode(cls).equals(DisplayObject.DISPLAYMODE_FINAL);        //Nivel de acceso definido por clase en la ontologia
 
         String mode=SWBFormMgr.MODE_EDIT;
         if(!canEdit)
@@ -199,9 +210,6 @@ try
             int pmode=((org.semanticwb.model.Resource)obj.createGenericInstance()).getResourceType().getResourceMode();
             view="resourceMode"+pmode;
         }
-        //System.out.println(view);
-
-        //System.out.println("debug:6");
         SWBFormMgr frm=new SWBFormMgr(obj, view,mode);
         frm.setLang(lang);
         frm.setFilterHTMLTags(false);
