@@ -161,13 +161,17 @@ public class MeasuresManager extends GenericAdmResource {
             Period period;
             
             final Committable committable = (Committable)series;
+            final boolean canEdit;
             final String disabled;
             if( committable.isCommited() &&  user.hasUserGroup(user.getUserRepository().getUserGroup("editor")) ) {
+                canEdit = Boolean.FALSE;
                 disabled = " disabled ";
             }else {
+                canEdit = Boolean.TRUE;
                 disabled = "";
             }
             
+            SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);            
             while(measurablesPeriods.hasNext())
             {
                 period = measurablesPeriods.next();
@@ -210,14 +214,16 @@ public class MeasuresManager extends GenericAdmResource {
                 // Acción
                 // Eliminar regla
                 out.println("<td>");
-                SWBResourceURL urlr = paramRequest.getActionUrl();
-                urlr.setParameter("suri", suri);
-                urlr.setParameter("sval", measure.getURI());
-                urlr.setAction(SWBResourceURL.Action_REMOVE);
-                out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("queryRemove")                                        
-                        + "')){submitUrl('" + urlr + "',this);} else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" border=0></a>");
+                if(canEdit) {
+                    urlr.setParameter("suri", suri);
+                    urlr.setParameter("sval", measure.getURI());
+                    out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("queryRemove")                                        
+                            + "')){submitUrl('" + urlr + "',this);} else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" ></a>");                    
+                }else {
+                    out.println("<img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/remove.gif\" >");
+                }
                 out.println("</td>");
-
+                
                 // Período
                 out.print("<td>");
                 out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + title + "');return false;\" title=\""+paramRequest.getLocaleString("lblViewDetails") +"\" >" + title + "</a>");

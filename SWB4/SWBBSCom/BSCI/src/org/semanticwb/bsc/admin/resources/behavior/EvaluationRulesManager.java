@@ -170,22 +170,22 @@ public class EvaluationRulesManager extends GenericAdmResource {
                 disabled = "";
             }            
             
+            SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             for(EvaluationRule rule : lrules) {
                 //ObjectiveEvaluationRule rule = rules.next();
                 out.println("  <tr>");                
                 
                 // Eliminar regla
                 out.println("<td>");
-                SWBResourceURL urlr = paramRequest.getActionUrl();
-                urlr.setParameter("suri", suri);
-                urlr.setParameter("sval", rule.getURI());
-                urlr.setAction(SWBResourceURL.Action_REMOVE);
+                
                 if(canEdit) {
+                    urlr.setParameter("suri", suri);
+                    urlr.setParameter("sval", rule.getURI());
                     out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("queryRemove") + " " 
                             + (rule.getTitle(lang)==null?(rule.getTitle()==null?"Sin título":rule.getTitle().replaceAll("'","")):rule.getTitle(lang).replaceAll("'","")) 
-                            + "?')){submitUrl('" + urlr + "',this);} else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" border=\"0\"></a>");
+                            + "?')){submitUrl('" + urlr + "',this);} else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" ></a>");
                 }else {
-                    out.println("<a href=\"#\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" border=\"0\"></a>");
+                    out.println("<img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/remove.gif\" >");
                 }
                 out.println("</td>");
                 
