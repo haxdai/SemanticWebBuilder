@@ -160,14 +160,11 @@ public class MeasuresManager extends GenericAdmResource {
             }
             Period period;
             
-            Committable committable = (Committable)series;
-            final boolean canEdit;
+            final Committable committable = (Committable)series;
             final String disabled;
             if( committable.isCommited() &&  user.hasUserGroup(user.getUserRepository().getUserGroup("editor")) ) {
-                canEdit = Boolean.FALSE;
-                disabled = " readonly ";
+                disabled = " disabled ";
             }else {
-                canEdit = Boolean.TRUE;
                 disabled = "";
             }
             

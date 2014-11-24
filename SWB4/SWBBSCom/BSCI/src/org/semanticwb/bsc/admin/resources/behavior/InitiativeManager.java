@@ -7,9 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.Committable;
 import org.semanticwb.bsc.InitiativeAssignable;
 import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Initiative;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -46,23 +48,20 @@ public class InitiativeManager extends GenericResource {
         final String suri = request.getParameter("suri") == null ? 
                 (request.getSession().getAttribute("suri") == null ? null : (String)request.getSession().getAttribute("suri")) 
                 : request.getParameter("suri");
-        Indicator indicator;
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();        
-        SemanticObject semObj = ont.getSemanticObject(suri);
-        try {    
-            indicator = (Indicator) semObj.createGenericInstance();
-        }catch(ClassCastException cste) {
-            return;
-        }
         if(suri==null) {
             response.getWriter().println("No se detect&oacute ning&uacute;n objeto sem&aacute;ntico!");
             return;
         }
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();        
+        SemanticObject semObj = ont.getSemanticObject(suri);
+        
+        GenericObject genObj = semObj.getGenericInstance();
+        if( !(genObj instanceof Indicator) ) {
+            return;
+        }        
         
         final String lang = user.getLanguage();
-        
-        if (semObj != null)
-        {
+//        if (semObj != null) {
             BSC bsc = (BSC)semObj.getModel().getModelObject().getGenericInstance();
             SWBResourceURL urlAdd;
                 
@@ -86,6 +85,15 @@ public class InitiativeManager extends GenericResource {
             out.println("</tr>");
             out.println("</thead>");
             
+            
+            final Committable committable = (Committable)genObj;
+            final String disabled;
+            if( committable.isCommited() &&  user.hasUserGroup(user.getUserRepository().getUserGroup("editor")) ) {
+                disabled = " disabled ";
+            }else {
+                disabled = "";
+            }
+            
             Iterator<Initiative> itInit = bsc.listInitiatives();
             while (itInit.hasNext()) {                    
                 Initiative initiative = itInit.next();
@@ -102,17 +110,22 @@ public class InitiativeManager extends GenericResource {
                     out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + initiative.getTitle());
                     out.println("');return false;\" >" + (initiative.getDisplayTitle(lang)==null?(initiative.getTitle()==null?paramRequest.getLocaleString("lbl_undefined"):initiative.getTitle().replaceAll("'","")):initiative.getDisplayTitle(lang).replaceAll("'","")) + "</a>");                  
                     out.println("</td>");
+                    
                     // Responsable
                     out.println("<td>" + (initiative.getInitiativeFacilitator()==null ? paramRequest.getLocaleString("lbl_undefined") : initiative.getInitiativeFacilitator().getFullName()) + "</td>");
+                    
                     // Área
                     out.println("<td>" + (initiative.getArea()==null ? paramRequest.getLocaleString("lbl_undefined"):initiative.getArea()) + "</td>");
+                    
                     // Activo?
                     out.println("<td>"+(initiative.isActive()?paramRequest.getLocaleString("lbl_isActive"):paramRequest.getLocaleString("lbl_isNotActive"))+"</td>");
+                    
                     // Asignar
                     out.println("<td>");
-                    out.println("<input type=\"checkbox\" name=\"initiative\" ");
-                    out.println("onchange=\"submitUrl('" + urlAdd + "&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
-                    out.println(" dojoType=\"dijit.form.CheckBox\" value=\"" + initiative.getId() + "\" " + (semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject())?"checked=\"checked\"":"") + " /></td>");
+                    out.print("<input type=\"checkbox\" name=\"initiative\" ");
+                    out.print(disabled);
+                    out.print("onchange=\"submitUrl('" + urlAdd + "&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
+                    out.println(" dojoType=\"dijit.form.CheckBox\" value=\"" + initiative.getId() + "\" " + (semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject())?"checked=\"checked\"":"") + " />");
                     out.println("</td>");
                     out.println("</tr>");
                 }
@@ -140,11 +153,9 @@ public class InitiativeManager extends GenericResource {
                 out.println("</script>\n");
                 out.println("</div>");
             }
-        }
-        else
-        {
-            response.getWriter().print("objeto semántico no ubicado");
-        }
+//        }else {
+//            response.getWriter().print("objeto semántico no ubicado");
+//        }
     }
 
     @Override
