@@ -63,10 +63,13 @@ public class JarFile
     private File f=null;
     
     /** The zip path. */
-    private String zipPath=null;
+    //private String zipPath=null;
 
     /** The zip path. */
     private byte[] cache=null;
+    
+    //private ZipFile zf=null;
+    private ZipEntry ze=null;
 
     /**
      * Instantiates a new jar file.
@@ -84,9 +87,10 @@ public class JarFile
      * @param f the f
      * @param zipPath the zip path
      */
-    public JarFile(ZipEntry f, String zipPath)
+    public JarFile(ZipEntry f, ZipFile zf)
     {
-        this.zipPath=zipPath;
+        //this.zf=zf;
+        this.ze=f;
         this.path = "/"+f.getName();
         exists=true;
         if(exists)
@@ -97,21 +101,29 @@ public class JarFile
                 length=f.getSize();
                 lastModified=f.getTime();
             }
-            loadCache();
+            loadCache(zf);
         }else
         {
 
         }            
     }
-
+    
     /**
      * Load cache.
      */
     private void loadCache()
     {
+        loadCache(null);
+    }    
+
+    /**
+     * Load cache.
+     */
+    private void loadCache(ZipFile zf)
+    {
         try
         {
-            InputStream in=getInputStream();
+            InputStream in=getInputStream(zf);
             ByteArrayOutputStream out=new ByteArrayOutputStream((int)length);
             if (null!=in) {
                 SWBUtils.IO.copyStream(in, out);
@@ -119,7 +131,7 @@ public class JarFile
             }
         }catch(Exception e){log.error(e);}
     }
-
+    
     /**
      * Gets the input stream.
      * 
@@ -127,11 +139,24 @@ public class JarFile
      */
     public InputStream getInputStream()
     {
+        return getInputStream(null);
+    }    
+
+    /**
+     * Gets the input stream.
+     * 
+     * @return the input stream
+     */
+    public InputStream getInputStream(ZipFile zf)
+    {
         try
         {
-            if(zipPath!=null)
+            if(ze!=null)
             {
-                return getClass().getResourceAsStream(path);
+                if(zf!=null)
+                    return zf.getInputStream(ze);                
+                else 
+                    return getClass().getResourceAsStream(path);
                   //FileInputStream fis=new FileInputStream(zipPath);
                   //BufferedInputStream bis=new BufferedInputStream(fis);
                   //return new ZipInputStream(bis);                    
@@ -141,6 +166,7 @@ public class JarFile
             }
         }catch(Exception e)
         {
+            log.error(e);
             return null;
         }
     }
