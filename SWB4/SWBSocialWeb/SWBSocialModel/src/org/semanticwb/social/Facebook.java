@@ -854,8 +854,10 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         }
     }
     
-    
-    private void addExtraParams(String messageText, Map<String, String> params)
+    /*
+     * works with links like http://www.youtube.com/watch?v=PnpCaruhKL4 and https://www.youtube.com/watch?v=PnpCaruhKL4
+     */
+    private void addExtraParams(String messageText, Map<String, String> params) 
     {
         if(messageText.indexOf("http://www.youtube.com/")>-1 || messageText.indexOf("https://www.youtube.com/")>-1)
         {
@@ -869,8 +871,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 if(pos1>-1 && messageText.indexOf("\n", pos)>-1 && messageText.indexOf("\n", pos)<pos1){
                     pos1=messageText.indexOf("\n", pos);
                 }
-                if(pos1==-1) messageText.indexOf("\n", pos);
-                if(pos1==-1) messageText.indexOf(pos);
+                if(pos1==-1) pos1=messageText.indexOf("\n", pos);
+                if(pos1==-1) pos1=messageText.length(); 
                 if(pos1>-1)
                 {
                     String url=messageText.substring(pos, pos1);
