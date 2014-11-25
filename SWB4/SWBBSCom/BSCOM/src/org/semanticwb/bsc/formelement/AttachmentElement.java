@@ -414,7 +414,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("\n         obj.");
                 toReturn.append(Attachment.swb_title.getName());
                 toReturn.append(".focus(); return false; }");
-                toReturn.append("\n        if(dojo.byId('selectFile').innerText =='' && ");
+                toReturn.append("\n        if(data_of(dojo.byId('selectFile')) =='' && ");
                 toReturn.append("action == 'add'){");
                 toReturn.append("\n         alert('");
                 toReturn.append(getLocaleString("lb_required", lang));
@@ -424,6 +424,18 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("return false;}");
                 toReturn.append("\n        return true;");
                 toReturn.append("\n    }");
+
+                toReturn.append("\nfunction data_of(txt)");
+                toReturn.append("\n{");
+                toReturn.append("\n  var data = txt.textContent;");
+                toReturn.append("\n  data = data.replace(/[ \\u0009\\u000A\\u000D ]+/g, \" \");");
+                toReturn.append("\n  if (data.charAt(0) == \" \")");
+                toReturn.append("\n    data = data.substring(1, data.length);");
+                toReturn.append("\n  if (data.charAt(data.length - 1) == \" \")");
+                toReturn.append("\n    data = data.substring(0, data.length - 1);");
+                toReturn.append("\n  return data;");
+                toReturn.append("\n}");
+
                 toReturn.append("\n</script>");
 
                 toReturn.append("\n<div dojoType=\"dijit.Dialog\" class=\"clsDialog col-lg-6 col-lg-offset-3 co-md-8 col-sm-8 col-sm-offset-2 col-xs-12 swb-ventana-dialogo \" ");//class=\"soria\"
