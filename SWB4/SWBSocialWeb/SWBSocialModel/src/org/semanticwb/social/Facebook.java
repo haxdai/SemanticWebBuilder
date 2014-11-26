@@ -515,7 +515,13 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             devicePlatform.add(dp);
         }
         try {
-            JSONArray mainObject = new JSONArray(response);
+            JSONArray mainObject =null;
+            try{
+                mainObject = new JSONArray(response);
+            }catch(JSONException je){
+                log.error("ERROR, JSON data not found, instead:" + response);
+                return false;
+            }
             if (mainObject != null) {
                 for (int j = 0; j < mainObject.length(); j++) {
                     if (mainObject.getJSONObject(j) != null) {
