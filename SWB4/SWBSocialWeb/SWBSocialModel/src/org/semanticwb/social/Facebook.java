@@ -860,7 +860,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         }
     }
     
-    /*
+     /*
      * works with links like http://www.youtube.com/watch?v=PnpCaruhKL4 and https://www.youtube.com/watch?v=PnpCaruhKL4
      */
     private void addExtraParams(String messageText, Map<String, String> params) 
