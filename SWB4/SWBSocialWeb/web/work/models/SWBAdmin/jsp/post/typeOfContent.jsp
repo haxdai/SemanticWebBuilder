@@ -359,13 +359,27 @@
                     <ul><b><%=SWBSocialResUtil.Util.getStringFromGenericLocale("chooseSocialNets", user.getLanguage())%></b></ul>
                     <%
                         Iterator<SocialNetwork> it = SocialNetwork.ClassMgr.listSocialNetworks(wsite);
+                        Iterator<PostOutPrivacyRelation> privacyPerNetTmp = null;
+                        HashMap<SocialNetwork, PostOutPrivacy> privacyPerNet  = null;
+                        if(postOut !=null){
+                            privacyPerNetTmp = postOut.listpopr_postOutInvs();
+                            privacyPerNet  = new HashMap<SocialNetwork, PostOutPrivacy>();
+                            while(privacyPerNetTmp.hasNext()){
+                                PostOutPrivacyRelation p = (PostOutPrivacyRelation)privacyPerNetTmp.next();
+                                privacyPerNet.put(p.getPopr_socialNetwork(), p.getPopr_privacy());
+                                System.out.println("PostOutPrivacyRelation:" + p);
+                                        System.out.println("\t:" + p.getPopr_socialNetwork());
+                                        System.out.println("\t:" + p.getPopr_privacy());
+                            }
+                        }
+                        
                         while (it.hasNext()) {
                             SocialNetwork socialNetwork = (SocialNetwork) it.next();
                             if (socialNetwork instanceof Messageable && socialNetwork.isActive() && socialNetwork.isValid()) {
                                 if (socialNetwork instanceof Youtube && postIn == null && postOut == null) {//Only show youtube networks if is a response
                                     continue;
                                 }else if(socialNetwork instanceof Youtube && postOut != null){
-                                continue;
+                                    continue;
                                 }
                                 boolean isSelected = false;
                                 //System.out.println("Las Redes:" + socialNetwork);
@@ -405,23 +419,32 @@
                                     typeClass = "ico-twt";
                                 }
                                 String selected = "";
+                                String isHidden = "style=\"display:none;\" disabled=\"disabled\"";
                                 if (isSelected) {
                                     selected = "checked=\"true\"";
+                                    isHidden = "";
                                 }
                     %>
                     <li class="<%=typeClass%>">
                         <input type="checkbox" id="checkRedes" name="<%=socialNetwork.getURI()%>" <%=selected%> onClick="disableSelect(this);"/>
                         <label for="t1"><span></span><%=socialNetwork.getTitle()%></label> 
-                        <%
-                            if (socialNetwork instanceof Facebook && postIn == null && postOut == null) {
+                        <% 
+                            if (socialNetwork instanceof Facebook && postIn == null) {
                         %>
-                        <select id="postoutPrivacy" name="postoutPrivacy" style="display:none;" disabled="disabled">
+                        <select id="postoutPrivacy" name="postoutPrivacy" <%=isHidden%>>
                             <option value="<%=socialNetwork.getURI() + "|PUBLIC"%>">Público</option>
                             <%
                                 if(!((Facebook)socialNetwork).isIsFanPage()){
                                     for (int i = 0; i < selectFacebook.size(); i++) {
+                                        String selectedPrivacy = "";
+                                        if(privacyPerNet != null && postOut != null){
+                                            PostOutPrivacy netPrivacy = privacyPerNet.get(socialNetwork);
+                                            if(netPrivacy != null && netPrivacy.equals(selectFacebook.get(i))){
+                                                selectedPrivacy = "selected";
+                                            }
+                                        }
                             %>                            
-                            <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>"><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>                            
+                            <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>" <%=selectedPrivacy%>><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>                            
                             <%
                                     }
                                 }
@@ -443,7 +466,7 @@
                     <!--<input type="hidden" name="socialNetUri" value="<%//=socialNet.getURI()%>"/>-->
                     <%
                         //}
-%>
+%> 
                 </div>
         </form> 
  
@@ -662,6 +685,19 @@
                         <ul><b><%=SWBSocialResUtil.Util.getStringFromGenericLocale("chooseSocialNets", user.getLanguage())%></b></ul>
                         <%
                             Iterator<SocialNetwork> it = SocialNetwork.ClassMgr.listSocialNetworks(wsite);
+                            Iterator<PostOutPrivacyRelation> privacyPerNetTmp = null;
+                            HashMap<SocialNetwork, PostOutPrivacy> privacyPerNet  = null;
+                            if(postOut !=null){
+                                privacyPerNetTmp = postOut.listpopr_postOutInvs();
+                                privacyPerNet  = new HashMap<SocialNetwork, PostOutPrivacy>();
+                                while(privacyPerNetTmp.hasNext()){
+                                    PostOutPrivacyRelation p = (PostOutPrivacyRelation)privacyPerNetTmp.next();
+                                    privacyPerNet.put(p.getPopr_socialNetwork(), p.getPopr_privacy());
+                                    System.out.println("PostOutPrivacyRelation:" + p);
+                                            System.out.println("\t:" + p.getPopr_socialNetwork());
+                                            System.out.println("\t:" + p.getPopr_privacy());
+                                }
+                            }
                             while (it.hasNext()) {
                                 SocialNetwork socialNetwork = (SocialNetwork) it.next();
                                 if (socialNetwork instanceof Photoable && socialNetwork.isActive() && socialNetwork.isValid()) {
@@ -702,30 +738,39 @@
                                     }
 
                                     String selected = "";
+                                    String isHidden = "style=\"display:none;\" disabled=\"disabled\"";
                                     if (isSelected) {
                                         selected = "checked=\"true\"";
+                                        isHidden = "";
                                     }
                         %>
                         <li class="<%=typeClass%>">
                             <input type="checkbox" id="checkRedes" name="<%=socialNetwork.getURI()%>" <%=selected%> onClick="disableSelect(this);"/>
                             <label for="t1"><span></span><%=socialNetwork.getTitle()%></label>
                             <%
-                                if (socialNetwork instanceof Facebook && postIn == null && postOut == null) {
-                            %>
-                            <select id="postoutPrivacy" name="postoutPrivacy" style="display:none;" disabled="disabled">
-                                <option value="<%=socialNetwork.getURI() + "|PUBLIC"%>">Público</option>
-                                <%
-                                if(!((Facebook)socialNetwork).isIsFanPage()){
-                                    for (int i = 0; i < selectFacebook.size(); i++) {
+                                    if (socialNetwork instanceof Facebook && postIn == null) {
                                 %>
-                                <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>"><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>
+                            <select id="postoutPrivacy" name="postoutPrivacy" <%=isHidden%>>
+                                    <option value="<%=socialNetwork.getURI() + "|PUBLIC"%>">Público</option>
+                                    <%
+                                    if(!((Facebook)socialNetwork).isIsFanPage()){
+                                        for (int i = 0; i < selectFacebook.size(); i++) {
+                                            String selectedPrivacy = "";
+                                            if(privacyPerNet != null && postOut != null){
+                                                PostOutPrivacy netPrivacy = privacyPerNet.get(socialNetwork);
+                                                if(netPrivacy != null && netPrivacy.equals(selectFacebook.get(i))){
+                                                    selectedPrivacy = "selected";
+                                                }
+                                            }
+                                    %>
+                                    <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>" <%=selectedPrivacy%>><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>
+                                    <%
+                                        }
+                                    }
+                                    %>
+                                </select>
                                 <%
                                     }
-                                }
-                                %>
-                            </select>
-                            <%
-                                }
                             %>
                         </li>
                         <%
@@ -1078,6 +1123,19 @@
                         <ul><b>selecciona las redes a las cuales deseas publicar</b></ul>
                         <%
                             Iterator<SocialNetwork> it = SocialNetwork.ClassMgr.listSocialNetworks(wsite);
+                            Iterator<PostOutPrivacyRelation> privacyPerNetTmp = null;
+                            HashMap<SocialNetwork, PostOutPrivacy> privacyPerNet  = null;
+                            if(postOut !=null){
+                                privacyPerNetTmp = postOut.listpopr_postOutInvs();
+                                privacyPerNet  = new HashMap<SocialNetwork, PostOutPrivacy>();
+                                while(privacyPerNetTmp.hasNext()){
+                                    PostOutPrivacyRelation p = (PostOutPrivacyRelation)privacyPerNetTmp.next();
+                                    privacyPerNet.put(p.getPopr_socialNetwork(), p.getPopr_privacy());
+                                    /*System.out.println("PostOutPrivacyRelation:" + p);
+                                            System.out.println("\t:" + p.getPopr_socialNetwork());
+                                            System.out.println("\t:" + p.getPopr_privacy());*/
+                                }
+                            }
                             while (it.hasNext()) {
                                 SocialNetwork socialNetwork = (SocialNetwork) it.next();
                                 if (socialNetwork instanceof Videoable && socialNetwork.isActive() && socialNetwork.isValid()) {
@@ -1112,8 +1170,10 @@
                                     }
 
                                     String selected = "";
+                                    String isHidden = "style=\"display:none;\" disabled=\"disabled\"";
                                     if (isSelected) {
                                         selected = "checked=\"true\"";
+                                        isHidden = "";
                                     }
 
                                     if (socialNetwork instanceof Youtube) {
@@ -1122,14 +1182,22 @@
                             <input id="checkYT" type="checkbox" name="<%=socialNetwork.getURI()%>" onClick="showListCategory('<%=objUri%>','<%=sourceCall%>'); disableSelect(this);" <%=selected%>/>
                             <label><span></span><%=socialNetwork.getTitle()%></label>
                             <%
-                                if (socialNetwork instanceof Youtube && postIn == null && postOut == null) {
+                                if (socialNetwork instanceof Youtube && postIn == null) {
                             %>
-                            <select id="postoutPrivacy" name="postoutPrivacy" style="display:none;" disabled="disabled">
+                            <select id="postoutPrivacy" name="postoutPrivacy" <%=isHidden%>>
                                 <option value="<%=socialNetwork.getURI() + "|PUBLIC"%>">Público</option>
                                 <%
                                     for (int i = 0; i < selectYoutube.size(); i++) {
+                                        String selectedPrivacy = "";
+                                            if(privacyPerNet != null && postOut != null){
+                                                PostOutPrivacy netPrivacy = privacyPerNet.get(socialNetwork);
+
+                                                if(netPrivacy != null && netPrivacy.equals(selectYoutube.get(i))){
+                                                    selectedPrivacy = "selected";
+                                                }
+                                            }
                                 %>
-                                <option value="<%=socialNetwork.getURI() + "|" + selectYoutube.get(i).getId()%>"><%=selectYoutube.get(i).getDisplayTitle(user.getLanguage())%></option>
+                                <option value="<%=socialNetwork.getURI() + "|" + selectYoutube.get(i).getId()%>" <%=selectedPrivacy%>><%=selectYoutube.get(i).getDisplayTitle(user.getLanguage())%></option>
                                 <%
                                     }
                                 %>
@@ -1147,13 +1215,20 @@
                             <%
                                 if (socialNetwork instanceof Facebook && postIn == null) {
                             %>
-                            <select id="postoutPrivacy" name="postoutPrivacy" style="display:none;" disabled="disabled">
+                            <select id="postoutPrivacy" name="postoutPrivacy" <%=isHidden%>>
                                 <option value="<%=socialNetwork.getURI() + "|PUBLIC"%>">Público</option>
                                 <%
                                 if(!((Facebook)socialNetwork).isIsFanPage()){
                                     for (int i = 0; i < selectFacebook.size(); i++) {
+                                        String selectedPrivacy = "";
+                                            if(privacyPerNet != null && postOut != null){
+                                                PostOutPrivacy netPrivacy = privacyPerNet.get(socialNetwork);
+                                                if(netPrivacy != null && netPrivacy.equals(selectFacebook.get(i))){
+                                                    selectedPrivacy = "selected";
+                                                }
+                                            }
                                 %>
-                                <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>"><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>
+                                <option value="<%=socialNetwork.getURI() + "|" + selectFacebook.get(i).getId()%>" <%=selectedPrivacy%>><%=selectFacebook.get(i).getDisplayTitle(user.getLanguage())%></option>
                                 <%
                                     }
                                 }
