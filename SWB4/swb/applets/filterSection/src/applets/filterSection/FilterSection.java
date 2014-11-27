@@ -901,10 +901,10 @@ public class FilterSection extends javax.swing.JApplet
                 else
                 {
                     etopicmap.addAttribute("negative", "false");
-                }
-                TopicMap map = (TopicMap) child;
-                etopicmap.addAttribute("id", map.getID());
+                }                      
                 saveFilters(etopicmap, child);
+                TopicMap map = (TopicMap) child;          
+                etopicmap.addAttribute("id", map.getID()); // este se cambio al final para que al validar no se confunda el id de un sitio con el de alguna sección
                 if (etopicmap.getNodes().size() > 0)
                 {
                     efilter.addNode(etopicmap);
@@ -914,8 +914,8 @@ public class FilterSection extends javax.swing.JApplet
             }
 
         }
-        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + ereq.getXML();
-        String resp = this.getData(xml);
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + ereq.getXML();        
+        String resp = this.getData(xml);        
         parser = new WBXMLParser();
         WBTreeNode exmlresp = parser.parse(resp);
         WBTreeNode efilternode = exmlresp.getNodebyName("filter");
@@ -947,8 +947,8 @@ public class FilterSection extends javax.swing.JApplet
     private boolean existTopic(WBTreeNode map, String id)
     {
         boolean existTopic = false;
-        String search = "id=\"" + id + "\"";
-        String xml = map.getXML();
+        String search = "id=\"" + id + "\"";        
+        String xml = map.getXML();        
         int pos = xml.indexOf(search);
         if (pos != -1)
         {
@@ -1013,7 +1013,7 @@ public class FilterSection extends javax.swing.JApplet
             }
             if (child instanceof Topic)
             {
-                Topic topic = (Topic) child;
+                Topic topic = (Topic) child;               
 
                 if (topic.getChecked() == TristateCheckBox.SELECTED || topic.getChecked() == TristateCheckBox.DONT_CARE)
                 {
