@@ -2051,6 +2051,44 @@ public class SWBSocialUtil {
                         postOut.getPflowInstance().setPflow(socialPFlow);
                         //System.out.println("editPostOut-4");
                     }
+                    
+                    //Guardado de las privacidades para c/red social del postOut
+                    if(request.getParameterValues("postoutPrivacy")!=null)
+                    {
+                        String[] netPrivacys=request.getParameterValues("postoutPrivacy");
+                        Iterator<PostOutPrivacyRelation> privacyPerNetTmp = postOut.listpopr_postOutInvs();
+                        while(privacyPerNetTmp.hasNext()){//removing all current postoutprivacy
+                            PostOutPrivacyRelation p = (PostOutPrivacyRelation)privacyPerNetTmp.next();
+                            p.remove();
+                        }
+                        for(int i=0;i<netPrivacys.length;i++)
+                        {//Creating again the postOut Privacy for the posts
+                            String netPrivacy=netPrivacys[i];
+                            System.out.println("sendNewPost-3:"+netPrivacy);
+                            if(netPrivacy!=null && netPrivacy.trim().length()>0)
+                            {
+                                int pos=netPrivacy.indexOf("|"); 
+                                if(pos>-1)
+                                {
+                                    String socialNet=netPrivacy.substring(0, pos);
+                                    String privacy=netPrivacy.substring(pos+1);
+                                    if(socialNet!=null && privacy!=null)
+                                    {
+                                        SemanticObject semObjSocialNet=SemanticObject.createSemanticObject(socialNet);
+                                        PostOutPrivacy postOutPrivacy=PostOutPrivacy.ClassMgr.getPostOutPrivacy(privacy, CONFIG_WEBSITE);
+                                        if(semObjSocialNet!=null && postOutPrivacy!=null && semObjSocialNet.createGenericInstance() instanceof SocialNetwork)
+                                        {
+                                            PostOutPrivacyRelation postOutPrivacyRel=PostOutPrivacyRelation.ClassMgr.createPostOutPrivacyRelation(wsite);
+                                            postOutPrivacyRel.setPopr_postOut(postOut);
+                                            postOutPrivacyRel.setPopr_socialNetwork(((SocialNetwork)semObjSocialNet.createGenericInstance()));
+                                            postOutPrivacyRel.setPopr_privacy(postOutPrivacy);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //Termina Guardado de las privacidades para c/red social del postOut
                 }
             } catch (Exception e) {
                 log.error(e);
