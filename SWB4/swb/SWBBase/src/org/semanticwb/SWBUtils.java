@@ -4094,9 +4094,17 @@ public class SWBUtils
             {
                 message.setData(data);
             }
+            if(SWBUtils.EMAIL.smtpuser!=null)
+            {
+                message.setLogin(SWBUtils.EMAIL.smtpuser);
+            }
             if (login != null)
             {
                 message.setLogin(login);
+            }
+            if(SWBUtils.EMAIL.smtppassword!=null)
+            {
+                message.setPassword(SWBUtils.EMAIL.smtppassword);
             }
             if (password != null)
             {
