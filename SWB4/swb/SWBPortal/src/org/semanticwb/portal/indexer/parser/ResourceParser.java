@@ -26,6 +26,7 @@ import java.io.StringReader;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
@@ -149,7 +150,8 @@ public class ResourceParser extends GenericParser {
     public String getIndexData(Searchable gen) {
         String ret = "";
         Resource base = (Resource) gen;
-        SWBHttpServletRequestWrapper request = new SWBHttpServletRequestWrapper(new SWBRequest());
+        //SWBHttpServletRequestWrapper request = new SWBHttpServletRequestWrapper(new SWBRequest());
+        SWBRequest request = new SWBRequest();
         request.addParameter("WBIndexer", "indexing");
 
         WebPage topic = getWebPage(base);

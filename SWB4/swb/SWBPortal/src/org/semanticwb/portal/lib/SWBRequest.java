@@ -22,7 +22,17 @@
  */
 package org.semanticwb.portal.lib;
 
+import java.io.IOException;
 import java.util.*;
+import javax.servlet.AsyncContext;
+import javax.servlet.DispatcherType;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import org.semanticwb.servlet.SWBVirtualHostFilter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -203,7 +213,10 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     @Override
     public long getDateHeader(String str)
     {
-        return new Date().getTime();//request.getDateHeader(str);
+        if (request == null)
+            return new Date().getTime();//request.getDateHeader(str);
+        else
+            return request.getDateHeader(str);
     }
 
     /* (non-Javadoc)
@@ -218,7 +231,10 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     @Override
     public String getHeader(String str)
     {
-        return null;
+        if (request == null)
+            return null;
+        else
+            return request.getHeader(str);
     }
 
     /* (non-Javadoc)
@@ -232,7 +248,10 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     @Override
     public java.util.Enumeration getHeaderNames()
     {
-        return new Vector().elements();
+        if (request == null)
+            return new Vector().elements();
+        else
+            return request.getHeaderNames();
     }
 
     /* (non-Javadoc)
@@ -247,7 +266,10 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     @Override
     public java.util.Enumeration getHeaders(String str)
     {
-        return new Vector().elements();
+        if (request == null)
+            return new Vector().elements();
+        else
+            return request.getHeaders(str);
     }
 
     /* (non-Javadoc)
@@ -452,7 +474,14 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     @Override
     public String getQueryString()
     {
-        return null;
+        if (request == null)
+        {
+            return null;
+        }
+        else 
+        {
+            return request.getQueryString();
+        }
     }
 
     /* (non-Javadoc)
@@ -548,7 +577,9 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
     public javax.servlet.RequestDispatcher getRequestDispatcher(String str)
     {
         if (request == null)
-            return null;
+        {
+            return SWBVirtualHostFilter.getInstance().getServletConfig().getServletContext().getRequestDispatcher(str);
+        }
         return request.getRequestDispatcher(str);
     }
 
@@ -902,21 +933,142 @@ public class SWBRequest implements javax.servlet.http.HttpServletRequest
 
     @Override
     public int getRemotePort() {
-        return request.getRemotePort();
+        if (request == null)
+            return 0;
+        else
+            return request.getRemotePort();
     }
 
     @Override
     public String getLocalName() {
-        return request.getLocalName();
+        if (request == null)
+            return null;
+        else 
+            return request.getLocalName();
     }
 
     @Override
     public String getLocalAddr() {
-        return request.getLocalAddr();
+        if (request == null)
+            return null;
+        else
+            return request.getLocalAddr();
     }
 
     @Override
     public int getLocalPort() {
-        return request.getLocalPort();
+        if (request == null)
+            return 0;
+        else 
+            return request.getLocalPort();
+    }
+
+    @Override
+    public boolean authenticate(HttpServletResponse hsr) throws IOException, ServletException 
+    {
+        if (request == null)
+            return false;
+        else
+            return request.authenticate(hsr);
+    }
+
+    @Override
+    public void login(String string, String string1) throws ServletException {
+        if (request == null)
+            return;
+        else
+            request.login(string, string1);
+    }
+
+    @Override
+    public void logout() throws ServletException {
+        if (request == null)
+            return;
+        else
+            request.logout();
+    }
+
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        if (request == null)
+            return null;
+        else
+            return request.getParts();
+    }
+
+    @Override
+    public Part getPart(String string) throws IOException, ServletException {
+        if (request == null)
+        {
+            return null;
+        }else
+        {
+            return request.getPart(string);
+        }
+    }
+
+    @Override
+    public ServletContext getServletContext() 
+    {
+        if (request == null)
+        {
+            return SWBVirtualHostFilter.getInstance().getServletConfig().getServletContext();
+        }else
+        {
+            return request.getServletContext();
+        }
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest sr, ServletResponse sr1) throws IllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        if (request == null)
+        {
+            return false;
+        }else
+        {
+            return request.isAsyncStarted();
+        }
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        //new Exception().printStackTrace();
+        if (request == null)
+        {
+            return false;
+        }else
+            return request.isAsyncSupported();
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        if (request == null)
+        {
+            return null;
+        }else
+        {
+            return request.getAsyncContext();
+        }            
+    }
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        if (request == null)
+        {
+            return null;
+        }else
+        {
+            return request.getDispatcherType();
+        }
     }
 }

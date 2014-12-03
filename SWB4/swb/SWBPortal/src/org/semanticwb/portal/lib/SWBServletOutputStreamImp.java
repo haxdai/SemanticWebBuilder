@@ -55,8 +55,10 @@ public class SWBServletOutputStreamImp extends javax.servlet.ServletOutputStream
      * @param b the b
      * @throws IOException Signals that an I/O exception has occurred.
      */
+    @Override
     public void write(int b) throws java.io.IOException
     {
         out.write(b);
     }
+
 }

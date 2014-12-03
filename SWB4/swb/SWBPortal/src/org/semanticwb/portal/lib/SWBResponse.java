@@ -24,6 +24,7 @@ package org.semanticwb.portal.lib;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.util.Collection;
 import javax.servlet.ServletOutputStream;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
@@ -626,6 +627,44 @@ public class SWBResponse implements HttpServletResponse
         {
             response.setCharacterEncoding(string);
         }        
+    }
+
+    @Override
+    public int getStatus() {
+        if(response!=null)
+        {
+            return response.getStatus();
+        }
+        throw new UnsupportedOperationException("Not supported yet.");  
+    }
+
+    @Override
+    public String getHeader(String string) {
+        if(response!=null)
+        {
+            return response.getHeader(string);
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaders(String string) 
+    {
+        if(response!=null)
+        {
+            return response.getHeaders(string);
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<String> getHeaderNames() 
+    {
+        if(response!=null)
+        {
+            return response.getHeaderNames();
+        }
+        return null;
     }
 
 }
