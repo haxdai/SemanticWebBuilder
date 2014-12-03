@@ -474,5 +474,4 @@ public class SWBHttpServletResponseWrapper extends HttpServletResponseWrapper
     public boolean isTrapResponse() {
         return trapResponse;
     }
-
 }
