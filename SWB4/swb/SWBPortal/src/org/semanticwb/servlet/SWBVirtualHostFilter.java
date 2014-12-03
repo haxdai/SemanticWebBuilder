@@ -731,4 +731,9 @@ public class SWBVirtualHostFilter implements Filter
         intServlets.put(map, iServlet);
         iServlet.init(filterConfig.getServletContext());
     }
+    
+    public FilterConfig getServletConfig()
+    {
+        return filterConfig;
+    }
 }

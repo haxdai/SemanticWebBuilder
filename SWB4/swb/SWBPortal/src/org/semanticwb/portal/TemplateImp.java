@@ -91,6 +91,8 @@ public class TemplateImp extends Template
     /** The content type. */
     private String contentType=null;
     
+    private boolean showtime=true;
+    
     /**
      * Instantiates a new template imp.
      * 
@@ -1886,5 +1888,22 @@ public class TemplateImp extends Template
         }catch(Exception e){log.error(e);}
         return "";
     }
+    
+    /**
+     * Desabilita la impresion del tiempo de procesamiento al final de la plantilla de SWB
+     */
+    public void hideProcessedTime()
+    {
+        this.showtime=false;
+    }
+    
+    /**
+     * Regresa true si debe imprimir el tiempo de procesamiento el final de la plantilla de SWB, false en otro caso
+     * @return boolean
+     */
+    public boolean isShowProcessedTime()
+    {
+        return showtime;
+    }  
     
 }
