@@ -1,4 +1,6 @@
-    - Soporte a ids con guión medio
+    - Actualizacion de versión de Servlets
+    - Tag en plantillas para eliminar comentario de tiempo de procesamiento (Jei)
+    - Soporte a ids con guión medio (Jei)
     - Se corrigio bug del file upload de formas (ebe)
     - Se agregó tag para plantilals (if:webpage) y el parametro (childof) (Jei)
     - Se agregó tag para plantilals (if:website) y el parametro (id) para todos los swbtags (Jei)
