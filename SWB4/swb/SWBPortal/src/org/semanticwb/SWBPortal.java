@@ -517,7 +517,7 @@ public class SWBPortal {
         try {
             //Runtime.getRuntime().gc();
 //            long inimem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-
+            SWBUtils.DB.setDefaultPool(getEnv("swb/db/nameconn", getEnv("wb/db/nameconn", "swb")));
             Connection con = SWBUtils.DB.getDefaultConnection();
             if (con != null) {
                 log.info("-->Database: " + SWBUtils.DB.getDatabaseName());
@@ -625,7 +625,7 @@ public class SWBPortal {
         resmgr = new SWBResourceMgr();
 
         try {
-
+            //new Exception().printStackTrace();
             WebSite site = SWBContext.getAdminWebSite();
             if (site == null) {
                 log.event("Creating Admin WebSite...");
@@ -897,7 +897,8 @@ public class SWBPortal {
             while (e.hasMoreElements()) {
                 ZipEntry ze = (ZipEntry) e.nextElement();
                 log.debug("/" + ze.getName() + ", " + ze.getSize() + ", " + ze.getTime());
-                admFiles.put("/" + ze.getName(), new JarFile(ze, zipPath));
+                //admFiles.put("/" + ze.getName(), new JarFile(ze, zipPath));
+                admFiles.put("/" + ze.getName(), new JarFile(ze, zf));
             }
             zf.close();
             //log.event("-->Admin Files in Memory:\t" + admFiles.size());
@@ -913,7 +914,8 @@ public class SWBPortal {
             while (e.hasMoreElements()) {
                 ZipEntry ze = (ZipEntry) e.nextElement();
                 log.debug("/" + ze.getName() + ", " + ze.getSize() + ", " + ze.getTime());
-                admFiles.put("/" + ze.getName(), new JarFile(ze, zipPath));
+                //admFiles.put("/" + ze.getName(), new JarFile(ze, zipPath));
+                admFiles.put("/" + ze.getName(), new JarFile(ze, zf));
             }
             zf.close();
             log.event("-->Admin Files in Memory:\t" + admFiles.size());
