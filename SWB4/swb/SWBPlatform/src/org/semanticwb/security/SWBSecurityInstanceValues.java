@@ -35,6 +35,7 @@ public class SWBSecurityInstanceValues {
     private boolean forceChage=false;
     private int expires=0;
     private int inactive=0;
+    private int history=0;
     private boolean sendMail=false;
     private boolean restrict=false;
     private boolean multiple=false;
@@ -49,6 +50,7 @@ public class SWBSecurityInstanceValues {
             if ("complex".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){complexity=2;}
             try { forceChage = Boolean.parseBoolean(props.getProperty("password/forceChangeOnFirstLogon", "false")); } catch (Exception noe) {} //if fails go for default value
             try { expires = Integer.parseInt(props.getProperty("password/expiresInDays", "0")); } catch (Exception noe) {} //if fails go for default value
+            try { history = Integer.parseInt(props.getProperty("password/noAllowRepeat", "0")); } catch (Exception noe) {} //if fails go for default value
             try { inactive = Integer.parseInt(props.getProperty("account/inactiveInDays", "0")); } catch (Exception noe) {} //if fails go for default value
             try { sendMail = Boolean.parseBoolean(props.getProperty("account/sendMailOnLogon", "false")); } catch (Exception noe) {} //if fails go for default value
             try { restrict = Boolean.parseBoolean(props.getProperty("session/restrictToSingleIP", "false")); } catch (Exception noe) {} //if fails go for default value
@@ -107,5 +109,8 @@ public class SWBSecurityInstanceValues {
         return sendMail;
     }
 
-
+    public int getHistory()
+    {
+        return history;
+    }
 }
