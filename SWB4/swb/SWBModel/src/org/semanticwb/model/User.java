@@ -121,6 +121,10 @@ public class User extends UserBase implements Principal
         try
         {
             tmpPasswd = SWBUtils.CryptoWrapper.passwordDigest(password);
+            if (SWBPlatform.getSecValues().getHistory()>0) {
+                evaluateHistory(tmpPasswd);
+                addCurrentHash(tmpPasswd);
+            }
             //System.out.println("tmpPasswd:"+tmpPasswd);
             super.setPassword(tmpPasswd);
             setPasswordChanged(new Date());
@@ -131,6 +135,23 @@ public class User extends UserBase implements Principal
             log.error("User: Can't set a crypted Password", ex);
         }
     }
+    
+    private void evaluateHistory(final String pwdHash){
+        if (null!=getPasswordsUsed() && getPasswordsUsed().indexOf(pwdHash)>-1) 
+            throw new RuntimeException("Can't repeat 1 of the last "+
+                SWBPlatform.getSecValues().getHistory()+" used passwords");
+    }
+    
+    private void addCurrentHash(final String pwdHash){
+        String actualList=pwdHash+"|"+(null==getPasswordsUsed()?"":getPasswordsUsed());
+        int i = SWBPlatform.getSecValues().getHistory(); int idx=-1;
+        while(i>0 && idx<actualList.length()){
+            idx=actualList.indexOf("|", idx)+1;
+            i--;
+        }
+        setPasswordsUsed(actualList.substring(0,idx));
+    }
+
 
     /**
      * Gets the device.
