@@ -128,7 +128,11 @@ public class User extends UserBase implements Principal
             //System.out.println("tmpPasswd:"+tmpPasswd);
             super.setPassword(tmpPasswd);
             setPasswordChanged(new Date());
-        } catch (Exception ex)
+        } catch (SWBRuntimeException rte)
+        {
+            throw rte; //Propagate error on Password already used
+        }
+        catch (Exception ex)
         //NoSuchAlgorithmException & UnsupportedEncodingException,
         //Wrapped up, it doesn't matter which one, we just can't do anything else
         {
@@ -137,8 +141,8 @@ public class User extends UserBase implements Principal
     }
     
     private void evaluateHistory(final String pwdHash){
-        if (null!=getPasswordsUsed() && getPasswordsUsed().indexOf(pwdHash)>-1) 
-            throw new RuntimeException("Can't repeat 1 of the last "+
+        if (null!=getPasswordsUsed() && getPasswordsUsed().contains(pwdHash)) 
+            throw new SWBRuntimeException("Can't repeat 1 of the last "+
                 SWBPlatform.getSecValues().getHistory()+" used passwords");
     }
     
