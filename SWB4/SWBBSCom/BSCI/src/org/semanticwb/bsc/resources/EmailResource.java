@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import javax.mail.internet.InternetAddress;
@@ -29,7 +28,6 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
-import org.semanticwb.portal.api.SWBResourceURLImp;
 
 /**
  *
@@ -84,70 +82,6 @@ public class EmailResource extends GenericResource {
         url.setParameter("suri", request.getParameter("suri"));
         
         StringBuilder html = new StringBuilder();
-//        html.append("<script type=\"text/javascript\">").append("\n");        
-//        html.append("  dojo.require('dijit.form.Form');").append("\n");        
-//        html.append("function validateFrm() {").append("\n");
-//        html.append("  var isValid = true;").append("\n");
-//        // From
-//        html.append("  if( !isEmail(dojo.byId('from').value) ) {").append("\n");
-//        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
-//        html.append("    return false;").append("\n");
-//        html.append("  }").append("\n");
-//        // To
-//        html.append("  var txt = dojo.byId('toText').value").append("\n");
-//        html.append("  if( isEmpty(txt) ) {").append("\n");
-//        html.append("    alert('"+paramRequest.getLocaleString("msg_UnspecifiedRecipient")+"');").append("\n");
-//        html.append("    return false;").append("\n");
-//        html.append("  }").append("\n");
-//        html.append("  txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
-//        html.append("  isValid = txt.split(';').every(isEmail);").append("\n");
-//        html.append("  if( !isValid ) {").append("\n");
-//        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
-//        html.append("    return false;").append("\n");
-//        html.append("  }").append("\n");
-//        // Cc
-//        html.append("  txt = dojo.byId('ccText').value").append("\n");
-//        html.append("  if( !isEmpty(txt) ) {").append("\n");
-//        html.append("    txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
-//        html.append("    isValid = txt.split(';').every(isEmail);").append("\n");
-//        html.append("    if( !isValid ) {").append("\n");
-//        html.append("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');").append("\n");
-//        html.append("      return false;").append("\n");
-//        html.append("    }").append("\n");
-//        html.append("  }").append("\n");
-//        // Subject & message together
-//        html.append("  if( isEmpty(dojo.byId('subject').value) && isEmpty(dojo.byId('message').value) ) {").append("\n");
-//        html.append("    return confirm('"+paramRequest.getLocaleString("msg_QuerySendNoSubjectNorBodyMessage")+"');").append("\n");
-//        html.append("  }").append("\n");
-//        // Subject alone
-//        html.append("  if( isEmpty(dojo.byId('subject').value) ) {").append("\n");
-//        html.append("    isValid = confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutSubject")+"');").append("\n");
-//        html.append("  }").append("\n");
-//        // Message alone
-//        html.append("  if( isEmpty(dojo.byId('message').value) ) {").append("\n");
-//        html.append("    isValid = isValid && confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutBodyMessage")+"');").append("\n");
-//        html.append("  }").append("\n");
-//        html.append("  return isValid;");
-//        html.append("}");
-//        
-//        html.append("var isEmail = function(str) {").append("\n");
-//        html.append("  return isValidEmail(str);").append("\n");
-//        html.append("};").append("\n");
-//        
-//        html.append("function getTo(rel) {").append("\n");
-//        html.append("  var to = rel;").append("\n");
-//        html.append("  if(document.getElementById('toText').value.indexOf(to) == -1) {").append("\n");
-//        html.append("    document.getElementById('toText').value+=to +\";\";").append("\n");
-//        html.append("  }").append("\n");
-//        html.append("}").append("\n");
-//        html.append("function getCc(rel) {").append("\n");
-//        html.append("  var cc = rel;").append("\n");
-//        html.append("  if(document.getElementById('ccText').value.indexOf(cc) == -1) {").append("\n");
-//        html.append("    document.getElementById('ccText').value+=cc +\";\";").append("\n");
-//        html.append("  }").append("\n");
-//        html.append("}").append("\n");
-//        html.append("</script>").append("\n");
-        
         html.append("<div class=\"panel panel-default\">\n");
         html.append("<form id=\"formEmail\" class=\"form-horizontal\" action=\"" + url + "\" method=\"post\" enctype='multipart/form-data' onsubmit=\"return validateFrm()\">\n");
         html.append("  <div class=\"panel-body swb-panel-cuerpo swb-contenido-dialogo\">\n");
@@ -558,7 +492,7 @@ public class EmailResource extends GenericResource {
             return null;
         }
         List<String> list = null;
-        String[] mails = accounts.split("[;|,]",0);
+        String[] mails = accounts.split(";",0);
         if(mails.length > 0) {            
             for (String account : mails) {
                 if (SWBUtils.EMAIL.isValidEmailAddress(account)) {
