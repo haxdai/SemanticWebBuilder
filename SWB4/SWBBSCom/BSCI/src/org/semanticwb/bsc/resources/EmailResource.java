@@ -84,69 +84,69 @@ public class EmailResource extends GenericResource {
         url.setParameter("suri", request.getParameter("suri"));
         
         StringBuilder html = new StringBuilder();
-        html.append("<script type=\"text/javascript\">").append("\n");        
-        html.append("  dojo.require('dijit.form.Form');").append("\n");        
-        html.append("function validateFrm() {").append("\n");
-        html.append("  var isValid = true;").append("\n");
-        // From
-        html.append("  if( !isEmail(dojo.byId('from').value) ) {").append("\n");
-        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
-        html.append("    return false;").append("\n");
-        html.append("  }").append("\n");
-        // To
-        html.append("  var txt = dojo.byId('toText').value").append("\n");
-        html.append("  if( isEmpty(txt) ) {").append("\n");
-        html.append("    alert('"+paramRequest.getLocaleString("msg_UnspecifiedRecipient")+"');").append("\n");
-        html.append("    return false;").append("\n");
-        html.append("  }").append("\n");
-        html.append("  txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
-        html.append("  isValid = txt.split(';').every(isEmail);").append("\n");
-        html.append("  if( !isValid ) {").append("\n");
-        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
-        html.append("    return false;").append("\n");
-        html.append("  }").append("\n");
-        // Cc
-        html.append("  txt = dojo.byId('ccText').value").append("\n");
-        html.append("  if( !isEmpty(txt) ) {").append("\n");
-        html.append("    txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
-        html.append("    isValid = txt.split(';').every(isEmail);").append("\n");
-        html.append("    if( !isValid ) {").append("\n");
-        html.append("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');").append("\n");
-        html.append("      return false;").append("\n");
-        html.append("    }").append("\n");
-        html.append("  }").append("\n");
-        // Subject & message together
-        html.append("  if( isEmpty(dojo.byId('subject').value) && isEmpty(dojo.byId('message').value) ) {").append("\n");
-        html.append("    return confirm('"+paramRequest.getLocaleString("msg_QuerySendNoSubjectNorBodyMessage")+"');").append("\n");
-        html.append("  }").append("\n");
-        // Subject alone
-        html.append("  if( isEmpty(dojo.byId('subject').value) ) {").append("\n");
-        html.append("    isValid = confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutSubject")+"');").append("\n");
-        html.append("  }").append("\n");
-        // Message alone
-        html.append("  if( isEmpty(dojo.byId('message').value) ) {").append("\n");
-        html.append("    isValid = isValid && confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutBodyMessage")+"');").append("\n");
-        html.append("  }").append("\n");
-        html.append("  return isValid;");
-        html.append("}");
-        
-        html.append("var isEmail = function(str) {").append("\n");
-        html.append("  return isValidEmail(str);").append("\n");
-        html.append("};").append("\n");
-        
-        html.append("function getTo(rel) {").append("\n");
-        html.append("  var to = rel;").append("\n");
-        html.append("  if(document.getElementById('toText').value.indexOf(to) == -1) {").append("\n");
-        html.append("    document.getElementById('toText').value+=to +\";\";").append("\n");
-        html.append("  }").append("\n");
-        html.append("}").append("\n");
-        html.append("function getCc(rel) {").append("\n");
-        html.append("  var cc = rel;").append("\n");
-        html.append("  if(document.getElementById('ccText').value.indexOf(cc) == -1) {").append("\n");
-        html.append("    document.getElementById('ccText').value+=cc +\";\";").append("\n");
-        html.append("  }").append("\n");
-        html.append("}").append("\n");
-        html.append("</script>").append("\n");
+//        html.append("<script type=\"text/javascript\">").append("\n");        
+//        html.append("  dojo.require('dijit.form.Form');").append("\n");        
+//        html.append("function validateFrm() {").append("\n");
+//        html.append("  var isValid = true;").append("\n");
+//        // From
+//        html.append("  if( !isEmail(dojo.byId('from').value) ) {").append("\n");
+//        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
+//        html.append("    return false;").append("\n");
+//        html.append("  }").append("\n");
+//        // To
+//        html.append("  var txt = dojo.byId('toText').value").append("\n");
+//        html.append("  if( isEmpty(txt) ) {").append("\n");
+//        html.append("    alert('"+paramRequest.getLocaleString("msg_UnspecifiedRecipient")+"');").append("\n");
+//        html.append("    return false;").append("\n");
+//        html.append("  }").append("\n");
+//        html.append("  txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
+//        html.append("  isValid = txt.split(';').every(isEmail);").append("\n");
+//        html.append("  if( !isValid ) {").append("\n");
+//        html.append("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');").append("\n");
+//        html.append("    return false;").append("\n");
+//        html.append("  }").append("\n");
+//        // Cc
+//        html.append("  txt = dojo.byId('ccText').value").append("\n");
+//        html.append("  if( !isEmpty(txt) ) {").append("\n");
+//        html.append("    txt = txt.substring(0,txt.lastIndexOf(';'));").append("\n");
+//        html.append("    isValid = txt.split(';').every(isEmail);").append("\n");
+//        html.append("    if( !isValid ) {").append("\n");
+//        html.append("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');").append("\n");
+//        html.append("      return false;").append("\n");
+//        html.append("    }").append("\n");
+//        html.append("  }").append("\n");
+//        // Subject & message together
+//        html.append("  if( isEmpty(dojo.byId('subject').value) && isEmpty(dojo.byId('message').value) ) {").append("\n");
+//        html.append("    return confirm('"+paramRequest.getLocaleString("msg_QuerySendNoSubjectNorBodyMessage")+"');").append("\n");
+//        html.append("  }").append("\n");
+//        // Subject alone
+//        html.append("  if( isEmpty(dojo.byId('subject').value) ) {").append("\n");
+//        html.append("    isValid = confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutSubject")+"');").append("\n");
+//        html.append("  }").append("\n");
+//        // Message alone
+//        html.append("  if( isEmpty(dojo.byId('message').value) ) {").append("\n");
+//        html.append("    isValid = isValid && confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutBodyMessage")+"');").append("\n");
+//        html.append("  }").append("\n");
+//        html.append("  return isValid;");
+//        html.append("}");
+//        
+//        html.append("var isEmail = function(str) {").append("\n");
+//        html.append("  return isValidEmail(str);").append("\n");
+//        html.append("};").append("\n");
+//        
+//        html.append("function getTo(rel) {").append("\n");
+//        html.append("  var to = rel;").append("\n");
+//        html.append("  if(document.getElementById('toText').value.indexOf(to) == -1) {").append("\n");
+//        html.append("    document.getElementById('toText').value+=to +\";\";").append("\n");
+//        html.append("  }").append("\n");
+//        html.append("}").append("\n");
+//        html.append("function getCc(rel) {").append("\n");
+//        html.append("  var cc = rel;").append("\n");
+//        html.append("  if(document.getElementById('ccText').value.indexOf(cc) == -1) {").append("\n");
+//        html.append("    document.getElementById('ccText').value+=cc +\";\";").append("\n");
+//        html.append("  }").append("\n");
+//        html.append("}").append("\n");
+//        html.append("</script>").append("\n");
         
         html.append("<div class=\"panel panel-default\">\n");
         html.append("<form id=\"formEmail\" class=\"form-horizontal\" action=\"" + url + "\" method=\"post\" enctype='multipart/form-data' onsubmit=\"return validateFrm()\">\n");
@@ -176,7 +176,7 @@ public class EmailResource extends GenericResource {
         User usr;
         while (itTo.hasNext()) {
             usr = itTo.next();
-            html.append("            <li><a href=\"#\" rel=\""+usr.getEmail()+"\" onclick=\"javascript:getTo(rel);\">"+replaceHtml(usr.getFullName())+"</a></li>").append("\n");
+            html.append("            <li><a href=\"#\" rel=\""+usr.getEmail()+"\" onclick=\"getTo(rel);\">"+replaceHtml(usr.getFullName())+"</a></li>").append("\n");
         }
         html.append("              </ul>").append("\n");
         html.append("            </div>").append("\n");
@@ -239,6 +239,8 @@ public class EmailResource extends GenericResource {
         html.append("  </div>\n"); // cierra div class panel body
         html.append("</form>\n");// cierra form formEmail
         html.append("</div>\n"); // cierra div panel-default
+        
+        
         out.println(html.toString());
     }
 
@@ -301,7 +303,7 @@ public class EmailResource extends GenericResource {
      * @throws IOException Excepti&oacute;n de IO
      */
     public void doViewStrategy(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {   
+    {
         PrintWriter out = response.getWriter();
         SWBResourceURL url = paramRequest.getRenderUrl();
         url.setCallMethod(SWBResourceURL.Call_DIRECT);
@@ -323,7 +325,8 @@ public class EmailResource extends GenericResource {
         out.println("    dojo.xhrGet({");
         out.println("      url: url,");
         out.println("      load: function(response, ioArgs) {");
-        out.println("        dijit.byId('emailDialogImp').attr('content', response);"); 
+        //out.println("        dijit.byId('emailDialogImp').attr('content', response);"); 
+        out.println("        dojo.attr(dojo.byId('emailDialogImp'), 'innerHTML', response);"); 
         out.println("        dijit.byId('emailDialog').show();");
         out.println("        setDialogTitleEmail(title);");
         out.println("        return response;");
@@ -336,6 +339,85 @@ public class EmailResource extends GenericResource {
         out.println("    });");
         out.println("  }");
         out.println("</script>");
+        
+        out.println("<script type=\"text/javascript\">");        
+        out.println("  dojo.require('dijit.form.Form');");        
+        out.println("function validateFrm() {");
+        out.println("  var isValid = true;");
+        // From
+        out.println("  if( !isEmail(dojo.byId('from').value) ) {");
+        out.println("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');");
+        out.println("    return false;");
+        out.println("  }");
+        // To
+        out.println("  var txt = dojo.byId('toText').value;");
+        out.println("  if( isEmpty(txt) ) {");
+        out.println("    alert('"+paramRequest.getLocaleString("msg_UnspecifiedRecipient")+"');");
+        out.println("    return false;");
+        out.println("  }");
+        out.println("  txt = txt.substring(0,txt.lastIndexOf(';'));");
+        out.println("  isValid = txt.split(';').every(isEmail);");
+        out.println("  if( !isValid ) {");
+        out.println("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');");
+        out.println("    return false;");
+        out.println("  }");
+        // Cc
+        out.println("  txt = dojo.byId('ccText').value");
+        out.println("  if( !isEmpty(txt) ) {");
+        out.println("    txt = txt.substring(0,txt.lastIndexOf(';'));");
+        out.println("    isValid = txt.split(';').every(isEmail);");
+        out.println("    if( !isValid ) {");
+        out.println("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');");
+        out.println("      return false;");
+        out.println("    }");
+        out.println("  }");
+        // Subject & message together
+        out.println("  if( isEmpty(dojo.byId('subject').value) && isEmpty(dojo.byId('message').value) ) {");
+        out.println("    return confirm('"+paramRequest.getLocaleString("msg_QuerySendNoSubjectNorBodyMessage")+"');");
+        out.println("  }");
+        // Subject alone
+        out.println("  if( isEmpty(dojo.byId('subject').value) ) {");
+        out.println("    isValid = confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutSubject")+"');");
+        out.println("  }");
+        // Message alone
+        out.println("  if( isEmpty(dojo.byId('message').value) ) {");
+        out.println("    isValid = isValid && confirm('"+paramRequest.getLocaleString("msg_QuerySendWithoutBodyMessage")+"');");
+        out.println("  }");
+        out.println("  return isValid;");
+        out.println("}");
+
+        out.println("var isEmail = function(str) {");
+        out.println("  return isValidEmail(str);");
+        out.println("};");
+
+        out.println("function getTo(rel) {");
+        out.println("  var to = rel;");
+        out.println("  if(document.getElementById('toText').value.indexOf(to) == -1) {");
+        out.println("    document.getElementById('toText').value+=to +\";\";");
+        out.println("  }");
+        out.println("}");
+        out.println("function getCc(rel) {");
+        out.println("  var cc = rel;");
+        out.println("  if(document.getElementById('ccText').value.indexOf(cc) == -1) {");
+        out.println("    document.getElementById('ccText').value+=cc +\";\";");
+        out.println("  }");
+        out.println("}");
+        
+        if(request.getParameter("rse")!=null) {
+            out.println("  $(document).ready(function(){");
+            out.print("  $('#menu').popover({");
+            out.print("animation: true");
+            out.print(", container: '#menu'");
+            out.print(", title: '"+paramRequest.getLocaleString("lbl_ShippingStatus")+"'");
+            out.print(", content: '"+paramRequest.getLocaleString(request.getParameter("rse"))+"'");
+            out.print(", placement: 'bottom'");
+            out.print(", delay:{'show':1500, 'hide':50}");
+            out.println("});");
+            out.println("$('#menu').popover('show');");
+            out.println("  });");
+        }
+        out.println("</script>");
+        
         out.println("<div class=\"panelDialog panelDialog-default\">");
         out.println("<div class=\"swb-panel-cuerpo\">");
         out.print("  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" id=\"emailDialogImp\" ");
@@ -350,19 +432,6 @@ public class EmailResource extends GenericResource {
         out.print("', '");
         out.print(paramRequest.getLocaleString("lbl_addTitle"));
         out.println("');\"><span class=\"glyphicon glyphicon-envelope\"></span></button>");
-        
-        if(request.getParameter("rse")!=null) {
-            out.println("<script type=\"text/javascript\">");
-            out.print("  $('#menu').popover({");
-            out.print("container: '#menu'");
-            out.print(", title:'"+paramRequest.getLocaleString("lbl_ShippingStatus")+"'");
-            out.print(", content:'"+paramRequest.getLocaleString(request.getParameter("rse"))+"'");
-            out.print(", placement:'auto top'");
-            out.print(", delay:{'show':1500,'hide':50}");
-            out.println("});");
-            out.println("  $('#menu').popover('show');");
-            out.println("</script>");
-        }
         out.flush();
     }
 
@@ -385,11 +454,15 @@ public class EmailResource extends GenericResource {
         WebSite wsite = base.getWebSite();
         final User user = response.getUser();
         final String lang = user.getLanguage()==null?"es":user.getLanguage();
+        final String suri = request.getParameter("suri");
+        String msg;
+        
 //        if (SWBResourceURL.Action_ADD.equalsIgnoreCase(action)) {
             response.setMode(SWBResourceURL.Mode_VIEW);
             response.setCallMethod(SWBResourceURL.Call_STRATEGY);
-            response.setRenderParameter("suri", request.getParameter("suri"));
-            String msg;
+            if(suri!=null) {
+                response.setRenderParameter("suri", request.getParameter("suri"));
+            }
             
             final String path = SWBPortal.getWorkPath() + "/models/" + wsite.getId();
             MultipartRequest mrequest = new MultipartRequest(request, path);
@@ -412,7 +485,11 @@ public class EmailResource extends GenericResource {
             File attachment = mrequest.getFile("uploadFile");
 
             if(to==null) {
-                response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse=msg_UnspecifiedRecipient");
+                if(suri==null) {
+                    response.sendRedirect(response.getWebPage().getUrl(lang)+"?rse=msg_UnspecifiedRecipient");
+                }else {
+                    response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse=msg_UnspecifiedRecipient");
+                }
                 return;
             }
             
@@ -434,7 +511,11 @@ public class EmailResource extends GenericResource {
             ArrayList<InternetAddress> addresses = null;
             List<String> emailsTo = validateEMailAccounts(to);
             if(emailsTo == null) {
-                response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse=msg_UnspecifiedRecipient");
+                if(suri==null) {
+                    response.sendRedirect(response.getWebPage().getUrl(lang)+"?rse=msg_UnspecifiedRecipient");
+                }else {
+                    response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse=msg_UnspecifiedRecipient");
+                }
                 return;
             }else {
                 addresses = new ArrayList();
@@ -464,7 +545,12 @@ public class EmailResource extends GenericResource {
                 msg = "msg_DeliveryFailure";
             }
 //        }
-        response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse="+msg);
+
+        if(suri==null) {
+            response.sendRedirect(response.getWebPage().getUrl(lang)+"?rse="+msg);
+        }else {
+            response.sendRedirect(response.getWebPage().getUrl(lang)+"?suri="+URLEncoder.encode(request.getParameter("suri"), "utf-8")+"&rse="+msg);
+        }
     }
 
     private List<String> validateEMailAccounts(String accounts) {
