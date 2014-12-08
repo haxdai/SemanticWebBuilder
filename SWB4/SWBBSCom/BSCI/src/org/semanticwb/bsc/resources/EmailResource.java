@@ -364,8 +364,8 @@ public class EmailResource extends GenericResource {
         // Cc
         out.println("  txt = dojo.byId('ccText').value");
         out.println("  if( !isEmpty(txt) ) {");
-        out.println("    txt = txt.substring(0,txt.lastIndexOf(';'));");
-        out.println("    isValid = txt.split(';').every(isEmail);");
+        //out.println("    txt = txt.substring(0,txt.lastIndexOf(';'));");
+        out.println("    isValid = txt.split(/;|,/).every(isEmail);");
         out.println("    if( !isValid ) {");
         out.println("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');");
         out.println("      return false;");
