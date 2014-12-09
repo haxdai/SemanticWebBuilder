@@ -209,9 +209,18 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             SemanticObject semObj = generic.getSemanticObject();
             Detailed d = (Detailed)generic;
             boolean isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
-            if(!isActive || !d.canView()) {
-                continue;
-            }
+            boolean hasPeriod = true;
+
+             if (thisPeriod != null) {
+                    if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
+                        hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
+                    } else {//Para iniciativas y entregables:
+                        hasPeriod = true;
+                    }
+                }
+                if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
+                    continue;
+                }
 
             Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             JSONObject row = new JSONObject();
@@ -256,11 +265,11 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         ArrayList<String[]> headingsArray = new ArrayList<String[]>(16);
         TreeMap headings2Show = new TreeMap();
 
-//            if (addStatus) {
+            if (addStatus) {
         String[] statusHeading = {"status", "Estado", "true" };
         headingsArray.add(statusHeading);//Para los filtros
         headings2Show.put(Integer.parseInt("0"), statusHeading);
-//            }
+           }
 
         boolean showFiltering = false;
         if (viewPropertiesList != null) {
@@ -511,7 +520,9 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                     request.getSession(true).setAttribute(website.getId(), periodId);
                 }
             }
-            Period thisPeriod = periodId != null
+            
+            
+           Period thisPeriod = periodId != null
                     ? Period.ClassMgr.getPeriod(periodId, website)
                     : null;
             String titlePeriod = thisPeriod.getTitle(lang) == null ? thisPeriod.getTitle() : thisPeriod.getTitle(lang);
@@ -623,9 +634,11 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             //Arma los renglones con el contenido de la tabla
             while (allInstances.hasNext()) {
                 GenericObject generic = allInstances.next();
+                Detailed d = (Detailed)generic;               
                 SemanticObject semObj = generic.getSemanticObject();
                 boolean isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
                 boolean hasPeriod = true;
+               
                 if (thisPeriod != null) {
                     if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
                         hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
@@ -633,7 +646,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                         hasPeriod = true;
                     }
                 }
-                if (!user.haveAccess(generic) || !isActive || !hasPeriod) {
+                if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
                     continue;
                 }
                 GenericIterator<PropertyListItem> viewPropertiesList1 = activeView.listPropertyListItems();
@@ -703,7 +716,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                     String[] heading = (String[]) thisHeading1.getValue();
                     thisHeading1 = headings2Show.higherEntry(thisKey);
                     if (!addStatus) {
-                        output.append("<td class=\"center-td "+textClass+"\">" + heading[1] + "</td>");
+                       output.append("<td class=\"center-td "+textClass+"\">" + heading[1] + "</td>");
                     }
                     if (addStatus && thisKey > 0) {
                         output.append("<td class=\"center-td "+textClass+"\">" + heading[1] + "</td>");
