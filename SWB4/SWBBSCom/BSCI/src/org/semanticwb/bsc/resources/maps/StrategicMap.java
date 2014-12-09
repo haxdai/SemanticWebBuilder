@@ -799,18 +799,17 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
 
                 SVGjs.append(" var y__;").append("\n");
 
-                // temas de la perspectiva
+                // Temas de la perspectiva
                 if(hasDifferentiators) {
-                    //SVGjs.append(" y__ = y_ + rect.height.baseVal.value + " + BOX_SPACING + ";").append("\n");
                     SVGjs.append(" y__ = y_ + maxHeight + " + BOX_SPACING_TOP + ";").append("\n");
                 }else {
                     SVGjs.append(" y__ = y_ + " + BOX_SPACING + ";").append("\n");
                 }
                 
-                //String tid = null; // identificador de tema
                 expression = "/bsc/perspective[@id='" + pid + "']/themes/theme";
                 NodeList nlThms = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
-                for (int l = 0; l < nlThms.getLength(); l++) {
+                for (int l = 0; l < nlThms.getLength(); l++)
+                {
                     Node nodeT = nlThms.item(l);
                     if (nodeT != null && nodeT.getNodeType() == Node.ELEMENT_NODE) {
                         attrs = nodeT.getAttributes();
@@ -819,7 +818,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                         String href = attrs.getNamedItem("href").getNodeValue();
                         w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                         x_ = assertValue(attrs.getNamedItem("x").getNodeValue());
-                        // r guarda algunas valores de la perspectiva actual para después recuperarlas por su identificador
+                        // r guarda algunos valores de la perspectiva actual para después recuperarlas por su identificador
                         // esto resulta muy conveniente para construir los paths de relaciones causa/efecto
                         SVGjs.append(" r = document.createElementNS(SVG_,'rect');").append("\n");
                         SVGjs.append(" r.setAttributeNS(null,'id','w_" + pid + "');").append("\n");
@@ -830,14 +829,13 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                         if(!isHidden) {
                             expression = "/bsc/perspective[@id='" + pid + "']/themes/theme[@id='" + tid + "']/title";
                             title = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
-System.out.println("tema "+title+", href="+href);
+System.out.println("\ntema="+title);
 
                             SVGjs.append(" lnk = createLink('" + href + "');").append("\n");
                             SVGjs.append(" g.appendChild(lnk);").append("\n");
 
                             SVGjs.append(" txt = createText('" + title + "'," + x_ + ",y__," + HEADER_4 + ",'Verdana');").append("\n");
-                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+HEADER_4+"px;');").append("\n");
-                            //SVGjs.append(" g.appendChild(txt);").append("\n");
+                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;');").append("\n");
                             SVGjs.append(" lnk.appendChild(txt);").append("\n");
                             SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
@@ -848,9 +846,9 @@ System.out.println("tema "+title+", href="+href);
                             //SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                             SVGjs.append(" g.insertBefore(rect,lnk);").append("\n");
                         }
-                            
                         if(!isHidden) {
-                            // relaciones causa-efecto con este tema
+System.out.println("relaciones causa-efecto con este tema");
+                            // Relaciones causa-efecto con este tema
                             expression = "//theme[@id='" + tid + "']/rel";
                             NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
                             for (int n = 0; n < nlRels.getLength(); n++)
@@ -861,6 +859,7 @@ System.out.println("tema "+title+", href="+href);
                                     attrs = nodeR.getAttributes();
                                     String to = attrs.getNamedItem("to").getNodeValue();
                                     String parent = attrs.getNamedItem("parent").getNodeValue();
+System.out.println("to="+to+"; parent="+parent);
                                     SVGjs.append(" to = document.getElementById('" + to + "');").append("\n");
                                     SVGjs.append(" parent = document.getElementById('" + parent + "');").append("\n");
 
@@ -871,24 +870,26 @@ System.out.println("tema "+title+", href="+href);
                                     SVGjs.append(" }else {").append("\n");
                                     SVGjs.append("     w = 0;").append("\n");
                                     SVGjs.append(" }").append("\n");
-
+SVGjs.append("console.log('to='+to+', parent='+parent);").append("\n");
                                     SVGjs.append(" if(to && parent) {").append("\n");
                                     SVGjs.append("   matxTo = parent.getCTM();").append("\n");
                                     SVGjs.append("   posTo = svg.createSVGPoint();").append("\n");
                                     SVGjs.append("   posTo.x = to.x.baseVal.value + w;").append("\n");
                                     SVGjs.append("   posTo.y = to.y.baseVal.value;").append("\n");
                                     SVGjs.append("   posTo = posTo.matrixTransform(matxTo);").append("\n");
+SVGjs.append("console.log('posTo:'+posTo.x+','+posTo.y);").append("\n");
                                     SVGjs.append("   matxFrm = g.getCTM();").append("\n");
                                     SVGjs.append("   posFrm = svg.createSVGPoint();").append("\n");
                                     SVGjs.append("   posFrm.x = rect.x.baseVal.value;").append("\n");
                                     SVGjs.append("   posFrm.y = rect.y.baseVal.value;").append("\n");
                                     SVGjs.append("   posFrm = posFrm.matrixTransform(matxFrm);").append("\n");
+SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
                                     SVGjs.append("   path = createArrow(posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y,posFrm.x+" + (w_ / 2) + ",posFrm.y,posTo.x,posTo.y);").append("\n");
                                     SVGjs.append("   svg.appendChild(path);").append("\n");
                                     SVGjs.append(" }").append("\n");
-                                }
-                            }
-                        }
+                                } // if
+                            } // for
+                        } // Relaciones causa-efecto con este tema - fin
 
                         // lista de objetivos
                         if (!isHidden) {
@@ -966,7 +967,7 @@ System.out.println("tema "+title+", href="+href);
                     } //tema
                 } // lista de temas
                 
-                //relaciones causa-efecto de los objetivos de este tema
+                // Relaciones causa-efecto de los objetivos de esta perspectiva
                 expression = "/bsc/perspective[@id='" + pid + "']//obj";
                 NodeList nlObjs = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
                 for (int m = 0; m < nlObjs.getLength(); m++)
@@ -1096,12 +1097,12 @@ System.out.println("tema "+title+", href="+href);
 
         SVGjs.append("function colorIndexOf(index) {").append("\n");
         SVGjs.append("  var color = null;").append("\n");
-        SVGjs.append("  try {").append("\n");
-        SVGjs.append("    index++; ").append("\n");
-        SVGjs.append("  }catch(err) {").append("\n");
-        SVGjs.append("    index=0;").append("\n");
-        SVGjs.append("    resetColorIndex();").append("\n");
-        SVGjs.append("  }").append("\n");
+//        SVGjs.append("  try {").append("\n");
+//        SVGjs.append("    index++; ").append("\n");
+//        SVGjs.append("  }catch(err) {").append("\n");
+//        SVGjs.append("    index=0;").append("\n");
+//        SVGjs.append("    resetColorIndex();").append("\n");
+//        SVGjs.append("  }").append("\n");
         SVGjs.append("  color = colors[index%colors.length]").append("\n");
         SVGjs.append("  return color;").append("\n");
         SVGjs.append("}").append("\n");
@@ -1111,10 +1112,11 @@ System.out.println("tema "+title+", href="+href);
         
 
         SVGjs.append("function createArrow(id,x1,y1,x2,y2) {").append("\n");
+SVGjs.append("console.log('id='+id+',x1='+x1+',y1='+y1+',x2='+x2+',y2='+y2);").append("\n");
         //SVGjs.append("  var color = '#'+Math.floor(Math.random()*16777215).toString(16);").append("\n");
         //SVGjs.append("  percent_+=15;").append("\n");
         SVGjs.append("  var color = colorIndexOf(colorIndex++);").append("\n");
-        
+SVGjs.append("console.log('color='+color);").append("\n");
         SVGjs.append("  if(srch1(x1,y1)) {").append("\n");
         SVGjs.append("    offset_h+=3;").append("\n");
         SVGjs.append("    x1-=3;").append("\n");
