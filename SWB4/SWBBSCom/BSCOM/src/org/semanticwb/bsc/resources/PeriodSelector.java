@@ -123,12 +123,21 @@ public class PeriodSelector extends GenericResource {
         }
         output.append("</a>\n");
         if(!periods.isEmpty()) {
+            String title;
             output.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n");
             for(Period nextPeriod:periods) {
-                if(nextPeriod != nearestPeriod) {
+                title = nextPeriod.getDisplayTitle(lang)==null?nextPeriod.getTitle():nextPeriod.getDisplayTitle(lang);
+                if(nextPeriod==nearestPeriod) {
+                    output.append("      <li role=\"presentation\" class=\"disabled\">");
+                    output.append("<a role=\"menuitem\" href=\"#\">");
+                    output.append(title);
+                    output.append("</a></li>").append("\n");
+                    output.append("<li role=\"presentation\" class=\"divider\"></li>").append("\n");
+                }else {
                     actionUrl.setParameter("periodId", nextPeriod.getId());
-                    output.append("      <li><a href=\"#\" onclick=\"location.href='"+actionUrl.toString()+"'\">");
-                    output.append(nextPeriod.getDisplayTitle(lang)==null?nextPeriod.getTitle():nextPeriod.getDisplayTitle(lang));
+                    output.append("      <li role=\"presentation\">");
+                    output.append("<a href=\"#\" onclick=\"location.href='"+actionUrl.toString()+"'\">");
+                    output.append(title);
                     output.append("</a></li>\n");
                 }
             }
