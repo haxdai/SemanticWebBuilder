@@ -713,10 +713,11 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
             SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + x_ + "," + y_ + ");").append("\n");
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
             SVGjs.append(" framingRect(rect,'" + id + "_cmission'," + w_ + "," + h_ + "," + x_ + "," + y_ + ");").append("\n");
-            // Remarcar el recuadro de misión
+            // Remarcar el recuadro del contenido de misión
             SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
             SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
-            SVGjs.append("  rect.setAttributeNS(null, 'stroke-opacity',1);").append("\n");
+            SVGjs.append(" rect.setAttributeNS(null,'rx',1);").append("\n");
+            SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
             // Contenido Vision
             expression = "/bsc/header/vision";
@@ -726,20 +727,18 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
             SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
             SVGjs.append(" framingRect(rect,'" + id + "_cvision'," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
-            // Remarcar el recuadro de visión
+            // Remarcar el recuadro del contenido de visión
             SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
             SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
-            SVGjs.append("  rect.setAttributeNS(null, 'stroke-opacity',1);").append("\n");
+            SVGjs.append(" rect.setAttributeNS(null,'rx',1);").append("\n");
+            SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
         }
-
-
-
+        
         String title, perspectiveName;
         y = y + HEADER_HEIGHT + MARGEN_TOP;
         SVGjs.append(" var y = " + y + ";").append("\n");
         StringBuilder info;
-        
         
         // Lista de perspectivas
         expression = "/bsc/perspective";
@@ -769,6 +768,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                 if (hasDifferentiators) {
                     SVGjs.append(" x = "+BOX_SPACING+";").append("\n");
                     SVGjs.append(" y_ += " + BOX_SPACING + ";").append("\n");
+                    SVGjs.append(" var maxHeight=0;").append("\n");
                     for (int k = 0; k < nlDiffs.getLength(); k++) {
                         Node nodeD = nlDiffs.item(k);
                         if (nodeD != null && nodeD.getNodeType() == Node.ELEMENT_NODE) {
@@ -777,18 +777,22 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                             attrs = nodeD.getAttributes();
                             w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                             x_ = assertValue(attrs.getNamedItem("x").getNodeValue());                            
-                            SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+x_+",y_," + HEADER_4 + ",'Verdana');").append("\n");
-                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+HEADER_6+"px;');").append("\n");
+                            SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+x_+",y_," + HEADER_6 + ",'Verdana');").append("\n");
+                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;');").append("\n");
                             SVGjs.append(" g.appendChild(txt);").append("\n");
                             SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
                             //SVGjs.append(" framingRect(rect,'" + did + "',rect.width.baseVal.value,rect.height.baseVal.value,"+x_+",y_);").append("\n");
                             SVGjs.append(" framingRect(rect,'" + did + "',"+w_+",rect.height.baseVal.value,"+x_+",y_);").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'style','stroke-width:0;fill:#648B1A;');").append("\n");
-SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
-SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
+                            SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
+                            SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
                             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                             SVGjs.append(" x = x + rect.width.baseVal.value + "+BOX_SPACING_RIGHT+";").append("\n");
+                            
+                            SVGjs.append(" if(rect.height.baseVal.value > maxHeight) {").append("\n");
+                            SVGjs.append("   maxHeight = rect.height.baseVal.value;").append("\n");
+                            SVGjs.append(" }").append("\n");
                         }
                     }
                 }
@@ -797,7 +801,8 @@ SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
 
                 // temas de la perspectiva
                 if(hasDifferentiators) {
-                    SVGjs.append(" y__ = y_ + rect.height.baseVal.value + " + BOX_SPACING + ";").append("\n");
+                    //SVGjs.append(" y__ = y_ + rect.height.baseVal.value + " + BOX_SPACING + ";").append("\n");
+                    SVGjs.append(" y__ = y_ + maxHeight + " + BOX_SPACING_TOP + ";").append("\n");
                 }else {
                     SVGjs.append(" y__ = y_ + " + BOX_SPACING + ";").append("\n");
                 }
