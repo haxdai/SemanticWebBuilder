@@ -657,7 +657,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
 //            SVGjs.append(" framingRect(rect,'"+id+"_ptitle',"+w_+","+vPadding(HEADER_1)+","+x_+","+y_+");").append("\n");
 //            SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
 
-            // pleca Mision
+            // Etiqueta Mision
             y_ = y + vPadding(HEADER_1) + topPadding(HEADER_2) + PADDING_DOWN;
             w_ = w / 3;
             h_ = h - vPadding(HEADER_1) - PADDING_DOWN;
@@ -671,7 +671,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
 //            SVGjs.append(" framingRect(rect,'"+id+"_pmission',"+w_+","+vPadding(HEADER_2)+","+x_+","+y_+");").append("\n");
 //            SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
 
-            // Pleca Vision
+            // Etiqueta Vision
             SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblVision", locale)+"'," + (x_ + 5 * w_ / 2) + "," + y_ + "," + HEADER_3 + ",'Verdana');").append("\n");
             SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
             SVGjs.append(" txt.setAttributeNS(null,'style','fill:#265f92;font-weight:bold;font-size:"+HEADER_4+"px;');").append("\n");
@@ -713,6 +713,10 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
             SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + x_ + "," + y_ + ");").append("\n");
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
             SVGjs.append(" framingRect(rect,'" + id + "_cmission'," + w_ + "," + h_ + "," + x_ + "," + y_ + ");").append("\n");
+            // Remarcar el recuadro de misión
+            SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-opacity',1);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
             // contenido Vision
             expression = "/bsc/header/vision";
@@ -722,6 +726,10 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
             SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
             SVGjs.append(" framingRect(rect,'" + id + "_cvision'," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
+            // Remarcar el recuadro de visión
+            SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-opacity',1);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
         }
 
@@ -770,7 +778,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                             w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                             x_ = assertValue(attrs.getNamedItem("x").getNodeValue());                            
                             SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+x_+",y_," + HEADER_4 + ",'Verdana');").append("\n");
-                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+HEADER_4+"px;');").append("\n");
+                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+10+"px;');").append("\n");
                             SVGjs.append(" g.appendChild(txt);").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
                             SVGjs.append(" framingRect(rect,'" + did + "',rect.width.baseVal.value,rect.height.baseVal.value,"+x_+",y_);").append("\n");
