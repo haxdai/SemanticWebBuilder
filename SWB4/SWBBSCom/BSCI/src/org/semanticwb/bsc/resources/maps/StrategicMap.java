@@ -703,7 +703,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                 }
             }
 
-            // contenido Mision
+            // Contenido Mision
             y_ = y_ + vPadding(HEADER_2);
             h_ = h_ - vPadding(HEADER_2);
             expression = "/bsc/header/mission";
@@ -718,7 +718,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
             SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
             SVGjs.append("  rect.setAttributeNS(null, 'stroke-opacity',1);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
-            // contenido Vision
+            // Contenido Vision
             expression = "/bsc/header/vision";
             txt = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
             SVGjs.append(" txt = createText('" + txt + "'," + (x_ + 2 * w_) + "," + y_ + ",14,'Verdana');").append("\n");
@@ -741,7 +741,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
         StringBuilder info;
         
         
-        // lista de perspectivas
+        // Lista de perspectivas
         expression = "/bsc/perspective";
         NodeList nlPersp = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
         for (int j = 0; j < nlPersp.getLength(); j++) {
@@ -752,7 +752,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                 int pw = assertValue(attrs.getNamedItem("width").getNodeValue());
                 int px = assertValue(attrs.getNamedItem("x").getNodeValue());
                 
-                // título de la perspectiva
+                // Título de la perspectiva
                 expression = "/bsc/perspective[@id='" + pid + "']/title";
                 perspectiveName = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
                 SVGjs.append(" g = document.createElementNS(SVG_,'g');").append("\n");
@@ -761,7 +761,7 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                 SVGjs.append(" g.setAttributeNS(null,'transform','translate(" + px + ",'+y+')');").append("\n");
                 SVGjs.append(" var y_ = " + PADDING_TOP + ";").append("\n");
 
-                // diferenciadores de la perspectiva
+                // Diferenciadores de la perspectiva
                 expression = "/bsc/perspective[@id='" + pid + "']/diffgroup[1]/diff";
                 SVGjs.append(" var x;").append("\n");
                 NodeList nlDiffs = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
@@ -778,13 +778,15 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                             w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
                             x_ = assertValue(attrs.getNamedItem("x").getNodeValue());                            
                             SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+x_+",y_," + HEADER_4 + ",'Verdana');").append("\n");
-                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+10+"px;');").append("\n");
+                            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;font-size:"+HEADER_6+"px;');").append("\n");
                             SVGjs.append(" g.appendChild(txt);").append("\n");
+                            SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
-                            SVGjs.append(" framingRect(rect,'" + did + "',rect.width.baseVal.value,rect.height.baseVal.value,"+x_+",y_);").append("\n");
+                            //SVGjs.append(" framingRect(rect,'" + did + "',rect.width.baseVal.value,rect.height.baseVal.value,"+x_+",y_);").append("\n");
+                            SVGjs.append(" framingRect(rect,'" + did + "',"+w_+",rect.height.baseVal.value,"+x_+",y_);").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'style','stroke-width:0;fill:#648B1A;');").append("\n");
-//                            SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
-//                            SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
+SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
+SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
                             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                             SVGjs.append(" x = x + rect.width.baseVal.value + "+BOX_SPACING_RIGHT+";").append("\n");
                         }
@@ -836,8 +838,8 @@ System.out.println("tema "+title+", href="+href);
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
                             SVGjs.append(" framingRect(rect,'" + tid + "'," + w_ + ",rect.height.baseVal.value," + x_ + ",y__);").append("\n");
                             SVGjs.append(" rect.setAttributeNS(null,'style','stroke-width:0;fill:#30b8ae;');").append("\n");
-                            SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
-                            SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
+                            //SVGjs.append(" rect.setAttributeNS(null,'rx',3);").append("\n");
+                            //SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
                             //SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                             SVGjs.append(" g.insertBefore(rect,lnk);").append("\n");
                         }
@@ -951,7 +953,7 @@ System.out.println("tema "+title+", href="+href);
                                 SVGjs.append(" g.insertBefore(rect,lnk);").append("\n");
                                 SVGjs.append(" y_ = y_ + rect.height.baseVal.value + " + BOX_SPACING + ";").append("\n");
                                 // estado del objetivo
-                                SVGjs.append(" stat = createCircle('stts_" + oid + "',rect.x.baseVal.value-6,rect.y.baseVal.value+5,4,'"+color+"',1,'black',1,1);").append("\n");
+                                SVGjs.append(" stat = createCircle('stts_" + oid + "',rect.x.baseVal.value-6,rect.y.baseVal.value+5,5,'"+color+"',1,'"+color+"',1,1);").append("\n");
                                 SVGjs.append(" g.insertBefore(stat,lnk)").append("\n");
                                 //.................
                             } //objetivo
