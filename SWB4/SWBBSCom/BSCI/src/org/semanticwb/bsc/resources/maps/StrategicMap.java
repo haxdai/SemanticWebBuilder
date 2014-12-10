@@ -208,9 +208,7 @@ public class StrategicMap extends GenericResource
         response.setHeader("Content-Disposition", "attachment; filename=\"" + webSite.getTitle()+sdf.format(period.getStart())+ ".pdf\"");
         
         final String data = request.getParameter("data");
-System.out.println("\n\ndata=\n"+data);
         Document svg = SWBUtils.XML.xmlToDom(data);
-System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domToXml(svg,true));
         PDFTranscoder t = new PDFTranscoder();
         //t.addTranscodingHint(JPEGTranscoder.KEY_QUALITY, new Float(.8));
         TranscoderInput input = new TranscoderInput(svg);
@@ -599,8 +597,9 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
         SVGjs.append(" var rect;").append("\n");    // elemento
         SVGjs.append(" var path;").append("\n");    // flecha de la relación causa/efecto
         SVGjs.append(" var lnk;").append("\n");     // liga
-        SVGjs.append(" var to;").append("\n");      // objetivo destino(target) de la relación
-        SVGjs.append(" var parent;").append("\n");  // perspectiva del objetivo destino de la relación
+        SVGjs.append(" var from;").append("\n");    // elemento origen(source) de una relación causa/efecto
+        SVGjs.append(" var to;").append("\n");      // elemento destino(target) de una relación causa/efecto
+        SVGjs.append(" var parent;").append("\n");  // perspectiva del elemento destino de una relación causa/efecto
         SVGjs.append(" var matxTo;").append("\n");  // matriz del objetivo destino de la relación
         SVGjs.append(" var matxFrm;").append("\n"); // matriz del objetivo fuente(source) de la relación
         SVGjs.append(" var posTo;").append("\n");   // posición del objetivo destino(target) de la relación
@@ -829,7 +828,6 @@ System.out.println("\n\n****************************\nsvg=\n"+SWBUtils.XML.domTo
                         if(!isHidden) {
                             expression = "/bsc/perspective[@id='" + pid + "']/themes/theme[@id='" + tid + "']/title";
                             title = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
-System.out.println("\ntema="+title);
 
                             SVGjs.append(" lnk = createLink('" + href + "');").append("\n");
                             SVGjs.append(" g.appendChild(lnk);").append("\n");
@@ -846,51 +844,7 @@ System.out.println("\ntema="+title);
                             //SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                             SVGjs.append(" g.insertBefore(rect,lnk);").append("\n");
                         }
-                        if(!isHidden) {
-System.out.println("relaciones causa-efecto con este tema");
-                            // Relaciones causa-efecto con este tema
-                            expression = "//theme[@id='" + tid + "']/rel";
-                            NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
-                            for (int n = 0; n < nlRels.getLength(); n++)
-                            {
-                                Node nodeR = nlRels.item(n);
-                                if (nodeR != null && nodeR.getNodeType() == Node.ELEMENT_NODE)
-                                {
-                                    attrs = nodeR.getAttributes();
-                                    String to = attrs.getNamedItem("to").getNodeValue();
-                                    String parent = attrs.getNamedItem("parent").getNodeValue();
-System.out.println("to="+to+"; parent="+parent);
-                                    SVGjs.append(" to = document.getElementById('" + to + "');").append("\n");
-                                    SVGjs.append(" parent = document.getElementById('" + parent + "');").append("\n");
-
-                                    SVGjs.append(" r = document.getElementById('w_" + parent + "');").append("\n");
-                                    SVGjs.append(" if(r) {").append("\n");
-                                    SVGjs.append("     w = r.width.baseVal.value;").append("\n");
-                                    SVGjs.append("     w = w/2;").append("\n");
-                                    SVGjs.append(" }else {").append("\n");
-                                    SVGjs.append("     w = 0;").append("\n");
-                                    SVGjs.append(" }").append("\n");
-SVGjs.append("console.log('to='+to+', parent='+parent);").append("\n");
-                                    SVGjs.append(" if(to && parent) {").append("\n");
-                                    SVGjs.append("   matxTo = parent.getCTM();").append("\n");
-                                    SVGjs.append("   posTo = svg.createSVGPoint();").append("\n");
-                                    SVGjs.append("   posTo.x = to.x.baseVal.value + w;").append("\n");
-                                    SVGjs.append("   posTo.y = to.y.baseVal.value;").append("\n");
-                                    SVGjs.append("   posTo = posTo.matrixTransform(matxTo);").append("\n");
-SVGjs.append("console.log('posTo:'+posTo.x+','+posTo.y);").append("\n");
-                                    SVGjs.append("   matxFrm = g.getCTM();").append("\n");
-                                    SVGjs.append("   posFrm = svg.createSVGPoint();").append("\n");
-                                    SVGjs.append("   posFrm.x = rect.x.baseVal.value;").append("\n");
-                                    SVGjs.append("   posFrm.y = rect.y.baseVal.value;").append("\n");
-                                    SVGjs.append("   posFrm = posFrm.matrixTransform(matxFrm);").append("\n");
-SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
-                                    SVGjs.append("   path = createArrow(posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y,posFrm.x+" + (w_ / 2) + ",posFrm.y,posTo.x,posTo.y);").append("\n");
-                                    SVGjs.append("   svg.appendChild(path);").append("\n");
-                                    SVGjs.append(" }").append("\n");
-                                } // if
-                            } // for
-                        } // Relaciones causa-efecto con este tema - fin
-
+                        
                         // lista de objetivos
                         if (!isHidden) {
                             SVGjs.append(" y_ = y__ + rect.height.baseVal.value + " + BOX_SPACING + ";").append("\n");
@@ -967,6 +921,61 @@ SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
                     } //tema
                 } // lista de temas
                 
+                // Relaciones causa-efecto de los temas de esta perspectiva
+                expression = "/bsc/perspective[@id='" + pid + "']/themes/theme";
+                nlThms = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
+                for (int l = 0; l < nlThms.getLength(); l++)
+                {
+                    Node nodeT = nlThms.item(l);
+                    if (nodeT != null && nodeT.getNodeType() == Node.ELEMENT_NODE) {
+                        attrs = nodeT.getAttributes();
+                        boolean isHidden = Boolean.parseBoolean(attrs.getNamedItem("hidden").getNodeValue());
+                        String tid = attrs.getNamedItem("id").getNodeValue();
+                        w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
+
+                        if(!isHidden) {
+                            // Relaciones causa-efecto con este tema
+                            expression = "//theme[@id='" + tid + "']/rel";
+                            NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
+                            for (int n = 0; n < nlRels.getLength(); n++)
+                            {
+                                Node nodeR = nlRels.item(n);
+                                if (nodeR != null && nodeR.getNodeType() == Node.ELEMENT_NODE)
+                                {
+                                    attrs = nodeR.getAttributes();
+                                    String to = attrs.getNamedItem("to").getNodeValue();
+                                    String parent = attrs.getNamedItem("parent").getNodeValue();
+                                    SVGjs.append(" from = document.getElementById('").append(tid).append("');").append("\n");
+                                    SVGjs.append(" to = document.getElementById('").append(to).append("');").append("\n");
+                                    SVGjs.append(" parent = document.getElementById('").append(parent).append("');").append("\n");
+
+                                    SVGjs.append(" r = document.getElementById('w_").append(parent).append("');").append("\n");
+                                    SVGjs.append(" if(r) {").append("\n");
+                                    SVGjs.append("     w = r.width.baseVal.value;").append("\n");
+                                    SVGjs.append("     w = w/2;").append("\n");
+                                    SVGjs.append(" }else {").append("\n");
+                                    SVGjs.append("     w = 0;").append("\n");
+                                    SVGjs.append(" }").append("\n");
+                                    SVGjs.append(" if(to && parent) {").append("\n");
+                                    SVGjs.append("   matxTo = parent.getCTM();").append("\n");
+                                    SVGjs.append("   posTo = svg.createSVGPoint();").append("\n");
+                                    SVGjs.append("   posTo.x = to.x.baseVal.value + w;").append("\n");
+                                    SVGjs.append("   posTo.y = to.y.baseVal.value;").append("\n");
+                                    SVGjs.append("   posTo = posTo.matrixTransform(matxTo);").append("\n");
+                                    SVGjs.append("   matxFrm = g.getCTM();").append("\n");
+                                    SVGjs.append("   posFrm = svg.createSVGPoint();").append("\n");
+                                    SVGjs.append("   posFrm.x = from.x.baseVal.value;").append("\n");
+                                    SVGjs.append("   posFrm.y = from.y.baseVal.value;").append("\n");
+                                    SVGjs.append("   posFrm = posFrm.matrixTransform(matxFrm);").append("\n");
+                                    SVGjs.append("   path = createArrow(posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y,posFrm.x+").append(w_/2).append(",posFrm.y,posTo.x,posTo.y);").append("\n");
+                                    SVGjs.append("   svg.appendChild(path);").append("\n");
+                                    SVGjs.append(" }").append("\n");
+                                } // if
+                            } // for
+                        } // Relaciones causa-efecto con este tema - fin
+                    }
+                }
+                
                 // Relaciones causa-efecto de los objetivos de esta perspectiva
                 expression = "/bsc/perspective[@id='" + pid + "']//obj";
                 NodeList nlObjs = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
@@ -990,9 +999,9 @@ SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
                                 attrs = nodeR.getAttributes();
                                 String to = attrs.getNamedItem("to").getNodeValue();
                                 String parent = attrs.getNamedItem("parent").getNodeValue();
-                                SVGjs.append(" to = document.getElementById('" + to + "');").append("\n");
-                                SVGjs.append(" parent = document.getElementById('" + parent + "');").append("\n");
-                                SVGjs.append(" r = document.getElementById('w_" + parent + "');").append("\n");
+                                SVGjs.append(" to = document.getElementById('").append(to).append("');").append("\n");
+                                SVGjs.append(" parent = document.getElementById('").append(parent).append("');").append("\n");
+                                SVGjs.append(" r = document.getElementById('w_").append(parent).append("');").append("\n");
                                 SVGjs.append(" if(r) {").append("\n");
                                 SVGjs.append("     w = r.width.baseVal.value;").append("\n");
                                 SVGjs.append("     w = w/2;").append("\n");
@@ -1010,11 +1019,11 @@ SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
                                 SVGjs.append("   posTo = posTo.matrixTransform(matxTo);").append("\n");
                                 SVGjs.append("   matxFrm = g.getCTM();").append("\n");
                                 SVGjs.append("   posFrm = svg.createSVGPoint();").append("\n");
-                                SVGjs.append("   rect = document.getElementById('" + oid + "');").append("\n");
+                                SVGjs.append("   rect = document.getElementById('").append(oid).append("');").append("\n");
                                 SVGjs.append("   posFrm.x = rect.x.baseVal.value;").append("\n");
                                 SVGjs.append("   posFrm.y = rect.y.baseVal.value;").append("\n");
                                 SVGjs.append("   posFrm = posFrm.matrixTransform(matxFrm);").append("\n");
-                                SVGjs.append("   path = createArrow(posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y,posFrm.x+" + (w_ / 2) + ",posFrm.y,posTo.x,posTo.y);").append("\n");
+                                SVGjs.append("   path = createArrow(posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y,posFrm.x+").append(w_/2).append(",posFrm.y,posTo.x,posTo.y);").append("\n");
                                 SVGjs.append("   svg.appendChild(path);").append("\n");
                                 SVGjs.append(" }").append("\n");
                             }
@@ -1024,7 +1033,7 @@ SVGjs.append("console.log('posFrm:'+posFrm.x+','+posFrm.y);").append("\n");
                 
                 // caja de la perspectiva
                 SVGjs.append(" rect = getBBoxAsRectElement(g);").append("\n");
-                SVGjs.append(" rect.setAttributeNS(null,'id','" + pid + "_rct');").append("\n");
+                SVGjs.append(" rect.setAttributeNS(null,'id','").append(pid).append("_rct');").append("\n");
                 SVGjs.append(" if(rect.height.baseVal.value<150) {").append("\n");
                 SVGjs.append("   rect.height.baseVal.value = 150;").append("\n");
                 SVGjs.append(" }").append("\n");
