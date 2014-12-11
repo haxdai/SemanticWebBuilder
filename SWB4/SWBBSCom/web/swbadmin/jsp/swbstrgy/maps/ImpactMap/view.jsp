@@ -42,80 +42,85 @@
 
 <%@page import="static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF"%>
 <%@page import="static org.semanticwb.bsc.PDFExportable.Mode_StreamPNG"%>
-<%--@page import="static com.infotec.cvi.swb.resources.AreasTalentoResource.Mode_TLNT"--%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest" />
-<%--jsp:useBean id="this" scope="request" type="org.semanticwb.bsc.resources.maps.ImpactMap" /--%>
+<jsp:useBean id="these" scope="request" type="org.semanticwb.bsc.resources.maps.ImpactMap" />
 <%
-    //ImpactMap this_ = (ImpactMap)request.getAttribute("this_");
-    //Resource base = this_.getResourceBase();
-    //final BSC scorecard = (BSC)base.getWebSite();
     final BSC scorecard = (BSC)paramRequest.getWebPage().getWebSite();
     Period period;
     Object periodId = request.getSession(true).getAttribute(scorecard.getId());
     if(periodId!=null && Period.ClassMgr.hasPeriod(periodId.toString(), scorecard)) {
         period = Period.ClassMgr.getPeriod(periodId.toString(), scorecard);
     }else {
-        out.print("<p>No hay periodo definido.</p>");
+        out.println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchMeasuringPeriod")+"</div>");
         out.flush();
-        out.close();
         return;
     }
-
-    User user = paramRequest.getUser();
-    String lang = user.getLanguage();
-    String bundle = getClass().getName();
-    Locale locale = new Locale(lang);
-    
-    StringBuilder table = new StringBuilder();
-    
+    final User user = paramRequest.getUser();
+    final String lang = user.getLanguage();
+    final String bundle = getClass().getName();
+    final Locale locale = new Locale(lang);
     List<Initiative> initiatives = scorecard.listValidInitiatives();
-    
     State minimum;
     StateGroup sg;
     try {
         minimum = initiatives.get(0).getMinimumState();
         sg = minimum.getStateGroup();
     }catch(Exception e) {
-        out.print("<p>No hay iniciativas definidas o algunas iniciativas no tienen estados asignados</p>");
+        out.println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgInitiativeNotFound")+"</div>");
         out.flush();
-        out.close();
         return;
     }
+    
+    out.println("<div class=\"panel panel-default\"> <!-- panel -->");
+    out.println("  <div class=\"panel-heading swbstrgy-panel-heading\">");
+    out.println("    <div class=\"row\">");
+    out.println("      <div class=\"col-xs-12\">");
+    out.println("        Mapa de impacata");
+    out.println("      </div>");
+    out.println("    </div>");
+    out.println("  </div> <!-- /.panel-heading -->");
+
+    out.println(" <div class=\"panel-body swbstrgy-panel-body\"> <!-- panel-body -->");
+    out.println("  <div class=\"row impactMapProperties\">");
     List<State>states = sg.listValidStates();
-    out.append("<table width=\"200\">");
     for(State state:states) {
-        out.append("<tr>");
-        out.append("<td style=\"background-color:").append(state.getColorHex()).append("\">").append("&nbsp;</td>");
-        out.append("<td>").append(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang)).append("</td>");
-        out.append("</tr>");
+        out.println("  <div class=\"col-lg-2 col-md-3 col-sm-4 col-xs-12\">");
+        out.print("    <h4><span class=\"label ");
+        out.print(state.getIconClass());
+        out.println("\">");
+        out.println(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
+        out.print("</span></h4>");
+        out.println("   </div>");
     }
-    out.append("<tr>");
-    out.append("<td style=\"background-color:#FFFFFF\">&nbsp;</td>");
-    out.append("<td>Sin impacto</td>");
-    out.append("</tr>");
-    out.append("</table>");
-    
-    
-    
-    table.append("<h2>Análisis del impacto de las iniciativas en los objetivos estratégicos</h2>").append("\n");
-    table.append("<table border=\"1\">").append("\n");
-    table.append("<tr>").append("\n");
-    table.append("<td></td>").append("\n");//perspectiva
-    table.append("<td></td>").append("\n");//objetivo
-    for(Initiative initiative:initiatives) {
-        table.append("<td class=\"swbstgy-imap-initheader\">");
-        table.append(initiative.getTitle());
-        table.append("</td>").append("\n");
+    out.println("  </div> <!-- /.row -->");
+    StringBuilder table = new StringBuilder();
+    table.append("<div class=\"table-responsive\">").append("\n");
+    table.append(" <table class=\"table table-hover tabla-mapa-impacto\">").append("\n");
+    table.append("  <thead>").append("\n");
+    table.append("   <tr>").append("\n");
+    table.append("    <th></th>").append("\n"); // Perspectivas
+    table.append("    <th></th>").append("\n"); // Objetivos
+    for(Initiative initiative : initiatives) {
+        if(!initiative.canView()) {
+            continue;
+        }
+        table.append("<th class=\"thimpact\"><p class=\"turn\">");
+        table.append(initiative.getDisplayTitle(lang)==null?initiative.getTitle():initiative.getDisplayTitle(lang));
+        table.append("</p></th>").append("\n");
     }
-    table.append("</tr>").append("\n");
-    
+    table.append("   </tr>").append("\n");
+    table.append("  </thead>").append("\n");
+    table.append("  <tbody>").append("\n");
+
+    StringBuilder iconClass;
     Objective obj;
     List<Perspective> perspectives = scorecard.listValidPerspectives();
     Collections.sort(perspectives);
-    for(Perspective p:perspectives) {
+    Perspective p;
+    for(int i=0; i<perspectives.size(); i++) {
+        p = perspectives.get(i);
         String pTitle = p.getDisplayTitle(lang)==null?(p.getTitle()==null?"Desconocido":p.getTitle().replaceAll("['\n]", "")):p.getDisplayTitle(lang).replaceAll("['\n]", "");
-        
         
         List<Objective> objectives = p.listValidObjectives(period);
         int rowspan = objectives.size();
@@ -124,23 +129,26 @@
             continue;
         }
         obj = it.next();
-        table.append("<tr class=\"swbstgy-imap-p").append(p.getId()).append("\">").append("\n");
-        table.append("<td rowspan=\"").append(rowspan).append("\" class=\"swbstgy-imap-ptitle\">");
+        table.append("<tr class=\"swbstrgy-imap-p").append(p.getId()).append("\">").append("\n");
+        table.append("<td rowspan=\"").append(rowspan).append("\" class=\"swbstrgy-imap-persp-").append(i%4).append("\">");
         table.append(pTitle);
         table.append("</td>").append("\n");
-        table.append("<td class=\"swbstgy-imap-otitle\">");
+        table.append("<td class=\"swbstrgy-imap-obj-").append(i%4).append("\">");
         table.append(obj.getDisplayTitle(lang)==null?obj.getTitle():obj.getDisplayTitle(lang));
         table.append("</td>").append("\n");
         for(Initiative initiative:initiatives) {
             if(obj.hasInitiative(initiative)) {
-                table.append("<td style=\"background-color:");
+                table.append("<td ");
                 try {
-                    table.append(initiative.getPeriodStatus(period).getStatus().getColorHex());
+                    iconClass = new StringBuilder();
+                    iconClass.append(" class=\"")
+                            .append(initiative.getPeriodStatus(period).getStatus().getIconClass())
+                            .append("\"");
+                    table.append(iconClass);
                 }catch(Exception e) {
-                    table.append("#FFFFFF");
+                    table.append(" style=\"background-color:#ccc\"");
                 }
-                table.append("\">");
-                table.append("&nbsp;");
+                table.append(">");
                 table.append("</td>");
             }else {
                 table.append("<td style=\"background-color:#FFFFFF\">&nbsp;</td>");
@@ -151,8 +159,8 @@
         
         while(it.hasNext()) {
             obj = it.next();
-            table.append("<tr class=\"swbstgy-imap-p").append(p.getId()).append("\">").append("\n");
-            table.append("<td class=\"swbstgy-imap-otitle\">");
+            table.append("<tr class=\"swbstrgy-imap-p").append(p.getId()).append("\">").append("\n");
+            table.append("<td class=\"swbstrgy-imap-obj-").append(i%4).append("\">");
             table.append(obj.getDisplayTitle(lang)==null?obj.getTitle():obj.getDisplayTitle(lang));
             table.append("</td>").append("\n");
             for(Initiative initiative:initiatives) {
@@ -173,45 +181,11 @@
             }
             table.append("</tr>").append("\n");
         }
-        
-         
-        
-        
-        /*List<Theme> themes = p.listValidThemes();
-        Collections.sort(themes);
-        for(Theme t:themes) {
-            List<Objective> objectives = t.listValidObjectives();
-            Collections.sort(objectives);
-            for(Objective obj:objectives) {
-                table.append("<tr class=\"swbstgy-imap-p").append(p.getId()).append("\">").append("\n");
-                table.append("<td class=\"swbstgy-imap-ptitle\">");
-                table.append(title);
-                table.append("</td>").append("\n");
-                
-                
-                table.append("<td class=\"swbstgy-imap-otitle\">");
-                table.append(obj.getTitle());
-                table.append("</td>").append("\n");
-                for(Initiative initiative:initiatives) {
-                    if(obj.hasInitiative(initiative)) {
-                        table.append("<td style=\"background-color:");
-                        try {
-                            table.append(initiative.getPeriodStatus(period).getStatus().getColorHex());
-                        }catch(Exception e) {
-                            table.append("#FFFFFF");
-                        }
-                        table.append("\">");
-                        table.append("&nbsp;");
-                        table.append("</td>");
-                    }else {
-                        table.append("<td style=\"background-color:#FFFFFF\">&nbsp;</td>");
-                    }
-                    table.append("\n");
-                }
-                table.append("</tr>").append("\n");
-            }
-        }*/
     }
-    table.append("</table>");
-    out.print(table.toString());
-%><p>&nbsp;</p>
+table.append("  </tbody>").append("\n");
+table.append(" </table>").append("\n");
+table.append("</div> <!-- /.table-responsive -->").append("\n");
+out.print(table.toString());
+out.println("  </div> <!-- /.panel-body -->");
+out.println("</div> <!-- /.panel -->");
+%>
