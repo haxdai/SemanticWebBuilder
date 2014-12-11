@@ -967,6 +967,21 @@ public class ImageGallery extends GenericResource
         htm.append("\n    }");
         htm.append("\n    editCheckInput.alt = '" + paramRequest.getLocaleString("usrmsg_ImageGallery_doAdmin_altEdit") + "'; ");
         htm.append("\n    editCheckInput.disabled = true; ");
+        
+        /*htm.append("\n    if(!img) ");
+        htm.append("\n    { ");
+        
+        htm.append("\n        var idEditImg='';");
+        htm.append("\n        var imghtml=row.cells[row.cells.length-1].innerHTML; ");
+        htm.append("\n        var pos=imghtml.indexOf('id=\"'); ");
+        htm.append("\n        if(pos!=-1){ ");
+        htm.append("\n                  var pos2=imghtml.indexOf('\"',pos+6); ");
+        htm.append("\n                  idEditImg=imghtml.substring(pos+4,pos2);");
+        htm.append("\n        } ");
+        htm.append("\n            row.cells[4].innerHTML = '<input type=\"file\" id=\"'+idEditImg+'\" name=\"'+idEditImg+'\" size=\"40\" />'; ");
+        htm.append("\n    } ");*/
+        
+        
         htm.append("\n    editCheckInput.onclick = function(){ ");
         htm.append("\n        if(editCheckInput.checked) { ");
         htm.append("\n        var idEditImg='';");
@@ -1015,9 +1030,10 @@ public class ImageGallery extends GenericResource
          htm.append("\n    filenameCell.style.textAlign = 'left'; ");
          htm.append("\n ");*/
         htm.append("\n    // celda nombre de descripcion ");
+        
         htm.append("\n        var descriptionCell = row.insertCell(3); ");
         htm.append("\n        var idEditImg='';");
-        htm.append("\n        var imghtml=img; ");        
+        htm.append("\n        var imghtml=row.cells[row.cells.length-1].innerHTML; ");        
         htm.append("\n        var pos=imghtml.indexOf('id=\"'); ");        
         htm.append("\n        if(pos!=-1){ ");
         htm.append("\n                  var pos2=imghtml.indexOf('\"',pos+6); ");        
