@@ -122,6 +122,11 @@ public class DateElement extends org.semanticwb.bsc.formelement.base.DateElement
             ret.append(ext);
             ret.append("/>");
         } else if (mode.equals("view")) {
+            format = new SimpleDateFormat("dd/MM/yyyy");
+             dt = obj.getDateProperty(prop);
+            if (dt != null) {
+                value = format.format(dt);
+            }
             ret.append("<span name=\"" + name + "\">" + value + "</span>");
         } else if (mode.equals("inlineEdit")) {
             /*Al utilizar este modo, se debe incluir en el HTML las instrucciones 
