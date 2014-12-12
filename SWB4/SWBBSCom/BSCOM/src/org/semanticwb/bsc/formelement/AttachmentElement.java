@@ -247,16 +247,14 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
             toReturn.append("</div>");
             toReturn.append("</div>");
         }
-        toReturn.append("<div class=\"row1\">\n");
-        toReturn.append("   <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12\"></div>\n");
-
-        toReturn.append("   <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-12 \">\n");//pull-right
+        toReturn.append("<div>\n");
+        toReturn.append("   <div>\n");//pull-right
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-enviar\" type=\"submit\" ");
         toReturn.append("name=\"enviar\" >");
         toReturn.append(getLocaleString("send", lang));
         toReturn.append("</button>");
         toReturn.append("</div>");
-        toReturn.append("   <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-12 \">\n");//pull-right
+        toReturn.append("   <div>\n");//pull-right
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-cancelar\" ");
         toReturn.append("onclick=\"dijit.byId('swbDialog').hide()\">");
         toReturn.append(getLocaleString("cancel", lang));
@@ -569,15 +567,14 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
             toReturn.append("</div>");
         }
 
-        toReturn.append("<div class=\"row1\">\n");
-        toReturn.append("   <div class=\"col-lg-8 col-md-8 col-sm-8 col-xs-12\"></div>\n");
-        toReturn.append("   <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-12 \">\n");//pull-right
+        toReturn.append("<div>\n");
+        toReturn.append("   <div>\n");//pull-right
         toReturn.append("          <button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"pull-right swb-boton-enviar\" ");//btn btn-default pull-right swb-boton-enviar
         toReturn.append("name=\"enviar\" >");
         toReturn.append(getLocaleString("send", lang));
         toReturn.append("</button>");
         toReturn.append("    </div>\n");
-        toReturn.append("   <div class=\"col-lg-2 col-md-2 col-sm-2 col-xs-12 \">\n");//pull-right
+        toReturn.append("   <div>\n");//pull-right
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-cancelar\" ");
         toReturn.append("onclick=\"dijit.byId('swbDialog').hide()\">");
         toReturn.append(getLocaleString("cancel", lang));
