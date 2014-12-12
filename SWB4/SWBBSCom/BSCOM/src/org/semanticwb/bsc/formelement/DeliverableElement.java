@@ -306,6 +306,9 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
                 urlRemove.setParameter("usrWithGrants", usrWithGrants);
                 toReturn.append("\n<td>");
                 toReturn.append("<span class=\"");
+                toReturn.append(deliverable.getStatusIconClass(period));
+                toReturn.append(" swbstrgy-semaphore\"></span>");
+                toReturn.append("<span class=\"");
 //                if (deliverable.getAutoStatus() != null && deliverable.getAutoStatus().getStatus()
 //                        != null && deliverable.getAutoStatus().getIconClass() != null) {
 //                    toReturn.append(deliverable.getAutoStatus().getIconClass());
@@ -313,10 +316,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
 //                    toReturn.append("indefinido");
 //                }
                 toReturn.append(deliverable.getAutoStatusIconClass());
-                toReturn.append("\"></span>");
-                toReturn.append("<span class=\"");
-                toReturn.append(deliverable.getStatusIconClass(period));
-                toReturn.append("\"></span>");
+                toReturn.append(" swbstrgy-semaphore\"></span>");
                 toReturn.append("\n</td>");
 
 //                toReturn.append("\n<td>");
