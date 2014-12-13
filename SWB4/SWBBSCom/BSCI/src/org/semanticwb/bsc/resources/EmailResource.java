@@ -259,8 +259,8 @@ public class EmailResource extends GenericResource {
         out.println("    dojo.xhrGet({");
         out.println("      url: url,");
         out.println("      load: function(response, ioArgs) {");
-        //out.println("        dijit.byId('emailDialogImp').attr('content', response);"); 
-        out.println("        dojo.attr(dojo.byId('emailDialogImp'), 'innerHTML', response);"); 
+        out.println("        dijit.byId('emailDialogImp').attr('content', response);"); 
+        //out.println("        dojo.attr(dojo.byId('emailDialogImp'), 'innerHTML', response);"); 
         out.println("        dijit.byId('emailDialog').show();");
         out.println("        setDialogTitleEmail(title);");
         out.println("        return response;");
