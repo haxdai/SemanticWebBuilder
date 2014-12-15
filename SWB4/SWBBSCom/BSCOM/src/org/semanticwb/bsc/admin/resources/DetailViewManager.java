@@ -727,10 +727,6 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
         response.setHeader("Pragma", "no-cache");
 
         final String suri = request.getParameter("suri");
-        
-System.out.println("\n\n------------------------\nDetailViewManager.doView()....");
-System.out.println("suri="+suri);
-
         if (suri == null) {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNoSuchSemanticElement") + "</div>");
             response.flushBuffer();
