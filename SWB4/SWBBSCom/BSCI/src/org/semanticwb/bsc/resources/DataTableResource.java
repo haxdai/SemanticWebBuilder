@@ -18,7 +18,6 @@ import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.ComponentExportable;
-import org.semanticwb.bsc.Detailed;
 import org.semanticwb.bsc.SM;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
@@ -26,6 +25,8 @@ import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.tracing.Measure;
 import org.semanticwb.bsc.tracing.PeriodStatus;
 import org.semanticwb.bsc.tracing.Series;
+import org.semanticwb.bsc.utils.InappropriateFrequencyException;
+import org.semanticwb.bsc.utils.UndefinedFrequencyException;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
@@ -92,7 +93,11 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         Iterator<Period> periods;
         try {
             periods = sm.listMeasurablesPeriods();
-        }catch(Exception e) {
+        }catch(InappropriateFrequencyException e) {
+            List<Period> lperiods = sm.listValidPeriods();
+            Collections.sort(lperiods);
+            periods = lperiods.iterator();
+        } catch (UndefinedFrequencyException e) {
             List<Period> lperiods = sm.listValidPeriods();
             Collections.sort(lperiods);
             periods = lperiods.iterator();
@@ -103,7 +108,8 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         out.println("<table class=\"table table-hover table-striped\">"); 
         out.println("<thead>");
         out.println("<tr>");
-        out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
+//out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
+//out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Period")+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Semaphore")+"</th>");
         //out.println("<th>&nbsp;</th>");
@@ -118,7 +124,8 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             boolean inTime = isInMeasurementTime(period);
             out.println("<tr>");
             // 1.- Elemento padre (objetivo/iniciativa)
-            out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
+//out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
+//out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
             // 2.- Período
             out.println("<td>");
             out.println(period.getTitle());            
