@@ -84,15 +84,17 @@
     out.println(" <div class=\"panel-body swbstrgy-panel-body\"> <!-- panel-body -->");
     out.println("  <div class=\"row impactMapProperties\">");
     List<State>states = sg.listValidStates();
+    out.println("  <div class=\"col-xs-8 col-xs-offset-4\">");
     for(State state:states) {
-        out.println("  <div class=\"col-lg-2 col-md-3 col-sm-4 col-xs-12\">");
-        out.print("    <h4><span class=\"label ");
+        //out.println("  <div class=\"col-lg-2 col-md-3 col-sm-4 col-xs-12\">");
+        out.print("    <span class=\"label swbstrgy-semaphore ");
         out.print(state.getIconClass());
         out.println("\">");
         out.println(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
-        out.print("</span></h4>");
-        out.println("   </div>");
+        out.print("</span>");
+        //out.println("   </div>");
     }
+    out.println("   </div>");
     out.println("  </div> <!-- /.row -->");
     StringBuilder table = new StringBuilder();
     table.append("<div class=\"table-responsive\">").append("\n");
@@ -105,9 +107,11 @@
         if(!initiative.canView()) {
             continue;
         }
-        table.append("<th class=\"thimpact\"><p class=\"turn\">");
+        table.append("<th class=\"thimpact\">");
+        //table.append("<p class=\"turn\">");
         table.append(initiative.getDisplayTitle(lang)==null?initiative.getTitle():initiative.getDisplayTitle(lang));
-        table.append("</p></th>").append("\n");
+        //table.append("</p>");
+        table.append("</th>").append("\n");
     }
     table.append("   </tr>").append("\n");
     table.append("  </thead>").append("\n");
@@ -182,10 +186,10 @@
             table.append("</tr>").append("\n");
         }
     }
-table.append("  </tbody>").append("\n");
-table.append(" </table>").append("\n");
-table.append("</div> <!-- /.table-responsive -->").append("\n");
-out.print(table.toString());
-out.println("  </div> <!-- /.panel-body -->");
-out.println("</div> <!-- /.panel -->");
+    table.append("  </tbody>").append("\n");
+    table.append(" </table>").append("\n");
+    table.append("</div> <!-- /.table-responsive -->").append("\n");
+    out.print(table.toString());
+    out.println("  </div> <!-- /.panel-body -->");
+    out.println("</div> <!-- /.panel -->");
 %>
