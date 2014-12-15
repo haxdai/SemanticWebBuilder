@@ -159,7 +159,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             out.println(paramRequest.getLocaleString("msg_noContentView"));
             out.println("</div>");
             return;
-        }            
+        }
 
         //Se obtiene el conjunto de instancias correspondientes al valor de workClass, en el sitio, de las que 
         //se tiene captura de datos en el periodo obtenido
@@ -171,6 +171,13 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         boolean addStatus = false;
 
         final Period thisPeriod = getPeriod(request);
+        if(thisPeriod == null)
+        {
+            out.println("<div class=\"alert alert-warning\" role=\"alert\">");
+            out.println(paramRequest.getLocaleString("msg_noContentView"));
+            out.println("</div>");
+            return;
+        }
 
         //Define el identificador a utilizar de acuerdo al tipo de objetos a presentar
         if (semWorkClass.equals(Objective.bsc_Objective)) {
@@ -210,17 +217,14 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             Detailed d = (Detailed)generic;
             boolean isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
             boolean hasPeriod = true;
-
-             if (thisPeriod != null) {
-                    if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
-                        hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
-                    } else {//Para iniciativas y entregables:
-                        hasPeriod = true;
-                    }
-                }
-                if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
-                    continue;
-                }
+            if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
+                hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
+            } else {//Para iniciativas y entregables:
+                hasPeriod = true;
+            }
+            if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
+               continue;
+            }
 
             Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             JSONObject row = new JSONObject();
@@ -522,10 +526,19 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             }
             
             
-           Period thisPeriod = periodId != null
-                    ? Period.ClassMgr.getPeriod(periodId, website)
-                    : null;
-            String titlePeriod = thisPeriod.getTitle(lang) == null ? thisPeriod.getTitle() : thisPeriod.getTitle(lang);
+//           Period thisPeriod = periodId != null
+//                    ? Period.ClassMgr.getPeriod(periodId, website)
+//                    : null;
+            final Period thisPeriod = getPeriod(request);
+            if(thisPeriod == null)
+            {
+                output.append("<div class=\"alert alert-warning\" role=\"alert\">");
+                output.append(paramRequest.getLocaleString("msg_noContentView"));
+                output.append("</div>");
+                return output;
+            }
+            String titlePeriod = thisPeriod.getDisplayTitle(lang) == null ? thisPeriod.getTitle() : thisPeriod.getDisplayTitle(lang);
+            
             //Define el identificador a utilizar de acuerdo al tipo de objetos a presentar
             if (semWorkClass.equals(Objective.bsc_Objective)) {
                 addStatus = true;
@@ -632,19 +645,17 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
 
 
             //Arma los renglones con el contenido de la tabla
+            boolean isActive;
+            boolean hasPeriod;
             while (allInstances.hasNext()) {
                 GenericObject generic = allInstances.next();
                 Detailed d = (Detailed)generic;               
                 SemanticObject semObj = generic.getSemanticObject();
-                boolean isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
-                boolean hasPeriod = true;
-               
-                if (thisPeriod != null) {
-                    if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
-                        hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
-                    } else {//Para iniciativas y entregables:
-                        hasPeriod = true;
-                    }
+                isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
+                if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
+                    hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
+                } else {//Para iniciativas y entregables:
+                    hasPeriod = true;
                 }
                 if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
                     continue;
