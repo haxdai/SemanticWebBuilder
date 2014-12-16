@@ -213,6 +213,11 @@ public class ExportScoreCard extends GenericResource {
         SWBResourceURL url = paramRequest.getRenderUrl();
         url.setCallMethod(SWBResourceURL.Call_DIRECT);
         url.setMode(Mode_StreamPDF);
-        out.print("<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='" + url + "'\"><span class=\"glyphicon glyphicon-th-large\"></span></button>");
+        out.print("<button type=\"button\" class=\"btn btn-default\" onclick=\"location.href='" + url + "'\"");
+        out.print(" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"");
+        out.print(paramRequest.getLocaleString("lbl_ExportSC2PDF"));
+        out.print("\">");
+        out.print("<span class=\"glyphicon glyphicon-th-large\"></span>");
+        out.println("</button>");
     }
 }
