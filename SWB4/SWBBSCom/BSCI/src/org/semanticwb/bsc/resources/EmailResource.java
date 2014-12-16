@@ -85,20 +85,20 @@ public class EmailResource extends GenericResource {
         html.append("<div class=\"panel panel-default\">\n");
         html.append("<form id=\"formEmail\" class=\"form-horizontal\" action=\"" + url + "\" method=\"post\" enctype='multipart/form-data' onsubmit=\"return validateFrm()\">\n");
         html.append("  <div class=\"panel-body swb-panel-cuerpo swb-contenido-dialogo\">\n");
-        html.append("    <div class=\"row\">\n");       
+        //html.append("    <div class=\"row\">\n");       
         html.append("      <div class=\"form-group\">\n");              
-        html.append("        <div class=\"col-xs-12\">").append("\n");
+        html.append("        <div>").append("\n");
         html.append("          <div class=\"input-group\">").append("\n");
         html.append("            <div class=\"input-group-btn\">").append("\n");
         html.append("              <button class=\"btn btn-default\" tabindex=\"-1\" type=\"button\"><strong>" + paramRequest.getLocaleString("lbl_From") + "</strong></button>").append("\n");
         html.append("            </div>").append("\n");
         html.append("            <input id=\"from\" name=\"from\" class=\"form-control\" type=\"text\" value=\"" + user.getEmail() + "\" readonly>\n");
         html.append("          </div><!-- /input-group -->").append("\n");
-        html.append("        </div><!-- /.col-xs-12 -->").append("\n");      
+        html.append("        </div>").append("\n");      
         html.append("      </div>\n");
         
         html.append("      <div class=\"form-group\">\n");
-        html.append("        <div class=\"col-xs-12\">").append("\n");
+        html.append("        <div>").append("\n");
         html.append("          <div class=\"input-group\">").append("\n");
         html.append("            <div class=\"input-group-btn\">").append("\n");
         html.append("              <button class=\"btn btn-default\" tabindex=\"-1\" type=\"button\"><strong>" + paramRequest.getLocaleString("lbl_To") + "</strong></button>").append("\n");
@@ -116,11 +116,11 @@ public class EmailResource extends GenericResource {
         html.append("            </div>").append("\n");
         html.append("            <input id=\"toText\" name=\"toText\" class=\"form-control\" type=\"text\">\n");
         html.append("          </div><!-- /.input-group -->").append("\n");
-        html.append("        </div><!-- /.col-xs-12 -->").append("\n");      
+        html.append("        </div>").append("\n");      
         html.append("      </div>\n");
         
         html.append("      <div class=\"form-group\">\n");
-        html.append("        <div class=\"col-xs-12\">").append("\n");
+        html.append("        <div>").append("\n");
         html.append("          <div class=\"input-group\">").append("\n");
         html.append("            <div class=\"input-group-btn\">").append("\n");
         html.append("              <button class=\"btn btn-default\" tabindex=\"-1\" type=\"button\"><strong>" + paramRequest.getLocaleString("lbl_Cc") + "</strong></button>\n");        
@@ -137,39 +137,38 @@ public class EmailResource extends GenericResource {
         html.append("            </div><!-- /btn-group -->").append("\n");
         html.append("            <input id=\"ccText\" name=\"ccText\" class=\"form-control\" type=\"text\"></input>\n");
         html.append("          </div><!-- /input-group -->").append("\n");
-        html.append("        </div><!-- /.col-xs-12 -->").append("\n"); 
+        html.append("        </div>").append("\n"); 
         html.append("      </div>\n");
         
         html.append("      <div class=\"form-group\">\n");
-        //toReturn.append("        <label class=\"col-xs-12 col-sm-3 col-md-1 control-label\">"+paramRequest.getLocaleString("lbl_Attach")+"</label>\n");
-        html.append("        <div class=\"col-xs-12\">\n");
+        html.append("        <div>\n");
         html.append("          <span class=\"glyphicon glyphicon-paperclip\">");
         html.append("          <input type=\"file\" name=\"uploadFile\" class=\"glyphicon\"/></span>\n");
         html.append("        </div>\n");
         html.append("      </div>\n");
         
         html.append("      <div class=\"form-group\">\n");
-        html.append("        <div class=\"col-xs-12  col-md-1 \">");
+        html.append("        <div>");
         html.append("          <label class=\"control-label \">" + paramRequest.getLocaleString("lbl_Subject") + "</label>\n");
         html.append("        </div>");
-        html.append("        <div class=\"col-xs-12 col-md-11 \">\n");      
+        html.append("        <div>\n");      
         html.append("          <input name=\"subject\" id=\"subject\" class=\"form-control\" type=\"text\">\n");
         html.append("        </div>\n");
         html.append("      </div>\n");
         
         html.append("      <div class=\"form-group\">\n");
-        html.append("        <div class=\"col-xs-12  col-md-1 \">");
+        html.append("        <div>");
         html.append("          <label class=\"control-label\">"+paramRequest.getLocaleString("lbl_Message")+"</label>\n");
         html.append("        </div>");
-        html.append("        <div class=\"col-xs-12 col-md-11\">\n");
+        html.append("        <div>\n");
         html.append("          <textarea name=\"message\" id=\"message\" class=\"form-control\" rows=\"5\"></textarea>\n");
         html.append("        </div>\n");
         html.append("      </div>\n");
         
-        html.append("      <div class=\"btn-group col-xs-12 pull-right\">\n");
+        html.append("      <div>\n");
         html.append("        <button class=\"btn btn-default  pull-right swb-boton-enviar\" type=\"submit\">"+ paramRequest.getLocaleString("lbl_Send") + "</button>\n");
         html.append("      </div>\n");
-        html.append("    </div>\n"); // cierra div class row
+        //html.append("    </div>\n"); // cierra div class row
         html.append("  </div>\n"); // cierra div class panel body
         html.append("</form>\n");// cierra form formEmail
         html.append("</div>\n"); // cierra div panel-default
@@ -361,10 +360,12 @@ public class EmailResource extends GenericResource {
         out.print("  </div>\n");
         out.print("  </div>\n");
         out.print("</div>\n");
-        out.print("<button type=\"button\" class=\"btn btn-default\" onclick=\"showEmailDialog('");
+        out.print("<button type=\"button\" class=\"btn btn-default\" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"");
+        out.print(paramRequest.getLocaleString("lbl_Title"));
+        out.print("\" onclick=\"showEmailDialog('");
         out.print(url);
         out.print("', '");
-        out.print(paramRequest.getLocaleString("lbl_addTitle"));
+        out.print(paramRequest.getLocaleString("lbl_Title"));
         out.println("');\"><span class=\"glyphicon glyphicon-envelope\"></span></button>");
         out.flush();
     }
