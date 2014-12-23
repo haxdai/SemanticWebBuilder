@@ -22,6 +22,7 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
 User user = paramRequest.getUser();
 WebSite site = paramRequest.getWebPage().getWebSite();
 String suri = request.getParameter("suri");
+boolean isAdmin = (Boolean) request.getAttribute("isAdmin");
 
 Iterator<User> tPartners = null;
 FlowNodeInstance fni = null;
@@ -33,8 +34,7 @@ if (sobj != null) {
 
 if (fni != null) {
     User owner = fni.getAssignedto();
-    if (owner.equals(user)) {
-
+    if (isAdmin || owner.equals(user)) {
         UserRepository ur = site.getUserRepository();
         UserTask task = (UserTask) fni.getFlowNodeType();
         ArrayList<Role> taskRoles = new ArrayList<Role>();
@@ -76,7 +76,7 @@ SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxReso
             <h4><%=paramRequest.getLocaleString("actFwd")%></h4>
         </div>
         <%if (tPartners != null && tPartners.hasNext()) {%>
-            <form method="post" action="<%=forward%>" onsubmit="showWaitDialog('<%=paramRequest.getLocaleString("actFwd")%>','<%=paramRequest.getLocaleString("msgForwarding")%>'); return true;">
+            <form method="post" action="<%=forward%>" >
                 <input type="hidden" name="suri" value="<%=suri%>"/>
                 <div class="modal-body">
                     <label for="pid"><%=paramRequest.getLocaleString("promptFwd")%></label>
