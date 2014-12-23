@@ -32,6 +32,17 @@
     </swb:displayProperty>
     <rdfs:domain rdf:resource="#UserTaskInboxResource"/>
   </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:ID="adminRole">
+    <rdfs:domain rdf:resource="#UserTaskInboxResource"/>
+    <rdfs:range rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Role"/>
+    <rdfs:label xml:lang="es">Rol de administración</rdfs:label>
+    <rdfs:label xml:lang="en">Admin role</rdfs:label>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_adminRole">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneUserRepWithBlank"/>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+  </owl:ObjectProperty>
   <owl:DatatypeProperty rdf:ID="displayCols">
     <rdfs:domain rdf:resource="#UserTaskInboxResource"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
