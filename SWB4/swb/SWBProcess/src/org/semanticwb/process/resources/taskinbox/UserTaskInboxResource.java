@@ -43,6 +43,7 @@ import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.Resourceable;
+import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
@@ -466,6 +467,10 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                     } else {
                         fni.removeAssignedto();
                     }
+                 
+                    if (null != fni.getFlowNodeType()) {
+                        response.sendRedirect(getUserTaskInboxUrl(fni.getFlowNodeType().getProcess()));
+                    }
                 }
             }
         } else {
@@ -570,6 +575,14 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         sb.append("        </td>");
         sb.append("        <td>");
         sb.append(mgr.renderElement(request, utinbox_allowForward, SWBFormMgr.MODE_EDIT));
+        sb.append("        </td>");
+        sb.append("      </tr>");
+        sb.append("      <tr>");
+        sb.append("        <td width=\"200px\" align=\"right\">");
+        sb.append(mgr.renderLabel(request, utinbox_adminRole, SWBFormMgr.MODE_VIEW));
+        sb.append("        </td>");
+        sb.append("        <td>");
+        sb.append(mgr.renderElement(request, utinbox_adminRole, SWBFormMgr.MODE_EDIT));
         sb.append("        </td>");
         sb.append("      </tr>");
         sb.append("    </table>");
@@ -731,6 +744,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         try {
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute("isAdmin", isAdminUser(paramRequest.getUser()));
             rd.include(request, response);
         } catch (Exception e) {
             log.error("Error including jsp in forward mode", e);
@@ -1051,6 +1065,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             return false;
         }
         
+        if (isAdminUser(user)) return true;
         boolean canAccess = fni.haveAccess(user);
         
         if (canAccess) {
@@ -1096,5 +1111,11 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             }
         }
         return url;
+    }
+    
+    private boolean isAdminUser(User user) {
+        if (user == null) return false;
+        Role admRole = this.getAdminRole();
+        return admRole != null && user.hasRole(admRole);
     }
 }
