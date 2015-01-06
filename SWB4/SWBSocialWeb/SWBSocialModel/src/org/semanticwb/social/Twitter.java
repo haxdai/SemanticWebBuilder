@@ -393,9 +393,10 @@ public class Twitter extends org.semanticwb.social.base.TwitterBase {
                 log.warn("\n Not a valid value to make a twitter search:" +searchPhrases);
                return; 
             }
+            /*
             if(searchPhrases == null || searchPhrases.isEmpty()){
                 return;
-            }
+            }*/
             
             twitter4j.Query query = new Query(searchPhrases);
             if(stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 && stream.getGeoRadio() > 0){
@@ -415,7 +416,7 @@ public class Twitter extends org.semanticwb.social.base.TwitterBase {
             aListExternalPost = new ArrayList();
             do{
                 try{
-                    //System.out.println("QUERY: " + query);
+                    //System.out.println("QUERY-Geprgy....: " + query);
                     twitter4j.QueryResult result = twitter.search(query);
                     int noOfTweets = result.getTweets().size();
                     //System.out.println("\ntweets by request: " + noOfTweets);                    
@@ -519,15 +520,17 @@ public class Twitter extends org.semanticwb.social.base.TwitterBase {
                     if(te.getErrorCode() == 88){
                         log.error("Error getting tweets SEARCH - RATE LIMIT EXCCEDED:", te );
                     }
-                    if(te.getErrorCode() == 89){
+                    else if(te.getErrorCode() == 89){
                         log.error("Error getting tweets SEARCH - AUTHENTICACION CREDENTIALS MISSING OR INCORRECT", te );
+                    }else{
+                        log.error("Error getting tweets SEARCH:", te );
                     }
-                    log.error("Error getting tweets SEARCH:", te );
                     canGetMoreTweets = false;
                 }catch(Exception ex){
                     log.error("Error getting tweets SEARCH", ex);
                     canGetMoreTweets = false;
                 }
+                //System.out.println("canGetMoreTweets:"+canGetMoreTweets+",tweetsReceived:"+tweetsReceived);
             }while(canGetMoreTweets && tweetsReceived <17000);  //Maximo permitido para extraer de twitter c/15 minutos
             
             if(aListExternalPost.size()>0){
@@ -744,9 +747,11 @@ public class Twitter extends org.semanticwb.social.base.TwitterBase {
         System.out.println("Entra a stopListenAlive");
         if(ListenAlives.containsKey(stream.getURI()+"|"+this.getURI()))
         {
+            System.out.println("Entra a stopListenAlive-1");
             TwitterStream twitterStream=ListenAlives.get(stream.getURI()+"|"+this.getURI());
             if(twitterStream!=null)
             {
+                System.out.println("Entra a stopListenAlive-2");
                 twitterStream.cleanUp();
                 twitterStream.shutdown(); //Este tumba todos los threads y ya no vuelve a levantar otro para ninguno-->No ponerlo
                 twitterStream=null;
