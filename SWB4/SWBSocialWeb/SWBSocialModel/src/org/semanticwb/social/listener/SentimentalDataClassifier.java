@@ -668,7 +668,7 @@ public class SentimentalDataClassifier {
     private PostIn createPostInObj(SocialNetworkUser socialNetUser, int userKloutScore, boolean upDateSocialUserNetworkData, int days) {
         PostIn postIn = null;
         try {
-            if (externalPost.getCreatorId() != null && externalPost.getPostId()!=null) 
+            if (externalPost.getCreatorId() != null && externalPost.getPostId()!=null && externalPost.getPostType()!=null) 
             {
                 //Persistencia del mensaje
                 //System.out.println("externalPost.getPostType():"+externalPost.getPostType());

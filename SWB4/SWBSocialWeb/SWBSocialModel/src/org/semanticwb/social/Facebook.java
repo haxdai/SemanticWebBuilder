@@ -316,7 +316,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                         String[] newLimits = limits.toString().split(":");
                         String finalLimits = "";
 
-
+                        /*
                         for (int j = 0; j < newLimits.length; j++) {
                             ///System.out.println("\t\tnew-->" + newLimits[j] + "<--");
                         }
@@ -327,7 +327,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                         ///System.out.println("\n");
                         for (int j = 0; j < phrasesArray.length; j++) {
                             ///System.out.println("\t\tstream-->" + phrasesArray[j] + "<--");
-                        }
+                        }*/
                         ///System.out.println("\n");
                         for (int i = 0; i < phrasesArray.length; i++) {//Iterate the phrases in stream                            
                             //LA REFERENCIA SON LAS FRASES EN EL STREAM COMO TAL!!!
