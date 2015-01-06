@@ -105,9 +105,9 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 List<Period> periodsList = new java.util.ArrayList<Period>();
                 StringBuilder usedColors = new StringBuilder(32);
 
-                firstOutput.append("<div class=\"row\">\n");
-                firstOutput.append("<div class=\"col-xs-12\">\n");
-                firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
+               // firstOutput.append("<div class=\"row\">\n");
+               // firstOutput.append("<div class=\"col-xs-12\">\n");
+               // firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
                 
                 try {
                     measurablePeriods = indicator.listMeasurablesPeriods();
@@ -329,9 +329,9 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 out.println(svgOutput.toString());
                 out.println(output.toString());
                 
-                out.println("</div>");
-                out.println("</div>");
-                out.println("</div>");
+                //out.println("</div>");
+                //out.println("</div>");
+                //out.println("</div>");
 
             }
         }
