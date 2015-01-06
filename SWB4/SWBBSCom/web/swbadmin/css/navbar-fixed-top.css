@@ -1,21 +1,48 @@
-body {
-    /*min-height: 2000px;
-    padding-top: 220px;*/
-
-    /* Escritorio */
-    @media (min-width: 1200px){
-        padding-top: -15px;
-    }
-    /* Escritorio pequeño o tablet */
-    @media (min-width: 768px) and (max-width: 979px){
-        padding-top: -50px;
-    }
-    /* Tablet o smartphone */
-    @media (min-width: 767px){
-        padding-top: 80px;
-    }	
-    /* Smartphone */
-    @media (min-width: 480px){
+/* Smartphone vertical */
+@media (max-width: 319px) {
+    body {  
         padding-top: 220px;
+    }
+}
+
+/* Smartphone horizontal */  
+@media (min-width: 320px) {
+    body {  
+        padding-top: 185px;
+    }
+}
+
+/* Smartphone */
+@media (min-width: 480px) {
+    body {  
+        padding-top: 185px;
+    }
+}
+
+/* Tablet o smartphone */
+@media (min-width: 768px) {
+    body {  
+        padding-top: 210px;
+    }
+}
+
+/* Escritorio pequeño o tablet */
+@media (min-width: 992px) {
+    body {  
+        padding-top: 145px;
+    }
+}
+
+/* Escritorio y laptops */
+@media (min-width: 1224px) {
+    body {  
+        padding-top: 145px;
+    }
+}   
+
+/* Pantallas grandes */ 
+@media (min-width: 1824px) {
+    body {  
+        padding-top: 200px;
     }
 }
