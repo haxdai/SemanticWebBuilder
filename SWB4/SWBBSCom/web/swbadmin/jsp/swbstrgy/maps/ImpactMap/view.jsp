@@ -76,7 +76,7 @@
     out.println("  <div class=\"panel-heading swbstrgy-panel-heading\">");
     out.println("    <div class=\"row\">");
     out.println("      <div class=\"col-xs-12\">");
-    out.println("        Mapa de impacata");
+    out.println(paramRequest.getLocaleString("lblImpactMap"));
     out.println("      </div>");
     out.println("    </div>");
     out.println("  </div> <!-- /.panel-heading -->");
