@@ -873,7 +873,7 @@
     background-image:url(../icons/icons.png);
     background-position:-154px -158px;
 }
-.swbstrgyIconDifferentiators {
+.swbstrgyIconGroupDifferentiators {
     background-repeat: no-repeat;
     width:20px;
     height: 18px;
@@ -990,7 +990,8 @@
     background-image:url(../icons/icons.png);
     background-position:-114px -194px;
 }
-.swbstrgyIconMeetingsU {
+.swbstrgyIconMeetingsU { 
+    
     background-repeat: no-repeat;
     width:20px;
     height: 18px;
@@ -999,7 +1000,7 @@
     background-image:url(../icons/icons.png);
     background-position:-154px -194px;
 }
-.swbstrgyIconDifferentiatorsU {
+.swbstrgyIconGroupDifferentiatorsU {
     background-repeat: no-repeat;
     width:20px;
     height: 18px;
