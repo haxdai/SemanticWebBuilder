@@ -1271,8 +1271,11 @@ public class RiskBoard extends GenericResource {
         output.append("</option>\n");
 
         Iterator<Risk> riskIt = Risk.ClassMgr.listRisks(website);
-        while (riskIt != null && riskIt.hasNext()) {
+        while(riskIt.hasNext()) {
             Risk risk = riskIt.next();
+            if(!risk.isValid()) {
+                continue;
+            }
             output.append("      <option value=\"");
             output.append(risk.getURI());
             output.append("\">");
