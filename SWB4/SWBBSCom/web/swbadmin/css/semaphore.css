@@ -1,0 +1,93 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+ Estados de semáforo
+ */
+
+.swbstrgy-danger {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;    
+    background: url(../icons/insuficiente.png);
+    /*background-color:#AE0000;*/
+    padding-right: 22px;
+}
+.swbstrgy-caution {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/riesgo.png);
+    /*background-color:#EC8D00;*/
+    padding-right: 22px;
+}
+.swbstrgy-goal {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/meta.png);
+    /*background-color:#008200;*/
+    padding-right: 22px;
+}
+.swbstrgy-super {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/eximio.png);
+	/*background-color:#008200;*/
+    padding-right: 22px;
+}
+.swbstrgy-unknown {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/desconocido.png);
+    /*background-color:#006;*/
+    padding-right: 22px;
+}
+.swbstrgy-undefined {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/indefinido.png);
+    /*background-color:#333;*/
+    padding-right: 22px;
+}
+.swbstrgy-semaphore {
+	padding:1px 1px 5px 20px;
+}
+/*
+ Estados de semáforo para riesgos definidos como clases cuadrante
+ */
+ .quadrant_1{
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;    
+    background: url(../icons/insuficiente.png);
+    /*background-color:#AE0000;*/
+    padding-right: 22px;
+ }
+ .quadrant_2{
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/riesgo.png);
+    /*background-color:#EC8D00;*/
+    padding-right: 22px;
+ }
+ .quadrant_3{
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/indefinido.png);
+    /*background-color:#333;*/
+    padding-right: 22px;
+ }
+ .quadrant_4{
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/meta.png);
+    /*background-color:#008200;*/
+    padding-right: 22px;
+ }
+ 
