@@ -1,0 +1,227 @@
+/*IMAGEN accordionItemActive.png*/
+.soria .dijitAccordionTitleSelected  {
+	background: #f9f9f9 url("../images/accordionItemActive.png") top repeat-x !important;
+	font-weight: bold !important;
+	border-top: 1px solid #b9bbdd !important;
+	border-bottom: 1px solid #b9bbdd !important;
+	padding: 5px 4px 5px 8px !important;
+	color: #243C5F !important;
+}
+.soria .dijitTitlePaneTitleHover {
+	background: #f9f9f9 url("../images/accordionItemActive.png") top repeat-x !important;
+}
+/*IMAGEN buttonActive.png*/
+.soria .dijitButtonActive .dijitButtonNode,
+.soria .dijitToggleButtonActive .dijitButtonNode,
+.soria .dijitDropDownButtonActive .dijitButtonNode,
+.soria .dijitComboButtonActive .dijitButtonContents,
+.soria .dijitStackController .dijitToggleButtonChecked .dijitButtonNode {
+	border-color:#657c9c !important;
+	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x !important;
+}
+.soria .dijitUpArrowButtonActive,
+.soria .dijitDownArrowButtonActive {
+	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x !important;
+}
+.soria .dijitSelectActive,
+.soria .dijitSelectOpened,
+.soria .dijitSelectActive TD,
+.soria .dijitSelectOpened TD {
+	border-color:#657c9c !important;
+	background: #91b4e5 url("../images/buttonActive.png") top left repeat-x  !important;
+}
+/*IMAGEN buttonEnabled.png*/
+/*.soria .dijitButtonNode {
+	border: 1px solid #8ba0bd !important;
+	border-bottom:1px solid #657c9c !important;
+	padding: 0.1em 0.2em 0.2em 0.2em !important;
+	background: #bcd5f0 url("../images/buttonEnabled.png") repeat-x top left !important;
+}*/
+.soria .dijitButtonNode {
+	border: none;
+	border-bottom:none;
+	/*padding: 0.1em 0.2em 0.2em 0.2em !important;*/
+	padding: 1px 5px 2px 5px !important;
+	background: inherit;
+}
+.soria .dijitSelect .dijitArrowButton {
+	background: #bcd5f0 url("../images/buttonEnabled.png") repeat-x top left !important;
+	border-width: 0 !important;
+}
+
+/*IMAGEN buttonHover.png*/
+.soria .dijitButtonHover .dijitButtonNode,
+.soria .dijitButtonNodeHover,
+.soria .dijitToggleButtonHover .dijitButtonNode,
+.soria .dijitDropDownButtonHover .dijitButtonNode,
+.soria .dijitButtonContentsHover,
+.soria .dijitUpArrowButtonHover,
+.soria .dijitDownArrowButtonHover {
+	color:#243C5F !important;
+	/*background:#acc5e2 url("../images/buttonHover.png") repeat-x top left !important;*/
+	background-color: #9B87C3 !important;
+	border: 1px solid #654C98;
+}
+.soria .dijitSelectHover,
+.soria .dijitSelectHover TD {
+	border-color:#a5beda #5c7590 #5c7590 #a5beda !important;
+	color:#000 !important;
+	background:#acc5e2 url("../images/buttonHover.png") repeat-x top left !important;
+}
+/*IMAGEN tabContainerSprite.gif*/
+.soria .dijitTab {
+    padding:4px 6px 2px 4px !important;
+    background: url("../images/tabContainerSprite.gif") repeat-x 0 -351px !important;
+    position: relative !important
+	line-height:normal !important;
+	margin:0 2px 0 0 !important;	
+	color: #243C5F !important;
+    border: 1px #8BA0BD solid !important;
+	border-bottom: 1px #B1BADF solid !important;
+}
+.soria .dijitTabHover {
+	color: #243C5F !important;
+	background: url("../images/tabContainerSprite.gif") repeat-x 0 -201px !important;
+}
+.soria .dijitTabChecked
+{
+	background: url("../images/tabContainerSprite.gif") repeat-x 0 -51px !important;
+	color: #243C5F !important;
+}
+.soria .dijitTabContainerTop-tabs .dijitTabChecked {
+border-bottom-color: purple !important;
+}
+/*IMAGEN titleBar.png*/
+.soria .dijitAccordionTitle {
+	background:#fafafa url("../images/titleBar.png") repeat-x top left !important;
+	border-top: 1px solid #b9bbdd !important;
+	padding: 5px 4px 6px 8px !important;
+	font-size: 0.9em !important;
+	font-weight: bold !important;
+	color: #373941 !important;
+}
+.soria .dijitTitlePaneTitle {
+	background: #cccccc !important;
+	background:#fff url("../images/titleBar.png") repeat-x top left !important;
+	border:1px solid #bfbfbf !important;
+	padding:3px 4px !important;
+	font-size: 0.9em !important;
+	font-weight: bold !important;
+	color: #6d6d6d !important;
+}
+.soria .dijitCalendarMonthContainer th {
+	background:#bed7f0 url("../images/titleBar.png") repeat-x top !important;
+	padding-top:.3em !important;
+	padding-bottom:.2em !important;
+	text-align:center !important;
+}
+.soria .dijitCalendarYearContainer {
+	background:white url("../images/titleBar.png") repeat-x top !important;
+}
+.soria .dijitTimePickerMarker {
+	background:#bed7f0 url("../images/titleBar.png") repeat-x top !important;
+	color:#293a4b !important;
+	font-weight: bold !important;
+}
+.soria .dijitToolbar {
+	border-bottom: 1px solid #C6BBDD !important;
+	background:#eaeaea url("../images/titleBar.png") repeat-x top left !important ;
+}
+.soria .dijitDialogTitleBar {
+	background: #fafafa url("../images/titleBar.png") repeat-x top left !important;
+	padding: 5px 6px 3px 6px !important;
+	outline:0 !important; 
+}
+/*COLORES DE FONDO*/
+
+.soria .dijitSplitterH,
+.soria .dijitGutterH {
+	background: #F2F2F2 !important;
+	border:0 !important;
+	border-left:0 solid #d3d3d3 !important;
+	border-right:0 solid #d3d3d3 !important;
+	height:5px !important;
+}
+.soria .dijitSplitterV, .soria .dijitGutterV {
+background: #f2f2f2 !important;
+border: 0 !important;
+border-top: 0 solid #d3d3d3 !important;
+border-bottom: 0 solid #d3d3d3 !important;
+width: 5px !important;
+}
+.soria .dijitBorderContainer { 
+background-color: #f2f2f2 !important;
+}
+.soria .dijitTabPaneWrapper {
+background: #fff !important;
+border: 1px solid #C6BBDD !important;
+margin: 0 !important;
+padding-left: 0 !important;
+}
+.soria .dijitTabContainerBottom-spacer, .soria .dijitTabContainerTop-spacer {
+height: 2px !important;
+border: 1px solid #8e78bb !important;
+background: #8e78bb !important;
+}
+.soria .dijitTabContainerTop-tabs {
+border-color: #8e78bb !important;
+padding-left: 3px !important;
+}
+
+th {
+background-color: #B896FE !important;
+color: #666 !important;
+font-weight: bold !important;
+margin: 0 !important;
+padding: 1px 5px !important;
+background-image: url('../images/titleBar.png') !important;
+background-position: 0px -1px !important;
+}
+.dijitReset {
+margin: 0 !important;
+border: 0 !important;
+padding: 0 !important;
+font: inherit !important;
+line-height: normal !important;
+color: #4d2673 !important;
+}
+.soria .dijitSelect, .soria .dijitTextBox, .soria .dijitTextArea {
+border: 1px solid #8e78bb !important;
+}
+.soria .dijitSelect .dijitButtonContents, .soria .dijitTextBox .dijitButtonNode {
+border-color: #8e78bb !important;
+}
+
+
+
+.swbform fieldset {
+	padding: 5px !important;
+	border-top: 1px solid #8e78bb !important;
+	border-left: 1px solid #8e78bb !important;
+	border-bottom: 1px solid #8e78bb !important;
+	border-right: 1px solid #8e78bb !important;
+}
+
+.soria .dijitAccordionContainer {
+	border-color: #C6BBDD;
+	background-color: #fff;
+}
+
+.soria .dijitSplitContainer-child, .soria .dijitBorderContainer-child {
+	border: 1px #C6BBDD solid;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
