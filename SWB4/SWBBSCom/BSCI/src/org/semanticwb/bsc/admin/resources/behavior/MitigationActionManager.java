@@ -135,11 +135,11 @@ public class MitigationActionManager extends GenericResource {
                     toReturn.append("<td>");
                     toReturn.append("\n<a href=\"#\" onclick=\"if(confirm('");
                     toReturn.append(paramRequest.getLocaleString("lbl_msgDelete"));
-                    toReturn.append("'))submitUrl('");
+                    toReturn.append("')){submitUrl('");
                     toReturn.append(urlDelete);
                     toReturn.append("',this.domNode);reloadTab('");
                     toReturn.append(risk.getURI());
-                    toReturn.append("');return false;\">");
+                    toReturn.append("');} else{return false;}\">");
                     toReturn.append("\n<img src=\"");
                     toReturn.append(SWBPlatform.getContextPath());
                     toReturn.append("/swbadmin/icons/iconelim.png\" alt=\"");
