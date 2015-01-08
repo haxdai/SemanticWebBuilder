@@ -170,20 +170,20 @@ public class EvaluationRulesManager extends GenericAdmResource {
                 disabled = "";
             }            
             
-            SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
+            SWBResourceURL urlDelete = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
             for(EvaluationRule rule : lrules) {
                 //ObjectiveEvaluationRule rule = rules.next();
                 out.println("  <tr>");                
                 
                 // Eliminar regla
-                out.println("<td>");
-                
+                out.println("<td>");    
                 if(canEdit) {
-                    urlr.setParameter("suri", suri);
-                    urlr.setParameter("sval", rule.getURI());
+                    urlDelete.setParameter("suri", suri);
+                    urlDelete.setParameter("reloadTab", "true");
+                    urlDelete.setParameter("sval", rule.getURI());
                     out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("queryRemove") + " " 
                             + (rule.getTitle(lang)==null?(rule.getTitle()==null?"Sin título":rule.getTitle().replaceAll("'","")):rule.getTitle(lang).replaceAll("'","")) 
-                            + "?')){submitUrl('" + urlr + "',this);} else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" ></a>");
+                            + "?')){submitUrl('" + urlDelete + "',this);reloadTab('"+series.getURI()+"');} else{ return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" ></a>");
                 }else {
                     out.println("<img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/remove.gif\" >");
                 }
