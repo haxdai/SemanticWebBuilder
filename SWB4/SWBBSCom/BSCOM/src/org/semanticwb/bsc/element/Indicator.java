@@ -357,4 +357,15 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         }
         return iconClass;
     }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        String title;
+        try {
+            title = getStar().getMeasure(period).getEvaluation().getStatus().getTitle();
+        } catch (NullPointerException npe) {
+            title = "";
+        }
+        return title;
+    }
 }
