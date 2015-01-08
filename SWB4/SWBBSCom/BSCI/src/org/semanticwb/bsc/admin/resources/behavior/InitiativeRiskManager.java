@@ -69,7 +69,12 @@ public class InitiativeRiskManager extends GenericResource {
 
         final String suri = request.getParameter("suri") == null
                 ? (request.getSession().getAttribute("suri") == null ? null : (String) request.getSession().getAttribute("suri"))
-                : request.getParameter("suri");;
+                : request.getParameter("suri");
+        if (suri == null) {
+            out.println("No se detect&oacute ning&uacute;n objeto sem&aacute;ntico!");
+            return;
+        }
+        
         Risk risk;
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
@@ -78,14 +83,10 @@ public class InitiativeRiskManager extends GenericResource {
         } catch (Exception e) {
             return;
         }
-        if (suri == null) {
-            out.println("No se detect&oacute ning&uacute;n objeto sem&aacute;ntico!");
-            return;
-        }
-
+        
         final String lang = user.getLanguage();
         StringBuilder toReturn = new StringBuilder();
-
+            
         if (risk != null) {
             Iterator<Initiative> it = risk.listInitiatives();
             boolean hasInitiative = it.hasNext();
@@ -143,11 +144,11 @@ public class InitiativeRiskManager extends GenericResource {
                     toReturn.append("<td>");
                     toReturn.append("\n<a href=\"#\" onclick=\"if(confirm('");
                     toReturn.append(paramRequest.getLocaleString("lbl_msgDelete"));
-                    toReturn.append("'))submitUrl('");
+                    toReturn.append("')){submitUrl('");
                     toReturn.append(urlDelete);
                     toReturn.append("',this.domNode);reloadTab('");
                     toReturn.append(risk.getURI());
-                    toReturn.append("');return false;\">");
+                    toReturn.append("');} else{return false;}\">");
                     toReturn.append("\n<img src=\"");
                     toReturn.append(SWBPlatform.getContextPath());
                     toReturn.append("/swbadmin/icons/iconelim.png\" alt=\"");
