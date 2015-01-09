@@ -357,6 +357,21 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         }
         return iconClass;
     }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        String title;
+        try{
+            title = getPeriodStatus(period).getStatus().getTitle();
+        }catch(NullPointerException npe) {
+            try {
+                title = getMinimumState().getTitle();
+            }catch(Exception e) {
+                title = "";
+            }
+        }
+        return title;
+    }
 
     @Override
     public void validOrder(HttpServletRequest request, SemanticProperty prop, String propName) throws FormValidateException {

@@ -226,4 +226,9 @@ public class Risk extends org.semanticwb.bsc.element.base.RiskBase {
     public String getStatusIconClass(Period period) {
         return getStatusIconClass();
     }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        return "";
+    }
 }

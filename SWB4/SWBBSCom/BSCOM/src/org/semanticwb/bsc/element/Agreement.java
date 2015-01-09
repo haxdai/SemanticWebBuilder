@@ -128,4 +128,9 @@ public class Agreement extends org.semanticwb.bsc.element.base.AgreementBase {
     public String getStatusIconClass(Period period) {
         return getStatusIconClass();
     }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        return "";
+    }
 }

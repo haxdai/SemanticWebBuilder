@@ -266,4 +266,25 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
         }
         return iconClass.toString();
     }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        StringBuilder title = new StringBuilder();
+        boolean iconClassFound = false;
+        try {
+            title.append(getStar().getMeasure(period).getEvaluation().getStatus().getIconClass());
+            iconClassFound = true;
+        } catch (NullPointerException npe) {
+        }
+        if (!iconClassFound) {
+            try {
+                State state = this.getMinimumState();
+                getStar().getMeasure(period).getEvaluation().setStatus(state);
+                title.append(getStar().getMeasure(period).getEvaluation().getStatus().getTitle());
+            } catch (NullPointerException ex) {
+                title.append("swbstrgy-unknown");
+            }
+        }
+        return title.toString();
+    }
 }

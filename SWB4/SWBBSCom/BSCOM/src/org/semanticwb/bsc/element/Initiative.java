@@ -253,14 +253,25 @@ for (Deliverable deliverable : deliverables) {
 
     @Override
     public String getStatusIconClass(Period period) {
-        StringBuilder iconClass = new StringBuilder();
+        String iconClass;
         /*iconClass.append(getAutoStatusIconClass());
         iconClass.append(" ");*/
         try {
-            iconClass.append(getPeriodStatus(period).getStatus().getIconClass());
+            iconClass = getPeriodStatus(period).getStatus().getIconClass();
         } catch (NullPointerException npe) {
-            iconClass.append("swbstrgy-unknown");
+            iconClass = "swbstrgy-unknown";
         }
-        return iconClass.toString();
+        return iconClass;
+    }
+    
+    @Override
+    public String getStatusTitle(Period period) {
+        String title;
+        try {
+            title = getPeriodStatus(period).getStatus().getTitle();
+        } catch (NullPointerException npe) {
+            title = "";
+        }
+        return title;
     }
 }
