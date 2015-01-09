@@ -208,15 +208,19 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         }
 
         List<PropertyListItem> propsInView = SWBUtils.Collections.copyIterator(activeView.listPropertyListItems());
-
+        
+        
+        boolean isActive;
+        boolean hasPeriod;
+        String title;
         //Para cada instancia de tipo workClass en el scorecard
         while(allInstances.hasNext())
         {
             GenericObject generic = allInstances.next();
             SemanticObject semObj = generic.getSemanticObject();
             Detailed d = (Detailed)generic;
-            boolean isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
-            boolean hasPeriod = true;
+            isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
+            hasPeriod = true;
             if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
                 hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
             } else {//Para iniciativas y entregables:
@@ -229,7 +233,9 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             JSONObject row = new JSONObject();
             StringBuilder status = new StringBuilder();
-            status.append("<span class=\""+d.getStatusIconClass(thisPeriod)+"\"></span>");
+            status.append("<span class=\""+d.getStatusIconClass(thisPeriod)+"\"></span> ");
+            title = d.getStatusTitle(thisPeriod);
+            status.append(title.isEmpty()?"-":title);
             try {
                 row.put("status", status.toString());
             } catch (JSONException jsone) {
