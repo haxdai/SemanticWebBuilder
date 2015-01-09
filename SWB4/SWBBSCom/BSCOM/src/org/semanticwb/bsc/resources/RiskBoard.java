@@ -1,12 +1,8 @@
 package org.semanticwb.bsc.resources;
 
-import com.arthurdo.parser.HtmlException;
-import com.arthurdo.parser.HtmlStreamTokenizer;
-import com.arthurdo.parser.HtmlTag;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.lowagie.text.DocumentException;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -39,10 +35,8 @@ import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
-import org.semanticwb.model.Template;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
@@ -67,31 +61,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
  *
  * @author jose.jimenez
  */
-public class RiskBoard extends GenericResource {
-
-    /*--*
-     * Define clases de estilos para adornar el despliegue de los datos en el tablero
-     */
-//    private static final String OWNSTYLES = "<style>\n" + 
-//        "    table, th, td {  border: 1px solid black; background-color:#FFFFFF; padding:3px; }\n" +
-//        "    th {  text-align:center; background-color:#EEEEEE;  }\n" + 
-//        "    .evalRiesgo {  background-color:#87CEEB;  }\n" + 
-//        "    .evalControl {  background-color:#1E90FF;  }\n" + 
-//        "    .valRiesgoCtrl {  background-color:#6495ED; color:#FFFFFF;  }\n" + 
-//        "    .mapaRiesgoth {  background-color:#FFFFFF;  }\n" +
-//        "    .accionIniciativa {  background-color:#0000CD; color:#FFFFFF;  }\n" +
-//        "    .cuadrante1 {  background-color:#FF0000; color:#000000;  }\n" +
-//        "    .cuadrante2 {  background-color:#FFFF00; color:#000000;  }\n" +
-//        "    .cuadrante3 {  background-color:#00FFFF; color:#000000;  }\n" +
-//        "    .cuadrante4 {  background-color:#3CB371; color:#000000;  }\n" +
-//        "    .riesgoControlado {  background-color:#389738;  }\n" +
-//        "    .riesgoNoControlado {  background-color:#FFFF80;  }\n" +
-//        "    .noValido {  background-color:#FF6666;  }\n" +
-//        "    .textCentered {  text-align:center;  }\n" +
-//        "</style>\n";
-    /**
-     * Realiza operaciones en la bitacora de eventos.
-     */
+public class RiskBoard extends GenericResource
+{
     private static final Logger log = SWBUtils.getLogger(GenericSemResource.class);
 
     /**
@@ -374,7 +345,6 @@ public class RiskBoard extends GenericResource {
             String closeTdTag = ">\n";
             String spanFactorTd = null;
             String tdEnclosing = "      </td>\n";
-            //ArrayList<Factor> factors = new ArrayList<Factor>(8);
             SemanticObject[][] rows = new SemanticObject[riskSpan][2];
             int ctrlRowCount = 0;
             Factor formerFactor = null;
@@ -1645,7 +1615,6 @@ public class RiskBoard extends GenericResource {
             }
             formMgr.setType(SWBFormMgr.TYPE_DOJO);
             formMgr.setSubmitByAjax(true);
-           // formMgr.setOnSubmit("mySubmitForm(this.id)");
             formMgr.setMode(SWBFormMgr.MODE_EDIT);
             String htmlCode = "";
             int fromIndex = 0;
@@ -1653,7 +1622,6 @@ public class RiskBoard extends GenericResource {
 
             output.append("<script type=\"text/javascript\">\n");
             // scan page for widgets and instantiate them
-            //output.append("dojo.require(\"dojo.parser\");\n");
             output.append("dojo.require(\"dijit._Calendar\");\n");
             output.append("dojo.require(\"dijit.ProgressBar\");\n");
 
@@ -1855,7 +1823,6 @@ public class RiskBoard extends GenericResource {
                 OutputStream os = response.getOutputStream();
                 try {
                     ITextRenderer renderer = new ITextRenderer();
-                    //renderer.setDocumentFromString(renderHTML(request, response, paramRequest));
                     String sbStr = this.replaceHtml(output.toString());
                     renderer.setDocumentFromString(sbStr);
                     renderer.layout();
@@ -1931,59 +1898,6 @@ public class RiskBoard extends GenericResource {
         view.append("<link href=\"").append(baserequest).append("/swbadmin/css/strategyPrint.css\" />");
         return view.toString();
     }
-    /*private String getLinks(SWBParamRequest paramRequest, HttpServletRequest request)
-     throws FileNotFoundException, IOException {
-
-     User user = paramRequest.getUser();
-     WebPage wp = paramRequest.getWebPage();
-
-     Template template = SWBPortal.getTemplateMgr().getTemplate(user, wp);
-     String filePath = template.getWorkPath() + "/"
-     + template.getActualVersion().getVersionNumber() + "/"
-     + template.getFileName(template.getActualVersion().getVersionNumber());
-     FileReader reader = null;
-     StringBuilder view = new StringBuilder(256);
-     reader = new FileReader(filePath);
-
-     String port = "";
-     if (request.getServerPort() != 80) {
-     port = ":" + request.getServerPort();
-     }
-     String baserequest = request.getScheme() + "://" + request.getServerName() + port;
-
-     HtmlStreamTokenizer tok = new HtmlStreamTokenizer(reader);
-     HtmlTag tag = new HtmlTag();
-     while (tok.nextToken() != HtmlStreamTokenizer.TT_EOF) {
-     int ttype = tok.getTokenType();
-
-     if (ttype == HtmlStreamTokenizer.TT_TAG) {
-     try {
-     tok.parseTag(tok.getStringValue(), tag);
-     } catch (HtmlException htmle) {
-     RiskBoard.log.error("Al parsear la plantilla , "
-     + filePath, htmle);
-     }
-     if (tag.getTagString().toLowerCase().equals("link")) {
-     String tagTxt = tag.toString();
-     if (tagTxt.contains("type=\"text/css\"")) {
-     if (!tagTxt.contains("/>")) {
-     tagTxt = SWBUtils.TEXT.replaceAll(tagTxt, ">", "/>");
-     }
-     if (!tagTxt.contains("{webpath}")) {
-     String tmpTxt = tagTxt.substring(0, (tagTxt.indexOf("href") + 6));
-     String tmpTxtAux = tagTxt.substring((tagTxt.indexOf("href") + 6),
-     tagTxt.length());
-     tagTxt = tmpTxt + baserequest + tmpTxtAux;
-     } else {
-     tagTxt = SWBUtils.TEXT.replaceAll(tagTxt, "{webpath}", baserequest);
-     }
-     view.append(tagTxt);
-     }
-     }
-     }
-     }
-     return view.toString();
-     }*/
 
     /**
      * Genera un {@code String} que representa los estilos CSS a utilizar para
