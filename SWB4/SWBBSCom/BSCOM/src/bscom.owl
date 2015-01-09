@@ -1221,10 +1221,10 @@
     </rdfs:subClassOf>
     <swb:displayObject>
       <swbxf:DisplayObject rdf:ID="do_Objetive">
+        <rdfs:label xml:lang="en">Objective</rdfs:label>
+        <rdfs:label xml:lang="es">Objetivo</rdfs:label>
         <swbxf:dragSupport rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
         >true</swbxf:dragSupport>
-        <rdfs:label xml:lang="es">Objetivo</rdfs:label>
-        <rdfs:label xml:lang="en">Objetive</rdfs:label>
         <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >swbstrgyIconObjective</swb:iconClass>
       </swbxf:DisplayObject>
@@ -2658,6 +2658,8 @@
     >Tipo de despliegue del elemento ("checkbox","radio","select")</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="help">
+    <rdfs:label xml:lang="en">Help</rdfs:label>
+    <rdfs:label xml:lang="es">Ayuda</rdfs:label>
     <rdfs:domain rdf:resource="#Help"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <swb:displayProperty>
@@ -3886,15 +3888,10 @@
     </bsc:displayElement>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="agreementProgressDescription">
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_progressDescription">
-        <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >50</swb:index>
-        <swbxf:formElement rdf:resource="#simpleTextArea"/>
-        <rdfs:label xml:lang="en">Progress description</rdfs:label>
-        <rdfs:label xml:lang="es">Descripción del progreso</rdfs:label>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
+    <rdfs:label xml:lang="en">Progress description</rdfs:label>
+    <rdfs:label xml:lang="es">Descripción del progreso</rdfs:label>
+    <swb:displayProperty rdf:resource="#dp_analysis"/>
+    <bsc:displayElement rdf:resource="#dpbsc_analysis"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
     <rdfs:domain rdf:resource="#Agreement"/>
   </owl:DatatypeProperty>
@@ -4090,7 +4087,15 @@
   <owl:DatatypeProperty rdf:ID="progressDescription">
     <rdfs:domain rdf:resource="#MitigationAction"/>
     <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
-    <swb:displayProperty rdf:resource="#dp_progressDescription"/>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_progressDescription">
+        <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >50</swb:index>
+        <swbxf:formElement rdf:resource="#simpleTextArea"/>
+        <rdfs:label xml:lang="en">Progress description</rdfs:label>
+        <rdfs:label xml:lang="es">Descripción del progreso</rdfs:label>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="meetingType">
     <rdfs:domain rdf:resource="#Meeting"/>
