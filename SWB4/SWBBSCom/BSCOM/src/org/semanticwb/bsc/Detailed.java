@@ -7,4 +7,5 @@ public interface Detailed extends org.semanticwb.bsc.base.DetailedBase
     public boolean canView();
     public String getStatusIconClass();
     public String getStatusIconClass(Period period);
+    public String getStatusTitle(Period period);
 }
