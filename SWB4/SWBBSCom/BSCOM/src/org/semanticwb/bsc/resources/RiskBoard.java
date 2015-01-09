@@ -1645,7 +1645,7 @@ public class RiskBoard extends GenericResource {
             }
             formMgr.setType(SWBFormMgr.TYPE_DOJO);
             formMgr.setSubmitByAjax(true);
-            formMgr.setOnSubmit("mySubmitForm(this.id)");
+           // formMgr.setOnSubmit("mySubmitForm(this.id)");
             formMgr.setMode(SWBFormMgr.MODE_EDIT);
             String htmlCode = "";
             int fromIndex = 0;
@@ -1658,7 +1658,7 @@ public class RiskBoard extends GenericResource {
             output.append("dojo.require(\"dijit.ProgressBar\");\n");
 
             output.append("dojo.require(\"dijit.Editor\");\n");
-            //output.append("dojo.require(\"dijit.form.Form\");\n");
+            output.append("dojo.require(\"dijit.form.Form\");\n");
             output.append("dojo.require(\"dijit.form.CheckBox\");\n");
             output.append("dojo.require(\"dijit.form.Textarea\");");
             output.append("dojo.require(\"dijit.form.FilteringSelect\");\n");
@@ -1672,7 +1672,7 @@ public class RiskBoard extends GenericResource {
             output.append("dojo.require(\"dojox.form.TimeSpinner\");\n");
             output.append("</script>\n");
 
-            String onsubmit = " onsubmit=\"mySubmitForm(this.id)\""; // mySubmitForm(this.id)
+            String onsubmit = " onsubmit=\"return mySubmitForm(this.id)\""; // mySubmitForm(this.id)
             output.append("<form dojoType=\"dijit.form.Form\" id=\"");
             output.append(formMgr.getFormName());
             output.append("\" class=\"form-horizontal swb-padding-top\" action=\"");
