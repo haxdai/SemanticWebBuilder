@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente. 
    */
-public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Searchable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Trashable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.model.Activeable,org.semanticwb.model.Roleable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Detailed
+public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Help,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Searchable,org.semanticwb.bsc.Detailed,org.semanticwb.model.FilterableNode
 {
    /**
    * Permite seleccionar una alineación. Los posibles valores son Estrategia, Objetivo y Meta
@@ -730,24 +730,6 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     }
 
 /**
-* Gets the Area property
-* @return String with the Area
-*/
-    public String getArea()
-    {
-        return getSemanticObject().getProperty(bsc_area);
-    }
-
-/**
-* Sets the Area property
-* @param value long with the Area
-*/
-    public void setArea(String value)
-    {
-        getSemanticObject().setProperty(bsc_area, value);
-    }
-
-/**
 * Gets the StratManageRisk property
 * @return String with the StratManageRisk
 */
@@ -763,6 +745,24 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     public void setStratManageRisk(String value)
     {
         getSemanticObject().setProperty(bsc_stratManageRisk, value);
+    }
+
+/**
+* Gets the Area property
+* @return String with the Area
+*/
+    public String getArea()
+    {
+        return getSemanticObject().getProperty(bsc_area);
+    }
+
+/**
+* Sets the Area property
+* @param value long with the Area
+*/
+    public void setArea(String value)
+    {
+        getSemanticObject().setProperty(bsc_area, value);
     }
 
 /**
