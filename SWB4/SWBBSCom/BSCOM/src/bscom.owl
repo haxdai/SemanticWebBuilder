@@ -3662,8 +3662,6 @@
     <rdfs:label xml:lang="es">Análisis</rdfs:label>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_analysis">
-        <rdfs:label xml:lang="en">Analysis</rdfs:label>
-        <rdfs:label xml:lang="es">Análisis</rdfs:label>
         <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#TextArea_Description"/>
         <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >85</swb:index>
