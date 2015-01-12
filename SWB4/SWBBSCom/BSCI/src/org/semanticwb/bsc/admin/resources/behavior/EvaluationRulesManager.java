@@ -75,7 +75,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
         
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
-        if (request.getParameter("statmsg") != null && request.getParameter("statmsg").trim().length() > 0) {
+        if (request.getParameter("statmsg")!=null && !request.getParameter("statmsg").isEmpty()) {
             out.println("<script type=\"text/javascript\">");
             out.println("   showStatus('" + request.getParameter("statmsg") + "');");
             out.println("updateTreeNodeByURI('" + semObj.getURI() + "');");
@@ -104,7 +104,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
         
         final String suri = request.getParameter("suri");
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        SemanticObject obj = ont.getSemanticObject(suri);
+        SemanticObject semObj = ont.getSemanticObject(suri);
         Series series;
         
         PrintWriter out = response.getWriter();
@@ -131,7 +131,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
             out.println("</thead>");
             out.println("<tbody>");
             
-            series = (Series)obj.getGenericInstance();
+            series = (Series)semObj.getGenericInstance();
             final SM sm = series.getSm();
             BSC bsc = sm.getBSC();
 
@@ -325,7 +325,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
             } //if
             else
             {
-                out.println("no hay estados asignados al indicador");
+                out.println(paramRequest.getLocaleString("msgNoSuchStates"));             
             }
             out.println("</tbody>");
             out.println("</table>");
