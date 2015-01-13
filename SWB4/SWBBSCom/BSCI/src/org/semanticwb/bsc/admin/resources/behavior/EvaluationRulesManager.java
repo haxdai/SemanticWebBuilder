@@ -405,8 +405,8 @@ public class EvaluationRulesManager extends GenericAdmResource {
                     rule = EvaluationRule.ClassMgr.createEvaluationRule(model);
                     rule.setTitle(rule.getId());
                     rule.setTitle(rule.getId(), user.getLanguage());
-                    if(State.ClassMgr.hasState(request.getParameter("stateId"), SWBContext.getGlobalWebSite())) {
-                        State state = State.ClassMgr.getState(request.getParameter("stateId"), SWBContext.getGlobalWebSite());
+                    if(State.ClassMgr.hasState(request.getParameter("stateId"), model)) {
+                        State state = State.ClassMgr.getState(request.getParameter("stateId"), model);
                         rule.setAppraisal(state);
                         series.addEvaluationRule(rule);
                     }
@@ -435,8 +435,8 @@ public class EvaluationRulesManager extends GenericAdmResource {
                         rule = EvaluationRule.ClassMgr.createEvaluationRule(model);
                         rule.setTitle(rule.getId());
                         rule.setTitle(rule.getId(), user.getLanguage());
-                        if(State.ClassMgr.hasState(request.getParameter("stateId"), SWBContext.getGlobalWebSite())) {
-                            State state = State.ClassMgr.getState(request.getParameter("stateId"), SWBContext.getGlobalWebSite());
+                        if(State.ClassMgr.hasState(request.getParameter("stateId"), model)) {
+                            State state = State.ClassMgr.getState(request.getParameter("stateId"), model);
                             rule.setAppraisal(state);
                             series.addEvaluationRule(rule);
                         }
@@ -466,8 +466,8 @@ public class EvaluationRulesManager extends GenericAdmResource {
                 rule = EvaluationRule.ClassMgr.createEvaluationRule(model);
                 rule.setTitle(rule.getId());
                 rule.setTitle(rule.getId(), user.getLanguage());
-                if(State.ClassMgr.hasState(request.getParameter("stateId"), SWBContext.getGlobalWebSite())) {
-                    State state = State.ClassMgr.getState(request.getParameter("stateId"), SWBContext.getGlobalWebSite());
+                if(State.ClassMgr.hasState(request.getParameter("stateId"), model)) {
+                    State state = State.ClassMgr.getState(request.getParameter("stateId"), model);
                     rule.setAppraisal(state);
                     series.addEvaluationRule(rule);
                 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.Status;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.accessory.StateGroup;
@@ -66,11 +67,11 @@ public class StatesManager extends GenericResource {
                 Status status = (Status)obj.getGenericInstance();
                 PrintWriter out = response.getWriter();
                 
-                WebSite model = SWBContext.getGlobalWebSite();
+                SWBModel scorecard = (SWBModel)obj.getModel().getModelObject().getGenericInstance();
                 final String sgId = request.getParameter("sg");
-                if(StateGroup.ClassMgr.hasStateGroup(sgId, model))
+                if(StateGroup.ClassMgr.hasStateGroup(sgId, scorecard))
                 {
-                    StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, model);
+                    StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
                     out.println("<script type=\"text/javascript\">");
                     out.println("  dojo.require('dojo.parser');");
                     out.println("  dojo.require('dijit.layout.ContentPane');");
@@ -397,8 +398,8 @@ public class StatesManager extends GenericResource {
                 out.println("</tr>");
                 out.println("</thead>");
                 out.println("<tbody>");
-                WebSite model = SWBContext.getGlobalWebSite();
-                Iterator<StateGroup> groups = StateGroup.ClassMgr.listStateGroups(model);
+                SWBModel scorecard = (SWBModel)obj.getModel().getModelObject().getGenericInstance();
+                Iterator<StateGroup> groups = StateGroup.ClassMgr.listStateGroups(scorecard);
                 while(groups.hasNext()) {
                     StateGroup stateGroup = groups.next();
                     if(!stateGroup.isValid() || !user.haveAccess(stateGroup)) {
@@ -461,7 +462,7 @@ public class StatesManager extends GenericResource {
             return;
         }
         
-        SWBModel model = SWBContext.getGlobalWebSite();
+        SWBModel scorecard = (SWBModel)semObj.getModel().getModelObject().getGenericInstance();
         if(Action_UPDT_ACTIVE.equalsIgnoreCase(action))
         {
             Status status = (Status)semObj.getGenericInstance();
@@ -469,8 +470,8 @@ public class StatesManager extends GenericResource {
             if(stateId!=null)
             {
                 State state;
-                if(State.ClassMgr.hasState(stateId, model)) {
-                    state = State.ClassMgr.getState(stateId, model);
+                if(State.ClassMgr.hasState(stateId, scorecard)) {
+                    state = State.ClassMgr.getState(stateId, scorecard);
                     boolean act = status.hasState(state);
                     if(act) {
                         status.removeState(state);                                                
@@ -510,8 +511,8 @@ public class StatesManager extends GenericResource {
         {
             Status status = (Status)semObj.getGenericInstance();
             final String sgId = request.getParameter("sval");
-            if(StateGroup.ClassMgr.hasStateGroup(sgId, model)) {
-                StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, model);
+            if(StateGroup.ClassMgr.hasStateGroup(sgId, scorecard)) {
+                StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
                 Iterator<State> groupedStates = stateGroup.listValidStates().iterator();
                 if(groupedStates.hasNext()) {
                     stateGroup.setUndeleteable(true);
