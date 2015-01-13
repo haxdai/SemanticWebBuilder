@@ -13,6 +13,7 @@ import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.element.Risk;
+import org.semanticwb.bsc.utils.BSCUtils;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.w3c.dom.Attr;
@@ -43,32 +44,40 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         return validInitiative;
     }
     
-    private List<Period> sortPeriods() {
-        return sortPeriods(true);
+//    private List<Period> sortPeriods() {
+//        return sortPeriods(true);
+//    }
+//    
+//    private List<Period> sortPeriods(boolean ascendent) {
+//        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
+//        if(ascendent) {
+//            Collections.sort(periods);
+//        }else {            
+//            Collections.sort(periods, Collections.reverseOrder());            
+//        }
+//        return periods;
+//    }
+
+    @Override
+    public Iterator<Period> listPeriods() {
+        //return sortPeriods().iterator();
+        return listPeriods(true);
     }
     
-    private List<Period> sortPeriods(boolean ascendent) {
+    public Iterator<Period> listPeriods(boolean ascendent) {
+        //return sortPeriods(ascendent).iterator();
         List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
         if(ascendent) {
             Collections.sort(periods);
         }else {            
             Collections.sort(periods, Collections.reverseOrder());            
         }
-        return periods;
-    }
-
-    @Override
-    public Iterator<Period> listPeriods() {
-        return sortPeriods().iterator();
+        return periods.iterator();
     }
     
-    public Iterator<Period> listPeriods(boolean ascendent) {
-        return sortPeriods(ascendent).iterator();
-    }
-    
-    private List<Period> sortPerspectives() {
-        return sortPeriods(true);
-    }
+//    private List<Period> sortPerspectives() {
+//        return sortPeriods(true);
+//    }
     
     private List<Perspective> sortPerspectives(boolean ascendent) {
         List<Perspective> perspectives = SWBUtils.Collections.copyIterator(super.listPerspectives());
@@ -81,7 +90,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
     }
 
     public List<Period> listValidPeriods() {
-        List<Period> validPeriods = SWBUtils.Collections.filterIterator(listPeriods(), new GenericFilterRule<Period>() {
+        List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
                                                                         @Override
                                                                         public boolean filter(Period p) {
                                                                             if(p==null) {
@@ -250,7 +259,8 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         eobj.appendChild(e);
                         //sponsor
                         e = doc.createElement("sponsor");
-                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName().replaceAll("['\n]", "")));
+                        //e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName().replaceAll("['\n]", "")));
+                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"***" : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
                         eobj.appendChild(e);
                         //frequency
                         e = doc.createElement("frequency");
@@ -463,7 +473,8 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         eobj.appendChild(e);
                         //sponsor
                         e = doc.createElement("sponsor");
-                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName()));
+                        //e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName()));
+                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"***" : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
                         eobj.appendChild(e);
                         //frequency
                         e = doc.createElement("frequency");
