@@ -69,12 +69,14 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
 
     @Override
     public Iterator<Period> listAvailablePeriods() {
-        return getInitiative().listAvailablePeriods();
+        //return getInitiative().listAvailablePeriods();
+        return listAvailablePeriods(true);
     }
 
     @Override
     public Iterator<Period> listAvailablePeriods(boolean ascendent) {
-        return getInitiative().listAvailablePeriods(ascendent);
+        //return getInitiative().listAvailablePeriods(ascendent);
+        return getInitiative().listPeriods(ascendent);
     }
 
     private List<Period> sortValidPeriods() {

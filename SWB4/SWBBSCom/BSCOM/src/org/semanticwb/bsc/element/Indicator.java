@@ -135,28 +135,6 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         return periods;
     }
 
-    private List<Period> sortPeriods() {
-        return sortPeriods(true);
-    }
-
-    private List<Period> sortPeriods(boolean ascendent) {
-        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
-        if (ascendent) {
-            Collections.sort(periods);
-        } else {
-            Collections.sort(periods, Collections.reverseOrder());
-        }
-        return periods;
-    }
-
-    private List<State> sortStates() {
-        return getObjective().sortStates();
-    }
-
-    private List<State> sortStates(boolean ascendent) {
-        return getObjective().sortStates(ascendent);
-    }
-
     /**
      * Devuelve todos los períodos de medición ordenados ascendentemente
      *
@@ -265,21 +243,29 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
 
     @Override
     public GenericIterator<Period> listPeriods() {
-        return (GenericIterator) listPeriods(true);
+        return (GenericIterator)listPeriods(true);
     }
 
     public Iterator<Period> listPeriods(boolean ascendent) {
-        return sortPeriods(ascendent).iterator();
+        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
+        if(ascendent) {
+            Collections.sort(periods);
+        }else {
+            Collections.sort(periods, Collections.reverseOrder());
+        }
+        return periods.iterator();
     }
 
     @Override
     public Iterator<Period> listAvailablePeriods() {
-        return getObjective().listAvailablePeriods();
+        //return getObjective().listAvailablePeriods();
+        return listAvailablePeriods(true);
     }
 
     @Override
     public Iterator<Period> listAvailablePeriods(boolean ascendent) {
-        return getObjective().listAvailablePeriods(ascendent);
+        //return getObjective().listAvailablePeriods(ascendent);
+        return getObjective().listPeriods(ascendent);
     }
 
     @Override
