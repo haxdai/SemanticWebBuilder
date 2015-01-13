@@ -90,10 +90,10 @@ public class StrategicMap extends GenericResource
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
         WebPage wp;
-        wp = base.getWebSite().getWebPage(Objective.class.getSimpleName());
-        urlObjectivePage = wp.getUrl();
-        wp = base.getWebSite().getWebPage(Theme.class.getSimpleName());
-        urlThemePage = wp.getUrl();
+        //wp = ;
+        urlObjectivePage = base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl();
+        //wp = ;
+        urlThemePage = base.getWebSite().getWebPage(Theme.class.getSimpleName()).getUrl();
     }
 
     @Override
@@ -742,7 +742,7 @@ public class StrategicMap extends GenericResource
         // Lista de perspectivas
         expression = "/bsc/perspective";
         NodeList nlPersp = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
-        for (int j = 0; j < nlPersp.getLength(); j++) {
+        for (int j=0; j<nlPersp.getLength(); j++) {
             node = nlPersp.item(j);
             if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
                 NamedNodeMap attrs = node.getAttributes();
@@ -757,7 +757,7 @@ public class StrategicMap extends GenericResource
                 SVGjs.append(" g.setAttributeNS(null,'id','" + pid + "');").append("\n");
                 SVGjs.append(" svg.appendChild(g);").append("\n");
                 SVGjs.append(" g.setAttributeNS(null,'transform','translate(" + px + ",'+y+')');").append("\n");
-                SVGjs.append(" var y_ = " + PADDING_TOP + ";").append("\n");
+                SVGjs.append(" var y_ = " + PADDING_TOP + ";").append("\n");                
 
                 // Diferenciadores de la perspectiva
                 expression = "/bsc/perspective[@id='" + pid + "']/diffgroup[1]/diff";
