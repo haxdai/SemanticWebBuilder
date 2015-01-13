@@ -65,14 +65,26 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         Iterator<Deliverable> it = SWBComparator.sortByCreated(listDeliverables(), false);
         return it.hasNext() ? it.next() : null;
     }
+    
+    public Iterator<Period> listPeriods(boolean ascendent) {
+        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
+        if(ascendent) {
+            Collections.sort(periods);
+        }else {            
+            Collections.sort(periods, Collections.reverseOrder());            
+        }
+        return periods.iterator();
+    }
 
     @Override
     public Iterator<Period> listAvailablePeriods() {
-        return getBSC().listPeriods();
+        //return getBSC().listPeriods();
+        return listAvailablePeriods(true);
     }
 
     @Override
     public Iterator<Period> listAvailablePeriods(boolean ascendent) {
+        //return getBSC().listPeriods(ascendent);
         return getBSC().listPeriods(ascendent);
     }
 

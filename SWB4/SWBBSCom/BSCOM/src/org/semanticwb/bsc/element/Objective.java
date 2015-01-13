@@ -239,13 +239,25 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         return it.hasNext()?it.next():null;
     }
     
+    public Iterator<Period> listPeriods(boolean ascendent) {
+        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
+        if(ascendent) {
+            Collections.sort(periods);
+        }else {            
+            Collections.sort(periods, Collections.reverseOrder());            
+        }
+        return periods.iterator();
+    }
+    
     @Override
     public Iterator<Period> listAvailablePeriods() {
-        return getBSC().listPeriods();
+        //return getBSC().listPeriods();
+        return listAvailablePeriods(true);
     }
     
     @Override
     public Iterator<Period> listAvailablePeriods(boolean ascendent) {
+        //return getBSC().listPeriods(ascendent);
         return getBSC().listPeriods(ascendent);
     }
     
@@ -268,17 +280,18 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     }
     
     public List<Period> listValidPeriods() {
-        List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
-                                                        @Override
-                                                        public boolean filter(Period s) {
-                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
-                                                            if(user==null) {
-                                                                user = SWBContext.getAdminUser();
-                                                            }
-                                                            return !s.isValid() || !user.haveAccess(s);
-                                                        }            
-                                                    });
-        return validPeriods;
+//        List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
+//                                                        @Override
+//                                                        public boolean filter(Period s) {
+//                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+//                                                            if(user==null) {
+//                                                                user = SWBContext.getAdminUser();
+//                                                            }
+//                                                            return !s.isValid() || !user.haveAccess(s);
+//                                                        }            
+//                                                    });
+//        return validPeriods;
+        return SWBUtils.Collections.copyIterator(listPeriods());
     }
     
     public List<Indicator> listValidIndicators() {
