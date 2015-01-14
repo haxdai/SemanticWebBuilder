@@ -181,22 +181,22 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         // lista de perspectivas
         List<Perspective> perspectives = listValidPerspectives();
         Collections.sort(perspectives);
-        for(Perspective p:perspectives) {
+        for(Perspective perspective:perspectives) {
             //perspectiva
             Element ep = doc.createElement("perspective");
-            ep.setAttribute("id", p.getURI());
-            ep.setAttribute("orden", Integer.toString(p.getIndex()));
+            ep.setAttribute("id", perspective.getURI());
+            ep.setAttribute("orden", Integer.toString(perspective.getIndex()));
             eroot.appendChild(ep);
             //prefijo
             e = doc.createElement("prefix");
-            e.appendChild(doc.createTextNode(p.getPrefix()));
+            e.appendChild(doc.createTextNode(perspective.getPrefix()));
             ep.appendChild(e);
             //title
             e = doc.createElement("title");
-            e.appendChild(doc.createTextNode(p.getDisplayTitle(lang)==null?(p.getTitle()==null?"Desconocido":p.getTitle().replaceAll("['\n]", "")):p.getDisplayTitle(lang).replaceAll("['\n]", "")));
+            e.appendChild(doc.createTextNode(perspective.getDisplayTitle(lang)==null?(perspective.getTitle()==null?"Desconocido":perspective.getTitle().replaceAll("['\n]", "")):perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
             ep.appendChild(e);
             // lista de temas de esta perspectiva
-            List<Theme> themes = p.listValidThemes();
+            List<Theme> themes = perspective.listValidThemes();
             if(!themes.isEmpty()) {
                 Element ethemes = doc.createElement("themes");
                 ep.appendChild(ethemes);
@@ -301,7 +301,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                 }
             }
             //diffgroup
-            List<DifferentiatorGroup> diffgroups = p.listValidDifferentiatorGroups();
+            List<DifferentiatorGroup> diffgroups = perspective.listValidDifferentiatorGroups();
             if(!diffgroups.isEmpty()) {
                 DifferentiatorGroup diffgroup = diffgroups.get(0);
                 List<Differentiator> diffs = diffgroup.listValidDifferentiators();
@@ -356,20 +356,39 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         
         //title
         Element e = doc.createElement("title");
-        e.appendChild(doc.createTextNode(getDisplayTitle(lang)==null ? (getTitle()==null?"Desconocido":getTitle().replaceAll("['\n]", "")) : getDisplayTitle(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getDisplayTitle(lang)==null
+                ?(getTitle()==null?"Desconocido"
+                        :getTitle().replaceAll("['\n]", ""))
+                :
+                getDisplayTitle(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //mission
         e = doc.createElement("mission");
-        e.appendChild(doc.createTextNode(getMission(lang)==null?(getMission()==null?"Desconocido":getMission().replaceAll("['\n]", "")):getMission(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getMission(lang)==null
+                ?(getMission()==null?"Desconocido"
+                        :
+                        getMission().replaceAll("['\n]", ""))
+                :
+                getMission(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //vision
         e = doc.createElement("vision");
-        e.appendChild(doc.createTextNode(getVision(lang)==null?(getVision()==null?"Desconocido":getVision().replaceAll("['\n]", "")):getVision(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getVision(lang)==null
+                ?(getVision()==null?"Desconocido"
+                        :
+                        getVision().replaceAll("['\n]", ""))
+                :
+                getVision(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //logo
         e = doc.createElement("logo");
         Attr alt = doc.createAttribute("title");
-        alt.setValue(getDisplayDescription(lang)==null?(getDescription()==null?"Desconocido":getDescription().replaceAll("['\n]", "")):getDisplayDescription(lang).replaceAll("['\n]", ""));
+        alt.setValue(getDisplayDescription(lang)==null
+                ?(getDescription()==null?"Desconocido"
+                        :
+                        getDescription().replaceAll("['\n]", ""))
+                :
+                getDisplayDescription(lang).replaceAll("['\n]", ""));
         e.setAttributeNode(alt);
         Attr src = doc.createAttribute("src");
         src.setValue(getLogo());
@@ -381,25 +400,47 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         // lista de perspectivas
         List<Perspective> perspectives = listValidPerspectives();
         Collections.sort(perspectives);
-        for(Perspective p:perspectives) {
+        for(Perspective perspective:perspectives) {
             //perspectiva
             Element ep = doc.createElement("perspective");
-            ep.setAttribute("id", p.getURI());
-            ep.setAttribute("orden", Integer.toString(p.getIndex()));
+            ep.setAttribute("id", perspective.getURI());
+            ep.setAttribute("orden", Integer.toString(perspective.getIndex()));
             eroot.appendChild(ep);
             //prefijo
             e = doc.createElement("prefix");
-            e.appendChild(doc.createTextNode(p.getPrefix()));
+            e.appendChild(doc.createTextNode(perspective.getPrefix()));
             ep.appendChild(e);
             //title
             e = doc.createElement("title");
-            e.appendChild(doc.createTextNode(p.getDisplayTitle(lang)==null?(p.getTitle()==null?"Desconocido":p.getTitle().replaceAll("['\n]", "")):p.getDisplayTitle(lang).replaceAll("['\n]", "")));
+            e.appendChild(doc.createTextNode(perspective.getDisplayTitle(lang)==null
+                    ?(perspective.getTitle()==null
+                            ?"Desconocido"
+                            :
+                            perspective.getTitle().replaceAll("['\n]", ""))
+                    :
+                    perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
             ep.appendChild(e);
+
+///////////////////////////////////
+Iterator<Perspective> itp= perspective.listCausalPerspectives();
+while(itp.hasNext()) {
+    Perspective aux = itp.next();
+    System.out.println(perspective.getTitle()+" tiene rel con "+aux.getTitle());
+    //relaciones causa/efecto perspectiva-perspectiva
+    if(!aux.isValid()) {
+        continue;
+    }
+    e = doc.createElement("rel");
+    e.setAttribute("to", aux.getURI());
+    e.setAttribute("parent", perspective.getURI());
+    e.setAttribute("type", "perspective");
+    ep.appendChild(e);
+}
             
             existsObjectivesInPeriod = false;
                         
             // lista de temas por perspectiva
-            List<Theme> themes = p.listValidThemes();
+            List<Theme> themes = perspective.listValidThemes();
             if(!themes.isEmpty()) {
                 Element ethemes = doc.createElement("themes");
                 ep.appendChild(ethemes);
@@ -414,7 +455,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                     ethemes.appendChild(etheme);
                     //title
                     e = doc.createElement("title");
-                    e.appendChild(doc.createTextNode(t.getDisplayTitle(lang)==null?(t.getTitle()==null?"Desconocido":t.getTitle().replaceAll("['\n]", "")):t.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                    e.appendChild(doc.createTextNode(t.getDisplayTitle(lang)==null
+                            ?(t.getTitle()==null?"Desconocido"
+                                    :
+                                    t.getTitle().replaceAll("['\n]", ""))
+                            :
+                            t.getDisplayTitle(lang).replaceAll("['\n]", "")));
                     etheme.appendChild(e);
                     
                     //relaciones tema - tema
@@ -469,19 +515,34 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         eobj.appendChild(e);
                         //title
                         e = doc.createElement("title");
-                        e.appendChild(doc.createTextNode(o.getDisplayTitle(lang)==null?(o.getTitle()==null?"Desconocido":o.getTitle().replaceAll("['\n]", "")):o.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                        e.appendChild(doc.createTextNode(o.getDisplayTitle(lang)==null
+                                ?(o.getTitle()==null
+                                        ?"Desconocido"
+                                        :
+                                        o.getTitle().replaceAll("['\n]", ""))
+                                :
+                                o.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         eobj.appendChild(e);
                         //sponsor
                         e = doc.createElement("sponsor");
                         //e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName()));
-                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"***" : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
+                        e.appendChild(doc.createTextNode(o.getSponsor()==null?
+                                "***"
+                                :
+                                BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
                         eobj.appendChild(e);
                         //frequency
                         e = doc.createElement("frequency");
                         if(o.getPeriodicity()==null) {
                             e.appendChild(doc.createTextNode("Desconocido"));
                         }else {
-                            e.appendChild(doc.createTextNode(o.getPeriodicity().getDisplayTitle(lang)==null?(o.getPeriodicity().getTitle()==null?"Desconocido":o.getPeriodicity().getTitle().replaceAll("['\n]", "")):o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
+                            e.appendChild(doc.createTextNode(o.getPeriodicity().getDisplayTitle(lang)==null
+                                    ?(o.getPeriodicity().getTitle()==null
+                                            ?"Desconocido"
+                                            :
+                                            o.getPeriodicity().getTitle().replaceAll("['\n]", ""))
+                                    :
+                                    o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
                         }
                         eobj.appendChild(e);
                         
@@ -517,7 +578,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
             } //temas por perspectiva
             
             // lista de diferenciadores por perspectiva
-            List<DifferentiatorGroup> diffgroups = p.listValidDifferentiatorGroups();
+            List<DifferentiatorGroup> diffgroups = perspective.listValidDifferentiatorGroups();
             if(!diffgroups.isEmpty()) {
                 DifferentiatorGroup diffgroup = diffgroups.get(0);
                 List<Differentiator> diffs = diffgroup.listValidDifferentiators();
@@ -530,7 +591,13 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         e = doc.createElement("diff");
                         e.setAttribute("id", diff.getURI());
                         e.setAttribute("orden", Integer.toString(diff.getIndex()));
-                        e.appendChild(doc.createTextNode(diff.getDisplayTitle(lang)==null?(diff.getTitle()==null?"Desconocido":diff.getTitle().replaceAll("['\n]", "")):diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                        e.appendChild(doc.createTextNode(diff.getDisplayTitle(lang)==null
+                                ?(diff.getTitle()==null
+                                        ?"Desconocido"
+                                        :
+                                        diff.getTitle().replaceAll("['\n]", ""))
+                                :
+                                diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         ediffgroup.appendChild(e);
                     }
                 }
@@ -552,7 +619,13 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                 e.setAttribute("prefix", r.getPrefix());
                 e.setAttribute("likehood", Integer.toString(r.getFinAssessmentLikelihood()));
                 e.setAttribute("impact", Integer.toString(r.getFinAssessmentImpactLevel()));
-                e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null?(r.getTitle()==null?"Desconocido":r.getTitle().replaceAll("['\n]", "")):r.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null
+                        ?(r.getTitle()==null
+                                ?"Desconocido"
+                                :
+                                r.getTitle().replaceAll("['\n]", ""))
+                        :
+                        r.getDisplayTitle(lang).replaceAll("['\n]", "")));
                 rsksgroup.appendChild(e);
             }
         }
