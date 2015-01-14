@@ -3312,6 +3312,8 @@
         <rdfs:label xml:lang="en">Commitment date</rdfs:label>
         <swbxf:formElement>
           <bsc:DateElement rdf:ID="DateElement2">
+            <rdfs:label xml:lang="en">Date picker, in dd/mm/yy format, with restriction to min date today</rdfs:label>
+            <rdfs:label xml:lang="es">Selector de fecha, en formato dd/mm/yyyy, con restricción mínima al día actual</rdfs:label>
             <swb:dateConstraints rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
             >{min:'{today}'}</swb:dateConstraints>
           </bsc:DateElement>
