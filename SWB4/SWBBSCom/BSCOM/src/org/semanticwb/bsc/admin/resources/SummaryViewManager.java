@@ -235,7 +235,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             StringBuilder status = new StringBuilder();
             status.append("<span class=\""+d.getStatusIconClass(thisPeriod)+"\"></span> ");
             title = d.getStatusTitle(thisPeriod);
-            status.append(title.isEmpty()?"-":title);
+            status.append(title.isEmpty()?"Not set":title);
             try {
                 row.put("status", status.toString());
             } catch (JSONException jsone) {
@@ -1063,7 +1063,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("                <div style=\"float:left;\">");
         output.append("                    <p>&nbsp;</p>");
         output.append("                    <span dojoType='dijit.form.Button'>\n");
-        output.append("                        ->");
+//        output.append("                        ->");
         output.append("                       <script type=\"dojo/method\" event='onClick' args='evt'>\n");
         output.append("                            var base = document.getElementById(\"baseList");
         output.append(this.getId());
@@ -1087,7 +1087,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("                    </span>");
         output.append("                    <br>");
         output.append("                    <span dojoType=\"dijit.form.Button\">\n");
-        output.append("                        <-\n");
+//        output.append("                        <-\n");
         output.append("                        <script type=\"dojo/method\" event=\"onClick\" args=\"evt\">\n");
         output.append("                            var base = document.getElementById(\"baseList");
         output.append(this.getId());
