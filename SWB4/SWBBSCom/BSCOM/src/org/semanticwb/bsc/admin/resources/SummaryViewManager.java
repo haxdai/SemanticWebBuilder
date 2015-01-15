@@ -372,6 +372,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("      rowSelector: '10px', \n");
         output.append("      autoHeight: true \n");
         output.append("    }, \"grid\");\n");
+        output.append("    myGrid.queryOptions = {ignoreCase:true};");
         output.append("    myGrid.startup();\n");
         output.append("  });\n");
         output.append("</script>\n");
