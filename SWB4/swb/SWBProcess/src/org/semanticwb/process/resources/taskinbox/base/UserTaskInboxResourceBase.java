@@ -7,6 +7,8 @@ public abstract class UserTaskInboxResourceBase extends org.semanticwb.portal.ap
     public static final org.semanticwb.platform.SemanticProperty utinbox_configJSP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/process/resources/UserTaskInbox#configJSP");
     public static final org.semanticwb.platform.SemanticProperty utinbox_showProcessWPLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/process/resources/UserTaskInbox#showProcessWPLink");
     public static final org.semanticwb.platform.SemanticProperty utinbox_itemsPerPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/process/resources/UserTaskInbox#itemsPerPage");
+    public static final org.semanticwb.platform.SemanticClass swb_Role=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Role");
+    public static final org.semanticwb.platform.SemanticProperty utinbox_adminRole=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/process/resources/UserTaskInbox#adminRole");
     public static final org.semanticwb.platform.SemanticProperty utinbox_viewJSP=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/process/resources/UserTaskInbox#viewJSP");
     public static final org.semanticwb.platform.SemanticClass swb_Resource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#Resource");
     public static final org.semanticwb.platform.SemanticProperty swb_semanticResourceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#semanticResourceInv");
@@ -119,6 +121,44 @@ public abstract class UserTaskInboxResourceBase extends org.semanticwb.portal.ap
     public void setItemsPerPage(int value)
     {
         getSemanticObject().setIntProperty(utinbox_itemsPerPage, value);
+    }
+   /**
+   * Sets the value for the property AdminRole
+   * @param value AdminRole to set
+   */
+
+    public void setAdminRole(org.semanticwb.model.Role value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(utinbox_adminRole, value.getSemanticObject());
+        }else
+        {
+            removeAdminRole();
+        }
+    }
+   /**
+   * Remove the value for AdminRole property
+   */
+
+    public void removeAdminRole()
+    {
+        getSemanticObject().removeProperty(utinbox_adminRole);
+    }
+
+   /**
+   * Gets the AdminRole
+   * @return a org.semanticwb.model.Role
+   */
+    public org.semanticwb.model.Role getAdminRole()
+    {
+         org.semanticwb.model.Role ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(utinbox_adminRole);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.Role)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
