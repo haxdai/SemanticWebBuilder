@@ -48,6 +48,7 @@ public class EmailLogResource extends GenericResource {
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();
         Calendar cal3 = new GregorianCalendar();
+        String dateLogStr = "";
 
         Iterator<User> itUser = User.ClassMgr.listUsers();
         toReturn.append("<script type=\"text/javascript\">");
@@ -159,6 +160,9 @@ public class EmailLogResource extends GenericResource {
                     from = log.getFrom().getEmail();
                 }
                 Date dateLog = log.getCreated();
+                if(dateLog != null){
+                    dateLogStr = dateFormat.format(dateLog);
+                }
                 toReturn.append("<tr>");
                 toReturn.append("<td>");
                 toReturn.append(from);
@@ -188,7 +192,7 @@ public class EmailLogResource extends GenericResource {
                 }
                 toReturn.append("<td>" + otherAccounts + "</td>");
                 toReturn.append("<td>" + subject + "</td>");
-                toReturn.append("<td>" + dateFormat.format(dateLog) + "</td>");
+                toReturn.append("<td>" + dateLogStr + "</td>");
                 toReturn.append("</tr>");
             }
         }
@@ -215,6 +219,7 @@ public class EmailLogResource extends GenericResource {
                     //try {
                         //date3 = dateFormat2.parse(dateL);
                     Date dateLog = log.getCreated();
+                    if(dateLog != null){
                         cal3.setTime(dateLog);
                     //} catch (ParseException ex) {
                     //    Logger.getLogger(EmailLogResource.class.getName()).log(Level.SEVERE, null, ex);
@@ -259,6 +264,7 @@ public class EmailLogResource extends GenericResource {
                         toReturn.append("<td>" + dateFormat.format(dateLog) + "</td>");
                         toReturn.append("</tr>");
                     }
+                    }
                 }
             }
         }
@@ -288,6 +294,7 @@ public class EmailLogResource extends GenericResource {
 //                    String dateL = dateFormat2.format(log.getDate());
 //                    try {
 //                        date3 = dateFormat2.parse(dateL);
+                    if(dateLog != null){
                         cal3.setTime(dateLog);
 //                    } catch (ParseException ex) {
 //                        Logger.getLogger(EmailLogResource.class.getName()).log(Level.SEVERE, null, ex);
@@ -331,6 +338,7 @@ public class EmailLogResource extends GenericResource {
                         toReturn.append("<td>" + subject + "</td>");
                         toReturn.append("<td>" + dateFormat.format(dateLog) + "</td>");
                         toReturn.append("</tr>");
+                    }
                     }
                 }
             }
