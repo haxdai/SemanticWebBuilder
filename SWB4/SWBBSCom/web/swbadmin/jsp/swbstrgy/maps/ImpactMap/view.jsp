@@ -145,9 +145,10 @@
                 table.append("<td ");
                 try {
                     iconClass = new StringBuilder();
-                    iconClass.append(" class=\"")
-                            .append(initiative.getPeriodStatus(period).getStatus().getIconClass())
-                            .append("\"");
+                    //iconClass.append(" class=\"")
+                    //        .append(initiative.getPeriodStatus(period).getStatus().getIconClass())
+                    //        .append("\"");
+                    iconClass.append(" style=\"background-color:"+initiative.getPeriodStatus(period).getStatus().getColorHex()+"\"");
                     table.append(iconClass);
                 }catch(Exception e) {
                     table.append(" style=\"background-color:#ccc\"");
