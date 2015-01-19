@@ -60,7 +60,7 @@
 				<textField>
 					<reportElement x="34" y="42" width="186" height="21"/>
 					<textElement>
-						<font fontName="Arial Black" size="10" isBold="true"/>
+						<font fontName="Arial" size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{titleDoc}]]></textFieldExpression>
 				</textField>
