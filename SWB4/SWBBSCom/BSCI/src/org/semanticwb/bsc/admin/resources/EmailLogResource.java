@@ -26,6 +26,7 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import sun.security.jca.GetInstance;
 
 /**
  *
@@ -43,7 +44,7 @@ public class EmailLogResource extends GenericResource {
         String uriUser = request.getParameter("selectUser") == null ? "1" : (String) request.getParameter("selectUser");
         String dateFrom = request.getParameter("dateFrom") == null ? "" : (String) request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo") == null ? "" : (String) request.getParameter("dateTo");
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();
@@ -202,7 +203,11 @@ public class EmailLogResource extends GenericResource {
                 date1 = dateFormat2.parse(dateFrom);
                 date2 = dateFormat2.parse(dateTo);
                 cal1.setTime(date1);
-                cal2.setTime(date2);
+                cal2.setTime(date2); 
+                String today = dateFormat2.format(new Date());
+                 if(dateTo.equals(today)){
+                    cal2.add(Calendar.DAY_OF_MONTH, +1);
+                }
             } catch (ParseException ex) {
                 Logger.getLogger(EmailLogResource.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -279,6 +284,10 @@ public class EmailLogResource extends GenericResource {
                 date2 = dateFormat2.parse(dateTo);
                 cal1.setTime(date1);
                 cal2.setTime(date2);
+                String today = dateFormat2.format(new Date());
+                 if(dateTo.equals(today)){
+                    cal2.add(Calendar.DAY_OF_MONTH, +1);
+                }
             } catch (ParseException ex) {
                 Logger.getLogger(EmailLogResource.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -296,6 +305,7 @@ public class EmailLogResource extends GenericResource {
 //                        date3 = dateFormat2.parse(dateL);
                     if(dateLog != null){
                         cal3.setTime(dateLog);
+                        
 //                    } catch (ParseException ex) {
 //                        Logger.getLogger(EmailLogResource.class.getName()).log(Level.SEVERE, null, ex);
 //                    }
