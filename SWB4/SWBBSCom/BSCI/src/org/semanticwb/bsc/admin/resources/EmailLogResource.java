@@ -44,7 +44,7 @@ public class EmailLogResource extends GenericResource {
         String uriUser = request.getParameter("selectUser") == null ? "1" : (String) request.getParameter("selectUser");
         String dateFrom = request.getParameter("dateFrom") == null ? "" : (String) request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo") == null ? "" : (String) request.getParameter("dateTo");
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal1 = new GregorianCalendar();
         Calendar cal2 = new GregorianCalendar();
