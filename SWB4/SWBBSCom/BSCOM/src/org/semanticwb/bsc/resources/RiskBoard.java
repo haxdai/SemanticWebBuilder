@@ -140,7 +140,7 @@ public class RiskBoard extends GenericResource
             determinants[cont] = det;
             cont++;
         }
-        output.append("<div class=\"panel panel-default\">");
+        output.append("<div id=\"refRiskBoard\" dojoType=\"dojox.layout.ContentPane\" class=\"panel panel-default\">");
         if (mode != null && mode.equalsIgnoreCase("edit")) {
             String lang = user.getLanguage();
             SWBResourceURL url = paramRequest.getRenderUrl();
@@ -1009,7 +1009,6 @@ public class RiskBoard extends GenericResource
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response)
             throws SWBResourceException, IOException {
-
         String action = response.getAction();
         String statusMsg = null;
         String errorMsg = null;
@@ -1530,7 +1529,7 @@ public class RiskBoard extends GenericResource
                         data.append("');\">");
                         data.append("<span class=\"glyphicon glyphicon-pencil\"></span>");
                         data.append("</a>");
-                        data.append("<a href=\"#\" onclick=\"deleteElement(1, '");
+                        data.append("<a href=\"#\" onclick=\"deleteElement(2, '");
                         data.append(initiative.getTitle());
                         data.append("', '");
                         data.append(urlDelete.toString());
