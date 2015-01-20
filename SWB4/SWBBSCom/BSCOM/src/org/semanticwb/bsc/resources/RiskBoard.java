@@ -140,7 +140,7 @@ public class RiskBoard extends GenericResource
             determinants[cont] = det;
             cont++;
         }
-        output.append("<div id=\"refRiskBoard\" dojoType=\"dojox.layout.ContentPane\" class=\"panel panel-default\">");
+        output.append("<div class=\"panel panel-default\">");
         if (mode != null && mode.equalsIgnoreCase("edit")) {
             String lang = user.getLanguage();
             SWBResourceURL url = paramRequest.getRenderUrl();
