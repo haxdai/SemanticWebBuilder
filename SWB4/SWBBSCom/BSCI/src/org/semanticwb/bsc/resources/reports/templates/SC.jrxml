@@ -37,51 +37,51 @@
 					<imageExpression class="java.io.InputStream"><![CDATA[$F{logo}]]></imageExpression>
 				</image>
 				<textField>
-					<reportElement positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="84" y="10" width="92" height="20" forecolor="#000000"/>
+					<reportElement positionType="FixRelativeToBottom" isPrintRepeatedValues="false" x="86" y="10" width="92" height="20" forecolor="#000000"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
+						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{scoreCard}]]></textFieldExpression>
 				</textField>
 				<textField pattern="dd/MM/yyyy">
 					<reportElement positionType="FixRelativeToBottom" x="416" y="10" width="78" height="20"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
+						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.util.Date"><![CDATA[new java.util.Date()]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="239" y="10" width="100" height="20"/>
 					<textElement verticalAlignment="Middle">
-						<font size="10" isBold="true"/>
+						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{periodTitle}]]></textFieldExpression>
 				</textField>
 				<textField>
 					<reportElement x="34" y="42" width="186" height="21"/>
 					<textElement>
-						<font fontName="Arial" size="12" isBold="true"/>
+						<font fontName="SansSerif" size="12" isBold="true"/>
 					</textElement>
 					<textFieldExpression class="java.lang.String"><![CDATA[$F{titleDoc}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement x="34" y="10" width="73" height="20" forecolor="#725392"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial Black" isBold="true"/>
+						<font fontName="SansSerif" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Scorecard:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="199" y="10" width="51" height="20" forecolor="#725392"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial Black" size="10" isBold="true"/>
+						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Periodo:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement x="366" y="10" width="72" height="20" forecolor="#725392"/>
 					<textElement verticalAlignment="Middle">
-						<font fontName="Arial Black" size="10" isBold="true"/>
+						<font fontName="SansSerif" size="10" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Generado:]]></text>
 				</staticText>
@@ -100,7 +100,7 @@
 					<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{themeHeader}]]></textFieldExpression>
 			</textField>
@@ -114,7 +114,7 @@
 					<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{initHeader}]]></textFieldExpression>
 			</textField>
@@ -128,7 +128,7 @@
 					<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{perspectiveHeader}]]></textFieldExpression>
 			</textField>
@@ -142,7 +142,7 @@
 					<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{objHeader}]]></textFieldExpression>
 			</textField>
@@ -156,7 +156,7 @@
 					<rightPen lineWidth="0.5" lineColor="#FFFFFF"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial Black" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
+					<font fontName="SansSerif" size="10" isBold="true" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{indicHeader}]]></textFieldExpression>
 			</textField>
@@ -222,7 +222,9 @@
 			</textField>
 			<textField>
 				<reportElement x="0" y="0" width="553" height="20"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{msg}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true">
