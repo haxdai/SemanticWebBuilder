@@ -40,12 +40,13 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
     @Override
     public void run()
     {
+        System.out.println("StreamThreadRemoverbyNumber is going to Start Now:"+socialSite);
         try
         {
           Iterator<Stream> itStreams = socialSite.listStreams();
           while (itStreams.hasNext()) {
             Stream stream = itStreams.next();
-            //if(!stream.isDeleted()) 
+            //if(!stream.isDeleted() && stream.isActive()) 
             {  
                 //System.out.println("StreamThreadRemoverbyNumber-1");
                 long postInNumAccepted=stream.getStream_maxMsg();
@@ -54,11 +55,13 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
                 //1000 es el menor número aceptado en un stream, 100,000 es el mayor número aceptado
                 //El número de mensajes en el stream no debe ser mayor que el que acepta el stream (entre 1000 y 100,000)
                 int postInStream=Integer.parseInt(getAllPostInStream(stream));
+                System.out.println("stream:"+stream+",postInStream:"+postInStream+",postInNumAccepted:"+postInNumAccepted);
                 if(postInNumAccepted<postInStream)    
                 {
                     long toErase=postInStream-postInNumAccepted;
                     //System.out.println("Entra a StreamCleanerMsgbyNumber...EJECUTAR/STREAM-1:"+stream+",toErase:"+toErase);
                     String query=getAllPostIn2Remove(stream, toErase);
+                    //System.out.println("StreamThreadRemoverbyNumber/query:"+query);
                     Iterator<PostIn> itPostIns2Remove=SWBSocial.executeQueryArray(query, socialSite).iterator();
                     while(itPostIns2Remove.hasNext())
                     {
@@ -69,6 +72,9 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
                 }
               }
           }
+          //Invoco a GC
+          //System.gc();
+          System.out.println("StreamThreadRemoverbyNumber is ending Now:"+socialSite);
         } catch (Exception e) {
             log.error(e);
         }
@@ -78,7 +84,8 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
         String query ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
-        query += "select DISTINCT (COUNT(?postUri) AS ?c1) \n";    //Para Gena
+        //query += "select DISTINCT (COUNT(?postUri) AS ?c1) \n";    //Para Gena
+        query += "select (COUNT(?postUri) AS ?c1) \n";    //Para Gena
         query +="where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  }\n";
@@ -97,7 +104,7 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
                 + "  ?postUri social:pi_created ?postInCreated. \n"
                 + "}\n"
                 + "ORDER BY asc(?postInCreated) \n"
-                + "OFFSET 0"
+                + "OFFSET 0 \n"
                 + "LIMIT " + limit;
         return query;
     }

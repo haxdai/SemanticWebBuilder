@@ -53,11 +53,12 @@ public class StreamCleanerMsgbyNumber {
     public StreamCleanerMsgbyNumber() {
         try {
             //System.out.println("Entra a StreamCleanerMsgbyNumber...");
-            int periodTime = 60 * MILISEG_IN_SEGUNDO; //Un minuto
-            int initTime=180*MILISEG_IN_SEGUNDO;
+            int minute=60; //60 seconds
+            int periodTime = (minute*5) * MILISEG_IN_SEGUNDO; //5 minutos
+            int initTime=(minute*3)*MILISEG_IN_SEGUNDO; //3 minutos
             Timer timer = new Timer();
             log.event("Initializing StreamCleanerMsgbyNumber, starts in:"+initTime+"ms, periodicity:"+periodTime+"ms");
-            timer.schedule(new StreamCleanerMsgbyNumber.CheckStreamsMsgbyNumber(), initTime, periodTime);
+            timer.scheduleAtFixedRate(new StreamCleanerMsgbyNumber.CheckStreamsMsgbyNumber(), initTime, periodTime);
         } catch (Exception e) {
             log.error(e);
         }
@@ -83,7 +84,7 @@ public class StreamCleanerMsgbyNumber {
             while(itSocialSites.hasNext())
             {
                 SocialSite socialSite=itSocialSites.next();
-                //if(socialSite.isValid())
+                if(socialSite.isValid()) 
                 {
                     long streamMaxMessages=0;
                     LicenseType licenseType=socialSite.getLicenseType();
@@ -131,12 +132,13 @@ public class StreamCleanerMsgbyNumber {
 
         }
     }
-
+    /*
     private String getAllPostInStream(Stream stream) {
         String query ="PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
-        query += "select DISTINCT (COUNT(?postUri) AS ?c1) \n";    //Para Gena
+       // query += "select DISTINCT (COUNT(?postUri) AS ?c1) \n";    //Para Gena
+        query += "select (COUNT(?postUri) AS ?c1) \n";    //Para Gena
         query +="where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  }\n";
@@ -159,7 +161,7 @@ public class StreamCleanerMsgbyNumber {
                 + "LIMIT " + limit;
         return query;
     }
-    
+    */
     
     
 }
