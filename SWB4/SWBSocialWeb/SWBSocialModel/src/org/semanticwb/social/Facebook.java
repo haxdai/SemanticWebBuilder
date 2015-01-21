@@ -1662,8 +1662,9 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             response = getResponse(in);
 
         } catch (java.io.IOException ioe) {
-            response = getResponse(conex.getErrorStream());
-            log.error("Unsuccessful request to: " + url + "\n" + response);
+            //response = getResponse(conex.getErrorStream());
+            response=null;
+            log.error("Unsuccessful request to: " + url + "\n" + conex.getErrorStream());
             //ioe.printStackTrace();
         } finally {
             close(in);

@@ -107,16 +107,18 @@ public class SWBSocial {
                         //System.out.println("ValGeorgeResource:"+val);
                         SemanticObject semObj=SemanticObject.createSemanticObject(val, wsite.getSemanticModel()); 
                         //System.out.println("semObj:"+semObj);
-                        if(semObj.createGenericInstance() instanceof PostIn){
-                            PostIn postIn=(PostIn)semObj.createGenericInstance();
-                             aResult.add(postIn);
-                             //System.out.println("semObj/PostIn:"+postIn);
-                        }else if(semObj.createGenericInstance() instanceof PostOut){
-                            PostOut postOut = (PostOut)semObj.createGenericInstance();
-                             aResult.add(postOut);
-                             //System.out.println("semObj/postOut:"+postOut);
-                        }         
-                       
+                        if(semObj!=null)
+                        {
+                            if(semObj.createGenericInstance() instanceof PostIn){
+                                PostIn postIn=(PostIn)semObj.createGenericInstance();
+                                 aResult.add(postIn);
+                                 //System.out.println("semObj/PostIn:"+postIn);
+                            }else if(semObj.createGenericInstance() instanceof PostOut){
+                                PostOut postOut = (PostOut)semObj.createGenericInstance();
+                                 aResult.add(postOut);
+                                 //System.out.println("semObj/postOut:"+postOut);
+                            }         
+                        }
                     }
                 }
             }

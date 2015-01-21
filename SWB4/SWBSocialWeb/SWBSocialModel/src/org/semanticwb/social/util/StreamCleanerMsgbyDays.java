@@ -91,6 +91,7 @@ public class StreamCleanerMsgbyDays {
          * Metodo que revisa todos los streams activos en todas las marcas a
          */
         public void run() {
+            //System.out.println("StreamCleanerMsgbyDays is going to Start Now");
             Iterator<Stream> itStreams = Stream.ClassMgr.listStreams();
             while (itStreams.hasNext()) {
                 Stream stream = itStreams.next();
@@ -118,7 +119,8 @@ public class StreamCleanerMsgbyDays {
                     }
                 }
             }
-
+            //Invoco a Gc
+            //System.gc();
         }
     }
 /*
