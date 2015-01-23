@@ -74,13 +74,13 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject sobj = ont.getSemanticObject(suri);
         if(sobj==null || !(sobj.getGenericInstance() instanceof SM)) {
-            response.getWriter().println("No hay instancia de SM");
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
             return;
         }
         SM sm = (SM)sobj.getGenericInstance();
         Series star = sm.getStar();
         if(star == null) {
-            response.getWriter().println("No hay STAR");
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSTAR")+"</div>");
             return;
         }
         
@@ -564,10 +564,14 @@ public class DataTableResource extends GenericResource implements ComponentExpor
                     sb.append("</tbody>");
                     sb.append("</table>");
                 } else {
-                    sb.append("No hay STAR");
+                    sb.append("<div class=\"alert alert-warning\" role=\"alert\">");
+                    sb.append(paramRequest.getLocaleString("msgNoSuchSTAR"));
+                    sb.append("</div>");
                 }
             } else {
-                sb.append("No hay indicador");
+                sb.append("<div class=\"alert alert-warning\" role=\"alert\">");
+                sb.append(paramRequest.getLocaleString("msgNoSuchSemanticElement"));
+                sb.append("</div>");
             }
         }
         return sb.toString();
