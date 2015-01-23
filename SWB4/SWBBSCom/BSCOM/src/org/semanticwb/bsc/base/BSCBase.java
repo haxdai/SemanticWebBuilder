@@ -4,7 +4,7 @@ package org.semanticwb.bsc.base;
    /**
    * Modelo que define un Scorecard de la metodologia BalancedScorecard de Norton y Kaplan 
    */
-public abstract class BSCBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Help,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.model.Countryable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode
+public abstract class BSCBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode,org.semanticwb.model.Indexable,org.semanticwb.model.Countryable
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_values=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#values");
    /**
@@ -88,6 +88,10 @@ public abstract class BSCBase extends org.semanticwb.model.WebSite implements or
    * Persiste la información de una Sesión. Existen  dos tipos de sesiones: RAE y NOA
    */
     public static final org.semanticwb.platform.SemanticClass bsc_Meeting=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Meeting");
+   /**
+   * Agrupa uno más estados.
+   */
+    public static final org.semanticwb.platform.SemanticClass bsc_StateGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#StateGroup");
    /**
    * Define las características de una Iniciativa
    */
@@ -1204,6 +1208,36 @@ public abstract class BSCBase extends org.semanticwb.model.WebSite implements or
     public boolean hasMeeting(String id)
     {
         return org.semanticwb.bsc.tracing.Meeting.ClassMgr.hasMeeting(id, this);
+    }
+
+    public org.semanticwb.bsc.accessory.StateGroup getStateGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.StateGroup.ClassMgr.getStateGroup(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.bsc.accessory.StateGroup> listStateGroups()
+    {
+        return org.semanticwb.bsc.accessory.StateGroup.ClassMgr.listStateGroups(this);
+    }
+
+    public org.semanticwb.bsc.accessory.StateGroup createStateGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.StateGroup.ClassMgr.createStateGroup(id,this);
+    }
+
+    public org.semanticwb.bsc.accessory.StateGroup createStateGroup()
+    {
+        long id=getSemanticObject().getModel().getCounter(bsc_StateGroup);
+        return org.semanticwb.bsc.accessory.StateGroup.ClassMgr.createStateGroup(String.valueOf(id),this);
+    } 
+
+    public void removeStateGroup(String id)
+    {
+        org.semanticwb.bsc.accessory.StateGroup.ClassMgr.removeStateGroup(id, this);
+    }
+    public boolean hasStateGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.StateGroup.ClassMgr.hasStateGroup(id, this);
     }
 
     public org.semanticwb.bsc.element.Initiative getInitiative(String id)
