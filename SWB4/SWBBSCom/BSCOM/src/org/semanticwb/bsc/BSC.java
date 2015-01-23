@@ -32,12 +32,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         List<Initiative> validInitiative = SWBUtils.Collections.filterIterator(super.listInitiatives(), new GenericFilterRule<Initiative>() {
                                                                         @Override
                                                                         public boolean filter(Initiative s) {
-                                                                            System.out.println("iniciativa="+s.getTitle());
                                                                             User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            System.out.println("user="+user.getLogin());
                                                                             return !s.isValid() || !user.haveAccess(s);
                                                                         }            
                                                                     });
@@ -420,22 +418,21 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                     :
                     perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
             ep.appendChild(e);
-
-///////////////////////////////////
-Iterator<Perspective> itp= perspective.listCausalPerspectives();
-while(itp.hasNext()) {
-    Perspective aux = itp.next();
-    System.out.println(perspective.getTitle()+" tiene rel con "+aux.getTitle());
-    //relaciones causa/efecto perspectiva-perspectiva
-    if(!aux.isValid()) {
-        continue;
-    }
-    e = doc.createElement("rel");
-    e.setAttribute("to", aux.getURI());
-    e.setAttribute("parent", perspective.getURI());
-    e.setAttribute("type", "perspective");
-    ep.appendChild(e);
-}
+            
+            // relaciones con otras perspectivas (perspectiva - perspectiva)
+            Iterator<Perspective> itp= perspective.listCausalPerspectives();
+            while(itp.hasNext()) {
+                Perspective aux = itp.next();
+                //relaciones causa/efecto perspectiva-perspectiva
+                if(!aux.isValid()) {
+                    continue;
+                }
+                e = doc.createElement("rel");
+                e.setAttribute("to", aux.getURI());
+                e.setAttribute("parent", perspective.getURI());
+                e.setAttribute("type", "perspective");
+                ep.appendChild(e);
+            }
             
             existsObjectivesInPeriod = false;
                         
