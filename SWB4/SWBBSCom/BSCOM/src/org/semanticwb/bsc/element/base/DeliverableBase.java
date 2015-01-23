@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Representa un archivo físico utilizado a manera de evidencia sobre la realización de alguna actividad. 
    */
-public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.bsc.Updateable,org.semanticwb.bsc.Schedule,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.StatusManuallyAssignable,org.semanticwb.bsc.Preference,org.semanticwb.model.UserGroupable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Roleable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.SM
+public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Preference,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.bsc.StatusManuallyAssignable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Updateable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Detailed,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Schedule,org.semanticwb.bsc.SM,org.semanticwb.bsc.Attachmentable
 {
    /**
    * Porcentaje de avance a reportar
@@ -456,20 +456,20 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
 
 /**
 * Gets the Progress property
-* @return int with the Progress
+* @return float with the Progress
 */
-    public int getProgress()
+    public float getProgress()
     {
-        return getSemanticObject().getIntProperty(bsc_progress);
+        return getSemanticObject().getFloatProperty(bsc_progress);
     }
 
 /**
 * Sets the Progress property
 * @param value long with the Progress
 */
-    public void setProgress(int value)
+    public void setProgress(float value)
     {
-        getSemanticObject().setIntProperty(bsc_progress, value);
+        getSemanticObject().setFloatProperty(bsc_progress, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.accessory.Period
