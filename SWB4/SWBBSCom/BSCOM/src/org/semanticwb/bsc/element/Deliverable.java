@@ -37,13 +37,8 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
     }
 
     @Override
-    public void setProgress(int value) {
-        System.out.println("setProgress. value=" + value);
-        //1. asignar nuevo valor
+    public void setProgress(float value) {
         super.setProgress(value);
-        //2. recalcular estatus de entregable
-        //evaluate();
-        //3. recalcular estatus de iniciativa
     }
 
     @Override
