@@ -309,6 +309,7 @@ public class ftpPanel extends javax.swing.JPanel implements ListSelectionListene
             xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><req><cmd>getDirectories</cmd><path>" + pathInit + "</path></req>";
         }
         String respxml = getData(xml);
+        //System.out.println("respxml:"+respxml);
         WBXMLParser parser = new WBXMLParser();
         try
         {
