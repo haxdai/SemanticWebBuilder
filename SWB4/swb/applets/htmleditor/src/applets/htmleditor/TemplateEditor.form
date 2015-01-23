@@ -552,7 +552,7 @@
               <SubComponents>
                 <Component class="javax.swing.JEditorPane" name="htmlEditor">
                   <Properties>
-                    <Property name="contentType" type="java.lang.String" value="text/html"/>
+                    <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
                     <Property name="editable" type="boolean" value="false"/>
                   </Properties>
                   <AuxValues>
