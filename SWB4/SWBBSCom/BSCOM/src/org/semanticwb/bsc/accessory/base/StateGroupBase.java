@@ -4,7 +4,7 @@ package org.semanticwb.bsc.accessory.base;
    /**
    * Agrupa uno más estados. 
    */
-public abstract class StateGroupBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.bsc.Help,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Roleable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableNode
+public abstract class StateGroupBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable
 {
    /**
    * Un estado define la situación de una medición  en un indicador respecto de las metas de su objetivo.
@@ -283,5 +283,14 @@ public abstract class StateGroupBase extends org.semanticwb.bsc.accessory.BSCAcc
              ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
          }
          return ret;
+    }
+
+   /**
+   * Gets the BSC
+   * @return a instance of org.semanticwb.bsc.BSC
+   */
+    public org.semanticwb.bsc.BSC getBSC()
+    {
+        return (org.semanticwb.bsc.BSC)getSemanticObject().getModel().getModelObject().createGenericInstance();
     }
 }
