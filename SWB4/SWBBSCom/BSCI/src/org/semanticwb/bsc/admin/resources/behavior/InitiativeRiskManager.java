@@ -146,7 +146,7 @@ public class InitiativeRiskManager extends GenericResource {
                     toReturn.append(paramRequest.getLocaleString("lbl_msgDelete"));
                     toReturn.append("')){submitUrl('");
                     toReturn.append(urlDelete);
-                    toReturn.append("',this.domNode);reloadTab('");
+                    toReturn.append("',this);reloadTab('");
                     toReturn.append(risk.getURI());
                     toReturn.append("');} else{return false;}\">");
                     toReturn.append("\n<img src=\"");
@@ -198,7 +198,7 @@ public class InitiativeRiskManager extends GenericResource {
                     toReturn.append(initiative.getId());
                     toReturn.append("\"  onchange=\"submitUrl('");
                     toReturn.append(urlAdd);
-                    toReturn.append("',this.domNode)\" ");
+                    toReturn.append("',this)\" ");
                     toReturn.append(" dojoType=\"dijit.form.CheckBox\" ");
                     toReturn.append(initiative.isActive() ? "checked=\"checked\"" : "");
                     toReturn.append("/>");
@@ -218,14 +218,14 @@ public class InitiativeRiskManager extends GenericResource {
                 toReturn.append("<fieldset>");
                 toReturn.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
                 toReturn.append(urlAll);
-                toReturn.append("',this.domNode); return false;\">");
+                toReturn.append("',this); return false;\">");
                 toReturn.append(paramRequest.getLocaleString("lbl_activeAll"));
                 toReturn.append("</button>");
 
                 urlAll.setAction(Action_DEACTIVE_ALL);
                 toReturn.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
                 toReturn.append(urlAll);
-                toReturn.append("',this.domNode); return false;\">");
+                toReturn.append("',this); return false;\">");
                 toReturn.append(paramRequest.getLocaleString("lbl_disabledAll"));
                 toReturn.append("</button>");
                 toReturn.append("</fieldset>");
