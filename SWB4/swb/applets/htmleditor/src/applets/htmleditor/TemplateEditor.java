@@ -109,6 +109,11 @@ public class TemplateEditor extends javax.swing.JApplet
     public void init()
     {
         System.out.println("Applet Template Editor initialized...");
+        System.out.println("encoding:"+System.getProperty("file.encoding"));
+        System.setProperty("file.encoding" , "ISO8859-1");
+        System.out.println("encoding:"+System.getProperty("file.encoding"));
+                
+        
         jsess = this.getParameter(PRM_JSESS);
         filename = this.getParameter(PRM_FILENAME);
         document = this.getParameter(PRM_DOCUMENT);
@@ -1983,17 +1988,17 @@ public class TemplateEditor extends javax.swing.JApplet
             return true;
 
         }
-        if (ch == '�' || ch == '�' || ch == '�' || ch == '�' || ch == '�')
+        if (ch == 'á' || ch == 'é' || ch == 'í' || ch == 'ó' || ch == 'ú')
         {
             return true;
 
         }
-        if (ch == '�' || ch == '�' || ch == '�' || ch == '�' || ch == '�')
+        if (ch == 'Á' || ch == 'É' || ch == 'Í' || ch == 'Ó' || ch == 'Ú')
         {
             return true;
 
         }
-        if (ch == '_' || ch == '�' || ch == '�')
+        if (ch == '_' || ch == 'ñ' || ch == 'Ñ')
         {
             return true;
             
@@ -2346,11 +2351,11 @@ public class TemplateEditor extends javax.swing.JApplet
             int x;
             while ((x = in.read(bfile, 0, 8192)) > -1)
             {
-                String data = new String(bfile, 0, x);
-                System.out.println(data);
+                String data = new String(bfile, 0, x,"ISO8859-1");
+                //System.out.println(data);
                 ret.append(data);
-                data = new String(bfile, 0, x, "utf-8");
-                System.out.println(data);
+                //data = new String(bfile, 0, x, "ISO8859-1");
+                //System.out.println(data);
             }
         }
         catch (Exception e)
@@ -2493,7 +2498,7 @@ public class TemplateEditor extends javax.swing.JApplet
             urlconn.setRequestProperty("VER", verValue);
             urlconn.setRequestProperty("TYPE", typeValue);
             urlconn.setDoOutput(true);
-            PrintWriter pout = new PrintWriter(urlconn.getOutputStream());
+            PrintWriter pout = new PrintWriter(new OutputStreamWriter(urlconn.getOutputStream(),"ISO8859-1"));
 
             try
             {
