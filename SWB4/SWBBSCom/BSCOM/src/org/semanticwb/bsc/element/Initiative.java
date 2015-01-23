@@ -3,6 +3,7 @@ package org.semanticwb.bsc.element;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
@@ -22,7 +23,7 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
 
 public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
-
+    private static Logger log = SWBUtils.getLogger(Initiative.class);
     static {
         bsc_hasDeliverable.registerObserver(new SemanticObserver() {
             @Override
@@ -153,7 +154,23 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         }
         return null;
     }
+    
+    @Override
+    public List<State> sortStates() {
+        return sortStates(true);
+    }
 
+    @Override
+    public List<State> sortStates(boolean ascendent) {
+        List<State> states = listValidStates();
+        if (ascendent) {
+            Collections.sort(states);
+        } else {
+            Collections.sort(states, Collections.reverseOrder());
+        }
+        return states;
+    }
+    
     public boolean updateAppraisal(Period period) {
         boolean updated = Boolean.FALSE;
         // Determinar el estatus del período especificado
@@ -182,55 +199,45 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         }
         appraisal.setStatus(status);
         // Calcular el porcentaje de avance
-        setPercentageProgress(period);
+        setPercentageProgress(appraisal);
         return updated;
     }
-
+    
     @Override
-    public List<State> sortStates() {
-        return sortStates(true);
+    public float getPercentageProgress() {
+        return super.getPercentageProgress(); //To change body of generated methods, choose Tools | Templates.
     }
-
-    @Override
-    public List<State> sortStates(boolean ascendent) {
-        List<State> states = listValidStates();
-        if (ascendent) {
-            Collections.sort(states);
-        } else {
-            Collections.sort(states, Collections.reverseOrder());
-        }
-        return states;
-    }
-
-    public void setPercentageProgress(final Period period) {
+    
+    private void setPercentageProgress(final PeriodStatus appraisal) {
         // Calcular el porcentaje de avance de los entregables
+        Period period = appraisal.getPeriod();
         List<Deliverable> deliverables = listValidDeliverables();
         float m;
         float weighingSum = 0;
         float xwSum = 0;
-//        for (Deliverable deliverable : deliverables) {
-//            if (deliverable.getPriority() == null) {
-//                continue;
-//            }
-//            xwSum += deliverable.getProgress() * deliverable.getPriority().getWeighing();
-//            weighingSum += deliverable.getPriority().getWeighing();
-//        }
-// Determinar el porcentaje de avance
-        
-for (Deliverable deliverable : deliverables) {
-    Series star = deliverable.getStar();
-    if (star == null || star.getMeasure(period) == null ) {
-        continue;
-    }
-    if (deliverable.getPriority() == null) {
-        continue;
-    }
-    xwSum += star.getMeasure(period).getValue() * deliverable.getPriority().getWeighing();
-    weighingSum += deliverable.getPriority().getWeighing();
-}        
 
-        m = xwSum / weighingSum;
-        super.setPercentageProgress(BSCUtils.Formats.round(m, 2).floatValue());
+        // Calcular el porcentaje de avance
+        for (Deliverable deliverable : deliverables) {
+            Series star = deliverable.getStar();
+            if (star == null || star.getMeasure(period) == null ) {
+                log.error("No existe STAR definido en el entregable");
+                continue;
+            }
+            if (deliverable.getPriority() == null) {
+                log.error("No existe prioridad definida en el entregable");
+                continue;
+            }
+            deliverable.setProgress(BSCUtils.Formats.round(star.getMeasure(period).getValue() * deliverable.getPriority().getWeighing(), 2).floatValue());
+            xwSum += deliverable.getProgress();
+            weighingSum += deliverable.getPriority().getWeighing();
+        }
+        m = xwSum / weighingSum;        
+        if(!Float.isInfinite(m) && !Float.isNaN(m)) {
+            m = BSCUtils.Formats.round(m, 2).floatValue();
+            if(getPercentageProgress()<m) {
+                setPercentageProgress(m);
+            }
+        }
     }
 
     public String getAutoStatusIconClass() {
@@ -253,8 +260,6 @@ for (Deliverable deliverable : deliverables) {
     @Override
     public String getStatusIconClass() {
         StringBuilder iconClass = new StringBuilder();
-        /*iconClass.append(getAutoStatusIconClass());
-        iconClass.append(" ");*/
         try {
             iconClass.append(getPeriodStatus().getStatus().getIconClass());
         } catch (NullPointerException npe) {
@@ -266,8 +271,6 @@ for (Deliverable deliverable : deliverables) {
     @Override
     public String getStatusIconClass(Period period) {
         String iconClass;
-        /*iconClass.append(getAutoStatusIconClass());
-        iconClass.append(" ");*/
         try {
             iconClass = getPeriodStatus(period).getStatus().getIconClass();
         } catch (NullPointerException npe) {
