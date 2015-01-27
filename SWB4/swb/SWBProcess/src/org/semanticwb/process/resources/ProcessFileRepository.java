@@ -33,10 +33,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
@@ -236,6 +238,15 @@ public class ProcessFileRepository extends GenericResource {
         String accion = paramRequest.getAction();
         if (accion == null) {
             accion = "";
+        }
+        
+        if (getResourceBase().getAttribute("showNavbar", "").equals("")) {
+            getResourceBase().setAttribute("showNavbar", "true");
+            try {
+                getResourceBase().updateAttributesToDB();
+            } catch (SWBException ex) {
+                log.error("Error al establecer las propiedades del recurso "+ex.getLocalizedMessage());
+            }
         }
 
         WebSite wsite = getResourceBase().getWebSite(); //wpage.getWebSite();
