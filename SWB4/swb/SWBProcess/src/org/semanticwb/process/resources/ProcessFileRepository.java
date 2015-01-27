@@ -274,6 +274,7 @@ public class ProcessFileRepository extends GenericResource {
             String ipp = getResourceBase().getAttribute("itemsPerPage", "");
             String ssf = getResourceBase().getAttribute("hideSubFolders", "").equals("true")?"checked":"";
             String snv = getResourceBase().getAttribute("showNavbar", "").equals("true")?"checked":"";
+            String aph = getResourceBase().getAttribute("applyToChilds", "").equals("true")?"checked":"";
 
             out.println("<tr><td colspan=\"2\"><B>" + paramRequest.getLocaleString("msgRolesDefinitionLevel") + "</B></td></tr>");
             out.println("<tr><td align=\"right\" width=150>" + paramRequest.getLocaleString("msgView") + ":</td>");
@@ -291,6 +292,8 @@ public class ProcessFileRepository extends GenericResource {
             out.println("<td><input type=\"checkbox\" name=\"hideSubFolders\"" + ssf + "></td></tr>");
             out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("showNavBar") + ":</td>");
             out.println("<td><input type=\"checkbox\" name=\"showNavbar\"" + snv + "></td></tr>");
+            out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("applyToChilds") + ":</td>");
+            out.println("<td><input type=\"checkbox\" name=\"applyToChilds\"" + aph + "></td></tr>");
 
             out.println("</table>");
             out.println("</fieldset>");
@@ -551,6 +554,7 @@ public class ProcessFileRepository extends GenericResource {
             String ipp = request.getParameter("itemsPerPage");
             String ssf = request.getParameter("hideSubFolders")!=null?"true":"false";
             String snv = request.getParameter("showNavbar")!=null?"true":"false";
+            String aph = request.getParameter("applyToChilds")!=null?"true":"false";
 
             try {
                 getResourceBase().setAttribute(LVL_VIEW, viewrole);
@@ -560,6 +564,7 @@ public class ProcessFileRepository extends GenericResource {
                 getResourceBase().setAttribute("itemsPerPage", ipp);
                 getResourceBase().setAttribute("hideSubFolders", ssf);
                 getResourceBase().setAttribute("showNavbar", snv);
+                getResourceBase().setAttribute("applyToChilds", aph);
                 getResourceBase().updateAttributesToDB();
 
             } catch (Exception e) {
