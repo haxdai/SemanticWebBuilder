@@ -2286,7 +2286,7 @@ var _GraphicalElement = function(obj) {
             };
             
             //Habría que mover esto a otro lado?
-            var dlg = document.getElementById("dropArea");
+            /*var dlg = document.getElementById("dropArea");
             
             if (dlg !== null) {
                 dlg.addEventListener("dragover" , function(evt) {
@@ -2314,7 +2314,7 @@ var _GraphicalElement = function(obj) {
                     dlg.setAttributeNS(null, "class", "dropArea");
                     hideLoadDialog();
                 } , false);
-            }
+            }*/
             
             //Sobreescritura de mousemove en SVG padre para manejar redimensionamiento de Lanes
             ToolKit.svg.onmousemove=function(evt)
