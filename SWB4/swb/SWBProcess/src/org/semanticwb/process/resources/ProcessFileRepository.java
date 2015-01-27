@@ -289,7 +289,7 @@ public class ProcessFileRepository extends GenericResource {
             out.println("<td><input type=\"text\" name=\"itemsPerPage\"  value=\"" + ipp + "\"></td></tr>");
             out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("hideSubFolders") + ":</td>");
             out.println("<td><input type=\"checkbox\" name=\"hideSubFolders\"" + ssf + "></td></tr>");
-            out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("showNavbar") + ":</td>");
+            out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("showNavBar") + ":</td>");
             out.println("<td><input type=\"checkbox\" name=\"showNavbar\"" + snv + "></td></tr>");
 
             out.println("</table>");
