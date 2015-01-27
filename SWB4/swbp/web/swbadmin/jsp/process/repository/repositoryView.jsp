@@ -56,6 +56,8 @@
 } else {
     SWBResourceURL addUrl = paramRequest.getRenderUrl().setMode(ProcessFileRepository.MODE_ADDFILE);
     SWBResourceURL addFolderUrl = paramRequest.getRenderUrl().setMode(ProcessFileRepository.MODE_ADDFOLDER);
+    
+    if (luser > 1) {
 %>
 <div class="row text-right">
     <ul class="list-unstyled list-inline">
@@ -68,6 +70,7 @@
     </ul>
 </div>
 <%
+    }
         if (snv && path != null) {%>
 <ol class="breadcrumb swbp-breadcrumb">
     <li>
