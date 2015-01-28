@@ -89,10 +89,7 @@ public class StrategicMap extends GenericResource
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
-        WebPage wp;
-        //wp = ;
         urlObjectivePage = base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl();
-        //wp = ;
         urlThemePage = base.getWebSite().getWebPage(Theme.class.getSimpleName()).getUrl();
     }
 
@@ -161,7 +158,7 @@ public class StrategicMap extends GenericResource
             try {
                 SVGjs = getSvg(request);
             }catch (XPathExpressionException xpe) {
-                System.out.println(xpe.toString());
+                log.error(xpe);
             }
             out.println(SVGjs);
         }
@@ -442,21 +439,16 @@ public class StrategicMap extends GenericResource
                 p.setAttribute("width", Integer.toString(pw));
                 p.setAttribute("x", Integer.toString(px));
                 
-                
-
-//relaciones con esta perspectiva
-expression = "//rel[@to='" + uri + "']";
-NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(documentBSC, XPathConstants.NODESET);
-System.out.println("lenght="+nlRels.getLength());
-for (int v = 0; v < nlRels.getLength(); v++) {
-    Node noder = nlRels.item(v);
-    if (noder != null && noder.getNodeType() == Node.ELEMENT_NODE) {
-        Element rel = (Element) noder;
-System.out.println("to="+rel.getAttribute("to"));
-        rel.setAttribute("rx", Integer.toString(px + pw / 2));
-    }
-}
-System.out.println("fin");
+                //relaciones con esta perspectiva
+                expression = "//rel[@to='" + uri + "']";
+                NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(documentBSC, XPathConstants.NODESET);
+                for (int v = 0; v < nlRels.getLength(); v++) {
+                    Node noder = nlRels.item(v);
+                    if (noder != null && noder.getNodeType() == Node.ELEMENT_NODE) {
+                        Element rel = (Element) noder;
+                        rel.setAttribute("rx", Integer.toString(px + pw / 2));
+                    }
+                }
 
                 //diferenciadores de la perspectiva
                 expression = "/bsc/perspective[@id='" + uri + "']/diffgroup[1]/diff";
