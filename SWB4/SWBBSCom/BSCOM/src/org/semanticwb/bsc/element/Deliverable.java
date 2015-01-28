@@ -10,7 +10,10 @@ import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
+import static org.semanticwb.bsc.base.SMBase.bsc_hasSeries;
+import static org.semanticwb.bsc.element.Indicator.names;
 import org.semanticwb.bsc.parser.DeliverableParser;
+import org.semanticwb.bsc.tracing.EvaluationRule;
 import org.semanticwb.bsc.tracing.Series;
 import org.semanticwb.bsc.utils.InappropriateFrequencyException;
 import org.semanticwb.bsc.utils.UndefinedFrequencyException;
@@ -18,12 +21,36 @@ import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
+import org.semanticwb.platform.SemanticObserver;
 
 public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase {
 
     public static final String names[] = {"Esfuerzo real", "Esfuerzo planeado"};
 
     static {
+        bsc_hasSeries.registerObserver(new SemanticObserver() {
+            @Override
+            public void notify(SemanticObject obj, Object prop, String lang, String action) {
+                if ("ADD".equalsIgnoreCase(action)) {
+                    Deliverable deliverable = (Deliverable) obj.createGenericInstance();
+                    // Funcionan exactamente igual indicator.getSeries() y indicator.getLastSeries()
+                    Series series = deliverable.getSeries();
+                    if (series != null && series.getEvaluationRule() == null) {
+                        State state;
+                        List<State> validStates = deliverable.listValidStates();
+                        for (int i = 0; i < validStates.size(); i++) {
+                            state = validStates.get(i);
+                            EvaluationRule rule = EvaluationRule.ClassMgr.createEvaluationRule(deliverable.getBSC());
+                            rule.setTitle("Regla para " + state.getTitle());
+                            rule.setTitle("Regla para " + state.getTitle(lang), lang);
+                            rule.setAppraisal(state);
+                            series.addEvaluationRule(rule);
+                        }
+                    }
+                }
+            }
+        });
+        
         SWBPortal.getIndexMgr().getDefaultIndexer().registerParser(Deliverable.class, new DeliverableParser());
     }
 
