@@ -62,22 +62,19 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             return;
         }
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
-        final User user = paramRequest.getUser();
-        if(!user.isSigned() || !user.haveAccess(semObj.getGenericInstance()))     {
-            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
-            response.flushBuffer();
-            return;
-        }
-        
-        final String lang = user.getLanguage();
-        
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        SemanticObject sobj = ont.getSemanticObject(suri);
-        if(sobj==null || !(sobj.getGenericInstance() instanceof SM)) {
+        if(semObj==null || !(semObj.getGenericInstance() instanceof SM)) {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
             return;
         }
-        SM sm = (SM)sobj.getGenericInstance();
+        SM sm = (SM)semObj.getGenericInstance();
+        final User user = paramRequest.getUser();
+        if(!user.isSigned() || !user.haveAccess(sm))     {
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
+            response.flushBuffer();
+            return;
+        }        
+        final String lang = user.getLanguage();        
+        
         Series star = sm.getStar();
         if(star == null) {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSTAR")+"</div>");
