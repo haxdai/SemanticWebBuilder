@@ -12,6 +12,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +20,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.TreeSet;
 import javax.servlet.http.*;
 import org.json.JSONArray;
@@ -1058,9 +1060,9 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
                 String value = propValue;
                 if (semProp.isDate()) {
                     try {
-                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale(lang));
                         semanticObject.setDateProperty(semProp, format.parse(value));
-                    } catch (Exception e) {
+                    } catch (ParseException e) {
                         log.error(e);
                     }
 
