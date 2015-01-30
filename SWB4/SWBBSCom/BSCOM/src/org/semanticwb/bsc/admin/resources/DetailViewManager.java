@@ -1052,7 +1052,6 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
             String objectUri = request.getParameter("suri");
             String propUri = request.getParameter("propUri");
             String propValue = request.getParameter("value");
-
             SemanticObject semanticObject = objectUri != null ? SemanticObject.getSemanticObject(objectUri) : null;
             SemanticProperty semProp = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty(propUri);
 
@@ -1065,7 +1064,6 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
                     } catch (ParseException e) {
                         log.error(e);
                     }
-
                 } else if (semProp.isString()) {
                     value = SWBUtils.XML.replaceXMLTags(propValue);
                     semanticObject.setProperty(semProp, value);
