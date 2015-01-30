@@ -307,24 +307,23 @@ public class EmailLogResource extends GenericResource {
 
                 }
                 out.println("</div>");
-            } else { // There are not repositories and displays a message
+            } else { // There are not users displays a message
                 out.println("<div class=\"swbform\">");
                 out.println("<fieldset>");
-                out.println("<legend>" + paramsRequest.getLocaleString("session_report") + "</legend>");
-                out.println("<form method=\"Post\" class=\"box\" action=\"" + paramsRequest.getWebPage().getUrl() + "\" id=\"frmrep\" name=\"frmrep\">");
+                out.println("<legend>" + paramsRequest.getLocaleString("lbl_legend") + "</legend>");
                 out.println("<table border=0 width=\"100%\">");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr>");
                 out.println("<td>&nbsp;</td>");
-                out.println("<td colspan=\"2\" align=\"center\" class=\"datos\">" + paramsRequest.getLocaleString("no_repositories_found") + "</td>");
+                out.println("<td colspan=\"2\" align=\"center\" class=\"datos\">No existen usuarios creados.</td>");
                 out.println("<td>&nbsp;</td>");
                 out.println("</tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
-                out.println("</table></form>");
+                out.println("</table>");
                 out.println("</fieldset></div>");
             }
         } catch (Exception e) {
