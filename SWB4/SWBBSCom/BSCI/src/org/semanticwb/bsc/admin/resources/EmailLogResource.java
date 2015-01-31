@@ -14,14 +14,15 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.utils.EmailLog;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
-
 
 public class EmailLogResource extends GenericResource {
 
@@ -29,20 +30,6 @@ public class EmailLogResource extends GenericResource {
      * The log.
      */
     private static Logger log = SWBUtils.getLogger(EmailLogResource.class);
-
-     /*
-     * @param request the request
-     * @param response the response
-     * @param paramsRequest the params request
-     * @throws SWBResourceException the sWB resource exception
-     * @throws IOException Signals that an I/O exception has occurred.
-     */
-    @Override
-    public void render(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        if (!paramsRequest.WinState_MINIMIZED.equals(paramsRequest.getWindowState())) {
-            processRequest(request, response, paramsRequest);
-        }
-    }
 
     /**
      * Process request.
@@ -55,12 +42,15 @@ public class EmailLogResource extends GenericResource {
      */
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
-        if (paramsRequest.getMode().equalsIgnoreCase("fillgridmtr")) {
+        if (paramsRequest.getMode().equalsIgnoreCase("fillLangSel")) {
+            doRenderUsers(request, response, paramsRequest);
+        } else if (paramsRequest.getMode().equalsIgnoreCase("fillgridmtr")) {
             doFillReport(request, response, paramsRequest);
         } else {
             super.processRequest(request, response, paramsRequest);
         }
     }
+
     /**
      * Do view.
      *
@@ -76,23 +66,23 @@ public class EmailLogResource extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         PrintWriter out = response.getWriter();
-        Resource base = getResourceBase();
-        HashMap hm_users = new HashMap();
+        HashMap hm_sites = new HashMap();
         String rtype = "0";
 
-        try {
-            // Evaluates if there are users
-            Iterator<User> itUser = User.ClassMgr.listUsers();
-            while (itUser.hasNext()) {
-                User usr = itUser.next();
-                if (!usr.getUserRepository().getId().equals("uradm")) {
-                    hm_users.put(usr.getURI(), usr.getFullName());
-                }
+        Iterator<WebSite> webSites = SWBContext.listWebSites();
+        while (webSites.hasNext()) {
+            WebSite site = webSites.next();
+            // Evaluates if TopicMap is not Global
+            if (!site.getId().equals(SWBContext.getGlobalWebSite().getId())) {
+                hm_sites.put(site.getId(), site.getDisplayTitle(paramsRequest.getUser().getLanguage()));
             }
-            // If there are users it continues
-            if (hm_users.size() > 0) {
+        }
+
+        try {
+            // If there are sites it continues
+            if (hm_sites.size() > 0) {
+                String websiteId = request.getParameter("wb_site") == null ? (String) hm_sites.keySet().iterator().next() : request.getParameter("wb_site");
                 String address = paramsRequest.getRenderUrl().toString();
-                String userName = request.getParameter("wb_user");
 
                 int groupDates;
                 try {
@@ -124,6 +114,7 @@ public class EmailLogResource extends GenericResource {
 
                 SWBResourceURL url = paramsRequest.getRenderUrl();
                 url.setCallMethod(url.Call_DIRECT);
+                url.setMode("fillLangSel");
 
                 // javascript
                 out.println("<script type=\"text/javascript\">");
@@ -132,6 +123,7 @@ public class EmailLogResource extends GenericResource {
                 out.println("dojo.require(\"dojox.grid.DataGrid\");");//--
                 out.println("dojo.require(\"dojo.data.ItemFileReadStore\");");//--
                 out.println("dojo.addOnLoad(doBlockade);");
+                out.println("dojo.addOnLoad(function(){getHtml('" + url + "'+'?site=" + websiteId + "','slave');})");
 
                 out.println("function fillGrid(grid, uri) {");
                 out.println("   grid.store = new dojo.data.ItemFileReadStore({url: uri});");
@@ -145,13 +137,13 @@ public class EmailLogResource extends GenericResource {
 
                 out.println("dojo.addOnLoad(function() {");
                 out.println("   layout= [");
-                out.println("      { field:\"repositorio\", width:\"100px\", name:\"Sitio\" },");
+                out.println("      { field:\"repositorio\", width:\"100px\", name:\"Scorecard\" },");
                 out.println("      { field:\"de\", width:\"110px\", name:\"De\" },");
                 out.println("      { field:\"para\", width:\"110px\", name:\"Para\" },");
                 out.println("      { field:\"cc\", width:\"110px\", name:\"Cc\" },");
                 out.println("      { field:\"otros\", width:\"110px\", name:\"Otros\" },");
-                out.println("      { field:\"asunto\", width:\"110px\", name:\"Asunto\" },");
-                out.println("      { field:\"fecha\", width:\"120px\", name:\"Fecha y Hora\" },");
+                out.println("      { field:\"asunto\", width:\"120px\", name:\"Asunto\" },");
+                out.println("      { field:\"fecha\", width:\"130px\", name:\"Fecha y Hora\" },");
                 out.println("   ];");
 
                 out.println("   gridMaster = new dojox.grid.DataGrid({");
@@ -176,10 +168,10 @@ public class EmailLogResource extends GenericResource {
                 //--
 
                 out.println("function getParams(accion) {");
-                out.println(" var uri = dojo.byId('wb_user').value;");
-                out.println(" var res = uri.replace(\"#\",\"-\");");
                 out.println("   var params = '?';");
-                out.println("   params = params + 'wb_user=' + res;");
+                out.println("   params = params + \"wb_site=\" + dojo.byId('wb_site').value;");
+                out.println("   params = params + \"&wb_user=\" + document.getElementById('wb_user').options[document.getElementById('wb_user').selectedIndex].value.replace(\"#\",\"-\");");
+                //out.println("   params = params + 'wb_user=' + res;");
                 out.println("   params = params + '&wb_rtype=' + dojo.byId('wb_rtype').value;");
                 out.println("       params = params + '&wb_rep_type=' + getTypeSelected();");
                 out.println("       var fecha1 = new String(dojo.byId('wb_fecha1').value);");
@@ -233,20 +225,27 @@ public class EmailLogResource extends GenericResource {
                 out.println("<legend>" + paramsRequest.getLocaleString("lbl_legend") + "</legend>");
                 out.println("<table border=\"0\" width=\"95%\" align=\"center\">");
                 out.println("<tr><td width=\"183\"></td><td width=\"146\"></td><td width=\"157\"></td><td width=\"443\"></td></tr>");
+
                 out.println("<tr>");
-                out.println("<td>" + paramsRequest.getLocaleString("lbl_userFrom") + ":</td>");
-                out.println("<td colspan=\"2\">");
-                out.println("<select id=\"wb_user\" name=\"wb_user\" size=\"1\">");
-                Iterator<String> itKeys = hm_users.keySet().iterator();
+                out.println("<td>Scorecard:</td>");
+                out.println("<td colspan=\"2\"><select id=\"wb_site\" name=\"wb_site\" onchange=\"getHtml('" + url.setMode("fillLangSel") + "'+'?site='+this.value,'slave');\">");
+                Iterator<String> itKeys = hm_sites.keySet().iterator();
                 while (itKeys.hasNext()) {
                     String key = itKeys.next();
                     out.println("<option value=\"" + key + "\"");
-                    if (key.equalsIgnoreCase(userName)) {
+                    if (key.equalsIgnoreCase(websiteId)) {
                         out.println(" selected=\"selected\"");
                     }
-                    out.println(">" + (String) hm_users.get(key) + "</option>");
+                    out.println(">" + (String) hm_sites.get(key) + "</option>");
                 }
                 out.println("</select>");
+                out.println("</td>");
+                out.println("<td>&nbsp;</td>");
+                out.println("</tr>");
+
+                out.println("<tr>");
+                out.println("<td>" + paramsRequest.getLocaleString("lbl_userFrom") + ":</td>");
+                out.println("<td colspan=\"2\"><div id=\"slave\"></div>");
                 out.println("</td>");
                 out.println("<td>&nbsp;</td>");
                 out.println("</tr>");
@@ -307,7 +306,7 @@ public class EmailLogResource extends GenericResource {
 
                 }
                 out.println("</div>");
-            } else { // There are not users displays a message
+            } else { // There are not sites displays a message
                 out.println("<div class=\"swbform\">");
                 out.println("<fieldset>");
                 out.println("<legend>" + paramsRequest.getLocaleString("lbl_legend") + "</legend>");
@@ -317,7 +316,7 @@ public class EmailLogResource extends GenericResource {
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
                 out.println("<tr>");
                 out.println("<td>&nbsp;</td>");
-                out.println("<td colspan=\"2\" align=\"center\" class=\"datos\">No existen usuarios creados.</td>");
+                out.println("<td colspan=\"2\" align=\"center\" class=\"datos\">No existen scorecards creados.</td>");
                 out.println("<td>&nbsp;</td>");
                 out.println("</tr>");
                 out.println("<tr><td colspan=\"4\">&nbsp;</td></tr>");
@@ -329,6 +328,46 @@ public class EmailLogResource extends GenericResource {
         } catch (Exception e) {
             log.error("Error on method DoView()" + e);
         }
+        out.flush();
+        out.close();
+    }
+
+    /**
+     * Do render users.
+     *
+     * @param request the request
+     * @param response the response
+     * @param paramsRequest the params request
+     * @throws SWBResourceException the sWB resource exception
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public void doRenderUsers(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramsRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html;charset=iso-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        PrintWriter out = response.getWriter();
+        String websiteId = request.getParameter("site");
+        WebSite webSite = SWBContext.getWebSite(websiteId);
+        String userId = request.getParameter("wb_user") == null ? "0" : request.getParameter("wb_user");
+
+        out.println("<select id=\"wb_user\" name=\"wb_user\">");
+        out.println("<option value=\"0\" ");
+        if (userId.equalsIgnoreCase("0")) {
+            out.print(" selected=\"selected\" ");
+        }
+        out.print(">Todos</option>");
+
+        Iterator<User> itUser = webSite.getUserRepository().listUsers();
+
+        while (itUser.hasNext()) {
+            User user = itUser.next();
+            out.println("<option value=\"" + user.getURI() + "\" ");
+            if (userId.equalsIgnoreCase(user.getURI())) {
+                out.print(" selected=\"selected\" ");
+            }
+            out.print(">" + user.getFullName() + "</option>");
+        }
+        out.println("</select>");
         out.flush();
         out.close();
     }
@@ -347,26 +386,32 @@ public class EmailLogResource extends GenericResource {
         String otherAccounts = "";
         JSONObject jobj = new JSONObject();
         JSONArray jarr = new JSONArray();
-        
+
         try {
             jobj.put("label", "sect");
             jobj.put("items", jarr);
         } catch (JSONException jse) {
         }
-
-        String uriUser = request.getParameter("wb_user") == null ? "1" : (String) request.getParameter("wb_user");
+        String wbsite = request.getParameter("wb_site") == null ? "" : (String) request.getParameter("wb_site");
+        String uriUser = request.getParameter("wb_user") == null ? "0" : (String) request.getParameter("wb_user");
         String uri = uriUser.replace("-", "#");
+        Iterator<EmailLog> itlogUser = null;
         String radioDates = request.getParameter("wb_rep_type") == null ? "0" : (String) request.getParameter("wb_rep_type");
-        SemanticObject sObj = SemanticObject.getSemanticObject(uri);
-        SWBModel model = (SWBModel) sObj.getModel().getModelObject().createGenericInstance();
-        SWBModel modelWS = model.getParentWebSite();
-        User usr = User.ClassMgr.getUser(sObj.getId(), model);
         GregorianCalendar cal = new GregorianCalendar();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateDay = request.getParameter("wb_fecha1") == null ? sdf.format(cal.getTime()) : request.getParameter("wb_fecha1");
         String dateFrom = request.getParameter("wb_fecha11") == null ? sdf.format(cal.getTime()) : request.getParameter("wb_fecha11");
         String dateTo = request.getParameter("wb_fecha12") == null ? sdf.format(cal.getTime()) : request.getParameter("wb_fecha12");
-        Iterator<EmailLog> itlogUser = EmailLog.ClassMgr.listEmailLogByFrom(usr, modelWS);
+
+
+        if (uri.equals("0")) {
+            itlogUser = EmailLog.ClassMgr.listEmailLogs();
+        } else {
+            SemanticObject sObj = SemanticObject.getSemanticObject(uri);
+            SWBModel model = (SWBModel) sObj.getModel().getModelObject().createGenericInstance();
+            User usr = User.ClassMgr.getUser(sObj.getId(), model);
+            itlogUser = EmailLog.ClassMgr.listEmailLogByFrom(usr, model.getParentWebSite());
+        }
         try {
             if (radioDates.equals("0")) {
                 date1 = sdf.parse(dateDay);
@@ -403,19 +448,19 @@ public class EmailLogResource extends GenericResource {
                         from = logEmail.getFrom().getEmail();
                     }
                     Iterator<User> itTo = logEmail.listTos();
-                        while (itTo.hasNext()) {
-                            to = itTo.next();
-                            mailTo.add(to.getEmail());
-                        } 
-                        strTo = java.util.Arrays.toString(mailTo.toArray());
-                        Iterator<User> itCc = logEmail.listCcs();
-                        while (itCc.hasNext()) {
-                            cc = itCc.next();
-                            mailCc.add(cc.getEmail());
-                        } 
-                        strCc = java.util.Arrays.toString(mailCc.toArray());
+                    while (itTo.hasNext()) {
+                        to = itTo.next();
+                        mailTo.add(to.getEmail());
+                    }
+                    strTo = java.util.Arrays.toString(mailTo.toArray());
+                    Iterator<User> itCc = logEmail.listCcs();
+                    while (itCc.hasNext()) {
+                        cc = itCc.next();
+                        mailCc.add(cc.getEmail());
+                    }
+                    strCc = java.util.Arrays.toString(mailCc.toArray());
                     try {
-                        obj.put("repositorio", modelWS.getId());
+                        obj.put("repositorio", wbsite);
                         obj.put("de", from);
                         obj.put("para", strTo.replace("[", "").replace("]", ""));
                         obj.put("cc", strCc.replace("[", "").replace("]", ""));
