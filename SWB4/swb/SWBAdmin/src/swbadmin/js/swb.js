@@ -158,12 +158,13 @@ function postJSON(url)
     return ret;
 }
 
-function postText(url)
+function postText(url,dta)
 {
     var ret = '';
     var obj = dojo.xhrPost({
         url: url,
         sync: true,
+        postData: dta,
         load: function(data) {
             ret = data;
         },
