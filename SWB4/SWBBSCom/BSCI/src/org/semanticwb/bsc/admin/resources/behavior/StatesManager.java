@@ -511,24 +511,34 @@ public class StatesManager extends GenericResource {
             Status status = (Status)semObj.getGenericInstance();
             final String sgId = request.getParameter("sval");
             if(StateGroup.ClassMgr.hasStateGroup(sgId, scorecard)) {
-                StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
-                Iterator<State> groupedStates = stateGroup.listValidStates().iterator();
-                List<State> states = SWBUtils.Collections.copyIterator(groupedStates);
-                status.removeAllState();
-                for(State state:states) {
-                    if(!state.listStatuses().hasNext()) {
-                        state.setUndeleteable(false);
-                    }
-                }
-                if(!states.isEmpty()) {
+                // Tratamiento para los estados del grupo asignado anteriormente
+                // que podría ser distinto al nuevo grupo de estados a asignar
+                StateGroup stateGroup;
+                if(status.getState()!=null && status.getState().getStateGroup()!=null) {
+                    stateGroup =  status.getState().getStateGroup();
+                    List<State> states = stateGroup.listValidStates();
+                    status.removeAllState();
                     for(State state:states) {
-                        status.addState(state);
-                        state.setUndeleteable(true);
+                        if(!state.listStatuses().hasNext()) {
+                            state.setUndeleteable(false);
+                        }
                     }
-                    stateGroup.setUndeleteable(true);
-                    response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedState"));
+                    stateGroup.setUndeleteable(false);
                 }
-System.out.println("lenght="+SWBUtils.Collections.sizeOf(status.listStates()));
+                // Tratamiento para los nuevos estados a asignar
+                stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
+                if(stateGroup!=null && stateGroup.isValid())
+                {
+                    List<State> states = stateGroup.listValidStates();
+                    if(!states.isEmpty()) {
+                        for(State state:states) {
+                            status.addState(state);
+                            state.setUndeleteable(true);
+                        }
+                        stateGroup.setUndeleteable(true);
+                        response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedState"));
+                    }
+                }
             }
         }
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
