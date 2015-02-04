@@ -292,28 +292,23 @@ public class PeriodsManager extends GenericResource {
         {
             Iterator<Period> it = null;
             GenericObject genericObject = semObj.getGenericInstance();
-//            if (genericObject instanceof Indicator) {
-//                Indicator indicator = (Indicator)genericObject;
-//                it = indicator.getObjective().listValidPeriods().iterator();
-//            }else if(genericObject instanceof Objective || genericObject instanceof Initiative) {
-//                it = model.listValidPeriods().iterator();
-//            }
             Seasonable seasonable = (Seasonable)genericObject;
             it = seasonable.listAvailablePeriods();
             List<Period> periods = SWBUtils.Collections.copyIterator(it);
-            
-//            Seasonable seasonable = (Seasonable) semObj.getGenericInstance();
             seasonable.removeAllPeriod();
             for(Period period : periods) {
                 if(!period.listSeasonables().hasNext()) {
                     period.setUndeleteable(false);
                 }
-            }            
-            for(Period period : periods) {
-                seasonable.addPeriod(period);
-                period.setUndeleteable(true);
             }
-            response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedAllPeriods"));
+            if(!periods.isEmpty()) {
+                for(Period period : periods) {
+                    seasonable.addPeriod(period);
+                    period.setUndeleteable(true);
+                }
+                response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedAllPeriods"));
+            }
+System.out.println("lenght="+SWBUtils.Collections.sizeOf(seasonable.listPeriods()));
         }
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
         {
