@@ -12,14 +12,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.Status;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.accessory.StateGroup;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
@@ -334,7 +332,7 @@ public class StatesManager extends GenericResource {
                     out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlAll + "',this.domNode); return false;\">" + paramRequest.getLocaleString("lblDeactiveAll") + "</button>");
                 }
                 out.println("</fieldset>");
-                out.println("</div>");
+                out.println("</div>");                
             }
         }
     }
@@ -515,12 +513,16 @@ public class StatesManager extends GenericResource {
                 StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
                 Iterator<State> groupedStates = stateGroup.listValidStates().iterator();
                 if(groupedStates.hasNext()) {
-                    stateGroup.setUndeleteable(true);
-                    while(groupedStates.hasNext()) {
+                    while(groupedStates.hasNext()) {                        
                         State state = groupedStates.next();
+                        if(status.hasState(state)) {
+                            continue;
+                        }
                         status.addState(state);
                         state.setUndeleteable(true);
                     }
+                    stateGroup.setUndeleteable(true);
+                    response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedState"));
                 }
             }
         }
