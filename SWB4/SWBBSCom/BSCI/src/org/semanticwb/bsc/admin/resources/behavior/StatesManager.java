@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -512,18 +513,22 @@ public class StatesManager extends GenericResource {
             if(StateGroup.ClassMgr.hasStateGroup(sgId, scorecard)) {
                 StateGroup stateGroup = StateGroup.ClassMgr.getStateGroup(sgId, scorecard);
                 Iterator<State> groupedStates = stateGroup.listValidStates().iterator();
-                if(groupedStates.hasNext()) {
-                    while(groupedStates.hasNext()) {                        
-                        State state = groupedStates.next();
-                        if(status.hasState(state)) {
-                            continue;
-                        }
+                List<State> states = SWBUtils.Collections.copyIterator(groupedStates);
+                status.removeAllState();
+                for(State state:states) {
+                    if(!state.listStatuses().hasNext()) {
+                        state.setUndeleteable(false);
+                    }
+                }
+                if(!states.isEmpty()) {
+                    for(State state:states) {
                         status.addState(state);
                         state.setUndeleteable(true);
                     }
                     stateGroup.setUndeleteable(true);
                     response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedState"));
                 }
+System.out.println("lenght="+SWBUtils.Collections.sizeOf(status.listStates()));
             }
         }
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
