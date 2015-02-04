@@ -562,6 +562,8 @@ public class StatesManager extends GenericResource {
                         sg.setUndeleteable(false);
                     }
                 }
+            }else {
+                status.removeAllState();
             }
         }
     }
