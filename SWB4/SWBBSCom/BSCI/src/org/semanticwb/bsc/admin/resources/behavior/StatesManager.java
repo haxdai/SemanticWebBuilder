@@ -544,15 +544,12 @@ public class StatesManager extends GenericResource {
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
         {
             Status status = (Status)semObj.getGenericInstance();
-            State state = status.getState();
-            if(state!=null)
-            {
+            if(status.getState()!=null && status.getState().getStateGroup()!=null) {
                 status.removeAllState();
-                StateGroup sg = state.getStateGroup();
+                StateGroup sg = status.getState().getStateGroup();
                 Iterator<State> it = sg.listGroupedStateses();
-                if(it.hasNext())
-                {
-                    State aux = null;
+                if(it.hasNext()) {
+                    State aux;
                     boolean stateRelated = false;
                     while(it.hasNext() && !stateRelated) {
                         aux = it.next();
