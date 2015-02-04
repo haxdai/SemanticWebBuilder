@@ -290,17 +290,19 @@ public class PeriodsManager extends GenericResource {
         }
         else if(Action_ACTIVE_ALL.equalsIgnoreCase(action))
         {
-            Iterator<Period> it = null;
+            Iterator<Period> it;
             GenericObject genericObject = semObj.getGenericInstance();
             Seasonable seasonable = (Seasonable)genericObject;
             it = seasonable.listAvailablePeriods();
             List<Period> periods = SWBUtils.Collections.copyIterator(it);
+            //Tratamiento para los períodos asignados anteriormente
             seasonable.removeAllPeriod();
             for(Period period : periods) {
                 if(!period.listSeasonables().hasNext()) {
                     period.setUndeleteable(false);
                 }
             }
+            //Tratamiento para los nuevos períodos a asignar
             if(!periods.isEmpty()) {
                 for(Period period : periods) {
                     seasonable.addPeriod(period);
@@ -308,7 +310,6 @@ public class PeriodsManager extends GenericResource {
                 }
                 response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedAllPeriods"));
             }
-System.out.println("lenght="+SWBUtils.Collections.sizeOf(seasonable.listPeriods()));
         }
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
         {
