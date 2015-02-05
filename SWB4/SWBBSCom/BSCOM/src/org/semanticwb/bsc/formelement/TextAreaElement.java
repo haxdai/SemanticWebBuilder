@@ -16,7 +16,7 @@ public class TextAreaElement extends org.semanticwb.bsc.formelement.base.TextAre
     /**
      * Realiza operaciones de registro de eventos en bit&cora
      */
-    private static Logger log = SWBUtils.getLogger(Ordinal.class);
+    private static final Logger log = SWBUtils.getLogger(Ordinal.class);
     
     /**
      * Crea instancias de este objeto utilizando como objeto base el referido en la ejecuci&oacute;n
@@ -92,12 +92,10 @@ public class TextAreaElement extends org.semanticwb.bsc.formelement.base.TextAre
             //viewString.append("        width: '80%',\n");
             //viewString.append("        height: '200px',\n");
             viewString.append("        onChange: function(value) {\n");
-            //viewString.append("          getSyncHtml('");
             viewString.append("          postText('");
             viewString.append(url);
             viewString.append("&propUri=");
             viewString.append(prop.getEncodedURI());
-            //viewString.append("&value='+value);\n");
             viewString.append("','value='+value);\n");
             viewString.append("        }\n");
             viewString.append("      }, 'eb_");
