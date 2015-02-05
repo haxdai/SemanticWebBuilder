@@ -87,14 +87,18 @@ public class TextAreaElement extends org.semanticwb.bsc.formelement.base.TextAre
             viewString.append("\",\n");
             viewString.append("        autoSave: false,\n");
             viewString.append("        editor: \"dijit.form.Textarea\",\n");
-            viewString.append("        editorParams: {trim:true, required:true},\n");
-            viewString.append("        width: '80%',\n");
+            viewString.append("        editorParams: {trim:false, required:true},\n");
+            viewString.append("        style: 'width:80%;height:200px',\n");
+            //viewString.append("        width: '80%',\n");
+            //viewString.append("        height: '200px',\n");
             viewString.append("        onChange: function(value) {\n");
-            viewString.append("          getSyncHtml('");
+            //viewString.append("          getSyncHtml('");
+            viewString.append("          postText('");
             viewString.append(url);
             viewString.append("&propUri=");
             viewString.append(prop.getEncodedURI());
-            viewString.append("&value='+value);\n");
+            //viewString.append("&value='+value);\n");
+            viewString.append("','value='+value);\n");
             viewString.append("        }\n");
             viewString.append("      }, 'eb_");
             viewString.append(objectId);
@@ -112,7 +116,6 @@ public class TextAreaElement extends org.semanticwb.bsc.formelement.base.TextAre
             viewString.append("</span>");
             toReturn = viewString.toString();
         }
-        
         if (toReturn == null) {
             toReturn = "";
         }
