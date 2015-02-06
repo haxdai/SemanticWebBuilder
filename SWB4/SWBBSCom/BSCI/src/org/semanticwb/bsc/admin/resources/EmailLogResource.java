@@ -73,7 +73,7 @@ public class EmailLogResource extends GenericResource {
         while (webSites.hasNext()) {
             WebSite site = webSites.next();
             // Evaluates if TopicMap is not Global
-            if (!site.getId().equals(SWBContext.getGlobalWebSite().getId())) {
+            if (!site.getId().equals(SWBContext.getGlobalWebSite().getId()) && !site.getId().equals(SWBContext.getAdminWebSite().getId())) {
                 hm_sites.put(site.getId(), site.getDisplayTitle(paramsRequest.getUser().getLanguage()));
             }
         }
@@ -361,11 +361,13 @@ public class EmailLogResource extends GenericResource {
 
         while (itUser.hasNext()) {
             User user = itUser.next();
+             //if (!user.getUserRepository().getId().equals("uradm")) {
             out.println("<option value=\"" + user.getURI() + "\" ");
             if (userId.equalsIgnoreCase(user.getURI())) {
                 out.print(" selected=\"selected\" ");
             }
             out.print(">" + user.getFullName() + "</option>");
+             //}
         }
         out.println("</select>");
         out.flush();
