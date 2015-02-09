@@ -1,0 +1,155 @@
+<template method="setHeaders" Content-Type="text/html; charset=UTF-8" charset="UTF-8" Cache-Control="no-cache" Pragma="no-cache"  response="{response}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="/swbadmin/css/images/favicon.ico">
+
+    <title>SWB Social</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/swbadmin/mobile/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="/swbadmin/mobile/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="/swbadmin/mobile/css/sb-admin-2.css" rel="stylesheet">
+
+    <link href="/swbadmin/css/swbsocial4Mobile.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="/swbadmin/mobile/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+            @import "<webpath/>/swbadmin/js/dojo/dijit/themes/soria/soria.css";
+            @import "<webpath/>/swbadmin/css/swb.css";
+            /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
+            @import "<webpath/>/swbadmin/css/swbsocial4Mobile.css";
+     </style>
+     <script type="text/javascript" src="{webpath}/swbadmin/js/dojo/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug: false, locale: '{user@getLanguage}'"></script>
+     <script type="text/javascript" charset="utf-8" src="{webpath}/swbadmin/js/swb.js"></script>
+     <script type="text/javascript" charset="utf-8" src="{webpath}/swbadmin/js/swb_admin.js"></script>
+     <script type="text/javascript" charset="utf-8" src="/work/models/SWBAdmin/js/swbsocial.js" ></script>
+</head>
+
+<body class="soria">
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="socialNavbar navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="logoNavBar navbar-brand" href="/{user@getLanguage}/{topic@getWebSiteId}/Home">
+                    <div id="semwblogo" class="dijitReset dijitInline swbLogo"></div>
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="socialwhite dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <include src="/work/models/SWBAdmin/jsp/mobilev/adminMessages.jsp"/>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="socialwhite dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i>  <User method="getFullName"/> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        </li>
+                        <li><a href="{webpath}/swb/SWBAdmin/DocumentsToAuthorize"><i class="fa fa-gear fa-fw"></i> Autorizar Mensajes</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="/login?wb_logout=true"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <!--li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                        </li-->
+                        <RESOURCE TYPE="m_menu"/>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper" class="socialwrapper">
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div dojoType="dijit.layout.ContentPane" class="swbNoScroll">
+                         <content/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- dialog -->
+    <div dojoType="dijit.Dialog" style="display:none;" id="swbDialog" title="Agregar" onHide="hideSocialDialog();" onCancel="hideSocialDialog();">
+         <div dojoType="dojox.layout.ContentPane" id="swbDialogImp" executeScripts="true">
+              Cargando...
+         </div>
+    </div>
+
+    <!-- jQuery Version 1.11.0 -->
+    <script src="/swbadmin/mobile/js/jquery-1.11.0.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/swbadmin/mobile/js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="/swbadmin/mobile/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="/swbadmin/mobile/js/sb-admin-2.js"></script>
+
+</body>
+
+</html>
+
+
+

@@ -1,6 +1,6 @@
 <%-- 
     Document   : showPostOut
-    Created on : 03-jun-2013, 13:01:48
+    Created on : 3/11/2014, 10:49:02 AM
     Author     : jorge.jimenez
 --%>
 
@@ -22,15 +22,9 @@
 
 
 <style type="text/css">            
-            <%if(request.getParameter("mobileMode")!=null)
-            {%>
-              @import "/swbadmin/css/swbsocial4Mobile.css";          
-            <%}else{%>
-              @import "/swbadmin/css/swbsocial.css";          
-            <%}%>
-            html, body, #main{
-                overflow: auto;
-            }
+    html, body, #main{
+        overflow: auto;
+    }
 </style>
     
 <%
@@ -47,7 +41,7 @@
     if (wsite == null) {
         return;
     }
-
+   
     PostOut postOut = (PostOut) semObj.getGenericInstance();
     //Un mensaje de entrada siempre debe estar atachado a un usuario de la red social de la que proviene, de esta manera, es como desde swbsocial
     //se respondería a un mensaje
@@ -60,24 +54,26 @@
     } else {
         userPhoto = SWBPortal.getWebWorkPath() + userCreator.getWorkPath() + "/" + userPhoto;
     }
+    
+    WebPage wPageFlows=SWBContext.getAdminWebSite().getWebPage("DocumentsToAuthorize");
+    
+   
+    Resource resrPostOut = SWBContext.getAdminWebSite().getResource("208");
+    request.setAttribute("site", wsite.getId());
+
+    SWBParamRequestImp paramreq = new SWBParamRequestImp(request, resrPostOut, wPageFlows, user);
+    SWBResourceURL urlpreview = paramreq.getRenderUrl().setCallMethod(SWBParamRequestImp.Call_DIRECT);
+    urlpreview.setParameter("site", wsite.getId());    
+    
 %>
-<%
-    if (!(semObj.getGenericInstance() instanceof Message)) {//It's video or image(s) set SIZE
-%>
-<div style="height: 450px">
-    <%} else {
-    %>
-    <div>
-        <%    }
-        if(request.getParameter("mobileMode")!=null)
-        {
-        %>
-            <div class="">
-                <input type="button" value="Regresar" onclick="history.go(-1);"/>
-            </div>
-        <%}%>
-        <div class="swbform swbpopup msj-txt">
-            <div class="perfilgral">
+<div class="row">
+ <div class="col-md-12">
+ <div class="panel panel-default">
+       <div class="panel-heading">    
+           <a href="#" onclick="submitUrl('<%=urlpreview%>',this); return false;"><span class="glyphicon glyphicon-chevron-left"></span></a>Mensaje a Publicar        
+       </div>
+        <div class="panel-body ">
+           <div class="perfilgral">
                 <div class="perfil">
                     <img src="<%=userPhoto%>" width="150" height="150"/>
                     <p><%=userCreator.getFullName()%> </p>
@@ -86,13 +82,11 @@
                 <div class="clear"></div>      
             </div>
             <div class="msj-div"></div>
-
             <%
                 String isSentMgstoClassify = SWBSocialUtil.Util.getModelPropertyValue(wsite, SWBSocialUtil.CLASSIFYSENTMGS_PROPNAME);
                 if (isSentMgstoClassify != null && isSentMgstoClassify.equalsIgnoreCase("true")) //Los mensajes de salida si se deben clasificar por sentimientos e intensidad, tal como los de entrada.
                 {
             %>    
-
             <table class="tabla1">
                 <thead>
                     <tr>
@@ -144,10 +138,9 @@
                     </td> 
                 </tr>
             </table>
-            <%
+             <%
                 }
-            %>
-
+             %>
             <%
 
                 if (semObj.getGenericInstance() instanceof Message) {
@@ -320,9 +313,13 @@
             <%
                 }
             %>
+            
+            
+            
         </div>
     </div>
-            
+  </div>            
+</div>            
 <%!
     private String getPropertyName(SemanticObject obj, String propName) 
     {
