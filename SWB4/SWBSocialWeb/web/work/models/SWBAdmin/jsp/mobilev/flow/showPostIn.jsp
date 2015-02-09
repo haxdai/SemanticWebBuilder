@@ -1,8 +1,9 @@
 <%-- 
     Document   : showPostIn
-    Created on : 03-jun-2013, 13:01:48
+    Created on : 4/11/2014, 10:54:45 AM
     Author     : jorge.jimenez
 --%>
+
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
@@ -50,14 +51,24 @@
         userPhoto = "/swbadmin/css/images/profileDefImg.jpg";
     }    
     
-    if(request.getParameter("mobileMode")!=null)
-    {
+    WebPage wPageFlows=SWBContext.getAdminWebSite().getWebPage("DocumentsToAuthorize");
+    
+   
+    Resource resrPostOut = SWBContext.getAdminWebSite().getResource("208");
+    request.setAttribute("site", wsite.getId());
+
+    SWBParamRequestImp paramreq = new SWBParamRequestImp(request, resrPostOut, wPageFlows, user);
+    SWBResourceURL urlpreview = paramreq.getRenderUrl().setCallMethod(SWBParamRequestImp.Call_DIRECT);
+    urlpreview.setParameter("site", wsite.getId());    
+    
     %>
-       <div class="">
-          <input type="button" value="Regresar" onclick="history.go(-1);"/>
-       </div>
-    <%}%>
-<div class="swbform swbpopup usr-pop">
+<div class="row">
+ <div class="col-md-12">
+ <div class="panel panel-default">
+    <div class="panel-heading">    
+        <a href="#" onclick="submitUrl('<%=urlpreview%>',this); return false;"><span class="glyphicon glyphicon-chevron-left"></span></a>Mensaje a Publicar        
+    </div>
+    <div class="panel-body ">
     <div class="perfilgral">
         <div class="perfil">           
             <img src="<%=userPhoto%>"/>
@@ -69,14 +80,6 @@
 
         <div class="clear"></div>
     </div>
-    <%if(request.getParameter("mobileMode")==null)
-    {
-    %>    
-    <jsp:include page="/work/models/SWBAdmin/jsp/post/postActions.jsp">
-        <jsp:param name="postUri" value="<%=postIn.getURI()%>" />
-        <jsp:param name="lang" value="<%=user.getLanguage()%>" />
-    </jsp:include>
-    <%}%>
     <table class="tabla1">
         <thead>
             <tr>               
@@ -86,26 +89,9 @@
                 <th>
                     <span><%=paramRequest.getLocaleString("sentiment")%></span>
                 </th>
-                <%if(request.getParameter("mobileMode")==null)
-                {
-                %>
                 <th>
-                    <span><%=paramRequest.getLocaleString("intensity")%></span>
-                </th>
-                <%}%>
-                <th>
-                    <span><%=paramRequest.getLocaleString("replies")%></span>
-                </th>
-                <%if(request.getParameter("mobileMode")==null) 
-                {
-                %>
-                <th>
-                    <span><%=paramRequest.getLocaleString("place")%></span>
-                </th>
-                <th>
-                    <span><%=paramRequest.getLocaleString("prioritary")%></span>
-                </th>
-                <%}%>
+                    <span>Replicas</span>
+                </th>                
             </tr>
         </thead>
 
@@ -286,48 +272,15 @@
                         }
                     %>
                   </td>
-                <%if(request.getParameter("mobileMode")==null)
-                {
-                %>  
-                <td>
-                    <!--<%=postIn.getPostIntesityType() == 0 ? paramRequest.getLocaleString("low") : postIn.getPostSentimentalType() == 1 ? paramRequest.getLocaleString("medium") : postIn.getPostSentimentalType() == 2 ? paramRequest.getLocaleString("high") : "---"%>-->
-
-                    <%
-                        if (postIn.getPostIntesityType() == 0) {
-                    %>
-                    <img src="<%=SWBPortal.getContextPath()%>/swbadmin/css/images/ibaja.png" width="25" height="25" alt="<%=paramRequest.getLocaleString("low")%>">
-                    <%        } else if (postIn.getPostIntesityType() == 1) {
-                    %>    
-                    <img src="<%=SWBPortal.getContextPath()%>/swbadmin/css/images/imedia.png" width="25" height="25" alt="<%=paramRequest.getLocaleString("medium")%>">
-                    <%
-                    } else if (postIn.getPostIntesityType() == 2) {
-                    %>
-                    <img src="<%=SWBPortal.getContextPath()%>/swbadmin/css/images/ialta.png" width="25" height="25" alt="<%=paramRequest.getLocaleString("high")%>">
-                    <%
-                    } else {
-                    %>
-                    ----
-                    <%}%>
-                </td> 
-                <%}%>
                 <td align="center">
                     <%=postIn.getPostShared()%>
-                </td>
-                <%if(request.getParameter("mobileMode")==null)
-                {
-                %>
-                <td align="center">
-                    <%=postIn.getPostPlace() == null ? "---" : postIn.getPostPlace()%>
-                </td> 
-                <td align="center">
-                    <%=postIn.isIsPrioritary() ? SWBSocialResUtil.Util.getStringFromGenericLocale("yes", user.getLanguage()) : SWBSocialResUtil.Util.getStringFromGenericLocale("not", user.getLanguage())%>
-                </td> 
-                <%}%>
+                </td>                
             </tr>
 
         </tbody>
     </table>
 </div>
-<%if(request.getParameter("mobileMode")!=null){%>
-  </div> 
-<%}%>  
+ </div>
+ </div>
+</div>                
+ 

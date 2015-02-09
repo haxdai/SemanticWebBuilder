@@ -4,6 +4,7 @@
     Author     : jorge.jimenez
 --%>
 
+<%@page import="org.semanticwb.social.SocialCalendarRef"%>
 <%@page import="org.semanticwb.social.PostOut"%>
 <%@page import="org.semanticwb.model.CalendarRef"%>
 <%@page import="org.semanticwb.social.SocialCalendar"%>
@@ -116,13 +117,13 @@
        %>
            <!-- <p id="streamName">Mensajes Relacionados</p>-->
        <%
-       Iterator <CalendarRef> itSocialPflowRefs=socialCalendar.listCalendarRefInvs();
+       Iterator <SocialCalendarRef> itSocialPflowRefs=socialCalendar.listSocialCalendarRefInvs();
        while(itSocialPflowRefs.hasNext())
        {
-           CalendarRef calendarRef=itSocialPflowRefs.next();
+           SocialCalendarRef calendarRef=itSocialPflowRefs.next();
            if(calendarRef.isValid())
            { 
-               Iterator<PostOut> itPostOuts=PostOut.ClassMgr.listPostOutByCalendarRef(calendarRef, wsite);
+               Iterator<PostOut> itPostOuts=PostOut.ClassMgr.listPostOutBySocialCalendarRef(calendarRef, wsite);
                while(itPostOuts.hasNext())
                {  
                    PostOut postOut=itPostOuts.next();

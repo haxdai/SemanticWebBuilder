@@ -17,12 +17,12 @@
 <%@page import="java.text.SimpleDateFormat"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 
-
 <%
     String action = paramRequest.getAction();
+    if(request.getParameter("action") !=null) action=request.getParameter("action");
     User user = paramRequest.getUser();
     //WebSite wsite = paramRequest.getWebPage().getWebSite();
-    WebSite wsite = SWBSocialUtil.getConfigWebSite(); 
+    WebSite wsite = SWBSocialUtil.getConfigWebSite();     
 %>
 
 <p>
