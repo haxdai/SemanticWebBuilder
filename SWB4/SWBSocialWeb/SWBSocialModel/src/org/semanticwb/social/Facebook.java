@@ -186,13 +186,13 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             ///System.out.println("" + "ALMACENANDO LIMITES!!!!!");
         } catch (JSONException jsone) {
             log.error("JSON al usar queries construidos", jsone);
-            jsone.printStackTrace();
+            //jsone.printStackTrace();
         } catch (IOException ioe) {
             log.error("IO, al recibir informacion/generar archivo", ioe);
-            ioe.printStackTrace();
+            //ioe.printStackTrace();
         } catch (Exception e) {
             log.error("Exception, al ejecutar generateBatchQuery", e);
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
     }
@@ -1207,7 +1207,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             in = conex.getInputStream();
             response = getResponse(in);
         } catch (java.io.IOException ioe) {
-            response = getResponse(conex.getErrorStream());
+            //response = getResponse(conex.getErrorStream());
+            response=null;
             //ioe.printStackTrace();
         } finally {
             close(in);
@@ -1388,7 +1389,6 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
      * datos
      */
     private static String getResponse(InputStream data) throws IOException {
-
         Reader in = new BufferedReader(new InputStreamReader(data, "UTF-8"));
         StringBuilder response = new StringBuilder(256);
         char[] buffer = new char[1000];

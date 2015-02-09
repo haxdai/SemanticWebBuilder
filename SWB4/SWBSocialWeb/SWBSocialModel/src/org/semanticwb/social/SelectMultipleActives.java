@@ -289,9 +289,10 @@ public class SelectMultipleActives extends org.semanticwb.social.base.SelectMult
                             ret.append("/>");
                             
                             if(sob.getGenericInstance() instanceof Twitter) ret.append("<img src=\"/swbadmin/css/images/config-tw.png\">");
-                            if(sob.getGenericInstance() instanceof Facebook) ret.append("<img src=\"/swbadmin/css/images/config-fb.png\">");
-                            if(sob.getGenericInstance() instanceof Youtube) ret.append("<img src=\"/swbadmin/css/images/config-yt.png\">");
-                            if(sob.getGenericInstance() instanceof Instagram) ret.append("<img src=\"/swbadmin/css/images/config-ig.png\">");
+                            else if(sob.getGenericInstance() instanceof Facebook) ret.append("<img src=\"/swbadmin/css/images/config-fb.png\">");
+                            else if(sob.getGenericInstance() instanceof Youtube) ret.append("<img src=\"/swbadmin/css/images/config-yt.png\">");
+                            else if(sob.getGenericInstance() instanceof Instagram) ret.append("<img src=\"/swbadmin/css/images/config-ig.png\">");
+                            else if(sob.getGenericInstance() instanceof RssSource) ret.append("<img src=\"/swbadmin/css/images/config-rss.png\">");
                             
                             //ret.append(">" + sob.getDisplayName(lang) + "</option>");
                             //ret.append(" <label for=\""+name+"\">Want</label>");
