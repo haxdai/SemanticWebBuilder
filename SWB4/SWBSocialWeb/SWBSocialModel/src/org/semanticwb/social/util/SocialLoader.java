@@ -37,6 +37,7 @@ import org.semanticwb.social.SocialFlow.SocialPFlowMgr;
 import org.semanticwb.social.listener.ListenerMgr;
 import org.semanticwb.social.listener.MonitorMgr;
 import org.semanticwb.social.listener.MonitorPostOutResponsesMgr;
+import org.semanticwb.social.listener.RssListenerMgr;
 
 /**
  *
@@ -75,6 +76,8 @@ public class SocialLoader implements SWBAppObject {
             new SWBSocialUtil().createInstance(); //Sin threads
             
             new MonitorPostOutResponsesMgr();
+            
+            new RssListenerMgr();   //Rss Listener
             
              //Charges the unique PostMonitor instance
             if(PostMonitor.ClassMgr.listPostMonitors(SWBContext.getAdminWebSite()).hasNext())

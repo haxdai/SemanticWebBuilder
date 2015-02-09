@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website Social. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para Social Site (Marca). 
    */
-public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
+public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable
 {
    /**
    * Número de Días antes de que se refresque información del usuario en las redes sociales
@@ -74,6 +74,7 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
    * Manejo de Rss en una marca
    */
     public static final org.semanticwb.platform.SemanticClass social_Rss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#Rss");
+    public static final org.semanticwb.platform.SemanticClass swb_MetaTagGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#MetaTagGroup");
    /**
    * Clase principal para manejo de reglas en swbSocial
    */
@@ -910,6 +911,36 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
     public boolean hasRss(String id)
     {
         return org.semanticwb.social.Rss.ClassMgr.hasRss(id, this);
+    }
+
+    public org.semanticwb.model.MetaTagGroup getMetaTagGroup(String id)
+    {
+        return org.semanticwb.model.MetaTagGroup.ClassMgr.getMetaTagGroup(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.model.MetaTagGroup> listMetaTagGroups()
+    {
+        return org.semanticwb.model.MetaTagGroup.ClassMgr.listMetaTagGroups(this);
+    }
+
+    public org.semanticwb.model.MetaTagGroup createMetaTagGroup(String id)
+    {
+        return org.semanticwb.model.MetaTagGroup.ClassMgr.createMetaTagGroup(id,this);
+    }
+
+    public org.semanticwb.model.MetaTagGroup createMetaTagGroup()
+    {
+        long id=getSemanticObject().getModel().getCounter(swb_MetaTagGroup);
+        return org.semanticwb.model.MetaTagGroup.ClassMgr.createMetaTagGroup(String.valueOf(id),this);
+    } 
+
+    public void removeMetaTagGroup(String id)
+    {
+        org.semanticwb.model.MetaTagGroup.ClassMgr.removeMetaTagGroup(id, this);
+    }
+    public boolean hasMetaTagGroup(String id)
+    {
+        return org.semanticwb.model.MetaTagGroup.ClassMgr.hasMetaTagGroup(id, this);
     }
 
     public org.semanticwb.social.SocialRule getSocialRule(String id)

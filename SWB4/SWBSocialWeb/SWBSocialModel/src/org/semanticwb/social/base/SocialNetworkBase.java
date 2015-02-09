@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase que engloba a las diferentes clases que representan cada una de las redes sociales. 
    */
-public abstract class SocialNetworkBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.social.Relationable,org.semanticwb.social.Listenerable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Descriptiveable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableNode
+public abstract class SocialNetworkBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.social.Secreteable,org.semanticwb.social.Listenerable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Relationable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass
 {
    /**
    * Clase a Cambiar despues por "Relacional".  En esta clase se guardan todos los post que lleguan por el listener, se estima que toda la info. que se guarde en este objeto debe de eliminarse aproximadamente c/mes, siendo este parametro configurable de acuerdo al tiempo que la organización quiera guardar  la información sobre los mensajes que lleguen por el listener. Se almacenan por mes y año, de esta manera sera mucho mas rapido hacer las busquedas sobre las instancias de esta clase. EN ESTE MOMENTO NO SE ESTA UTILIZANDO ESTA CLASE.
@@ -18,6 +18,10 @@ public abstract class SocialNetworkBase extends org.semanticwb.model.SWBClass im
    * Bandera que indica si la red social se encuentra antenticada o no, esta propiedad se maneja desde el sistema. Si la red social regresa que la fecha de expiración de la autenticación ha concluido, se pone en false, para que despues se autentique nuevamente la cuenta de manera manual desde el modulo de cuentas de redes sociales.
    */
     public static final org.semanticwb.platform.SemanticProperty social_sn_authenticated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#sn_authenticated");
+   /**
+   * Id de usuario de una red social
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_userId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#userId");
    /**
    * Clase a Cambiar despues por "Relacional". Clase que contiene TODOS los post de salida (PostOut) que han sido enviados a una determinada red social. La intención de crear esta clase es para que se agrupen los Post de cada red social por mes y año, y de esta manera sea mucho mas sencillo, optimo y rapido realizar las busquedas.EN ESTE MOMENTO NO SE ESTA UTILIZANDO ESTA CLASE. SE UTILIZA POSTOUTNET EN LUGAR DE ESTA,
    */
@@ -617,6 +621,24 @@ public abstract class SocialNetworkBase extends org.semanticwb.model.SWBClass im
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the UserId property
+* @return String with the UserId
+*/
+    public String getUserId()
+    {
+        return getSemanticObject().getProperty(social_userId);
+    }
+
+/**
+* Sets the UserId property
+* @param value long with the UserId
+*/
+    public void setUserId(String value)
+    {
+        getSemanticObject().setProperty(social_userId, value);
     }
    /**
    * Gets all the org.semanticwb.social.PostOutContainer
