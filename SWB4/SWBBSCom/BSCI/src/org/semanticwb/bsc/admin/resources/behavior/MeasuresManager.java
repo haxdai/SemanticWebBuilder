@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
@@ -58,9 +57,8 @@ public class MeasuresManager extends GenericAdmResource {
             return;
         }
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
-        try {
-            Measurable measurable = (Measurable)semObj.getGenericInstance();
-        }catch(ClassCastException cce) {
+        
+        if(!(semObj.getGenericInstance() instanceof Measurable)) {
             out.println("<div class=\"swbform\">");
             out.println("<fieldset></fieldset>");
             out.println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
@@ -176,7 +174,6 @@ public class MeasuresManager extends GenericAdmResource {
             while(measurablesPeriods.hasNext())
             {
                 period = measurablesPeriods.next();
-
                 Measure measure = series.getMeasure(period);
                 if(measure == null) {
                     measure = Measure.ClassMgr.createMeasure(period.getBSC());
@@ -195,7 +192,6 @@ public class MeasuresManager extends GenericAdmResource {
 
                 String value = measure.getValue()==0?"":formatter.format(measure.getValue());
                 String iconClass, statusTitle;
-
                 try {
                     statusTitle = measure.getEvaluation().getStatus().getTitle(user.getLanguage())==null?measure.getEvaluation().getStatus().getTitle():measure.getEvaluation().getStatus().getTitle(user.getLanguage());
                     try {
