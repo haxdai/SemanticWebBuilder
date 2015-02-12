@@ -149,7 +149,7 @@ public class SWBResourceCachedMgr
         while(en.hasMoreElements())
         {
             String key=(String)en.nextElement();
-            if(key.startsWith(mkey))
+            if(key.startsWith(mkey) || key.endsWith(mkey))
             {
                 mrulist.remove(key);
                 cache.remove(key);
