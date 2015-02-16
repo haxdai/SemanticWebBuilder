@@ -66,8 +66,8 @@ import org.semanticwb.portal.api.SWBResourceURLImp;
  *
  * @author carlos.ramos
  */
-public class LiteFileRepository extends GenericResource
-{
+public class LiteFileRepository extends GenericResource {
+
     private Logger log = SWBUtils.getLogger(LiteFileRepository.class);
     private SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yy hh:mm");
     private static final String Mode_GETFILE = "getFile";
@@ -78,442 +78,291 @@ public class LiteFileRepository extends GenericResource
     private static final String LVL_ADMIN = "prop_admin";
     private static final String CHK_FOLDERSUPPORT = "prop_foldersupport";
     private static final NumberFormat numf = NumberFormat.getNumberInstance();
-    
-    public static final String ROOT_REPOSITORY = "docs_rep_toc";    
+
+    public static final String ROOT_REPOSITORY = "docs_rep_toc";
     private String path;
-    
+
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
         path = SWBPlatform.getContextPath() + "/swbadmin/images/repositoryfile/";
         numf.setMaximumFractionDigits(1);
-        
+
     }
 
     @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         final String mode = paramRequest.getMode();
-        if(Mode_GETFILE.equals(mode)) {
+
+        if (Mode_GETFILE.equals(mode)) {
             doGetFile(request, response, paramRequest);
-        }else if(Mode_X.equals(mode)) {
+        } else if (Mode_X.equals(mode)) {
             doX(request, response, paramRequest);
-        }else {
+        } else if ("viewInfo".equals(mode)) {
+            doViewInfo(request, response, paramRequest);
+        } else if ("viewHistory".equals(mode)) {
+            doViewHistory(request, response, paramRequest);
+        } else if ("newVer".equals(mode)) {
+            doNewVer(request, response, paramRequest);
+        } else if ("newDirectory".equals(mode)) {
+            doNewDirectory(request, response, paramRequest);
+        } else {
             super.processRequest(request, response, paramRequest);
         }
     }
-    
-    private String getFolders(WebPage parent, String lang, int paddingLeft, SWBResourceURL xyz) {
-        StringBuilder bstp = new StringBuilder();
-        Resource base = getResourceBase();
-        
-        Iterator<WebPage> childs = parent.listVisibleChilds(lang);
-        if(childs.hasNext()) {
-            bstp.append("  <div id=\""+parent.getId()+"\" class=\"panel-collapse collapse\" style=\"height: auto;\">").append("\n");
-            bstp.append("    <div class=\"panel-body swb-panel-accordion\">").append("\n");
-            bstp.append("      <ul class=\"list-group\">").append("\n");
-            WebPage child;
-            while(childs.hasNext()) {
-                child = childs.next();
-                bstp.append("        <li class=\"swb-sublist-accordion\">").append("\n");
-                if(child.listVisibleChilds(lang).hasNext()) {
-                    bstp.append("          <a href=\"#"+child.getId()+"\" onclick=\"postHtml('"+xyz.setParameter("wpId", child.getId()) +"','lfr_"+base.getId()+"'); if($('#"+child.getId()+"').hasClass('in')){$('#nodico_"+child.getId()+"').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')}");
-                    bstp.append("          else{$('#nodico_"+child.getId()+"').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
-                    bstp.append("          class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\" style=\"padding-left:"+paddingLeft+"px;\">");
-                    bstp.append("           <span id=\"nodico_"+child.getId()+"\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;"+(child.getDisplayTitle(lang)==null?child.getTitle():child.getDisplayTitle(lang))+"</a>").append("\n");
-                    bstp.append(getFolders(child, lang, paddingLeft+10, xyz));
-                }else {
-                    bstp.append("          <a href=\"#\" onclick=\"postHtml('"+xyz.setParameter("wpId", child.getId()) +"','lfr_"+base.getId()+"')\" class=\"swb-menu-rep\" style=\"padding-left:"+paddingLeft+"px;\">"+(child.getDisplayTitle(lang)==null?child.getTitle():child.getDisplayTitle(lang))+"</a>").append("\n");
-                }
-                bstp.append("        </li>").append("\n");
-            }
-            bstp.append("      </ul>").append("\n");
-            bstp.append("    </div>").append("\n");
-            bstp.append("  </div>").append("\n");
-        }
-        return bstp.toString();
-    }
-    
-    private String breadCrumbs(WebPage currentFolder, final String lang) {
-        final WebSite scorecard = getResourceBase().getWebSite();
-        List<String> crumbs = new ArrayList<String>();
-        final WebPage root = scorecard.getWebPage(ROOT_REPOSITORY);
-        crumbs.add("</ol>");
-        crumbs.add("<li class=\"active\">"+(currentFolder.getDisplayTitle(lang)==null?currentFolder.getTitle():currentFolder.getDisplayTitle(lang))+"</li>");
-        while(!currentFolder.equals(root)) {
-            currentFolder = currentFolder.getParent();
-            crumbs.add("<li><a href=\"#\">"+(currentFolder.getDisplayTitle(lang)==null?currentFolder.getTitle():currentFolder.getDisplayTitle(lang))+"</a></li>");
-        }
-        crumbs.add("<ol class=\"breadcrumb\">");
-        Collections.reverse(crumbs);
-        return Arrays.toString(crumbs.toArray()).replaceAll("[,\\[\\]]", "\n");
-    }
-    
-    public void doX(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        response.setContentType("text/html; charset=ISO-8859-1");
-        response.setHeader("Cache-Control", "no-cache");
-        response.setHeader("Pragma", "no-cache");
-        
+
+    private void doNewDirectory(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        WebPage repoDir = paramRequest.getWebPage();
         PrintWriter out = response.getWriter();
-        
-        Resource base = getResourceBase();
-        
-        final String wpId = request.getParameter("wpId");
+        SWBResourceURL urlnew = paramRequest.getActionUrl();
+        urlnew.setAction("newDir");
+        urlnew.setParameter("act", "newDir");
+        String curFolderId = request.getParameter("fldr") == null ? repoDir.getId() : request.getParameter("fldr");
+        urlnew.setParameter("fldr", curFolderId);
+
+        out.println("<script type=\"text/javascript\" >");
+        out.println("function validaDir() ");
+        out.println("{ ");
+        out.println("   if(document.frmDir.d_title.value=='') ");
+        out.println("     { ");
+        out.println("         alert('Defina el título'); ");
+        out.println("         return; ");
+        out.println("     } ");
+        out.println("   if(document.frmDir.d_description.value=='') ");
+        out.println("     { ");
+        out.println("         alert('Indique la descripción'); ");
+        out.println("         return; ");
+        out.println("     } ");
+        out.println("   document.frmDir.submit();");
+        out.println("} ");
+        out.println("</script>");
+
+        out.println("<div id=\"ProcessFileRepository\">");
+        out.println("<form id=\"frmDir\" name=\"frmDir\" method=\"post\" action=\"" + urlnew + "\" onsubmit=\"validaDir();return false;\">");
+        out.println("<table>");
+        out.println("<tbody>");
+        out.println("<tr>");
+        out.println("<td colspan=\"2\" align=\"left\">Nueva Carpeta");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("T&iacute;tulo:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<input type=\"text\" name=\"d_title\" value=\"\">");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Descripci&oacute;n:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<textarea name=\"d_description\"></textarea>");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("</tbody>");
+        out.println("<tfoot>");
+        out.println("<tr>");
+        out.println("<td colspan=\"2\" align=\"right\">");
+        out.println("<button type=\"submit\" >Agregar</button>");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("</form>");
+        out.println("</div>");
+    }
+
+    private void doNewVer(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        PrintWriter out = response.getWriter();
         User usr = paramRequest.getUser();
-        final String lang = usr.getLanguage()==null?"es":usr.getLanguage();
+        WebPage repoDir = paramRequest.getWebPage();
+        SWBResourceURL urlnew = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_CONTENT);
+        urlnew.setMode("");
+        urlnew.setAction("newfile");
+        urlnew.setParameter("act", "newfile");
 
-        int luser = getLevelUser(usr);
-        
-        BSC scorecard = (BSC) base.getWebSite();
-        WebPage currentFolder = scorecard.getWebPage(wpId);
-        
-        out.println(breadCrumbs(currentFolder, lang));        
-        out.println("  <div class=\"panel panel-default\">");
-        out.println("    <div class=\"panel-heading swbstrgy-panel-heading\">");
-        out.println("      <div class=\"row\">");
-        out.println("        <div class=\"col-md-5 col-xs-12\">");
-        out.println(currentFolder.getDisplayTitle(lang)==null?currentFolder.getTitle():currentFolder.getDisplayTitle(lang));
-        out.println("        </div>");
-        if(luser >= 2) {
-            SWBResourceURL urlnew = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_VIEW);
-            urlnew.setParameter("fldr", currentFolder.getId());
-            urlnew.setParameter("act", "new");
-            out.println("        <div class=\"col-md-7 col-xs-12 swb-panel-heading-btn\">");
-            out.println("          <button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnew+"','lfr_"+base.getId()+"')\">");
-            out.println("            <span class=\"glyphicon glyphicon-plus\"></span> Agregar Archivo");
-            out.println("          </button>");
-            if( base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("1") ) {
-                SWBResourceURL urlnewDirectory = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_VIEW);
-                urlnewDirectory.setParameter("fldr", currentFolder.getId());
-                urlnewDirectory.setParameter("act", "newDirectory");
-                out.println("<button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnewDirectory+"','lfr_"+base.getId()+"')\">");
-                out.println("  <span class=\"glyphicon glyphicon-plus\"></span> Agregar Carpeta");
-                out.println("</button>");
-            }            
-            out.println("        </div>");
+        String folderId = request.getParameter("fldr");
+        String fid = request.getParameter("fid");
+        String newVersion = request.getParameter("newVersion");
+        String sNxtVersion = "";
+        RepositoryFile repoFile = null;
+        String stitle = "";
+        String sdescription = "";
+        VersionInfo vl = null;
+        if (null != fid && null != newVersion) {
+            boolean incremento = Boolean.FALSE;
+            if (newVersion.equals("nextInt")) {
+                incremento = Boolean.TRUE;
+            } else if (newVersion.equals("fraction")) {
+                incremento = Boolean.FALSE;
+            }
+
+            repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
+
+            stitle = repoFile.getDisplayTitle(usr.getLanguage());
+            sdescription = repoFile.getDisplayDescription(usr.getLanguage());
+
+            vl = repoFile.getLastVersion();
+            double fver = Double.parseDouble(vl.getVersionValue());
+            fver = fver + 0.10D;
+
+            String sfver = numf.format(fver);
+            if (sfver.indexOf(".") == -1) {
+                sfver = "" + (float) fver;
+            }
+
+            int iver = (int) fver;
+            iver = iver + 1;
+
+            sNxtVersion = sfver;
+
+            if (incremento) {
+                sNxtVersion = "" + (float) iver;
+            }
         }
-        out.println("      </div>");
-        out.println("    </div>");
 
-        SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setParameter("wpId", wpId);
-        out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
-        out.println("      <div class=\"table table-responsive\">");
-        out.println("        <table class=\"table table-striped table-hover\">");
-        out.println("          <thead>");
-        out.println("            <tr>");
-        out.println("                  <th class=\"swbstrgy_docrep-ID_item\">ID</th>");
-        out.println("                  <th class=\"swbstrgy_docrep-type_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "type") + "\" title=\""+paramRequest.getLocaleString("lblOrderByType")+"\">"+paramRequest.getLocaleString("lblType")+"</a>");
-        out.println("                  </th>");
-        out.println("                  <th class=\"swbstrgy_docrep-title_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "title") + "\" title=\""+paramRequest.getLocaleString("lblOrderByFilename")+"\">"+paramRequest.getLocaleString("lblFilename")+"</a>");
-        out.println("                  </th>");
-        out.println("                  <th class=\"swbstrgy_docrep-ver_item\">"+paramRequest.getLocaleString("lblVersion")+"</th>");
-        out.println("                  <th class=\"swbstrgy_docrep-date_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "date") + "\" title=\""+paramRequest.getLocaleString("lblOrderByDate")+"\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
-        out.println("                  </th>");
-        out.println("                  <th class=\"swbstrgy_docrep-usr_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "usr") + "\" title=\""+paramRequest.getLocaleString("lblOrderByUser")+"\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
-        out.println("                  </th>");
-        out.println("                  <th class=\"swbstrgy_docrep-axn_item\">"+paramRequest.getLocaleString("lblAction")+"</th>");
-        out.println("                </tr>");
-        out.println("          </thead>");
-        out.println("          <tbody>");
+        out.println("<script type=\"text/javascript\" >");
+        out.println("function valida() ");
+        out.println("{ ");
+        out.println("   if(document.frmnewdoc.ftitle.value=='') ");
+        out.println("     { ");
+        out.println("         alert('Defina el título'); ");
+        out.println("         return; ");
+        out.println("     } ");
+        out.println("   if(document.frmnewdoc.fdescription.value=='') ");
+        out.println("     { ");
+        out.println("         alert('Indique la descripción'); ");
+        out.println("         return; ");
+        out.println("     } ");
+        out.println("   if(document.frmnewdoc.ffile.value=='') ");
+        out.println("     { ");
+        out.println("         alert('Defina un archivo'); ");
+        out.println("         return; ");
+        out.println("     } ");
 
-        List<RepositoryFile> list = orderDocuments(request.getParameter("orderBy"), lang, currentFolder);
-        Iterator<RepositoryFile> lnit = list.iterator();
-        while (lnit.hasNext())
-        {
-            RepositoryFile repositoryFile = lnit.next();
-            VersionInfo vi = repositoryFile.getLastVersion();
-            if(vi == null) {
-                repositoryFile.remove();
-                continue;
-            }
+        if (null != fid && null != newVersion) {
+            out.println("   var filename = document.frmnewdoc.ffile.value;");
+            out.println("   if(filename.indexOf('" + vl.getVersionFile() + "')==-1) ");
+            out.println("     { ");
+            out.println("         alert('Archivo seleccionado inválido. Debe ser " + vl.getVersionFile() + "'); ");
+            out.println("         return; ");
+            out.println("     } ");
+        }
+
+        out.println("   document.frmnewdoc.submit();");
+        out.println("} ");
+        out.println("</script>");
+
+        out.println("<div id=\"ProcessFileRepository\">");
+        out.println("<form id=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\">");
+        if (null != fid && null != newVersion) {
+            out.println("<input type=\"hidden\" name=\"newVersion\" value=\"" + newVersion + "\">");
+            out.println("<input type=\"hidden\" name=\"fid\" value=\"" + fid + "\">");
+        }
+        out.println("<input type=\"hidden\" name=\"fldr\" value=\"" + folderId + "\">");
+
+        out.println("<table>");
+        out.println("<tbody>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("T&iacute;tulo");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<input type=\"text\" name=\"ftitle\" value=\"" + stitle + "\">");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Descripci&oacute;n:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<textarea name=\"fdescription\">" + sdescription + "</textarea>");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Comentario:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<textarea name=\"fcomment\"></textarea>");
+        out.println("</td>");
+        out.println("</tr>");
+
+        if (null != fid && null != newVersion) {
             out.println("<tr>");
-            // 1
-            out.println("<td class=\"gen-right\">");
-            String fid = repositoryFile.getId();
-            out.println(fid);
+            out.println("<td align=\"right\">");
+            out.println("Versi&oacute;n del archivo a agregar:");
             out.println("</td>");
-            // 2
-            out.println("<td class=\"gen-center\">");
-            SWBResourceURL urldetail = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW);
-            urldetail.setParameter("act", "detail");
-            urldetail.setParameter("fid", fid);
-            String file = "";
-            String type = "";
-            if(vi != null && vi.getVersionFile() != null) {
-                file = vi.getVersionFile();
-                type = getFileName(file);
-            }
-            if(luser > 0) {
-                String ulrdirecta = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_GETFILE).setParameter("fid", repositoryFile.getId()).setParameter("verNum", "" + vi.getVersionNumber()).toString();
-                out.println("<a href=\"" + ulrdirecta + "\">");
-                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
-                out.println("</a>");
-            }else {
-                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
-            }
-            out.println("</td>");
-            // 3
             out.println("<td>");
-            out.println(repositoryFile.getDisplayTitle(usr.getLanguage()));
-            out.println("</td>");
-            // 4
-            out.println("<td class=\"gen-center\">");
-            out.println(vi.getVersionValue());
-            out.println("</td>");
-            // 5
-            out.println("<td class=\"gen-right\">");
-            out.println(vi != null && vi.getUpdated() != null ? format.format(vi.getUpdated()) : "--");
-            out.println("</td>");
-            // 6
-            out.println("<td>");
-            out.println(vi != null && vi.getModifiedBy() != null && vi.getModifiedBy().getFullName() != null ? vi.getModifiedBy().getFullName() : "--");
-            out.println("</td>");
-            // 7
-            out.println("<td class=\"gen-center\">");
-            out.println("<a href=\"" + urldetail + "\" title=\"Ver más\">");
-            //out.println("<img src=\"" + path + "info.gif\" border=\"0\" alt=\"Ver detalle\">");
-            out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
-            out.println("</a>");
-            if(luser == 3 || (vi.getCreator() != null && vi.getCreator().equals(usr) && luser > 1))
-            {
-                SWBResourceURL urlremove = paramRequest.getActionUrl();
-                urlremove.setAction("removefile");
-                urlremove.setParameter("act", "remove");
-                urlremove.setParameter("fid", fid);
-                out.println("<a href=\"#\" onclick=\"if(confirm('"+paramRequest.getLocaleString("msgQryConfirmRemoveFile") +"')){window.location='" + urlremove + "';} else {return false;}\" title=\""+paramRequest.getLocaleString("msgRemoveFile") +"\" title=\"Eliminar\">");
-                //out.println("<img src=\"" + path + "delete.gif\" border=\"0\" alt=\"eliminar\"/>");
-                out.println("  <span class=\"glyphicon glyphicon-trash\"></span>");
-                out.println("</a>");
-            }
+            out.println(sNxtVersion);
             out.println("</td>");
             out.println("</tr>");
         }
+
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Archivo:");
+        out.println("</td>");
+        out.println("<td>");
+
+        out.println("<input type=\"file\" name=\"ffile\" value=\"hola\">");
+        out.println("</td>");
+        out.println("</tr>");
+
         out.println("</tbody>");
-        out.println("        </table>");
-        out.println("      </div> <!-- /.table-responsive -->");
-        out.println("    </div> <!-- /.panel-body -->");
-        out.println("  </div> <!-- /. -->");
+        out.println("<tfoot>");
+        out.println("<tr>");
+        out.println("<td colspan=\"2\" align=\"right\">");
+        out.println("<button type=\"submit\" >Agregar</button>");
+
+        SWBResourceURL urlbck = paramRequest.getRenderUrl();
+        urlbck.setCallMethod(SWBResourceURL.Call_DIRECT);
+        if (null != fid && null != newVersion) {
+            urlbck.setMode("viewInfo");
+            urlbck.setParameter("fid", fid);
+            out.print("\n<a href=\"#\" class=\"btn btn-default\" onclick=\"showMyDialogInfo('");
+            out.print(urlbck);
+            out.println("', 'Ver detalle');\">");
+            out.println("Regresar");
+            out.println("\n</a>");
+        }
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("</form>");
+        out.println("</div>");
+
     }
-    
-    @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+
+    private void doViewHistory(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-
-        Resource base = getResourceBase();
         PrintWriter out = response.getWriter();
-        User usr = paramRequest.getUser();
-        final String lang = usr.getLanguage()==null?"es":usr.getLanguage();
-        int luser = getLevelUser(usr);
         WebPage repoDir = paramRequest.getWebPage();
-        String action = request.getParameter("act")==null?"":request.getParameter("act");
+        User usr = paramRequest.getUser();
+        int luser = getLevelUser(usr);
 
-        if ("".equals(action))
-        {
-            SWBResourceURL xyz = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_X);
-            BSC scorecard = (BSC) base.getWebSite();
-            WebPage root = scorecard.getWebPage(ROOT_REPOSITORY);
-            out.println("<div class=\"panel panel-default\"> <!-- panel -->");
-            out.println("  <div class=\"panel-heading swbstrgy-panel-heading\">");
-            out.println("    <div class=\"row\">");
-            out.println("      <div class=\"col-xs-6\">"+paramRequest.getLocaleString("lblFileRepository")+"</div>");
-            out.println("      <div class=\"col-xs-6 swb-panel-heading-btn\">");
-            out.println("      </div>");
-            out.println("    </div>");
-            out.println("  </div>");
-
-            out.println("<div class=\"panel-body swbstrgy-panel-body\"> <!-- panel-body -->");
-            out.println("<div class=\"row\">");
-            out.println("<div class=\"col-sm-3 col-xs-12\">");
-            out.println("<div class=\"panel-group swb-pg-repo\">");
-            /////// Estructura de carpetas ///////
-            out.println("<div class=\"panel panel-primary\">");
-            out.println("  <div class=\"panel-heading\">");
-            out.println("    <p class=\"panel-title\">");
-            out.println("      <a href=\"#"+root.getId()+"\" onclick=\"postHtml('"+xyz.setParameter("wpId", root.getId()) +"','lfr_"+base.getId()+"'); if($('#"+root.getId()+"').hasClass('in')){$('#nodico_"+root.getId()+"').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')} ");
-            out.println("        else{$('#nodico_"+root.getId()+"').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
-            out.println("       class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\"><span id=\"nodico_"+root.getId()+"\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;"+root.getTitle()+"</a>");
-            out.println("    </p>");
-            out.println("  </div>");
-            Iterator<WebPage> folders = root.listVisibleChilds(lang);            
-            out.println("  <div id=\""+root.getId()+"\" class=\"panel-collapse collapse\" style=\"height: auto;\">");
-            out.println("    <div class=\"panel-body swb-panel-accordion\">");
-            if(folders.hasNext()) {
-                WebPage folder;
-                out.println("      <ul class=\"list-group\">");
-                while(folders.hasNext()) {
-                    folder = folders.next();
-                    out.println("        <li class=\"swb-sublist-accordion\">");
-                    if(folder.listVisibleChilds(lang).hasNext()) {
-                        out.print("          <a href=\"#"+folder.getId()+"\" onclick=\"postHtml('"+xyz.setParameter("wpId", folder.getId()) +"','lfr_"+base.getId()+"'); if($('#"+folder.getId()+"').hasClass('in')){$('#nodico_"+folder.getId()+"').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')} ");
-                        out.print("            else{$('#nodico_"+folder.getId()+"').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
-                        out.println("         class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\" style=\"padding-left:20px;\"><span id=\"nodico_"+folder.getId()+"\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;"+folder.getTitle()+"</a>");
-                        out.println(getFolders(folder, lang, 30, xyz));
-                    }else {
-                        out.println("        <a href=\"#\" onclick=\"postHtml('"+xyz.setParameter("wpId", folder.getId()) +"','lfr_"+base.getId()+"')\" class=\"swb-menu-rep\" style=\"padding-left:20px;\">"+folder.getTitle()+"</a>");
-                    }
-                    out.println("        </li>");
-                }
-                out.println("      </ul>");
+        String fid = request.getParameter("fid");
+        RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
+        VersionInfo ver = null;
+        VersionInfo vl = repoFile.getLastVersion();
+        if (null != vl) {
+            ver = vl;
+            while (ver.getPreviousVersion() != null) {
+                ver = ver.getPreviousVersion();
             }
-            out.println("    </div>");
-            out.println("  </div>");
-            out.println("</div>");
-            /////// Estructura de carpetas. Fin ///////
-            out.println("");
-            out.println("  </div>");
-            out.println("</div> <!-- /.col-sm-3 -->");
-            out.println("<div id=\"lfr_"+base.getId()+"\" class=\"col-sm-9 col-xs-12\">");
-            out.println(breadCrumbs(repoDir, lang));
-            out.println("  <div class=\"panel panel-default\">");
-            out.println("    <div class=\"panel-heading swbstrgy-panel-heading\">");
-            out.println("      <div class=\"row\">");
-            out.println("        <div class=\"col-md-5 col-xs-12\">");
-            out.println(repoDir.getDisplayTitle(lang)==null?repoDir.getTitle():repoDir.getDisplayTitle(lang));
-            out.println("        </div>");
-            if(luser >= 2) {
-                SWBResourceURL urlnew = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-                urlnew.setParameter("fldr", repoDir.getId());
-                urlnew.setParameter("act", "new");
-                out.println("        <div class=\"col-md-7 col-xs-12 swb-panel-heading-btn\">");
-                out.println("          <button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnew+"','lfr_"+base.getId()+"')\">");
-                out.println("            <span class=\"glyphicon glyphicon-plus\"></span> Agregar Archivo");
-                out.println("          </button>");
-                if( base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("1") ) {
-                    SWBResourceURL urlnewDirectory = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_VIEW);
-                    urlnewDirectory.setParameter("fldr", root.getId());
-                    urlnewDirectory.setParameter("act", "newDirectory");
-                    out.println("<button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnewDirectory+"','lfr_"+base.getId()+"')\">");
-                    out.println("  <span class=\"glyphicon glyphicon-plus\"></span> Agregar Carpeta");
-                    out.println("</button>");
-                }
-                out.println("        </div>");
-            }
-            out.println("      </div> <!-- /.row -->");
-            out.println("    </div> <!-- /.panel-heading -->");
-
-            SWBResourceURL urlorder = paramRequest.getRenderUrl();
-            out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
-            out.println("      <div class=\"table table-responsive\">");
-            out.println("        <table class=\"table table-striped table-hover\">");
-            out.println("          <thead>");
-            out.println("            <tr>");
-            out.println("                  <th class=\"swbstrgy_docrep-ID_item\">ID</th>");
-            out.println("                  <th class=\"swbstrgy_docrep-type_item\">");
-            out.println("<a href=\"" + urlorder.setParameter("orderBy", "type") + "\" title=\""+paramRequest.getLocaleString("lblOrderByType")+"\">"+paramRequest.getLocaleString("lblType")+"</a>");
-            out.println("                  </th>");
-            out.println("                  <th class=\"swbstrgy_docrep-title_item\">");
-            out.println("<a href=\"" + urlorder.setParameter("orderBy", "title") + "\" title=\""+paramRequest.getLocaleString("lblOrderByFilename")+"\">"+paramRequest.getLocaleString("lblFilename")+"</a>");
-            out.println("                  </th>");
-            out.println("                  <th class=\"swbstrgy_docrep-ver_item\">"+paramRequest.getLocaleString("lblVersion")+"</th>");
-            out.println("                  <th class=\"swbstrgy_docrep-date_item\">");
-            out.println("<a href=\"" + urlorder.setParameter("orderBy", "date") + "\" title=\""+paramRequest.getLocaleString("lblOrderByDate")+"\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
-            out.println("                  </th>");
-            out.println("                  <th class=\"swbstrgy_docrep-usr_item\">");
-            out.println("<a href=\"" + urlorder.setParameter("orderBy", "usr") + "\" title=\""+paramRequest.getLocaleString("lblOrderByUser")+"\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
-            out.println("                  </th>");
-            out.println("                  <th class=\"swbstrgy_docrep-axn_item\">"+paramRequest.getLocaleString("lblAction")+"</th>");
-            out.println("                </tr>");
-            out.println("          </thead>");
-            out.println("          <tbody>");
-
-            /// DESPLIEGUE DE ARCHIVOS ENCONTRADOS
-            List<RepositoryFile> list = orderDocuments(request.getParameter("orderBy"), lang, repoDir);
-            Iterator<RepositoryFile> lnit = list.iterator();
-            while (lnit.hasNext())
-            {
-                RepositoryFile repositoryFile = lnit.next();
-                VersionInfo vi = repositoryFile.getLastVersion();
-                if(vi == null) {
-                    repositoryFile.remove();
-                    continue;
-                }
-                out.println("<tr>");
-                // 1
-                out.println("<td class=\"gen-right\">");
-                String fid = repositoryFile.getId();
-                out.println(fid);
-                out.println("</td>");
-                // 2
-                out.println("<td class=\"gen-center\">");
-                SWBResourceURL urldetail = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT);
-                urldetail.setParameter("act", "detail");
-                urldetail.setParameter("fid", fid);
-                String file = "";
-                String type = "";
-                if(vi != null && vi.getVersionFile() != null) {
-                    file = vi.getVersionFile();
-                    type = getFileName(file);
-                }
-                if(luser > 0) {
-                    String ulrdirecta = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_GETFILE).setParameter("fid", repositoryFile.getId()).setParameter("verNum", "" + vi.getVersionNumber()).toString();
-                    out.println("<a href=\"" + ulrdirecta + "\">");
-                    out.println("<img border=\"0\" src=\""+path+type+"\" alt=\"" + getFileType(file) + "\">");
-                    out.println("</a>");
-                }else {
-                    out.println("<img border=0 src=\""+path+type+"\" alt=\"" + getFileType(file) + "\">");
-                }
-                out.println("</td>");
-                // 3
-                out.println("<td>");
-                out.println(repositoryFile.getDisplayTitle(usr.getLanguage()));
-                out.println("</td>");
-                // 4
-                out.println("<td class=\"gen-center\">");
-                out.println(vi.getVersionValue());
-                out.println("</td>");
-                // 5
-                out.println("<td class=\"gen-right\">");
-                out.println(vi != null && vi.getUpdated() != null ? format.format(vi.getUpdated()) : "--");
-                out.println("</td>");
-                // 6
-                out.println("<td>");
-                out.println(vi != null && vi.getModifiedBy() != null && vi.getModifiedBy().getFullName() != null ? vi.getModifiedBy().getFullName() : "--");
-                out.println("</td>");
-                // 7
-                out.println("<td class=\"gen-center\">");
-                out.println("<a href=\"" + urldetail + "\" title=\"Ver más\">");
-                //out.println("<img src=\"" + path + "info.gif\" border=\"0\" alt=\"ver detalle\">");
-                out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
-                out.println("</a>");
-                if(luser == 3 || (vi.getCreator() != null && vi.getCreator().equals(usr) && luser > 1))
-                {
-                    SWBResourceURL urlremove = paramRequest.getActionUrl();
-                    urlremove.setAction("removefile");
-                    urlremove.setParameter("act", "remove");
-                    urlremove.setParameter("fid", fid);
-                    out.println("<a href=\"#\" onclick=\"if(confirm('"+paramRequest.getLocaleString("msgQryConfirmRemoveFile") +"')){window.location='" + urlremove + "';} else {return false;}\" title=\""+paramRequest.getLocaleString("msgRemoveFile") +"\" title=\"Eliminar\">");
-                    //out.println("<img src=\"" + path + "delete.gif\" border=\"0\" alt=\"eliminar\"/>");
-                    out.println("  <span class=\"glyphicon glyphicon-trash\"></span>");
-                    out.println("</a>");
-                }
-                out.println("</td>");
-                out.println("</tr>");
-            }
-            out.println("</tbody>");
-            out.println("        </table>");
-            out.println("      </div> <!-- /.table-responsive -->");
-            out.println("    </div> <!-- /.panel-body -->");
-            out.println("  </div> <!-- /.panel -->");
-            out.println("</div> <!-- /.col-sm-9 -->");
-            out.println("</div> <!-- /.row -->");
-            out.println("</div> <!-- /.panel-body -->");
-            out.println("</div> <!-- /.panel -->");
         }
-        else if ("detail".equals(action))
-        {
-            String fid = request.getParameter("fid");
-            RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
+        if (ver != null) {
             out.println("<div id=\"ProcessFileRepository\">");
             out.println("<table>");
-            out.println("<tbody>");
+            out.println("<thead>");
             out.println("<tr>");
             out.println("<td align=\"right\">");
             out.println("Título:");
@@ -535,479 +384,723 @@ public class LiteFileRepository extends GenericResource
             out.println("Archivo:");
             out.println("</td>");
             out.println("<td>");
-            VersionInfo vl = repoFile.getLastVersion();
-            out.println(vl.getVersionFile());
+            out.println(ver.getVersionFile());
             out.println("</td>");
             out.println("</tr>");
             out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Versión:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println(vl.getVersionValue());
-
-            SWBResourceURL urlverhistoy = paramRequest.getRenderUrl();
-            urlverhistoy.setParameter("act", "history");
-            urlverhistoy.setParameter("fid", fid);
-
-            out.println("(<a href=\"" + urlverhistoy + "\">versiones</a>)");
-            out.println("</td>");
+            out.println("<th>");
+            out.println("&nbsp;");// espacio para liga ver archivo
+            out.println("</th>");
+            out.println("<th>");
+            out.println("Versión");
+            out.println("</th>");
+            out.println("<th>");
+            out.println("Fecha versión");
+            out.println("</th>");
+            out.println("<th>");
+            out.println("Creado por");
+            out.println("</th>");
+            out.println("<th>");
+            out.println("Comentario");
+            out.println("</th>");
             out.println("</tr>");
-
-            if (luser >= 2 || (vl.getCreator() != null && vl.getCreator().equals(usr) && luser > 1))
-            {
+            out.println("</thead>");
+            out.println("<tbody>");
+            while (ver != null) {
+                //lista de las versiones del archivo
                 out.println("<tr>");
-                out.println("<td align=\"right\">");
-                out.println("Agregar nueva Versión:");
-                out.println("</td>");
-
-                SWBResourceURL urlnewVer = paramRequest.getRenderUrl();
-
-                out.println("<td>");
-                out.println("<script type=\"text/javascript\">");
-                out.println("function validaVersion()");
-                out.println("  {");
-                out.println("       if(document.frmNewVersion.newVersion.value=='0')");
-                out.println("       {");
-                out.println("          alert('Selecciona número de versión a agregar.');");
-                out.println("       }");
-                out.println("       else { document.frmNewVersion.submit(); }");
-                out.println("  }");
-                out.println("</script>");
-                out.println("<form id=\"frmNewVersion\" name=\"frmNewVersion\" method=\"post\" action=\"" + urlnewVer + "\" onsubmit=\"validaVersion();return false;\">");
-                out.println("<input type=\"hidden\" name=\"act\" value=\"new\">");
-                out.println("<input type=\"hidden\" name=\"fid\" value=\"" + fid + "\">");
-                out.println("<select id=\"newVersion\" name=\"newVersion\" >");
-                out.println("<option value=\"0\">--</option>");
-
-                double fver = Double.parseDouble(vl.getVersionValue());
-                fver = fver + 0.10D;
-
-                String sfver = numf.format(fver);
-                if (sfver.indexOf(".") == -1)
-                {
-                    sfver = "" + (float) fver;
+                out.println("<td align=\"center\" >");
+                String file = "";
+                String type = "";
+                if (ver != null && ver.getVersionFile() != null) {
+                    file = ver.getVersionFile();
+                    type = getFileName(file);
                 }
+                if (luser > 0) {
+                    SWBResourceURL urlview = paramRequest.getRenderUrl();
+                    urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
+                    urlview.setParameter("fid", fid);
+                    urlview.setMode(Mode_GETFILE);
+                    urlview.setParameter("verNum", "" + ver.getVersionNumber());
 
-                int iver = (int) fver;
-                iver = iver + 1;
-
-                out.println("<option value=\"fraction\">" + sfver + "</option>");
-                out.println("<option value=\"nextInt\">" + (float) iver + "</option>");
-
-                out.println("</select>");
-                out.println("<button type=\"submit\">Agregar</button>");
-                out.println("</form>");
+                    out.println("<a href=\"" + urlview + "\">");
+                    out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
+                    out.println("</a>");
+                } else {
+                    out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
+                }
+                out.println("</td>");
+                out.println("<td align=\"center\">");
+                out.println(ver.getVersionValue());
+                out.println("</td>");
+                out.println("<td>");
+                out.println(ver.getCreated() != null ? format.format(ver.getCreated()) : "--");
+                out.println("</td>");
+                out.println("<td>");
+                out.println(ver.getCreator() != null ? ver.getCreator().getFullName() : "--");
+                out.println("</td>");
+                out.println("<td>");
+                out.println(ver.getVersionComment() != null ? ver.getVersionComment() : "--");
                 out.println("</td>");
                 out.println("</tr>");
-
+                ver = ver.getNextVersion();
             }
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Creado:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println(vl.getCreated() != null ? format.format(vl.getCreated()) : "--");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Usuario Creador:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println(vl.getCreator() != null ? vl.getCreator().getFullName() : "--");
-            out.println("</td>");
-            out.println("</tr>");
             out.println("</tbody>");
             out.println("<tfoot>");
             out.println("<tr>");
-            out.println("<td colspan=\"2\" align=\"right\">");
+            out.println("<td colspan=\"5\" align=\"right\">");
 
-            if (luser == 3 || (vl.getCreator() != null && vl.getCreator().equals(usr) && luser > 1))
-            {
+            SWBResourceURL urlbck = paramRequest.getRenderUrl();
+            urlbck.setMode("viewInfo");
+            urlbck.setParameter("fid", fid);
+            urlbck.setCallMethod(SWBResourceURL.Call_DIRECT);
+
+            out.print("\n<a href=\"#\" class=\"btn btn-default\" onclick=\"showMyDialogInfo('");
+            out.print(urlbck);
+            out.println("', 'Ver detalle');\">");
+            out.println("Regresar");
+            out.println("\n</a>");
+            out.println("</td>");
+            out.println("</tr>");
+            out.println("</tfoot>");
+            out.println("</table>");
+            out.println("</div>");
+        }
+
+    }
+
+    private void doViewInfo(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        PrintWriter out = response.getWriter();
+        SWBResourceURL url = paramRequest.getRenderUrl();
+        WebPage repoDir = paramRequest.getWebPage();
+        User usr = paramRequest.getUser();
+        int luser = getLevelUser(usr);
+
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        String fid = request.getParameter("fid");
+        RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
+        out.println("<div id=\"ProcessFileRepository\">");
+        out.println("<table>");
+        out.println("<tbody>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Título:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println(repoFile.getDisplayTitle(usr.getLanguage()));
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Descripción:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println(repoFile.getDisplayDescription(usr.getLanguage()));
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Archivo:");
+        out.println("</td>");
+        out.println("<td>");
+        VersionInfo vl = repoFile.getLastVersion();
+        out.println(vl.getVersionFile());
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Versión:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println(vl.getVersionValue());
+
+        SWBResourceURL urlHistory = paramRequest.getRenderUrl();
+        urlHistory.setMode("viewHistory");
+        urlHistory.setParameter("fid", fid);
+        url.setCallMethod(SWBResourceURL.Call_DIRECT);
+
+        out.print("\n<a href=\"#\" onclick=\"showMyDialogInfo('");
+        out.print(urlHistory);
+        out.println("', 'Ver historial');\">");
+        out.println("(versiones)</span>");
+        out.println("\n</a>");
+
+        out.println("</td>");
+        out.println("</tr>");
+
+        if (luser >= 2 || (vl.getCreator() != null && vl.getCreator().equals(usr) && luser > 1)) {
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("Agregar nueva Versión:");
+            out.println("</td>");
+            out.println("<td>");
+
+            SWBResourceURL urlnewVer = paramRequest.getRenderUrl();
+            out.println("<script type=\"text/javascript\">");
+            out.println("function validaVersion(urlVersion)");
+            out.println("  { var newV; var newUrl;");
+            out.println("       if(document.frmNewVersion.newVersion.value=='0')");
+            out.println("       {");
+            out.println("          alert('Selecciona número de versión a agregar.');");
+            out.println("          return false();");
+            out.println("       }");
+            out.println("       else { newV = document.getElementById('newVersion').options[document.getElementById('newVersion').selectedIndex].value;");
+            out.println("       newUrl = urlVersion+'&newVersion='+newV;");
+            out.println("       showMyDialog(newUrl,'Agregar Version');");
+            out.println("            }");
+            out.println("  }");
+            out.println("</script>");
+
+            urlnewVer.setMode("newVer");
+            urlnewVer.setParameter("fid", fid);
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+
+            out.println("<form id=\"frmNewVersion\" name=\"frmNewVersion\" method=\"post\">");
+            out.println("<select id=\"newVersion\" name=\"newVersion\" >");
+            out.println("<option value=\"0\">--</option>");
+
+            double fver = Double.parseDouble(vl.getVersionValue());
+            fver = fver + 0.10D;
+
+            String sfver = numf.format(fver);
+            if (sfver.indexOf(".") == -1) {
+                sfver = "" + (float) fver;
+            }
+
+            int iver = (int) fver;
+            iver = iver + 1;
+
+            out.println("<option value=\"fraction\">" + sfver + "</option>");
+            out.println("<option value=\"nextInt\">" + (float) iver + "</option>");
+            out.println("</select>");
+            out.print("\n<a href=\"#\" class=\"btn btn-default\" onclick=\"validaVersion('" + urlnewVer + "');\">");
+            out.println("Agregar");
+            out.println("\n</a>");
+            out.println("</form>");
+            out.println("</td>");
+            out.println("</tr>");
+
+        }
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Creado:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println(vl.getCreated() != null ? format.format(vl.getCreated()) : "--");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("Usuario Creador:");
+        out.println("</td>");
+        out.println("<td>");
+        out.println(vl.getCreator() != null ? vl.getCreator().getFullName() : "--");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("</tbody>");
+        out.println("<tfoot>");
+        out.println("<tr>");
+        out.println("<td colspan=\"2\" align=\"right\">");
+        out.println("</td>");
+        out.println("</tr>");
+        out.println("</tbody>");
+        out.println("</table>");
+        out.println("</div>");
+
+    }
+
+    private String getFolders(WebPage parent, String lang, int paddingLeft, SWBResourceURL xyz) {
+        StringBuilder bstp = new StringBuilder();
+        Resource base = getResourceBase();
+
+        Iterator<WebPage> childs = parent.listVisibleChilds(lang);
+        if (childs.hasNext()) {
+            bstp.append("  <div id=\"" + parent.getId() + "\" class=\"panel-collapse collapse\" style=\"height: auto;\">").append("\n");
+            bstp.append("    <div class=\"panel-body swb-panel-accordion\">").append("\n");
+            bstp.append("      <ul class=\"list-group\">").append("\n");
+            WebPage child;
+            while (childs.hasNext()) {
+                child = childs.next();
+                bstp.append("        <li class=\"swb-sublist-accordion\">").append("\n");
+                if (child.listVisibleChilds(lang).hasNext()) {
+                    bstp.append("          <a href=\"#" + child.getId() + "\" onclick=\"postHtml('" + xyz.setParameter("wpId", child.getId()) + "','lfr_" + base.getId() + "'); if($('#" + child.getId() + "').hasClass('in')){$('#nodico_" + child.getId() + "').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')}");
+                    bstp.append("          else{$('#nodico_" + child.getId() + "').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
+                    bstp.append("          class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\" style=\"padding-left:" + paddingLeft + "px;\">");
+                    bstp.append("           <span id=\"nodico_" + child.getId() + "\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;" + (child.getDisplayTitle(lang) == null ? child.getTitle() : child.getDisplayTitle(lang)) + "</a>").append("\n");
+                    bstp.append(getFolders(child, lang, paddingLeft + 10, xyz));
+                } else {
+                    bstp.append("          <a href=\"#\" onclick=\"postHtml('" + xyz.setParameter("wpId", child.getId()) + "','lfr_" + base.getId() + "')\" class=\"swb-menu-rep\" style=\"padding-left:" + paddingLeft + "px;\">" + (child.getDisplayTitle(lang) == null ? child.getTitle() : child.getDisplayTitle(lang)) + "</a>").append("\n");
+                }
+                bstp.append("        </li>").append("\n");
+            }
+            bstp.append("      </ul>").append("\n");
+            bstp.append("    </div>").append("\n");
+            bstp.append("  </div>").append("\n");
+        }
+        return bstp.toString();
+    }
+
+    private String breadCrumbs(WebPage currentFolder, final String lang) {
+        final WebSite scorecard = getResourceBase().getWebSite();
+        List<String> crumbs = new ArrayList<String>();
+        final WebPage root = scorecard.getWebPage(ROOT_REPOSITORY);
+        crumbs.add("</ol>");
+        crumbs.add("<li class=\"active\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</li>");
+        while (!currentFolder.equals(root)) {
+            currentFolder = currentFolder.getParent();
+            crumbs.add("<li><a href=\"#\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</a></li>");
+
+        }
+        crumbs.add("<ol class=\"breadcrumb\">");
+        Collections.reverse(crumbs);
+        return Arrays.toString(crumbs.toArray()).replaceAll("[,\\[\\]]", "\n");
+    }
+
+    public void doX(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        PrintWriter out = response.getWriter();
+
+        Resource base = getResourceBase();
+
+        final String wpId = request.getParameter("wpId");
+        User usr = paramRequest.getUser();
+        final String lang = usr.getLanguage() == null ? "es" : usr.getLanguage();
+
+        int luser = getLevelUser(usr);
+
+        BSC scorecard = (BSC) base.getWebSite();
+        WebPage currentFolder = scorecard.getWebPage(wpId);
+
+        out.println(breadCrumbs(currentFolder, lang));
+        out.println("  <div class=\"panel panel-default\">");
+        out.println("    <div class=\"panel-heading swbstrgy-panel-heading\">");
+        out.println("      <div class=\"row\">");
+        out.println("        <div class=\"col-md-5 col-xs-12\">");
+        out.println(currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang));
+        out.println("        </div>");
+        if (luser >= 2) {
+
+            SWBResourceURL urlnew = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+            urlnew.setMode("newVer");
+            urlnew.setParameter("fldr", currentFolder.getId());
+            out.println("        <div class=\"col-md-7 col-xs-12 swb-panel-heading-btn\">");
+            out.print("<a href=\"#\" onclick=\"showMyDialogInfo('");
+            out.print(urlnew);
+            out.println("', 'Agregar archivo');\">");
+            out.println(" <span class=\"glyphicon glyphicon-plus\">Agregar Archivo</span>");
+            out.println("</a>");
+            if (base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("1")) {
+                SWBResourceURL urlnewDirectory = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("newDirectory");
+                urlnewDirectory.setParameter("fldr", currentFolder.getId());
+                out.print("<a href=\"#\" onclick=\"showMyDialogInfo('");
+                out.print(urlnewDirectory);
+                out.println("', 'Agregar carpeta');\">");
+                out.println(" <span class=\"glyphicon glyphicon-plus\">Agregar Carpeta</span>");
+                out.println("</a>");
+
+            }
+            out.println("        </div>");
+        }
+        out.println("      </div>");
+        out.println("    </div>");
+
+        SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setParameter("wpId", wpId);
+        out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
+        out.println("      <div class=\"table table-responsive\">");
+        out.println("        <table class=\"table table-striped table-hover\">");
+        out.println("          <thead>");
+        out.println("            <tr>");
+        out.println("                  <th class=\"swbstrgy_docrep-ID_item\">ID</th>");
+        out.println("                  <th class=\"swbstrgy_docrep-type_item\">");
+        out.println("<a href=\"" + urlorder.setParameter("orderBy", "type") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByType") + "\">" + paramRequest.getLocaleString("lblType") + "</a>");
+        out.println("                  </th>");
+        out.println("                  <th class=\"swbstrgy_docrep-title_item\">");
+        out.println("<a href=\"" + urlorder.setParameter("orderBy", "title") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByFilename") + "\">" + paramRequest.getLocaleString("lblFilename") + "</a>");
+        out.println("                  </th>");
+        out.println("                  <th class=\"swbstrgy_docrep-ver_item\">" + paramRequest.getLocaleString("lblVersion") + "</th>");
+        out.println("                  <th class=\"swbstrgy_docrep-date_item\">");
+        out.println("<a href=\"" + urlorder.setParameter("orderBy", "date") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByDate") + "\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
+        out.println("                  </th>");
+        out.println("                  <th class=\"swbstrgy_docrep-usr_item\">");
+        out.println("<a href=\"" + urlorder.setParameter("orderBy", "usr") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByUser") + "\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
+        out.println("                  </th>");
+        out.println("                  <th class=\"swbstrgy_docrep-axn_item\">" + paramRequest.getLocaleString("lblAction") + "</th>");
+        out.println("                </tr>");
+        out.println("          </thead>");
+        out.println("          <tbody>");
+
+        List<RepositoryFile> list = orderDocuments(request.getParameter("orderBy"), lang, currentFolder);
+        Iterator<RepositoryFile> lnit = list.iterator();
+        while (lnit.hasNext()) {
+            RepositoryFile repositoryFile = lnit.next();
+            VersionInfo vi = repositoryFile.getLastVersion();
+            if (vi == null) {
+                repositoryFile.remove();
+                continue;
+            }
+            out.println("<tr>");
+            // 1
+            out.println("<td class=\"gen-right\">");
+            String fid = repositoryFile.getId();
+            out.println(fid);
+            out.println("</td>");
+            // 2
+            out.println("<td class=\"gen-center\">");
+            SWBResourceURL urldetail = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW);
+            urldetail.setParameter("act", "detail");
+            urldetail.setParameter("fid", fid);
+            String file = "";
+            String type = "";
+            if (vi != null && vi.getVersionFile() != null) {
+                file = vi.getVersionFile();
+                type = getFileName(file);
+            }
+            if (luser > 0) {
+                String ulrdirecta = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_GETFILE).setParameter("fid", repositoryFile.getId()).setParameter("verNum", "" + vi.getVersionNumber()).toString();
+                out.println("<a href=\"" + ulrdirecta + "\">");
+                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
+                out.println("</a>");
+            } else {
+                out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
+            }
+            out.println("</td>");
+            // 3
+            out.println("<td>");
+            out.println(repositoryFile.getDisplayTitle(usr.getLanguage()));
+            out.println("</td>");
+            // 4
+            out.println("<td class=\"gen-center\">");
+            out.println(vi.getVersionValue());
+            out.println("</td>");
+            // 5
+            out.println("<td class=\"gen-right\">");
+            out.println(vi != null && vi.getUpdated() != null ? format.format(vi.getUpdated()) : "--");
+            out.println("</td>");
+            // 6
+            out.println("<td>");
+            out.println(vi != null && vi.getModifiedBy() != null && vi.getModifiedBy().getFullName() != null ? vi.getModifiedBy().getFullName() : "--");
+            out.println("</td>");
+            // 7
+            out.println("<td class=\"gen-center\">");
+            SWBResourceURL url = paramRequest.getRenderUrl();
+            url.setMode("viewInfo");
+            url.setParameter("fid", fid);
+            url.setCallMethod(SWBResourceURL.Call_DIRECT);
+            /* out.println("<a href=\"" + urldetail + "\" title=\"Ver más\">");
+             out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
+             out.println("</a>");*/
+            /**
+             * *****************************NUEVO
+             * CODIGO*********************************
+             */
+            out.print("\n<a href=\"#\" onclick=\"showMyDialogInfo('");
+            out.print(url);
+            out.println("', 'Ver detalle');\">");
+            out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
+            out.println("\n</a>");
+
+            if (luser == 3 || (vi.getCreator() != null && vi.getCreator().equals(usr) && luser > 1)) {
                 SWBResourceURL urlremove = paramRequest.getActionUrl();
                 urlremove.setAction("removefile");
                 urlremove.setParameter("act", "remove");
                 urlremove.setParameter("fid", fid);
-                out.println("<button type=\"button\" onclick=\"if(confirm('¿Estás seguro de querer eliminar este archivo?')){window.location='" + urlremove + "';} else {return false;}\">Eliminar");
-                out.println("</button>");
+                out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("msgQryConfirmRemoveFile") + "')){window.location='" + urlremove + "';} else {return false;}\" title=\"" + paramRequest.getLocaleString("msgRemoveFile") + "\" title=\"Eliminar\">");
+                //out.println("<img src=\"" + path + "delete.gif\" border=\"0\" alt=\"eliminar\"/>");
+                out.println("  <span class=\"glyphicon glyphicon-trash\"></span>");
+                out.println("</a>");
             }
-            SWBResourceURL urlbck = paramRequest.getRenderUrl();
-            urlbck.setParameter("act", "");
-            out.println("<button onclick=\"window.location='" + urlbck + "';\">Regresar</button>");
             out.println("</td>");
             out.println("</tr>");
-            out.println("</tbody>");
-            out.println("</table>");
-            out.println("</div>");
         }
-        else if ("history".equals(action))
-        {
-            String fid = request.getParameter("fid");
-            RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
-            VersionInfo ver = null;
-            VersionInfo vl = repoFile.getLastVersion();
-            if (null != vl)
-            {
-                ver = vl;
-                while (ver.getPreviousVersion() != null) {
-                    ver = ver.getPreviousVersion();
-                }
-            }
-            if (ver != null)
-            {
-                out.println("<div id=\"ProcessFileRepository\">");
-                out.println("<table width=\"100%\">");
-                out.println("<thead>");
-                out.println("<tr>");
-                out.println("<td align=\"right\">");
-                out.println("Título:");
-                out.println("</td>");
-                out.println("<td>");
-                out.println(repoFile.getDisplayTitle(usr.getLanguage()));
-                out.println("</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<td align=\"right\">");
-                out.println("Descripción:");
-                out.println("</td>");
-                out.println("<td>");
-                out.println(repoFile.getDisplayDescription(usr.getLanguage()));
-                out.println("</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<td align=\"right\">");
-                out.println("Archivo:");
-                out.println("</td>");
-                out.println("<td>");
-                out.println(ver.getVersionFile());
-                out.println("</td>");
-                out.println("</tr>");
-                out.println("<tr>");
-                out.println("<th>");
-                out.println("&nbsp;");// espacio para liga ver archivo
-                out.println("</th>");
-                out.println("<th>");
-                out.println("Versión");
-                out.println("</th>");
-                out.println("<th>");
-                out.println("Fecha versión");
-                out.println("</th>");
-                out.println("<th>");
-                out.println("Creado por");
-                out.println("</th>");
-                out.println("<th>");
-                out.println("Comentario");
-                out.println("</th>");
-                out.println("</tr>");
-                out.println("</thead>");
-                out.println("<tbody>");
-                while (ver != null)
-                {
-                    //lista de las versiones del archivo
-                    out.println("<tr>");
-                    out.println("<td align=\"center\" >");
-                    String file = "";
-                    String type = "";
-                    if (ver != null && ver.getVersionFile() != null)
-                    {
-                        file = ver.getVersionFile();
-                        type = getFileName(file);
-                    }
-                    if (luser > 0)
-                    {
-                        SWBResourceURL urlview = paramRequest.getRenderUrl();
-                        urlview.setCallMethod(SWBResourceURL.Call_DIRECT);
-                        urlview.setParameter("fid", fid);
-                        urlview.setMode(Mode_GETFILE);
-                        urlview.setParameter("verNum", "" + ver.getVersionNumber());
-
-                        out.println("<a href=\"" + urlview + "\">");
-                        out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
-                        out.println("</a>");
-                    }else
-                    {
-                        out.println("<img border=0 src='" + path + "" + type + "' alt=\"" + getFileType(file) + "\" />");
-                    }
-                    out.println("</td>");
-                    out.println("<td align=\"center\">");
-                    out.println(ver.getVersionValue());
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(ver.getCreated() != null ? format.format(ver.getCreated()) : "--");
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(ver.getCreator() != null ? ver.getCreator().getFullName() : "--");
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(ver.getVersionComment() != null ? ver.getVersionComment() : "--");
-                    out.println("</td>");
-                    out.println("</tr>");
-                    ver = ver.getNextVersion();
-                }
-                out.println("</tbody>");
-                out.println("<tfoot>");
-                out.println("<tr>");
-                out.println("<td colspan=\"2\" align=\"right\">");
-                SWBResourceURL urlbck = paramRequest.getRenderUrl();
-                urlbck.setParameter("act", "detail");
-                urlbck.setParameter("fid", fid);
-                out.println("<button onclick=\"window.location='" + urlbck + "';\">Regresar</button>");
-                out.println("</td>");
-                out.println("</tr>");
-                out.println("</tfoot>");
-                out.println("</table>");
-                out.println("</div>");
-            }
-        }
-        else if ("new".equals(action))
-        {
-            SWBResourceURL urlnew = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_CONTENT);
-            urlnew.setAction("newfile");
-            urlnew.setParameter("act", "newfile");
-            
-            String folderId = request.getParameter("fldr");
-            String fid = request.getParameter("fid");
-            String newVersion = request.getParameter("newVersion");
-            String sNxtVersion = "";
-            RepositoryFile repoFile = null;
-            String stitle = "";
-            String sdescription = "";
-            VersionInfo vl = null;
-            if (null != fid && null != newVersion)
-            {
-                boolean incremento = Boolean.FALSE;
-                if (newVersion.equals("nextInt"))
-                {
-                    incremento = Boolean.TRUE;
-                } else if (newVersion.equals("fraction"))
-                {
-                    incremento = Boolean.FALSE;
-                }
-
-                repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, repoDir.getWebSite());
-
-                stitle = repoFile.getDisplayTitle(usr.getLanguage());
-                sdescription = repoFile.getDisplayDescription(usr.getLanguage());
-
-                vl = repoFile.getLastVersion();
-                double fver = Double.parseDouble(vl.getVersionValue());
-                fver = fver + 0.10D;
-
-                String sfver = numf.format(fver);
-                if (sfver.indexOf(".") == -1)
-                {
-                    sfver = "" + (float) fver;
-                }
-
-                int iver = (int) fver;
-                iver = iver + 1;
-
-                sNxtVersion = sfver;
-
-                if (incremento)
-                {
-                    sNxtVersion = "" + (float) iver;
-                }
-            }
-
-            out.println("<script type=\"text/javascript\" >");
-            out.println("function valida() ");
-            out.println("{ ");
-            out.println("   if(document.frmnewdoc.ftitle.value=='') ");
-            out.println("     { ");
-            out.println("         alert('Defina el título'); ");
-            out.println("         return; ");
-            out.println("     } ");
-            out.println("   if(document.frmnewdoc.fdescription.value=='') ");
-            out.println("     { ");
-            out.println("         alert('Indique la descripción'); ");
-            out.println("         return; ");
-            out.println("     } ");
-            out.println("   if(document.frmnewdoc.ffile.value=='') ");
-            out.println("     { ");
-            out.println("         alert('Defina un archivo'); ");
-            out.println("         return; ");
-            out.println("     } ");
-
-            if (null != fid && null != newVersion)
-            {
-                out.println("   var filename = document.frmnewdoc.ffile.value;");
-                out.println("   if(filename.indexOf('" + vl.getVersionFile() + "')==-1) ");
-                out.println("     { ");
-                out.println("         alert('Archivo seleccionado inválido. Debe ser " + vl.getVersionFile() + "'); ");
-                out.println("         return; ");
-                out.println("     } ");
-            }
-
-            out.println("   document.frmnewdoc.submit();");
-            out.println("} ");
-            out.println("</script>");
-
-            out.println("<div id=\"ProcessFileRepository\">");
-            //out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\" onsubmit=\"valida();return false;\">");
-            out.println("<form id=\"frmnewdoc\" method=\"post\" action=\""+urlnew+"\"  enctype=\"multipart/form-data\">");
-            if (null != fid && null != newVersion)
-            {
-                out.println("<input type=\"hidden\" name=\"newVersion\" value=\"" + newVersion + "\">");
-                out.println("<input type=\"hidden\" name=\"fid\" value=\"" + fid + "\">");
-            }
-            out.println("<input type=\"hidden\" name=\"fldr\" value=\"" + folderId + "\">");
-
-            out.println("<table>");
-            out.println("<tbody>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Título:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println("<input type=\"text\" name=\"ftitle\" value=\"" + stitle + "\">");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Descripción:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println("<textarea name=\"fdescription\">" + sdescription + "</textarea>");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Comentario:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println("<textarea name=\"fcomment\"></textarea>");
-            out.println("</td>");
-            out.println("</tr>");
-
-            if (null != fid && null != newVersion)
-            {
-                out.println("<tr>");
-                out.println("<td align=\"right\">");
-                out.println("Versión del archivo a agregar:");
-                out.println("</td>");
-                out.println("<td>");
-                out.println(sNxtVersion);
-                out.println("</td>");
-                out.println("</tr>");
-            }
-
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Archivo:");
-            out.println("</td>");
-            out.println("<td>");
-
-            out.println("<input type=\"file\" name=\"ffile\" value=\"hola\">");
-            out.println("</td>");
-            out.println("</tr>");
-
-            out.println("</tbody>");
-            out.println("<tfoot>");
-            out.println("<tr>");
-            out.println("<td colspan=\"2\" align=\"right\">");
-            out.println("<button type=\"submit\" >Agregar</button>");
-            SWBResourceURL urlbck = paramRequest.getRenderUrl();
-            urlbck.setParameter("act", "");
-            out.println("<button type=\"button\" onclick=\"window.location='" + urlbck + "';\">Regresar</button>");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("</tbody>");
-            out.println("</table>");
-            out.println("</form>");
-            out.println("</div>");
-        }
-        else if ("newDirectory".equals(action))
-        {
-
-            SWBResourceURL urlnew = paramRequest.getActionUrl();
-            urlnew.setAction("newDir");
-            urlnew.setParameter("act", "newDir");
-            String curFolderId = request.getParameter("fldr")==null?repoDir.getId():request.getParameter("fldr");
-            urlnew.setParameter("fldr", curFolderId);
-
-            out.println("<script type=\"text/javascript\" >");
-            out.println("function validaDir() ");
-            out.println("{ ");
-            out.println("   if(document.frmDir.d_title.value=='') ");
-            out.println("     { ");
-            out.println("         alert('Defina el título'); ");
-            out.println("         return; ");
-            out.println("     } ");
-            out.println("   if(document.frmDir.d_description.value=='') ");
-            out.println("     { ");
-            out.println("         alert('Indique la descripción'); ");
-            out.println("         return; ");
-            out.println("     } ");
-            out.println("   document.frmDir.submit();");
-            out.println("} ");
-            out.println("</script>");
-
-            out.println("<div id=\"ProcessFileRepository\">");
-            out.println("<form id=\"frmDir\" name=\"frmDir\" method=\"post\" action=\"" + urlnew + "\" onsubmit=\"validaDir();return false;\">");
-            out.println("<table>");
-            out.println("<tbody>");
-            out.println("<tr>");
-            out.println("<td colspan=\"2\" align=\"right\">Agregar Nueva Carpeta");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Título:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println("<input type=\"text\" name=\"d_title\" value=\"\">");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("<tr>");
-            out.println("<td align=\"right\">");
-            out.println("Descripción:");
-            out.println("</td>");
-            out.println("<td>");
-            out.println("<textarea name=\"d_description\"></textarea>");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("</tbody>");
-            out.println("<tfoot>");
-            out.println("<tr>");
-            out.println("<td colspan=\"2\" align=\"right\">");
-            out.println("<button type=\"submit\" >Agregar</button>");
-            SWBResourceURL urlbck = paramRequest.getRenderUrl();
-            urlbck.setParameter("act", "");
-            out.println("<button type=\"button\" onclick=\"window.location='" + urlbck + "';\">Regresar</button>");
-            out.println("</td>");
-            out.println("</tr>");
-            out.println("</tbody>");
-            out.println("</table>");
-            out.println("</form>");
-            out.println("</div>");
-        }
+        out.println("</tbody>");
+        out.println("        </table>");
+        out.println("      </div> <!-- /.table-responsive -->");
+        out.println("    </div> <!-- /.panel-body -->");
+        out.println("  </div> <!-- /. -->");
     }
-    
-    private List<RepositoryFile> orderDocuments(String orderBy, String lang, WebPage repoDir)
-    {
+
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        Resource base = getResourceBase();
+        PrintWriter out = response.getWriter();
+        User usr = paramRequest.getUser();
+        final String lang = usr.getLanguage() == null ? "es" : usr.getLanguage();
+        int luser = getLevelUser(usr);
+        WebPage repoDir = paramRequest.getWebPage();
+        String action = request.getParameter("act") == null ? "" : request.getParameter("act");
+
+        out.println("<script type=\"text/javascript\">");
+        out.println("\nfunction showMyDialogInfo(url, title) {");
+        out.println("\ndojo.xhrGet({");
+        out.println("\nurl: url,");
+        out.println("\nload: function(response, ioArgs) {");
+        out.println("\n dijit.byId('swbDialogImp').attr('content', response);");
+        out.println("\n dijit.byId('swbDialog').show();");
+        out.println("\n setDialogTitle(title);");
+        out.println("\nreturn response;");
+        out.println("\n},");
+        out.println("\n error: function(response, ioArgs) {");
+        out.println("\nshowStatus('Error:' + response);");
+        out.println("\n return response;");
+        out.println("\n},");
+        out.println("\n handleAs: \"text\" ");
+        out.println("\n});");
+        out.println("\n}");
+        out.println("</script>");
+
+        if ("".equals(action)) {
+            SWBResourceURL xyz = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_X);
+            BSC scorecard = (BSC) base.getWebSite();
+            WebPage root = scorecard.getWebPage(ROOT_REPOSITORY);
+            out.println("<div class=\"panel panel-default\"> <!-- panel -->");
+            out.println("  <div class=\"panel-heading swbstrgy-panel-heading\">");
+            out.println("    <div class=\"row\">");
+            out.println("      <div class=\"col-xs-6\">" + paramRequest.getLocaleString("lblFileRepository") + "</div>");
+            out.println("      <div class=\"col-xs-6 swb-panel-heading-btn\">");
+            out.println("      </div>");
+            out.println("    </div>");
+            out.println("  </div>");
+
+            out.println("<div class=\"panel-body swbstrgy-panel-body\"> <!-- panel-body -->");
+            out.println("<div class=\"row\">");
+            out.println("<div class=\"col-sm-3 col-xs-12\">");
+            out.println("<div class=\"panel-group swb-pg-repo\">");
+            /////// Estructura de carpetas ///////
+            out.println("<div class=\"panel panel-primary\">");
+            out.println("  <div class=\"panel-heading\">");
+            out.println("    <p class=\"panel-title\">");
+            out.println("      <a href=\"#" + root.getId() + "\" onclick=\"postHtml('" + xyz.setParameter("wpId", root.getId()) + "','lfr_" + base.getId() + "'); if($('#" + root.getId() + "').hasClass('in')){$('#nodico_" + root.getId() + "').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')} ");
+            out.println("        else{$('#nodico_" + root.getId() + "').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
+            out.println("       class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\"><span id=\"nodico_" + root.getId() + "\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;" + root.getTitle() + "</a>");
+            out.println("    </p>");
+            out.println("  </div>");
+            Iterator<WebPage> folders = root.listVisibleChilds(lang);
+            out.println("  <div id=\"" + root.getId() + "\" class=\"panel-collapse collapse\" style=\"height: auto;\">");
+            out.println("    <div class=\"panel-body swb-panel-accordion\">");
+            if (folders.hasNext()) {
+                WebPage folder;
+                out.println("      <ul class=\"list-group\">");
+                while (folders.hasNext()) {
+                    folder = folders.next();
+                    out.println("        <li class=\"swb-sublist-accordion\">");
+                    if (folder.listVisibleChilds(lang).hasNext()) {
+                        out.print("          <a href=\"#" + folder.getId() + "\" onclick=\"postHtml('" + xyz.setParameter("wpId", folder.getId()) + "','lfr_" + base.getId() + "'); if($('#" + folder.getId() + "').hasClass('in')){$('#nodico_" + folder.getId() + "').addClass('glyphicon-folder-close').removeClass('glyphicon-folder-open')} ");
+                        out.print("            else{$('#nodico_" + folder.getId() + "').addClass('glyphicon-folder-open').removeClass('glyphicon-folder-close')}\" ");
+                        out.println("         class=\"accordion-toggle swb-menu-rep\" data-toggle=\"collapse\" style=\"padding-left:20px;\"><span id=\"nodico_" + folder.getId() + "\" class=\"glyphicon glyphicon-folder-close\"></span>&nbsp;" + folder.getTitle() + "</a>");
+                        out.println(getFolders(folder, lang, 30, xyz));
+                    } else {
+                        out.println("        <a href=\"#\" onclick=\"postHtml('" + xyz.setParameter("wpId", folder.getId()) + "','lfr_" + base.getId() + "')\" class=\"swb-menu-rep\" style=\"padding-left:20px;\">" + folder.getTitle() + "</a>");
+                    }
+                    out.println("        </li>");
+                }
+                out.println("      </ul>");
+            }
+            out.println("    </div>");
+            out.println("  </div>");
+            out.println("</div>");
+            /////// Estructura de carpetas. Fin ///////
+            out.println("");
+            out.println("  </div>");
+            out.println("</div> <!-- /.col-sm-3 -->");
+            out.println("<div id=\"lfr_" + base.getId() + "\" class=\"col-sm-9 col-xs-12\">");
+            out.println(breadCrumbs(repoDir, lang));
+            out.println("  <div class=\"panel panel-default\">");
+            out.println("    <div class=\"panel-heading swbstrgy-panel-heading\">");
+            out.println("      <div class=\"row\">");
+            out.println("        <div class=\"col-md-5 col-xs-12\">");
+            out.println(repoDir.getDisplayTitle(lang) == null ? repoDir.getTitle() : repoDir.getDisplayTitle(lang));
+            out.println("        </div>");
+            if (luser >= 2) {
+                SWBResourceURL urlnew = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+                urlnew.setMode("newVer");
+                urlnew.setParameter("fldr", repoDir.getId());
+
+                out.println("        <div class=\"col-md-7 col-xs-12 swb-panel-heading-btn\">");
+                out.print("<a href=\"#\" onclick=\"showMyDialogInfo('");
+                out.print(urlnew);
+                out.println("', 'Agregar archivo');\">");
+                out.println(" <span class=\"glyphicon glyphicon-plus\">Agregar Archivo</span>");
+                out.println("</a>");
+
+                if (base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("1")) {
+                    SWBResourceURL urlnewDirectory = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_VIEW);
+                    urlnewDirectory.setMode("newDirectory");
+                    urlnewDirectory.setParameter("fldr", root.getId());
+                    //urlnewDirectory.setParameter("act", "newDirectory");
+                    out.print("<a href=\"#\" onclick=\"showMyDialogInfo('");
+                    out.print(urlnewDirectory);
+                    out.println("', 'Agregar carpeta');\">");
+                    out.println(" <span class=\"glyphicon glyphicon-plus\">Agregar Carpeta</span>");
+                    out.println("</a>");
+                    //  out.println("<button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnewDirectory+"','lfr_"+base.getId()+"')\">");
+                    //  out.println("  <span class=\"glyphicon glyphicon-plus\"></span> Agregar Carpeta");
+                    //  out.println("</button>");
+                }
+                out.println("        </div>");
+            }
+            out.println("      </div> <!-- /.row -->");
+            out.println("    </div> <!-- /.panel-heading -->");
+
+            SWBResourceURL urlorder = paramRequest.getRenderUrl();
+            out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
+            out.println("      <div class=\"table table-responsive\">");
+            out.println("        <table class=\"table table-striped table-hover\">");
+            out.println("          <thead>");
+            out.println("            <tr>");
+            out.println("                  <th class=\"swbstrgy_docrep-ID_item\">ID</th>");
+            out.println("                  <th class=\"swbstrgy_docrep-type_item\">");
+            out.println("<a href=\"" + urlorder.setParameter("orderBy", "type") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByType") + "\">" + paramRequest.getLocaleString("lblType") + "</a>");
+            out.println("                  </th>");
+            out.println("                  <th class=\"swbstrgy_docrep-title_item\">");
+            out.println("<a href=\"" + urlorder.setParameter("orderBy", "title") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByFilename") + "\">" + paramRequest.getLocaleString("lblFilename") + "</a>");
+            out.println("                  </th>");
+            out.println("                  <th class=\"swbstrgy_docrep-ver_item\">" + paramRequest.getLocaleString("lblVersion") + "</th>");
+            out.println("                  <th class=\"swbstrgy_docrep-date_item\">");
+            out.println("<a href=\"" + urlorder.setParameter("orderBy", "date") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByDate") + "\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
+            out.println("                  </th>");
+            out.println("                  <th class=\"swbstrgy_docrep-usr_item\">");
+            out.println("<a href=\"" + urlorder.setParameter("orderBy", "usr") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByUser") + "\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
+            out.println("                  </th>");
+            out.println("                  <th class=\"swbstrgy_docrep-axn_item\">" + paramRequest.getLocaleString("lblAction") + "</th>");
+            out.println("                </tr>");
+            out.println("          </thead>");
+            out.println("          <tbody>");
+
+            /// DESPLIEGUE DE ARCHIVOS ENCONTRADOS
+            List<RepositoryFile> list = orderDocuments(request.getParameter("orderBy"), lang, repoDir);
+            Iterator<RepositoryFile> lnit = list.iterator();
+            while (lnit.hasNext()) {
+                RepositoryFile repositoryFile = lnit.next();
+                VersionInfo vi = repositoryFile.getLastVersion();
+                if (vi == null) {
+                    repositoryFile.remove();
+                    continue;
+                }
+                out.println("<tr>");
+                // 1
+                out.println("<td class=\"gen-right\">");
+                String fid = repositoryFile.getId();
+                out.println(fid);
+                out.println("</td>");
+                // 2
+                out.println("<td class=\"gen-center\">");
+                SWBResourceURL urldetail = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT);
+                urldetail.setParameter("act", "detail");
+                urldetail.setParameter("fid", fid);
+                String file = "";
+                String type = "";
+                if (vi != null && vi.getVersionFile() != null) {
+                    file = vi.getVersionFile();
+                    type = getFileName(file);
+                }
+                if (luser > 0) {
+                    String ulrdirecta = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(Mode_GETFILE).setParameter("fid", repositoryFile.getId()).setParameter("verNum", "" + vi.getVersionNumber()).toString();
+                    out.println("<a href=\"" + ulrdirecta + "\">");
+                    out.println("<img border=\"0\" src=\"" + path + type + "\" alt=\"" + getFileType(file) + "\">");
+                    out.println("</a>");
+                } else {
+                    out.println("<img border=0 src=\"" + path + type + "\" alt=\"" + getFileType(file) + "\">");
+                }
+                out.println("</td>");
+                // 3
+                out.println("<td>");
+                out.println(repositoryFile.getDisplayTitle(usr.getLanguage()));
+                out.println("</td>");
+                // 4
+                out.println("<td class=\"gen-center\">");
+                out.println(vi.getVersionValue());
+                out.println("</td>");
+                // 5
+                out.println("<td class=\"gen-right\">");
+                out.println(vi != null && vi.getUpdated() != null ? format.format(vi.getUpdated()) : "--");
+                out.println("</td>");
+                // 6
+                out.println("<td>");
+                out.println(vi != null && vi.getModifiedBy() != null && vi.getModifiedBy().getFullName() != null ? vi.getModifiedBy().getFullName() : "--");
+                out.println("</td>");
+                // 7
+                SWBResourceURL url = paramRequest.getRenderUrl();
+                url.setMode("viewInfo");
+                url.setParameter("fid", fid);
+                url.setCallMethod(SWBResourceURL.Call_DIRECT);
+                out.println("<td class=\"gen-center\">");
+
+                out.print("\n<a href=\"#\" onclick=\"showMyDialogInfo('");
+                out.print(url);
+                out.println("', 'Ver detalle');\">");
+                out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
+                out.println("\n</a>");
+
+                if (luser == 3 || (vi.getCreator() != null && vi.getCreator().equals(usr) && luser > 1)) {
+                    SWBResourceURL urlremove = paramRequest.getActionUrl();
+                    urlremove.setAction("removefile");
+                    urlremove.setParameter("act", "remove");
+                    urlremove.setParameter("fid", fid);
+                    out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("msgQryConfirmRemoveFile") + "')){window.location='" + urlremove + "';} else {return false;}\" title=\"" + paramRequest.getLocaleString("msgRemoveFile") + "\" title=\"Eliminar\">");
+                    //out.println("<img src=\"" + path + "delete.gif\" border=\"0\" alt=\"eliminar\"/>");
+                    out.println("  <span class=\"glyphicon glyphicon-trash\"></span>");
+                    out.println("</a>");
+                }
+                out.println("</td>");
+                out.println("</tr>");
+            }
+            out.println("</tbody>");
+            out.println("        </table>");
+            out.println("      </div> <!-- /.table-responsive -->");
+            out.println("    </div> <!-- /.panel-body -->");
+            out.println("  </div> <!-- /.panel -->");
+            out.println("</div> <!-- /.col-sm-9 -->");
+            out.println("</div> <!-- /.row -->");
+            out.println("</div> <!-- /.panel-body -->");
+            out.println("</div> <!-- /.panel -->");
+
+            out.println("\n<div dojoType=\"dijit.Dialog\" class=\"clsDialog col-lg-6 col-lg-offset-3 co-md-8 col-sm-8 col-sm-offset-2 col-xs-12 swb-ventana-dialogo\" id=\"swbDialog\" ");
+            out.println("title=\"Agregar\" >\n");
+            out.println("\n<div class=\"panelDialog panelDialog-default\">");
+            out.println("\n<div class=\"swb-panel-cuerpo\">");
+            out.println("  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" id=\"swbDialogImp\" ");
+            out.println(" executeScripts=\"true\">\n");
+            out.println("    Cargando...\n");
+            out.println("  </div>\n");
+            out.println("  </div>\n");
+            out.println("  </div>\n");
+            out.println("</div>\n");
+        } 
+    }
+
+    private List<RepositoryFile> orderDocuments(String orderBy, String lang, WebPage repoDir) {
         Iterator<RepositoryFile> itrf = RepositoryFile.ClassMgr.listRepositoryFileByRepositoryFileDirectory(repoDir, getResourceBase().getWebSite());
-        if(orderBy == null) {
+        if (orderBy == null) {
             orderBy = "title";
         }
         HashMap<String, RepositoryFile> hmNodes = new HashMap<String, RepositoryFile>();
-        while (itrf.hasNext())
-        {
+        while (itrf.hasNext()) {
             RepositoryFile repoFile = itrf.next();
             VersionInfo version = repoFile.getActualVersion();
             String skey = repoFile.getId();
             if (orderBy.equals("title")) {
                 skey = repoFile.getDisplayTitle(lang) + " - " + repoFile.getId();
-            }else if (orderBy.equals("date")) {
+            } else if (orderBy.equals("date")) {
                 //nodo.getProperty("jcr:created").getDate().getTime())
                 skey = version.getCreated().getTime() + " - " + repoFile.getDisplayTitle(lang) + " - " + repoFile.getId();
-            }else if (orderBy.equals("type")) {
+            } else if (orderBy.equals("type")) {
                 String file = version.getVersionFile();
                 String type = getFileName(file);
                 skey = type + "-" + repoFile.getDisplayTitle(lang) + " - " + repoFile.getId();
                 //hmNodes.put(skey, repoFile);
-            }else if (orderBy.equals("usr")) {
+            } else if (orderBy.equals("usr")) {
                 User usrc = version.getCreator();
                 skey = " - " + repoFile.getDisplayTitle(lang) + " - " + repoFile.getId();
                 if (usrc != null) {
@@ -1019,14 +1112,13 @@ public class LiteFileRepository extends GenericResource
         List docs = new ArrayList<RepositoryFile>();
         ArrayList<String> list = new ArrayList<String>(hmNodes.keySet());
         Collections.sort(list);
-        for(String key:list) {
+        for (String key : list) {
             docs.add(hmNodes.get(key));
         }
         return docs;
     }
 
-    public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
@@ -1054,23 +1146,22 @@ public class LiteFileRepository extends GenericResource
             OutputStream out = response.getOutputStream();
             final String dir = SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + verNumber + "/";
             File fdir = new File(dir);
-            if(fdir.exists()) {
+            if (fdir.exists()) {
                 //String newFile = dir + repoFile.getId();
                 File file = new File(dir + repoFile.getId());
                 FileInputStream fin = new FileInputStream(file);
                 SWBUtils.IO.copyStream(fin, out);
-            }else {
+            } else {
                 FileInputStream fin = new FileInputStream(dir + ver.getVersionFile());
                 SWBUtils.IO.copyStream(fin, out);
             }
-        }catch(Exception e) {
+        } catch (Exception e) {
             log.error("Error al obtener el archivo del Repositorio de documentos.", e);
         }
     }
 
     @Override
-    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -1079,8 +1170,7 @@ public class LiteFileRepository extends GenericResource
 
         PrintWriter out = response.getWriter();
         String accion = paramRequest.getAction();
-        if (accion == null)
-        {
+        if (accion == null) {
             accion = "";
         }
         User user = paramRequest.getUser();
@@ -1091,8 +1181,7 @@ public class LiteFileRepository extends GenericResource
 
         out.println("<div class=\"swbform\">");
 
-        if (accion.equals("edit"))
-        {
+        if (accion.equals("edit")) {
 
             SWBResourceURL urlA = paramRequest.getActionUrl();
             urlA.setAction("admin_update");
@@ -1118,8 +1207,7 @@ public class LiteFileRepository extends GenericResource
             Resource base = getResourceBase();
 
             String checked = "checked";
-            if (base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("0"))
-            {
+            if (base.getAttribute(CHK_FOLDERSUPPORT, "1").equals("0")) {
                 checked = "";
             }
 
@@ -1144,25 +1232,20 @@ public class LiteFileRepository extends GenericResource
         out.println("</div>");
     }
 
-    private String getSelectOptions(String type, WebSite wsite, SWBParamRequest paramRequest)
-    {
+    private String getSelectOptions(String type, WebSite wsite, SWBParamRequest paramRequest) {
         String strTemp = "";
-        try
-        {
+        try {
 
             Resource base = getResourceBase();
             User user = paramRequest.getUser();
 
             String selectedItem = "";
-            if (type.equals("ver"))
-            {
+            if (type.equals("ver")) {
                 selectedItem = base.getAttribute(LVL_VIEW, "0");
-            } else if (type.equals("modificar"))
-            {
+            } else if (type.equals("modificar")) {
                 selectedItem = base.getAttribute(LVL_MODIFY, "0");
 
-            } else if (type.equals("administrar"))
-            {
+            } else if (type.equals("administrar")) {
                 selectedItem = base.getAttribute(LVL_ADMIN, "0");
             }
 
@@ -1172,8 +1255,7 @@ public class LiteFileRepository extends GenericResource
             StringBuilder strRules = new StringBuilder("");
             strRules.append("\n<option value=\"0\">").append(paramRequest.getLocaleString("msgSelNone")).append("</option>");
             strRules.append("\n<optgroup label=\"Roles\">");
-            while (iRoles.hasNext())
-            {
+            while (iRoles.hasNext()) {
                 Role oRole = iRoles.next();
                 strRules.append("\n<option value=\"").append(oRole.getURI()).append("\" ").append(selectedItem.equals(oRole.getURI()) ? "selected" : "").append(">").append(oRole.getDisplayTitle(user.getLanguage())).append("</option>");
             }
@@ -1181,31 +1263,26 @@ public class LiteFileRepository extends GenericResource
 
             strRules.append("\n<optgroup label=\"User Groups\">");
             Iterator<UserGroup> iugroups = wsite.getUserRepository().listUserGroups();
-            while (iugroups.hasNext())
-            {
+            while (iugroups.hasNext()) {
                 UserGroup oUG = iugroups.next();
                 strRules.append("\n<option value=\"" + oUG.getURI() + "\" " + (selectedItem.equals(oUG.getURI()) ? "selected" : "") + ">" + oUG.getDisplayTitle(user.getLanguage()) + "</option>");
             }
             strRules.append("\n</optgroup>");
-            if (strRules.toString().length() > 0)
-            {
+            if (strRules.toString().length() > 0) {
                 strTemp = strRules.toString();
             }
 
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             log.error("Error al cargal opciones de selección. getSelectOptions()", e);
         }
 
         return strTemp;
     }
 
-    private int getLevelUser(User user)
-    {
+    private int getLevelUser(User user) {
         int level = 0;
 
-        if (null == user)
-        {
+        if (null == user) {
             return level;
         }
 
@@ -1217,106 +1294,77 @@ public class LiteFileRepository extends GenericResource
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj = null;
-        try
-        {
+        try {
             gobj = ont.getGenericObject(uriAdmin);
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             //log.error("Errror getLevelUser()",e);
         }
 
         UserGroup ugrp;
         Role urole;
 
-        if (!uriAdmin.equals("0"))
-        {
-            if (gobj != null)
-            {
-                if (gobj instanceof UserGroup)
-                {
+        if (!uriAdmin.equals("0")) {
+            if (gobj != null) {
+                if (gobj instanceof UserGroup) {
                     ugrp = (UserGroup) gobj;
-                    if (user.hasUserGroup(ugrp))
-                    {
+                    if (user.hasUserGroup(ugrp)) {
                         level = 3;
                     }
-                }
-                else if (gobj instanceof Role)
-                {
+                } else if (gobj instanceof Role) {
                     urole = (Role) gobj;
-                    if (user.hasRole(urole))
-                    {
+                    if (user.hasRole(urole)) {
                         level = 3;
                     }
                 }
-            } else
-            {
+            } else {
                 level = 3;
             }
-        } else
-        {
+        } else {
             level = 3;
         }
 
-        if (level == 0)
-        {
-            if (!uriModify.equals("0"))
-            {
+        if (level == 0) {
+            if (!uriModify.equals("0")) {
                 gobj = ont.getGenericObject(uriModify);
-                if (gobj != null)
-                {
-                    if (gobj instanceof UserGroup)
-                    {
+                if (gobj != null) {
+                    if (gobj instanceof UserGroup) {
                         ugrp = (UserGroup) gobj;
-                        if (user.hasUserGroup(ugrp))
-                        {
+                        if (user.hasUserGroup(ugrp)) {
                             level = 2;
                         }
-                    } else if (gobj instanceof Role)
-                    {
+                    } else if (gobj instanceof Role) {
                         urole = (Role) gobj;
-                        if (user.hasRole(urole))
-                        {
+                        if (user.hasRole(urole)) {
                             level = 2;
                         }
                     }
-                } else
-                {
+                } else {
                     level = 2;
                 }
-            } else
-            {
+            } else {
                 level = 2;
             }
         }
 
-        if (level == 0)
-        {
-            if (!uriView.equals("0"))
-            {
+        if (level == 0) {
+            if (!uriView.equals("0")) {
                 gobj = ont.getGenericObject(uriView);
-                if (gobj != null)
-                {
-                    if (gobj instanceof UserGroup)
-                    {
+                if (gobj != null) {
+                    if (gobj instanceof UserGroup) {
                         ugrp = (UserGroup) gobj;
-                        if (user.hasUserGroup(ugrp))
-                        {
+                        if (user.hasUserGroup(ugrp)) {
                             level = 1;
                         }
-                    } else if (gobj instanceof Role)
-                    {
+                    } else if (gobj instanceof Role) {
                         urole = (Role) gobj;
-                        if (user.hasRole(urole))
-                        {
+                        if (user.hasRole(urole)) {
                             level = 1;
                         }
                     }
-                } else
-                {
+                } else {
                     level = 1;
                 }
-            } else
-            {
+            } else {
                 level = 1;
             }
         }
@@ -1325,19 +1373,16 @@ public class LiteFileRepository extends GenericResource
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
-    {
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
 
         WebPage wpage = response.getWebPage();
         WebSite wsite = wpage.getWebSite();
         String action = response.getAction();
-        if (action == null)
-        {
+        if (action == null) {
             action = "";
         }
 
-        if ("newfile".equals(action))
-        {
+        if ("newfile".equals(action)) {
             org.semanticwb.portal.util.FileUpload fup = new org.semanticwb.portal.util.FileUpload();
             fup.getFiles(request, null);
             String ftitle = fup.getValue("ftitle");
@@ -1347,21 +1392,18 @@ public class LiteFileRepository extends GenericResource
             String newVersion = fup.getValue("newVersion");
             String originalName = fup.getFileName("ffile");
             byte[] bcont = fup.getFileData("ffile");
-            
+
             String webpageId = fup.getValue("fldr");
             WebPage folder = wsite.getWebPage(webpageId);
             RepositoryFile repoFile = null;
-            
+
             boolean incremento = Boolean.FALSE;
-            if (fid != null)
-            {
+            if (fid != null) {
                 repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, wsite);
-                if (newVersion != null && newVersion.equals("nextInt"))
-                {
+                if (newVersion != null && newVersion.equals("nextInt")) {
                     incremento = Boolean.TRUE;
                 }
-            } else
-            {
+            } else {
                 repoFile = RepositoryFile.ClassMgr.createRepositoryFile(wsite);
                 repoFile.setRepositoryFileDirectory(folder);
             }
@@ -1369,76 +1411,62 @@ public class LiteFileRepository extends GenericResource
             repoFile.setTitle(ftitle);
             repoFile.setDescription(fdescription);
 
-            if (originalName.lastIndexOf('/') != -1)
-            {
+            if (originalName.lastIndexOf('/') != -1) {
                 int pos = originalName.lastIndexOf('/');
                 originalName = originalName.substring(pos + 1);
             }
-            if (originalName.lastIndexOf('\\') != -1)
-            {
+            if (originalName.lastIndexOf('\\') != -1) {
                 int pos = originalName.lastIndexOf('\\');
                 originalName = originalName.substring(pos + 1);
             }
 
             String fname = repoFile.getId();
             storeFile(originalName, fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoFile);
-        }
-        else if ("removefile".equals(action))
-        {
+        } else if ("removefile".equals(action)) {
             String fid = request.getParameter("fid");
             WebPage repoDir = response.getWebPage();
             RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, wsite);
             repoFile.remove();
-        }
-        else if ("admin_update".equals(action))
-        {
+        } else if ("admin_update".equals(action)) {
             String viewrole = request.getParameter("ver");
             String modifyrole = request.getParameter("modificar");
             String adminrole = request.getParameter("administrar");
             String folderSupport = request.getParameter("foldersupport");
-            if (folderSupport == null || folderSupport.equals("null"))
-            {
+            if (folderSupport == null || folderSupport.equals("null")) {
                 folderSupport = "0";
             }
 
             System.out.println("admin---=>" + adminrole + ">|||>>>" + folderSupport);
 
-            try
-            {
+            try {
                 getResourceBase().setAttribute(LVL_VIEW, viewrole);
                 getResourceBase().setAttribute(LVL_MODIFY, modifyrole);
                 getResourceBase().setAttribute(LVL_ADMIN, adminrole);
                 getResourceBase().setAttribute(CHK_FOLDERSUPPORT, folderSupport);
                 getResourceBase().updateAttributesToDB();
 
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 log.error("Error al guardar configuración de niveles de usuario de ProcessFileRepository", e);
             }
             response.setMode(SWBActionResponse.Mode_ADMIN);
             response.setAction("edit");
-        }
-        else if ("newDir".equals(action))
-        {
+        } else if ("newDir".equals(action)) {
 
             String title = request.getParameter("d_title");
             String description = request.getParameter("d_description");
             String idnewwp = SWBPlatform.getIDGenerator().getID(title, null);
 
-            try
-            {
+            try {
 
                 WebPage wp = wsite.getWebPage(idnewwp);
 
-                if (wp != null)
-                {
+                if (wp != null) {
                     idnewwp = "dir_" + idnewwp;
                 }
 
                 wp = wsite.getWebPage(idnewwp);
 
-                if (wp == null)
-                {
+                if (wp == null) {
                     wp = wsite.createWebPage(idnewwp);
 
                     wp.setTitle(title);
@@ -1446,7 +1474,7 @@ public class LiteFileRepository extends GenericResource
                     wp.setSortName(title);
                     wp.setActive(Boolean.TRUE);
                     WebPage parent = wsite.getWebPage(request.getParameter("fldr"));
-                    if(parent==null) {
+                    if (parent == null) {
                         parent = wpage;
                     }
                     wp.setParent(parent);
@@ -1466,8 +1494,7 @@ public class LiteFileRepository extends GenericResource
                     response.sendRedirect(url.toString());
 
                 }
-            } catch (Exception e)
-            {
+            } catch (Exception e) {
                 log.error("Error al agregar carpeta al repositorio de documentos.");
             }
         }
@@ -1484,20 +1511,17 @@ public class LiteFileRepository extends GenericResource
      * @param comment
      * @param bigVersionInc
      */
-    private void storeFile(String originalName, String name, InputStream in, String comment, boolean bigVersionInc, RepositoryFile repoFile)
-    {
+    private void storeFile(String originalName, String name, InputStream in, String comment, boolean bigVersionInc, RepositoryFile repoFile) {
         VersionInfo v = VersionInfo.ClassMgr.createVersionInfo(repoFile.getRepositoryFileDirectory().getWebSite());
         v.setVersionFile(originalName);
         numf.setMaximumFractionDigits(1);
-        if (comment != null)
-        {
+        if (comment != null) {
             v.setVersionComment(comment);
         }
         VersionInfo vl = repoFile.getLastVersion();
         String sver = "1.0";
         int ver = 1;
-        if (vl != null)
-        {
+        if (vl != null) {
             vl.setNextVersion(v);
             v.setPreviousVersion(vl);
             ver = vl.getVersionNumber();
@@ -1505,17 +1529,14 @@ public class LiteFileRepository extends GenericResource
 
             double f = Double.parseDouble(sver);
 
-            if (bigVersionInc)
-            {
+            if (bigVersionInc) {
                 f = (int) f + 1;
                 sver = "" + (float) f;
-            } else
-            {
+            } else {
                 f = f + 0.10D;
 
                 String sfver = numf.format(f);
-                if (sfver.indexOf(".") == -1)
-                {
+                if (sfver.indexOf(".") == -1) {
                     sfver = "" + (float) f;
                 }
                 sver = sfver;
@@ -1531,178 +1552,141 @@ public class LiteFileRepository extends GenericResource
         try {
             FileOutputStream fos = new FileOutputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
             SWBUtils.IO.copyStream(in, fos);
-        }catch(Exception e) {
+        } catch (Exception e) {
         }
     }
-    
+
     /*private OutputStream storeFile(String originalName, String name, String comment, boolean bigVersionInc, RepositoryFile repoFile) throws FileNotFoundException
-    {
-        VersionInfo v = VersionInfo.ClassMgr.createVersionInfo(repoFile.getRepositoryFileDirectory().getWebSite());
+     {
+     VersionInfo v = VersionInfo.ClassMgr.createVersionInfo(repoFile.getRepositoryFileDirectory().getWebSite());
 
-        v.setVersionFile(originalName);
+     v.setVersionFile(originalName);
 
-        numf.setMaximumFractionDigits(1);
+     numf.setMaximumFractionDigits(1);
 
-        if (comment != null)
-        {
-            v.setVersionComment(comment);
-        }
-        VersionInfo vl = repoFile.getLastVersion();
-        String sver = "1.0";
-        int ver = 1;
-        if (vl != null)
-        {
-            vl.setNextVersion(v);
-            v.setPreviousVersion(vl);
-            ver = vl.getVersionNumber();
-            sver = vl.getVersionValue();
+     if (comment != null)
+     {
+     v.setVersionComment(comment);
+     }
+     VersionInfo vl = repoFile.getLastVersion();
+     String sver = "1.0";
+     int ver = 1;
+     if (vl != null)
+     {
+     vl.setNextVersion(v);
+     v.setPreviousVersion(vl);
+     ver = vl.getVersionNumber();
+     sver = vl.getVersionValue();
 
-            double f = Double.parseDouble(sver);
+     double f = Double.parseDouble(sver);
 
-            if (bigVersionInc)
-            {
-                f = (int) f + 1;
-                sver = "" + (float) f;
-            } else
-            {
-                f = f + 0.10D;
+     if (bigVersionInc)
+     {
+     f = (int) f + 1;
+     sver = "" + (float) f;
+     } else
+     {
+     f = f + 0.10D;
 
-                String sfver = numf.format(f);
-                if (sfver.indexOf(".") == -1)
-                {
-                    sfver = "" + (float) f;
-                }
-                sver = sfver;
-            }
-            ver++;
-        }
-        v.setVersionNumber(ver);
-        v.setVersionValue(sver);
-        repoFile.setActualVersion(v);
-        repoFile.setLastVersion(v);
+     String sfver = numf.format(f);
+     if (sfver.indexOf(".") == -1)
+     {
+     sfver = "" + (float) f;
+     }
+     sver = sfver;
+     }
+     ver++;
+     }
+     v.setVersionNumber(ver);
+     v.setVersionValue(sver);
+     repoFile.setActualVersion(v);
+     repoFile.setLastVersion(v);
 
-System.out.println("work path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
-        File file = new File(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
-        file.mkdirs();
-System.out.println("directorio creado....inicia escritura de archivo...");
-System.out.println("file path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
-        FileOutputStream fos = new FileOutputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
-        return fos;
-    }*/
-
-    private String getFileType(String filename)
-    {
+     System.out.println("work path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
+     File file = new File(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
+     file.mkdirs();
+     System.out.println("directorio creado....inicia escritura de archivo...");
+     System.out.println("file path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
+     FileOutputStream fos = new FileOutputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
+     return fos;
+     }*/
+    private String getFileType(String filename) {
         String file = "Document";
         String type = filename.toLowerCase();
-        if (type.indexOf(".bmp") != -1)
-        {
+        if (type.indexOf(".bmp") != -1) {
             file = "Image";
-        } else if (type.indexOf(".pdf") != -1)
-        {
+        } else if (type.indexOf(".pdf") != -1) {
             file = "Adobe Acrobat";
-        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1)
-        {
+        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1) {
             file = "Microsoft Excel";
-        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1)
-        {
+        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1) {
             file = "HTML file";
-        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1)
-        {
+        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1) {
             file = "Image";
-        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1)
-        {
+        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1) {
             file = "Microsoft Power Point";
-        } else if (type.indexOf(".vsd") != -1)
-        {
+        } else if (type.indexOf(".vsd") != -1) {
             file = "Microsoft Visio";
-        } else if (type.indexOf(".mpp") != -1)
-        {
+        } else if (type.indexOf(".mpp") != -1) {
             file = "Microsoft Project";
-        } else if (type.indexOf(".mmap") != -1)
-        {
+        } else if (type.indexOf(".mmap") != -1) {
             file = "Mind Manager";
-        } else if (type.indexOf(".exe") != -1)
-        {
+        } else if (type.indexOf(".exe") != -1) {
             file = "Application";
-        } else if (type.indexOf(".txt") != -1)
-        {
+        } else if (type.indexOf(".txt") != -1) {
             file = "Text file";
-        } else if (type.indexOf(".properties") != -1)
-        {
+        } else if (type.indexOf(".properties") != -1) {
             file = "Properties file";
-        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1)
-        {
+        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1) {
             file = "Microsoft Word";
-        } else if (type.indexOf(".xml") != -1)
-        {
+        } else if (type.indexOf(".xml") != -1) {
             file = "XML file";
-        } else if (type.indexOf(".gif") != -1 || type.indexOf(".png") != -1)
-        {
+        } else if (type.indexOf(".gif") != -1 || type.indexOf(".png") != -1) {
             file = "Image";
-        } else if (type.indexOf(".avi") != -1)
-        {
+        } else if (type.indexOf(".avi") != -1) {
             file = "Media file";
-        } else if (type.indexOf(".mp3") != -1)
-        {
+        } else if (type.indexOf(".mp3") != -1) {
             file = "Audio file";
-        } else if (type.indexOf(".wav") != -1)
-        {
+        } else if (type.indexOf(".wav") != -1) {
             file = "Audio file";
-        } else if (type.indexOf(".xsl") != -1)
-        {
+        } else if (type.indexOf(".xsl") != -1) {
             file = "XSLT file";
         }
         return file;
     }
 
-    private String getFileName(String filename)
-    {
+    private String getFileName(String filename) {
         String file = "ico_default2.gif";
         String type = filename.toLowerCase();
-        if (type.indexOf(".bmp") != -1)
-        {
+        if (type.indexOf(".bmp") != -1) {
             file = "ico_bmp.gif";
-        } else if (type.indexOf(".pdf") != -1)
-        {
+        } else if (type.indexOf(".pdf") != -1) {
             file = "ico_acrobat.gif";
-        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1)
-        {
+        } else if (type.indexOf(".xls") != -1 || type.indexOf(".xlsx") != -1) {
             file = "ico_excel.gif";
-        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1)
-        {
+        } else if (type.indexOf(".html") != -1 || type.indexOf(".htm") != -1) {
             file = "ico_html.gif";
-        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1)
-        {
+        } else if (type.indexOf("jpg") != -1 || type.indexOf("jpeg") != -1) {
             file = "ico_jpeg.gif";
-        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1)
-        {
+        } else if (type.indexOf(".ppt") != -1 || type.indexOf(".pptx") != -1) {
             file = "ico_powerpoint.gif";
-        } else if (type.indexOf(".exe") != -1)
-        {
+        } else if (type.indexOf(".exe") != -1) {
             file = "ico_program.gif";
-        } else if (type.indexOf(".txt") != -1 || type.indexOf(".properties") != -1)
-        {
+        } else if (type.indexOf(".txt") != -1 || type.indexOf(".properties") != -1) {
             file = "ico_text.gif";
-        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1)
-        {
+        } else if (type.indexOf(".doc") != -1 || type.indexOf(".docx") != -1) {
             file = "ico_word.gif";
-        } else if (type.indexOf(".xml") != -1 || type.indexOf(".xsl") != -1)
-        {
+        } else if (type.indexOf(".xml") != -1 || type.indexOf(".xsl") != -1) {
             file = "ico_xml.gif";
-        } else if (type.indexOf(".mmap") != -1)
-        {
+        } else if (type.indexOf(".mmap") != -1) {
             file = "ico_mindmanager.GIF";
-        } else if (type.indexOf(".gif") != -1)
-        {
+        } else if (type.indexOf(".gif") != -1) {
             file = "ico_gif.gif";
-        } else if (type.indexOf(".avi") != -1)
-        {
+        } else if (type.indexOf(".avi") != -1) {
             file = "ico_video.gif";
-        } else if (type.indexOf(".mp3") != -1)
-        {
+        } else if (type.indexOf(".mp3") != -1) {
             file = "ico_audio.gif";
-        } else if (type.indexOf(".wav") != -1)
-        {
+        } else if (type.indexOf(".wav") != -1) {
             file = "ico_audio.gif";
         }
         return file;
