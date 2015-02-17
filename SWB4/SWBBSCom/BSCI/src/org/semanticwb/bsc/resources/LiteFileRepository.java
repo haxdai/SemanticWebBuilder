@@ -93,7 +93,7 @@ public class LiteFileRepository extends GenericResource {
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         final String mode = paramRequest.getMode();
-
+        
         if (Mode_GETFILE.equals(mode)) {
             doGetFile(request, response, paramRequest);
         } else if (Mode_X.equals(mode)) {
@@ -106,7 +106,10 @@ public class LiteFileRepository extends GenericResource {
             doNewVer(request, response, paramRequest);
         } else if ("newDirectory".equals(mode)) {
             doNewDirectory(request, response, paramRequest);
-        } else {
+        }else if ("viewDocs".equals(mode)) {
+            doViewDocs(request, response, paramRequest);
+        }
+          else {
             super.processRequest(request, response, paramRequest);
         }
     }
@@ -551,7 +554,7 @@ public class LiteFileRepository extends GenericResource {
             out.println("       }");
             out.println("       else { newV = document.getElementById('newVersion').options[document.getElementById('newVersion').selectedIndex].value;");
             out.println("       newUrl = urlVersion+'&newVersion='+newV;");
-            out.println("       showMyDialog(newUrl,'Agregar Version');");
+            out.println("       showMyDialogInfo(newUrl,'Agregar Version');");
             out.println("            }");
             out.println("  }");
             out.println("</script>");
@@ -687,7 +690,6 @@ public class LiteFileRepository extends GenericResource {
         out.println(currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang));
         out.println("        </div>");
         if (luser >= 2) {
-
             SWBResourceURL urlnew = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
             urlnew.setMode("newVer");
             urlnew.setParameter("fldr", currentFolder.getId());
@@ -710,27 +712,44 @@ public class LiteFileRepository extends GenericResource {
             out.println("        </div>");
         }
         out.println("      </div>");
-        out.println("    </div>");
-
-        SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setParameter("wpId", wpId);
+        out.println("    </div>");       
         out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
         out.println("      <div class=\"table table-responsive\">");
-        out.println("        <table class=\"table table-striped table-hover\">");
+        out.println("        <table id=\"docs\" class=\"table table-striped table-hover\">");
+        doViewDocs(request, response, paramRequest);
+        out.println("        </table>");
+        out.println("      </div> <!-- /.table-responsive -->");
+        out.println("    </div> <!-- /.panel-body -->");
+        out.println("  </div> <!-- /. -->");
+    }
+
+    public void doViewDocs (HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException{
+     PrintWriter out = response.getWriter();
+     final String wpId = request.getParameter("wpId");
+     SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("viewDocs").setParameter("wpId", wpId);
+     User usr = paramRequest.getUser();   
+     final String lang = usr.getLanguage() == null ? "es" : usr.getLanguage();
+     Resource base = getResourceBase();
+
+        int luser = getLevelUser(usr);
+
+        BSC scorecard = (BSC) base.getWebSite();
+        WebPage currentFolder = scorecard.getWebPage(wpId);
         out.println("          <thead>");
         out.println("            <tr>");
         out.println("                  <th class=\"swbstrgy_docrep-ID_item\">ID</th>");
         out.println("                  <th class=\"swbstrgy_docrep-type_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "type") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByType") + "\">" + paramRequest.getLocaleString("lblType") + "</a>");
+        out.println("<a href=\"#\" onclick=\"postHtml('" + urlorder.setParameter("orderBy", "type") + "','docs')\" title=\"" + paramRequest.getLocaleString("lblOrderByType") + "\">" + paramRequest.getLocaleString("lblType") + "</a>");
         out.println("                  </th>");
         out.println("                  <th class=\"swbstrgy_docrep-title_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "title") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByFilename") + "\">" + paramRequest.getLocaleString("lblFilename") + "</a>");
+        out.println("<a href=\"#\" onclick=\"postHtml('" + urlorder.setParameter("orderBy", "title") + "','docs')\"  title=\"" + paramRequest.getLocaleString("lblOrderByFilename") + "\">" + paramRequest.getLocaleString("lblFilename") + "</a>");
         out.println("                  </th>");
         out.println("                  <th class=\"swbstrgy_docrep-ver_item\">" + paramRequest.getLocaleString("lblVersion") + "</th>");
         out.println("                  <th class=\"swbstrgy_docrep-date_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "date") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByDate") + "\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
+        out.println("<a href=\"#\" onclick=\"postHtml('" + urlorder.setParameter("orderBy", "date") + "','docs')\" title=\"" + paramRequest.getLocaleString("lblOrderByDate") + "\">" + paramRequest.getLocaleString("lblLastDateModification") + "</a>");
         out.println("                  </th>");
         out.println("                  <th class=\"swbstrgy_docrep-usr_item\">");
-        out.println("<a href=\"" + urlorder.setParameter("orderBy", "usr") + "\" title=\"" + paramRequest.getLocaleString("lblOrderByUser") + "\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
+        out.println("<a href=\"#\" onclick=\"postHtml('" + urlorder.setParameter("orderBy", "usr") + "','docs')\" title=\"" + paramRequest.getLocaleString("lblOrderByUser") + "\">" + paramRequest.getLocaleString("lblModifiedBy") + "</a>");
         out.println("                  </th>");
         out.println("                  <th class=\"swbstrgy_docrep-axn_item\">" + paramRequest.getLocaleString("lblAction") + "</th>");
         out.println("                </tr>");
@@ -794,13 +813,6 @@ public class LiteFileRepository extends GenericResource {
             url.setMode("viewInfo");
             url.setParameter("fid", fid);
             url.setCallMethod(SWBResourceURL.Call_DIRECT);
-            /* out.println("<a href=\"" + urldetail + "\" title=\"Ver más\">");
-             out.println("  <span class=\"glyphicon glyphicon-info-sign\"></span>");
-             out.println("</a>");*/
-            /**
-             * *****************************NUEVO
-             * CODIGO*********************************
-             */
             out.print("\n<a href=\"#\" onclick=\"showMyDialogInfo('");
             out.print(url);
             out.println("', 'Ver detalle');\">");
@@ -821,12 +833,7 @@ public class LiteFileRepository extends GenericResource {
             out.println("</tr>");
         }
         out.println("</tbody>");
-        out.println("        </table>");
-        out.println("      </div> <!-- /.table-responsive -->");
-        out.println("    </div> <!-- /.panel-body -->");
-        out.println("  </div> <!-- /. -->");
-    }
-
+}
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
@@ -872,7 +879,6 @@ public class LiteFileRepository extends GenericResource {
             out.println("      </div>");
             out.println("    </div>");
             out.println("  </div>");
-
             out.println("<div class=\"panel-body swbstrgy-panel-body\"> <!-- panel-body -->");
             out.println("<div class=\"row\">");
             out.println("<div class=\"col-sm-3 col-xs-12\">");
@@ -938,22 +944,18 @@ public class LiteFileRepository extends GenericResource {
                     SWBResourceURL urlnewDirectory = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_VIEW);
                     urlnewDirectory.setMode("newDirectory");
                     urlnewDirectory.setParameter("fldr", root.getId());
-                    //urlnewDirectory.setParameter("act", "newDirectory");
                     out.print("<a href=\"#\" onclick=\"showMyDialogInfo('");
                     out.print(urlnewDirectory);
                     out.println("', 'Agregar carpeta');\">");
                     out.println(" <span class=\"glyphicon glyphicon-plus\">Agregar Carpeta</span>");
                     out.println("</a>");
-                    //  out.println("<button class=\"btn btn-default\" type=\"button\" onclick=\"postHtml('"+urlnewDirectory+"','lfr_"+base.getId()+"')\">");
-                    //  out.println("  <span class=\"glyphicon glyphicon-plus\"></span> Agregar Carpeta");
-                    //  out.println("</button>");
                 }
                 out.println("        </div>");
             }
             out.println("      </div> <!-- /.row -->");
             out.println("    </div> <!-- /.panel-heading -->");
 
-            SWBResourceURL urlorder = paramRequest.getRenderUrl();
+            SWBResourceURL urlorder = paramRequest.getRenderUrl();           
             out.println("    <div class=\"panel-body swbstrgy-panel-body\">");
             out.println("      <div class=\"table table-responsive\">");
             out.println("        <table class=\"table table-striped table-hover\">");
