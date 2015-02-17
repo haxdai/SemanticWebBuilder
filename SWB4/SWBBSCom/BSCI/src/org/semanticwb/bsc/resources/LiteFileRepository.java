@@ -656,7 +656,8 @@ public class LiteFileRepository extends GenericResource {
         crumbs.add("<li class=\"active\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</li>");
         while (!currentFolder.equals(root)) {
             currentFolder = currentFolder.getParent();
-            crumbs.add("<li><a href=\"#\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</a></li>");
+            //crumbs.add("<li><a href=\"#\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</a></li>");
+            crumbs.add("<li class=\"active\">" + (currentFolder.getDisplayTitle(lang) == null ? currentFolder.getTitle() : currentFolder.getDisplayTitle(lang)) + "</li>");
 
         }
         crumbs.add("<ol class=\"breadcrumb\">");
@@ -723,13 +724,18 @@ public class LiteFileRepository extends GenericResource {
         out.println("  </div> <!-- /. -->");
     }
 
-    public void doViewDocs (HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException{
-     PrintWriter out = response.getWriter();
-     final String wpId = request.getParameter("wpId");
-     SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("viewDocs").setParameter("wpId", wpId);
-     User usr = paramRequest.getUser();   
-     final String lang = usr.getLanguage() == null ? "es" : usr.getLanguage();
-     Resource base = getResourceBase();
+    public void doViewDocs (HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        PrintWriter out = response.getWriter();
+        final String wpId = request.getParameter("wpId");
+        SWBResourceURL urlorder = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("viewDocs").setParameter("wpId", wpId);
+        User usr = paramRequest.getUser();   
+        final String lang = usr.getLanguage() == null ? "es" : usr.getLanguage();
+        Resource base = getResourceBase();
 
         int luser = getLevelUser(usr);
 
