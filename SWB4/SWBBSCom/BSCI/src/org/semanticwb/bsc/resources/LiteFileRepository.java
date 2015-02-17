@@ -261,7 +261,7 @@ public class LiteFileRepository extends GenericResource {
         out.println("</script>");
 
         out.println("<div id=\"ProcessFileRepository\">");
-        out.println("<form id=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\"  enctype=\"multipart/form-data\">");
+        out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\" onsubmit=\"valida();return false;\"  enctype=\"multipart/form-data\">");
         if (null != fid && null != newVersion) {
             out.println("<input type=\"hidden\" name=\"newVersion\" value=\"" + newVersion + "\">");
             out.println("<input type=\"hidden\" name=\"fid\" value=\"" + fid + "\">");
