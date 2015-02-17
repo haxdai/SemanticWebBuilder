@@ -82,9 +82,6 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         }
         
         final String prx = getResourceBase().getWebSite().getId() + "_"; 
-        
-        List<Series> serieses = sm.listValidSerieses();
-        Collections.sort(serieses);
         PrintWriter out = response.getWriter();
         
         Iterator<Period> periods;
@@ -110,15 +107,20 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Period")+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Semaphore")+"</th>");
         //out.println("<th>&nbsp;</th>");
+        
+        List<Series> serieses = sm.listValidSerieses();
+        Collections.sort(serieses);
         for(Series series:serieses) {
             out.println("<th width=\"10%\">"+(series.getTitle(lang)==null?series.getTitle():series.getTitle(lang))+"</th>");
         }
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
+        Period period;
+        boolean inTime;
         while(periods.hasNext()) {
-            Period period = periods.next();
-            boolean inTime = isInMeasurementTime(period);
+            period = periods.next();
+            inTime = isInMeasurementTime(period);
             out.println("<tr>");
             // 1.- Elemento padre (objetivo/iniciativa)
 //out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
@@ -131,18 +133,18 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             out.println("<td>");
             if(star.getMeasure(period)!=null) {
                 State state = star.getMeasure(period).getEvaluation().getStatus();
+//                if(state==null) {
+//                    state = sm.getMinimumState();
+//                    star.getMeasure(period).getEvaluation().setStatus(state);
+//                }
                 if(state==null) {
-                    state = sm.getMinimumState();
-                    star.getMeasure(period).getEvaluation().setStatus(state);
-                }
-                if(state==null) {
-                    out.println("<span class=\"swbstrgy-undefined\">Indefinido</span>");
-                }else {                    
+                    out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
+                }else {
                     String title = state.getTitle(lang)==null?state.getTitle():state.getTitle(lang);
-                    out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-undefined":state.getIconClass())+"\">"+title+"</span>");
+                    out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+title+"</span>");
                 }
             }else {
-                out.println("--");
+                out.println("Not set");
             }
             out.println("</td>");
             // 4.- Series
