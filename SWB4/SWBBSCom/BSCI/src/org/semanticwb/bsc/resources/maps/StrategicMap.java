@@ -30,7 +30,6 @@ import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
@@ -1200,13 +1199,13 @@ SVGjs.append("console.log('color='+color);").append("\n");
         SVGjs.append("  y2-=6;").append("\n");
         
         SVGjs.append("  var arrow;").append("\n");
-        SVGjs.append("  var arrowL = createPathL(id,x1,y1,x2,y2,color, offset_h,offset_v);").append("\n");
+//        SVGjs.append("  var arrowL = createPathL(id,x1,y1,x2,y2,color, offset_h,offset_v);").append("\n");
         SVGjs.append("  var arrowR = createPathR(id,x1,y1,x2,y2,color, offset_h,offset_v);").append("\n");
-        SVGjs.append("  if(arrowR.getTotalLength()<=arrowL.getTotalLength()) {").append("\n");
+//        SVGjs.append("  if(arrowR.getTotalLength()<=arrowL.getTotalLength()) {").append("\n");
         SVGjs.append("    arrow = arrowR;").append("\n");
-        SVGjs.append("  }else {").append("\n");
-        SVGjs.append("    arrow = arrowL;").append("\n");
-        SVGjs.append("  }").append("\n");
+//        SVGjs.append("  }else {").append("\n");
+//        SVGjs.append("    arrow = arrowL;").append("\n");
+//        SVGjs.append("  }").append("\n");
         SVGjs.append("  offset_v += 8;").append("\n");
         
         SVGjs.append("  arrow.setAttributeNS(null, 'marker-end', 'url(#arrow_1)');").append("\n");
