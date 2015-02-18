@@ -1416,24 +1416,22 @@ public class LiteFileRepository extends GenericResource {
                 repoFile.setRepositoryFileDirectory(folder);
             }
             
-            if(ftitle != null && fdescription != null){
-
-            repoFile.setTitle(ftitle);
-            repoFile.setDescription(fdescription);
+            if(ftitle != null && fdescription != null) {
+                repoFile.setTitle(ftitle);
+                repoFile.setDescription(fdescription);
             }
-            if(originalName != null){
+            if(originalName != null) {
+                if (originalName.lastIndexOf('/') != -1) {
+                    int pos = originalName.lastIndexOf('/');
+                    originalName = originalName.substring(pos + 1);
+                }
+                if (originalName.lastIndexOf('\\') != -1) {
+                    int pos = originalName.lastIndexOf('\\');
+                    originalName = originalName.substring(pos + 1);
+                }
 
-            if (originalName.lastIndexOf('/') != -1) {
-                int pos = originalName.lastIndexOf('/');
-                originalName = originalName.substring(pos + 1);
-            }
-            if (originalName.lastIndexOf('\\') != -1) {
-                int pos = originalName.lastIndexOf('\\');
-                originalName = originalName.substring(pos + 1);
-            }
-
-            String fname = repoFile.getId();
-            storeFile(originalName, fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoFile);
+                String fname = repoFile.getId();
+                storeFile(originalName, fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoFile);
             }
         } else if ("removefile".equals(action)) {
             String fid = request.getParameter("fid");
