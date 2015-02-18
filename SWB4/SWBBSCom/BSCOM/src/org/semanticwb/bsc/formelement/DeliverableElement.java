@@ -75,7 +75,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
         String modeTmp = request.getParameter("modeTmp");
         String downloadEle = request.getAttribute("downloadEle") != null
                 ? request.getAttribute("downloadEle").toString() : null;
-
+        
         if (modeTmp == null && mode.equals(SWBFormMgr.MODE_VIEW) && downloadEle == null) {
             toReturn.append(renderModeView(request, obj, prop, propName, type, mode, lang));
         } else if (modeTmp == null || (modeTmp != null && Mode_VIEW.equals(modeTmp))) {
@@ -315,7 +315,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
 //                } else {
 //                    toReturn.append("indefinido");
 //                }
-                toReturn.append(deliverable.getAutoStatusIconClass());
+                toReturn.append(deliverable.getStatusAssigned().getIconClass());
                 toReturn.append(" swbstrgy-semaphore\"></span>");
                 toReturn.append("\n</td>");
 
