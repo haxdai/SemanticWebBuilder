@@ -180,7 +180,8 @@ public class MeasuresManager extends GenericAdmResource {
                     series.addMeasure(measure);
                     PeriodStatus ps = PeriodStatus.ClassMgr.createPeriodStatus(period.getBSC());
                     ps.setPeriod(period);
-                    ps.setStatus(sm.getMinimumState());
+                    //ps.setStatus(sm.getMinimumState());
+                    ps.setStatus(null);
                     measure.setEvaluation(ps);
                     measure.setValue(0);
                 }else {
@@ -189,7 +190,6 @@ public class MeasuresManager extends GenericAdmResource {
                         measure.getEvaluation().removeStatus();
                     }
                 }
-
                 String value = measure.getValue()==0?"":formatter.format(measure.getValue());
                 String iconClass, statusTitle;
                 try {
