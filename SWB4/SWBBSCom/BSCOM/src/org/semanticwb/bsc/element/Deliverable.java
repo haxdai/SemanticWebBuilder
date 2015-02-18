@@ -277,14 +277,14 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
         try {
             iconClass.append(getStar().getMeasure(period).getEvaluation().getStatus().getIconClass());
             iconClassFound = true;
-        } catch (NullPointerException npe) {
+        }catch (NullPointerException npe) {
         }
         if (!iconClassFound) {
             try {
                 State state = this.getMinimumState();
                 getStar().getMeasure(period).getEvaluation().setStatus(state);
                 iconClass.append(getStar().getMeasure(period).getEvaluation().getStatus().getIconClass());
-            } catch (NullPointerException ex) {
+            }catch (NullPointerException ex) {
                 iconClass.append("swbstrgy-unknown");
             }
         }
