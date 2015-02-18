@@ -261,7 +261,7 @@ public class LiteFileRepository extends GenericResource {
         out.println("</script>");
 
         out.println("<div id=\"ProcessFileRepository\">");
-        out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\" onsubmit=\"valida();return false;\"  enctype=\"multipart/form-data\">");
+        out.println("<form id=\"frmnewdoc\" name=\"frmnewdoc\" method=\"post\" action=\"" + urlnew + "\" onsubmit=\"valida();return false;\" enctype=\"multipart/form-data\">");
         if (null != fid && null != newVersion) {
             out.println("<input type=\"hidden\" name=\"newVersion\" value=\"" + newVersion + "\">");
             out.println("<input type=\"hidden\" name=\"fid\" value=\"" + fid + "\">");
@@ -1415,9 +1415,13 @@ public class LiteFileRepository extends GenericResource {
                 repoFile = RepositoryFile.ClassMgr.createRepositoryFile(wsite);
                 repoFile.setRepositoryFileDirectory(folder);
             }
+            
+            if(ftitle != null && fdescription != null){
 
             repoFile.setTitle(ftitle);
             repoFile.setDescription(fdescription);
+            }
+            if(originalName != null){
 
             if (originalName.lastIndexOf('/') != -1) {
                 int pos = originalName.lastIndexOf('/');
@@ -1430,6 +1434,7 @@ public class LiteFileRepository extends GenericResource {
 
             String fname = repoFile.getId();
             storeFile(originalName, fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoFile);
+            }
         } else if ("removefile".equals(action)) {
             String fid = request.getParameter("fid");
             WebPage repoDir = response.getWebPage();
