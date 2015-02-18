@@ -69,8 +69,8 @@ public class GraphPeriodStatus extends GenericAdmResource {
             if (genericObj instanceof Objective)
             {
                 Objective obj = (Objective) genericObj;
-                Iterator<Period> validList = null;
-                List<Period> periodsList = new java.util.ArrayList<Period>();
+//                Iterator<Period> validList = null;
+//                List<Period> periodsList = new java.util.ArrayList<Period>();
                 Iterator<State> itStates = obj.listValidStates().iterator();
 
                 //Codigo HTML para generar la grafica
@@ -78,14 +78,16 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 firstOutput.append("<div class=\"col-xs-12\">\n");
                 firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
 
-                List<Period> lperiods = obj.listValidPeriods();
-                Collections.sort(lperiods);
-                validList = lperiods.iterator();
-                if (validList != null) {
-                    while (validList.hasNext()) {
-                        periodsList.add(validList.next());
-                    }
-                }
+//                List<Period> lperiods = obj.listValidPeriods();
+//                Collections.sort(lperiods);
+//                validList = lperiods.iterator();
+//                if (validList != null) {
+//                    while (validList.hasNext()) {
+//                        periodsList.add(validList.next());
+//                    }
+//                }
+                List<Period> periodsList = obj.listValidPeriods();
+                Collections.sort(periodsList);
 
                 firstOutput.append("<div id=\"graphContainer\">\n");
                 firstOutput.append("   <div id=\"chart1\" class=\'with-3d-shadow with-transitions\'>\n");
@@ -140,6 +142,9 @@ public class GraphPeriodStatus extends GenericAdmResource {
 
                             //Recorre los periodos y valores de los estatus para graficarlos
                             for (Period period : periodsList) {
+                                if(period.isCurrent() || period.isFuture()) {
+                                    break;
+                                }
                                 PeriodStatus ps = obj.getPeriodStatus(period);
                                 if (ps != null && ps.getStatus() != null) {
                                     if (periodsCount > 0) {
