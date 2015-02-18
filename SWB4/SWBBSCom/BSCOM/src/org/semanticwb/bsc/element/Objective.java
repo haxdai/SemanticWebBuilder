@@ -174,15 +174,6 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         return null;
     }
     
-    public State getState(Period period) {
-        State status = null;
-        PeriodStatus ps = getPeriodStatus(period);
-        if(ps!=null) {
-            status = ps.getStatus()==null?getMinimumState():ps.getStatus();
-        }
-        return status;
-    }
-    
     @Override
     public PeriodStatus getPeriodStatus(Period period) {
         Iterator<PeriodStatus> appraisals = listPeriodStatuses();
@@ -344,6 +335,25 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         final User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
         return user.haveAccess(this);
     }
+    
+    public State getState(final Period period) {
+        State status = null;
+//        PeriodStatus ps = getPeriodStatus(period);
+//        if(ps!=null) {
+//            status = ps.getStatus()==null?getMinimumState():ps.getStatus();
+//        }
+        Period p = period;
+        PeriodStatus ps;
+        while(p!=null) {
+            ps = getPeriodStatus(period);
+            if(ps!=null) {
+                status = ps.getStatus();
+                return status;
+            }
+            p = (Period)p.getPrevius();
+        }
+        return status;
+    }
 
     @Override
     public String getStatusIconClass() {
@@ -360,14 +370,15 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     public String getStatusIconClass(final Period period) {
         String iconClass;
         Period p = period;
-        do {
-            if(getPeriodStatus(p)!=null && getPeriodStatus(p).getStatus()!=null)
-            {
-                iconClass = getPeriodStatus(p).getStatus().getIconClass();
+        PeriodStatus ps;
+        while( p!=null ) {
+            ps = getPeriodStatus(p);
+            if(ps!=null && ps.getStatus()!=null) {
+                iconClass = ps.getStatus().getIconClass();
                 return iconClass;
             }
             p = (Period)p.getPrevius();
-        }while( p!=null );
+        }
         
         iconClass = "swbstrgy-unknown";
         return iconClass;
