@@ -357,17 +357,19 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     }
     
     @Override
-    public String getStatusIconClass(Period period) {
+    public String getStatusIconClass(final Period period) {
         String iconClass;
-        try{
-            iconClass = getPeriodStatus(period).getStatus().getIconClass();
-        }catch(NullPointerException npe) {
-            try {
-                iconClass = getMinimumState().getIconClass();
-            }catch(Exception e) {
-                iconClass = "swbstrgy-unknown";
+        Period p = period;
+        do {
+            if(getPeriodStatus(p)!=null && getPeriodStatus(p).getStatus()!=null)
+            {
+                iconClass = getPeriodStatus(p).getStatus().getIconClass();
+                return iconClass;
             }
-        }
+            p = (Period)p.getPrevius();
+        }while( p!=null );
+        
+        iconClass = "swbstrgy-unknown";
         return iconClass;
     }
     
@@ -377,11 +379,11 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         try{
             title = getPeriodStatus(period).getStatus().getTitle();
         }catch(NullPointerException npe) {
-            try {
-                title = getMinimumState().getTitle();
-            }catch(Exception e) {
+//            try {
+//                title = getMinimumState().getTitle();
+//            }catch(Exception e) {
                 title = "";
-            }
+//            }
         }
         return title;
     }
