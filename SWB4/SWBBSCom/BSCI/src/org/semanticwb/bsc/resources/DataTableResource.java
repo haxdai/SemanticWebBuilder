@@ -132,16 +132,17 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
             out.println("<td>");
             if(star.getMeasure(period)!=null) {
                 State state = star.getMeasure(period).getEvaluation().getStatus();
-//                if(state==null) {
-//                    state = sm.getMinimumState();
-//                    star.getMeasure(period).getEvaluation().setStatus(state);
-//                }
                 if(state==null) {
-                    out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
-                }else {
+                    state = sm.getMinimumState();
+                    star.getMeasure(period).getEvaluation().setStatus(state);
+                }
+//                if(state==null) {
+//                    out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
+//                }
+//                else {
                     String title = state.getTitle(lang)==null?state.getTitle():state.getTitle(lang);
                     out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+title+"</span>");
-                }
+//                }
             }else {
                 out.println("Not set");
             }
