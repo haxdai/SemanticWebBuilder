@@ -721,22 +721,22 @@ public class StrategicMap extends GenericResource
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
             SVGjs.append(" framingRect(rect,'" + id + "_cmission'," + w_ + "," + h_ + "," + x_ + "," + y_ + ");").append("\n");
             // Remarcar el recuadro del contenido de misión
-            SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
-            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null,'stroke','#858585');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','1');").append("\n");
             SVGjs.append(" rect.setAttributeNS(null,'rx',1);").append("\n");
             SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
             // Contenido Vision
             expression = "/bsc/header/vision";
             txt = (String) xPath.compile(expression).evaluate(map, XPathConstants.STRING);
-            SVGjs.append(" txt = createText('" + txt + "'," + (x_ + 2 * w_) + "," + y_ + ",14,'Verdana');").append("\n");
+            SVGjs.append(" txt = createText('" + txt + "'," + (x_ + 2 * w_-2) + "," + y_ + ",14,'Verdana');").append("\n");
             SVGjs.append(" g.appendChild(txt);").append("\n");
-            SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
+            SVGjs.append(" fixParagraphAtBounding(txt," + w_ + "," + h_ + "," + (x_ + 2 * w_-2) + "," + y_ + ");").append("\n");
             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
-            SVGjs.append(" framingRect(rect,'" + id + "_cvision'," + w_ + "," + h_ + "," + (x_ + 2 * w_) + "," + y_ + ");").append("\n");
+            SVGjs.append(" framingRect(rect,'" + id + "_cvision'," + w_ + "," + h_ + "," + (x_ + 2 * w_-2) + "," + y_ + ");").append("\n");
             // Remarcar el recuadro del contenido de visión
-            SVGjs.append("  rect.setAttributeNS(null,'stroke','#bebebe');").append("\n");
-            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','2');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null,'stroke','#858585');").append("\n");
+            SVGjs.append("  rect.setAttributeNS(null, 'stroke-width','1');").append("\n");
             SVGjs.append(" rect.setAttributeNS(null,'rx',1);").append("\n");
             SVGjs.append(" rect.setAttributeNS(null,'ry',3);").append("\n");
             SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
