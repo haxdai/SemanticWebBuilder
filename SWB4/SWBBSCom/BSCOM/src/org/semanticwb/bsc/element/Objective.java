@@ -338,14 +338,10 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     
     public State getState(final Period period) {
         State status = null;
-//        PeriodStatus ps = getPeriodStatus(period);
-//        if(ps!=null) {
-//            status = ps.getStatus()==null?getMinimumState():ps.getStatus();
-//        }
         Period p = period;
         PeriodStatus ps;
         while(p!=null) {
-            ps = getPeriodStatus(period);
+            ps = getPeriodStatus(p);
             if(ps!=null) {
                 status = ps.getStatus();
                 return status;
