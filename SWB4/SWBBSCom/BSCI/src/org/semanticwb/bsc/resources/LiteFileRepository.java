@@ -116,6 +116,10 @@ public class LiteFileRepository extends GenericResource {
 
     private void doNewDirectory(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         WebPage repoDir = paramRequest.getWebPage();
         PrintWriter out = response.getWriter();
         SWBResourceURL urlnew = paramRequest.getActionUrl();
@@ -180,6 +184,10 @@ public class LiteFileRepository extends GenericResource {
 
     private void doNewVer(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         PrintWriter out = response.getWriter();
         User usr = paramRequest.getUser();
         WebPage repoDir = paramRequest.getWebPage();
@@ -347,6 +355,7 @@ public class LiteFileRepository extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
+        
         PrintWriter out = response.getWriter();
         WebPage repoDir = paramRequest.getWebPage();
         User usr = paramRequest.getUser();
@@ -474,6 +483,9 @@ public class LiteFileRepository extends GenericResource {
 
     private void doViewInfo(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
 
         PrintWriter out = response.getWriter();
         SWBResourceURL url = paramRequest.getRenderUrl();
@@ -1127,6 +1139,7 @@ public class LiteFileRepository extends GenericResource {
     }
 
     public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
