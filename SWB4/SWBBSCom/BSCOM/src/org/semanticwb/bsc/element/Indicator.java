@@ -11,6 +11,7 @@ import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.parser.IndicatorParser;
 import org.semanticwb.bsc.tracing.EvaluationRule;
+import org.semanticwb.bsc.tracing.Measure;
 import org.semanticwb.bsc.tracing.Series;
 import org.semanticwb.bsc.utils.InappropriateFrequencyException;
 import org.semanticwb.bsc.utils.UndefinedFrequencyException;
@@ -332,12 +333,21 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
     }
 
     @Override
-    public String getStatusIconClass(Period period) {
-        String iconClass;
-        try {
-            iconClass = getStar().getMeasure(period).getEvaluation().getStatus().getIconClass();
-        } catch (NullPointerException npe) {
-            iconClass = "swbstrgy-unknown";
+    public String getStatusIconClass(final Period period) {
+        String iconClass = "swbstrgy-unknown";
+        if(getStar()==null) {
+            return iconClass;
+        }
+        
+        Period p = period;
+        Measure ms;
+        while( p!=null ) {
+            ms = getStar().getMeasure(p);
+            if(ms!=null && ms.getEvaluation()!=null && ms.getEvaluation().getStatus()!=null) {
+                iconClass = ms.getEvaluation().getStatus().getIconClass();
+                return iconClass;
+            }
+            p = (Period)p.getPrevius();
         }
         return iconClass;
     }
