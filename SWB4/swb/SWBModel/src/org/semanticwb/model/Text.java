@@ -88,9 +88,8 @@ public class Text extends TextBase {
 
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-
-            pmsg     = dobj.getPromptMessage();
-            imsg     = dobj.getInvalidMessage();
+            pmsg     = dobj.getPromptMessage(lang)==null?dobj.getPromptMessage():dobj.getPromptMessage(lang);
+            imsg     = dobj.getInvalidMessage(lang)==null?dobj.getInvalidMessage():dobj.getInvalidMessage(lang);
             disabled = dobj.isDisabled();
         }
 
