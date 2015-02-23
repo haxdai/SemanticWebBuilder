@@ -148,8 +148,9 @@ public class RssReview extends GenericResource{
                 {
                     ArrayList swbNews=new ArrayList();
                     NodeList nListItems=dom.getElementsByTagName("item");
-                    for(int i=0;i<nListItems.getLength();i++){
+                    for(int i=0;i<nListItems.getLength();i++){  //Theorically, nListItems.getLength() must be allways equal to 1
                         NodeList nListItemChilds=nListItems.item(i).getChildNodes();
+                        boolean createCommunityNew=false;
                         for(int j=0;j<nListItemChilds.getLength();j++)
                         {
                             Node node=nListItemChilds.item(j);
@@ -158,14 +159,22 @@ public class RssReview extends GenericResource{
                                 for(int k=0;k<amsgWords.size();k++)
                                 {
                                     String word=amsgWords.get(k);
-                                    if(node.getFirstChild().getNodeValue().toLowerCase().indexOf(word)>-1)
+                                    System.out.println("Entra a RssListenerTask/run-5:"+word);
+                                    if(node.getFirstChild()!=null && node.getFirstChild().getNodeValue().toLowerCase().indexOf(word)>-1)
                                     {
-                                        CommunityNews comNews=new CommunityNews(); 
-                                        comNews.setNode(nListItems.item(i));
-                                        swbNews.add(comNews);
+                                        createCommunityNew=true;
+                                        break;
                                     }
                                 }
                             }
+                            if(createCommunityNew) break;
+                        }
+                        if(createCommunityNew)
+                        {
+                            System.out.println("Entra a RssListenerTask/run-6");
+                            CommunityNews comNews=new CommunityNews();
+                            comNews.setNode(nListItems.item(i));
+                            swbNews.add(comNews);
                         }
                     }
                     out.println("<div class=\"rssContent\">");
