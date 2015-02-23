@@ -81,8 +81,8 @@ public class UrlFormElement extends org.semanticwb.model.base.UrlFormElementBase
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
 
-            pmsg     = dobj.getPromptMessage();
-            imsg     = dobj.getInvalidMessage();
+            pmsg = dobj.getDisplayPromptMessage(lang);
+            imsg = dobj.getDisplayInvalidMessage(lang);
             disabled = dobj.isDisabled();
         }
 

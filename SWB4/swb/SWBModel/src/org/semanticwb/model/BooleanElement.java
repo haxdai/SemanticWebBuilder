@@ -62,8 +62,8 @@ public class BooleanElement extends org.semanticwb.model.base.BooleanElementBase
 
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg         = dobj.getPromptMessage();
-            imsg         = dobj.getInvalidMessage();
+            pmsg         = dobj.getDisplayPromptMessage(lang);
+            imsg         = dobj.getDisplayInvalidMessage(lang);
             isDisabled   = dobj.isDisabled();
         }
 

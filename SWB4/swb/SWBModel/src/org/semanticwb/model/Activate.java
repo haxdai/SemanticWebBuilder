@@ -74,8 +74,8 @@ public class Activate extends org.semanticwb.model.base.ActivateBase
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
 
-            pmsg         = dobj.getPromptMessage();
-            imsg         = dobj.getInvalidMessage();
+            pmsg         = dobj.getDisplayPromptMessage(lang);
+            imsg         = dobj.getDisplayInvalidMessage(lang);
             selectValues = dobj.getDisplaySelectValues(lang);
             disabled     = dobj.isDisabled();
         }

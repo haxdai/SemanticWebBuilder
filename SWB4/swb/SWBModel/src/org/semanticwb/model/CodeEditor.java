@@ -66,8 +66,8 @@ public class CodeEditor extends org.semanticwb.model.base.CodeEditorBase {
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
 
-            pmsg = dobj.getPromptMessage();
-            imsg = dobj.getInvalidMessage();
+            pmsg = dobj.getDisplayPromptMessage(lang);
+            imsg = dobj.getDisplayInvalidMessage(lang);
         }
 
         if (imsg == null && required)
