@@ -40,7 +40,9 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -129,7 +131,29 @@ public class PieCharts extends GenericResource {
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")) + "\"></iframe> ");
+        String sinceDateAnalysisPieCharts = request.getParameter("sinceDateAnalysisPieCharts") == null ? "" : request.getParameter("sinceDateAnalysisPieCharts");
+        String toDateAnalysisPieCharts = request.getParameter("toDateAnalysisPieCharts") == null ? "" : request.getParameter("toDateAnalysisPieCharts");
+        String suri = request.getParameter("suri");    
+        if(suri != null) {
+            SemanticObject semObj = SemanticObject.createSemanticObject(suri);
+            if (semObj != null) {
+                out.println("<form id=\"frmFilterPieCharts\" name=\"frmFilterPieCharts\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                        + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", semObj.getURI())
+                        + "\" method=\"post\" "
+                        + " onsubmit=\"submitForm('frmFilterPieCharts'); return false;\">");
+                out.println("<label>Del día</label>");
+                out.println("<input name=\"sinceDateAnalysisPieCharts\" id=\"sinceDateAnalysisPieCharts\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + sinceDateAnalysisPieCharts + "\" data-dojo-id=\"sinceDateAnalysisPieCharts" + semObj.getId() + "\""
+                        + " onChange=\"toDateAnalysisPieCharts" + semObj.getId() + ".constraints.min = arguments[0];\">");
+                out.println("<label for=\"toDate\"> al día:</label>");
+                out.println("<input name=\"toDateAnalysisPieCharts\" id=\"toDateAnalysisPieCharts\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + toDateAnalysisPieCharts + "\" data-dojo-id=\"toDateAnalysisPieCharts" + semObj.getId() + "\""
+                        + " onChange=\"sinceDateAnalysisPieCharts" + semObj.getId() + ".constraints.max = arguments[0];\">");
+                out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\">Calcular</button>");
+                out.println("</form>");    
+            }
+        }
+        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter("toDateAnalysisPieCharts", toDateAnalysisPieCharts).setParameter("sinceDateAnalysisPieCharts", sinceDateAnalysisPieCharts) + "\"></iframe> ");
     }
 
     @Override
@@ -229,6 +253,24 @@ public class PieCharts extends GenericResource {
             filter = "";
         }
 
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String sinceDateAnalysis = request.getParameter("sinceDateAnalysisPieCharts");
+        String toDateAnalysis = request.getParameter("toDateAnalysisPieCharts");        
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if (sinceDateAnalysis != null && toDateAnalysis != null) {
+            try {
+                sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+            try {
+                toDateAnalysis += " 23:59:59";
+                tDateAnalysis = formatTo.parse(toDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+        }        
+        
         String lang = paramRequest.getUser().getLanguage();
         Iterator<PostIn> setso = null;
         if (type.equals("gender")) {
@@ -436,6 +478,9 @@ public class PieCharts extends GenericResource {
                 }
                 setso = lista.iterator();
             }
+        }
+        if(setso != null && sinDateAnalysis != null && tDateAnalysis != null) {
+            setso = SWBSocialResUtil.Util.getFilterDates(setso, sinDateAnalysis, tDateAnalysis);
         }
 
         try {
