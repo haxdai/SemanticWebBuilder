@@ -138,8 +138,8 @@ private String addObject(SemanticObject obj, String selected, String lang, Strin
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
 
-            pmsg         = dobj.getPromptMessage();
-            imsg         = dobj.getInvalidMessage();
+            pmsg = dobj.getDisplayPromptMessage(lang);
+            imsg = dobj.getDisplayInvalidMessage(lang);
             selectValues = dobj.getDisplaySelectValues(lang);
             disabled     = dobj.isDisabled();
         }

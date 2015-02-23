@@ -140,8 +140,8 @@ public class SecurityQuestion extends org.semanticwb.model.base.SecurityQuestion
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
 
-            pmsg = dobj.getPromptMessage();
-            imsg = dobj.getInvalidMessage();
+            pmsg = dobj.getDisplayPromptMessage(lang);
+            imsg = dobj.getDisplayInvalidMessage(lang);
 
 //          System.out.println("model: "+obj.getModel());
 //          System.out.println("model.name: "+obj.getModel().getName());
