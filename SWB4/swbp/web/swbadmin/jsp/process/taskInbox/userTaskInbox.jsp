@@ -4,6 +4,7 @@
     Author     : Hasdai Pacheco {ebenezer.sanchez@infotec.com.mx}
 --%>
 
+<%@page import="org.semanticwb.model.Role"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.semanticwb.process.resources.taskinbox.UserTaskInboxResource"%>
@@ -34,7 +35,13 @@
 <%@page import="java.util.Map"%>
 <%@page import="java.net.URLEncoder"%>
 <!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
-
+<%!
+public boolean isAdminUser(User user, UserTaskInboxResource base) {
+    if (user == null) return false;
+    Role admRole = base.getAdminRole();
+    return admRole != null && user.hasRole(admRole);
+}
+%>
 <%
 SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
 User user = paramRequest.getUser();
@@ -45,6 +52,8 @@ String pFilter = request.getParameter("pf");
 String sFilter = request.getParameter("sf");
 String pNum = request.getParameter("p");
 Resource base = (Resource) request.getAttribute("base");
+UserTaskInboxResource utir = (UserTaskInboxResource) request.getAttribute("me");
+
 WebSite site = paramRequest.getWebPage().getWebSite();
 
 boolean showPwpLink = false;
@@ -325,6 +334,17 @@ if (!user.isSigned()) {
                                                         }
                                                     }
                                                     %><td><%=screator%><%
+                                                } else if (conf[0].equals(UserTaskInboxResource.COL_ASSIGNEDTO)) {
+                                                    String screator = paramRequest.getLocaleString("lblNotAssigned");
+                                                    User assigned = instance.getAssignedto();
+                                                    if (assigned != null) {
+                                                        if (assigned.getFullName() != null && !assigned.getFullName().trim().equals("")) {
+                                                            screator = assigned.getFullName();
+                                                        } else {
+                                                            screator = assigned.getLogin();
+                                                        }
+                                                    }
+                                                    %><td><%=screator%><%
                                                 } else if (conf[0].equals(UserTaskInboxResource.COL_CREATORTASK)) {
                                                     String screator = paramRequest.getLocaleString("autoCreation");
                                                     User creator = instance.getCreator();
@@ -367,9 +387,18 @@ if (!user.isSigned()) {
                                                 } else if (conf[0].equals(UserTaskInboxResource.COL_ACTIONS)) {%>
                                                     <td class="swbp-actions">
                                                         <%UserTask utask = (UserTask) instance.getFlowNodeType();
-                                                        if (instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {%>
-                                                            <a href="<%=utask.getTaskWebPage().getUrl()%>?suri=<%=instance.getEncodedURI()%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actTake")%>"><span class="fa fa-external-link-square"></span></a>
-                                                            <%if (allowForward && instance.getAssignedto() != null) {
+                                                        if (instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
+                                                            if (isAdminUser(user, utir)) {
+                                                                SWBResourceURL claimUrl = paramRequest.getActionUrl().setAction(UserTaskInboxResource.ACT_CLAIM);
+                                                                %>
+                                                                <a href="<%=claimUrl%>?suri=<%=instance.getEncodedURI()%>" <% if (instance.getAssignedto() != null && !user.getURI().equals(instance.getAssignedto().getURI())) {%>onclick="return (confirm('La tarea le será asignada y desaparecerá de la bandeja del dueño. ¿Desea continuar?'))"<%}%> class="btn btn-default" title="<%=paramRequest.getLocaleString("actTake")%>"><span class="fa fa-external-link-square"></span></a>
+                                                                <%
+                                                            } else {
+                                                                %>
+                                                                <a href="<%=utask.getTaskWebPage().getUrl()%>?suri=<%=instance.getEncodedURI()%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actTake")%>"><span class="fa fa-external-link-square"></span></a>
+                                                                <%
+                                                            }
+                                                            if (allowForward && instance.getAssignedto() != null) {
                                                                 SWBResourceURL forward = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(UserTaskInboxResource.MODE_FWD);
                                                                 %><a href="" onclick="showModal('<%=forward.setParameter("suri", instance.getURI())%>', '<%=paramRequest.getLocaleString("actFwd")%>', '<%=paramRequest.getLocaleString("msgLoading")%>', '<%=paramRequest.getLocaleString("msgResponseError")%>'); return false;" class="btn btn-default" title="<%=paramRequest.getLocaleString("actFwd")%>" ><span class="fa fa-exchange"></span></a><%
                                                             }
