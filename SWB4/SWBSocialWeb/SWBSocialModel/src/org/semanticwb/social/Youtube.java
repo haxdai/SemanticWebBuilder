@@ -390,9 +390,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         URL serverUrl = null;
         if (params != null) {
             serverUrl = new URL(url + "?" + paramString);
+            /*
             if(url.equals("https://gdata.youtube.com/feeds/api/videos")){
             //System.out.println("LA URL DE BUSQUEDA:" + serverUrl);
-            }
+            }*/
         } else {
             serverUrl = new URL(url);
         }

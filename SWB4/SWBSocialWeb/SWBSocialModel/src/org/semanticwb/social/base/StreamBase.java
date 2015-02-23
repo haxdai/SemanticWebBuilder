@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase que contendra los streams que configurados para cada usuario 
    */
-public abstract class StreamBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.social.SocialRuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Geolocable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass
+public abstract class StreamBase extends org.semanticwb.model.SWBClass implements org.semanticwb.social.Geolocable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.social.SocialRuleRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Número de Iteraciones que se ha tenido el Stream. Este dato se utiliza en conjunto con el de la propiedad "promPostNumber" para poder determinar si el número de mensajes que accesaron al Stream amerita que se envíe una notificación (alerta) indicando que llegaron mas mensajes al Stream que los que se tiene en promedio en un tiempo determinado.
@@ -26,6 +26,7 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
    * Lista todos las instancias de SocialNetworkUser que esten asociados con un determinado Stream, se utiliza para las campañas.
    */
     public static final org.semanticwb.platform.SemanticProperty social_hasSocialNetUserInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialNetUserInv");
+    public static final org.semanticwb.platform.SemanticProperty social_endDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#endDate");
    /**
    * Clase en la que se guardan datos que sirven para realizar una siguiente busqueda en una determinada red social y en un determinado stream.
    */
@@ -67,6 +68,10 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
    */
     public static final org.semanticwb.platform.SemanticProperty social_stream_maxDays=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_maxDays");
    /**
+   * Fecha Inicial en que se permitira el acceso a mensajes de las redes sociales.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_initialDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#initialDate");
+   /**
    * Propiedad para escribir correos electronicos de los usuarios que recibiran alertas. Si entran mas mensajes (listener) a un Stream del promedio.
    */
     public static final org.semanticwb.platform.SemanticProperty social_streamEmail2Alerts=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamEmail2Alerts");
@@ -95,7 +100,7 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
    */
     public static final org.semanticwb.platform.SemanticClass social_SocialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialTopic");
    /**
-   * Temas en los que se clasificaran los mensajes
+   * Topics to classify messages
    */
     public static final org.semanticwb.platform.SemanticProperty social_hasTopics2Apply=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasTopics2Apply");
    /**
@@ -585,6 +590,24 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
          }
          return ret;
     }
+
+/**
+* Gets the EndDate property
+* @return String with the EndDate
+*/
+    public String getEndDate()
+    {
+        return getSemanticObject().getProperty(social_endDate);
+    }
+
+/**
+* Sets the EndDate property
+* @param value long with the EndDate
+*/
+    public void setEndDate(String value)
+    {
+        getSemanticObject().setProperty(social_endDate, value);
+    }
    /**
    * Gets all the org.semanticwb.social.SocialNetStreamSearch
    * @return A GenericIterator with all the org.semanticwb.social.SocialNetStreamSearch
@@ -803,6 +826,24 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     public void setStream_maxDays(int value)
     {
         getSemanticObject().setIntProperty(social_stream_maxDays, value);
+    }
+
+/**
+* Gets the InitialDate property
+* @return String with the InitialDate
+*/
+    public String getInitialDate()
+    {
+        return getSemanticObject().getProperty(social_initialDate);
+    }
+
+/**
+* Sets the InitialDate property
+* @param value long with the InitialDate
+*/
+    public void setInitialDate(String value)
+    {
+        getSemanticObject().setProperty(social_initialDate, value);
     }
 
 /**

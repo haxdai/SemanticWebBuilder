@@ -139,6 +139,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         //System.out.println("Listening from FACEBOOK");
         HashMap<String, String> params = new HashMap<String, String>(2);
         params.put("access_token", this.getAccessToken());
+        
         boolean canGetMoreResults = true;
         String phrasesInStream = getPhrases(stream.getPhrase());
         if (phrasesInStream == null || phrasesInStream.isEmpty()) {
@@ -427,6 +428,32 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 e.printStackTrace();
                 throw new Exception(e.getCause());
             }
+            
+            //Set Init Date and End Date to Search
+            /*
+            String initialDate=null;
+            String endDate=null;
+            if(stream.getInitialDate()!=null)
+            {
+                //Date InitialDate=SWBSocialUtil.Util.getDate(stream.getInitialDate());
+                int pos=stream.getInitialDate().indexOf("T");
+                if(pos>-1)
+                { 
+                    initialDate=stream.getInitialDate().substring(0,pos);
+                    //params.put("since", initialDate);
+                }
+            }
+            if(stream.getEndDate()!=null)
+            {
+                int pos=stream.getEndDate().indexOf("T");
+                if(pos>-1)
+                { 
+                    endDate=stream.getEndDate().substring(0,pos);
+                    //params.put("until", endDate);
+                }                
+            }*/
+            //--   
+            
 
             for (int i = 0; i < phrase.length; i++) {
                 //Se crean consultas a Facebook por cada frase capturada
@@ -445,12 +472,14 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                         untilPrivate = searchLimits.get("feed_" + phrase[i]);
                     }
                     //Para la primera ejecucion de este proceso se crean las url de las consultas publicas
-                    publicQuery = "search?q=" + phrase[i] + "&type=post&limit="
+                    //publicQuery = "search?q=" + phrase[i] + "&type=post"+ (initialDate != null ? "&since=" + initialDate : "")+(endDate != null ? "&until=" + endDate : "")+"&limit="
+                    publicQuery = "search?q=" + phrase[i] + "&type=post"+"&limit="
                             + Facebook.QUERYLIMIT + (untilPublic != null ? "&since=" + untilPublic : "") + "&fields=id,from,to,message,story,picture,caption,link,object_id,application,source,name,description,properties,type,status_type,created_time,updated_time,likes.summary(true),place,icon";
                     ///System.out.println("public Query!:::::::::::::" + publicQuery);
                     // Y las url de las consultas privadas
-                    wallQuery = "me/feed?q=" + phrase[i] + "&type=post&limit="
-                            + Facebook.QUERYLIMIT + (untilPrivate != null ? "&since=" + untilPrivate : "") + "&fields=id,from,to,message,story,picture,caption,link,object_id,application,source,name,description,properties,type,status_type,created_time,updated_time,likes.summary(true),place,icon";
+                    //wallQuery = "me/feed?q=" + phrase[i] + "&type=post"+ (initialDate != null ? "&since=" + initialDate : "")+(endDate != null ? "&until=" + endDate : "")+"&limit="
+                    wallQuery = "me/feed?q=" + phrase[i] + "&type=post"+"&limit="
+                            + Facebook.QUERYLIMIT + (untilPublic != null ? "&since=" + untilPublic : "") + "&fields=id,from,to,message,story,picture,caption,link,object_id,application,source,name,description,properties,type,status_type,created_time,updated_time,likes.summary(true),place,icon";
 
                     queryPublic.put("method", "GET");
                     queryPublic.put("relative_url", publicQuery);
@@ -476,6 +505,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 if (msgsObtained > 0) {
                     //Si se obtuvieron mensajes, hay un nuevo valor para el ultimo mensaje leido, indicado en "nextQuery"
                     if (newQuery.indexOf("search?") > 0) {
+                        System.out.println("relative_url en Otras Veces:"+newQuery.substring(newQuery.indexOf("search?") - 1));
                         queriesArray[i].put("relative_url", newQuery.substring(newQuery.indexOf("search?") - 1));
                     }
 
@@ -1182,8 +1212,10 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
      */
     private String postRequest(Map<String, String> params, String url,
             String userAgent, String method) throws IOException {
+        //System.out.println("FACEBBOK url:"+url);
         URL serverUrl = new URL(url);
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
+        System.out.println("FACEBBOK paramStringXX:"+paramString.toString());
         HttpURLConnection conex = null;
         OutputStream out = null;
         InputStream in = null;
