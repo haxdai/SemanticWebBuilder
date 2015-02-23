@@ -43,6 +43,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -2670,6 +2671,18 @@ public class SWBSocialUtil {
     public static class Util{
         
         
+    public static Date getDate(String date)
+    {
+        Date date2Return=null;
+        if(date!=null && date.trim().length()>0)
+        {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try{
+                date2Return = formatter.parse(date);
+            }catch(ParseException pe){date2Return=null;}
+        }
+        return date2Return;
+    }
         
     public static boolean validateRegExp(String textSource, String regExp) {
         Pattern p = Pattern.compile(regExp);//regular expression

@@ -28,18 +28,21 @@
  */
 package org.semanticwb.social.listener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.SWBAppObject;
-import org.semanticwb.model.DisplayObject;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.social.Facebook;
 import org.semanticwb.social.KeepAliveListenerable;
 import org.semanticwb.social.SWBSocial;
 import org.semanticwb.social.SocialNetStreamSearch;
@@ -350,6 +353,26 @@ public class ListenerMgr implements SWBAppObject {
                     }
                 }
                 
+                System.out.println("Empieza a revisar Tiempos Georgy...");
+                //Initial and End Date -->Se revisa que initialDate sea mayor a la fecha y hora actual y que endDate sea menor que la fecha y hora actual
+                    Calendar timeNow=Calendar.getInstance();
+                    Date initialDate=getDate(stream.getInitialDate());
+                    if(initialDate!=null)
+                    {
+                       System.err.println("Init Year:"+initialDate.getYear()+",InitMont:"+initialDate.getMonth()+",InitDay:"+initialDate.getDay()); 
+                       //initialDate=getDateWithHour(initialDate,"00:00");
+                       if(timeNow.getTime().before(initialDate))return false;
+                    }
+                    Date endDate=getDate(stream.getEndDate());
+                    System.out.println("initialDate:"+initialDate+",endDate:"+endDate);
+                    //endDate=getDateWithHour(initialDate,"23:59");
+                    if(endDate!=null)
+                    {
+                        if(timeNow.getTime().after(endDate)) return false;
+                    }
+                //--
+                 System.out.println("Pasa Tiempos");
+                
                 //Si es isKeepAliveManager==true, no importaría si no le ponen un tiempo para que este llamandose el thread, 
                 //ya que este es llamado internamente desde cada red social que maneje esta caracteristica
                 //System.out.println("IsKeppAlive:"+stream.isKeepAliveManager()+",poolTime:"+stream.getPoolTime());
@@ -501,6 +524,47 @@ public class ListenerMgr implements SWBAppObject {
         //Se actualiza el Listener del stream
     }
     
+    
+    private static Date getDate(String date)
+    {
+        Date date2Return=null;
+        if(date!=null && date.trim().length()>0)
+        {
+            /*
+            int pos=date.indexOf("T");
+            if(pos>-1)
+            {
+                date=date.substring(0,pos);
+            }*/
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            try{
+                date2Return = formatter.parse(date);
+            }catch(ParseException pe){date2Return=null;}
+        }
+        return date2Return;
+    }
+    
+    /*
+    private static Date getDateWithHour(Date date, String initHour)
+    {
+        StringTokenizer st   = new StringTokenizer(initHour, ":");
+        int             h    = 0,
+                        m    = 0;
+        try {
+            h = Integer.parseInt(st.nextToken());
+
+            if (st.hasMoreTokens()) {
+                m = Integer.parseInt(st.nextToken());
+            }                           
+        } catch (Exception errorControlled) {}
+        System.out.println("H a poner:"+h);
+        System.out.println("M a poner:"+m);
+        date.setHours(h);
+        date.setMinutes(m);
+        
+        return date;
+    }
+   */
     
     private static String getAllPostInStream_Query(Stream stream) {
         String query =

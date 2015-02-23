@@ -6,9 +6,30 @@ package org.semanticwb.social.base;
    */
 public abstract class RssNewBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
+   /**
+   * Fuente de Rss
+   */
+    public static final org.semanticwb.platform.SemanticClass social_RssSource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#RssSource");
+   /**
+   * RssSource de donde proviene el RSSNew (Ej. El universal)
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_rssSource=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssSource");
+   /**
+   * Propiedad con valor entero que representa el tipo de Sentimientos que expresa el Rss, estos se estan definiendo de esta manera: 0) Neutro 1) Positivo 2)Negativo, estos valores pueden ser mas y permanecer en un objeto tipo colección en lo futuro.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_rssNewSentimentalType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssNewSentimentalType");
     public static final org.semanticwb.platform.SemanticProperty social_mediaContent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#mediaContent");
     public static final org.semanticwb.platform.SemanticProperty social_rssLink=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssLink");
+   /**
+   * Tipo de Intensidad. 2=Alta;1=Media;0=Baja;
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_rssNewIntensityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssNewIntensityType");
     public static final org.semanticwb.platform.SemanticProperty social_rssPubDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssPubDate");
+   /**
+   * Manejo de Rss en una marca
+   */
+    public static final org.semanticwb.platform.SemanticClass social_Rss=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#Rss");
+    public static final org.semanticwb.platform.SemanticProperty social_rssBelongs=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssBelongs");
    /**
    * Instancias de Noticias escuchadas por el Listener de Rss
    */
@@ -87,6 +108,52 @@ public abstract class RssNewBase extends org.semanticwb.model.SWBClass implement
         {
             return (getRssNew(id, model)!=null);
         }
+       /**
+       * Gets all org.semanticwb.social.RssNew with a determined RssSource
+       * @param value RssSource of the type org.semanticwb.social.RssSource
+       * @param model Model of the org.semanticwb.social.RssNew
+       * @return Iterator with all the org.semanticwb.social.RssNew
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.RssNew> listRssNewByRssSource(org.semanticwb.social.RssSource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_rssSource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.RssNew with a determined RssSource
+       * @param value RssSource of the type org.semanticwb.social.RssSource
+       * @return Iterator with all the org.semanticwb.social.RssNew
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.RssNew> listRssNewByRssSource(org.semanticwb.social.RssSource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_rssSource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.RssNew with a determined RssBelongs
+       * @param value RssBelongs of the type org.semanticwb.social.Rss
+       * @param model Model of the org.semanticwb.social.RssNew
+       * @return Iterator with all the org.semanticwb.social.RssNew
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.RssNew> listRssNewByRssBelongs(org.semanticwb.social.Rss value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_rssBelongs, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.RssNew with a determined RssBelongs
+       * @param value RssBelongs of the type org.semanticwb.social.Rss
+       * @return Iterator with all the org.semanticwb.social.RssNew
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.RssNew> listRssNewByRssBelongs(org.semanticwb.social.Rss value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_rssBelongs,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static RssNewBase.ClassMgr getRssNewClassMgr()
@@ -134,6 +201,62 @@ public abstract class RssNewBase extends org.semanticwb.model.SWBClass implement
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Sets the value for the property RssSource
+   * @param value RssSource to set
+   */
+
+    public void setRssSource(org.semanticwb.social.RssSource value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(social_rssSource, value.getSemanticObject());
+        }else
+        {
+            removeRssSource();
+        }
+    }
+   /**
+   * Remove the value for RssSource property
+   */
+
+    public void removeRssSource()
+    {
+        getSemanticObject().removeProperty(social_rssSource);
+    }
+
+   /**
+   * Gets the RssSource
+   * @return a org.semanticwb.social.RssSource
+   */
+    public org.semanticwb.social.RssSource getRssSource()
+    {
+         org.semanticwb.social.RssSource ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_rssSource);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.RssSource)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the RssNewSentimentalType property
+* @return int with the RssNewSentimentalType
+*/
+    public int getRssNewSentimentalType()
+    {
+        return getSemanticObject().getIntProperty(social_rssNewSentimentalType);
+    }
+
+/**
+* Sets the RssNewSentimentalType property
+* @param value long with the RssNewSentimentalType
+*/
+    public void setRssNewSentimentalType(int value)
+    {
+        getSemanticObject().setIntProperty(social_rssNewSentimentalType, value);
     }
 
 /**
@@ -206,20 +329,76 @@ public abstract class RssNewBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
-* Gets the RssPubDate property
-* @return String with the RssPubDate
+* Gets the RssNewIntensityType property
+* @return int with the RssNewIntensityType
 */
-    public String getRssPubDate()
+    public int getRssNewIntensityType()
     {
-        return getSemanticObject().getProperty(social_rssPubDate);
+        return getSemanticObject().getIntProperty(social_rssNewIntensityType);
+    }
+
+/**
+* Sets the RssNewIntensityType property
+* @param value long with the RssNewIntensityType
+*/
+    public void setRssNewIntensityType(int value)
+    {
+        getSemanticObject().setIntProperty(social_rssNewIntensityType, value);
+    }
+
+/**
+* Gets the RssPubDate property
+* @return java.util.Date with the RssPubDate
+*/
+    public java.util.Date getRssPubDate()
+    {
+        return getSemanticObject().getDateProperty(social_rssPubDate);
     }
 
 /**
 * Sets the RssPubDate property
 * @param value long with the RssPubDate
 */
-    public void setRssPubDate(String value)
+    public void setRssPubDate(java.util.Date value)
     {
-        getSemanticObject().setProperty(social_rssPubDate, value);
+        getSemanticObject().setDateProperty(social_rssPubDate, value);
+    }
+   /**
+   * Sets the value for the property RssBelongs
+   * @param value RssBelongs to set
+   */
+
+    public void setRssBelongs(org.semanticwb.social.Rss value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(social_rssBelongs, value.getSemanticObject());
+        }else
+        {
+            removeRssBelongs();
+        }
+    }
+   /**
+   * Remove the value for RssBelongs property
+   */
+
+    public void removeRssBelongs()
+    {
+        getSemanticObject().removeProperty(social_rssBelongs);
+    }
+
+   /**
+   * Gets the RssBelongs
+   * @return a org.semanticwb.social.Rss
+   */
+    public org.semanticwb.social.Rss getRssBelongs()
+    {
+         org.semanticwb.social.Rss ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_rssBelongs);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.Rss)obj.createGenericInstance();
+         }
+         return ret;
     }
 }

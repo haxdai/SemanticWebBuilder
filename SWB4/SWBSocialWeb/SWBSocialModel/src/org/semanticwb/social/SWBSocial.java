@@ -111,13 +111,17 @@ public class SWBSocial {
                         {
                             if(semObj.createGenericInstance() instanceof PostIn){
                                 PostIn postIn=(PostIn)semObj.createGenericInstance();
-                                 aResult.add(postIn);
-                                 //System.out.println("semObj/PostIn:"+postIn);
+                                aResult.add(postIn);
+                                //System.out.println("semObj/PostIn:"+postIn);
                             }else if(semObj.createGenericInstance() instanceof PostOut){
                                 PostOut postOut = (PostOut)semObj.createGenericInstance();
-                                 aResult.add(postOut);
-                                 //System.out.println("semObj/postOut:"+postOut);
-                            }         
+                                aResult.add(postOut);
+                                //System.out.println("semObj/postOut:"+postOut);
+                            }else if(semObj.createGenericInstance() instanceof RssNew){
+                                RssNew rssNew = (RssNew)semObj.createGenericInstance();
+                                aResult.add(rssNew);
+                                System.out.println("semObj/rssNew:"+rssNew);
+                            }          
                         }
                     }
                 }

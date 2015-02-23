@@ -4,12 +4,13 @@ package org.semanticwb.social.base;
    /**
    * Fuente de Rss 
    */
-public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable
+public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable
 {
    /**
    * Url del rss
    */
     public static final org.semanticwb.platform.SemanticProperty social_rss_URL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rss_URL");
+    public static final org.semanticwb.platform.SemanticProperty social_rssPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssPhoto");
    /**
    * Fuente de Rss
    */
@@ -362,5 +363,23 @@ public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implem
     public void setRss_URL(String value)
     {
         getSemanticObject().setProperty(social_rss_URL, value);
+    }
+
+/**
+* Gets the RssPhoto property
+* @return String with the RssPhoto
+*/
+    public String getRssPhoto()
+    {
+        return getSemanticObject().getProperty(social_rssPhoto);
+    }
+
+/**
+* Sets the RssPhoto property
+* @param value long with the RssPhoto
+*/
+    public void setRssPhoto(String value)
+    {
+        getSemanticObject().setProperty(social_rssPhoto, value);
     }
 }

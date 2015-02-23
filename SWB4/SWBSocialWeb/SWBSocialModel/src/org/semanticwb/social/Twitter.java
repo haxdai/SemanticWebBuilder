@@ -35,6 +35,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -409,6 +410,28 @@ public class Twitter extends org.semanticwb.social.base.TwitterBase {
                 }
             }
             query.setCount(100); //max tweets by request
+            
+            //Set Init Date and End Date to Search
+            if(stream.getInitialDate()!=null)
+            {
+                //Date InitialDate=SWBSocialUtil.Util.getDate(stream.getInitialDate());
+                int pos=stream.getInitialDate().indexOf("T");
+                if(pos>-1)
+                { 
+                    String initialDate=stream.getInitialDate().substring(0,pos);
+                    query.setSince(initialDate);
+                }
+            }
+            if(stream.getEndDate()!=null)
+            {
+                int pos=stream.getEndDate().indexOf("T");
+                if(pos>-1)
+                { 
+                    String endDate=stream.getEndDate().substring(0,pos);
+                    query.setUntil(endDate);
+                }                
+            }
+            //--            
             
             boolean canGetMoreTweets = true;
             int iteration = 1;
