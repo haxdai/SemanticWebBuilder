@@ -71,6 +71,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
     public static final int SORT_NAME = 2;
     public static final int STATUS_ALL = -1;
     public static final String COL_IDPROCESS = "idProcessInstance";
+    public static final String COL_ASSIGNEDTO = "asignedUser";
     public static final String COL_IDTASK = "idTaskInstance";
     public static final String COL_NAMEPROCESS = "nameProcess";
     public static final String COL_NAMETASK = "nameTask";
@@ -99,6 +100,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
     public static final String ACT_CONFIG = "config";
     public static final String ACT_SWAP = "swap";
     public static final String ACT_SETGRAPHS = "setGraphs";
+    public static final String ACT_CLAIM = "claim";
     public static final String PARAM_INDEX = "idx";
     public static final String PARAM_DIR = "dir";
     public static final String PARAM_COL = "selectedCol";
@@ -163,6 +165,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         colNames.put(COL_STATUSPROCESS, "Estatus de proceso");
         colNames.put(COL_STATUSTASK, "Estatus de tarea");
         colNames.put(COL_ACTIONS, "Acciones");
+        colNames.put(COL_ASSIGNEDTO, "Usuario asignado");
     }
 
     public UserTaskInboxResource()
@@ -253,7 +256,18 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         String act = response.getAction();
         Resource base = getResourceBase();
         
-        if (ACT_SETGRAPHS.equals(act)) {
+        if (ACT_CLAIM.equals(act)) {
+            String suri = request.getParameter("suri");
+            if (null != suri && !suri.isEmpty() && response.getUser().isSigned() && isAdminUser(response.getUser())) {
+                FlowNodeInstance fni = (FlowNodeInstance)SWBPlatform.getSemanticMgr().getOntology().getGenericObject(suri);
+                if (null != fni) {
+                    fni.setAssignedto(response.getUser());
+                    UserTask task = (UserTask)fni.getFlowNodeType();
+                    response.sendRedirect(task.getTaskWebPage().getUrl()+"?suri="+fni.getEncodedURI());
+                    return;
+                }
+            }
+        } else if (ACT_SETGRAPHS.equals(act)) {
             String engine = request.getParameter(ATT_GRAPHSENGINE);
             String instances = request.getParameter(ATT_INSTANCEGRAPH);
             String resp = request.getParameter(ATT_RESPONSEGRAPH);
@@ -495,6 +509,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             request.setAttribute("showPWpLink", isShowProcessWPLink());
             request.setAttribute("allowForward", isAllowForward());
             request.setAttribute("base", getResourceBase());
+            request.setAttribute("me", this);
             rd.include(request, response);
         } catch (Exception e) {
             log.error("Error including jsp in view mode", e);
