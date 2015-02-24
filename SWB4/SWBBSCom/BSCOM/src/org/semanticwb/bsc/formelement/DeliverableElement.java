@@ -148,10 +148,10 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
 
         if (suri != null) {
             SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
-            Initiative element = null;
-            if (semObj != null && semObj.createGenericInstance() instanceof Initiative) {
+            Initiative element;
+            if( semObj!=null && semObj.createGenericInstance() instanceof Initiative ) {
                 element = (Initiative) semObj.createGenericInstance();
-                Iterator<Deliverable> itDeliverables = element.listDeliverables();
+                //Iterator<Deliverable> itDeliverables = element.listDeliverables();
                 FormElementURL urlFE = getRenderURL(obj, prop, type, mode, lang);
                 urlFE.setParameter("modeTmp", Mode_RELOAD);
                 urlFE.setParameter("suri", suri);
@@ -211,6 +211,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
                 toReturn.append("  </div>\n");
                 toReturn.append("  </div>\n");
                 toReturn.append("</div>\n");
+                Iterator<Deliverable> itDeliverables = element.listDeliverables();
                 if (itDeliverables.hasNext()) {
                     final SWBModel scorecard = (SWBModel) obj.getModel().getModelObject().getGenericInstance();
                     final String scorecardId = scorecard.getId();
@@ -218,7 +219,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
                     if (periodId != null && Period.ClassMgr.hasPeriod(periodId.toString(), scorecard)) {
                         Period period = Period.ClassMgr.getPeriod(periodId.toString(), scorecard);
                         toReturn.append("\n<div class=\"table-responsive\" id=\"swbDeliverable\">");
-                        toReturn.append(listDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
+                        toReturn.append(renderDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
                         toReturn.append("\n</div>");
                     }
                 }
@@ -265,7 +266,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
                 Object periodId = request.getSession(true).getAttribute(scorecardId);
                 if (periodId != null && Period.ClassMgr.hasPeriod(periodId.toString(), scorecard)) {
                     Period period = Period.ClassMgr.getPeriod(periodId.toString(), scorecard);
-                    toReturn.append(listDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
+                    toReturn.append(renderDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
                 }
             }
         }
@@ -287,36 +288,33 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
      * @return el objeto String que representa el c&oacute;digo HTML con el
      * conjunto de entregables.
      */
-    private String listDeliverables(Iterator<Deliverable> itDeliverables, String suri,
+    private String renderDeliverables(Iterator<Deliverable> itDeliverables, String suri,
             SemanticObject obj, SemanticProperty prop, String lang, Period period, String usrWithGrants) {
         StringBuilder toReturn = new StringBuilder();
-        toReturn.append("\n<table class=\"table tabla-detalle\">");
+        
+        toReturn.append("\n<div class=\"table-responsive\">");
+        toReturn.append("\n<table class=\"table table-hover table-condensed\">");
         toReturn.append("\n<tbody>");
         itDeliverables = SWBComparator.sortByCreated(itDeliverables, false);
-
+        Deliverable deliverable;
+        FormElementURL urlRemove;
         while (itDeliverables.hasNext()) {
-            Deliverable deliverable = itDeliverables.next();
-            if (deliverable.isActive() && deliverable.isValid()) {
+            deliverable = itDeliverables.next();
+            if(deliverable.isValid()) {
                 toReturn.append("\n<tr>");
 
-                FormElementURL urlRemove = getProcessURL(obj, prop);
+                urlRemove = getProcessURL(obj, prop);
                 urlRemove.setParameter("_action", Action_REMOVE);
                 urlRemove.setParameter("suriDeliv", deliverable.getURI());
                 urlRemove.setParameter("obj", suri);
                 urlRemove.setParameter("usrWithGrants", usrWithGrants);
                 toReturn.append("\n<td>");
-                toReturn.append("<span class=\"");
+                toReturn.append("<span title=\""+deliverable.getStatusTitle(period)+"\" class=\"");
                 toReturn.append(deliverable.getStatusIconClass(period));
                 toReturn.append(" swbstrgy-semaphore\"></span>");
-                toReturn.append("<span class=\"");
-//                if (deliverable.getAutoStatus() != null && deliverable.getAutoStatus().getStatus()
-//                        != null && deliverable.getAutoStatus().getIconClass() != null) {
-//                    toReturn.append(deliverable.getAutoStatus().getIconClass());
-//                } else {
-//                    toReturn.append("indefinido");
-//                }
-                toReturn.append(deliverable.getStatusAssigned().getIconClass());
-                toReturn.append(" swbstrgy-semaphore\"></span>");
+//                toReturn.append("<span class=\"");
+//                toReturn.append(deliverable.getStatusAssigned().getIconClass());
+//                toReturn.append(" swbstrgy-semaphore\"></span>");
                 toReturn.append("\n</td>");
 
 //                toReturn.append("\n<td>");
@@ -373,6 +371,7 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
         }
         toReturn.append("\n</tbody>");
         toReturn.append("\n</table>");
+        toReturn.append("\n</div>");
         return toReturn.toString();
     }
 
