@@ -4,6 +4,9 @@
     Author     : francisco.jimenez
 --%>
 
+<%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.semanticwb.social.SocialTopic"%>
@@ -20,6 +23,23 @@
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String title = "";
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
+    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    Date sinDateAnalysis = null;
+    Date tDateAnalysis = null;
+    if(sinceDateAnalysis != null && toDateAnalysis != null) {
+        try {
+            sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+        } catch (java.text.ParseException e) {
+        }
+        try {
+            toDateAnalysis += " 23:59:59";
+            tDateAnalysis = formatTo.parse(toDateAnalysis);
+        } catch(java.text.ParseException e) {
+        }
+    }
     Iterator<PostIn> itObjPostIns = null;    
     if (semObj.getGenericInstance() instanceof Stream) {
         Stream stream = (Stream) semObj.getGenericInstance();
@@ -30,6 +50,9 @@
         itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
         title = socialTopic.getTitle();
     }    
+    if(sinDateAnalysis != null && tDateAnalysis != null) {
+        itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+    }
     if (itObjPostIns == null || !itObjPostIns.hasNext()) {
 %>
 <script>
