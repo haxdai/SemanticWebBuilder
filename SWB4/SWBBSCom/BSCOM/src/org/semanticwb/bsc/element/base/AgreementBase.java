@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de un Acuerdo. 
    */
-public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Detailed,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Summarized,org.semanticwb.bsc.Attachmentable
+public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_agreementProgressDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementProgressDescription");
    /**

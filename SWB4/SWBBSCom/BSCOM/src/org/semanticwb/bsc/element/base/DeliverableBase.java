@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Representa un archivo físico utilizado a manera de evidencia sobre la realización de alguna actividad. 
    */
-public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Preference,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.bsc.StatusManuallyAssignable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Updateable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Detailed,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Schedule,org.semanticwb.bsc.SM,org.semanticwb.bsc.Attachmentable
+public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Preference,org.semanticwb.model.UserGroupable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.SM,org.semanticwb.model.Searchable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Schedule,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Updateable
 {
    /**
    * Porcentaje de avance a reportar
@@ -321,29 +321,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
         public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByRuleRef(org.semanticwb.model.RuleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined StatusAssigned
-       * @param value StatusAssigned of the type org.semanticwb.bsc.accessory.State
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByStatusAssigned(org.semanticwb.bsc.accessory.State value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_statusAssigned, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined StatusAssigned
-       * @param value StatusAssigned of the type org.semanticwb.bsc.accessory.State
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByStatusAssigned(org.semanticwb.bsc.accessory.State value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_statusAssigned,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -719,44 +696,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
     public void setAnalysis(String value)
     {
         getSemanticObject().setProperty(bsc_analysis, value);
-    }
-   /**
-   * Sets the value for the property StatusAssigned
-   * @param value StatusAssigned to set
-   */
-
-    public void setStatusAssigned(org.semanticwb.bsc.accessory.State value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_statusAssigned, value.getSemanticObject());
-        }else
-        {
-            removeStatusAssigned();
-        }
-    }
-   /**
-   * Remove the value for StatusAssigned property
-   */
-
-    public void removeStatusAssigned()
-    {
-        getSemanticObject().removeProperty(bsc_statusAssigned);
-    }
-
-   /**
-   * Gets the StatusAssigned
-   * @return a org.semanticwb.bsc.accessory.State
-   */
-    public org.semanticwb.bsc.accessory.State getStatusAssigned()
-    {
-         org.semanticwb.bsc.accessory.State ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_statusAssigned);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
