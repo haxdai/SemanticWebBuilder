@@ -4,6 +4,7 @@
     Author     : francisco.jimenez
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
@@ -33,6 +34,24 @@
     LinkedHashMap<SocialNetworkUser, Integer[]> userCount= new LinkedHashMap<SocialNetworkUser,Integer[]>();//SocialNetUser, [neutrals][positives][negatives]
     boolean isSocialTopic = false;
     SocialTopic st = null;
+    
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
+    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    Date sinDateAnalysis = null;
+    Date tDateAnalysis = null;
+    if(sinceDateAnalysis != null && toDateAnalysis != null) {
+        try {
+            sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+        } catch (java.text.ParseException e) {
+        }
+        try {
+            toDateAnalysis += " 23:59:59";
+            tDateAnalysis = formatTo.parse(toDateAnalysis);
+        } catch(java.text.ParseException e) {
+        }
+    }     
     if (semObj.getGenericInstance() instanceof Stream) {
         Stream stream = (Stream) semObj.getGenericInstance();
         title = stream.getTitle();
@@ -53,7 +72,10 @@
         Map.Entry pair = (Map.Entry)usersToCount.next();
         SocialNetworkUser snetu= (SocialNetworkUser)((SemanticObject)pair.getKey()).createGenericInstance();
         
-        Iterator posts = snetu.listPostInInvs();//Lists user posts        
+        Iterator posts = snetu.listPostInInvs();//Lists user posts 
+        if(sinDateAnalysis != null && tDateAnalysis != null) {
+            posts = SWBSocialResUtil.Util.getFilterDates(posts, sinDateAnalysis, tDateAnalysis);
+        }
         Integer[] sentimentCounter = {0,0,0};//array of posts number [neutrals][positive][neagtive]
         while(posts.hasNext()){
             PostIn postIn = (PostIn)posts.next();

@@ -3,6 +3,7 @@
     Created on : 22/05/2014, 11:34:52 AM
     Author     : francisco.jimenez
 --%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.DevicePlatform"%>
 <%@page import="java.util.LinkedHashMap"%>
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
@@ -30,6 +31,24 @@
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String title = "";
+    SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
+    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    Date sinDateAnalysis = null;
+    Date tDateAnalysis = null;
+    if(sinceDateAnalysis != null && toDateAnalysis != null) {
+        try {
+            sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+        } catch (java.text.ParseException e) {
+        }
+        try {
+            toDateAnalysis += " 23:59:59";
+            tDateAnalysis = formatTo.parse(toDateAnalysis);
+        } catch(java.text.ParseException e) {
+        }
+    }       
+    
     Iterator<PostIn> itObjPostIns = null;
     LinkedHashMap<DevicePlatform, Integer[]> lhm = new LinkedHashMap<DevicePlatform,Integer[]>();
     
@@ -42,7 +61,9 @@
         title = socialTopic.getTitle();
         itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
     }
-    
+    if(sinDateAnalysis != null && tDateAnalysis != null) {
+        itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+    }    
     if(itObjPostIns == null || !itObjPostIns.hasNext()){
 %>
 <script>

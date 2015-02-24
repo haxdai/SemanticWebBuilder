@@ -4,6 +4,7 @@
     Author     : gabriela.rosales
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page contentType="text/json" pageEncoding="UTF-8"%> 
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
@@ -24,7 +25,7 @@
     private static int negativesGlobal = 0;
     private static int neutralsGlobal = 0;
     
-    JSONArray getObject(SemanticObject semObj, String lang, String filter) throws Exception {
+    JSONArray getObject(SemanticObject semObj, String lang, String filter, String sinceDateAnalysis, String toDateAnalysis) throws Exception {
         int positives = 0, negatives = 0, neutrals = 0, total = 0;
         int totalPost = 0;
         Iterator<PostIn> itObjPostIns = null;
@@ -34,17 +35,42 @@
 
         ArrayList socialNetworks = new ArrayList();
 
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if(sinceDateAnalysis != null && toDateAnalysis != null) {
+        try {
+            sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+        } catch (java.text.ParseException e) {
+        }
+        try {
+            toDateAnalysis += " 23:59:59";
+            tDateAnalysis = formatTo.parse(toDateAnalysis);
+        } catch(java.text.ParseException e) {
+        }
+        }
+        
         if (semObj.getGenericInstance() instanceof Stream) {
             stream = (Stream) semObj.getGenericInstance();
             itObjPostIns = stream.listPostInStreamInvs();
+            //aqui
             socialNetworks = SWBSocialUtil.sparql.getStreamSocialNetworks(stream);
         } else if (semObj.getGenericInstance() instanceof SocialTopic) {
             socialTopic = (SocialTopic) semObj.getGenericInstance();
             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
+            //if(sinDateAnalysis != null && tDateAnalysis != null) {
+            //    itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+            //}
+            //aqui
+            
             socialNetworks = SWBSocialUtil.sparql.getSocialTopicSocialNetworks(socialTopic);
         }
 
-
+        if(sinDateAnalysis != null && tDateAnalysis != null) {
+            itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+        }
+            
         while (itObjPostIns.hasNext()) {
             itObjPostIns.next();
             totalPost++;
@@ -73,17 +99,18 @@
             //System.out.println("the social net:" + s.getURI());
             //obtenemos los post que estan en un  stream y una red en especifico
             if (semObj.getGenericInstance() instanceof Stream) {
-
                 postInSocialNetwork = SWBSocialUtil.sparql.getPostInbyStreamAndSocialNetwork(stream, s);
-
             } else if (semObj.getGenericInstance() instanceof SocialTopic) {
-
                 postInSocialNetwork = SWBSocialUtil.sparql.getPostInbySocialTopicAndSocialNetwork(socialTopic, s);
-
             }
 
 
             Iterator ii = postInSocialNetwork.iterator();
+            if(sinDateAnalysis != null && tDateAnalysis != null) {
+                ii = getFilterSemObjDates(ii, sinDateAnalysis, tDateAnalysis);
+            }
+            //aqui
+            
             //obtenemos los json del array
 
             getJsonArray(node, ii, s.getTitle(), s.getURI(), totalPost, filter, positives, negatives, neutrals, total);
@@ -258,7 +285,20 @@
 
     }
 
-
+    public static Iterator getFilterSemObjDates(Iterator itSemObj, Date sinceDateAnalysis, Date toDateAnalysis) {
+        ArrayList listPostIn = new ArrayList();
+        while (itSemObj.hasNext()) {
+            SemanticObject semObj = (SemanticObject) itSemObj.next();
+            PostIn postIn = (PostIn)(semObj.createGenericInstance());
+            Date dateCreated = postIn.getPi_createdInSocialNet();
+            if ((dateCreated.after(sinceDateAnalysis) || dateCreated.equals(sinceDateAnalysis))
+                    && (dateCreated.before(toDateAnalysis) || dateCreated.equals(toDateAnalysis))) {
+                listPostIn.add(semObj);
+            }
+        }
+        return listPostIn.iterator();
+   }
+    
 %>
 <%
     //System.out.println("ENTRANDO A pieSocialNetwork.jsp");
@@ -266,7 +306,9 @@
         SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("objUri"));
         String lang = request.getParameter("lang");
         String filter = request.getParameter("filter");
+        String sinceDate = request.getParameter("sinceDateAnalysis");
+        String toDate = request.getParameter("toDateAnalysis");
         //System.out.println("lang:" + lang + "--" + filter);
-        out.println(getObject(semObj, lang, filter));
+        out.println(getObject(semObj, lang, filter, sinceDate , toDate));
     }
 %>

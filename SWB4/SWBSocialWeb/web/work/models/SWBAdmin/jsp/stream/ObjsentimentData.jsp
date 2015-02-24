@@ -3,6 +3,8 @@
     Created on : 08-ago-2013, 11:51:58
     Author     : jorge.jimenez
 --%>
+<%@page import="com.hp.hpl.jena.n3.turtle.parser.ParseException"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page contentType="text/json" pageEncoding="UTF-8"%> 
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
@@ -15,20 +17,42 @@
 <%@page import="org.semanticwb.portal.api.*"%>
 <%@page import="org.json.*"%>
 <%@page import="java.util.*"%> 
+<%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil" %>
 
 
 <%!
-    JSONArray getObject(SemanticObject semObj, String lang) throws Exception {
+    JSONArray getObject(SemanticObject semObj, String lang, String sinceDateAnalysis, String toDateAnalysis) throws Exception {
         //WebSite wsite=WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
         //System.out.println("Entra 3");
         int neutrals = 0, positives = 0, negatives = 0;
         Iterator<PostIn> itObjPostIns = null;
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if(sinceDateAnalysis != null && toDateAnalysis != null) {
+        try {
+            sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+        } catch (java.text.ParseException e) {
+        }
+        try {
+            toDateAnalysis += " 23:59:59";
+            tDateAnalysis = formatTo.parse(toDateAnalysis);
+        } catch(java.text.ParseException e) {
+        }
+        }
         if (semObj.getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) semObj.getGenericInstance();
             itObjPostIns = stream.listPostInStreamInvs();
+            if(sinDateAnalysis != null && tDateAnalysis != null) {
+                itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+            }
         } else if (semObj.getGenericInstance() instanceof SocialTopic) {
             SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
+            if(sinDateAnalysis != null && tDateAnalysis != null) {
+                itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+            }
         }
         while (itObjPostIns.hasNext()) {
             PostIn postIn = itObjPostIns.next();
@@ -128,6 +152,8 @@
     public double round(float number) {
         return Math.rint(number * 100) / 100;
     }
+    
+
 %>
 <%
     //System.out.println("Entra 0jjjjjjjjjjj");
@@ -136,7 +162,9 @@
         //SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("objUri"));
         SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("objUri"));
         String lang = request.getParameter("lang");
+        String sinceDate = request.getParameter("sinceDateAnalysis");
+        String toDate = request.getParameter("toDateAnalysis");
         //System.out.println("Entra 2:"+lang);
-        out.println(getObject(semObj, lang));
+        out.println(getObject(semObj, lang, sinceDate , toDate));
     }
 %>

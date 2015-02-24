@@ -4,6 +4,7 @@
     Author     : gabriela.rosales
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page contentType="text/json" pageEncoding="UTF-8"%> 
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
@@ -20,7 +21,7 @@
 
 
 <%!
-    JSONArray getObject(SemanticObject semObj, String lang, String filter) throws Exception {
+    JSONArray getObject(SemanticObject semObj, String lang, String filter, String sinceDateAnalysis, String toDateAnalysis) throws Exception {
 
         int female = 0, male = 0, other = 0;
         int totalPost = 0;
@@ -28,6 +29,22 @@
         ArrayList genderFemale = new ArrayList();
         ArrayList genderother = new ArrayList();
         Iterator<PostIn> itObjPostIns = null;
+        
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if(sinceDateAnalysis != null && toDateAnalysis != null) {
+            try {
+                sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+            try {
+                toDateAnalysis += " 23:59:59";
+                tDateAnalysis = formatTo.parse(toDateAnalysis);
+            } catch(java.text.ParseException e) {
+            }
+        }
 
         if (semObj.getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) semObj.getGenericInstance();
@@ -36,7 +53,9 @@
             SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
         }
-
+        if(sinDateAnalysis != null && tDateAnalysis != null) {
+            itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
+        }
 
         while (itObjPostIns.hasNext()) {
             PostIn postIn = itObjPostIns.next();
@@ -403,7 +422,9 @@
         SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("objUri"));
         String lang = request.getParameter("lang");
         String filter = request.getParameter("filter");
+        String sinceDate = request.getParameter("sinceDateAnalysisPieCharts");
+        String toDate = request.getParameter("toDateAnalysisPieCharts");        
         // System.out.println("filter" + filter);
-        out.println(getObject(semObj, lang, filter));
+        out.println(getObject(semObj, lang, filter, sinceDate , toDate));
     }
 %>

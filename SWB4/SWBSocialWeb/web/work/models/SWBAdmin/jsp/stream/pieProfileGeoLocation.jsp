@@ -3,6 +3,8 @@
     Created on : 07-oct-2013, 19:51:58
     Author     : gabriela.rosales
 --%>
+<%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.security.limiter.SWBUserAction"%>
 <%@page import="java.lang.reflect.Array"%>
 <%@page import="java.util.Map.Entry"%>
@@ -29,7 +31,7 @@
     private static int negativesGlobal = 0;
     private static int neutralsGlobal = 0;
 
-    JSONArray getObject(SemanticObject semObj, String lang, String idModel, String fi) throws Exception {
+    JSONArray getObject(SemanticObject semObj, String lang, String idModel, String fi, String sinceDateAnalysis, String toDateAnalysis) throws Exception {
         ArrayList<PostIn> list = new ArrayList<PostIn>();
 
         HashMap map = new HashMap();
@@ -52,6 +54,21 @@
 
         int totalPost = 0;
         Iterator<PostIn> itObjPostIns = null;
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if(sinceDateAnalysis != null && toDateAnalysis != null) {
+            try {
+                sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+            try {
+                toDateAnalysis += " 23:59:59";
+                tDateAnalysis = formatTo.parse(toDateAnalysis);
+            } catch(java.text.ParseException e) {
+            }
+        }
 
         if (semObj.getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) semObj.getGenericInstance();
@@ -59,6 +76,9 @@
         } else if (semObj.getGenericInstance() instanceof SocialTopic) {
             SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
+        }
+        if(sinDateAnalysis != null && tDateAnalysis != null) {
+            itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
         }
 
         //SWBModel model = WebSite.ClassMgr.getWebSite(idModel);
@@ -344,7 +364,9 @@
         String lang = request.getParameter("lang");
         String idModel = request.getParameter("idModel");
         String filter = request.getParameter("filter");
+        String sinceDate = request.getParameter("sinceDateAnalysisPieCharts");
+        String toDate = request.getParameter("toDateAnalysisPieCharts");        
         int positivesGlobal = 0;
-        out.println(getObject(semObj, lang, idModel, filter));
+        out.println(getObject(semObj, lang, idModel, filter, sinceDate , toDate));
     }
 %>
