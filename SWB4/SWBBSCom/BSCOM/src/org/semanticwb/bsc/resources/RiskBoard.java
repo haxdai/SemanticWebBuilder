@@ -1667,7 +1667,8 @@ public class RiskBoard extends GenericResource
 
                 output.append("<div class=\"col-lg-10\">\n");
                 //Se elimina la liga para captura de los valores localizados de las propiedades title y description
-                if (prop1.equals(Descriptiveable.swb_description) || prop1.equals(Descriptiveable.swb_title)) {
+                if(prop1.equals(Descriptiveable.swb_description) || prop1.equals(Descriptiveable.swb_title))
+                {
                     htmlCode = formMgr.getFormElement(prop1).renderElement(
                             request, semObject, prop1,
                             prop1.getName(), SWBFormMgr.TYPE_DOJO, SWBFormMgr.MODE_EDIT, lang);
@@ -1685,11 +1686,17 @@ public class RiskBoard extends GenericResource
                         htmlCode = beginning + ending;
                     }
                     output.append(htmlCode);
-                } else {
-                    output.append(
+                }
+                else
+                {
+                    htmlCode =  formMgr.getFormElement(prop1).renderElement(
+                                    request, semObject, prop1,
+                                    prop1.getName(), SWBFormMgr.TYPE_DOJO, SWBFormMgr.MODE_EDIT, lang);
+                    output.append(htmlCode);
+                    /*output.append(
                             formMgr.getFormElement(prop1).renderElement(
                                     request, semObject, prop1,
-                                    prop1.getName(), SWBFormMgr.TYPE_DOJO, SWBFormMgr.MODE_EDIT, lang));
+                                    prop1.getName(), SWBFormMgr.TYPE_DOJO, SWBFormMgr.MODE_EDIT, lang));*/
                 }
                 output.append("</div>\n");
                 output.append("</div>\n");
