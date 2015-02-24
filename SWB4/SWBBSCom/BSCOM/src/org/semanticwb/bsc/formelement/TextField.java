@@ -28,7 +28,6 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
     @Override
     public String renderElement(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode, String lang) {
-
         String toReturn = null;
         String websiteId = ((SWBModel) obj.getModel().getModelObject().getGenericInstance()).getId();
         //(String) request.getAttribute("websiteId"); se cambio por la linea anterior
