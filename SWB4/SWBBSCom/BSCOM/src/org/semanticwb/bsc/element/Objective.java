@@ -333,7 +333,7 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     public boolean canView() {
         final WebSite scorecard = (WebSite) getSemanticObject().getModel().getModelObject().createGenericInstance();
         final User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
-        return user.haveAccess(this);
+        return user.haveAccess(this) && isValid();
     }
     
     public State getState(final Period period) {
