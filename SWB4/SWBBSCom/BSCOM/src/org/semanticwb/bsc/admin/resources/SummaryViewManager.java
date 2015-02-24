@@ -191,6 +191,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         } else if (semWorkClass.equals(Initiative.bsc_Initiative)) {
             identifier = paramRequest.getLocaleString("value_InitiativeId");
             filters = paramRequest.getLocaleString("value_InitiativeFilter");
+            addStatus = true;
         } else if (semWorkClass.equals(Deliverable.bsc_Deliverable)) {
             identifier = paramRequest.getLocaleString("value_DeliverableId");
             filters = paramRequest.getLocaleString("value_DeliverableFilter");
@@ -208,9 +209,6 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         }
 
         List<PropertyListItem> propsInView = SWBUtils.Collections.copyIterator(activeView.listPropertyListItems());
-        
-        
-        boolean isActive;
         boolean hasPeriod;
         String title;
         //Para cada instancia de tipo workClass en el scorecard
@@ -219,31 +217,33 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             GenericObject generic = allInstances.next();
             SemanticObject semObj = generic.getSemanticObject();
             Detailed d = (Detailed)generic;
-            isActive = semObj.getBooleanProperty(org.semanticwb.model.Activeable.swb_active, true);
-            hasPeriod = true;
-            if (semObj.instanceOf(Seasonable.bsc_Seasonable)) {
+            if(semObj.instanceOf(Seasonable.bsc_Seasonable)) {
                 hasPeriod = semObj.hasObjectProperty(Seasonable.bsc_hasPeriod, thisPeriod.getSemanticObject());
-            } else {//Para iniciativas y entregables:
+            }else {//Para iniciativas y entregables:
                 hasPeriod = true;
             }
-            if (!user.haveAccess(generic) || !isActive || !hasPeriod || !d.canView()) {
+            if(!hasPeriod || !d.canView()) {
                continue;
             }
-
             Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             JSONObject row = new JSONObject();
             StringBuilder status = new StringBuilder();
-            status.append("<span class=\""+d.getStatusIconClass(thisPeriod)+"\"></span> ");
+            status.append("<span class=\"").append(d.getStatusIconClass(thisPeriod)).append("\"></span> ");
             title = d.getStatusTitle(thisPeriod);
-            status.append(title.isEmpty()?"Not set":title);
+            status.append(title.isEmpty()?"--":title);
             try {
                 row.put("status", status.toString());
             } catch (JSONException jsone) {
                 SummaryViewManager.log.error("En la creacion de objetos JSON", jsone);
             }
+            
             //Por cada propiedad en la vista:
+            PropertyListItem propListItem;
             while (viewPropertiesList.hasNext()) {
-                PropertyListItem propListItem = viewPropertiesList.next();
+                propListItem = viewPropertiesList.next();
+                if(propListItem==null || propListItem.getElementProperty()==null){
+                    continue;
+                }
                 SemanticProperty elementProperty = propListItem.getElementProperty().transformToSemanticProperty();
                 String propertyValue = null; //para las propiedades tipo objeto
                 //Para mostrar los valores de las propiedades, de acuerdo a los FormElements asignados a cada propiedad:
@@ -275,18 +275,21 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         ArrayList<String[]> headingsArray = new ArrayList<String[]>(16);
         TreeMap headings2Show = new TreeMap();
 
-            if (addStatus) {
-        String[] statusHeading = {"status", "Estado", "true" };
-        headingsArray.add(statusHeading);//Para los filtros
-        headings2Show.put(Integer.parseInt("0"), statusHeading);
-           }
+        if(addStatus) {
+            String[] statusHeading = {"status", "Estado", "true" };
+            headingsArray.add(statusHeading);//Para los filtros
+            headings2Show.put(Integer.parseInt("0"), statusHeading);
+        }
 
         boolean showFiltering = false;
-        if (viewPropertiesList != null) {
+        if(viewPropertiesList != null) {
             while (viewPropertiesList.hasNext()) {
                 PropertyListItem propListItem = viewPropertiesList.next();
                 if(propListItem != null)
                 {
+                    if(propListItem.getElementProperty()==null){
+                        continue;
+                    }
                     SemanticProperty property = propListItem.getElementProperty().transformToSemanticProperty();
                     int arrayIndex = propListItem.getPropertyOrder();
 //                        if (addStatus) { //Si se agrego la columna de status, las demas se recorren
