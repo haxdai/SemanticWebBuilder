@@ -186,10 +186,12 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         List<Deliverable> deliverables = listValidDeliverables();
         for (Deliverable deliverable : deliverables) {
             Series star = deliverable.getStar();
-            if (star == null || star.getMeasure(period) == null || star.getMeasure(period).getEvaluation().getStatus() == null) {
+            if(star == null || star.getMeasure(period) == null || star.getMeasure(period).getEvaluation().getStatus() == null)
+            {
                 continue;
             }
-            if (star.getMeasure(period).getEvaluation().getStatus().compareTo(status) < 0) {
+            if(star.getMeasure(period).getEvaluation().getStatus().compareTo(status) < 0)
+            {
                 status = star.getMeasure(period).getEvaluation().getStatus();
                 updated = Boolean.TRUE;
             }
@@ -215,7 +217,6 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         float m;
         float weighingSum = 0;
         float xwSum = 0;
-
         // Calcular el porcentaje de avance
         for (Deliverable deliverable : deliverables) {
             Series star = deliverable.getStar();
@@ -224,14 +225,15 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
                 continue;
             }
             if (deliverable.getPriority() == null) {
-                log.error("No existe prioridad definida en el entregable");
+                log.error("No existe prioridad definida en el entregable "+deliverable.getTitle());
                 continue;
             }
-            deliverable.setProgress(BSCUtils.Formats.round(star.getMeasure(period).getValue() * deliverable.getPriority().getWeighing(), 2).floatValue());
+            float f = BSCUtils.Formats.round(star.getMeasure(period).getValue() * deliverable.getPriority().getWeighing(), 2).floatValue();
+            deliverable.setProgress(f);
             xwSum += deliverable.getProgress();
             weighingSum += deliverable.getPriority().getWeighing();
         }
-        m = xwSum / weighingSum;        
+        m = xwSum / weighingSum;
         if(!Float.isInfinite(m) && !Float.isNaN(m)) {
             m = BSCUtils.Formats.round(m, 2).floatValue();
             if(getPercentageProgress()<m) {
@@ -240,21 +242,21 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         }
     }
 
-    public String getAutoStatusIconClass() {
-        StringBuilder iconClass = new StringBuilder();
-        try {
-            iconClass.append(getStatusAssigned().getIconClass());
-        } catch (NullPointerException npe) {
-            iconClass.append("swbstrgy-unknown");
-        }
-        return iconClass.toString();
-    }
+//    public String getAutoStatusIconClass() {
+//        StringBuilder iconClass = new StringBuilder();
+//        try {
+//            iconClass.append(getStatusAssigned().getIconClass());
+//        } catch (NullPointerException npe) {
+//            iconClass.append("swbstrgy-unknown");
+//        }
+//        return iconClass.toString();
+//    }
     
     @Override
     public boolean canView() {
         final WebSite scorecard = (WebSite) getSemanticObject().getModel().getModelObject().createGenericInstance();
         final User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
-        return user.haveAccess(this);
+        return user.haveAccess(this) && isValid();
     }
 
     @Override
