@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Persiste la información de una Sesión. Existen  dos tipos de sesiones: RAE y NOA 
    */
-public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable,org.semanticwb.bsc.Status,org.semanticwb.bsc.Serializable,org.semanticwb.model.FilterableNode
+public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Status,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Serializable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode
 {
    /**
    * Almacena la clasificación de sesiones: RAE y NOA.

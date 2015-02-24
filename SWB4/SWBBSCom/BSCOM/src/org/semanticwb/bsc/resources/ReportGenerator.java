@@ -550,22 +550,19 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             list.append("\"},\n");
             GenericObject generic = object.createGenericInstance();
             Iterator<State> iterator = null;
-            if (generic instanceof Objective) {
+            if(generic instanceof Objective) {
                 iterator = ((Objective) generic).listStates();
-            } else if (generic instanceof Indicator) {
+            }else if(generic instanceof Indicator) {
                 iterator = ((Indicator) generic).getObjective().listStates();
-            } else if (generic instanceof Initiative) {
-                //iterator = ((Initiative) generic).listStates();
-                if (((Initiative) generic).getStatusAssigned() != null) {
-                    states.add(((Initiative) generic).getStatusAssigned());
-                }
-            } else if (generic instanceof Deliverable) {
-//                if (((Deliverable) generic).getDeliverableAssignable() instanceof Initiative) {
-                    Initiative ini = (Initiative) ((Deliverable) generic).getInitiative();
-                    if (ini.getStatusAssigned() != null) {
-                        states.add(ini.getStatusAssigned());
-                    }
+            }else if(generic instanceof Initiative) {
+//                if(((Initiative) generic).getStatusAssigned() != null) {
+//                    states.add(((Initiative) generic).getStatusAssigned());
 //                }
+            }else if(generic instanceof Deliverable) {
+//                    Initiative ini = (Initiative) ((Deliverable) generic).getInitiative();
+//                    if(ini.getStatusAssigned() != null) {
+//                        states.add(ini.getStatusAssigned());
+//                    }
             }
             while (iterator != null && iterator.hasNext()) {
                 State state = iterator.next();
@@ -1140,8 +1137,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                             //el estatus debe estar asignado al entregable
                             if (inTurn instanceof Deliverable) {
                                 Deliverable deli = (Deliverable) inTurn;
-                                if ((deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()))
-                                        || (deli.getStatusAssigned() != null && deli.getStatusAssigned().equals(criteria.getStatus()))) {
+                                if ( deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()) ) {
                                     mustBeAdded = true;
                                 }
                             }
