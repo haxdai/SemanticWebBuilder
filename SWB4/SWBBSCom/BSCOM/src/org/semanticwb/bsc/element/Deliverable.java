@@ -11,7 +11,6 @@ import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
 import static org.semanticwb.bsc.base.SMBase.bsc_hasSeries;
-import static org.semanticwb.bsc.element.Indicator.names;
 import org.semanticwb.bsc.parser.DeliverableParser;
 import org.semanticwb.bsc.tracing.EvaluationRule;
 import org.semanticwb.bsc.tracing.Series;
@@ -294,20 +293,9 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
     @Override
     public String getStatusTitle(Period period) {
         StringBuilder title = new StringBuilder();
-        boolean iconClassFound = false;
         try {
-            title.append(getStar().getMeasure(period).getEvaluation().getStatus().getIconClass());
-            iconClassFound = true;
+            title.append(getStar().getMeasure(period).getEvaluation().getStatus().getTitle().trim());
         } catch (NullPointerException npe) {
-        }
-        if (!iconClassFound) {
-            try {
-                State state = this.getMinimumState();
-                getStar().getMeasure(period).getEvaluation().setStatus(state);
-                title.append(getStar().getMeasure(period).getEvaluation().getStatus().getTitle());
-            } catch (NullPointerException ex) {
-                title.append("swbstrgy-unknown");
-            }
         }
         return title.toString();
     }
