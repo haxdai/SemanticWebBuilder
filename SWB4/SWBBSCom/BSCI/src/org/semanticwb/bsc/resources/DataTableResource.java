@@ -47,7 +47,8 @@ import org.semanticwb.portal.api.SWBResourceURL;
  * @author carlos.ramos
  */
 public class DataTableResource extends GenericResource implements ComponentExportable{
-    private static Logger log = SWBUtils.getLogger(DataTableResource.class);
+    private static final Logger log = SWBUtils.getLogger(DataTableResource.class);
+    private static long sufix = 0;
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -102,8 +103,8 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         out.println("<table class=\"table table-hover table-striped\">"); 
         out.println("<thead>");
         out.println("<tr>");
-out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
-out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
+//out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
+//out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Period")+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Semaphore")+"</th>");
         // Series
@@ -112,6 +113,8 @@ out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDi
         for(Series series:serieses) {
             out.println("<th width=\"10%\">"+(series.getTitle(lang)==null?series.getTitle():series.getTitle(lang))+"</th>");
         }
+out.println("<th>"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
+out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
@@ -121,14 +124,15 @@ out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDi
             period = periods.next();
             inTime = isInMeasurementTime(period);
             out.println("<tr>");
-            // 1.- Elemento padre (objetivo/iniciativa)
-out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
-out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
-            // 2.- Período
+//            // 1.- Elemento padre (objetivo/iniciativa)
+//out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
+//            // 2.- Instancia Sm
+//out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
+            // 3.- Período
             out.println("<td>");
             out.println(period.getTitle());            
             out.println("</td>");
-            // 3.- Semáforo (título)
+            // 4.- Semáforo (título)
             out.println("<td>");
             if(star.getMeasure(period)!=null) {
                 State state = star.getMeasure(period).getEvaluation().getStatus();
@@ -147,9 +151,9 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
                 out.println("Not set");
             }
             out.println("</td>");
-            // 4.- Series
+            // 5.- Series
             for(Series series:serieses) {
-                out.println("<td>");
+                out.println("<td class=\"dt-td\">");
                 String value = series.getMeasure(period)==null?"--":series.getFormatter().format(series.getMeasure(period).getValue());
                 if(inTime && !series.isReadOnly() && userCanEdit()) {
                     SWBResourceURL url = paramRequest.getActionUrl();
@@ -163,6 +167,10 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
                 }
                 out.println("</td>");
             }
+            // 2.- Instancia Sm
+out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
+            // 1.- Elemento padre (objetivo/iniciativa)
+out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
             out.println("</tr>");
         }
         out.println("</tbody>");
@@ -332,12 +340,12 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
                 response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
                 return;
             }
-            
             String data = request.getParameter("value");
             WebSite model = base.getWebSite();
             String pid = request.getParameter("pid");
             String sid = request.getParameter("sid");
-            if(Period.ClassMgr.hasPeriod(pid, model) && Series.ClassMgr.hasSeries(sid, model)) {
+            if(Period.ClassMgr.hasPeriod(pid, model) && Series.ClassMgr.hasSeries(sid, model))
+            {
                 Period period = Period.ClassMgr.getPeriod(pid, model);
                 Series series = Series.ClassMgr.getSeries(sid, model);
                 Measure measure = series.getMeasure(period);
@@ -366,8 +374,6 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
                     measure.evaluate();
                     series.getSm().updateAppraisal(period);
                 }
-            }else {
-//TODO algo va aqui
             }
             response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8"));
         }
@@ -446,12 +452,17 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
     
     private String renderUpdateInline(final String objId, final String url, final String data, final boolean autosave, final String editor, final String cssClass) {
         StringBuilder script = new StringBuilder();
+        final String id;
+        synchronized(this) {
+            id = objId+"_"+(sufix++);
+        }
+        script.append("<span id=\"eb_" + id + "\" class=\""+cssClass+"\">" + data + "</span>\n");
         script.append("<script type=\"text/javascript\">\n");
         script.append("<!--\n");
-        script.append("var iledit_" + objId + ";");
+        script.append("var iledit_" + id + ";");
         script.append("dojo.addOnLoad( function() {");
-        script.append("    iledit_" + objId + " = new dijit.InlineEditBox({");
-        script.append("    id: \"ile_" + objId + "\",");
+        script.append("    iledit_" + id + " = new dijit.InlineEditBox({");
+        script.append("    id: \"ile_" + id + "\",");
         script.append("    autoSave: "+autosave+",");
         script.append("    editor: \""+editor+"\",");
         script.append("    editorParams: {trim:true, required:true},");
@@ -460,12 +471,11 @@ out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
         //script.append("           getSyncHtml('" + url + (url.contains("?")?"&":"?") + "value='+value);");
         script.append("           location.href='" + url + (url.contains("?")?"&":"?") + "value='+value;");
         script.append("      }");
-        script.append("    }, 'eb_" + objId + "');");
+        script.append("    }, 'eb_" + id + "');");
         script.append("  }");
-        script.append("); iledit_"+objId+".startup();\n");
+        script.append("); iledit_" + id + ".startup();\n");
         script.append("-->\n");
         script.append("</script>\n");
-        script.append("<span id=\"eb_" + objId + "\" class=\""+cssClass+"\">" + data + "</span>");
         return script.toString();
     }
 
