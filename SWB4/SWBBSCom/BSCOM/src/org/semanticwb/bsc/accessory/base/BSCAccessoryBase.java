@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.accessory.base;
 
 
-public abstract class BSCAccessoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Help,org.semanticwb.model.Roleable
+public abstract class BSCAccessoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable
 {
     public static final org.semanticwb.platform.SemanticClass bsc_BSCAccessory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#BSCAccessory");
    /**
