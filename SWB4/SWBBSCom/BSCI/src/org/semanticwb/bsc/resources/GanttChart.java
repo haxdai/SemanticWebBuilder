@@ -137,13 +137,14 @@ public class GanttChart extends GenericAdmResource implements ComponentExportabl
                         dataOut.append("),\n");
                         dataOut.append("  status : ");
                         //En base al status asignar color
-                        if (initiative.getStatusAssigned() != null) {
-                            dataOut.append("\"");
-                            dataOut.append(initiative.getStatusAssigned().getColorHex());
-                            dataOut.append("\"");
-                        } else {
+//                        if (initiative.getStatusAssigned() != null) {
+//                            dataOut.append("\"");
+//                            dataOut.append(initiative.getStatusAssigned().getColorHex());
+//                            dataOut.append("\"");
+//                        }
+//                        else {
                             dataOut.append("\"#CCCCCC\"");
-                        }
+//                        }
                         dataOut.append("},\n");
                     }
                 }
