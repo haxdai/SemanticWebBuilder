@@ -616,7 +616,10 @@ public class PieCharts extends GenericResource {
                 } else {
                     createCell(cellStyle, wb, troww, 3, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "---");
                 }
-                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_created(), lang));
+                SimpleDateFormat df = new SimpleDateFormat();
+                //createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_created(), lang));
+                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_createdInSocialNet(), lang));
+//                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, df.format(postIn.getPi_createdInSocialNet()));
 
                 String path = "";
 
@@ -649,7 +652,7 @@ public class PieCharts extends GenericResource {
                 Serializable amigos = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getFriends() : SWBSocialResUtil.Util.getStringFromGenericLocale("withoutUser", lang);
                 createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, amigos.toString());
 
-                Serializable klout = postIn.getPostInSocialNetworkUser() != null & postIn.getPostInSocialNetworkUser().getSnu_klout()>0 ? postIn.getPostInSocialNetworkUser().getSnu_klout() : "---";
+                Serializable klout = postIn.getPostInSocialNetworkUser() != null && postIn.getPostInSocialNetworkUser().getSnu_klout()>0 ? postIn.getPostInSocialNetworkUser().getSnu_klout() : "---";
 
                 createCell(cellStyle, wb, troww, 13, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, klout.toString());
                 createCell(cellStyle, wb, troww, 14, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostPlace() == null ? "---" : postIn.getPostPlace());

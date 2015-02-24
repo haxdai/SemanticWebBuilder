@@ -417,11 +417,12 @@ public class SWBSocialResUtil {
         }
 
         /**
-         * Filtra clase PostIn
-         * @param itPost
-         * @param sinceDateAnalysis
-         * @param toDateAnalysis
-         * @return 
+         * Filtra clases de tipo PostIn a partir de una fecha inicial y hasta una final. 
+         * 
+         * @param itPost Iterador que contiene un conjunto de elementos PostIn.
+         * @param sinceDateAnalysis Fecha inicial a partir de la cual deber&aacute; filtrarse los elementos.
+         * @param toDateAnalysis Fecha final que delimitar&aacute; el filtro de elementos.
+         * @return un Iterador con elementos de tipo PostIn.
          */
         public static Iterator getFilterDates(Iterator itPost, Date sinceDateAnalysis, Date toDateAnalysis) {
             ArrayList listPostIn = new ArrayList();
