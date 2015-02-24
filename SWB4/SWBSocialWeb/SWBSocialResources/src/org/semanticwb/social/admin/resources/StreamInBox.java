@@ -2825,7 +2825,7 @@ public class StreamInBox extends GenericResource {
         if (postIn.getPi_createdInSocialNet() != null) {
             Date postDate = postIn.getPi_createdInSocialNet();
             if(postDate.after(new Date())){
-                postDate= new Date();
+                postDate= postIn.getPi_created();
             }
             out.println("<span title=\"" + output.format(postDate) + "\">" + df.format(postDate) + "</span>");
         } else {
