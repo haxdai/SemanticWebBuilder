@@ -71,7 +71,6 @@ import org.semanticwb.social.MessageIn;
 import org.semanticwb.social.PhotoIn;
 import org.semanticwb.social.PostIn;
 import org.semanticwb.social.SWBSocial;
-import org.semanticwb.social.SocialNetworkUser;
 import org.semanticwb.social.SocialTopic;
 import org.semanticwb.social.Stream;
 import org.semanticwb.social.VideoIn;
@@ -108,7 +107,31 @@ public class PieChart extends GenericResource {
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")) + "\"></iframe> ");
+        
+        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis") == null ? "" : request.getParameter("sinceDateAnalysis");
+        String toDateAnalysis = request.getParameter("toDateAnalysis") == null ? "" : request.getParameter("toDateAnalysis");
+        String suri = request.getParameter("suri");    
+        if(suri != null) {
+            SemanticObject semObj = SemanticObject.createSemanticObject(suri);
+            if (semObj != null) {
+                Stream socialNet = (Stream) SemanticObject.getSemanticObject(suri).createGenericInstance();
+                out.println("<form id=\"frmFilter\" name=\"frmFilter\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                        + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", socialNet.getURI())
+                        + "\" method=\"post\" "
+                        + " onsubmit=\"submitForm('frmFilter'); return false;\">");
+                out.println("<label>Del día</label>");
+                out.println("<input name=\"sinceDateAnalysis\" id=\"sinceDateAnalysis\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + sinceDateAnalysis + "\" data-dojo-id=\"sinceDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + "\""
+                        + " onChange=\"toDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + ".constraints.min = arguments[0];\">");
+                out.println("<label for=\"toDate\"> al día:</label>");
+                out.println("<input name=\"toDateAnalysis\" id=\"toDateAnalysis\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + toDateAnalysis + "\" data-dojo-id=\"toDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + "\""
+                        + " onChange=\"sinceDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + ".constraints.max = arguments[0];\">");
+                out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\">Calcular</button>");
+                out.println("</form>");
+            }
+        }
+        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter("toDateAnalysis", toDateAnalysis).setParameter("sinceDateAnalysis", sinceDateAnalysis) + "\"></iframe> ");
     }
 
     @Override
@@ -222,6 +245,24 @@ public class PieChart extends GenericResource {
         String type = request.getParameter("type");
         String filter = request.getParameter("filter");
         String filterGeneral = request.getParameter("filterGeneral");        
+        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
+        String toDateAnalysis = request.getParameter("toDateAnalysis");
+        
+        SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date sinDateAnalysis = null;
+        Date tDateAnalysis = null;
+        if (sinceDateAnalysis != null && toDateAnalysis != null) {
+            try {
+                sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+            try {
+                toDateAnalysis += " 23:59:59";
+                tDateAnalysis = formatTo.parse(toDateAnalysis);
+            } catch (java.text.ParseException e) {
+            }
+        }
         ////System.out.println("\nGenerando Reporte: " + type+"-" + filter +"-" + filterGeneral+"-"+request.getParameter("lang"));
         if (filter == null) {
             filter = "";
@@ -238,9 +279,10 @@ public class PieChart extends GenericResource {
             setso = getGraphBarByHour(request);
         } else {
             setso = getListSentiment(suri, lang, filter);
-
         }
-
+        if(sinDateAnalysis != null && tDateAnalysis != null) {
+            setso = SWBSocialResUtil.Util.getFilterDates(setso, sinDateAnalysis, tDateAnalysis);
+        }
         try {
 
             createExcel(setso, paramRequest, response, title);
@@ -260,7 +302,6 @@ public class PieChart extends GenericResource {
         ArrayList neutralsArray = new ArrayList();
         ArrayList totalArray = new ArrayList();
         Iterator i = null;
-
 
         Iterator<PostIn> itObjPostIns = null;
         if (semObj.getGenericInstance() instanceof Stream) {
@@ -313,16 +354,16 @@ public class PieChart extends GenericResource {
         ArrayList totalArray = new ArrayList();
         Iterator i = null;
 
-
+        
         Iterator<PostIn> itObjPostIns = null;
         if (semObj.getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) semObj.getGenericInstance();
             itObjPostIns = stream.listPostInStreamInvs();
         } else if (semObj.getGenericInstance() instanceof SocialTopic) {
             SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
-            itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
+            itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());          
         }
-        
+    
         while (itObjPostIns.hasNext()) {
             PostIn postIn = itObjPostIns.next();
             if (postIn != null && postIn.getPostInSocialNetwork() != null) {
