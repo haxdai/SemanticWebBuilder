@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.bsc.BSC;
-import org.semanticwb.bsc.SM;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.catalogs.Format;
 import org.semanticwb.bsc.tracing.base.SeriesBase;
@@ -40,10 +39,6 @@ public class Series extends org.semanticwb.bsc.tracing.base.SeriesBase implement
             }
         });
     }
-    
-    
-    
-    
     
     private DecimalFormat formatter;
     
@@ -151,5 +146,21 @@ public class Series extends org.semanticwb.bsc.tracing.base.SeriesBase implement
                 throw new FormValidateException("El valor ordinal debe ser numérico y no puede repetirse");
             }
         }
+    }
+
+    @Override
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
 }
