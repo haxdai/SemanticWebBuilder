@@ -13,7 +13,8 @@ import org.semanticwb.platform.SemanticProperty;
 
 
    /**
-   * Los temas estratégicos agrupan objetivos con fines en común. A su vez, los temas están agrupados dentro de las perspectivas. 
+   * Los temas estratégicos agrupan objetivos con fines en común.
+   * A su vez, los temas están agrupados dentro de las perspectivas. 
    */
 public class Theme extends org.semanticwb.bsc.base.ThemeBase implements Comparable<Theme>
 {
@@ -74,5 +75,21 @@ public class Theme extends org.semanticwb.bsc.base.ThemeBase implements Comparab
                 throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
             }
         }
+    }
+
+    @Override
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
 }
