@@ -21,7 +21,7 @@ import org.semanticwb.platform.SemanticProperty;
  */
 public class OrdinalCategorical extends org.semanticwb.bsc.formelement.base.OrdinalCategoricalBase 
 {
-    private static Logger log = SWBUtils.getLogger(OrdinalCategorical.class);
+    private static final Logger log = SWBUtils.getLogger(OrdinalCategorical.class);
     
     public OrdinalCategorical(org.semanticwb.platform.SemanticObject base)
     {
@@ -33,104 +33,5 @@ public class OrdinalCategorical extends org.semanticwb.bsc.formelement.base.Ordi
     {
         org.semanticwb.bsc.Sortable sortable = (Sortable) obj.getGenericInstance();
         sortable.validOrder(request, prop, propName);
-//        int ordinal;
-//        try            
-//        {
-//            String value = request.getParameter(propName);
-//            ordinal = Integer.parseInt(value);
-//        }   
-//        catch(Exception pe)
-//        {            
-//            throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//        }
-//        
-//        GenericObject genObj = obj.getGenericInstance();
-//        if(genObj instanceof State)
-//        {
-//            State state = (State)obj.createGenericInstance();
-//            StateGroup parent = state.getStateGroup();
-//            if(parent instanceof StateGroup) {
-//                GenericIterator<State> it = parent.listGroupedStateses();
-//                while(it.hasNext()) {
-//                    State so = it.next();
-//                    if( state.equals(so) ) {
-//                        continue;
-//                    }
-//                    if(ordinal == so.getIndex())
-//                    {
-//                        throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//                    }
-//
-//                }
-//            }
-//        }
-//        else if(genObj instanceof Series)
-//        {
-//            Series series = (Series)genObj;
-//            SM parent = series.getSm();
-//            GenericIterator<Series> it = parent.listSerieses();
-//            while(it.hasNext()) {
-//                Series s = it.next();
-//                if( series.equals(s) ) {
-//                    continue;
-//                }
-//                if(ordinal == s.getIndex())
-//                {
-//                    throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//                }
-//            }
-//        }
-//        else if(genObj instanceof Theme)
-//        {
-//            Theme theme = (Theme)genObj;
-//            Perspective parent = theme.getPerspective();
-//            GenericIterator<Theme> it = parent.listThemes();
-//            while(it.hasNext()) {
-//                Theme t = it.next();
-//                if( theme.equals(t) ) {
-//                    continue;
-//                }
-//                if(ordinal == t.getIndex())
-//                {
-//                    throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//                }
-//            }
-//        }
-//        else if(genObj instanceof Differentiator)
-//        {
-//            Differentiator dif = (Differentiator)genObj;
-//            DifferentiatorGroup parent = dif.getDifferentiatorGroup();
-//            GenericIterator<Differentiator> it = parent.listDifferentiators();
-//            while(it.hasNext()) {
-//                Differentiator d = it.next();
-//                if( dif.equals(d) ) {
-//                    continue;
-//                }
-//                if(ordinal == d.getIndex())
-//                {
-//                    throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//                }
-//            }
-//        }
-//        else if(genObj instanceof Objective)
-//        {
-//            Objective objective = (Objective)genObj;
-//            Theme parent = objective.getTheme();
-//            GenericIterator<Objective> it = parent.listObjectives();
-//            while(it.hasNext()) {
-//                Objective o = it.next();
-//                if( objective.equals(o) ) {
-//                    continue;
-//                }
-//                if(ordinal == o.getIndex())
-//                {
-//                    throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//                }
-//            }
-//        }
-//        else
-//        {
-//            super.validate(request, obj, prop, propName);
-//        }        
     }
 }
