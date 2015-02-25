@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de un Acuerdo. 
    */
-public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode
+public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Detailed,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Summarized,org.semanticwb.bsc.Help,org.semanticwb.bsc.Attachmentable
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_agreementProgressDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementProgressDescription");
    /**
@@ -181,29 +181,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Agreement with a determined Attachments
        * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
        * @param model Model of the org.semanticwb.bsc.element.Agreement
@@ -224,6 +201,29 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
         public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
+       * @param value UserGroup of the type org.semanticwb.model.UserGroup
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
+       * @param value UserGroup of the type org.semanticwb.model.UserGroup
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
             return it;
         }
        /**

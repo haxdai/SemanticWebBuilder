@@ -4,20 +4,8 @@ package org.semanticwb.bsc.element.base;
    /**
    * Representa un archivo físico utilizado a manera de evidencia sobre la realización de alguna actividad. 
    */
-public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Preference,org.semanticwb.model.UserGroupable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.SM,org.semanticwb.model.Searchable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Schedule,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Updateable
+public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.bsc.Seasonable,org.semanticwb.model.Searchable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.bsc.SM,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.Preference,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Updateable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Schedule,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Help,org.semanticwb.bsc.Attachmentable
 {
-   /**
-   * Porcentaje de avance a reportar
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_progress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#progress");
-   /**
-   * Define las características de una Iniciativa
-   */
-    public static final org.semanticwb.platform.SemanticClass bsc_Initiative=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Initiative");
-   /**
-   * Indica el objeto Initiative al que se relaciona el objeto Deliverable en consulta
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_hasDeliverableInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#hasDeliverableInv");
    /**
    * Ruta del archivo físico asociado
    */
@@ -38,6 +26,18 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
    * El usuario responsable del seguimiento al entregable
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_responsible=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#responsible");
+   /**
+   * Porcentaje de avance a reportar
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_progress=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#progress");
+   /**
+   * Define las características de una Iniciativa
+   */
+    public static final org.semanticwb.platform.SemanticClass bsc_Initiative=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Initiative");
+   /**
+   * Indica el objeto Initiative al que se relaciona el objeto Deliverable en consulta
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_hasDeliverableInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#hasDeliverableInv");
    /**
    * Representa un archivo físico utilizado a manera de evidencia sobre la realización de alguna actividad.
    */
@@ -117,29 +117,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
             return (getDeliverable(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Period
-       * @param value Period of the type org.semanticwb.bsc.accessory.Period
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPeriod(org.semanticwb.bsc.accessory.Period value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Period
-       * @param value Period of the type org.semanticwb.bsc.accessory.Period
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPeriod(org.semanticwb.bsc.accessory.Period value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Deliverable with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.element.Deliverable
@@ -163,75 +140,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Priority
-       * @param value Priority of the type org.semanticwb.bsc.catalogs.Priority
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPriority(org.semanticwb.bsc.catalogs.Priority value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_priority, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Priority
-       * @param value Priority of the type org.semanticwb.bsc.catalogs.Priority
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPriority(org.semanticwb.bsc.catalogs.Priority value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_priority,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Initiative
-       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByInitiative(org.semanticwb.bsc.element.Initiative value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasDeliverableInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Initiative
-       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByInitiative(org.semanticwb.bsc.element.Initiative value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasDeliverableInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Deliverable with a determined UserGroup
        * @param value UserGroup of the type org.semanticwb.model.UserGroup
        * @param model Model of the org.semanticwb.bsc.element.Deliverable
@@ -252,29 +160,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
         public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByUserGroup(org.semanticwb.model.UserGroup value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Deliverable
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -393,6 +278,121 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
             return it;
         }
        /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Period
+       * @param value Period of the type org.semanticwb.bsc.accessory.Period
+       * @param model Model of the org.semanticwb.bsc.element.Deliverable
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPeriod(org.semanticwb.bsc.accessory.Period value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Period
+       * @param value Period of the type org.semanticwb.bsc.accessory.Period
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPeriod(org.semanticwb.bsc.accessory.Period value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Priority
+       * @param value Priority of the type org.semanticwb.bsc.catalogs.Priority
+       * @param model Model of the org.semanticwb.bsc.element.Deliverable
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPriority(org.semanticwb.bsc.catalogs.Priority value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_priority, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Priority
+       * @param value Priority of the type org.semanticwb.bsc.catalogs.Priority
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByPriority(org.semanticwb.bsc.catalogs.Priority value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_priority,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Initiative
+       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
+       * @param model Model of the org.semanticwb.bsc.element.Deliverable
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByInitiative(org.semanticwb.bsc.element.Initiative value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasDeliverableInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Initiative
+       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByInitiative(org.semanticwb.bsc.element.Initiative value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasDeliverableInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @param model Model of the org.semanticwb.bsc.element.Deliverable
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Deliverable
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Deliverable with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Deliverable
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Deliverable> listDeliverableByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Deliverable> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.bsc.element.Deliverable with a determined Series
        * @param value Series of the type org.semanticwb.bsc.tracing.Series
        * @param model Model of the org.semanticwb.bsc.element.Deliverable
@@ -429,6 +429,174 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
     public DeliverableBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the FilePath property
+* @return String with the FilePath
+*/
+    public String getFilePath()
+    {
+        return getSemanticObject().getProperty(bsc_filePath);
+    }
+
+/**
+* Sets the FilePath property
+* @param value long with the FilePath
+*/
+    public void setFilePath(String value)
+    {
+        getSemanticObject().setProperty(bsc_filePath, value);
+    }
+
+/**
+* Gets the Recommendations property
+* @return String with the Recommendations
+*/
+    public String getRecommendations()
+    {
+        return getSemanticObject().getProperty(bsc_recommendations);
+    }
+
+/**
+* Sets the Recommendations property
+* @param value long with the Recommendations
+*/
+    public void setRecommendations(String value)
+    {
+        getSemanticObject().setProperty(bsc_recommendations, value);
+    }
+
+/**
+* Gets the ActualEnd property
+* @return java.util.Date with the ActualEnd
+*/
+    public java.util.Date getActualEnd()
+    {
+        return getSemanticObject().getDateProperty(bsc_actualEnd);
+    }
+
+/**
+* Sets the ActualEnd property
+* @param value long with the ActualEnd
+*/
+    public void setActualEnd(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(bsc_actualEnd, value);
+    }
+   /**
+   * Sets the value for the property AutoStatus
+   * @param value AutoStatus to set
+   */
+
+    public void setAutoStatus(org.semanticwb.bsc.accessory.State value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_autoStatus, value.getSemanticObject());
+        }else
+        {
+            removeAutoStatus();
+        }
+    }
+   /**
+   * Remove the value for AutoStatus property
+   */
+
+    public void removeAutoStatus()
+    {
+        getSemanticObject().removeProperty(bsc_autoStatus);
+    }
+
+   /**
+   * Gets the AutoStatus
+   * @return a org.semanticwb.bsc.accessory.State
+   */
+    public org.semanticwb.bsc.accessory.State getAutoStatus()
+    {
+         org.semanticwb.bsc.accessory.State ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_autoStatus);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Responsible
+   * @param value Responsible to set
+   */
+
+    public void setResponsible(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_responsible, value.getSemanticObject());
+        }else
+        {
+            removeResponsible();
+        }
+    }
+   /**
+   * Remove the value for Responsible property
+   */
+
+    public void removeResponsible()
+    {
+        getSemanticObject().removeProperty(bsc_responsible);
+    }
+
+   /**
+   * Gets the Responsible
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getResponsible()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_responsible);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Star
+   * @param value Star to set
+   */
+
+    public void setStar(org.semanticwb.bsc.tracing.Series value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_star, value.getSemanticObject());
+        }else
+        {
+            removeStar();
+        }
+    }
+   /**
+   * Remove the value for Star property
+   */
+
+    public void removeStar()
+    {
+        getSemanticObject().removeProperty(bsc_star);
+    }
+
+   /**
+   * Gets the Star
+   * @return a org.semanticwb.bsc.tracing.Series
+   */
+    public org.semanticwb.bsc.tracing.Series getStar()
+    {
+         org.semanticwb.bsc.tracing.Series ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_star);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.tracing.Series)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -609,42 +777,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
     }
 
 /**
-* Gets the FilePath property
-* @return String with the FilePath
-*/
-    public String getFilePath()
-    {
-        return getSemanticObject().getProperty(bsc_filePath);
-    }
-
-/**
-* Sets the FilePath property
-* @param value long with the FilePath
-*/
-    public void setFilePath(String value)
-    {
-        getSemanticObject().setProperty(bsc_filePath, value);
-    }
-
-/**
-* Gets the Recommendations property
-* @return String with the Recommendations
-*/
-    public String getRecommendations()
-    {
-        return getSemanticObject().getProperty(bsc_recommendations);
-    }
-
-/**
-* Sets the Recommendations property
-* @param value long with the Recommendations
-*/
-    public void setRecommendations(String value)
-    {
-        getSemanticObject().setProperty(bsc_recommendations, value);
-    }
-
-/**
 * Gets the PlannedStart property
 * @return java.util.Date with the PlannedStart
 */
@@ -660,24 +792,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
     public void setPlannedStart(java.util.Date value)
     {
         getSemanticObject().setDateProperty(bsc_plannedStart, value);
-    }
-
-/**
-* Gets the ActualEnd property
-* @return java.util.Date with the ActualEnd
-*/
-    public java.util.Date getActualEnd()
-    {
-        return getSemanticObject().getDateProperty(bsc_actualEnd);
-    }
-
-/**
-* Sets the ActualEnd property
-* @param value long with the ActualEnd
-*/
-    public void setActualEnd(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(bsc_actualEnd, value);
     }
 
 /**
@@ -714,120 +828,6 @@ public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElem
     public void setActualStart(java.util.Date value)
     {
         getSemanticObject().setDateProperty(bsc_actualStart, value);
-    }
-   /**
-   * Sets the value for the property AutoStatus
-   * @param value AutoStatus to set
-   */
-
-    public void setAutoStatus(org.semanticwb.bsc.accessory.State value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_autoStatus, value.getSemanticObject());
-        }else
-        {
-            removeAutoStatus();
-        }
-    }
-   /**
-   * Remove the value for AutoStatus property
-   */
-
-    public void removeAutoStatus()
-    {
-        getSemanticObject().removeProperty(bsc_autoStatus);
-    }
-
-   /**
-   * Gets the AutoStatus
-   * @return a org.semanticwb.bsc.accessory.State
-   */
-    public org.semanticwb.bsc.accessory.State getAutoStatus()
-    {
-         org.semanticwb.bsc.accessory.State ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_autoStatus);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Responsible
-   * @param value Responsible to set
-   */
-
-    public void setResponsible(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_responsible, value.getSemanticObject());
-        }else
-        {
-            removeResponsible();
-        }
-    }
-   /**
-   * Remove the value for Responsible property
-   */
-
-    public void removeResponsible()
-    {
-        getSemanticObject().removeProperty(bsc_responsible);
-    }
-
-   /**
-   * Gets the Responsible
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getResponsible()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_responsible);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Star
-   * @param value Star to set
-   */
-
-    public void setStar(org.semanticwb.bsc.tracing.Series value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_star, value.getSemanticObject());
-        }else
-        {
-            removeStar();
-        }
-    }
-   /**
-   * Remove the value for Star property
-   */
-
-    public void removeStar()
-    {
-        getSemanticObject().removeProperty(bsc_star);
-    }
-
-   /**
-   * Gets the Star
-   * @return a org.semanticwb.bsc.tracing.Series
-   */
-    public org.semanticwb.bsc.tracing.Series getStar()
-    {
-         org.semanticwb.bsc.tracing.Series ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_star);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.tracing.Series)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Gets all the org.semanticwb.bsc.tracing.Series

@@ -4,8 +4,16 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de un Objetivo estratégico. 
    */
-public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Causal,org.semanticwb.bsc.FixedMeasurable,org.semanticwb.bsc.Status,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.Serializable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.PeriodStatusAssignable,org.semanticwb.bsc.Sortable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Updateable
+public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.bsc.Seasonable,org.semanticwb.model.Searchable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.PeriodStatusAssignable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.bsc.Sortable,org.semanticwb.bsc.FixedMeasurable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Summarized,org.semanticwb.bsc.Causal,org.semanticwb.bsc.Help,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Serializable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Updateable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Status
 {
+   /**
+   * Define las características de un Objetivo estratégico.
+   */
+    public static final org.semanticwb.platform.SemanticClass bsc_Objective=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Objective");
+   /**
+   * Especifica el objetivo al cual está alineado el objetivo en cuestión, o sea el objetivo padre
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_parentObjective=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#parentObjective");
    /**
    * Define las características de un Indicador.
    */
@@ -19,14 +27,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
    * Indica el objeto Theme al que se relaciona el objeto Objective en cuestión
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_themeInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#themeInv");
-   /**
-   * Define las características de un Objetivo estratégico.
-   */
-    public static final org.semanticwb.platform.SemanticClass bsc_Objective=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Objective");
-   /**
-   * Especifica el objetivo al cual está alineado el objetivo en cuestión, o sea el objetivo padre
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_parentObjective=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#parentObjective");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -110,29 +110,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
             return (getObjective(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Period
-       * @param value Period of the type org.semanticwb.bsc.accessory.Period
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriod(org.semanticwb.bsc.accessory.Period value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Period
-       * @param value Period of the type org.semanticwb.bsc.accessory.Period
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriod(org.semanticwb.bsc.accessory.Period value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Objective with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.element.Objective
@@ -153,52 +130,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
         public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Indicator
-       * @param value Indicator of the type org.semanticwb.bsc.element.Indicator
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByIndicator(org.semanticwb.bsc.element.Indicator value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasIndicator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Indicator
-       * @param value Indicator of the type org.semanticwb.bsc.element.Indicator
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByIndicator(org.semanticwb.bsc.element.Indicator value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasIndicator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Theme
-       * @param value Theme of the type org.semanticwb.bsc.Theme
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByTheme(org.semanticwb.bsc.Theme value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_themeInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Theme
-       * @param value Theme of the type org.semanticwb.bsc.Theme
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByTheme(org.semanticwb.bsc.Theme value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_themeInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -248,29 +179,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined PeriodStatus
-       * @param value PeriodStatus of the type org.semanticwb.bsc.tracing.PeriodStatus
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriodStatus(org.semanticwb.bsc.tracing.PeriodStatus value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriodStatus, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined PeriodStatus
-       * @param value PeriodStatus of the type org.semanticwb.bsc.tracing.PeriodStatus
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriodStatus(org.semanticwb.bsc.tracing.PeriodStatus value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriodStatus,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Objective with a determined UserGroup
        * @param value UserGroup of the type org.semanticwb.model.UserGroup
        * @param model Model of the org.semanticwb.bsc.element.Objective
@@ -294,29 +202,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Objective with a determined CausalObjective
        * @param value CausalObjective of the type org.semanticwb.bsc.element.Objective
        * @param model Model of the org.semanticwb.bsc.element.Objective
@@ -337,29 +222,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
         public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByCausalObjective(org.semanticwb.bsc.element.Objective value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasCausalObjective,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -432,29 +294,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Sponsor
-       * @param value Sponsor of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Objective
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveBySponsor(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_sponsor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Objective with a determined Sponsor
-       * @param value Sponsor of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Objective
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveBySponsor(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_sponsor,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Objective with a determined Periodicity
        * @param value Periodicity of the type org.semanticwb.bsc.tracing.MeasurementFrequency
        * @param model Model of the org.semanticwb.bsc.element.Objective
@@ -477,6 +316,167 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_periodicity,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Period
+       * @param value Period of the type org.semanticwb.bsc.accessory.Period
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriod(org.semanticwb.bsc.accessory.Period value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Period
+       * @param value Period of the type org.semanticwb.bsc.accessory.Period
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriod(org.semanticwb.bsc.accessory.Period value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriod,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Indicator
+       * @param value Indicator of the type org.semanticwb.bsc.element.Indicator
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByIndicator(org.semanticwb.bsc.element.Indicator value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasIndicator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Indicator
+       * @param value Indicator of the type org.semanticwb.bsc.element.Indicator
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByIndicator(org.semanticwb.bsc.element.Indicator value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasIndicator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Theme
+       * @param value Theme of the type org.semanticwb.bsc.Theme
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByTheme(org.semanticwb.bsc.Theme value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_themeInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Theme
+       * @param value Theme of the type org.semanticwb.bsc.Theme
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByTheme(org.semanticwb.bsc.Theme value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_themeInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined PeriodStatus
+       * @param value PeriodStatus of the type org.semanticwb.bsc.tracing.PeriodStatus
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriodStatus(org.semanticwb.bsc.tracing.PeriodStatus value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriodStatus, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined PeriodStatus
+       * @param value PeriodStatus of the type org.semanticwb.bsc.tracing.PeriodStatus
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByPeriodStatus(org.semanticwb.bsc.tracing.PeriodStatus value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasPeriodStatus,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Sponsor
+       * @param value Sponsor of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Objective
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveBySponsor(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_sponsor, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Objective with a determined Sponsor
+       * @param value Sponsor of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Objective
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Objective> listObjectiveBySponsor(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_sponsor,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static ObjectiveBase.ClassMgr getObjectiveClassMgr()
@@ -491,6 +491,315 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
     public ObjectiveBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Gets all the org.semanticwb.bsc.Theme
+   * @return A GenericIterator with all the org.semanticwb.bsc.Theme
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.Theme> listCausalThemes()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.Theme>(getSemanticObject().listObjectProperties(bsc_hasCausalTheme));
+    }
+
+   /**
+   * Gets true if has a CausalTheme
+   * @param value org.semanticwb.bsc.Theme to verify
+   * @return true if the org.semanticwb.bsc.Theme exists, false otherwise
+   */
+    public boolean hasCausalTheme(org.semanticwb.bsc.Theme value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(bsc_hasCausalTheme,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CausalTheme
+   * @param value org.semanticwb.bsc.Theme to add
+   */
+
+    public void addCausalTheme(org.semanticwb.bsc.Theme value)
+    {
+        getSemanticObject().addObjectProperty(bsc_hasCausalTheme, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CausalTheme
+   */
+
+    public void removeAllCausalTheme()
+    {
+        getSemanticObject().removeProperty(bsc_hasCausalTheme);
+    }
+   /**
+   * Removes a CausalTheme
+   * @param value org.semanticwb.bsc.Theme to remove
+   */
+
+    public void removeCausalTheme(org.semanticwb.bsc.Theme value)
+    {
+        getSemanticObject().removeObjectProperty(bsc_hasCausalTheme,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CausalTheme
+   * @return a org.semanticwb.bsc.Theme
+   */
+    public org.semanticwb.bsc.Theme getCausalTheme()
+    {
+         org.semanticwb.bsc.Theme ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasCausalTheme);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.Theme)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.bsc.accessory.State
+   * @return A GenericIterator with all the org.semanticwb.bsc.accessory.State
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> listStates()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State>(getSemanticObject().listObjectProperties(bsc_hasState));
+    }
+
+   /**
+   * Gets true if has a State
+   * @param value org.semanticwb.bsc.accessory.State to verify
+   * @return true if the org.semanticwb.bsc.accessory.State exists, false otherwise
+   */
+    public boolean hasState(org.semanticwb.bsc.accessory.State value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(bsc_hasState,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a State
+   * @param value org.semanticwb.bsc.accessory.State to add
+   */
+
+    public void addState(org.semanticwb.bsc.accessory.State value)
+    {
+        getSemanticObject().addObjectProperty(bsc_hasState, value.getSemanticObject());
+    }
+   /**
+   * Removes all the State
+   */
+
+    public void removeAllState()
+    {
+        getSemanticObject().removeProperty(bsc_hasState);
+    }
+   /**
+   * Removes a State
+   * @param value org.semanticwb.bsc.accessory.State to remove
+   */
+
+    public void removeState(org.semanticwb.bsc.accessory.State value)
+    {
+        getSemanticObject().removeObjectProperty(bsc_hasState,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the State
+   * @return a org.semanticwb.bsc.accessory.State
+   */
+    public org.semanticwb.bsc.accessory.State getState()
+    {
+         org.semanticwb.bsc.accessory.State ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasState);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Prefix property
+* @return String with the Prefix
+*/
+    public String getPrefix()
+    {
+        //Override this method in Objective object
+        return getSemanticObject().getProperty(bsc_prefix,false);
+    }
+
+/**
+* Sets the Prefix property
+* @param value long with the Prefix
+*/
+    public void setPrefix(String value)
+    {
+        //Override this method in Objective object
+        getSemanticObject().setProperty(bsc_prefix, value,false);
+    }
+
+/**
+* Gets the Recommendations property
+* @return String with the Recommendations
+*/
+    public String getRecommendations()
+    {
+        return getSemanticObject().getProperty(bsc_recommendations);
+    }
+
+/**
+* Sets the Recommendations property
+* @param value long with the Recommendations
+*/
+    public void setRecommendations(String value)
+    {
+        getSemanticObject().setProperty(bsc_recommendations, value);
+    }
+   /**
+   * Gets all the org.semanticwb.bsc.element.Objective
+   * @return A GenericIterator with all the org.semanticwb.bsc.element.Objective
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> listCausalObjectives()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective>(getSemanticObject().listObjectProperties(bsc_hasCausalObjective));
+    }
+
+   /**
+   * Gets true if has a CausalObjective
+   * @param value org.semanticwb.bsc.element.Objective to verify
+   * @return true if the org.semanticwb.bsc.element.Objective exists, false otherwise
+   */
+    public boolean hasCausalObjective(org.semanticwb.bsc.element.Objective value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(bsc_hasCausalObjective,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a CausalObjective
+   * @param value org.semanticwb.bsc.element.Objective to add
+   */
+
+    public void addCausalObjective(org.semanticwb.bsc.element.Objective value)
+    {
+        getSemanticObject().addObjectProperty(bsc_hasCausalObjective, value.getSemanticObject());
+    }
+   /**
+   * Removes all the CausalObjective
+   */
+
+    public void removeAllCausalObjective()
+    {
+        getSemanticObject().removeProperty(bsc_hasCausalObjective);
+    }
+   /**
+   * Removes a CausalObjective
+   * @param value org.semanticwb.bsc.element.Objective to remove
+   */
+
+    public void removeCausalObjective(org.semanticwb.bsc.element.Objective value)
+    {
+        getSemanticObject().removeObjectProperty(bsc_hasCausalObjective,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the CausalObjective
+   * @return a org.semanticwb.bsc.element.Objective
+   */
+    public org.semanticwb.bsc.element.Objective getCausalObjective()
+    {
+         org.semanticwb.bsc.element.Objective ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasCausalObjective);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.element.Objective)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property ParentObjective
+   * @param value ParentObjective to set
+   */
+
+    public void setParentObjective(org.semanticwb.bsc.element.Objective value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_parentObjective, value.getSemanticObject());
+        }else
+        {
+            removeParentObjective();
+        }
+    }
+   /**
+   * Remove the value for ParentObjective property
+   */
+
+    public void removeParentObjective()
+    {
+        getSemanticObject().removeProperty(bsc_parentObjective);
+    }
+
+   /**
+   * Gets the ParentObjective
+   * @return a org.semanticwb.bsc.element.Objective
+   */
+    public org.semanticwb.bsc.element.Objective getParentObjective()
+    {
+         org.semanticwb.bsc.element.Objective ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_parentObjective);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.element.Objective)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property Periodicity
+   * @param value Periodicity to set
+   */
+
+    public void setPeriodicity(org.semanticwb.bsc.tracing.MeasurementFrequency value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_periodicity, value.getSemanticObject());
+        }else
+        {
+            removePeriodicity();
+        }
+    }
+   /**
+   * Remove the value for Periodicity property
+   */
+
+    public void removePeriodicity()
+    {
+        getSemanticObject().removeProperty(bsc_periodicity);
+    }
+
+   /**
+   * Gets the Periodicity
+   * @return a org.semanticwb.bsc.tracing.MeasurementFrequency
+   */
+    public org.semanticwb.bsc.tracing.MeasurementFrequency getPeriodicity()
+    {
+         org.semanticwb.bsc.tracing.MeasurementFrequency ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_periodicity);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.tracing.MeasurementFrequency)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.bsc.accessory.Period
@@ -660,136 +969,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
          }
          return ret;
     }
-   /**
-   * Gets all the org.semanticwb.bsc.Theme
-   * @return A GenericIterator with all the org.semanticwb.bsc.Theme
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.Theme> listCausalThemes()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.Theme>(getSemanticObject().listObjectProperties(bsc_hasCausalTheme));
-    }
-
-   /**
-   * Gets true if has a CausalTheme
-   * @param value org.semanticwb.bsc.Theme to verify
-   * @return true if the org.semanticwb.bsc.Theme exists, false otherwise
-   */
-    public boolean hasCausalTheme(org.semanticwb.bsc.Theme value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(bsc_hasCausalTheme,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a CausalTheme
-   * @param value org.semanticwb.bsc.Theme to add
-   */
-
-    public void addCausalTheme(org.semanticwb.bsc.Theme value)
-    {
-        getSemanticObject().addObjectProperty(bsc_hasCausalTheme, value.getSemanticObject());
-    }
-   /**
-   * Removes all the CausalTheme
-   */
-
-    public void removeAllCausalTheme()
-    {
-        getSemanticObject().removeProperty(bsc_hasCausalTheme);
-    }
-   /**
-   * Removes a CausalTheme
-   * @param value org.semanticwb.bsc.Theme to remove
-   */
-
-    public void removeCausalTheme(org.semanticwb.bsc.Theme value)
-    {
-        getSemanticObject().removeObjectProperty(bsc_hasCausalTheme,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the CausalTheme
-   * @return a org.semanticwb.bsc.Theme
-   */
-    public org.semanticwb.bsc.Theme getCausalTheme()
-    {
-         org.semanticwb.bsc.Theme ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasCausalTheme);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.Theme)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Gets all the org.semanticwb.bsc.accessory.State
-   * @return A GenericIterator with all the org.semanticwb.bsc.accessory.State
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> listStates()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State>(getSemanticObject().listObjectProperties(bsc_hasState));
-    }
-
-   /**
-   * Gets true if has a State
-   * @param value org.semanticwb.bsc.accessory.State to verify
-   * @return true if the org.semanticwb.bsc.accessory.State exists, false otherwise
-   */
-    public boolean hasState(org.semanticwb.bsc.accessory.State value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(bsc_hasState,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a State
-   * @param value org.semanticwb.bsc.accessory.State to add
-   */
-
-    public void addState(org.semanticwb.bsc.accessory.State value)
-    {
-        getSemanticObject().addObjectProperty(bsc_hasState, value.getSemanticObject());
-    }
-   /**
-   * Removes all the State
-   */
-
-    public void removeAllState()
-    {
-        getSemanticObject().removeProperty(bsc_hasState);
-    }
-   /**
-   * Removes a State
-   * @param value org.semanticwb.bsc.accessory.State to remove
-   */
-
-    public void removeState(org.semanticwb.bsc.accessory.State value)
-    {
-        getSemanticObject().removeObjectProperty(bsc_hasState,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the State
-   * @return a org.semanticwb.bsc.accessory.State
-   */
-    public org.semanticwb.bsc.accessory.State getState()
-    {
-         org.semanticwb.bsc.accessory.State ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasState);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.accessory.State)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the Index property
@@ -797,7 +976,8 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
 */
     public int getIndex()
     {
-        return getSemanticObject().getIntProperty(bsc_index);
+        //Override this method in Objective object
+        return getSemanticObject().getIntProperty(bsc_index,false);
     }
 
 /**
@@ -806,7 +986,8 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
 */
     public void setIndex(int value)
     {
-        getSemanticObject().setIntProperty(bsc_index, value);
+        //Override this method in Objective object
+        getSemanticObject().setIntProperty(bsc_index, value,false);
     }
    /**
    * Gets all the org.semanticwb.bsc.tracing.PeriodStatus
@@ -875,109 +1056,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
     }
 
 /**
-* Gets the Prefix property
-* @return String with the Prefix
-*/
-    public String getPrefix()
-    {
-        //Override this method in Objective object
-        return getSemanticObject().getProperty(bsc_prefix,false);
-    }
-
-/**
-* Sets the Prefix property
-* @param value long with the Prefix
-*/
-    public void setPrefix(String value)
-    {
-        //Override this method in Objective object
-        getSemanticObject().setProperty(bsc_prefix, value,false);
-    }
-
-/**
-* Gets the Recommendations property
-* @return String with the Recommendations
-*/
-    public String getRecommendations()
-    {
-        return getSemanticObject().getProperty(bsc_recommendations);
-    }
-
-/**
-* Sets the Recommendations property
-* @param value long with the Recommendations
-*/
-    public void setRecommendations(String value)
-    {
-        getSemanticObject().setProperty(bsc_recommendations, value);
-    }
-   /**
-   * Gets all the org.semanticwb.bsc.element.Objective
-   * @return A GenericIterator with all the org.semanticwb.bsc.element.Objective
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective> listCausalObjectives()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Objective>(getSemanticObject().listObjectProperties(bsc_hasCausalObjective));
-    }
-
-   /**
-   * Gets true if has a CausalObjective
-   * @param value org.semanticwb.bsc.element.Objective to verify
-   * @return true if the org.semanticwb.bsc.element.Objective exists, false otherwise
-   */
-    public boolean hasCausalObjective(org.semanticwb.bsc.element.Objective value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(bsc_hasCausalObjective,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a CausalObjective
-   * @param value org.semanticwb.bsc.element.Objective to add
-   */
-
-    public void addCausalObjective(org.semanticwb.bsc.element.Objective value)
-    {
-        getSemanticObject().addObjectProperty(bsc_hasCausalObjective, value.getSemanticObject());
-    }
-   /**
-   * Removes all the CausalObjective
-   */
-
-    public void removeAllCausalObjective()
-    {
-        getSemanticObject().removeProperty(bsc_hasCausalObjective);
-    }
-   /**
-   * Removes a CausalObjective
-   * @param value org.semanticwb.bsc.element.Objective to remove
-   */
-
-    public void removeCausalObjective(org.semanticwb.bsc.element.Objective value)
-    {
-        getSemanticObject().removeObjectProperty(bsc_hasCausalObjective,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the CausalObjective
-   * @return a org.semanticwb.bsc.element.Objective
-   */
-    public org.semanticwb.bsc.element.Objective getCausalObjective()
-    {
-         org.semanticwb.bsc.element.Objective ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasCausalObjective);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.element.Objective)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
 * Gets the Analysis property
 * @return String with the Analysis
 */
@@ -993,44 +1071,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
     public void setAnalysis(String value)
     {
         getSemanticObject().setProperty(bsc_analysis, value);
-    }
-   /**
-   * Sets the value for the property ParentObjective
-   * @param value ParentObjective to set
-   */
-
-    public void setParentObjective(org.semanticwb.bsc.element.Objective value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_parentObjective, value.getSemanticObject());
-        }else
-        {
-            removeParentObjective();
-        }
-    }
-   /**
-   * Remove the value for ParentObjective property
-   */
-
-    public void removeParentObjective()
-    {
-        getSemanticObject().removeProperty(bsc_parentObjective);
-    }
-
-   /**
-   * Gets the ParentObjective
-   * @return a org.semanticwb.bsc.element.Objective
-   */
-    public org.semanticwb.bsc.element.Objective getParentObjective()
-    {
-         org.semanticwb.bsc.element.Objective ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_parentObjective);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.element.Objective)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property Sponsor
@@ -1067,44 +1107,6 @@ public abstract class ObjectiveBase extends org.semanticwb.bsc.element.BSCElemen
          if(obj!=null)
          {
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Periodicity
-   * @param value Periodicity to set
-   */
-
-    public void setPeriodicity(org.semanticwb.bsc.tracing.MeasurementFrequency value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_periodicity, value.getSemanticObject());
-        }else
-        {
-            removePeriodicity();
-        }
-    }
-   /**
-   * Remove the value for Periodicity property
-   */
-
-    public void removePeriodicity()
-    {
-        getSemanticObject().removeProperty(bsc_periodicity);
-    }
-
-   /**
-   * Gets the Periodicity
-   * @return a org.semanticwb.bsc.tracing.MeasurementFrequency
-   */
-    public org.semanticwb.bsc.tracing.MeasurementFrequency getPeriodicity()
-    {
-         org.semanticwb.bsc.tracing.MeasurementFrequency ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_periodicity);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.bsc.tracing.MeasurementFrequency)obj.createGenericInstance();
          }
          return ret;
     }
