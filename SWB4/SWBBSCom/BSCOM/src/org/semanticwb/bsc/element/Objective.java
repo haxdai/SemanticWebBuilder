@@ -108,19 +108,27 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
             }catch(Exception e) {
                 prefix = getTheme().getPerspective().getTitle().substring(0, 1).toUpperCase() + getTheme().getPerspective().getSerial();
             }
-            setPrefix(prefix);
+            super.setPrefix(prefix);
         }
         return prefix;
     }
     
-    /**
-     * Asigna el prefijo de un objetivo.
-     */
     @Override
-    public void setPrefix(String value) {
-        super.setPrefix(value);
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
-    
+        
     public boolean updateAppraisal(Period period)
     {
         boolean updated = Boolean.FALSE;
