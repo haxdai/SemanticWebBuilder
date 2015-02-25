@@ -38,21 +38,34 @@ public class Perspective extends org.semanticwb.bsc.base.PerspectiveBase impleme
     
     @Override
     public String getPrefix() {
-        String prefix = super.getPrefix();
+        String prefix;
+        prefix = super.getPrefix();
         if(prefix==null) {
             try {
                 prefix = getTitle().trim().substring(0, 1).toUpperCase();
             }catch(Exception e) {
                 prefix = "Untitled";
+            }finally {
+                super.setPrefix(prefix);
             }
-            setPrefix(prefix);
         }
         return prefix;
     }
 
     @Override
-    public void setPrefix(String value) {
-        super.setPrefix(value);           
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
     
     @Override
