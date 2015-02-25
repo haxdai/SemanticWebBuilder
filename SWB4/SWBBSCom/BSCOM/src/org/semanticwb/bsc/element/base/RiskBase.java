@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente. 
    */
-public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Help,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.model.FilterableNode
+public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.ActionAssignable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Summarized,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Attachmentable
 {
    /**
    * Permite seleccionar una alineación. Los posibles valores son Estrategia, Objetivo y Meta
@@ -65,13 +65,13 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_classifRiskSpecifyOther=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#classifRiskSpecifyOther");
    /**
-   * Elemento BSC(Entregable, Objetivo, Iniciativa o Indicador) relacionado a un riesgo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_elementRelated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#elementRelated");
-   /**
    * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 1 al 10
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_iniAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#iniAssessmentLikelihood");
+   /**
+   * Elemento BSC(Entregable, Objetivo, Iniciativa o Indicador) relacionado a un riesgo
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_elementRelated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#elementRelated");
    /**
    * Clase que define un factor de riesgo.
    */
@@ -885,24 +885,6 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     }
 
 /**
-* Gets the ElementRelated property
-* @return String with the ElementRelated
-*/
-    public String getElementRelated()
-    {
-        return getSemanticObject().getProperty(bsc_elementRelated);
-    }
-
-/**
-* Sets the ElementRelated property
-* @param value long with the ElementRelated
-*/
-    public void setElementRelated(String value)
-    {
-        getSemanticObject().setProperty(bsc_elementRelated, value);
-    }
-
-/**
 * Gets the IniAssessmentLikelihood property
 * @return int with the IniAssessmentLikelihood
 */
@@ -918,6 +900,24 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     public void setIniAssessmentLikelihood(int value)
     {
         getSemanticObject().setIntProperty(bsc_iniAssessmentLikelihood, value);
+    }
+
+/**
+* Gets the ElementRelated property
+* @return String with the ElementRelated
+*/
+    public String getElementRelated()
+    {
+        return getSemanticObject().getProperty(bsc_elementRelated);
+    }
+
+/**
+* Sets the ElementRelated property
+* @param value long with the ElementRelated
+*/
+    public void setElementRelated(String value)
+    {
+        getSemanticObject().setProperty(bsc_elementRelated, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.tracing.Factor
