@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.base;
 
 
-public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Serializable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode
+public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass implements org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Serializable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Help
 {
    /**
    * Un DifferentiatorGroup es una clase que permitir contener uno o varios Differentiator que se dibujan en el mapa estratégico del scorecard.
@@ -488,7 +488,8 @@ public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass impl
 */
     public int getIndex()
     {
-        return getSemanticObject().getIntProperty(bsc_index);
+        //Override this method in Perspective object
+        return getSemanticObject().getIntProperty(bsc_index,false);
     }
 
 /**
@@ -497,7 +498,8 @@ public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass impl
 */
     public void setIndex(int value)
     {
-        getSemanticObject().setIntProperty(bsc_index, value);
+        //Override this method in Perspective object
+        getSemanticObject().setIntProperty(bsc_index, value,false);
     }
 
 /**
@@ -806,39 +808,6 @@ public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass impl
          }
          return ret;
     }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
    /**
    * Gets all the org.semanticwb.model.RuleRef
    * @return A GenericIterator with all the org.semanticwb.model.RuleRef
@@ -912,6 +881,39 @@ public abstract class PerspectiveBase extends org.semanticwb.model.SWBClass impl
              ret=(org.semanticwb.model.RuleRef)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
    /**
    * Gets all the org.semanticwb.bsc.Theme
