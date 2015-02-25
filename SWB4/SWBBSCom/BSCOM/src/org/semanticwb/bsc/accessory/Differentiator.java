@@ -44,4 +44,20 @@ public class Differentiator extends org.semanticwb.bsc.accessory.base.Differenti
             }
         }
     }
+
+    @Override
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
+    }
 }
