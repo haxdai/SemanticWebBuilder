@@ -2,7 +2,6 @@ package org.semanticwb.bsc;
 
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.model.FormValidateException;
-import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
    /**
