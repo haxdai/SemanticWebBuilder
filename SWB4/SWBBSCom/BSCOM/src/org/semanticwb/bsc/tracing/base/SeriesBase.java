@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.tracing.base;
 
 
-public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.ReadOnly,org.semanticwb.model.Filterable,org.semanticwb.bsc.Committable,org.semanticwb.model.Roleable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Measurable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode
+public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Committable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Measurable,org.semanticwb.bsc.ReadOnly,org.semanticwb.bsc.Help
 {
    /**
    * Interfaz que define un elemento que trabaja con instancias de Series
@@ -298,7 +298,8 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
 */
     public int getIndex()
     {
-        return getSemanticObject().getIntProperty(bsc_index);
+        //Override this method in Series object
+        return getSemanticObject().getIntProperty(bsc_index,false);
     }
 
 /**
@@ -307,7 +308,8 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
 */
     public void setIndex(int value)
     {
-        getSemanticObject().setIntProperty(bsc_index, value);
+        //Override this method in Series object
+        getSemanticObject().setIntProperty(bsc_index, value,false);
     }
    /**
    * Sets the value for the property Sm
@@ -384,24 +386,6 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
              ret=(org.semanticwb.bsc.catalogs.Format)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Deleted property
-* @return boolean with the Deleted
-*/
-    public boolean isDeleted()
-    {
-        return getSemanticObject().getBooleanProperty(swb_deleted);
-    }
-
-/**
-* Sets the Deleted property
-* @param value long with the Deleted
-*/
-    public void setDeleted(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_deleted, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.tracing.Measure
