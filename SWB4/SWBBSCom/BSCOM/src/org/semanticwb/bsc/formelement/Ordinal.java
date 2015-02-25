@@ -28,10 +28,9 @@ import org.semanticwb.platform.SemanticProperty;
  */
 public class Ordinal extends org.semanticwb.bsc.formelement.base.OrdinalBase 
 {
-    private static Logger log = SWBUtils.getLogger(Ordinal.class);
+    private static final Logger log = SWBUtils.getLogger(Ordinal.class);
     
-    public Ordinal(org.semanticwb.platform.SemanticObject base)
-    {
+    public Ordinal(org.semanticwb.platform.SemanticObject base) {
         super(base);
     }
     
@@ -43,7 +42,8 @@ public class Ordinal extends org.semanticwb.bsc.formelement.base.OrdinalBase
         
         boolean dojo = type.equals("dojo");
 
-        StringBuilder  ret      = new StringBuilder();
+        StringBuilder  ret;
+        ret = new StringBuilder();
         String         name     = propName;
         String         label    = prop.getDisplayName(lang);
         SemanticObject sobj     = prop.getDisplayProperty();
@@ -126,40 +126,17 @@ public class Ordinal extends org.semanticwb.bsc.formelement.base.OrdinalBase
     public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName) throws FormValidateException
     {
         org.semanticwb.bsc.Sortable sortable = (Sortable) obj.getGenericInstance();
-        sortable.validOrder(request, prop, propName);
-//        int ordinal;
-//        try {
-//            String value = request.getParameter(propName);
-//            ordinal = Integer.parseInt(value);
-//        }catch(NumberFormatException pe) {            
-//            throw new FormValidateException("El valor debe ser numérico y no debe repetirse");
-//        }
-//        
-//        SWBModel model = (SWBModel)obj.getModel().getModelObject().createGenericInstance();
-//        Iterator<SemanticObject> it = model.getSemanticModel().listInstancesOfClass(obj.getSemanticClass());
-//        while(it.hasNext()) {
-//            SemanticObject so = it.next();
-//            if( obj.equals(so) ) {
-//                continue;
-//            }
-//            if(ordinal == so.getIntProperty(prop))
-//            {
-//                throw new FormValidateException("El valor debe ser numérico y no puede repetirse");
-//            }
-//        }        
+        sortable.validOrder(request, prop, propName);       
     }
 
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
     {
         String value = request.getParameter(propName);
-        try
-        {
+        try {
             int fvalue = Integer.parseInt(value);
             obj.setIntProperty(prop, fvalue);
-        }
-        catch(Exception e)
-        {
+        }catch(NumberFormatException e) {
             log.error(e);
         }
     }
