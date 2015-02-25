@@ -176,13 +176,17 @@ public class ProcessFileRepository extends GenericResource {
         //response.setHeader("Cache-Control", "no-cache");
         //response.setHeader("Pragma", "no-cache");
         String jsp = "/swbadmin/jsp/process/repository/repositoryView.jsp";
+        String folderPath = null;
+        if (paramRequest.getWebPage() instanceof RepositoryDirectory) {
+            folderPath = getFolderPath((RepositoryDirectory)paramRequest.getWebPage());
+        }
         
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         try {
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("files", listFiles(request, paramRequest));
             request.setAttribute("luser", getLevelUser(paramRequest.getUser()));
-            request.setAttribute("path", getFolderPath((RepositoryDirectory)paramRequest.getWebPage()));
+            request.setAttribute("path", folderPath);
             rd.include(request, response);
         } catch (Exception ex) {
             log.error("Error including view.jsp", ex);
