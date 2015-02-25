@@ -34,6 +34,7 @@
     WebSite site = paramRequest.getWebPage().getWebSite();
     User user = paramRequest.getUser();
     String lang = "es";
+    Resource base = paramRequest.getResourceBase();
 
     if (user != null && user.getLanguage() != null) {
         lang = user.getLanguage();
@@ -41,7 +42,14 @@
     SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy - hh:mm");
     boolean snv = "true".equals(paramRequest.getResourceBase().getAttribute("showNavbar"));
 
-    if (!user.isSigned()) {
+    if (!(paramRequest.getWebPage() instanceof RepositoryDirectory)) {
+        %>
+        <div class="alert alert-block alert-warning fade in">
+            <h4><%=paramRequest.getLocaleString("msgBadConfigTitle")%></h4>
+            <p><%=paramRequest.getLocaleString("msgBadConfig")%></p>
+        </div>
+<%
+    } else if (!user.isSigned()) {
         if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {
 %>
 <div class="alert alert-block alert-danger fade in">
