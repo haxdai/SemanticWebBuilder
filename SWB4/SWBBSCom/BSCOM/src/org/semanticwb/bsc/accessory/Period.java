@@ -56,15 +56,12 @@ public class Period extends PeriodBase implements Comparable<Period>
         });
     }
     
-    
-    public Period(SemanticObject base)
-    {
+    public Period(SemanticObject base) {
         super(base);
     }
 
     @Override
-    public int compareTo(Period anotherPeriod)
-    {
+    public int compareTo(Period anotherPeriod) {
         int compare;
         Date d1 = getStart();
         Date d2 = anotherPeriod.getStart();
@@ -118,5 +115,21 @@ public class Period extends PeriodBase implements Comparable<Period>
                 throw new FormValidateException("El valor ordinal debe ser numérico y no puede repetirse");
             }
         }
+    }
+
+    @Override
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
 }

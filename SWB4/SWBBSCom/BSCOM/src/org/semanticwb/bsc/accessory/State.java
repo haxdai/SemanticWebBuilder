@@ -12,15 +12,6 @@ public class State extends org.semanticwb.bsc.accessory.base.StateBase implement
     {
         super(base);
     }
-
-//    @Override
-//    public String getIcon() {
-//        if(super.getIcon()==null) {
-//            return SWBPlatform.getContextPath()+"/org/semanticwb/bsc/admin/images/icons/icon_outtime.gif";
-//        }else {
-//            return SWBPortal.getWebWorkPath()+this.getWorkPath()+"/"+super.getIcon();
-//        }
-//    }
     
     @Override    
     public int compareTo(State anotherState) {
@@ -54,5 +45,21 @@ public class State extends org.semanticwb.bsc.accessory.base.StateBase implement
             }
 
         }
+    }
+
+    @Override
+    public int getIndex() {
+        int index;
+        index = super.getIndex();
+        if(index < 0) {
+            try {
+                index = Integer.parseInt(this.getId());
+            }catch(NumberFormatException nfe) {
+                index = Integer.MAX_VALUE;
+            }finally {
+                super.setIndex(index);
+            }
+        }
+        return index;
     }
 }
