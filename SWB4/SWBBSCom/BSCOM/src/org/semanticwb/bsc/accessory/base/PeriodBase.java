@@ -4,7 +4,7 @@ package org.semanticwb.bsc.accessory.base;
    /**
    * Período de medición. 
    */
-public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Sortable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Machinable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode,org.semanticwb.model.Undeleteable
+public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Machinable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help
 {
    /**
    * Indica la fecha incial del periodo representado
@@ -280,7 +280,8 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
 */
     public int getIndex()
     {
-        return getSemanticObject().getIntProperty(bsc_index);
+        //Override this method in Period object
+        return getSemanticObject().getIntProperty(bsc_index,false);
     }
 
 /**
@@ -289,7 +290,8 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
 */
     public void setIndex(int value)
     {
-        getSemanticObject().setIntProperty(bsc_index, value);
+        //Override this method in Period object
+        getSemanticObject().setIntProperty(bsc_index, value,false);
     }
    /**
    * Sets the value for the property Previus

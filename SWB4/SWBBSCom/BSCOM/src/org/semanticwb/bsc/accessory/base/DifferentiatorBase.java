@@ -4,7 +4,7 @@ package org.semanticwb.bsc.accessory.base;
    /**
    * Un Differentiator se dibuja en el mapa estratégico del scorecard. Los Differentiator unicamente sirvan para alojar etiquetas de differenciadores dentro de un mapa estratégico. 
    */
-public abstract class DifferentiatorBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.UserGroupable,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Roleable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Activeable
+public abstract class DifferentiatorBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Help
 {
    /**
    * Un DifferentiatorGroup es una clase que permitir contener uno o varios Differentiator que se dibujan en el mapa estratégico del scorecard.
@@ -226,7 +226,8 @@ public abstract class DifferentiatorBase extends org.semanticwb.bsc.accessory.BS
 */
     public int getIndex()
     {
-        return getSemanticObject().getIntProperty(bsc_index);
+        //Override this method in Differentiator object
+        return getSemanticObject().getIntProperty(bsc_index,false);
     }
 
 /**
@@ -235,7 +236,8 @@ public abstract class DifferentiatorBase extends org.semanticwb.bsc.accessory.BS
 */
     public void setIndex(int value)
     {
-        getSemanticObject().setIntProperty(bsc_index, value);
+        //Override this method in Differentiator object
+        getSemanticObject().setIntProperty(bsc_index, value,false);
     }
    /**
    * Sets the value for the property DifferentiatorGroup
