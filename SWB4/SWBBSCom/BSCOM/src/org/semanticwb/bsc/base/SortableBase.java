@@ -5,6 +5,9 @@ package org.semanticwb.bsc.base;
    */
 public interface SortableBase extends org.semanticwb.model.GenericObject
 {
+   /**
+   * El valor default debe ser negativo. 
+   */
     public static final org.semanticwb.platform.SemanticProperty bsc_index=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#index");
    /**
    * Interfaz que define un valor entero para ordenar 
