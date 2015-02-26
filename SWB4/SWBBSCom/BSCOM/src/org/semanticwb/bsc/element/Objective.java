@@ -391,14 +391,16 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
     @Override
     public String getStatusTitle(Period period) {
         String title;
-        try{
-            title = getPeriodStatus(period).getStatus().getTitle();
-        }catch(NullPointerException npe) {
-//            try {
-//                title = getMinimumState().getTitle();
-//            }catch(Exception e) {
-                title = "";
-//            }
+        title = "";
+        Period p = period;
+        PeriodStatus ps;
+        while( p!=null ) {
+            ps = getPeriodStatus(p);
+            if(ps!=null && ps.getStatus()!=null) {
+                title = ps.getStatus().getTitle();
+                return title;
+            }
+            p = (Period)p.getPrevius();
         }
         return title;
     }
