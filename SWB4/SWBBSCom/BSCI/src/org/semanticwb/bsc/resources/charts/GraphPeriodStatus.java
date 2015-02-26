@@ -43,19 +43,19 @@ public class GraphPeriodStatus extends GenericAdmResource {
         StringBuilder output = new StringBuilder(512);
         StringBuilder firstOutput = new StringBuilder(128);
         StringBuilder svgOutput = new StringBuilder(64);
-        StringBuilder usedColors = new StringBuilder(32);
         
         String graphHeight = base.getAttribute("graphPSHeight","300px");
         String graphWidth = base.getAttribute("graphPSWidth","100%");
         String marginLeftH = base.getAttribute("marginLeftH","125");
-        String marginRightH = base.getAttribute("marginRightH","20");
+        String marginRightH = base.getAttribute("marginRightH","175");
         String marginTopH = base.getAttribute("marginTopH","30");
         String marginBottomH = base.getAttribute("marginBottomH","40");
         String marginLeftV = base.getAttribute("marginLeftV","125");
-        String marginRightV = base.getAttribute("marginRightV","20");
+        String marginRightV = base.getAttribute("marginRightV","175");
         String marginTopV = base.getAttribute("marginTopV","10");
         String marginBottomV = base.getAttribute("marginBottomVt","110");
         String rotateLabels = base.getAttribute("rotateLabelV","-80");
+        String graphColor = base.getAttribute("graphColor","#A9D0F5");
 
         if(!user.isSigned() || !user.haveAccess(semanticObj.createGenericInstance()))     {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNotPermissions")+"</div>");
@@ -69,23 +69,12 @@ public class GraphPeriodStatus extends GenericAdmResource {
             if (genericObj instanceof Objective)
             {
                 Objective obj = (Objective) genericObj;
-//                Iterator<Period> validList = null;
-//                List<Period> periodsList = new java.util.ArrayList<Period>();
                 Iterator<State> itStates = obj.listValidStates().iterator();
 
                 //Codigo HTML para generar la grafica
                 firstOutput.append("<div class=\"row\">\n");
                 firstOutput.append("<div class=\"col-xs-12\">\n");
                 firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
-
-//                List<Period> lperiods = obj.listValidPeriods();
-//                Collections.sort(lperiods);
-//                validList = lperiods.iterator();
-//                if (validList != null) {
-//                    while (validList.hasNext()) {
-//                        periodsList.add(validList.next());
-//                    }
-//                }
                 List<Period> periodsList = obj.listValidPeriods();
                 Collections.sort(periodsList);
 
@@ -100,41 +89,20 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 firstOutput.append("         <input type=\"radio\" name=\"graphType\" id=\"vGraph\" value=\"2\" onclick=\"javascript:showGraph(this);\"><label for=\"vGraph\">Vertical</label>\n");
                 firstOutput.append("       </div>\n");
                 firstOutput.append("       </div>\n");
-
                 output.append("   </div>\n");
                 output.append("<script type=\"text/javascript\">\n");
                 output.append("long_short_data = [\n");
 
-                short seriesCount = 0;
-                while (itStates != null && itStates.hasNext())
-                {
-                    State st = itStates.next();
-                        //Se selecciona el color de la serie de manera aleatoria
-                        short colorIndex = (short) (Math.random() * colors.length);
-                        boolean colorAssigned = false;
-                        while (!colorAssigned) {
-                            if (usedColors.indexOf(colorIndex + ",") == -1) {
-                                usedColors.append(colorIndex);
-                                usedColors.append(",");
-                                colorAssigned = true;
-                            } else {
-                                colorIndex = (short) (Math.random() * colors.length);
-                            }
-                        }
                         //Valida que contenga periodos asignados
                         if (periodsList.size() > 0) {
-                            if (seriesCount > 0) {
-                                output.append(",\n");  //separador de estados
-                            }
                             output.append("{");
                             //Se coloca el identificador de cada estado
                             output.append("  key: \"");
-                            output.append(st.getDisplayTitle(lang)==null?st.getTitle():st.getDisplayTitle(lang));
+                            output.append("Estados de los periodos");
                             output.append("\" ,\n");
-
-                            //Se coloca el color a utilizar para cada estado
+                            //Se coloca el color a utilizar para la grafica
                             output.append("  color: '");
-                            output.append(st.getColorHex()!= null?st.getColorHex():colors[colorIndex]);
+                            output.append(graphColor);                          
                             output.append("',\n");
                             output.append("  values: [\n");
 
@@ -147,6 +115,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                                 }
                                 PeriodStatus ps = obj.getPeriodStatus(period);
                                 if (ps != null && ps.getStatus() != null) {
+                                    State st = ps.getStatus();
                                     if (periodsCount > 0) {
                                         output.append(",\n");
                                     }
@@ -169,8 +138,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                             out.flush();
                             return;
                         }
-                        seriesCount++;
-                }
+                //}
                 //Se termina de armar el Javascript para la presentacion de la grafica
                 output.append("];\n");
                 output.append("var chart;\n");
@@ -211,9 +179,9 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append(", left: ");
                 output.append(marginLeftV);
                 output.append(" })\n");
-                output.append("      .transitionDuration(350)\n");
+                output.append("      .transitionDuration(250)\n");
                 output.append("      .reduceXTicks(false)\n");   //If 'false', every single x-axis tick label will be rendered.
-                output.append("      .staggerLabels(true)\n");     //Intercala etiquetas en el eje 1 arriba, 1 abajo.//
+                output.append("      .staggerLabels(false)\n");     //Intercala etiquetas en el eje 1 arriba, 1 abajo.//
                 output.append("      .showControls(false)\n");   //Allow user to switch between 'Grouped' and 'Stacked' mode.
                 output.append("      .rotateLabels(");
                 output.append(rotateLabels);
@@ -247,6 +215,15 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 svgOutput.append(graphWidth);
                 svgOutput.append(";");
                 svgOutput.append("\"></svg>\n");
+                
+                while (itStates != null && itStates.hasNext())
+                {
+                    State state = itStates.next();
+                    svgOutput.append(state.getIndex());
+                    svgOutput.append(". ");
+                    svgOutput.append(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
+                    svgOutput.append("</br>");
+                }              
                 svgOutput.append("   </div>\n");
                 svgOutput.append("   </div>\n");
 
