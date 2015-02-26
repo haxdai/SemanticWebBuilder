@@ -4,8 +4,9 @@
     <form name="frmAdmRes" action="true" id="frmAdmRes" method="POST">
         <fieldset legend="Dimensional configuration">
             <statictext name="fixed">If you want all the graphs of this type have the same size, configure the following:</statictext>   
-            <input type="text" id="graphPSWidth"  name="graphPSWidth" label="Width" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Ancho Inválido. Ejemplo: 600px o 100%" promptMessage="Ejemplo: 600px o 100%" />
-            <input type="text" id="graphPSHeight" name="graphPSHeight" label="Height" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Altura Inválida. Ejemplo: 400px o 100%" promptMessage="Ejemplo: 400px o 100%" />
+            <input type="text" id="graphPSWidth"  name="graphPSWidth" label="Width" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Invalid Width. Example: 600px o 100%" promptMessage="Example: 600px o 100%" />
+            <input type="text" id="graphPSHeight" name="graphPSHeight" label="Height" maxlength="9" regExp="\d{1,9}(|px|%)" invalidMessage="Invalid Height. Example: 400px o 100%" promptMessage="Example: 400px o 100%" />
+             <input type="text" id="graphColor"  name="graphColor" label="Graph Color" maxlength="9" promptMessage="Example: #A9F5F2" />        
         </fieldset>
         <fieldset legend="Horizontal Chart">
             <select name="marginLeftH" label="Pixels to the left margin">
