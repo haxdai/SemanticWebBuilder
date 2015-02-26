@@ -133,7 +133,6 @@ public class VectorStrategicDeploymentResource extends GenericResource {
     
     private List<Content> valueChain(String uri, String type, Document map, Period period, String lang) throws XPathExpressionException
     {
-        //StringBuilder valueChain = new StringBuilder();
         List<Content> valueChain = new ArrayList<Content>();
         XPath xPath = XPathFactory.newInstance().newXPath();
         Objective obj;
