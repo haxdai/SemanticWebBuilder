@@ -88,21 +88,6 @@ public class VectorStrategicDeploymentResource extends GenericResource {
         final BSC scorecard = (BSC)getResourceBase().getWebSite();
         Document map = scorecard.getDom(period);
         
-//out.println("<div class=\"container\">");
-//out.println("  <div class=\"row impactMapProperties\">");
-//List<State>states = sg.listValidStates();
-//out.println("  <div class=\"col-xs-8 col-xs-offset-4\">");
-//for(State state:states) {
-//    out.print("    <span class=\"label swbstrgy-semaphore ");
-//    out.print(state.getIconClass());
-//    out.println("\">");
-//    out.println(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
-//    out.print("</span>");
-//}
-//out.println("   </div>");
-//out.println("  </div> <!-- /.row -->");
-//out.println("</div> <!-- /.container -->");
-        
         out.println("<div class=\"list-group\">");
         out.println("<a href=\""+urlThemePage+"?suri="+theme.getEncodedURI()+"\" class=\"list-group-item active\">");
         out.println("<h4 class=\"list-group-item-heading\">"+theme.getDisplayTitle(lang)+"</h4>");
