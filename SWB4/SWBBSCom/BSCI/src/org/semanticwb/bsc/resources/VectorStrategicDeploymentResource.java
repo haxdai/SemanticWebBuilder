@@ -27,10 +27,8 @@ import org.semanticwb.bsc.Detailed;
 import org.semanticwb.bsc.Theme;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
-import static org.semanticwb.bsc.resources.maps.StrategicMap.BOX_SPACING_LEFT;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -90,6 +88,21 @@ public class VectorStrategicDeploymentResource extends GenericResource {
         final BSC scorecard = (BSC)getResourceBase().getWebSite();
         Document map = scorecard.getDom(period);
         
+//out.println("<div class=\"container\">");
+//out.println("  <div class=\"row impactMapProperties\">");
+//List<State>states = sg.listValidStates();
+//out.println("  <div class=\"col-xs-8 col-xs-offset-4\">");
+//for(State state:states) {
+//    out.print("    <span class=\"label swbstrgy-semaphore ");
+//    out.print(state.getIconClass());
+//    out.println("\">");
+//    out.println(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
+//    out.print("</span>");
+//}
+//out.println("   </div>");
+//out.println("  </div> <!-- /.row -->");
+//out.println("</div> <!-- /.container -->");
+        
         out.println("<div class=\"list-group\">");
         out.println("<a href=\""+urlThemePage+"?suri="+theme.getEncodedURI()+"\" class=\"list-group-item active\">");
         out.println("<h4 class=\"list-group-item-heading\">"+theme.getDisplayTitle(lang)+"</h4>");
@@ -99,12 +112,14 @@ public class VectorStrategicDeploymentResource extends GenericResource {
             Iterator<Content> valueChain = valueChain(theme.getURI(), "theme", map, period, lang).iterator();
             while(valueChain.hasNext()) {
                 Content content = valueChain.next();
+                
                 out.println("<a href=\""+content.getUrl()+"\" ");
                 out.println(" title=\""+paramRequest.getLocaleString("msgViewDetails")+"\"");
                 out.println(" class=\"list-group-item\">");
                 out.println("<h4 class=\"list-group-item-heading\">");
-                out.println("<span class=\""+content.getIcon()+"\"></span> ");
-                out.println(content.getPrefix()+". "+content.getTitle());
+                out.println("<span class=\""+content.getIcon()+"\"></span>");
+                out.println("<span class=\"small\">"+content.getStatus()+".</span>&nbsp;");
+                out.println(content.getPrefix()+" - "+content.getTitle());
                 out.println("</h4>");
                 out.println("<p class=\"list-group-item-text\">"+content.getDesc()+"</p>");
                 out.println("</a>");
@@ -142,18 +157,16 @@ public class VectorStrategicDeploymentResource extends GenericResource {
                 if(!obj.hasPeriod(period)) {
                     continue;
                 }
-                //valueChain.append("<div>").append(obj.getDisplayTitle(lang)).append("</div>");
                 content = new Content(((Detailed)obj).getStatusIconClass(period)
+                        , ((Detailed)obj).getStatusTitle(period)
                         , obj.getPrefix()
                         , obj.getDisplayTitle(lang)
                         , obj.getDisplayDescription(lang)
                         , url);
                 valueChain.add(content);
-                //valueChain.append("\n");
                 valueChain.addAll(valueChain(obj.getURI(), "objective", map, period, lang));
             }
         }
-        //return valueChain.toString();
         return valueChain;
     }
     
@@ -185,18 +198,21 @@ public class VectorStrategicDeploymentResource extends GenericResource {
     
     private class Content {
         private String icon;
+        private String status;
         private String prefix;
         private String title;
         private String desc;
         private String url;
         
         Content(String icon
+                , String status
                 , String prefix
                 , String title
                 , String desc
                 , String url)
         {
             this.icon = icon;
+            this.status = status;
             this.prefix = prefix;
             this.title = title;
             this.desc = desc;
@@ -271,6 +287,20 @@ public class VectorStrategicDeploymentResource extends GenericResource {
          */
         public void setIcon(String icon) {
             this.icon = icon;
+        }
+        
+        /**
+         * @return the status
+         */
+        public String getStatus() {
+            return status;
+        }
+
+        /**
+         * @param status the icon to set
+         */
+        public void setStatus(String status) {
+            this.status = status;
         }
     }
 }
