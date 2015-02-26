@@ -192,13 +192,18 @@ function getChartData() {
                 maxUsers = 0;
                 Iterator entries =  userCount.entrySet().iterator();
                 while(entries.hasNext()){//while
-                    if(++maxUsers > 10 )break;
+                    if(++maxUsers > 10 )break; 
                     Map.Entry entry = (Map.Entry)entries.next();
                     SocialNetworkUser userEntry = (SocialNetworkUser) entry.getKey();
+                    String socialNetWork=userEntry.getSnu_SocialNetworkObj().getId();
+                    if(socialNetWork!=null) socialNetWork=socialNetWork.substring(0,4);
+                    else socialNetWork="NA";
+                    int userKlout=userEntry.getSnu_klout();  
+                    
                     Integer entrySentiments[] = (Integer[]) entry.getValue();
         %>
             {
-                "label": "<%=userEntry.getSnu_name()%>",
+                "label": "<%=userEntry.getSnu_name()%>(<%=socialNetWork%>/<%=userKlout%>)",
                 "value": <%=entrySentiments[i]%>
             }<%=entries.hasNext() && maxUsers < 10 ? ",":""%>
         <%
