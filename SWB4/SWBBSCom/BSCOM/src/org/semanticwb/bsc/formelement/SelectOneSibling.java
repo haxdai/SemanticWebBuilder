@@ -47,20 +47,11 @@ public class SelectOneSibling extends org.semanticwb.bsc.formelement.base.Select
         String         imsg     = null;
         boolean        disabled = false;
         
-//System.out.println("\n\n SelectOneExclusive...");
-//System.out.println("obj="+obj);
-//System.out.println("prop="+prop);
-//System.out.println("propName="+propName);
-//System.out.println("type="+type);
-//System.out.println("mode="+mode);
-//System.out.println("lang="+lang);
-//System.out.println("sobj="+sobj);
-
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg         = dobj.getPromptMessage(lang);
-            imsg         = dobj.getInvalidMessage(lang);
-            disabled     = dobj.isDisabled();
+            pmsg     = dobj.getDisplayPromptMessage(lang);
+            imsg     = dobj.getDisplayInvalidMessage(lang);
+            disabled = dobj.isDisabled();
         }
 
         if(dojo) {
@@ -185,6 +176,12 @@ public class SelectOneSibling extends org.semanticwb.bsc.formelement.base.Select
     public boolean filterObject(HttpServletRequest request, SemanticObject base_obj, SemanticObject filter_obj, SemanticProperty prop, String propName, String type, String mode, String lang) {
         boolean exclude = true;
         if(filter_obj!=null) {
+            // Si los objetos no son de la misma clase. Esto puede parecer raro
+            // pero valida por objetos de distintas clases que implementan mismas interfaces
+            if(!base_obj.getSemanticClass().equals(filter_obj.getSemanticClass())) {
+                return exclude;
+            }
+            
             GenericObject gobj = filter_obj.createGenericInstance();
             if(gobj instanceof SWBClass) {
                 exclude = !((SWBClass)filter_obj.createGenericInstance()).isValid();
