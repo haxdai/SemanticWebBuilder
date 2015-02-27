@@ -82,13 +82,13 @@ public class StrategicMap extends GenericResource
     public static final String SVG_NS_URI = "http://www.w3.org/2000/svg";
     public static final String XLNK_NS_URI = "http://www.w3.org/1999/xlink";
     
-    private String urlObjectivePage = null;
-    private String urlThemePage = null;
+    private String urlObjectivePage;
+    private String urlThemePage;
 
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
-        urlObjectivePage = base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl();
+        setUrlObjectivePage(base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl());
         urlThemePage = base.getWebSite().getWebPage(Theme.class.getSimpleName()).getUrl();
     }
 
@@ -509,7 +509,7 @@ public class StrategicMap extends GenericResource
                                         href = o.getAttribute("href");
                                         o.setAttribute("width", Integer.toString(tw - BOX_SPACING_LEFT));
                                         o.setAttribute("x", Integer.toString(ox + BOX_SPACING_LEFT));
-                                        o.setAttribute("href", urlObjectivePage+"?suri="+href);
+                                        o.setAttribute("href", getUrlObjectivePage()+"?suri="+href);
 
                                         //relaciones con este objetivo
                                         expression = "//rel[@to='" + uri + "']";
@@ -1482,5 +1482,19 @@ SVGjs.append("}").append("\n");
 
     private int topPadding(int value) {
         return value + PADDING_TOP;
+    }
+
+    /**
+     * @return the urlObjectivePage
+     */
+    public String getUrlObjectivePage() {
+        return urlObjectivePage;
+    }
+
+    /**
+     * @param urlObjectivePage the urlObjectivePage to set
+     */
+    private void setUrlObjectivePage(String urlObjectivePage) {
+        this.urlObjectivePage = urlObjectivePage;
     }
 }
