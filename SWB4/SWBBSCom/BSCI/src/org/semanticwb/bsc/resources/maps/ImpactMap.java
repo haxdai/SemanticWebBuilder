@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.User;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -22,13 +22,15 @@ import org.semanticwb.portal.api.SWBResourceException;
 public class ImpactMap extends GenericResource {
     private final Logger log = SWBUtils.getLogger(ImpactMap.class);
     public static String path;
+    private String urlObjectivePage;
 
     @Override
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
+        setUrlObjectivePage(base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl());
         path = SWBPlatform.getContextPath()+"/swbadmin/jsp/swbstrgy/maps/"+this.getClass().getSimpleName()+"/view.jsp";
     }
-
+    
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -53,5 +55,19 @@ public class ImpactMap extends GenericResource {
         }catch(NullPointerException e) {
             log.error(e);
         }
+    }
+    
+    /**
+     * @return the urlObjectivePage
+     */
+    public String getUrlObjectivePage() {
+        return urlObjectivePage;
+    }
+
+    /**
+     * @param urlObjectivePage the urlObjectivePage to set
+     */
+    private void setUrlObjectivePage(String urlObjectivePage) {
+        this.urlObjectivePage = urlObjectivePage;
     }
 }
