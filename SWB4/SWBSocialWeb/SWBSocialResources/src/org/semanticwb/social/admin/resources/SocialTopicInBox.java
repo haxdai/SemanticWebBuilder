@@ -276,6 +276,10 @@ public class SocialTopicInBox extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         log.debug("doEdit()");
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
+        String sinceDateStreamMsg1 = sinceDateStreamMsg;
+        String toDateStreamMsg1 = toDateStreamMsg;        
 
         String id = request.getParameter("suri");
         if (id == null) {
@@ -333,6 +337,21 @@ public class SocialTopicInBox extends GenericResource {
         out.println("  min-width: 10px;");
         out.println("  padding-right: 10px;");
         out.println("}");
+        out.println(".filterTextField {");
+        out.println("   margin-top: -7px !important;");
+        out.println("   background-color: #eff3f4;");
+        out.println("}");
+        out.println(".counterFilter {");
+        out.println("   color: #666 !important;");
+        out.println("   display: inline-block;");
+        out.println("   padding: 6px 10px 6px 15px;");
+        out.println("   margin: 5px 1px;");
+        out.println("   border: solid 1px #eff3f4;");
+        out.println("   letter-spacing: -0.03em;");
+        out.println("}");
+        out.println(".filterInput {");
+        out.println("   width:110px;");
+        out.println("}");        
         out.println("</style>");
 
         //String action = request.getParameter("act");
@@ -380,8 +399,14 @@ public class SocialTopicInBox extends GenericResource {
         } catch (Exception ignored) {
             nPage = 1;
         }
+        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+                && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
+            sinceDateStreamMsg += "T00:00:00";
+            toDateStreamMsg += "T23:59:59";
+        }
 
-        HashMap hmapResult = filtros(swbSocialUser, wsite, searchWord, request, socialTopic, nPage);
+        
+        HashMap hmapResult = filtros(swbSocialUser, wsite, searchWord, request, socialTopic, nPage, sinceDateStreamMsg, toDateStreamMsg);
 
         long nRec = ((Long) hmapResult.get("countResult")).longValue();
 
@@ -437,7 +462,8 @@ public class SocialTopicInBox extends GenericResource {
          out.println("</form>");
          out.println("</span>");
          * */
-        out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
+        out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy).
+                setParameter("sinceDateStreamMsg", sinceDateStreamMsg1).setParameter("toDateStreamMsg", toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
 
         //TAG CLOUD
         SWBResourceURL tagUrl = paramRequest.getRenderUrl();
@@ -459,7 +485,24 @@ public class SocialTopicInBox extends GenericResource {
 
         out.println("</div>");
         out.println("</fieldset>");
-
+        out.println("<fieldset class=\"filterTextField\">");
+        out.println("<div class=\"soria\">");
+        out.println("<form id=\"frmFilterStreamMsg\" name=\"frmFilterStreamMsg\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", socialTopic.getURI())
+                + "\" method=\"post\" " /**/
+                + " onsubmit=\"submitForm('frmFilterStreamMsg'); return false;\">");
+        out.println("<label class=\"counterFilter\">Del día</label>");
+        out.println("<input name=\"sinceDateStreamMsg\" id=\"sinceDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateStreamMsg" + socialTopic.getId() + "\""
+                + " onChange=\"toDateStreamMsg" + socialTopic.getId() + ".constraints.min = arguments[0];\">");
+        out.println("<label for=\"toDate\" class=\"counterFilter\"> al día:</label>");
+        out.println("<input name=\"toDateStreamMsg\" id=\"toDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateStreamMsg" + socialTopic.getId() + "\""
+                + " onChange=\"sinceDateStreamMsg" + socialTopic.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<button dojoType=\"dijit.form.Button\" class=\"filterInput\" type=\"submit\">Calcular</button>");
+        out.println("</form>");
+        out.println("</div>");
+        out.println("</fieldset>");
 
         out.println("<fieldset>");
         out.println("<table class=\"tabla1\" >");
@@ -900,6 +943,8 @@ public class SocialTopicInBox extends GenericResource {
             if (request.getParameter("orderBy") != null) {
                 pageURL.setParameter("orderBy", request.getParameter("orderBy"));
             }
+            pageURL.setParameter("sinceDateStreamMsg", sinceDateStreamMsg1);
+            pageURL.setParameter("toDateStreamMsg", toDateStreamMsg1);            
             /*
              out.println("<div id=\"pagination\">");
              out.println("<span>P&aacute;ginas:</span>");
@@ -1267,9 +1312,15 @@ public class SocialTopicInBox extends GenericResource {
 
         SocialTopic socialTopic = (SocialTopic) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite webSite = WebSite.ClassMgr.getWebSite(socialTopic.getSemanticObject().getModel().getName());
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
+        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+                && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
+            sinceDateStreamMsg += "T00:00:00";
+            toDateStreamMsg += "T23:59:59";
+        }
 
-
-        HashMap hmapResult = filtros(swbSocialUser, webSite, searchWord, request, socialTopic, page);
+        HashMap hmapResult = filtros(swbSocialUser, webSite, searchWord, request, socialTopic, page, sinceDateStreamMsg, toDateStreamMsg);
 
         //long nRec=((Long)hmapResult.get("countResult")).longValue();
         Iterator<PostIn> setso = ((Iterator) hmapResult.get("itResult"));
@@ -1567,7 +1618,8 @@ public class SocialTopicInBox extends GenericResource {
     /*
      * Method which controls the filters allowed in this class
      */
-    private HashMap filtros(String swbSocialUser, WebSite wsite, String searchWord, HttpServletRequest request, SocialTopic socialTopic, int nPage) {
+    private HashMap filtros(String swbSocialUser, WebSite wsite, String searchWord, HttpServletRequest request, SocialTopic socialTopic, int nPage,
+            String dateInit, String dateEnd) {
         long streamPostIns = 0L;
         String sQuery = null;
         ArrayList<PostIn> aListFilter = new ArrayList();
@@ -1675,16 +1727,16 @@ public class SocialTopicInBox extends GenericResource {
                      setso = SWBSocialComparator.sortByCreatedSet(itposts, false);
                      itposts = setso.iterator();
                      * */
-                    streamPostIns = Integer.parseInt(getAllPostInSocialTopic_Query(0, 0, true, socialTopic));
+                    streamPostIns = Integer.parseInt(getAllPostInSocialTopic_Query(0, 0, true, socialTopic, dateInit, dateEnd));
                     if (streamPostIns > 0) {
-                        sQuery = getAllPostInSocialTopic_Query(Integer.valueOf((nPage * RECPERPAGE) - RECPERPAGE).longValue(), Integer.valueOf((RECPERPAGE)).longValue(), false, socialTopic);
+                        sQuery = getAllPostInSocialTopic_Query(Integer.valueOf((nPage * RECPERPAGE) - RECPERPAGE).longValue(), Integer.valueOf((RECPERPAGE)).longValue(), false, socialTopic, dateInit, dateEnd);
                         aListFilter = SWBSocial.executeQueryArray(sQuery, wsite);
                     }
                 }
             } else { //Traer todo, NPage==0, en teoría jamas entraría a esta opción.
-                streamPostIns = Integer.parseInt(getAllPostInSocialTopic_Query(0, 0, true, socialTopic));
+                streamPostIns = Integer.parseInt(getAllPostInSocialTopic_Query(0, 0, true, socialTopic, dateInit, dateEnd));
                 if (streamPostIns > 0) {
-                    sQuery = getAllPostInSocialTopic_Query(0L, streamPostIns, false, socialTopic);
+                    sQuery = getAllPostInSocialTopic_Query(0L, streamPostIns, false, socialTopic, dateInit, dateEnd);
                     aListFilter = SWBSocial.executeQueryArray(sQuery, wsite);
                 }
             }
@@ -1740,10 +1792,11 @@ public class SocialTopicInBox extends GenericResource {
     /*
      * gets all PostIn in a Stream
      */
-    private String getAllPostInSocialTopic_Query(long offset, long limit, boolean isCount, SocialTopic socialTopic) {
+    private String getAllPostInSocialTopic_Query(long offset, long limit, boolean isCount, SocialTopic socialTopic, String dateInit, String dateEnd) {
         String query =
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
+                + "PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>"
                 + "\n";
         if (isCount) {
             //query+="select count(*)\n";
@@ -1755,8 +1808,11 @@ public class SocialTopicInBox extends GenericResource {
         query +=
                 "where {\n"
                 + "  ?postUri social:socialTopic <" + socialTopic.getURI() + ">. \n"
-                + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
-                + "  }\n";
+                + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n";
+        if (dateInit != null && !dateInit.isEmpty() && dateEnd != null && !dateEnd.isEmpty()) {
+            query += "  FILTER(xsd:dateTime(?postInCreated) >= xsd:dateTime(\"" + dateInit + "\") && xsd:dateTime(?postInCreated) <= xsd:dateTime(\"" + dateEnd + "\")) \n";
+        }
+        query += "  }\n";
 
         if (!isCount) {
             query += "ORDER BY desc(?postInCreated) \n";
