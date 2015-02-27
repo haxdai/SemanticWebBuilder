@@ -66,8 +66,8 @@ public class ObjectiveAlignment extends ObjectiveAlignmentBase {
         
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg = dobj.getPromptMessage(lang);
-            imsg = dobj.getInvalidMessage();
+            pmsg     = dobj.getDisplayPromptMessage(lang);
+            imsg     = dobj.getDisplayInvalidMessage(lang);
             disabled = dobj.isDisabled();
         }
         

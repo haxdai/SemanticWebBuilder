@@ -57,8 +57,8 @@ public class SeriesOfEvaluation extends org.semanticwb.bsc.formelement.base.Seri
         
         if(sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg = dobj.getPromptMessage(lang);
-            imsg = dobj.getInvalidMessage(lang);
+            pmsg     = dobj.getDisplayPromptMessage(lang);
+            imsg     = dobj.getDisplayInvalidMessage(lang);
             disabled = dobj.isDisabled();
         }
         

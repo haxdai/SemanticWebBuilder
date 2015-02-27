@@ -9,7 +9,6 @@ import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.model.UserRepository;
-import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
@@ -50,8 +49,8 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
 
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg         = dobj.getPromptMessage();
-            imsg         = dobj.getInvalidMessage();
+            pmsg         = dobj.getDisplayPromptMessage(lang);
+            imsg         = dobj.getDisplayInvalidMessage(lang);
             isDisabled   = dobj.isDisabled();
         }
 
@@ -88,7 +87,8 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
         }
 
         if (prop.isDataTypeProperty() && prop.isBoolean()) {
-            if (prop.isBoolean()) {
+            if(prop.isBoolean())
+            {
                 String  checked = "";
                 boolean value   = false;
                 String  aux     = request.getParameter(propName);
@@ -108,18 +108,18 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
 
                 if (displayType.equals("checkbox")) {
                     
-System.out.println("\n\nCheckboxreadonly");
+/*System.out.println("\n\nCheckboxreadonly");
 SemanticModel model = getModel();
 System.out.println("model="+model);
 SWBModel m = (SWBModel) model.getModelObject().createGenericInstance();
 System.out.println("m="+m);
 if(m.getParentWebSite()!=null) {
     m = m.getParentWebSite();
-}                    
+}                    */
 User user;
 user = SWBContext.getSessionUser(SWBContext.USERREPOSITORY_ADMIN);
-System.out.println("user="+user);
-System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
+/*System.out.println("user="+user);
+System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
 
 
                     
@@ -130,7 +130,6 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
-                    //ret.append(disabled);
                     if (   !filterObject(request, sobj, user.getSemanticObject(), prop, propName, type, mode, lang) ||  isDisabled || mode.equals("view")) {
                         ret.append(" disabled=\"disabled\"");
                     }
@@ -180,7 +179,9 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
                     ret.append("/>");
                     ret.append("<label for=\"").append(name).append("_False\">").append(falseTitle).append("</label>");
                 }
-            } else {
+            }
+            else
+            {
                 String value = request.getParameter(propName);
 
                 if (value == null) {
@@ -190,11 +191,7 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
                 if (value == null) {
                     value = "";
                 }
-
-                //System.out.print(value);
                 value=value.replace("\"", "&quot;");
-                //System.out.println(" "+value);
-
                 if (mode.equals("edit") || mode.equals("create") || mode.equals("filter")) {
                     ret.append("<input _id=\"").append(name).append("\" name=\"").append(name).append("\" value=\"").append(value + "\"");
 
@@ -205,23 +202,18 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
                     if (!mode.equals("filter") || DOJO) {
                         if(required)ret.append(" required=\"").append(required).append("\"");
                     }
-
-                    // + " propercase=\"true\""
                     if (DOJO) {
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                     }
-
                     if (DOJO) {
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
-
                     ret.append(" style=\"width:300px;\"");
                     ret.append(" ").append(getAttributes());
 
                     if (DOJO) {
                         ret.append(" trim=\"true\"");
                     }
-
                     ret.append(disabled);
                     ret.append("/>");
                 } else if (mode.equals("view")) {
@@ -246,10 +238,13 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
         //}
         
         //No se especificó un grupo o roles para filtrar
-        if ((getReadonlyRoleIds()==null || getReadonlyRoleIds().isEmpty()) && (getReadonlyUserGroupIds()==null || getReadonlyUserGroupIds().isEmpty())) {
+        if((getReadonlyRoleIds()==null || getReadonlyRoleIds().isEmpty()) && (getReadonlyUserGroupIds()==null || getReadonlyUserGroupIds().isEmpty()))
+        {
             hasUserGroup = true;
             hasRole = true;
-        } else {
+        }
+        else
+        {
             //Revisar si tiene el grupo de usuarios especificado
             UserGroup filterUserGroup = ((UserRepository)m).getUserGroup(getReadonlyUserGroupIds());
             //UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
@@ -258,7 +253,6 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());
                     hasUserGroup = true;
                 }
             }
-            
             //Revisar si tiene alguno de los roles definidos
             if (getReadonlyRoleIds()!= null && getReadonlyRoleIds().indexOf("|") > -1) {
                 StringTokenizer stk = new StringTokenizer(getReadonlyRoleIds(), "|");

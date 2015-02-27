@@ -35,8 +35,8 @@ public class DateElement extends org.semanticwb.bsc.formelement.base.DateElement
 
         if (sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
-            pmsg = dobj.getPromptMessage();
-            imsg = dobj.getInvalidMessage();
+            pmsg     = dobj.getDisplayPromptMessage(lang);
+            imsg     = dobj.getDisplayInvalidMessage(lang);
             disabled = dobj.isDisabled();
         }
 
