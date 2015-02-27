@@ -278,6 +278,10 @@ public class StreamInBox extends GenericResource {
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
         //String lang = paramRequest.getUser().getLanguage();
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
+        String sinceDateStreamMsg1 = sinceDateStreamMsg;
+        String toDateStreamMsg1 = toDateStreamMsg;
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -348,6 +352,21 @@ public class StreamInBox extends GenericResource {
         out.println("  min-width: 10px;");
         out.println("  padding-right: 10px;");
         out.println("}");
+        out.println(".filterTextField {");
+        out.println("   margin-top: -7px !important;");
+        out.println("   background-color: #eff3f4;");
+        out.println("}");
+        out.println(".counterFilter {");
+        out.println("   color: #666 !important;");
+        out.println("   display: inline-block;");
+        out.println("   padding: 6px 10px 6px 15px;");
+        out.println("   margin: 5px 1px;");
+        out.println("   border: solid 1px #eff3f4;");
+        out.println("   letter-spacing: -0.03em;");
+        out.println("}");
+        out.println(".filterInput {");
+        out.println("   width:110px;");
+        out.println("}");
         out.println("</style>");
 
         String searchWord = request.getParameter("search");
@@ -393,8 +412,13 @@ public class StreamInBox extends GenericResource {
             nPage = 1;
         }
         ////System.out.println("nPage a Filtros:"+nPage);
+        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+                && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
+            sinceDateStreamMsg += "T00:00:00";
+            toDateStreamMsg += "T23:59:59";
+        }
 
-        HashMap hmapResult = filtros(swbSocialUser, wsite, searchWord, request, stream, nPage);
+        HashMap hmapResult = filtros(swbSocialUser, wsite, searchWord, request, stream, nPage, sinceDateStreamMsg, toDateStreamMsg);
 
 
         out.println("<fieldset class=\"barra\">");
@@ -433,8 +457,8 @@ public class StreamInBox extends GenericResource {
          out.println("</form>");
          out.println("</span>");
          * */
-        out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
-
+        out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy).
+                setParameter("sinceDateStreamMsg", sinceDateStreamMsg1).setParameter("toDateStreamMsg", toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
 
         //Advance re-Classify by topic
         if (userCanRetopicMsg  || user.hasUserGroup(userSuperAdminGrp)) {
@@ -466,6 +490,24 @@ public class StreamInBox extends GenericResource {
         out.println("</form>");
         //out.println("</span>");
 
+        out.println("</div>");
+        out.println("</fieldset>");
+        out.println("<fieldset class=\"filterTextField\">");
+        out.println("<div class=\"soria\">");
+        out.println("<form id=\"frmFilterStreamMsgNP\" name=\"frmFilterStreamMsgNP\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", stream.getURI())
+                + "\" method=\"post\" " /**/
+                + " onsubmit=\"submitForm('frmFilterStreamMsgNP'); return false;\">");
+        out.println("<label class=\"counterFilter\">Del día</label>");
+        out.println("<input name=\"sinceDateStreamMsg\" id=\"sinceDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateStreamMsg" + stream.getId() + "\""
+                + " onChange=\"toDateStreamMsg" + stream.getId() + ".constraints.min = arguments[0];\">");
+        out.println("<label for=\"toDate\" class=\"counterFilter\"> al día:</label>");
+        out.println("<input name=\"toDateStreamMsg\" id=\"toDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateStreamMsg" + stream.getId() + "\""
+                + " onChange=\"sinceDateStreamMsg" + stream.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<button dojoType=\"dijit.form.Button\" class=\"filterInput\" type=\"submit\">Calcular</button>");
+        out.println("</form>");
         out.println("</div>");
         out.println("</fieldset>");
 
@@ -891,6 +933,8 @@ public class StreamInBox extends GenericResource {
             if (request.getParameter("orderBy") != null) {
                 pageURL.setParameter("orderBy", request.getParameter("orderBy"));
             }
+            pageURL.setParameter("sinceDateStreamMsg", sinceDateStreamMsg1);
+            pageURL.setParameter("toDateStreamMsg", toDateStreamMsg1);
             /*
              for (int countPage = 1; countPage < (Math.ceil((double) nRec / (double) RECPERPAGE) + 1); countPage++) {
              SWBResourceURL pageURL = paramRequest.getRenderUrl();
@@ -1123,9 +1167,15 @@ public class StreamInBox extends GenericResource {
         String id = request.getParameter("suri");
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite webSite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
+        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+                && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
+            sinceDateStreamMsg += "T00:00:00";
+            toDateStreamMsg += "T23:59:59";
+        }
 
-
-        HashMap hmapResult = filtros(swbSocialUser, webSite, searchWord, request, stream, page);
+        HashMap hmapResult = filtros(swbSocialUser, webSite, searchWord, request, stream, page, sinceDateStreamMsg, toDateStreamMsg);
 
         long nRec = ((Long) hmapResult.get("countResult")).longValue();
         Iterator<PostIn> setso = ((Iterator) hmapResult.get("itResult"));
@@ -1760,7 +1810,8 @@ public class StreamInBox extends GenericResource {
     /*
      * Method which controls the filters allowed in this class
      */
-    private HashMap filtros(String swbSocialUser, WebSite wsite, String searchWord, HttpServletRequest request, Stream stream, int nPage) {
+    private HashMap filtros(String swbSocialUser, WebSite wsite, String searchWord, HttpServletRequest request, Stream stream, int nPage,
+			String dateInit, String dateEnd) {
         //.out.println("Stream---K carajos...:"+stream.getURI()+",orderByJInBox:"+request.getParameter("orderBy")+",page:"+nPage);
         ////System.out.println("stream k Llega a Filtros--George08/11/2013:"+nPage);
         ////System.out.println("filtros/searchWord:"+searchWord);
@@ -1794,7 +1845,7 @@ public class StreamInBox extends GenericResource {
                         }
                     }
                 } else if (request.getParameter("orderBy") != null) {
-                    streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream));
+                    streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream, dateInit, dateEnd));
                     if (streamPostIns > 0) {
                         if (request.getParameter("orderBy").equals("PostTypeUp")) //Tipo de Mensaje Up
                         {
@@ -1878,17 +1929,18 @@ public class StreamInBox extends GenericResource {
                         aListFilter = SWBSocial.executeQueryArray(sQuery, wsite);
                     }
                 } else {  //Todos, sin filtros
-                    streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream));
+                    streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream, dateInit, dateEnd));
                     ////System.out.println("ENTRA AQUI--STREAMINBOX...TODOS-1:"+streamPostIns);
                     if (streamPostIns > 0) {
-                        sQuery = getAllPostInStream_Query(Integer.valueOf((nPage * RECPERPAGE) - RECPERPAGE).longValue(), Integer.valueOf((RECPERPAGE)).longValue(), false, stream);
+                        sQuery = getAllPostInStream_Query(Integer.valueOf((nPage * RECPERPAGE) - RECPERPAGE).longValue(), Integer.valueOf((RECPERPAGE)).longValue(), false, stream,
+                                dateInit, dateEnd);
                         aListFilter = SWBSocial.executeQueryArray(sQuery, wsite);
                     }
                 }
             } else { //Todos, sin filtros. Opción que entra para exportación a Excel
-                streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream));
+                streamPostIns = Integer.parseInt(getAllPostInStream_Query(stream, dateInit, dateEnd));
                 if (streamPostIns > 0) {
-                    sQuery = getAllPostInStream_Query(0L, streamPostIns, false, stream);
+                    sQuery = getAllPostInStream_Query(0L, streamPostIns, false, stream, dateInit, dateEnd);
                     aListFilter = SWBSocial.executeQueryArray(sQuery, wsite);
                 }
             }
@@ -1924,19 +1976,24 @@ public class StreamInBox extends GenericResource {
     /*
      * Metodo que obtiene todos los PostIns
      */
-    private String getAllPostInStream_Query(Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+    private String getAllPostInStream_Query(Stream stream, String dateInit, String dateEnd) {
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
+                + "PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>"
                 + "\n";
         //query+="select count(*)\n";    
         //query += "select DISTINCT (COUNT(?postUri) AS ?c1) \n";    //Para Gena
         query += "select (COUNT(?postUri) AS ?c1) \n";    //Para Gena
-        query +=
-                "where {\n"
-                + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
-                + "  }\n";
-        ////System.out.println("query:"+query);
+        query += "where {\n"
+                + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n";
+        if (dateInit != null && !dateInit.isEmpty() && dateEnd != null && !dateEnd.isEmpty()) {
+            query += "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n";//pi_created
+            query += "  FILTER(xsd:dateTime(?postInCreated) >= xsd:dateTime(\"" + dateInit + "\") && xsd:dateTime(?postInCreated) <= xsd:dateTime(\"" + dateEnd + "\")) \n";
+        }
+        query += "  }\n";
+
+        ////System.out.println("query:" + query);
         WebSite wsite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
         query = SWBSocial.executeQuery(query, wsite);
         return query;
@@ -1945,10 +2002,11 @@ public class StreamInBox extends GenericResource {
     /*
      * gets all PostIn in a Stream
      */
-    private String getAllPostInStream_Query(long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+    private String getAllPostInStream_Query(long offset, long limit, boolean isCount, Stream stream, String dateInit, String dateEnd) {
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
+                + "PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>"
                 + "\n";
         if (isCount) {
             //query+="select count(*)\n";    
@@ -1958,11 +2016,17 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
+
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
-                + "  ?postUri social:pi_createdInSocialNet ?postInCreatedInSN. \n"
-                 + "  }\n";  
+                + "  ?postUri social:pi_createdInSocialNet ?postInCreatedInSN. \n";//?postInCreatedInSN
+        if (dateInit != null && !dateInit.isEmpty() && dateEnd != null && !dateEnd.isEmpty()) {
+            //query += "  ?postUri social:pi_created ?postInCreated. \n";
+            query += "  FILTER(xsd:dateTime(?postInCreatedInSN) > xsd:dateTime(\"" + dateInit + "\") && xsd:dateTime(?postInCreatedInSN) < xsd:dateTime(\"" + dateEnd + "\")) \n";
+        }
+        query += "  }\n";
+
 
         if (!isCount) {
             query += "ORDER BY desc(?postInCreatedInSN) \n";
@@ -1980,7 +2044,7 @@ public class StreamInBox extends GenericResource {
         ////System.out.println("query:"+query);
         return query;
     }
-
+	
     private String getPostInStreambyWord_Query(long offset, long limit, boolean isCount, Stream stream, String word) {
         String query =
                 "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"

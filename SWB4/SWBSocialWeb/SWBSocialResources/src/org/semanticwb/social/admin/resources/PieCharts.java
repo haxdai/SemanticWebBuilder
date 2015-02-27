@@ -131,29 +131,36 @@ public class PieCharts extends GenericResource {
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        String sinceDateAnalysisPieCharts = request.getParameter("sinceDateAnalysisPieCharts") == null ? "" : request.getParameter("sinceDateAnalysisPieCharts");
-        String toDateAnalysisPieCharts = request.getParameter("toDateAnalysisPieCharts") == null ? "" : request.getParameter("toDateAnalysisPieCharts");
-        String suri = request.getParameter("suri");    
+        String sinceDateAnalysisPieCharts = "";
+        String toDateAnalysisPieCharts = "";
+        String suri = request.getParameter("suri");  
+        String paramSinceDateAnalysis = "sinceDateAnalysisPieCharts";
+        String paramToDateAnalysis= "toDateAnalysisPieCharts";
         if(suri != null) {
             SemanticObject semObj = SemanticObject.createSemanticObject(suri);
             if (semObj != null) {
-                out.println("<form id=\"frmFilterPieCharts\" name=\"frmFilterPieCharts\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                String clsName = semObj.createGenericInstance().getClass().getName();
+                sinceDateAnalysisPieCharts = request.getParameter("sinceDateAnalysisPieCharts" + clsName) == null ? "" : request.getParameter("sinceDateAnalysisPieCharts" + clsName);
+                toDateAnalysisPieCharts = request.getParameter("toDateAnalysisPieCharts" + clsName) == null ? "" : request.getParameter("toDateAnalysisPieCharts" + clsName);
+                out.println("<form id=\"frmFilterPieCharts" + clsName + "\" name=\"frmFilterPieCharts" + clsName + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
                         + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", semObj.getURI())
                         + "\" method=\"post\" "
-                        + " onsubmit=\"submitForm('frmFilterPieCharts'); return false;\">");
+                        + " onsubmit=\"submitForm('frmFilterPieCharts" + clsName + "'); return false;\">");
                 out.println("<label>Del día</label>");
-                out.println("<input name=\"sinceDateAnalysisPieCharts\" id=\"sinceDateAnalysisPieCharts\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                out.println("<input name=\"sinceDateAnalysisPieCharts"+ clsName + "\" id=\"sinceDateAnalysisPieCharts" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
                         + sinceDateAnalysisPieCharts + "\" data-dojo-id=\"sinceDateAnalysisPieCharts" + semObj.getId() + "\""
                         + " onChange=\"toDateAnalysisPieCharts" + semObj.getId() + ".constraints.min = arguments[0];\">");
                 out.println("<label for=\"toDate\"> al día:</label>");
-                out.println("<input name=\"toDateAnalysisPieCharts\" id=\"toDateAnalysisPieCharts\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                out.println("<input name=\"toDateAnalysisPieCharts" + clsName + "\" id=\"toDateAnalysisPieCharts" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
                         + toDateAnalysisPieCharts + "\" data-dojo-id=\"toDateAnalysisPieCharts" + semObj.getId() + "\""
                         + " onChange=\"sinceDateAnalysisPieCharts" + semObj.getId() + ".constraints.max = arguments[0];\">");
                 out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\">Calcular</button>");
                 out.println("</form>");    
+                paramSinceDateAnalysis +=  clsName;
+                paramToDateAnalysis += clsName;
             }
         }
-        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter("toDateAnalysisPieCharts", toDateAnalysisPieCharts).setParameter("sinceDateAnalysisPieCharts", sinceDateAnalysisPieCharts) + "\"></iframe> ");
+        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter(paramToDateAnalysis, toDateAnalysisPieCharts).setParameter(paramSinceDateAnalysis, sinceDateAnalysisPieCharts) + "\"></iframe> ");
     }
 
     @Override
@@ -235,16 +242,20 @@ public class PieCharts extends GenericResource {
         String country = request.getParameter("country");
 
         String title = "";
+        SemanticObject semObjParam = null;
+        String clsName = "";
 
         if (SemanticObject.getSemanticObject(suri).getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) SemanticObject.getSemanticObject(suri).getGenericInstance();
             title = stream.getTitle();
-
+            semObjParam = stream.getSemanticObject();
+            
         } else if (SemanticObject.getSemanticObject(suri).getGenericInstance() instanceof SocialTopic) {
             SocialTopic sTopic = (SocialTopic) SemanticObject.getSemanticObject(suri).getGenericInstance();
             title = sTopic.getTitle();
+            semObjParam = sTopic.getSemanticObject();
         }
-
+         clsName = semObjParam.createGenericInstance().getClass().getName();
 
         String type = request.getParameter("type");
         String filter = request.getParameter("filter");
@@ -252,11 +263,16 @@ public class PieCharts extends GenericResource {
         if (filter == null) {
             filter = "";
         }
-
+        String sinceDateAnalysis = null;
+        String toDateAnalysis = null;
+        
+        if(semObjParam != null) {
+            sinceDateAnalysis = request.getParameter("sinceDateAnalysisPieCharts" + clsName);
+            toDateAnalysis = request.getParameter("toDateAnalysisPieCharts" + clsName);
+        }
+        
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String sinceDateAnalysis = request.getParameter("sinceDateAnalysisPieCharts");
-        String toDateAnalysis = request.getParameter("toDateAnalysisPieCharts");        
         Date sinDateAnalysis = null;
         Date tDateAnalysis = null;
         if (sinceDateAnalysis != null && toDateAnalysis != null) {

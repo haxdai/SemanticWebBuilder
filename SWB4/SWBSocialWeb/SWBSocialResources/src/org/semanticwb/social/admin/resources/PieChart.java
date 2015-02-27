@@ -107,31 +107,37 @@ public class PieChart extends GenericResource {
     @Override
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        
-        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis") == null ? "" : request.getParameter("sinceDateAnalysis");
-        String toDateAnalysis = request.getParameter("toDateAnalysis") == null ? "" : request.getParameter("toDateAnalysis");
+        String sinceDateAnalysis = "";
+        String toDateAnalysis = "";
         String suri = request.getParameter("suri");    
+        String paramSinceDateAnalysis = "sinceDateAnalysis";
+        String paramToDateAnalysis= "toDateAnalysis";
         if(suri != null) {
             SemanticObject semObj = SemanticObject.createSemanticObject(suri);
+            String clsName = semObj.createGenericInstance().getClass().getName();
             if (semObj != null) {
-                Stream socialNet = (Stream) SemanticObject.getSemanticObject(suri).createGenericInstance();
-                out.println("<form id=\"frmFilter\" name=\"frmFilter\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
-                        + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", socialNet.getURI())
+                sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName) == null ? "" : request.getParameter("sinceDateAnalysis" + clsName);
+                toDateAnalysis = request.getParameter("toDateAnalysis" + clsName) == null ? "" : request.getParameter("toDateAnalysis" + clsName);                
+                //Stream socialNet = (Stream) SemanticObject.getSemanticObject(suri).createGenericInstance();
+                out.println("<form id=\"frmFilter" + clsName + "\" name=\"frmFilter" + clsName + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                        + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", semObj.getURI())
                         + "\" method=\"post\" "
-                        + " onsubmit=\"submitForm('frmFilter'); return false;\">");
+                        + " onsubmit=\"submitForm('frmFilter" + clsName + "'); return false;\">");
                 out.println("<label>Del día</label>");
-                out.println("<input name=\"sinceDateAnalysis\" id=\"sinceDateAnalysis\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
-                        + sinceDateAnalysis + "\" data-dojo-id=\"sinceDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + "\""
-                        + " onChange=\"toDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + ".constraints.min = arguments[0];\">");
+                out.println("<input name=\"sinceDateAnalysis" + clsName + "\" id=\"sinceDateAnalysis" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + sinceDateAnalysis + "\" data-dojo-id=\"sinceDateAnalysis" + semObj.getId() + "\""
+                        + " onChange=\"toDateAnalysis" + semObj.getId() + ".constraints.min = arguments[0];\">");
                 out.println("<label for=\"toDate\"> al día:</label>");
-                out.println("<input name=\"toDateAnalysis\" id=\"toDateAnalysis\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
-                        + toDateAnalysis + "\" data-dojo-id=\"toDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + "\""
-                        + " onChange=\"sinceDateAnalysis" + socialNet.getId() + socialNet.getClass().getSimpleName() + ".constraints.max = arguments[0];\">");
+                out.println("<input name=\"toDateAnalysis" + clsName + "\" id=\"toDateAnalysis" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + toDateAnalysis + "\" data-dojo-id=\"toDateAnalysis" + semObj.getId() + "\""
+                        + " onChange=\"sinceDateAnalysis" + semObj.getId() + ".constraints.max = arguments[0];\">");
                 out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\">Calcular</button>");
                 out.println("</form>");
+                paramSinceDateAnalysis +=  clsName;
+                paramToDateAnalysis += clsName;
             }
         }
-        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter("toDateAnalysis", toDateAnalysis).setParameter("sinceDateAnalysis", sinceDateAnalysis) + "\"></iframe> ");
+        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter(paramToDateAnalysis, toDateAnalysis).setParameter(paramSinceDateAnalysis, sinceDateAnalysis) + "\"></iframe> ");
     }
 
     @Override
@@ -232,21 +238,30 @@ public class PieChart extends GenericResource {
         //HashMap hmapResult = filtros(swbSocialUser, webSite, searchWord, request, stream, page);
         String suri = request.getParameter("suri");
         String title = "";
+        SemanticObject semObjParam = null;
+        String clsName = "";
 
         if (SemanticObject.getSemanticObject(suri).getGenericInstance() instanceof Stream) {
             Stream stream = (Stream) SemanticObject.getSemanticObject(suri).getGenericInstance();
             title = stream.getTitle();
-
+            semObjParam = stream.getSemanticObject();
         } else if (SemanticObject.getSemanticObject(suri).getGenericInstance() instanceof SocialTopic) {
             SocialTopic sTopic = (SocialTopic) SemanticObject.getSemanticObject(suri).getGenericInstance();
             title = sTopic.getTitle();
+            semObjParam = sTopic.getSemanticObject();
         }
+        clsName = semObjParam.createGenericInstance().getClass().getName();
 
         String type = request.getParameter("type");
         String filter = request.getParameter("filter");
         String filterGeneral = request.getParameter("filterGeneral");        
-        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
-        String toDateAnalysis = request.getParameter("toDateAnalysis");
+        String sinceDateAnalysis = null;
+        String toDateAnalysis = null;
+        
+        if(semObjParam != null) {
+            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+        }
         
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
