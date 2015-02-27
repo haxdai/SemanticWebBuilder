@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.bsc.accessory.Period;
@@ -70,6 +71,12 @@ public class GraphPeriodStatus extends GenericAdmResource {
             {
                 Objective obj = (Objective) genericObj;
                 Iterator<State> itStates = obj.listValidStates().iterator();
+                TreeSet<State> tree = new TreeSet();
+                while (itStates != null && itStates.hasNext())
+                {
+                    State state = itStates.next();
+                    tree.add(state);
+                } 
 
                 //Codigo HTML para generar la grafica
                 firstOutput.append("<div class=\"row\">\n");
@@ -214,16 +221,15 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 svgOutput.append("; width:");
                 svgOutput.append(graphWidth);
                 svgOutput.append(";");
-                svgOutput.append("\"></svg>\n");
-                
-                while (itStates != null && itStates.hasNext())
-                {
-                    State state = itStates.next();
-                    svgOutput.append(state.getIndex());
+                svgOutput.append("\"></svg>\n");                                 
+                Iterator<State> iterator = tree.iterator();
+                while(iterator.hasNext()){
+                    State stOrder = iterator.next();
+                    svgOutput.append(stOrder.getIndex());
                     svgOutput.append(". ");
-                    svgOutput.append(state.getDisplayTitle(lang)==null?state.getTitle():state.getDisplayTitle(lang));
+                    svgOutput.append(stOrder.getDisplayTitle(lang)==null?stOrder.getTitle():stOrder.getDisplayTitle(lang));
                     svgOutput.append("</br>");
-                }              
+                }
                 svgOutput.append("   </div>\n");
                 svgOutput.append("   </div>\n");
 
