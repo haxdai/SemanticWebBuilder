@@ -34,11 +34,12 @@
     LinkedHashMap<SocialNetworkUser, Integer[]> userCount= new LinkedHashMap<SocialNetworkUser,Integer[]>();//SocialNetUser, [neutrals][positives][negatives]
     boolean isSocialTopic = false;
     SocialTopic st = null;
+    String clsName = semObj.createGenericInstance().getClass().getName();
     
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
-    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {

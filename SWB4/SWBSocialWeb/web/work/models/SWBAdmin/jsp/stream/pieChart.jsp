@@ -44,6 +44,7 @@
     if (semObj == null) {
         return;
     }
+    String clsName = semObj.createGenericInstance().getClass().getName();
     String args = "?objUri=" + semObj.getEncodedURI();
     String lang = paramRequest.getUser().getLanguage();
     String idModel = paramRequest.getWebPage().getWebSiteId();
@@ -52,8 +53,8 @@
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
 
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
-    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
     if(sinceDateAnalysis != null && !sinceDateAnalysis.isEmpty() && toDateAnalysis != null && !toDateAnalysis.isEmpty()) {
         try {
             sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
@@ -66,8 +67,8 @@
     }
     args += "&lang=" + lang;
     args += "&idModel=" + idModel;
-    args += "&sinceDateAnalysis=" +  (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
-    args += "&toDateAnalysis=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    args += "&sinceDateAnalysis" + clsName + "=" +  (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
+    args += "&toDateAnalysis" + clsName + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
     //System.out.println("args: " + args);
 
     Stream stream = null;
@@ -233,7 +234,7 @@
     <div id="pieSentimientos">
         <div class="grafTit">
             <h1><%=SWBSocialResUtil.Util.getStringFromGenericLocale("sentimentProm", lang)%>: <%=title%></h1>
-            <a href="<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("type", "").setParameter("lang", lang).setParameter("sinceDateAnalysis", (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis",(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+            <a href="<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("type", "").setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName , (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
         </div>    
         <div id="pieChart">
         </div>
@@ -327,7 +328,7 @@
                 .on("click", function(d) {
                     if(confirm('¿Desea exportar a excel?')){
                     var filter =d.data.label; 
-                    var url = "<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis", (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis",(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter;
+                    var url = "<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter;
                     document.location.href = url;
                     }
                 })
@@ -446,7 +447,7 @@
     <div id="pieRedes">
         <div class="grafTit">
             <h1>Redes Sociales</h1>
-            <a id="hrefGender" href="<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis", (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis",(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" onclick="return confirm('¿Desea exportar a excel?')"  class="excel">Exportar excel</a>
+            <a id="hrefGender" href="<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" onclick="return confirm('¿Desea exportar a excel?')"  class="excel">Exportar excel</a>
         </div>
         <div id="pieNetworkSocial">
         </div>    
@@ -536,7 +537,7 @@
                 var val = document.querySelector('input[name="socialNetwork"]:checked').value;
                 var xArrayRedes = new Array();
 
-                document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis", (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis",(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>&filterGeneral="+val ;
+                document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>&filterGeneral="+val ;
                 var opciones =  document.getElementsByName("socialNetwork");
                 for(var i=0; i<opciones.length; i++) {        
                     opciones[i].disabled = true;
@@ -665,7 +666,7 @@
                         var filter = d.data.label;
                         //console.log('this is the filter->'+filter);
                         //alert(filter);
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis", (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis",(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                         }
                     })
@@ -980,10 +981,10 @@
     <div id="postInByHour" dojoType="dijit.layout.ContentPane">
     </div>
 
-    <iframe id="<%=suri+"byHour"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHour.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
-    <iframe id="<%=suri+"byNet"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHourByNet.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
-    <iframe id="<%=suri+"byUser"%>" src="/work/models/SWBAdmin/jsp/stream/topUserChart.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
-    <iframe id="<%=suri+"byPlatform"%>" src="/work/models/SWBAdmin/jsp/stream/devicePlatform.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byHour"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHour.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byNet"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHourByNet.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byUser"%>" src="/work/models/SWBAdmin/jsp/stream/topUserChart.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byPlatform"%>" src="/work/models/SWBAdmin/jsp/stream/devicePlatform.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
 </div>
 
 

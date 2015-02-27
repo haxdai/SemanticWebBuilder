@@ -420,10 +420,11 @@
 
     if (request.getParameter("objUri") != null) {
         SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("objUri"));
+        String clsName = semObj.createGenericInstance().getClass().getName();
         String lang = request.getParameter("lang");
         String filter = request.getParameter("filter");
-        String sinceDate = request.getParameter("sinceDateAnalysisPieCharts");
-        String toDate = request.getParameter("toDateAnalysisPieCharts");        
+        String sinceDate = request.getParameter("sinceDateAnalysisPieCharts" + clsName);
+        String toDate = request.getParameter("toDateAnalysisPieCharts" + clsName);        
         // System.out.println("filter" + filter);
         out.println(getObject(semObj, lang, filter, sinceDate , toDate));
     }
