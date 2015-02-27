@@ -304,10 +304,11 @@
     //System.out.println("ENTRANDO A pieSocialNetwork.jsp");
     if (request.getParameter("objUri") != null) {
         SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("objUri"));
+        String clsName = semObj.createGenericInstance().getClass().getName();
         String lang = request.getParameter("lang");
         String filter = request.getParameter("filter");
-        String sinceDate = request.getParameter("sinceDateAnalysis");
-        String toDate = request.getParameter("toDateAnalysis");
+        String sinceDate = request.getParameter("sinceDateAnalysis" + clsName);
+        String toDate = request.getParameter("toDateAnalysis" + clsName);
         //System.out.println("lang:" + lang + "--" + filter);
         out.println(getObject(semObj, lang, filter, sinceDate , toDate));
     }

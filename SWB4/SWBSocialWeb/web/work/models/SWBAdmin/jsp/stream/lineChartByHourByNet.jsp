@@ -29,10 +29,11 @@
     if(suri == null)return;
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
+    String clsName = semObj.createGenericInstance().getClass().getName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
-    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {
@@ -222,7 +223,6 @@ function getChartData() {
         neutrals<%=i%>.push({x:<%=i%>, y: <%= dataArray[i][j][2] %>});
         total<%=i%>.push({x:<%=i%>, y: <%= dataArray[i][j][0] + dataArray[i][j][1] +dataArray[i][j][2] %>});
         <% }} %>
-	
   
 
   return [
@@ -232,7 +232,7 @@ function getChartData() {
       positivos: positives<%=i%>,
       negativos: negatives<%=i%>,
       neutros: neutrals<%=i%>,
-      key: "<%=SWBUtils.TEXT.replaceSpecialCharacters(title[i], false)%>",
+      key: "<%=(title[i]!= null) ? SWBUtils.TEXT.replaceSpecialCharacters(title[i], false) : ""%>",
       color: getRandomColor()
     }
     <%if(i < dataArray.length-1)

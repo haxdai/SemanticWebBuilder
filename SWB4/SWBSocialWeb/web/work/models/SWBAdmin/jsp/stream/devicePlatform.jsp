@@ -31,10 +31,11 @@
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String title = "";
+    String clsName = semObj.createGenericInstance().getClass().getName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis");
-    String toDateAnalysis = request.getParameter("toDateAnalysis");
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {
