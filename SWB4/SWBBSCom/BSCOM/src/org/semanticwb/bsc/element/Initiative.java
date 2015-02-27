@@ -23,7 +23,7 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
 
 public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
-    private static Logger log = SWBUtils.getLogger(Initiative.class);
+    private static final Logger log = SWBUtils.getLogger(Initiative.class);
     static {
         bsc_hasDeliverable.registerObserver(new SemanticObserver() {
             @Override
@@ -217,7 +217,8 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         float m;
         float weighingSum = 0;
         float xwSum = 0;
-        // Calcular el porcentaje de avance
+        float f, value;
+        // Calcular el porcentaje de avance formulado como un promedio ponderado
         for (Deliverable deliverable : deliverables) {
             Series star = deliverable.getStar();
             if (star == null || star.getMeasure(period) == null ) {
@@ -228,7 +229,12 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
                 log.error("No existe prioridad definida en el entregable "+deliverable.getTitle());
                 continue;
             }
-            float f = BSCUtils.Formats.round(star.getMeasure(period).getValue() * deliverable.getPriority().getWeighing(), 2).floatValue();
+            value = star.getMeasure(period).getValue();
+            if(Float.isNaN(value)) {
+                f = 0F;
+            }else {
+                f = BSCUtils.Formats.round(value * deliverable.getPriority().getWeighing(), 2).floatValue();
+            }
             deliverable.setProgress(f);
             xwSum += deliverable.getProgress();
             weighingSum += deliverable.getPriority().getWeighing();
