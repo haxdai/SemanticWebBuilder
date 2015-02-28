@@ -49,6 +49,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
 public class DataTableResource extends GenericResource implements ComponentExportable{
     private static final Logger log = SWBUtils.getLogger(DataTableResource.class);
     private static long sufix = 0;
+    public static final String QUESTION_MARK = "&#63;";
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -154,7 +155,7 @@ out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>
             // 5.- Series
             for(Series series:serieses) {
                 out.println("<td class=\"dt-td\">");
-                String value = series.getMeasure(period)==null?"--":series.getFormatter().format(series.getMeasure(period).getValue());
+                String value = series.getMeasure(period)==null?QUESTION_MARK:series.getFormatter().format(series.getMeasure(period).getValue());
                 if(inTime && !series.isReadOnly() && userCanEdit()) {
                     SWBResourceURL url = paramRequest.getActionUrl();
                     url.setAction(SWBResourceURL.Action_EDIT);
@@ -534,6 +535,9 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
                     sb.append("</tr>");
                     sb.append("</thead>");
                     sb.append("<tbody>");
+                    
+                    String value;
+                    Measure measure;
                     while (periods.hasNext()) {
                         Period period = periods.next();
                         sb.append("<tr>");
@@ -557,14 +561,18 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
                             sb.append(title);
                             sb.append("</span>");
                         } else {
-                            sb.append("--");
+                            sb.append(QUESTION_MARK);
                         }
                         sb.append("</td>");
                         for (Series series : serieses) {
                             sb.append("<td>");
-                            String value = series.getMeasure(period) == null ? "--" : 
-                                    series.getFormatter().format(series.getMeasure(period).
-                                    getValue());
+                            value = QUESTION_MARK;
+                            measure = series.getMeasure(period);
+                            if(measure != null) {
+                                if(!Float.isNaN(measure.getValue())) {
+                                    value = series.getFormatter().format(measure.getValue());
+                                }
+                            }
                             sb.append(value);
                             sb.append("</td>");
                         }
