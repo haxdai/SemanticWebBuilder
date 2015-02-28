@@ -7,10 +7,15 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.Committable;
 import org.semanticwb.bsc.Measurable;
@@ -41,6 +46,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
  * @author carlos.ramos
  */
 public class MeasuresManager extends GenericAdmResource {
+    private static final Logger log = SWBUtils.getLogger(MeasuresManager.class);
     public static final String Default_FORMAT_PATTERN = "#,##0.0#";
 
     @Override
@@ -157,7 +163,6 @@ public class MeasuresManager extends GenericAdmResource {
             }catch(Exception iae) {
                 formatter.applyPattern(getResourceBase().getAttribute("defaultFormatPattern", Default_FORMAT_PATTERN));
             }
-            Period period;
             
             final Committable committable = (Committable)series;
             final boolean canEdit;
@@ -170,6 +175,7 @@ public class MeasuresManager extends GenericAdmResource {
                 disabled = "";
             }
             
+            Period period;
             SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);            
             while(measurablesPeriods.hasNext())
             {
@@ -182,14 +188,15 @@ public class MeasuresManager extends GenericAdmResource {
                     ps.setPeriod(period);
                     ps.setStatus(sm.getMinimumState());
                     measure.setEvaluation(ps);
-                    measure.setValue(0);
+                    //measure.setValue(0);
+                    measure.setValue(Float.NaN);
                 }else {
                     // Valida que el estado asignado a la medición aún este asignado al indicador. Sino, lo elimina de la medición.
                     if(!sm.hasState(measure.getEvaluation().getStatus())) {
                         measure.getEvaluation().removeStatus();
                     }
                 }
-                String value = measure.getValue()==0?"":formatter.format(measure.getValue());
+                String value = Float.isNaN(measure.getValue())?"":formatter.format(measure.getValue());
                 String iconClass, statusTitle;
                 try {
                     statusTitle = measure.getEvaluation().getStatus().getTitle(user.getLanguage())==null?measure.getEvaluation().getStatus().getTitle():measure.getEvaluation().getStatus().getTitle(user.getLanguage());
@@ -320,42 +327,55 @@ public class MeasuresManager extends GenericAdmResource {
             Enumeration<String> e = request.getParameterNames();
             if(e.hasMoreElements())
             {
-                while(e.hasMoreElements()) {
+                Iterator<Period> measurablesPeriods;
+                SortedSet<Period> periods;
+                periods =new TreeSet<Period>();
+                Period period;
+                while(e.hasMoreElements()){
                     pid = e.nextElement();
-                    val = request.getParameter(pid)==null?"":request.getParameter(pid);
-                    if(Period.ClassMgr.hasPeriod(pid, bsc))
-                    {
-                        Period period = Period.ClassMgr.getPeriod(pid, bsc);
-                        Measure measure = series.getMeasure(period);
-                        PeriodStatus ps;
-                        if(measure == null) {
-                            measure = Measure.ClassMgr.createMeasure(bsc);
-                            series.addMeasure(measure);
-                            ps = PeriodStatus.ClassMgr.createPeriodStatus(bsc);
-                            ps.setPeriod(period);
-                            measure.setEvaluation(ps);
-                        }
-                        if(val.isEmpty()) {
-                            measure.setValue(0);
-                            //measure.getEvaluation().setStatus(null);
-                            measure.getEvaluation().setStatus(series.getSm().getMinimumState());
-                            continue;
-                        }
+                    if(Period.ClassMgr.hasPeriod(pid, bsc)) {
+                        period = Period.ClassMgr.getPeriod(pid, bsc);
+                        periods.add(period);
+                    }
+                }
+                measurablesPeriods = periods.iterator();
+                Measure measure;
+                PeriodStatus ps;
+                while(measurablesPeriods.hasNext())
+                {
+                    period = measurablesPeriods.next();
+                    val = request.getParameter(period.getId())==null?"":request.getParameter(period.getId());
+                    measure = series.getMeasure(period);
+                    if(measure == null) {
+                        measure = Measure.ClassMgr.createMeasure(bsc);
+                        series.addMeasure(measure);
+                        ps = PeriodStatus.ClassMgr.createPeriodStatus(bsc);
+                        ps.setPeriod(period);
+                        measure.setEvaluation(ps);
+                    }
+                    if(val.isEmpty()) {
+                        //measure.setValue(0F);
+                        measure.setValue(Float.NaN);
+                        //measure.getEvaluation().setStatus(null);
+                        measure.getEvaluation().setStatus(series.getSm().getMinimumState());
+                        series.getSm().updateAppraisal(period);
+                        continue;
+                    }
+                    try {
+                        float value = Float.parseFloat(val);
+                        measure.setValue(value);
+                        //measure.setValue(BSCUtils.Formats.round(value, 2).floatValue());
+                    }catch(NumberFormatException nfe) {
                         try {
-                            float value = Float.parseFloat(val);
-                            measure.setValue(value);
-                            //measure.setValue(BSCUtils.Formats.round(value, 2).floatValue());
-                        }catch(NumberFormatException nfe) {
-                            try {
-                                Number value = formatter.parse(val);
-                                measure.setValue(value.floatValue());
-                            }catch(ParseException pe) {
-                                measure.setValue(0);
-                            }
-                        }finally {
-                            measure.evaluate();
-                            series.getSm().updateAppraisal(period);
+                            Number value = formatter.parse(val);
+                            measure.setValue(value.floatValue());
+                        }catch(ParseException pe) {
+                            measure.setValue(Float.NaN);
+                            log.error("NaN asignado en el periodo "+period.getTitle()+" del Sm "+series.getSm());
                         }
+                    }finally {
+                        measure.evaluate();
+                        series.getSm().updateAppraisal(period);
                     }
                 } //while
                 response.setRenderParameter("statmsg", response.getLocaleString("msgUpdtOk"));
