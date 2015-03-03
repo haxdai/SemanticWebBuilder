@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.portal.api.GenericResource;
@@ -355,14 +356,7 @@ public class LDAPLoadUsers extends GenericResource
         return findUsers;
     }
 
-    @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        doAdmin(request, response, paramRequest);
-    }
-
-    @Override
-    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    public void showLoad(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String ldapFile = paramRequest.getResourceBase().getAttribute("file", "/genericLDAP.properties");
         if (paramRequest.getWebPage().getWebSite().getUserRepository().getUserRepExternalConfigFile() != null)
@@ -480,6 +474,24 @@ public class LDAPLoadUsers extends GenericResource
                 out.println("<input type=\"submit\" name=\"buscar\" value=\"Agregar\"><br>");
                 out.println("</form><br><br>");
             }
+        }
+    }
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        if(paramRequest.getWebPage().getWebSiteId().equalsIgnoreCase(SWBContext.getAdminWebSite().getId()))
+        {
+            showLoad(request, response, paramRequest);
+        }
+        
+    }
+
+    @Override
+    public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        if(!paramRequest.getWebPage().getWebSiteId().equalsIgnoreCase(SWBContext.getAdminWebSite().getId()))
+        {
+            showLoad(request, response, paramRequest);
         }
     }
 
