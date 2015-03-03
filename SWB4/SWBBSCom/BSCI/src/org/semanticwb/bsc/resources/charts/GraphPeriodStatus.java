@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -65,26 +66,15 @@ public class GraphPeriodStatus extends GenericAdmResource {
         }
 
         if (semanticObj != null)
-        {
+        {//1
             GenericObject genericObj = semanticObj.createGenericInstance();
             if (genericObj instanceof Objective)
-            {
+            {//2
                 Objective obj = (Objective) genericObj;
-                Iterator<State> itStates = obj.listValidStates().iterator();
-                TreeSet<State> tree = new TreeSet();
-                while (itStates != null && itStates.hasNext())
-                {
-                    State state = itStates.next();
-                    tree.add(state);
-                } 
-
-                //Codigo HTML para generar la grafica
+                
+                firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
                 firstOutput.append("<div class=\"row\">\n");
                 firstOutput.append("<div class=\"col-xs-12\">\n");
-                firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
-                List<Period> periodsList = obj.listValidPeriods();
-                Collections.sort(periodsList);
-
                 firstOutput.append("<div id=\"graphContainer\">\n");
                 firstOutput.append("   <div id=\"chart1\" class=\'with-3d-shadow with-transitions\'>\n");
                 firstOutput.append("       <div class=\"panel-heading head-detalle\">");
@@ -99,52 +89,57 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("   </div>\n");
                 output.append("<script type=\"text/javascript\">\n");
                 output.append("long_short_data = [\n");
+                
+                List<Period> periodsList = obj.listValidPeriods();
+                Collections.sort(periodsList);
+                //Valida que contenga periodos asignados
+                if(periodsList.size() > 0)
+                {
+                    output.append("{");
+                    //Se coloca el identificador de cada estado
+                    output.append("  key: \"");
+                    output.append("Estados de los periodos");
+                    output.append("\" ,\n");
+                    //Se coloca el color a utilizar para la grafica
+                    output.append("  color: '");
+                    output.append(graphColor);                          
+                    output.append("',\n");
+                    output.append("  values: [\n");
 
-                        //Valida que contenga periodos asignados
-                        if (periodsList.size() > 0) {
-                            output.append("{");
-                            //Se coloca el identificador de cada estado
-                            output.append("  key: \"");
-                            output.append("Estados de los periodos");
-                            output.append("\" ,\n");
-                            //Se coloca el color a utilizar para la grafica
-                            output.append("  color: '");
-                            output.append(graphColor);                          
-                            output.append("',\n");
-                            output.append("  values: [\n");
+                    int periodsCount = 0;
 
-                            int periodsCount = 0;
-
-                            //Recorre los periodos y valores de los estatus para graficarlos
-                            for (Period period : periodsList) {
-                                if(period.isCurrent() || period.isFuture()) {
-                                    break;
-                                }
-                                PeriodStatus ps = obj.getPeriodStatus(period);
-                                if (ps != null && ps.getStatus() != null) {
-                                    State st = ps.getStatus();
-                                    if (periodsCount > 0) {
-                                        output.append(",\n");
-                                    }
-                                    output.append("    {");
-                                    output.append(" \"label\" : \"");
-                                    output.append(period.getTitle());
-                                    output.append("\", ");
-                                    if (ps.getStatus().getIndex() == st.getIndex()) {
-                                        output.append("\"value\" : ");
-                                        output.append(ps.getStatus().getIndex());
-                                    }
-                                    output.append(" }");
-                                    periodsCount++;
-                                }
-                            }
-                            output.append("  ]");
-                            output.append("}");
-                        } else {//En caso de que no haya periodos
-                            out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotPeriods") + "</div>");
-                            out.flush();
-                            return;
+                    //Recorre los periodos y valores de los estatus para graficarlos
+                    for (Period period : periodsList) {
+                        if(period.isCurrent() || period.isFuture()) {
+                            break;
                         }
+                        PeriodStatus ps = obj.getPeriodStatus(period);
+                        if (ps != null && ps.getStatus() != null) {
+                            State st = ps.getStatus();
+                            if (periodsCount > 0) {
+                                output.append(",\n");
+                            }
+                            output.append("    {");
+                            output.append(" \"label\" : \"");
+                            output.append(period.getTitle());
+                            output.append("\", ");
+                            if (ps.getStatus().getIndex() == st.getIndex()) {
+                                output.append("\"value\" : ");
+                                output.append(ps.getStatus().getIndex());
+                            }
+                            output.append(" }");
+                            periodsCount++;
+                        }
+                    }
+                    output.append("  ]");
+                    output.append("}");
+                }
+                else
+                {//En caso de que no haya periodos
+                    out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotPeriods") + "</div>");
+                    out.flush();
+                    return;
+                }
                 //}
                 //Se termina de armar el Javascript para la presentacion de la grafica
                 output.append("];\n");
@@ -166,7 +161,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("    .transitionDuration(250)\n");
                 output.append("    .showControls(false);\n");
                 output.append("  chart.yAxis\n");
-                output.append("    .tickFormat(d3.format(',.2f'));\n");
+                output.append("    .tickFormat(d3.format(',1f'));\n");
                 output.append("  d3.select('#chart1 svg')\n");
                 output.append("    .datum(long_short_data)\n");
                 output.append("    .call(chart);\n");
@@ -221,15 +216,27 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 svgOutput.append("; width:");
                 svgOutput.append(graphWidth);
                 svgOutput.append(";");
-                svgOutput.append("\"></svg>\n");                                 
-                Iterator<State> iterator = tree.iterator();
-                while(iterator.hasNext()){
-                    State stOrder = iterator.next();
-                    svgOutput.append(stOrder.getIndex());
-                    svgOutput.append(". ");
-                    svgOutput.append(stOrder.getDisplayTitle(lang)==null?stOrder.getTitle():stOrder.getDisplayTitle(lang));
-                    svgOutput.append("</br>");
+                svgOutput.append("\"></svg>\n");
+                
+                // Cuadro de valores
+                SortedSet<State> states = new TreeSet<State>();
+                states.addAll(obj.listValidStates());
+                Iterator<State> iterator = states.iterator();
+                if(iterator.hasNext()) {
+                    svgOutput.append("<ul class=\"list-group swbstrgy-list-group\">").append("\n");
+                    while(iterator.hasNext()) {
+                        State st = iterator.next();
+                        svgOutput.append("<li class=\"list-group-item swbstrgy-list-group-item\">");
+                        svgOutput.append("<span class=\"badge\">");
+                        svgOutput.append(st.getIndex());
+                        svgOutput.append("</span>");
+                        svgOutput.append(st.getDisplayTitle(lang));
+                        svgOutput.append("</li>").append("\n");
+                    }
+                    svgOutput.append("</ul>").append("\n");
                 }
+                // Cuadro de valores. Fin
+                
                 svgOutput.append("   </div>\n");
                 svgOutput.append("   </div>\n");
 
@@ -237,11 +244,10 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 out.println(svgOutput.toString());
                 out.println(output.toString());
 
-                out.println("</div>");
-                out.println("</div>");
-                out.println("</div>");
-               
-            }
-        }
+                out.println("</div>");//.col-xs-12
+                out.println("</div>");//.row
+                out.println("</div>");//.panel panel-default .panel-detalle
+            }//2
+        }//1
     }
 }
