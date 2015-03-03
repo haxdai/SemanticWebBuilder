@@ -1,8 +1,11 @@
 
 package org.semanticwb.bsc.admin.resources.behavior;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.batik.css.engine.value.RGBColorValue;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -82,6 +86,8 @@ public class StatesManager extends GenericResource {
                     out.println("<table width=\"98%\">"); 
                     out.println("<thead>");
                     out.println("<tr>");
+                    out.println("<th>"+paramRequest.getLocaleString("lblIconClass")+"</th>");
+                    out.println("<th>"+paramRequest.getLocaleString("lblColor")+"</th>");
                     out.println("<th>"+paramRequest.getLocaleString("lblIndex")+"</th>");
                     out.println("<th>"+paramRequest.getLocaleString("lblState")+"</th>");
                     out.println("<th>"+paramRequest.getLocaleString("lblPrevius")+"</th>");
@@ -93,7 +99,10 @@ public class StatesManager extends GenericResource {
                     out.println("</thead>");
                     out.println("<tbody>");
                     
-                    Iterator<State> groupedStates = stateGroup.listGroupedStateses();
+                    List states = SWBUtils.Collections.copyIterator(stateGroup.listGroupedStateses());
+                    Collections.sort(states);                    
+                    Color c;
+                    Iterator<State> groupedStates = states.iterator();
                     boolean hasGroupedStates = groupedStates.hasNext();
                     while(groupedStates.hasNext())
                     {
@@ -101,10 +110,27 @@ public class StatesManager extends GenericResource {
                         if(  (state.isValid() && user.haveAccess(state)) || (!state.isActive() && user.haveAccess(state))  )
                         {
                             out.println("<tr>");
+                            //iconclass
+                            if(state.getIconClass()==null) {
+                                out.println(" <td>Not set</td>");
+                            }else {
+                                out.println(" <td><span class=\""+state.getIconClass()+"\"></span></td>");
+                            }
+                            //color
+                            if(state.getColorHex()==null) {
+                                out.println(" <td>Not set</td>");
+                            }else {
+                                try {
+                                    c = Color.decode(state.getColorHex());
+                                }catch(NumberFormatException nfe) {
+                                    c = Color.WHITE;
+                                }
+                                c = new Color(255-c.getRed(),255-c.getGreen(),255-c.getBlue());
+                                out.println(" <td style=\"background-color:"+state.getColorHex()+";\"><span style=\"color:#"+Integer.toHexString(c.getRed())+Integer.toHexString(c.getGreen())+Integer.toHexString(c.getBlue())+";\">"+state.getColorHex()+"</span></td>");
+                            }
                             // Orden
                             out.println(" <td>"+state.getIndex()+"</td>");
-
-                            // Estado
+                            // Título del semáforo
                             out.println(" <td>");
                             out.println("<a href=\"#\" onclick=\"addNewTab('" + state.getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + (state.getTitle(lang)==null?(state.getTitle()==null?"Sin título":state.getTitle().replaceAll("'","")):state.getTitle(lang).replaceAll("'","")) + "');return false;\" >" + (state.getTitle(lang)==null?(state.getTitle()==null?"Sin título":state.getTitle().replaceAll("'","")):state.getTitle(lang).replaceAll("'","")) + "</a>");
                             out.println(" </td>");
@@ -228,6 +254,8 @@ public class StatesManager extends GenericResource {
                 out.println("<table width=\"98%\">"); 
                 out.println("<thead>");
                 out.println("<tr>");
+                out.println("<th>"+paramRequest.getLocaleString("lblIconClass")+"</th>");
+                out.println("<th>"+paramRequest.getLocaleString("lblColor")+"</th>");
                 out.println("<th>"+paramRequest.getLocaleString("lblIndex")+"</th>");
                 out.println("<th>"+paramRequest.getLocaleString("lblState")+"</th>");
                 out.println("<th>"+paramRequest.getLocaleString("lblPrevius")+"</th>");
@@ -249,20 +277,39 @@ public class StatesManager extends GenericResource {
                     }
                     groups.add(state.getStateGroup());
                 }
-                
+                Color c;
                 Iterator<StateGroup> sg = groups.iterator();
                 while(sg.hasNext())
                 {
-                    istates = sg.next().listGroupedStateses();
+                    List states = SWBUtils.Collections.copyIterator(sg.next().listGroupedStateses());
+                    Collections.sort(states);                    
+                    istates = states.iterator();
                     while(istates.hasNext())
                     {
                         State state = istates.next();
                         if(  (state.isValid() && user.haveAccess(state)) || (!state.isActive() && user.haveAccess(state))  )
                         {
                             out.println("<tr>");
+                            //iconclass
+                            if(state.getIconClass()==null) {
+                                out.println(" <td>Not set</td>");
+                            }else {
+                                out.println(" <td><span class=\""+state.getIconClass()+"\"></span></td>");
+                            }
+                            //color
+                            if(state.getColorHex()==null) {
+                                out.println(" <td>Not set</td>");
+                            }else {
+                                try {
+                                    c = Color.decode(state.getColorHex());
+                                }catch(NumberFormatException nfe) {
+                                    c = Color.WHITE;
+                                }
+                                c = new Color(255-c.getRed(),255-c.getGreen(),255-c.getBlue());
+                                out.println(" <td style=\"background-color:"+state.getColorHex()+";\"><span style=\"color:#"+Integer.toHexString(c.getRed())+Integer.toHexString(c.getGreen())+Integer.toHexString(c.getBlue())+";\">"+state.getColorHex()+"</span></td>");
+                            }
                             // Orden
                             out.println(" <td>"+state.getIndex()+"</td>");
-
                             // Estado
                             out.println(" <td>");
                             out.println("<a href=\"#\" onclick=\"addNewTab('" + state.getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + (state.getTitle(lang)==null?(state.getTitle()==null?"Sin título":state.getTitle().replaceAll("'","")):state.getTitle(lang).replaceAll("'","")) + "');return false;\" >" + (state.getTitle(lang)==null?(state.getTitle()==null?"Sin título":state.getTitle().replaceAll("'","")):state.getTitle(lang).replaceAll("'","")) + "</a>");
@@ -545,8 +592,8 @@ public class StatesManager extends GenericResource {
         {
             Status status = (Status)semObj.getGenericInstance();
             if(status.getState()!=null && status.getState().getStateGroup()!=null) {
-                status.removeAllState();
                 StateGroup sg = status.getState().getStateGroup();
+                status.removeAllState();
                 Iterator<State> it = sg.listGroupedStateses();
                 if(it.hasNext()) {
                     State aux;
