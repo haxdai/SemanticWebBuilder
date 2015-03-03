@@ -161,7 +161,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("    .transitionDuration(250)\n");
                 output.append("    .showControls(false);\n");
                 output.append("  chart.yAxis\n");
-                output.append("    .tickFormat(d3.format(',1f'));\n");
+                output.append("      .tickFormat(d3.format(',.2d'));\n");
                 output.append("  d3.select('#chart1 svg')\n");
                 output.append("    .datum(long_short_data)\n");
                 output.append("    .call(chart);\n");
@@ -190,7 +190,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append(")\n"); 
                 output.append("      .groupSpacing(0.1);\n");    //Distance between each group of bars.
                 output.append("  chart2.yAxis\n");
-                output.append("      .tickFormat(d3.format(',.2f'));\n");
+                output.append("      .tickFormat(d3.format(',.2d'));\n");
                 output.append("  return chart2;\n");
                 output.append("});\n");
                 output.append("  function showGraph(radioBtn) {\n");
