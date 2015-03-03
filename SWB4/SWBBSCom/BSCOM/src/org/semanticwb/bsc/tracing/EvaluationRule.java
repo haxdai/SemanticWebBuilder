@@ -1,16 +1,19 @@
 package org.semanticwb.bsc.tracing;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 import javax.script.ScriptException;
+import org.semanticwb.Logger;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.catalogs.Operation;
 
 
 public class EvaluationRule extends org.semanticwb.bsc.tracing.base.EvaluationRuleBase implements Comparable<EvaluationRule>
 {
+    private static final Logger log = SWBUtils.getLogger(EvaluationRule.class);
+    
     public static final String Default_FORMAT_PATTERN = "(([\\*\\+-])([0|\\d*]\\.?\\d+),)*(([\\*\\+-])([0|\\d*]\\.?\\d+))";
     public static final String Default_SEPARATOR = ",";
     public static final String Default_TERM_PATTERN = "([\\*\\+-])([0|\\d*]\\.?\\d+)";
@@ -93,10 +96,12 @@ public class EvaluationRule extends org.semanticwb.bsc.tracing.base.EvaluationRu
                 if(f.length==1) {
                     try {
                         double coef = (Double)f[0][1];
-                        
                         res = op.evaluate(value1, coef*value2);
                     }catch(NoSuchMethodException e) {
-                    }catch (ScriptException e) {
+                    }catch(ScriptException e) {
+                    }catch(NullPointerException e) {
+                        log.error("Regla de evaluación con ID "+getId()
+                                +" mal formada. Elimine todas las reglas de la serie y creélas de nuevo ");
                     }
                 }else if(f.length==2) {
                     double coef1 = (Double)f[0][1];
