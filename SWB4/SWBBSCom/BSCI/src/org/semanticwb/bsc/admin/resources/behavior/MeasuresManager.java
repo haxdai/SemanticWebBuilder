@@ -7,7 +7,6 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Locale;
 import java.util.SortedSet;
 import java.util.TreeSet;
