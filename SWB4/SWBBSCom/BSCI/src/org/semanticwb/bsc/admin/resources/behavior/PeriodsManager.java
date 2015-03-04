@@ -108,6 +108,8 @@ public class PeriodsManager extends GenericResource {
             out.println("   </thead>");
             out.println("   <tbody>");
             
+            boolean hasFormer;
+            boolean hasNext;
             while (itPeriods.hasNext())
             {
                 Period period = itPeriods.next();
@@ -118,29 +120,24 @@ public class PeriodsManager extends GenericResource {
                     urlAdd.setParameter("sval", period.getId());
                     urlAdd.setAction(Action_UPDT_ACTIVE);
                     
-                    String title = period.getTitle(user.getLanguage()) == null
-                                   ? period.getTitle()
-                                   : period.getTitle(user.getLanguage());
-                    String titleFormer = null;
+                    String title = period.getDisplayTitle(user.getLanguage());
+                    String titleFormer;
                     String titleNext = null;
-                    boolean hasFormer = false;
-                    boolean hasNext = false;
-
                     if (period.getPrevius() != null) {
                         Period former = (Period) period.getPrevius();
-                        titleFormer = former.getTitle(user.getLanguage()) == null 
-                                      ? former.getTitle() : former.getTitle(user.getLanguage());
+                        titleFormer = former.getDisplayTitle(user.getLanguage());
                         hasFormer = true;
                     }else {
-                        titleFormer = paramRequest.getLocaleString("lbl_notAssigned");
+                        titleFormer = "Not set";
+                        hasFormer = false;
                     }
                     if (period.getNext() != null) {
                         Period next = (Period) period.getNext();
-                        titleNext = next.getTitle(user.getLanguage()) == null
-                                    ? next.getTitle() : next.getTitle(user.getLanguage());
+                        titleNext = next.getDisplayTitle(user.getLanguage()) ;
                         hasNext = true;
                     } else {
-                        titleFormer = paramRequest.getLocaleString("lbl_notAssigned");
+                        titleNext = "Not set";
+                        hasNext = false;
                     }
 
                     //mostrar las columnas del listado con sus valores
@@ -148,7 +145,7 @@ public class PeriodsManager extends GenericResource {
                     out.append("      <td>"+period.getIndex()+"</td>");
                     out.println("     <td>");
                     out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getURI() + "','");
-                    out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + title);
+                    out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp','" + title);
                     out.println("');return false;\" >" + title + "</a>");
                     out.println("     </td>");
                     out.println("     <td>" + period.getStart() + "</td>");            
@@ -156,21 +153,19 @@ public class PeriodsManager extends GenericResource {
                     out.println("     <td>");
                     if (hasFormer) {
                         out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getPrevius().getURI() + "','");
-                        out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + 
-                                (titleFormer != null ? titleFormer : paramRequest.getLocaleString("lbl_noTitle")));
-                        out.println("');return false;\" >" +
-                                (titleFormer != null ? titleFormer : paramRequest.getLocaleString("lbl_noTitle")) +
-                                "</a>");
+                        out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp','"+titleFormer);
+                        out.println("');return false;\" >"+titleFormer+"</a>");
+                    }else {
+                        out.print(titleFormer);
                     }
                     out.println("     </td>");
                     out.println("     <td>");
                     if (hasNext) {
                         out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getNext().getURI() + "','");
-                        out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + 
-                                (titleNext != null ? titleNext : paramRequest.getLocaleString("lbl_noTitle")));
-                        out.println("');return false;\" >" +
-                                    (titleNext != null ? titleNext : paramRequest.getLocaleString("lbl_noTitle")) +
-                                    "</a>");
+                        out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp','"+titleNext);
+                        out.println("');return false;\" >"+titleNext+"</a>");
+                    }else {
+                        out.print(titleNext);
                     }
                     out.println("     </td>");
 
