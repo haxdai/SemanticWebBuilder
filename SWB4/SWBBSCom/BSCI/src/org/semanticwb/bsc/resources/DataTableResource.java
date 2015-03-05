@@ -429,7 +429,7 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
         if(user!=null && str_role!=null)
         {
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj = null;
+            GenericObject gobj;
             try {
                 gobj = ont.getGenericObject(str_role);
             }catch(Exception e) {
@@ -437,8 +437,8 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
                 return Boolean.FALSE;
             }
 
-            UserGroup ugrp = null;
-            Role urole = null;
+            UserGroup ugrp;
+            Role urole;
 
             if(gobj != null) {
                 if(gobj instanceof UserGroup) {
@@ -460,27 +460,26 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
     private String renderUpdateInline(final String objId, final String url, final String data, final boolean autosave, final String editor, final String cssClass) {
         StringBuilder script = new StringBuilder();
         final String id;
-        synchronized(this) {
-            id = objId+"_"+(sufix++);
-        }
-        script.append("<span id=\"eb_" + id + "\" class=\""+cssClass+"\">" + data + "</span>\n");
+        id = objId+"_"+(sufix++);
+        
+        script.append("<span id=\"eb_").append(id).append("\" class=\"").append(cssClass).append("\">").append(data).append("</span>\n");
         script.append("<script type=\"text/javascript\">\n");
         script.append("<!--\n");
-        script.append("var iledit_" + id + ";");
+        script.append("var iledit_").append(id).append(";");
         script.append("dojo.addOnLoad( function() {");
-        script.append("    iledit_" + id + " = new dijit.InlineEditBox({");
-        script.append("    id: \"ile_" + id + "\",");
-        script.append("    autoSave: "+autosave+",");
-        script.append("    editor: \""+editor+"\",");
+        script.append("    iledit_").append(id).append(" = new dijit.InlineEditBox({");
+        script.append("    id: \"ile_").append(id).append("\",");
+        script.append("    autoSave: ").append(autosave).append(",");
+        script.append("    editor: \"").append(editor).append("\",");
         script.append("    editorParams: {trim:true, required:true},");
         script.append("    width: '80px',");
         script.append("    onChange: function(value){");
         //script.append("           getSyncHtml('" + url + (url.contains("?")?"&":"?") + "value='+value);");
-        script.append("           location.href='" + url + (url.contains("?")?"&":"?") + "value='+value;");
+        script.append("           location.href='").append(url).append(url.contains("?")?"&":"?").append("value='+value;");
         script.append("      }");
-        script.append("    }, 'eb_" + id + "');");
+        script.append("    }, 'eb_").append(id).append("');");
         script.append("  }");
-        script.append("); iledit_" + id + ".startup();\n");
+        script.append("); iledit_").append(id).append(".startup();\n");
         script.append("-->\n");
         script.append("</script>\n");
         return script.toString();
