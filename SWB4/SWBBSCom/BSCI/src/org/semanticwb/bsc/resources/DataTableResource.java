@@ -50,6 +50,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
     private static final Logger log = SWBUtils.getLogger(DataTableResource.class);
     private static long sufix = 0;
     public static final String QUESTION_MARK = "&#63;";
+    public static final String ANCHOR_NAME = "dtbl";
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -98,6 +99,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             Collections.sort(lperiods);
             periods = lperiods.iterator();
         }
+        out.println("<a name=\""+ANCHOR_NAME+"\"></a>");
         out.println("<div class=\"row\">");
         out.println("<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 swb-interli\">");
         out.println("<div class=\"table-responsive\">");
@@ -301,8 +303,6 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
             if(attr != null) {
                 base.setAttribute("editRole", attr);                
             }
-//            attr = request.getParameter("autosave")==null?"false":"true";
-//            base.setAttribute("autosave", attr);
             attr = request.getParameter("left");
             try {
                 Integer.parseInt(attr);
@@ -334,7 +334,6 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
         {
             final String suri = request.getParameter("suri");
             response.setRenderParameter("suri", suri);
-
             SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
             SemanticObject sobj = ont.getSemanticObject(suri);
             if(sobj==null) {
@@ -349,6 +348,28 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
             {
                 Period period = Period.ClassMgr.getPeriod(pid, model);
                 Series series = Series.ClassMgr.getSeries(sid, model);
+                float value;
+                try {
+                    value = Float.parseFloat(data);
+                }catch(NumberFormatException nfe) {
+                    try {
+                        Number number = series.getFormatter().parse(data);
+                        value = number.floatValue();
+                    }catch(ParseException pe) {
+                        response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8")+"#"+ANCHOR_NAME);
+                        return;
+                    }catch(NullPointerException e) {
+                        response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8")+"#"+ANCHOR_NAME);
+                        return;
+                    }
+                }catch(NullPointerException e) {
+                    response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8")+"#"+ANCHOR_NAME);
+                    return;
+                }
+                if(Float.isInfinite(value)) {
+                    response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8")+"#"+ANCHOR_NAME);
+                    return;
+                }
                 Measure measure = series.getMeasure(period);
                 if(measure == null) {
                     measure = Measure.ClassMgr.createMeasure(model);
@@ -357,26 +378,11 @@ out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().get
                     measure.setEvaluation(ps);
                     series.addMeasure(measure);
                 }
-
-                float value = 0;
-                try {
-                    value = Float.parseFloat(data);
-                }catch(NumberFormatException nfe) {
-                    try {
-                        Number number = series.getFormatter().parse(data);
-                        value = number.floatValue();
-                    }catch(ParseException pe) {
-                        value = 0;
-                    }catch(Exception e) {
-                        value = 0;
-                    }
-                }finally {
-                    measure.setValue(value);
-                    measure.evaluate();
-                    series.getSm().updateAppraisal(period);
-                }
+                measure.setValue(value);
+                measure.evaluate();
+                series.getSm().updateAppraisal(period);
             }
-            response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8"));
+            response.sendRedirect(response.getWebPage().getUrl()+"?suri="+URLEncoder.encode(suri,"UTF-8")+"#"+ANCHOR_NAME);
         }
     }
     
