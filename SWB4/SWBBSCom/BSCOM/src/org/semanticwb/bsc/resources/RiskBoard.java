@@ -1741,18 +1741,24 @@ public class RiskBoard extends GenericResource
     private String doIconExport(HttpServletRequest request, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         StringBuilder ret = new StringBuilder(128);
         SWBResourceURL url = new SWBResourceURLImp(request, getResourceBase(), paramRequest.getWebPage(), SWBResourceURL.UrlType_RENDER);
+        // impresión PDF
         url.setMode("export");
         url.setCallMethod(SWBResourceURL.Call_DIRECT);
         url.setParameter("dispMode", "view");
         url.setParameter("type", "pdf");
         ret.append("<button type=\"button\" class=\"btn btn-default\" onclick=\"")
-                .append("window.location.href='").append(url.toString()).append("'")
+                .append("window.location.href='").append(url.toString()).append("'\"")
+                .append(" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"")
+                .append(paramRequest.getLocaleString("msg_PrintPDFDocument"))
                 .append("\">");
         ret.append("  <span class=\"glyphicon glyphicon-export\"></span>");
         ret.append("</button>");
+        // exportar a excel
         url.setParameter("type", "excel");
         ret.append("<button type=\"button\" class=\"btn btn-default\" onclick=\"")
-                .append("window.location.href='").append(url.toString()).append("'")
+                .append("window.location.href='").append(url.toString()).append("'\"")
+                .append(" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"")
+                .append(paramRequest.getLocaleString("msg_PrintXlDocument"))
                 .append("\">");
         ret.append("  <span class=\"glyphicon glyphicon-download-alt\"></span>");
         ret.append("</button>");
