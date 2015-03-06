@@ -91,7 +91,9 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 firstOutput.append("<div id=\"graphContainer\">\n");
                 firstOutput.append("   <div id=\"chart1Ind\" class=\'with-3d-shadow with-transitions\'>\n");
                 firstOutput.append("       <div class=\"panel-heading head-detalle\">");
-                firstOutput.append(paramRequest.getLocaleString("msgTitle") + ": " + objective.getTitle());
+                firstOutput.append(paramRequest.getLocaleString("msgTitle"));
+                firstOutput.append(": ");
+                firstOutput.append(objective.getTitle());
                 firstOutput.append("       </div>\n");
                 firstOutput.append("       <div class=\"panel-body body-detalle\">\n");
                 firstOutput.append("       <div class=\"centerSvg\">\n");
@@ -155,6 +157,9 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
 
                             int periodsCount = 0;
                             for (Period p : periodsList) {
+                                if (p.isCurrent() || p.isFuture()) {
+                                    break;
+                                }
                                 Measure measure = serieSt.getMeasure(p);
                                 if (periodsCount > 0) {
                                     output.append(",\n");
