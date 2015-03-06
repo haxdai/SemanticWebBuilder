@@ -1811,7 +1811,7 @@ public class RiskBoard extends GenericResource
             float paperHeight = 21.59F;
             if (request.getAttribute("totalRows") != null) {
                 try {
-                    paperHeight = (((Integer) request.getAttribute("totalRows")).intValue()) * 1.8F;
+                    paperHeight = (((Integer) request.getAttribute("totalRows")).intValue()) * 2.2F;
                 } catch (NumberFormatException nfe) {
                     paperHeight = 21.59F;
                 }
