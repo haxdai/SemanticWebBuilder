@@ -124,6 +124,7 @@ public class StrategicMap extends GenericResource
         
         if(paramRequest.getCallMethod()==SWBParamRequest.Call_STRATEGY)
         {
+            final String lang;
             final String suri = request.getParameter("suri");
             PrintWriter out = response.getWriter();
             SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
@@ -143,12 +144,25 @@ public class StrategicMap extends GenericResource
             out.println(" <form id=\"exportsmfrm\" style=\"display:none;\" accept-charset=\"utf-8\" method=\"post\" action=\"#\">");
             out.println("  <input type=\"hidden\" name=\"suri\" value=\"" + suri + "\" />");
             out.println("  <input type=\"hidden\" id=\"data\" name=\"data\" value=\"\" />");
-
             out.println(" </form>");
+            
+            lang = paramRequest.getUser().getLanguage();
             // impresión PDF
-            out.println("<button type=\"button\" class=\"btn btn-default\" onclick=\"getFile('"+url.setMode(Mode_StreamPDF)+"')\"><span class=\"glyphicon glyphicon-export\"></span></button>");            
+            out.print("<button type=\"button\" class=\"btn btn-default\" onclick=\"getFile('"+url.setMode(Mode_StreamPDF)+"')\"");
+            out.print("es".equalsIgnoreCase(lang)
+                    ?" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"Imprimir a PDF\""
+                    :" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"Print to PDF\"");
+            out.println(">");
+            out.println("<span class=\"glyphicon glyphicon-export\"></span>");
+            out.println("</button>");
             // impresión PNG
-            out.println("<button type=\"button\" class=\"btn btn-default\" onclick=\"getFile('"+url.setMode(Mode_StreamPNG)+"')\"><span class=\"glyphicon glyphicon-picture\"></span></button>");
+            out.print("<button type=\"button\" class=\"btn btn-default\" onclick=\"getFile('"+url.setMode(Mode_StreamPNG)+"')\"");
+            out.print("es".equalsIgnoreCase(lang)
+                    ?" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"Exportar a imagen\""
+                    :" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" title=\"Export to image\"");
+            out.print(">");
+            out.println("<span class=\"glyphicon glyphicon-picture\"></span></button>");
+            out.println("</button>");
         }
         else
         {
