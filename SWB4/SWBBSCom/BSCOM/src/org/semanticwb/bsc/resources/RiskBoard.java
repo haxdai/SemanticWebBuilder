@@ -1809,13 +1809,6 @@ public class RiskBoard extends GenericResource
         output.append("<head>");
         if (fileExtension.equals("pdf")) {
             float paperHeight = 21.59F;
-            if (request.getAttribute("totalRows") != null) {
-                try {
-                    paperHeight = (((Integer) request.getAttribute("totalRows")).intValue()) * 2.2F;
-                } catch (NumberFormatException nfe) {
-                    paperHeight = 21.59F;
-                }
-            }
             output.append("<style type=\"text/css\">");
             output.append("    @page { size: 90cm ");
             output.append(paperHeight);
