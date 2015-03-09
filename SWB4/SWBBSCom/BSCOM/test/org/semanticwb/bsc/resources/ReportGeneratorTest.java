@@ -419,8 +419,7 @@ public class ReportGeneratorTest {
                             //el estatus debe estar asignado al entregable
                             if (inTurn instanceof Deliverable) {
                                 Deliverable deli = (Deliverable) inTurn;
-                                if ((deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()))
-                                        || (deli.getStatusAssigned() != null && deli.getStatusAssigned().equals(criteria.getStatus()))) {
+                                if ((deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()))) {
                                     mustBeAdded = true;
                                 }
                             }

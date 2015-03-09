@@ -77,7 +77,7 @@ public class BSCTest {
         System.out.println("listValidInitiative");
         BSC instance = null;
         List<Initiative> expResult = null;
-        List<Initiative> result = instance.listValidInitiative();
+        List<Initiative> result = instance.listValidInitiatives();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
