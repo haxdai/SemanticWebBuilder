@@ -1589,15 +1589,13 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         ArrayList<SemanticObject> results = this.processReport(criteria, paramRequest);
         int itemsCount = 0;
         int titleIndex = -1;
-
         output.append("<html>");
         output.append("<head>");
-        output.append("<style type=\"text/css\">");
-        output.append("    @page { size: 11in 8.5in;}");
-        /*int sizePdf = getSize(criteria.getProps2Show().size());
+        output.append("<style type=\"text/css\">");           
+        int sizePdf = getSize(criteria.getProps2Show().size());
         output.append("      @page{ size:");
         output.append(sizePdf);
-        output.append(".0cm 20.0cm; }\">");*/
+        output.append(".0cm 20.0cm; }\">");
         output.append("</style>");
         output.append(getLinks(request));
         output.append("</head>");
@@ -1629,8 +1627,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("<div id=\"logoSWBSV\"></div>");
         
         //Contenido del documento
-        output.append("   <div id=\"contentDocV\">");
-        
+        output.append("   <div id=\"contentDocV\">");        
         output.append("<table class=\"table\">");
         //Obtiene encabezados de tabla
         output.append("<thead>");
