@@ -217,7 +217,6 @@ public class Promo extends GenericResource {
                 out.println(swbe.getMessage());
             }catch(Exception e) {
                 log.error("Error in doView method while rendering the resource base: "+base.getId() +"-"+ base.getTitle(), e);
-                e.printStackTrace(System.out);
             }
         }else {
             try {
@@ -985,7 +984,6 @@ public class Promo extends GenericResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         Resource base=getResourceBase();
         String action = response.getAction();
-
         if(SWBActionResponse.Action_ADD.equals(action)) {
             getResourceBase().addHit(request, response.getUser(), response.getWebPage());
             String url = base.getAttribute("url");
@@ -993,7 +991,7 @@ public class Promo extends GenericResource {
                 response.sendRedirect(url);
             }
         }else if(SWBActionResponse.Action_EDIT.equals(action)) {
-            try {
+            /*try {
                 edit(request, response);
                 if( Boolean.parseBoolean(base.getAttribute("wbNoFile_imgfile")) ) {
                     File file = new File(SWBPortal.getWorkPath()+base.getWorkPath()+"/"+base.getAttribute("imgfile"));
@@ -1008,12 +1006,16 @@ public class Promo extends GenericResource {
                 log.info(fne.getMessage());
             }catch(Exception e) {
                 log.error(e);
-            }
+            }*/
         }
     }
 
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=utf-8");//ISO-8859-1
+        response.setHeader("Cache-Control","no-cache");
+        response.setHeader("Pragma","no-cache");
+        
         Resource base=getResourceBase();
         PrintWriter out = response.getWriter();
 
@@ -1021,6 +1023,23 @@ public class Promo extends GenericResource {
         if(SWBParamRequest.Action_ADD.equals(action) || SWBParamRequest.Action_EDIT.equals(action)) {
             out.println(getForm(request, paramRequest));
         }else if(Action_UPDATE.equals(action)) {
+             try {
+                edit(request);
+                if( Boolean.parseBoolean(base.getAttribute("wbNoFile_imgfile")) ) {
+                    File file = new File(SWBPortal.getWorkPath()+base.getWorkPath()+"/"+base.getAttribute("imgfile"));
+                    if(file.exists() && file.delete()) {
+                        base.removeAttribute("imgfile");
+                        base.removeAttribute("wbNoFile_imgfile");
+                    }
+                }
+                base.updateAttributesToDB();
+            }catch(FileNotFoundException fne) {
+                log.info(fne.getMessage());
+            }catch(Exception e) {
+                log.error(e);
+            }
+            
+            
             out.println("<script type=\"text/javascript\" language=\"JavaScript\">");
             out.println("   alert('Se actualizó exitosamente el recurso con identificador "+base.getId()+"');");
             out.println("   window.location.href='"+paramRequest.getRenderUrl().setAction("edit")+"';");
@@ -1049,52 +1068,53 @@ public class Promo extends GenericResource {
         StringBuilder htm = new StringBuilder();
         final String path = SWBPortal.getWebWorkPath()+base.getWorkPath()+"/";
 
-        SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBParamRequest.Action_EDIT);
+        //final SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBParamRequest.Action_EDIT);
+        final SWBResourceURL url = paramRequest.getRenderUrl().setAction("update");
+
         htm.append("<script type=\"text/javascript\">\n");
-        htm.append("<!--\n");
-        htm.append("  dojo.require('dijit.layout.ContentPane');");
-        htm.append("  dojo.require('dijit.form.Form');");
-        htm.append("  dojo.require('dijit.form.ValidationTextBox');");
-        htm.append("  dojo.require('dijit.form.RadioButton');");
-        htm.append("  dojo.require('dijit.form.SimpleTextarea');");
-        htm.append("  dojo.require('dijit.form.Button');");
+        htm.append("  dojo.require('dijit.layout.ContentPane');").append("\n");
+        htm.append("  dojo.require('dijit.form.Form');").append("\n");
+        htm.append("  dojo.require('dijit.form.ValidationTextBox');").append("\n");
+        htm.append("  dojo.require('dijit.form.RadioButton');").append("\n");
+        htm.append("  dojo.require('dijit.form.SimpleTextarea');").append("\n");
+        htm.append("  dojo.require('dijit.form.Button');").append("\n");
         
-        htm.append("  function isValid() {");
+        htm.append("  function isValid() {").append("\n");
         if(base.getAttribute("imgfile")==null) {
-            htm.append("    var imgfile = dojo.byId('imgfile');");
-            htm.append("    if(isEmpty(imgfile.value)&&(!dojo.byId('wbNoFile_imgfile')||dojo.byId('wbNoFile_imgfile')&& !dojo.byId('wbNoFile_imgfile').checked)) {");
-            htm.append("      alert('"+paramRequest.getLocaleString("msgWrnNoImage")+"');");
-            htm.append("      return false;");
-            htm.append("    }");
+            htm.append("    var imgfile = dojo.byId('imgfile');").append("\n");
+            htm.append("    if(isEmpty(imgfile.value)&&(!dojo.byId('wbNoFile_imgfile')||dojo.byId('wbNoFile_imgfile')&& !dojo.byId('wbNoFile_imgfile').checked)) {").append("\n");
+            htm.append("      alert('"+paramRequest.getLocaleString("msgWrnNoImage")+"');").append("\n");
+            htm.append("      return false;").append("\n");
+            htm.append("    }").append("\n");
         }
-        htm.append("    return valida_frmAdmRes();");
+        htm.append("    return valida_frmAdmRes();").append("\n");
         htm.append("  }\n");
 
-        htm.append("function valida_frmAdmRes() {");
-        htm.append("   pCaracter = dojo.byId('imgfile').value;");
-        htm.append("   var pExt='gif|jpg|jpeg|png';");
-        htm.append("   if(pCaracter.length > 0) {");
-        htm.append("       var swFormat=pExt + '|';");
-        htm.append("       sExt=pCaracter.substring(pCaracter.indexOf('.')).toLowerCase();");
-        htm.append("       var sType='';");
+        htm.append("function valida_frmAdmRes() {").append("\n");
+        htm.append("   pCaracter = dojo.byId('imgfile').value;").append("\n");
+        htm.append("   var pExt='gif|jpg|jpeg|png';").append("\n");
+        htm.append("   if(pCaracter.length > 0) {").append("\n");
+        htm.append("       var swFormat=pExt + '|';").append("\n");
+        htm.append("       sExt=pCaracter.substring(pCaracter.indexOf('.')).toLowerCase();").append("\n");
+        htm.append("       var sType='';").append("\n");
         htm.append("       var flag=false;");
-        htm.append("       while(swFormat.length > 0 ) {");
-        htm.append("           sType= swFormat.substring(0, swFormat.indexOf('|'));");
-        htm.append("           if(sExt.indexOf(sType)!=-1)");
-        htm.append("               flag=true;");
-        htm.append("           swFormat=swFormat.substring(swFormat.indexOf('|')+1);");
-        htm.append("       }");
-        htm.append("       if(!flag) {");
-        htm.append("           while(pExt.indexOf('|')!=-1)");
-        htm.append("               pExt=pExt.replace('|',',');");
-        htm.append("           alert('El archivo no corresponde a ninguna de las extensiones validas:' + pExt.replace('|',','));");
-        htm.append("           return false;");
-        htm.append("       }");
-        htm.append("   }");
-        htm.append("   return true;");
-        htm.append("}\n");
-        htm.append("-->\n");
-        htm.append("</script>\n");
+        htm.append("       while(swFormat.length > 0 ) {").append("\n");
+        htm.append("           sType= swFormat.substring(0, swFormat.indexOf('|'));").append("\n");
+        htm.append("           if(sExt.indexOf(sType)!=-1)").append("\n");
+        htm.append("               flag=true;").append("\n");
+        htm.append("           swFormat=swFormat.substring(swFormat.indexOf('|')+1);").append("\n");
+        htm.append("       }").append("\n");
+        htm.append("       if(!flag) {").append("\n");
+        htm.append("           while(pExt.indexOf('|')!=-1)").append("\n");
+        htm.append("               pExt=pExt.replace('|',',');").append("\n");
+        htm.append("           alert('El archivo no corresponde a ninguna de las extensiones validas:' + pExt.replace('|',','));").append("\n");
+        htm.append("           return false;").append("\n");
+        htm.append("       }").append("\n");
+        htm.append("   }").append("\n");
+
+        htm.append("   return true;").append("\n");
+        htm.append("}\n").append("\n");
+        htm.append("</script>\n").append("\n");
 
         htm.append("<div class=\"swbform\">\n");
         htm.append("<form id=\"frmPromo\" dojoType=\"dijit.form.Form\" method=\"post\" enctype=\"multipart/form-data\" action=\""+url+"\">\n");
@@ -1558,7 +1578,6 @@ public class Promo extends GenericResource {
         htm.append("</div>\n");
 
         htm.append("<fieldset>\n");
-        htm.append("   <legend></legend>\n");
         htm.append("   <ul class=\"swbform-ul\">\n");
         htm.append("      <li>\n");
         htm.append("         <button type=\"submit\" dojoType=\"dijit.form.Button\" onclick=\"return isValid()\">Guardar</button>\n");
@@ -1572,9 +1591,8 @@ public class Promo extends GenericResource {
         return htm.toString();
     }
 
-    private void edit(HttpServletRequest request, SWBActionResponse response) throws FileNotFoundException, Exception {
+    private void edit(HttpServletRequest request) throws FileNotFoundException, Exception {
         Resource base = getResourceBase();
-
         boolean isMultipart = ServletFileUpload.isMultipartContent(request);
         if (isMultipart) {
             File file = new File(SWBPortal.getWorkPath()+base.getWorkPath()+"/");
