@@ -182,6 +182,10 @@ public class SWB4GenericLDAPLocalBridge extends ExtUserRepInt{
         } catch (NamingException ex)
         {
            log.debug("Error Syncing a User: "+login,ex);
+        } catch (NullPointerException npe)
+        {
+            // null means new user or non existent user, so we treat it as Synced
+            return true;
         }
 
         return ret;
