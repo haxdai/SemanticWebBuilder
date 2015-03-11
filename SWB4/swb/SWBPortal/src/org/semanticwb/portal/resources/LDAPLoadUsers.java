@@ -386,7 +386,7 @@ public class LDAPLoadUsers extends GenericResource
                     if (answer instanceof SearchResult)
                     {
                         SearchResult searchResult = (SearchResult) answer;
-                        if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField).get() != null)
+                        if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
                         {
                             String login = searchResult.getAttributes().get(seekField).get().toString();
                             Attributes atts = getUserAttributes(login);
