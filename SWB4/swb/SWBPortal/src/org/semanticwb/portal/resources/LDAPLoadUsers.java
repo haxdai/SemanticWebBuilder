@@ -380,20 +380,34 @@ public class LDAPLoadUsers extends GenericResource
             try
             {
                 NamingEnumeration answers = search(firstName, lastName, middleName, email);
-                while (answers.hasMore())
+                List<SearchResult> results = new ArrayList<SearchResult>();
+                try
                 {
-                    Object answer = answers.next();
-                    if (answer instanceof SearchResult)
+                    while (answers.hasMore())
                     {
-                        SearchResult searchResult = (SearchResult) answer;
-                        if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
+
+                        Object answer = answers.next();
+                        if (answer instanceof SearchResult)
                         {
-                            String login = searchResult.getAttributes().get(seekField).get().toString();
-                            Attributes atts = getUserAttributes(login);
-                            String name = getName(atts);
-                            findUsers.put(login, name);
+                            SearchResult searchResult = (SearchResult) answer;
+                            results.add(searchResult);
                         }
                     }
+                }
+                catch (NamingException ne)
+                {
+                    log.error(ne);
+                }
+                for (SearchResult searchResult : results)
+                {
+                    if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
+                    {
+                        String login = searchResult.getAttributes().get(seekField).get().toString();
+                        Attributes atts = getUserAttributes(login);
+                        String name = getName(atts);
+                        findUsers.put(login, name);
+                    }
+
                 }
             }
             catch (NamingException ne)
