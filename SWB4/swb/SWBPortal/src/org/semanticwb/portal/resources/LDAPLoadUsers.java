@@ -12,10 +12,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.StringTokenizer;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -311,7 +314,7 @@ public class LDAPLoadUsers extends GenericResource
             return answer;
         }
 
-        private NamingEnumeration search(String firstName, String lastName, String middleName, String email) throws NamingException
+        private NamingEnumeration searchUser(String firstName, String lastName, String middleName, String email) throws NamingException
         {
             DirContext ctx = new InitialDirContext(getPropertiesHash());
 
@@ -374,45 +377,87 @@ public class LDAPLoadUsers extends GenericResource
             return null;
         }
 
-        public Map<String, String> findUsers(String firstName, String lastName, String middleName, String email)
+        private Set<String> getValues(String value)
+        {
+            Set<String> getValues = new HashSet<String>();
+            if (value != null && !value.trim().isEmpty())
+            {
+                StringTokenizer st = new StringTokenizer(value, ",");
+                while (st.hasMoreTokens())
+                {
+                    String token = st.nextToken().trim();
+                    if (!token.isEmpty())
+                    {
+                        getValues.add(token);
+                    }
+                }
+            }
+            if (getValues.isEmpty())
+            {
+                getValues.add("");
+            }
+            return getValues;
+        }
+
+        public Map<String, String> findUsers(String pfirstName, String plastName, String pmiddleName, String pemail)
         {
             Map<String, String> findUsers = new HashMap<String, String>();
-            try
-            {
-                NamingEnumeration answers = search(firstName, lastName, middleName, email);
-                List<SearchResult> results = new ArrayList<SearchResult>();
-                try
-                {
-                    while (answers.hasMore())
-                    {
 
-                        Object answer = answers.next();
-                        if (answer instanceof SearchResult)
+            Set<String> names = getValues(pfirstName);
+            Set<String> lastNames = getValues(plastName);
+            Set<String> middleNames = getValues(pmiddleName);
+            Set<String> emails = getValues(pemail);
+
+            for (String firstName : names)
+            {
+                for (String lastName : lastNames)
+                {
+                    for (String middleName : middleNames)
+                    {
+                        for (String email : emails)
                         {
-                            SearchResult searchResult = (SearchResult) answer;
-                            results.add(searchResult);
+                            try
+                            {
+                                NamingEnumeration answers = searchUser(firstName, lastName, middleName, email);
+                                List<SearchResult> results = new ArrayList<SearchResult>();
+                                try
+                                {
+                                    while (answers.hasMore())
+                                    {
+
+                                        Object answer = answers.next();
+                                        if (answer instanceof SearchResult)
+                                        {
+                                            SearchResult searchResult = (SearchResult) answer;
+                                            results.add(searchResult);
+                                        }
+                                    }
+                                }
+                                catch (NamingException ne)
+                                {
+                                    log.error(ne);
+                                }
+                                for (SearchResult searchResult : results)
+                                {
+                                    if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
+                                    {
+                                        String login = searchResult.getAttributes().get(seekField).get().toString();
+                                        if (!findUsers.containsKey(login))
+                                        {
+                                            Attributes atts = getUserAttributes(login);
+                                            String name = getName(atts);
+                                            findUsers.put(login, name);
+                                        }
+                                    }
+                                }
+                            }
+                            catch (NamingException ne)
+                            {
+                                log.error(ne);
+                            }
                         }
                     }
                 }
-                catch (NamingException ne)
-                {
-                    log.error(ne);
-                }
-                for (SearchResult searchResult : results)
-                {
-                    if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
-                    {
-                        String login = searchResult.getAttributes().get(seekField).get().toString();
-                        Attributes atts = getUserAttributes(login);
-                        String name = getName(atts);
-                        findUsers.put(login, name);
-                    }
-
-                }
-            }
-            catch (NamingException ne)
-            {
-                log.error(ne);
             }
             return findUsers;
         }
@@ -635,15 +680,19 @@ public class LDAPLoadUsers extends GenericResource
                         log.error(e);
                     }
                     url = paramRequest.getRenderUrl().setAction("sync").toString();
+                    out.println("<script type=\"text/javascript\">");
+                    out.println("function addAll()");
+                    out.println("{");
+                    out.println("var checkboxes = document.getElementsByName('login');\r\n"
+                            + "  for(var i=0, n=checkboxes.length;i<n;i++)\n"
+                            + "    checkboxes[i].checked = true;\r\n");
+                    out.println("}");
+                    out.println("</script>");
                     out.println("<fieldset name=\"frmAdmRes\">");
                     out.println("<legend>Usuarios encontrados</legend>");
                     out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"file\" value=\"" + request.getParameter("file") + "\" >");
-                    /*for (String login : findUsers.keySet())
-                     {
-                     String name = findUsers.get(login);
-                     out.println("<input type=\"checkbox\" name=\"login\" value=\"" + login + "\" checked>" + name + "<br>");
-                     }*/
+
                     List<UserInformation> users = new ArrayList<UserInformation>();
                     for (String login : findUsers.keySet())
                     {
@@ -653,10 +702,10 @@ public class LDAPLoadUsers extends GenericResource
                     Collections.sort(users, new UserInformationComparator());
                     for (UserInformation user : users)
                     {
-                        out.println("<input type=\"checkbox\" name=\"login\" value=\"" + user.login + "\" checked>" + user.name + "<br>");
+                        out.println("<input type=\"checkbox\" name=\"login\" value=\"" + user.login + "\">" + user.name + "<br>");
                     }
-                    out.println("<br><br><button dojoType='dijit.form.Button' type=\"submit\">Agregar</button>");
-                    //out.println("<input type=\"submit\" name=\"buscar\" value=\"Agregar\"><br>");
+                    out.println("<br><br><button dojoType='dijit.form.Button' type=\"button\" onclick=\"addAll();\">Selecionar todos</button>&nbsp;&nbsp;<button dojoType='dijit.form.Button' type=\"submit\">Agregar</button>");
+
                     out.println("</form>");
                     out.println("</fieldset>");
                 }
