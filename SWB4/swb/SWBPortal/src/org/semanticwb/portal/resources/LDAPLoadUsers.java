@@ -56,13 +56,16 @@ public class LDAPLoadUsers extends GenericResource
             return u1.name.compareToIgnoreCase(u2.name);
         }
     }
+
     class ConfigurationError extends Exception
     {
+
         public ConfigurationError(String message)
         {
             super(message);
         }
     }
+
     private class UserInformation
     {
 
@@ -383,10 +386,13 @@ public class LDAPLoadUsers extends GenericResource
                     if (answer instanceof SearchResult)
                     {
                         SearchResult searchResult = (SearchResult) answer;
-                        String login = searchResult.getAttributes().get(seekField).get().toString();
-                        Attributes atts = getUserAttributes(login);
-                        String name = getName(atts);
-                        findUsers.put(login, name);
+                        if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField).get() != null)
+                        {
+                            String login = searchResult.getAttributes().get(seekField).get().toString();
+                            Attributes atts = getUserAttributes(login);
+                            String name = getName(atts);
+                            findUsers.put(login, name);
+                        }
                     }
                 }
             }
