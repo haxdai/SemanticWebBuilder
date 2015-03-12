@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -37,6 +38,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -495,12 +497,23 @@ public class LDAPLoadUsers extends GenericResource
         }
         PrintWriter out = response.getWriter();
         String url = paramRequest.getRenderUrl().setAction("search").toString();
+        Map<String, String> mapRep = new HashMap<String, String>();
+        Iterator<WebSite> sites = WebSite.ClassMgr.listWebSites();
+        while (sites.hasNext())
+        {
+            WebSite site = sites.next();
+            UserRepository rep = site.getUserRepository();
+            String id = rep.getId();
+            mapRep.put(id, "Repositorio de Usuarios (" + site.getTitle() + ")");
+        }
+
         out.println("<div class=\"swbform\">");
 
         out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
         out.println("<fieldset name=\"frmAdmRes\">");
         out.println("<legend>Busqueda de usuarios</legend>");
         out.println("<table>");
+
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label for=\"file\">");
@@ -510,6 +523,26 @@ public class LDAPLoadUsers extends GenericResource
         out.println("<td>");
         out.println("<span>");
         out.println("<input size=\"80\" type=\"text\" name=\"file\" value=\"" + ldapFile + "\">");
+        out.println("</span>");
+        out.println("</td>");
+        out.println("</tr>");
+
+        out.println("<tr>");
+        out.println("<td align=\"right\">");
+        out.println("<label for=\"rep\">");
+        out.println("Repositorio de usuarios:");
+        out.println("</label>");
+        out.println("</td>");
+        out.println("<td>");
+        out.println("<span>");
+        out.println("<select name=\"rep\">");
+        out.println("<option value=\"\" selected></option>");
+        for (String id : mapRep.keySet())
+        {
+            String title = mapRep.get(id);
+            out.println("<option value=\"" + id + "\">" + title + "</option>");
+        }
+        out.println("</select>");
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
@@ -583,6 +616,19 @@ public class LDAPLoadUsers extends GenericResource
         if ("sync".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
             String file = request.getParameter("file");
+            String rep = request.getParameter("rep");
+            if (rep == null || rep.trim().isEmpty())
+            {
+                out.println("<p>Debe indicar un repositorio de usuarios</p>");
+                return;
+            }
+            UserRepository repository = UserRepository.ClassMgr.getUserRepository(rep);
+
+            if (repository == null)
+            {
+                out.println("<p>Debe indicar un repositorio de usuarios</p>");
+                return;
+            }
             paramRequest.getResourceBase().setAttribute("file", file);
             try
             {
@@ -602,7 +648,7 @@ public class LDAPLoadUsers extends GenericResource
                 }
                 Properties props = new Properties();
                 props.load(inProps);
-                Util util = new Util(paramRequest.getWebPage().getWebSite().getUserRepository(), props);
+                Util util = new Util(repository, props);
                 String[] values = request.getParameterValues("login");
 
                 if (values != null)
@@ -634,6 +680,19 @@ public class LDAPLoadUsers extends GenericResource
         if ("search".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
             String file = request.getParameter("file");
+            String rep = request.getParameter("rep");
+            if (rep == null || rep.trim().isEmpty())
+            {
+                out.println("<p>Debe indicar un repositorio de usuarios</p>");
+                return;
+            }
+            UserRepository repository = UserRepository.ClassMgr.getUserRepository(rep);
+
+            if (repository == null)
+            {
+                out.println("<p>Debe indicar un repositorio de usuarios</p>");
+                return;
+            }
             paramRequest.getResourceBase().setAttribute("file", file);
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -663,7 +722,8 @@ public class LDAPLoadUsers extends GenericResource
             }
             try
             {
-                Map<String, String> findUsers = findUsers(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("middleName"), request.getParameter("email"), paramRequest.getWebPage().getWebSite().getUserRepository(), request.getParameter("file"));
+
+                Map<String, String> findUsers = findUsers(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("middleName"), request.getParameter("email"), repository, request.getParameter("file"));
                 if (findUsers.isEmpty())
                 {
                     out.println("<p>No se encontraron usuarios</p>");
@@ -692,6 +752,7 @@ public class LDAPLoadUsers extends GenericResource
                     out.println("<legend>Usuarios encontrados</legend>");
                     out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"file\" value=\"" + request.getParameter("file") + "\" >");
+                    out.println("<input type=\"hidden\" name=\"rep\" value=\"" + request.getParameter("rep") + "\" >");
 
                     List<UserInformation> users = new ArrayList<UserInformation>();
                     for (String login : findUsers.keySet())
