@@ -184,7 +184,7 @@ public class StrategicMap extends GenericResource
         response.setContentType("image/png; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + webSite.getTitle()+sdf.format(period.getStart()) + ".png\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + webSite.getTitle()+"_"+sdf.format(period.getStart()) + ".png\"");
         
         final String data = request.getParameter("data");
         Document svg = SWBUtils.XML.xmlToDom(data);
@@ -211,7 +211,7 @@ public class StrategicMap extends GenericResource
         response.setContentType("application/pdf; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + webSite.getTitle()+sdf.format(period.getStart())+ ".pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + webSite.getTitle()+"_"+sdf.format(period.getStart())+ ".pdf\"");
         
         final String data = request.getParameter("data");
         Document svg = SWBUtils.XML.xmlToDom(data);
