@@ -559,7 +559,7 @@ public class LDAPLoadUsers extends GenericResource
                 if (values != null)
                 {
                     out.println("<fieldset name=\"frmAdmRes\">");
-                    out.println("<legend>Usuarios agregados al repositorio " + mapRep.get(rep) + "</legend>");                    
+                    out.println("<legend>Usuarios agregados a " + mapRep.get(rep) + "</legend>");                    
                     for (String login : values)
                     {
                         
