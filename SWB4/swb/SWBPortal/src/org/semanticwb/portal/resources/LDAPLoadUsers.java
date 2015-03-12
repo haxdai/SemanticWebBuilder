@@ -49,43 +49,43 @@ import org.semanticwb.portal.api.SWBResourceException;
  */
 public class LDAPLoadUsers extends GenericResource
 {
-
+    
     private static final Logger log = SWBUtils.getLogger(LDAPLoadUsers.class);
-
+    
     class UserInformationComparator implements Comparator<UserInformation>
     {
-
+        
         @Override
         public int compare(UserInformation u1, UserInformation u2)
         {
             return u1.name.compareToIgnoreCase(u2.name);
         }
     }
-
+    
     class ConfigurationError extends Exception
     {
-
+        
         public ConfigurationError(String message)
         {
             super(message);
         }
     }
-
+    
     private class UserInformation
     {
-
+        
         public String login, name;
-
+        
         public UserInformation(String login, String name)
         {
             this.login = login;
             this.name = name;
         }
     }
-
+    
     private class Util
     {
-
+        
         private final UserRepository userRep;
 
         /**
@@ -127,7 +127,7 @@ public class LDAPLoadUsers extends GenericResource
          * The value language.
          */
         private final String valueLanguage;
-
+        
         public Util(UserRepository UserRep, Properties props)
         {
             this.userRep = UserRep;
@@ -140,10 +140,10 @@ public class LDAPLoadUsers extends GenericResource
             this.fieldEmail = props.getProperty("fieldEmail", "mail");
             this.valueLanguage = props.getProperty("valueLanguage", "");
         }
-
+        
         public void loadAttrs2RecUser(Attributes attrs, User ru)
         {
-
+            
             try
             {
                 if (!"null".equals(fieldFirstName))
@@ -212,9 +212,9 @@ public class LDAPLoadUsers extends GenericResource
             catch (NamingException ne)
             {
             }
-
+            
         }
-
+        
         public String getName(Attributes attrs)
         {
             StringBuilder sb = new StringBuilder();
@@ -243,7 +243,7 @@ public class LDAPLoadUsers extends GenericResource
                     {
                         sb.append(" ");
                         sb.append(attrs.get(fieldLastName).get().toString());
-
+                        
                     }
                 }
             }
@@ -262,7 +262,7 @@ public class LDAPLoadUsers extends GenericResource
                         sb.append(" ");
                         sb.append(attrs.get(fieldMiddleName).get().toString());
                     }
-
+                    
                 }
             }
             catch (NamingException ne)
@@ -270,9 +270,9 @@ public class LDAPLoadUsers extends GenericResource
                 log.error(ne);
             }
             return sb.toString().trim();
-
+            
         }
-
+        
         private Hashtable getPropertiesHash()
         {
             Hashtable env = new Hashtable();
@@ -283,7 +283,7 @@ public class LDAPLoadUsers extends GenericResource
             env.put(Context.SECURITY_CREDENTIALS, props.getProperty("credential", ""));
             return env;
         }
-
+        
         private String getCNFromLogin(String login) throws NamingException
         {
             DirContext ctx = new InitialDirContext(getPropertiesHash());
@@ -293,7 +293,7 @@ public class LDAPLoadUsers extends GenericResource
             {
                 NamingEnumeration answers = ctx.search(props.getProperty("base", ""),
                         "(&(objectClass=" + userObjectClass + ")(" + seekField + "=" + login + "))", ctls);
-
+                
                 return ((SearchResult) answers.next()).getName() + "," + props.getProperty("base", "");
             }
             catch (NamingException e)
@@ -302,7 +302,7 @@ public class LDAPLoadUsers extends GenericResource
                 return null; //We didn't found or we got an error so we leave
             }
         }
-
+        
         public Attributes getUserAttributes(String login) throws NamingException
         {
             DirContext ctx = new InitialDirContext(getPropertiesHash());
@@ -315,11 +315,11 @@ public class LDAPLoadUsers extends GenericResource
             ctx.close();
             return answer;
         }
-
+        
         private NamingEnumeration searchUser(String firstName, String lastName, String middleName, String email) throws NamingException
         {
             DirContext ctx = new InitialDirContext(getPropertiesHash());
-
+            
             Attributes matchAttrs = new BasicAttributes(true); // ignore case
             matchAttrs.put(new BasicAttribute("objectClass", userObjectClass));
             // Search for objects that have those matching attributes
@@ -349,16 +349,16 @@ public class LDAPLoadUsers extends GenericResource
                 query.append("(").append(fieldEmail).append("=").append("*").append(email).append("*").append(")");
             }
             query.append(")");
-
+            
             NamingEnumeration answers = ctx.search(props.getProperty("base", ""),
                     query.toString(), ctls);
             ctx.close();
             return answers;
         }
-
+        
         public String loadUser(String login)
         {
-
+            
             User user = userRep.getUserByLogin(login);
             try
             {
@@ -378,7 +378,7 @@ public class LDAPLoadUsers extends GenericResource
             }
             return null;
         }
-
+        
         private Set<String> getValues(String value)
         {
             Set<String> getValues = new HashSet<String>();
@@ -400,16 +400,16 @@ public class LDAPLoadUsers extends GenericResource
             }
             return getValues;
         }
-
+        
         public Map<String, String> findUsers(String pfirstName, String plastName, String pmiddleName, String pemail)
         {
             Map<String, String> findUsers = new HashMap<String, String>();
-
+            
             Set<String> names = getValues(pfirstName);
             Set<String> lastNames = getValues(plastName);
             Set<String> middleNames = getValues(pmiddleName);
             Set<String> emails = getValues(pemail);
-
+            
             for (String firstName : names)
             {
                 for (String lastName : lastNames)
@@ -426,7 +426,7 @@ public class LDAPLoadUsers extends GenericResource
                                 {
                                     while (answers.hasMore())
                                     {
-
+                                        
                                         Object answer = answers.next();
                                         if (answer instanceof SearchResult)
                                         {
@@ -463,9 +463,9 @@ public class LDAPLoadUsers extends GenericResource
             }
             return findUsers;
         }
-
+        
     }
-
+    
     public Map<String, String> findUsers(String firstName, String lastName, String middleName, String email, String propsFile) throws ConfigurationError
     {
         Map<String, String> findUsers = new HashMap<String, String>();
@@ -487,7 +487,7 @@ public class LDAPLoadUsers extends GenericResource
         }
         return findUsers;
     }
-
+    
     public void showLoad(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String ldapFile = paramRequest.getResourceBase().getAttribute("file", "/genericLDAP.properties");
@@ -516,7 +516,7 @@ public class LDAPLoadUsers extends GenericResource
                 mapRep.put(id, "Repositorio de Usuarios (" + rep.getTitle() + ")");
             }
         }
-
+        
         if ("sync".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
             showForm(out, url, ldapFile);
@@ -528,7 +528,7 @@ public class LDAPLoadUsers extends GenericResource
                 return;
             }
             UserRepository repository = UserRepository.ClassMgr.getUserRepository(rep);
-
+            
             if (repository == null)
             {
                 out.println("<p>Debe indicar un repositorio de usuarios</p>");
@@ -543,7 +543,7 @@ public class LDAPLoadUsers extends GenericResource
             {
                 log.error(e);
             }
-
+            
             try
             {
                 InputStream inProps = this.getClass().getClassLoader().getResourceAsStream(file);
@@ -555,14 +555,14 @@ public class LDAPLoadUsers extends GenericResource
                 props.load(inProps);
                 Util util = new Util(repository, props);
                 String[] values = request.getParameterValues("login");
-
+                
                 if (values != null)
                 {
                     out.println("<fieldset name=\"frmAdmRes\">");
-                    out.println("<legend>Usuarios agregados</legend>");
+                    out.println("<legend>Usuarios agregados al repositorio " + mapRep.get(rep) + "</legend>");                    
                     for (String login : values)
                     {
-
+                        
                         String name = util.loadUser(login);
                         if (name == null)
                         {
@@ -572,7 +572,7 @@ public class LDAPLoadUsers extends GenericResource
                         {
                             out.println("<p>" + name + "</p>");
                         }
-
+                        
                     }
                     out.println("</fieldset>");
                 }
@@ -585,7 +585,7 @@ public class LDAPLoadUsers extends GenericResource
         else if ("search".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
             String file = request.getParameter("file");
-
+            
             paramRequest.getResourceBase().setAttribute("file", file);
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -615,7 +615,7 @@ public class LDAPLoadUsers extends GenericResource
             }
             try
             {
-
+                
                 Map<String, String> findUsers = findUsers(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("middleName"), request.getParameter("email"), request.getParameter("file"));
                 if (findUsers.isEmpty())
                 {
@@ -634,13 +634,13 @@ public class LDAPLoadUsers extends GenericResource
                     }
                     url = paramRequest.getRenderUrl().setAction("sync").toString();
                     out.println("<script type=\"text/javascript\">");
-
+                    
                     out.println("function validaRep()");
                     out.println("{");
                     out.println("var rep=document.getElementsByName('rep');");                    
                     out.println("if(rep[0].value=='')");
                     out.println("{");
-                    out.println("alert('¡Debe indicar un repositorio!!')");
+                    out.println("alert('¡Debe indicar un repositorio!')");
                     out.println("return;");
                     out.println("}");
                     out.println("document.getElementsByName('frmsync')[0].submit();");
@@ -660,7 +660,7 @@ public class LDAPLoadUsers extends GenericResource
                     out.println("<tr>");
                     out.println("<td align=\"right\">");
                     out.println("<label for=\"rep\">");
-                    out.println("Repositorio de usuarios:");
+                    out.println("Agregar usuarios al repositorio:");
                     out.println("</label>");
                     out.println("</td>");
                     out.println("<td>");
@@ -675,7 +675,7 @@ public class LDAPLoadUsers extends GenericResource
                     for (String id : mapRep.keySet())
                     {
                         String title = mapRep.get(id);
-
+                        
                         String selected = "";
                         if (pRep.equals(id))
                         {
@@ -701,7 +701,7 @@ public class LDAPLoadUsers extends GenericResource
                     }
                     String urlOtherSearch = paramRequest.getRenderUrl().setAction("other").toString();
                     out.println("<br><br><button dojoType='dijit.form.Button' onclick=\"window.location='" + urlOtherSearch + "';\" type=\"button\">Otra Búsqueda</button>&nbsp;&nbsp;<button dojoType='dijit.form.Button' type=\"button\" onclick=\"addAll();\">Selecionar todos</button>&nbsp;&nbsp;<button dojoType='dijit.form.Button' type=\"button\" onclick=\"validaRep();\">Agregar</button>");
-
+                    
                     out.println("</form>");
                     out.println("</fieldset>");
                 }
@@ -716,16 +716,16 @@ public class LDAPLoadUsers extends GenericResource
             showForm(out, url, ldapFile);
         }
     }
-
+    
     private void showForm(PrintWriter out, String url, String ldapFile)
     {
         out.println("<div class=\"swbform\">");
-
+        
         out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
         out.println("<fieldset name=\"frmAdmRes\">");
         out.println("<legend>Busqueda de usuarios en LDAP</legend>");
         out.println("<table>");
-
+        
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label for=\"file\">");
@@ -738,7 +738,7 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label for=\"name\">");
@@ -751,7 +751,7 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label>");
@@ -764,7 +764,7 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label>");
@@ -777,7 +777,7 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("<tr>");
         out.println("<td align=\"right\">");
         out.println("<label>");
@@ -790,7 +790,7 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</span>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("<tr>");
         out.println("<td colspan=\"2\">");
         out.println("<fieldset>");
@@ -798,14 +798,14 @@ public class LDAPLoadUsers extends GenericResource
         out.println("</fieldset>");
         out.println("</td>");
         out.println("</tr>");
-
+        
         out.println("</table>");
-
+        
         out.println("</fieldset>");
         out.println("</form>");
         out.println("</div>");
     }
-
+    
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -813,9 +813,9 @@ public class LDAPLoadUsers extends GenericResource
         {
             showLoad(request, response, paramRequest);
         }
-
+        
     }
-
+    
     @Override
     public void doAdmin(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
@@ -824,5 +824,5 @@ public class LDAPLoadUsers extends GenericResource
             showLoad(request, response, paramRequest);
         }
     }
-
+    
 }
