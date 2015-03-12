@@ -437,4 +437,41 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         }
         return false;
     }
+    
+    /**
+     * Recupera el primer período de la lista de períodos asignados a la
+     * iniciativa.
+     *
+     * @return El período más anterior
+     */
+    @Override
+    public Period getFirstPeriod() {
+        List<Period> periods = sortPeriods();
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    /**
+     * Recupera el último período de la lista de períodos asignados a la
+     * iniciativa.
+     *
+     * @return El período más posterior
+     */
+    @Override
+    public Period getLastPeriod() {
+        List<Period> periods = sortPeriods(false);
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    @Override
+    public Period getNextPeriod() {
+        return null;
+    }
 }

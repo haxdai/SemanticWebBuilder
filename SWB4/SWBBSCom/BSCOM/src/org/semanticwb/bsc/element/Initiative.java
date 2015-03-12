@@ -1,5 +1,6 @@
 package org.semanticwb.bsc.element;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +68,7 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         return it.hasNext() ? it.next() : null;
     }
     
-    public Iterator<Period> listPeriods(boolean ascendent) {
+    public Iterator<Period> listPeriods(boolean ascendent) {        
         List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
         if(ascendent) {
             Collections.sort(periods);
@@ -79,13 +80,11 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
 
     @Override
     public Iterator<Period> listAvailablePeriods() {
-        //return getBSC().listPeriods();
         return listAvailablePeriods(true);
     }
 
     @Override
     public Iterator<Period> listAvailablePeriods(boolean ascendent) {
-        //return getBSC().listPeriods(ascendent);
         return getBSC().listPeriods(ascendent);
     }
 
@@ -123,21 +122,22 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
 
     @Override
     public State getMinimumState() {
-        List<State> states = sortStates();
+        ArrayList<State> states = (ArrayList)sortStates();
+        states.trimToSize();
         try {
             return states.get(0);
-        } catch (IndexOutOfBoundsException e) {
+        }catch (IndexOutOfBoundsException e) {
         }
         return null;
     }
 
     @Override
     public State getMaximumState() {
-        List<State> states = sortStates(false);
+        ArrayList<State> states = (ArrayList)sortStates(false);
+        states.trimToSize();
         try {
             return states.get(0);
-        } catch (IndexOutOfBoundsException e) {
-
+        }catch (IndexOutOfBoundsException e) {
         }
         return null;
     }
@@ -296,5 +296,42 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
             title = "";
         }
         return title;
+    }
+    
+    /**
+     * Recupera el primer período de la lista de períodos asignados a la
+     * iniciativa.
+     *
+     * @return El período más anterior
+     */
+    @Override
+    public Period getFirstPeriod() {
+        List<Period> periods = SWBUtils.Collections.copyIterator(listPeriods(true));
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    /**
+     * Recupera el último período de la lista de períodos asignados a la
+     * iniciativa.
+     *
+     * @return El período más posterior
+     */
+    @Override
+    public Period getLastPeriod() {
+        List<Period> periods = SWBUtils.Collections.copyIterator(listPeriods(false));
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    @Override
+    public Period getNextPeriod() {
+        return null;
     }
 }
