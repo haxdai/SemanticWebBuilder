@@ -466,7 +466,7 @@ public class LDAPLoadUsers extends GenericResource
 
     }
 
-    public Map<String, String> findUsers(String firstName, String lastName, String middleName, String email, UserRepository rep, String propsFile) throws ConfigurationError
+    public Map<String, String> findUsers(String firstName, String lastName, String middleName, String email, String propsFile) throws ConfigurationError
     {
         Map<String, String> findUsers = new HashMap<String, String>();
         try
@@ -475,10 +475,10 @@ public class LDAPLoadUsers extends GenericResource
             InputStream inProps = this.getClass().getClassLoader().getResourceAsStream(propsFile);
             if (inProps == null)
             {
-                throw new ConfigurationError("No se encontro el archivo de propiedades");
+                throw new ConfigurationError("No se encontró el archivo de propiedades");
             }
             props.load(inProps);
-            Util util = new Util(rep, props);
+            Util util = new Util(null, props);
             findUsers = util.findUsers(firstName, lastName, middleName, email);
         }
         catch (IOException e)
@@ -506,112 +506,16 @@ public class LDAPLoadUsers extends GenericResource
             String id = rep.getId();
             mapRep.put(id, "Repositorio de Usuarios (" + site.getTitle() + ")");
         }
-
-        out.println("<div class=\"swbform\">");
-
-        out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
-        out.println("<fieldset name=\"frmAdmRes\">");
-        out.println("<legend>Busqueda de usuarios</legend>");
-        out.println("<table>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label for=\"file\">");
-        out.println("Archivo de configuración LDAP:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<input size=\"80\" type=\"text\" name=\"file\" value=\"" + ldapFile + "\">");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label for=\"rep\">");
-        out.println("Repositorio de usuarios:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<select name=\"rep\">");
-        out.println("<option value=\"\" selected></option>");
-        for (String id : mapRep.keySet())
+        Iterator<UserRepository> repositories = UserRepository.ClassMgr.listUserRepositories();
+        while (repositories.hasNext())
         {
-            String title = mapRep.get(id);
-            out.println("<option value=\"" + id + "\">" + title + "</option>");
+            UserRepository rep = repositories.next();
+            String id = rep.getId();
+            if (!mapRep.containsKey(id))
+            {
+                mapRep.put(id, "Repositorio de Usuarios (" + rep.getTitle() + ")");
+            }
         }
-        out.println("</select>");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label for=\"name\">");
-        out.println("Nombre:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<input type=\"text\" size=\"80\" name=\"firstName\" >");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label>");
-        out.println("Primer Apellido:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<input type=\"text\" size=\"80\" name=\"lastName\" >");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label>");
-        out.println("Segundo Apellido:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<input type=\"text\" size=\"80\" name=\"middleName\" >");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td align=\"right\">");
-        out.println("<label>");
-        out.println("Correo Electrónico:");
-        out.println("</label>");
-        out.println("</td>");
-        out.println("<td>");
-        out.println("<span>");
-        out.println("<input type=\"text\" size=\"80\" name=\"email\" >");
-        out.println("</span>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("<tr>");
-        out.println("<td colspan=\"2\">");
-        out.println("<fieldset>");
-        out.println("<button dojoType='dijit.form.Button' type=\"submit\">Buscar</button>");
-        out.println("</fieldset>");
-        out.println("</td>");
-        out.println("</tr>");
-
-        out.println("</table>");
-
-        out.println("</fieldset>");
-        out.println("</form>");
-        out.println("</div>");
 
         if ("sync".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
@@ -677,22 +581,10 @@ public class LDAPLoadUsers extends GenericResource
                 log.error(e);
             }
         }
-        if ("search".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
+        else if ("search".equals(paramRequest.getAction()) && request.getParameter("file") != null && !request.getParameter("file").isEmpty())
         {
             String file = request.getParameter("file");
-            String rep = request.getParameter("rep");
-            if (rep == null || rep.trim().isEmpty())
-            {
-                out.println("<p>Debe indicar un repositorio de usuarios</p>");
-                return;
-            }
-            UserRepository repository = UserRepository.ClassMgr.getUserRepository(rep);
-
-            if (repository == null)
-            {
-                out.println("<p>Debe indicar un repositorio de usuarios</p>");
-                return;
-            }
+            
             paramRequest.getResourceBase().setAttribute("file", file);
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
@@ -723,7 +615,7 @@ public class LDAPLoadUsers extends GenericResource
             try
             {
 
-                Map<String, String> findUsers = findUsers(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("middleName"), request.getParameter("email"), repository, request.getParameter("file"));
+                Map<String, String> findUsers = findUsers(request.getParameter("firstName"), request.getParameter("lastName"), request.getParameter("middleName"), request.getParameter("email"),  request.getParameter("file"));
                 if (findUsers.isEmpty())
                 {
                     out.println("<p>No se encontraron usuarios</p>");
@@ -749,11 +641,41 @@ public class LDAPLoadUsers extends GenericResource
                     out.println("}");
                     out.println("</script>");
                     out.println("<fieldset name=\"frmAdmRes\">");
-                    out.println("<legend>Usuarios encontrados</legend>");
+                    out.println("<legend>Usuarios encontrados en LDAP</legend>");
                     out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
                     out.println("<input type=\"hidden\" name=\"file\" value=\"" + request.getParameter("file") + "\" >");
-                    out.println("<input type=\"hidden\" name=\"rep\" value=\"" + request.getParameter("rep") + "\" >");
+                    out.println("<table>");
+                    out.println("<tr>");
+                    out.println("<td align=\"right\">");
+                    out.println("<label for=\"rep\">");
+                    out.println("Repositorio de usuarios:");
+                    out.println("</label>");
+                    out.println("</td>");
+                    out.println("<td>");
+                    out.println("<span>");
+                    out.println("<select name=\"rep\">");
+                    String pRep = request.getParameter("rep");
+                    if (pRep == null)
+                    {
+                        pRep = "";
+                    }
+                    out.println("<option value=\"\"></option>");
+                    for (String id : mapRep.keySet())
+                    {
+                        String title = mapRep.get(id);
 
+                        String selected = "";
+                        if (pRep.equals(id))
+                        {
+                            selected = "selected";
+                        }
+                        out.println("<option value=\"" + id + "\" " + selected + " >" + title + "</option>");
+                    }
+                    out.println("</select>");
+                    out.println("</span>");
+                    out.println("</td>");
+                    out.println("</tr>");
+                    out.println("</table><br><br>");
                     List<UserInformation> users = new ArrayList<UserInformation>();
                     for (String login : findUsers.keySet())
                     {
@@ -775,6 +697,94 @@ public class LDAPLoadUsers extends GenericResource
             {
                 out.println("<p>Error al buscar usuarios: " + ioe.getMessage() + "</p>");
             }
+        }
+        else
+        {
+            out.println("<div class=\"swbform\">");
+
+            out.println("<form class=\"swbform\" action=\"" + url + "\" method=\"post\">");
+            out.println("<fieldset name=\"frmAdmRes\">");
+            out.println("<legend>Busqueda de usuarios en LDAP</legend>");
+            out.println("<table>");
+
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("<label for=\"file\">");
+            out.println("Archivo de configuración LDAP:");
+            out.println("</label>");
+            out.println("</td>");
+            out.println("<td>");
+            out.println("<span>");
+            out.println("<input size=\"80\" type=\"text\" name=\"file\" value=\"" + ldapFile + "\">");
+            out.println("</span>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("<label for=\"name\">");
+            out.println("Nombre:");
+            out.println("</label>");
+            out.println("</td>");
+            out.println("<td>");
+            out.println("<span>");
+            out.println("<input type=\"text\" size=\"80\" name=\"firstName\" >");
+            out.println("</span>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("<label>");
+            out.println("Primer Apellido:");
+            out.println("</label>");
+            out.println("</td>");
+            out.println("<td>");
+            out.println("<span>");
+            out.println("<input type=\"text\" size=\"80\" name=\"lastName\" >");
+            out.println("</span>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("<label>");
+            out.println("Segundo Apellido:");
+            out.println("</label>");
+            out.println("</td>");
+            out.println("<td>");
+            out.println("<span>");
+            out.println("<input type=\"text\" size=\"80\" name=\"middleName\" >");
+            out.println("</span>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("<tr>");
+            out.println("<td align=\"right\">");
+            out.println("<label>");
+            out.println("Correo Electrónico:");
+            out.println("</label>");
+            out.println("</td>");
+            out.println("<td>");
+            out.println("<span>");
+            out.println("<input type=\"text\" size=\"80\" name=\"email\" >");
+            out.println("</span>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("<tr>");
+            out.println("<td colspan=\"2\">");
+            out.println("<fieldset>");
+            out.println("<button dojoType='dijit.form.Button' type=\"submit\">Buscar</button>");
+            out.println("</fieldset>");
+            out.println("</td>");
+            out.println("</tr>");
+
+            out.println("</table>");
+
+            out.println("</fieldset>");
+            out.println("</form>");
+            out.println("</div>");
         }
     }
 
