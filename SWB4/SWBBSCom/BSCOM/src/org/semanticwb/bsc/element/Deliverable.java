@@ -71,23 +71,7 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
     public boolean updateAppraisal(Period period) {
         return getInitiative().updateAppraisal(period);
     }
-
-    /**
-     * Recupera el último período de la lista de períodos asignados al
-     * indicador.
-     *
-     * @return El período más posterior
-     */
-    @Override
-    public Period getLastPeriod() {
-        List<Period> periods = sortValidPeriods();
-        try {
-            return periods.get(periods.size() - 1);
-        } catch (IndexOutOfBoundsException e) {
-        }
-        return null;
-    }
-
+    
     @Override
     public Iterator<Period> listAvailablePeriods() {
         //return getInitiative().listAvailablePeriods();
@@ -120,6 +104,9 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
         List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
             @Override
             public boolean filter(Period p) {
+                if(null==p) {
+                    return true;
+                }
                 User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
@@ -139,6 +126,7 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
 
     @Override
     public State getMinimumState() {
+        
         return getInitiative().getMinimumState();
     }
 
@@ -298,5 +286,42 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
         } catch (NullPointerException npe) {
         }
         return title.toString();
+    }
+    
+    /**
+     * Recupera el primer período de la lista de períodos asignados al
+     * entregable.
+     *
+     * @return El período más anterior
+     */
+    @Override
+    public Period getFirstPeriod() {
+        List<Period> periods = sortValidPeriods();
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    /**
+     * Recupera el último período de la lista de períodos asignados al
+     * entregable.
+     *
+     * @return El período más posterior
+     */
+    @Override
+    public Period getLastPeriod() {
+        List<Period> periods = sortValidPeriods(false);
+        try {
+            return periods.get(0);
+        }catch(IndexOutOfBoundsException iobe) {
+        }
+        return null;
+    }
+    
+    @Override
+    public Period getNextPeriod() {
+        return null;
     }
 }

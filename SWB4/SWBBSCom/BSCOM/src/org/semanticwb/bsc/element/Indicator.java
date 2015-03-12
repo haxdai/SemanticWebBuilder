@@ -128,7 +128,7 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         List<Period> periods = listValidPeriods();
         if (ascendent) {
             Collections.sort(periods);
-        } else {
+        }else {
             Collections.sort(periods, Collections.reverseOrder());
         }
         return periods;
@@ -190,6 +190,7 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
      *
      * @return El período más anterior
      */
+    @Override
     public Period getFirstPeriod() {
         List<Period> periods = sortValidPeriods();
         try {
@@ -207,11 +208,16 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
      */
     @Override
     public Period getLastPeriod() {
-        List<Period> periods = sortValidPeriods();
+        List<Period> periods = sortValidPeriods(false);
         try {
-            return periods.get(periods.size() - 1);
+            return periods.get(0);
         } catch (IndexOutOfBoundsException e) {
         }
+        return null;
+    }
+    
+    @Override
+    public Period getNextPeriod() {
         return null;
     }
 
