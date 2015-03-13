@@ -416,7 +416,6 @@ public class InitiativeRiskManager extends GenericResource {
             if(initiativeId != null) {
                 if(Initiative.ClassMgr.hasInitiative(initiativeId, bsc)) {
                     Initiative initiative = Initiative.ClassMgr.getInitiative(initiativeId, bsc);
-System.out.println("ias ya tiene esta iniciativa?:"+ias.hasInitiative(initiative));
                     if(ias.hasInitiative(initiative)) {
                         ias.removeInitiative(initiative);
                         response.setRenderParameter(STTS_MSG, response.getLocaleString("msgDeallocatedInitiative"));
