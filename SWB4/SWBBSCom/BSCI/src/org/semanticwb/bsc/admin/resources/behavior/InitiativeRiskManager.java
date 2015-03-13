@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.semanticwb.bsc.admin.resources.behavior;
 
 import java.io.IOException;
@@ -10,8 +6,9 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.InitiativeAssignable;
+import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Risk;
 import org.semanticwb.model.User;
@@ -40,6 +37,8 @@ public class InitiativeRiskManager extends GenericResource {
     public static final String Action_ACTIVE_ALL = "actall";
     public static final String Action_DEACTIVE_ALL = "deactall";
     public static final String Action_UPDT_ACTIVE = "updactv";
+    public static final String Action_UPDT_ASSIGN = "updassgn";
+    public static final String STTS_MSG = "sttsmsg";
 
     /**
      * M&eacute;todo que se encarga de presentar la vista para visualizar,
@@ -57,211 +56,268 @@ public class InitiativeRiskManager extends GenericResource {
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
-//        response.setHeader("Cache-Control", "no-cache");
-//        response.setHeader("Pragma", "no-cache");
-
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         User user = paramRequest.getUser();
         if (user == null || !user.isSigned()) {
             response.sendError(403);
             return;
         }
-
-        final String suri = request.getParameter("suri") == null
-                ? (request.getSession().getAttribute("suri") == null ? null : (String) request.getSession().getAttribute("suri"))
-                : request.getParameter("suri");
-        if (suri == null) {
-            out.println("No se detect&oacute ning&uacute;n objeto sem&aacute;ntico!");
+        
+        final String suri = request.getParameter("suri");
+        /*final String suri = request.getParameter("suri") == null
+                ? (request.getSession().getAttribute("suri") == null 
+                    ? null 
+                    : (String) request.getSession().getAttribute("suri"))
+                : request.getParameter("suri");*/
+        if(suri==null) {
+            response.getWriter().println(paramRequest.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
         
         Risk risk;
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
-        try {
+        if( !(semObj.createGenericInstance() instanceof Risk) ) {
+            return;
+        }else {
             risk = (Risk) semObj.createGenericInstance();
-        } catch (Exception e) {
+        }            
+        if(risk==null) {
+            response.getWriter().println(paramRequest.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
         
         final String lang = user.getLanguage();
-        StringBuilder toReturn = new StringBuilder();
-            
-        if (risk != null) {
-            Iterator<Initiative> it = risk.listInitiatives();
-            boolean hasInitiative = it.hasNext();
+        StringBuilder htm = new StringBuilder();
+        htm.append("<script type=\"text/javascript\">");
+        htm.append("  dojo.require('dojo.parser');");
+        htm.append("  dojo.require('dijit.layout.ContentPane');");
+        htm.append("  dojo.require('dijit.form.CheckBox');");
+        htm.append("</script>");
 
-            toReturn.append("<script type=\"text/javascript\">");
-            toReturn.append("  dojo.require('dojo.parser');");
-            toReturn.append("  dojo.require('dijit.layout.ContentPane');");
-            toReturn.append("  dojo.require('dijit.form.CheckBox');");
-            toReturn.append("</script>");
-
-            toReturn.append("<div class=\"swbform\">");
-            toReturn.append("<fieldset>\n");
-            toReturn.append("<table width=\"98%\">");
-            toReturn.append("<thead>");
-            toReturn.append("<tr>");
-            toReturn.append("<th></th>");
-            toReturn.append("<th>");
-            toReturn.append(paramRequest.getLocaleString("lbl_title"));
-            toReturn.append("</th>");
-            toReturn.append("<th>");
-            toReturn.append(paramRequest.getLocaleString("lbl_description"));
-            toReturn.append("</th>");
-            toReturn.append("<th>");
-            toReturn.append(paramRequest.getLocaleString("lbl_created"));
-            toReturn.append("</th>");
-            toReturn.append("<th>");
-            toReturn.append(paramRequest.getLocaleString("lbl_updated"));
-            toReturn.append("</th>");
-            toReturn.append("<th>");
-            toReturn.append(paramRequest.getLocaleString("lbl_active"));
-            toReturn.append("</th>");
-            toReturn.append("</tr>");
-            toReturn.append("</thead>");
-
-            while (it.hasNext()) {
-                Initiative initiative = it.next();
-                SWBResourceURL urlDelete = paramRequest.getActionUrl();
-                SWBResourceURL urlAdd;
-//                if (initiative != null && ((initiative.isValid() && user.haveAccess(initiative))
-//                        || (!initiative.isActive()
-//                        && semObj.hasObjectProperty(bsc_hasInitiativeRisk, initiative.getSemanticObject())
-//                        && user.haveAccess(initiative)))) {
-                if (initiative != null && user.haveAccess(initiative)) {
-                    urlDelete.setParameter("suri", suri);
-                    urlDelete.setParameter("reloadTab", "true");
+        htm.append("<div class=\"swbform\">");
+        htm.append("<fieldset>\n");
+        htm.append("<table width=\"98%\">");
+        htm.append("<thead>");
+        htm.append("<tr>");
+        htm.append("<th></th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblTitle"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblDescription"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblSponsor"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblArea"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblFirstPeriod"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblLastPeriod"));
+        htm.append("</th>");
+        htm.append("<th>");
+        htm.append(paramRequest.getLocaleString("lblActive"));
+        htm.append("</th>");
+        htm.append("<th>").append(paramRequest.getLocaleString("lblRelate"));
+        htm.append("</th>");
+        htm.append("</tr>");
+        htm.append("</thead>\n");
+        
+        InitiativeAssignable ias = (InitiativeAssignable)risk;
+        //Iterator<Initiative> it = ias.listInitiatives();
+        BSC bsc = (BSC)semObj.getModel().getModelObject().createGenericInstance();
+        Iterator<Initiative> it = bsc.listInitiatives();
+        
+        Initiative initiative;
+        SWBResourceURL urlDelete;
+        urlDelete = paramRequest.getActionUrl();
+        urlDelete.setAction(Action_DELETE);
+        urlDelete.setParameter("suri", suri);
+        urlDelete.setParameter("reloadTab", "true");
+        SWBResourceURL urlAxn;
+        urlAxn = paramRequest.getActionUrl();
+        urlAxn.setParameter("suri", suri);
+        Period p;
+        while(it.hasNext())
+        {
+            initiative = it.next();
+            if(null == initiative) {
+                continue;
+            }
+            if(  (initiative.isValid() && user.haveAccess(initiative)) || (ias.hasInitiative(initiative) && !initiative.isActive() && user.haveAccess(initiative))  )
+            {
+                if(user.haveAccess(initiative)) {
+                    
                     urlDelete.setParameter("sval", initiative.getId());
-                    urlDelete.setAction(Action_DELETE);
-
-                    urlAdd = paramRequest.getActionUrl();
-                    urlAdd.setParameter("suri", suri);
-                    urlAdd.setParameter("sval", initiative.getId());
-                    urlAdd.setAction(Action_UPDT_ACTIVE);
-
-                    toReturn.append("<tr>");
-                    toReturn.append("<td>");
-                    toReturn.append("\n<a href=\"#\" onclick=\"if(confirm('");
-                    toReturn.append(paramRequest.getLocaleString("lbl_msgDelete"));
-                    toReturn.append("')){submitUrl('");
-                    toReturn.append(urlDelete);
-                    toReturn.append("',this);reloadTab('");
-                    toReturn.append(risk.getURI());
-                    toReturn.append("');} else{return false;}\">");
-                    toReturn.append("\n<img src=\"");
-                    toReturn.append(SWBPlatform.getContextPath());
-                    toReturn.append("/swbadmin/icons/iconelim.png\" alt=\"");
-                    toReturn.append(paramRequest.getLocaleString("lbl_delete"));
-                    toReturn.append("\"/>");
-                    toReturn.append("\n</a>");
-
-                    toReturn.append("</td>");
-                    toReturn.append("<td>");
-                    toReturn.append("<a href=\"#\" onclick=\"addNewTab('");
-                    toReturn.append(initiative.getURI());
-                    toReturn.append("','");
-                    toReturn.append(SWBPlatform.getContextPath());
-                    toReturn.append("/swbadmin/jsp/objectTab.jsp");
-                    toReturn.append("','");
-                    toReturn.append(initiative.getTitle());
-                    toReturn.append("');return false;\" >");
-                    toReturn.append((initiative.getTitle(lang) == null
-                            ? (initiative.getTitle() == null
-                            ? paramRequest.getLocaleString("lbl_undefined")
-                            : initiative.getTitle().replaceAll("'", ""))
-                            : initiative.getTitle(lang).replaceAll("'", "")));
-                    toReturn.append("</a>");
-                    toReturn.append("</td>");
-                    toReturn.append("<td>");
-                    toReturn.append((initiative.getDescription(lang) == null
-                            ? (initiative.getDescription() == null
-                            ? paramRequest.getLocaleString("lbl_undefined")
-                            : initiative.getDescription())
-                            : initiative.getDescription(lang)));
-                    toReturn.append("</td>");
-                    toReturn.append("<td>");
-                    toReturn.append((initiative.getCreated() == null ? ""
-                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
-                                    "es", "dd/mm/yyyy")));
-                    toReturn.append("</td>");
-                    toReturn.append("<td>");
-                    toReturn.append((initiative.getUpdated() == null ? ""
-                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
-                                    "es", "dd/mm/yyyy")));
-                    toReturn.append("</td>");
-                    //toReturn.append("<td>");
-                    toReturn.append("     <td align=\"center\"><input name=\"");
-                    toReturn.append(Initiative.swb_active.getName());
-                    toReturn.append("\"");
-                    toReturn.append(" type=\"checkbox\" value=\"");
-                    toReturn.append(initiative.getId());
-                    toReturn.append("\"  onchange=\"submitUrl('");
-                    toReturn.append(urlAdd);
-                    toReturn.append("',this)\" ");
-                    toReturn.append(" dojoType=\"dijit.form.CheckBox\" ");
-                    toReturn.append(initiative.isActive() ? "checked=\"checked\"" : "");
-                    toReturn.append("/>");
-
-                    //toReturn.append(initiative.isActive());
-                    toReturn.append("</td>");
-                    toReturn.append("</tr>");
-                }
-            }
-            toReturn.append("</table>");
-            toReturn.append("</fieldset>\n");
-
-            if (hasInitiative) {
-                SWBResourceURL urlAll = paramRequest.getActionUrl();
-                urlAll.setParameter("suri", suri);
-                urlAll.setAction(Action_ACTIVE_ALL);
-                toReturn.append("<fieldset>");
-                toReturn.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
-                toReturn.append(urlAll);
-                toReturn.append("',this); return false;\">");
-                toReturn.append(paramRequest.getLocaleString("lbl_activeAll"));
-                toReturn.append("</button>");
-
-                urlAll.setAction(Action_DEACTIVE_ALL);
-                toReturn.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
-                toReturn.append(urlAll);
-                toReturn.append("',this); return false;\">");
-                toReturn.append(paramRequest.getLocaleString("lbl_disabledAll"));
-                toReturn.append("</button>");
-                toReturn.append("</fieldset>");
-            }
-
-            toReturn.append("</div>");
-
-            if (request.getParameter("statmsg") != null
-                    && !request.getParameter("statmsg").isEmpty()) {
-                toReturn.append("<div dojoType=\"dojox.layout.ContentPane\">");
-                toReturn.append("<script type=\"dojo/method\">");
-                toReturn.append("showStatus('"); 
-                toReturn.append(request.getParameter("statmsg"));
-                toReturn.append("');\n");
-                if (request.getParameter("objURI") != null && !request.getParameter("objURI").isEmpty()) {
-                    SemanticObject semObj1 = SemanticObject.createSemanticObject(request.getParameter("objURI"));
-                    toReturn.append("updateTreeNodeByURI('");
-                    toReturn.append(semObj1.getURI());
-                    toReturn.append("');");
-                }
-                if (request.getParameter("allURI") != null && !request.getParameter("allURI").isEmpty()) {
-                    it = risk.listInitiatives();
-                    while (it.hasNext()) {
-                        Initiative initiative = it.next();
-                        toReturn.append("updateTreeNodeByURI('");
-                        toReturn.append(initiative.getURI());
-                        toReturn.append("');");
+                    urlAxn.setParameter("sval", initiative.getId());
+                    
+                    htm.append("<tr>");
+                    // Acción
+                    htm.append("<td>");
+                    htm.append("\n<a href=\"#\" onclick=\"if(confirm('");
+                    htm.append(paramRequest.getLocaleString("msgDeleteQuery"));
+                    htm.append("')){submitUrl('");
+                    htm.append(urlDelete);
+                    htm.append("',this);reloadTab('");
+                    htm.append(ias.getURI());
+                    htm.append("');} else{return false;}\">");
+                    htm.append("\n<img src=\"");
+                    htm.append(SWBPlatform.getContextPath());
+                    htm.append("/swbadmin/icons/iconelim.png\" alt=\"");
+                    htm.append(paramRequest.getLocaleString("lblDelete"));
+                    htm.append("\"/>");
+                    htm.append("\n</a>");
+                    htm.append("</td>\n");
+                    // Título de la iniciativa
+                    htm.append("<td>");
+                    htm.append("<a href=\"#\" onclick=\"addNewTab('");
+                    htm.append(initiative.getURI());
+                    htm.append("','");
+                    htm.append(SWBPlatform.getContextPath());
+                    htm.append("/swbadmin/jsp/objectTab.jsp");
+                    htm.append("','");
+                    htm.append(initiative.getTitle());
+                    htm.append("');return false;\" >");
+                    htm.append(initiative.getDisplayTitle(lang).replaceAll("'", ""));
+                    htm.append("</a>");
+                    htm.append("</td>\n");
+                    // Descripción de la iniciativa
+                    htm.append("<td>");                    
+                    htm.append(initiative.getDisplayDescription(lang) == null
+                            ? "Not set"
+                            : initiative.getDisplayDescription(lang).substring(0
+                                    , initiative.getDisplayDescription(lang).length()>=30
+                                            ?30
+                                            :initiative.getDisplayDescription(lang).length()));
+                    htm.append("</td>\n");
+                    // Responsable
+                    htm.append("<td>");
+                    htm.append(initiative.getInitiativeFacilitator()==null
+                            ?"Not set":initiative.getInitiativeFacilitator().getFullName());
+                    htm.append("</td>\n");
+                    // Area
+                    htm.append("<td>");
+                    htm.append(initiative.getArea()==null?"Not set":initiative.getArea());
+                    htm.append("</td>\n");
+                    
+                    p = initiative.getFirstPeriod();
+                    if(null==p) {
+                        htm.append("<td>Not set</td>\n");
+                        htm.append("<td>Not set</td>\n");
+                    }else {
+                        htm.append("<td>");
+                        htm.append(p.getDisplayTitle(lang));
+                        htm.append("</td>\n");
+                        p = initiative.getLastPeriod();
+                        htm.append("<td>");
+                        htm.append(p.getDisplayTitle(lang));
+                        htm.append("</td>\n");
                     }
+                    /*
+                    // Fecha de creación de la iniciativa
+                    htm.append("<td>");
+                    htm.append((initiative.getCreated() == null ? "Not set"
+                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
+                                    "es", "dd/mm/yyyy")));
+                    htm.append("</td>\n");
+                    // Fecha de la última actualización de la iniciativa
+                    htm.append("<td>");
+                    htm.append((initiative.getUpdated() == null ? "Not set"
+                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
+                                    "es", "dd/mm/yyyy")));
+                    htm.append("</td>\n");*/
+                    
+                    // Iniciativa activa/inactiva
+                    htm.append("     <td align=\"center\"><input name=\"");
+                    htm.append(Initiative.swb_active.getName());
+                    htm.append("\"");
+                    htm.append(" type=\"checkbox\" name=\"initiative\" value=\"");
+                    htm.append(initiative.getId());
+                    htm.append("\"  onchange=\"submitUrl('");
+                    htm.append(urlAxn.setAction(Action_UPDT_ACTIVE));
+                    htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
+                    htm.append(" dojoType=\"dijit.form.CheckBox\" ");
+                    htm.append(initiative.isActive() ? "checked=\"checked\"" : "");
+                    htm.append("/>");
+                    htm.append("</td>\n");
+                    // Asignar
+                    htm.append("<td align=\"center\">");
+                    htm.append("<input type=\"checkbox\" name=\"initiative\" ");
+                    htm.append("onchange=\"submitUrl('");
+                    htm.append(urlAxn.setAction(Action_UPDT_ASSIGN));
+                    htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
+                    htm.append(" dojoType=\"dijit.form.CheckBox\" value=\"");
+                    htm.append(initiative.getId()).append("\"");
+                    //htm.append(semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject())?"checked=\"checked\"":"").append(" />");
+                    htm.append(ias.hasInitiative(initiative)?" checked=\"checked\" ":"").append(" />");
+                    htm.append("</td>\n");
+                    
+                    htm.append("</tr>\n");
                 }
-                toReturn.append("</script>\n");
-                toReturn.append("</div>");
             }
-        } else {
-            toReturn.append("objeto semántico no ubicado");
         }
-        out.println(toReturn.toString());
+        htm.append("</table>\n");
+        htm.append("</fieldset>\n");
+
+        /*if (hasInitiative)
+        {
+            SWBResourceURL urlAll = paramRequest.getActionUrl();
+            urlAll.setParameter("suri", suri);
+            urlAll.setAction(Action_ACTIVE_ALL);
+            htm.append("<fieldset>");
+            htm.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
+            htm.append(urlAll);
+            htm.append("',this.domNode); \">");
+            htm.append(paramRequest.getLocaleString("lblActiveAll"));
+            htm.append("</button>");
+
+            urlAll.setAction(Action_DEACTIVE_ALL);
+            htm.append("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
+            htm.append(urlAll);
+            htm.append("',this.domNode); \">");
+            htm.append(paramRequest.getLocaleString("lblDisabledAll"));
+            htm.append("</button>");
+            htm.append("</fieldset>");
+        }*/
+        htm.append("</div>");
+        
+        String statmsg = request.getParameter(STTS_MSG);
+        if( statmsg!=null && !statmsg.isEmpty())
+        {
+            htm.append("<div dojoType=\"dojox.layout.ContentPane\">\n");
+            htm.append("<script type=\"dojo/method\">\n");
+            htm.append("showStatus('"); 
+            htm.append(request.getParameter(STTS_MSG));
+            htm.append("');\n");
+            if(request.getParameter("objURI") != null && !request.getParameter("objURI").isEmpty()) {
+                SemanticObject semObj1 = SemanticObject.createSemanticObject(request.getParameter("objURI"));
+                htm.append("updateTreeNodeByURI('");
+                htm.append(semObj1.getURI());
+                htm.append("');\n");
+            }
+            if(request.getParameter("allURI") != null && !request.getParameter("allURI").isEmpty()) {
+                Iterator<Initiative> aux;
+                aux = risk.listInitiatives();
+                Initiative ini;
+                while (aux.hasNext()) {
+                    ini = aux.next();
+                    htm.append("updateTreeNodeByURI('");
+                    htm.append(ini.getURI());
+                    htm.append("');\n");
+                }
+            }
+            htm.append("</script>\n");
+            htm.append("</div>");
+        }
+        PrintWriter out = response.getWriter();
+        out.println(htm.toString());
     }
 
     /**
@@ -283,62 +339,98 @@ public class InitiativeRiskManager extends GenericResource {
         final String suri = request.getParameter("suri");
         response.setAction(SWBResourceURL.Action_EDIT);
         response.setRenderParameter("suri", suri);
-        request.setAttribute("suri", suri);
-        request.getSession().setAttribute("suri", suri);
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
-
-        Risk risk = (Risk) semObj.getGenericInstance();
-        BSC bsc = risk.getBSC();
-        if (Action_DELETE.equalsIgnoreCase(action)) {
+        if(semObj==null) {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
+            return;
+        }
+        
+        InitiativeAssignable ias = (InitiativeAssignable)semObj.getGenericInstance();
+        User user = response.getUser();
+        if(!user.isSigned() || !user.haveAccess(ias)) {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
+            return;
+        }
+        BSC bsc = (BSC)semObj.getModel().getModelObject().createGenericInstance();
+        
+        if(Action_DELETE.equalsIgnoreCase(action))
+        {
             final String mitInitiativeId = request.getParameter("sval");
             if (mitInitiativeId != null) {
-                Initiative initiative = null;
+                Initiative initiative;
                 if (Initiative.ClassMgr.hasInitiative(mitInitiativeId, bsc)) {
                     initiative = Initiative.ClassMgr.
                             getInitiative(mitInitiativeId, bsc);
-                    risk.removeInitiative(initiative);
+                    ias.removeInitiative(initiative);
                     initiative.remove();
-                    response.setRenderParameter("statmsg", response
-                            .getLocaleString("msgDeleteSuccessful"));
+                    response.setRenderParameter(STTS_MSG, response.getLocaleString("msgDeleteSuccessful"));
                 }
             }
-        } else if (Action_UPDT_ACTIVE.equalsIgnoreCase(action)) {
+        }
+        else if(Action_UPDT_ACTIVE.equalsIgnoreCase(action))
+        {
             final String initiativeId = request.getParameter("sval");
-            if (initiativeId != null) {
-                if (Initiative.ClassMgr.hasInitiative(initiativeId, bsc)) {
+            if(initiativeId != null) {
+                if(Initiative.ClassMgr.hasInitiative(initiativeId, bsc)) {
                     Initiative initiative = Initiative.ClassMgr.getInitiative(initiativeId, bsc);
-                    if (initiative.isActive()) {
+                    if(initiative.isActive()) {
                         initiative.setActive(false);
-                        response.setRenderParameter("statmsg", response.getLocaleString("msgDisabledInitiative"));
-                    } else {
+                        response.setRenderParameter(STTS_MSG, response.getLocaleString("msgDisabledInitiative"));
+                    }else {
                         initiative.setActive(true);
-                        response.setRenderParameter("statmsg", response.getLocaleString("msgActiveInitiative"));
+                        response.setRenderParameter(STTS_MSG, response.getLocaleString("msgActiveInitiative"));
                     }
                     response.setRenderParameter("objURI", initiative.getURI());
-                } else {
-                    response.setRenderParameter("statmsg", "Objeto semantico no ubicado");
+                }else {
+                    response.setRenderParameter(STTS_MSG, response.getLocaleString("msgNoSuchSemanticElement"));
                 }
-            } else {
-                response.setRenderParameter("statmsg", "Objeto semantico no ubicado.");
+            }else {
+                response.setRenderParameter(STTS_MSG, response.getLocaleString("msgNoSuchSemanticElement"));
             }
-        } else if (Action_ACTIVE_ALL.equalsIgnoreCase(action)) {
-            Iterator it = risk.listInitiatives();
+        }
+        else if(Action_ACTIVE_ALL.equalsIgnoreCase(action))
+        {
+            Iterator it = ias.listInitiatives();
             while (it.hasNext()) {
                 Initiative initiative = (Initiative) it.next();
                 initiative.setActive(true);
             }
             response.setRenderParameter("allURI", "allURI");
-            response.setRenderParameter("statmsg", response.getLocaleString("msgActiveAllInitiatives"));
-        } else if (Action_DEACTIVE_ALL.equalsIgnoreCase(action)) {
-            Iterator it = risk.listInitiatives();
+            response.setRenderParameter(STTS_MSG, response.getLocaleString("msgActiveAllInitiatives"));
+        }
+        else if (Action_DEACTIVE_ALL.equalsIgnoreCase(action))
+        {
+            Iterator it = ias.listInitiatives();
             while (it.hasNext()) {
                 Initiative initiative = (Initiative) it.next();
                 initiative.setActive(false);
             }
-            response.setRenderParameter("statmsg", response.getLocaleString("msgDisabledAllInitiatives"));
             response.setRenderParameter("allURI", "allURI");
+            response.setRenderParameter(STTS_MSG, response.getLocaleString("msgDisabledAllInitiatives"));
+        }
+        else if(Action_UPDT_ASSIGN.equalsIgnoreCase(action))
+        {
+            final String initiativeId = request.getParameter("sval");
+            if(initiativeId != null) {
+                if(Initiative.ClassMgr.hasInitiative(initiativeId, bsc)) {
+                    Initiative initiative = Initiative.ClassMgr.getInitiative(initiativeId, bsc);
+System.out.println("ias ya tiene esta iniciativa?:"+ias.hasInitiative(initiative));
+                    if(ias.hasInitiative(initiative)) {
+                        ias.removeInitiative(initiative);
+                        response.setRenderParameter(STTS_MSG, response.getLocaleString("msgDeallocatedInitiative"));
+                    }else {
+                        ias.addInitiative(initiative);
+                        response.setRenderParameter(STTS_MSG, response.getLocaleString("msgAssignedInitiative"));
+                    }
+                    response.setRenderParameter("objURI", initiative.getURI());
+                }else {
+                    response.setRenderParameter(STTS_MSG, response.getLocaleString("msgNoSuchSemanticElement"));
+                }
+            }else {
+                response.setRenderParameter(STTS_MSG, response.getLocaleString("msgNoSuchSemanticElement"));
+            }
         }
     }
 
