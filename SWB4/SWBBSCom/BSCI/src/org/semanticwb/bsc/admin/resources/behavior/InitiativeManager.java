@@ -47,7 +47,9 @@ public class InitiativeManager extends GenericResource {
             return;
         }
         
-        final String suri = request.getParameter("suri");
+        final String suri = request.getParameter("suri")==null
+                ?(String)request.getSession(true).getAttribute("suri")
+                :request.getParameter("suri");
         if(suri==null) {
             response.getWriter().println(paramRequest.getLocaleString("msgNoSuchSemanticElement"));
             return;
@@ -187,6 +189,7 @@ public class InitiativeManager extends GenericResource {
         
         response.setAction(SWBResourceURL.Action_EDIT);
         response.setRenderParameter("suri", suri);
+        request.getSession(true).setAttribute("suri", suri);
         
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
