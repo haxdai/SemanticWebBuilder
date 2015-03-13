@@ -616,6 +616,40 @@ public class WebPage extends WebPageBase
         }
     }    
     
+    
+    /**
+     * Regresa la descripción por defecto, en base a un idioma que recibe como parametro
+     * con identificador "<B>language</B>".
+     * 
+     * Ejemplo:
+     * HashMap arg=new HashMap();
+     * args.pur("language","es");
+     * String name=topic.getDisplayName(args);
+     * 
+     * Este metodo normalmente se utiliza en templates.
+     * parametros:
+     * -   languege: idioma de despliege (ejemplo es, en, fr).
+     * 
+     * @param args HashMap, con paraetros del template
+     * ejemplo:
+     * language=es
+     * @return String
+     */
+    public String getDisplayDescription(HashMap args)
+    {
+        String language = (String) args.get("language");
+        String id = (String) args.get("id");
+
+        if(id!=null)
+        {
+            WebPage page=getWebSite().getWebPage(id);
+            return page.getDisplayDescription(language);
+        }else
+        {
+            return getDisplayDescription(language);
+        }
+    }        
+    
     /**
      * Lista templates activos y no borrados, si no existen en la pagina regresa las del padre.
      * 
