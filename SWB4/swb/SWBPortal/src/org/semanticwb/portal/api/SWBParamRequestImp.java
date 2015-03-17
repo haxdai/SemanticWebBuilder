@@ -471,11 +471,7 @@ public class SWBParamRequestImp implements SWBParamRequest
      */
     public void setVirtualResource(Resource virtResource)
     {
-        this.virtResource = virtResource;
-        try
-        {
-            this.bundle=virtResource.getResourceType().getResourceBundle();
-        }catch(Exception e){log.error(e);}        
+        this.virtResource = virtResource;         
     }
     
     /**
