@@ -30,7 +30,6 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
-import org.semanticwb.portal.lib.SWBRequest;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,7 +42,7 @@ public class SWBParamRequestImp implements SWBParamRequest
 {
     
     /** The log. */
-    private static Logger log=SWBUtils.getLogger(SWBParamRequestImp.class);
+    private static final Logger log=SWBUtils.getLogger(SWBParamRequestImp.class);
     
     /** The args. */
     private Map args=new HashMap();
@@ -473,6 +472,10 @@ public class SWBParamRequestImp implements SWBParamRequest
     public void setVirtualResource(Resource virtResource)
     {
         this.virtResource = virtResource;
+        try
+        {
+            this.bundle=virtResource.getResourceType().getResourceBundle();
+        }catch(Exception e){log.error(e);}        
     }
     
     /**
