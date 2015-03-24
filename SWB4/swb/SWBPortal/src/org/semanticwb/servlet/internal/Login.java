@@ -909,6 +909,8 @@ public class Login implements InternalServlet
                     Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false; alert('Error: password must have leters and numbers.');}"):"");
             login = login.replaceFirst("<val04>", (SWBPlatform.getSecValues().getComplexity()==2)?
                     Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false; alert('Error: password must have leters, numbres and special symbols.');}"):"");
+            login = login.replaceFirst("<val05>", (SWBPlatform.getSecValues().getComplexity()==3)?
+                    Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/"+SWBPlatform.getSecValues().getCustomExp()+"/) ) { ret=false; alert('"+SWBPlatform.getSecValues().getCustomMsg()+"');}"):"");
 
         } catch (Exception e)
         {
