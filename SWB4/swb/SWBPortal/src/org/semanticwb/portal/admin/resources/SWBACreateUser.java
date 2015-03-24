@@ -73,6 +73,8 @@ public class SWBACreateUser extends GenericResource {
                              "if (!pwd.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false;}":"")+"\n"+
                          ((SWBPlatform.getSecValues().getComplexity()==2)?
                              "if (!pwd.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false;}":"")+"\n"+
+                         ((SWBPlatform.getSecValues().getComplexity()==3)?
+                             "if (!pwd.match(/"+SWBPlatform.getSecValues().getCustomExp()+"/) ) { ret=false;}":"")+"\n"+
                          "return ret;\n"+
                           "}\n"+
         "        </script>\n");
