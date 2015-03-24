@@ -225,6 +225,9 @@ public class PasswordUpdate extends PasswordUpdateBase {
         {
             throw new FormValidateException("Password don't comply with security measures: complex");
         }
-
+        if (SWBPlatform.getSecValues().getComplexity()==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp())))
+        {
+            throw new FormValidateException(SWBPlatform.getSecValues().getCustomMsg());
+        }
     }
 }

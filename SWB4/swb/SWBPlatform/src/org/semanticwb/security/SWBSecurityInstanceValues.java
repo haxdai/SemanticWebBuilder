@@ -40,6 +40,8 @@ public class SWBSecurityInstanceValues {
     private boolean restrict=false;
     private boolean multiple=false;
     private boolean encrypt=false;
+    private String complexityExp="";
+    private String complexityMsg="";
 
     public SWBSecurityInstanceValues(Properties props)
     {
@@ -48,6 +50,7 @@ public class SWBSecurityInstanceValues {
             try { differFromLogin = Boolean.parseBoolean(props.getProperty("password/differFromLogin", "false")); } catch (Exception noe) {} //if fails go for default value
             if ("simple".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){complexity=1;}
             if ("complex".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){complexity=2;}
+            if ("custom".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){complexity=3;}
             try { forceChage = Boolean.parseBoolean(props.getProperty("password/forceChangeOnFirstLogon", "false")); } catch (Exception noe) {} //if fails go for default value
             try { expires = Integer.parseInt(props.getProperty("password/expiresInDays", "0")); } catch (Exception noe) {} //if fails go for default value
             try { history = Integer.parseInt(props.getProperty("password/noAllowRepeat", "0")); } catch (Exception noe) {} //if fails go for default value
@@ -56,6 +59,8 @@ public class SWBSecurityInstanceValues {
             try { restrict = Boolean.parseBoolean(props.getProperty("session/restrictToSingleIP", "false")); } catch (Exception noe) {} //if fails go for default value
             try { multiple = Boolean.parseBoolean(props.getProperty("session/restrictMultipleLogon", "false")); } catch (Exception noe) {} //if fails go for default value
             try { encrypt = Boolean.parseBoolean(props.getProperty("login/encryptData", "false")); } catch (Exception noe) {} //if fails go for default value
+            complexityExp = props.getProperty("password/customExp", "");
+            complexityMsg = props.getProperty("password/customMsg", "");
         }
     }
 
@@ -112,5 +117,15 @@ public class SWBSecurityInstanceValues {
     public int getHistory()
     {
         return history;
+    }
+    
+    public String getCustomExp()
+    {
+        return complexityExp;
+    }
+    
+    public String getCustomMsg()
+    {
+        return complexityMsg;
     }
 }

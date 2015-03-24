@@ -117,6 +117,10 @@ public class User extends UserBase implements Principal
         {
             throw new SWBRuntimeException("Password don't comply with security measures: complex");
         }
+        if (SWBPlatform.getSecValues().getComplexity()==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp())))
+        {
+            throw new SWBRuntimeException(SWBPlatform.getSecValues().getCustomMsg());
+        }
         String tmpPasswd = null;
         try
         {
