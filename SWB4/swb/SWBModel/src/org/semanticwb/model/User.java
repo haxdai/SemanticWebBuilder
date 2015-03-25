@@ -100,32 +100,32 @@ public class User extends UserBase implements Principal
 //        setProperty("encpwd",t.encode(password));
         //System.out.println("setPassword:"+password);
 //        System.out.print("Complex:"+SWBPlatform.getSecValues().getComplexity()+" >"+(!password.matches("^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$")));
-        if (password.length()<SWBPlatform.getSecValues().getMinlength())
+        if (password.length()<SWBPlatform.getSecValues().getMinlength(getUserRepository().getId()))
         {
             throw new SWBRuntimeException("Password don't comply with security measures: Minimal Longitude");
         }
-        if (SWBPlatform.getSecValues().isDifferFromLogin() &&
+        if (SWBPlatform.getSecValues().isDifferFromLogin(getUserRepository().getId()) &&
                 getLogin().equalsIgnoreCase(password))
         {
             throw new SWBRuntimeException("Password don't comply with security measures: is equals to Login");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==1 && (!password.matches("^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$")))
+        if (SWBPlatform.getSecValues().getComplexity(getUserRepository().getId())==1 && (!password.matches("^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$")))
         {
             throw new SWBRuntimeException("Password don't comply with security measures: simple");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==2 && (!password.matches("^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$")))
+        if (SWBPlatform.getSecValues().getComplexity(getUserRepository().getId())==2 && (!password.matches("^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$")))
         {
             throw new SWBRuntimeException("Password don't comply with security measures: complex");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp())))
+        if (SWBPlatform.getSecValues().getComplexity(getUserRepository().getId())==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp(getUserRepository().getId()))))
         {
-            throw new SWBRuntimeException(SWBPlatform.getSecValues().getCustomMsg());
+            throw new SWBRuntimeException(SWBPlatform.getSecValues().getCustomMsg(getUserRepository().getId()));
         }
         String tmpPasswd = null;
         try
         {
             tmpPasswd = SWBUtils.CryptoWrapper.passwordDigest(password);
-            if (SWBPlatform.getSecValues().getHistory()>0) {
+            if (SWBPlatform.getSecValues().getHistory(getUserRepository().getId())>0) {
                 evaluateHistory(tmpPasswd);
                 addCurrentHash(tmpPasswd);
             }
@@ -147,12 +147,12 @@ public class User extends UserBase implements Principal
     private void evaluateHistory(final String pwdHash){
         if (null!=getPasswordsUsed() && getPasswordsUsed().contains(pwdHash)) 
             throw new SWBRuntimeException("Can't repeat 1 of the last "+
-                SWBPlatform.getSecValues().getHistory()+" used passwords");
+                SWBPlatform.getSecValues().getHistory(getUserRepository().getId())+" used passwords");
     }
     
     private void addCurrentHash(final String pwdHash){
         String actualList=pwdHash+"|"+(null==getPasswordsUsed()?"":getPasswordsUsed());
-        int i = SWBPlatform.getSecValues().getHistory(); int idx=-1;
+        int i = SWBPlatform.getSecValues().getHistory(getUserRepository().getId()); int idx=-1;
         while(i>0 && idx<actualList.length()){
             idx=actualList.indexOf("|", idx)+1;
             i--;
@@ -244,15 +244,15 @@ public class User extends UserBase implements Principal
             this.login=false;
             throw new LoginException("Password was asked to be reset by an admin");
         }
-        if (null==getLastLogin() && SWBPlatform.getSecValues().isForceChage()){
+        if (null==getLastLogin() && SWBPlatform.getSecValues().isForceChage(getUserRepository().getId())){
             setRequestChangePassword(true);
             this.login=false; 
             throw new LoginException("Password needs to be reset: First Usage");
         }
-        if (SWBPlatform.getSecValues().getExpires()>0){
+        if (SWBPlatform.getSecValues().getExpires(getUserRepository().getId())>0){
             java.util.Calendar passCal = java.util.Calendar.getInstance();
             passCal.setTime(getPasswordChanged());
-            passCal.add(java.util.Calendar.DAY_OF_MONTH, SWBPlatform.getSecValues().getExpires());
+            passCal.add(java.util.Calendar.DAY_OF_MONTH, SWBPlatform.getSecValues().getExpires(getUserRepository().getId()));
             if (passCal.getTime().before(new Date())){
                 setRequestChangePassword(true);
                 this.login=false; 
@@ -260,10 +260,10 @@ public class User extends UserBase implements Principal
             }
 
         }
-        if (null!=getLastLogin() && SWBPlatform.getSecValues().getInactive()>0 ){
+        if (null!=getLastLogin() && SWBPlatform.getSecValues().getInactive(getUserRepository().getId())>0 ){
             java.util.Calendar passCal = java.util.Calendar.getInstance();
             passCal.setTime(getLastLogin());
-            passCal.add(java.util.Calendar.DAY_OF_MONTH, SWBPlatform.getSecValues().getInactive());
+            passCal.add(java.util.Calendar.DAY_OF_MONTH, SWBPlatform.getSecValues().getInactive(getUserRepository().getId()));
             if (passCal.getTime().before(new Date())){
                 setActive(false);
                 this.login=false; 

@@ -326,9 +326,9 @@ public class Login implements InternalServlet
             {
                 try {
                     User tmpuser = dparams.getWebPage().getWebSite().getUserRepository().getUserByLogin(request.getParameter("wb_username"));
-
+                    String repo = dparams.getWebPage().getWebSite().getUserRepository().getId();
                     if (null!=tmpuser && tmpuser.isActive() && (tmpuser.isRequestChangePassword() || 
-                            SWBPlatform.getSecValues().isForceChage() || SWBPlatform.getSecValues().getExpires()>0))
+                            SWBPlatform.getSecValues().isForceChage(repo) || SWBPlatform.getSecValues().getExpires(repo)>0))
                     {
                         String alg = tmpuser.getPassword().substring(1,tmpuser.getPassword().indexOf("}"));
                         String tmpPass = request.getParameter("wb_password");
@@ -812,7 +812,7 @@ public class Login implements InternalServlet
         }
         if(null==user.getLanguage()) user.setLanguage("es"); //forzar lenguage si no se dio de alta.
         cleanBlockedEntry(matchKey);
-        if (SWBPlatform.getSecValues().isSendMail())
+        if (SWBPlatform.getSecValues().isSendMail(user.getUserRepository().getId()))
         {
             sendMailLog(request, user);
         }
@@ -872,6 +872,7 @@ public class Login implements InternalServlet
     {
         String ruta = "/config/password.html";
         String login = null;
+        String repo = user.getUserRepository().getId();
         try
         {
 
@@ -899,18 +900,18 @@ public class Login implements InternalServlet
             login = login.replaceFirst("<ussid>", Matcher.quoteReplacement("<input type=\"hidden\" name=\"user\" value=\""+
                     SWBUtils.TEXT.encodeBase64(new String(SWBUtils.CryptoWrapper.PBEAES128Cipher(SWBPlatform.getVersion(),
                     (""+user.getUserRepository().getId()+"|"+user.getLogin()).getBytes())))+"\">"));
-            login = login.replaceFirst("<val01>", (SWBPlatform.getSecValues().isDifferFromLogin())?
+            login = login.replaceFirst("<val01>", (SWBPlatform.getSecValues().isDifferFromLogin(repo))?
                     Matcher.quoteReplacement("if (form.wb_new_password.value == '"+user.getLogin()+
                     "') { ret=false; alert('Error: password must be diferent from login.');}"):"");
-            login = login.replaceFirst("<val02>", (SWBPlatform.getSecValues().getMinlength()>0)?
-                    Matcher.quoteReplacement("if (form.wb_new_password.value.length < "+SWBPlatform.getSecValues().getMinlength()+
-                    ") { ret=false; alert('Error: password must have at least "+SWBPlatform.getSecValues().getMinlength()+" characters.');}"):"");
-            login = login.replaceFirst("<val03>", (SWBPlatform.getSecValues().getComplexity()==1)?
+            login = login.replaceFirst("<val02>", (SWBPlatform.getSecValues().getMinlength(repo)>0)?
+                    Matcher.quoteReplacement("if (form.wb_new_password.value.length < "+SWBPlatform.getSecValues().getMinlength(repo)+
+                    ") { ret=false; alert('Error: password must have at least "+SWBPlatform.getSecValues().getMinlength(repo)+" characters.');}"):"");
+            login = login.replaceFirst("<val03>", (SWBPlatform.getSecValues().getComplexity(repo)==1)?
                     Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false; alert('Error: password must have leters and numbers.');}"):"");
-            login = login.replaceFirst("<val04>", (SWBPlatform.getSecValues().getComplexity()==2)?
+            login = login.replaceFirst("<val04>", (SWBPlatform.getSecValues().getComplexity(repo)==2)?
                     Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false; alert('Error: password must have leters, numbres and special symbols.');}"):"");
-            login = login.replaceFirst("<val05>", (SWBPlatform.getSecValues().getComplexity()==3)?
-                    Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/"+SWBPlatform.getSecValues().getCustomExp()+"/) ) { ret=false; alert('"+SWBPlatform.getSecValues().getCustomMsg()+"');}"):"");
+            login = login.replaceFirst("<val05>", (SWBPlatform.getSecValues().getComplexity(repo)==3)?
+                    Matcher.quoteReplacement("if (!form.wb_new_password.value.match(/"+SWBPlatform.getSecValues().getCustomExp(repo)+"/) ) { ret=false; alert('"+SWBPlatform.getSecValues().getCustomMsg(repo)+"');}"):"");
 
         } catch (Exception e)
         {

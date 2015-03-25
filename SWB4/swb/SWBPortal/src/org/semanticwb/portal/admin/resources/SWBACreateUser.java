@@ -65,16 +65,16 @@ public class SWBACreateUser extends GenericResource {
         "                   dojo.require(\"dijit.form.CheckBox\");\n"+
                          "function validpwd(pwd){\n" +
                          "var ret=true;\n"+
-                         ((SWBPlatform.getSecValues().isDifferFromLogin())?
+                         ((SWBPlatform.getSecValues().isDifferFromLogin("*****"))?
                              "if (dijit.byId('Ulogin').textbox.value == pwd) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getMinlength()>0)?
-                             "if (pwd.length < "+SWBPlatform.getSecValues().getMinlength()+") { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity()==1)?
+                         ((SWBPlatform.getSecValues().getMinlength("*****")>0)?
+                             "if (pwd.length < "+SWBPlatform.getSecValues().getMinlength("*****")+") { ret=false;}":"")+"\n"+
+                         ((SWBPlatform.getSecValues().getComplexity("*****")==1)?
                              "if (!pwd.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity()==2)?
+                         ((SWBPlatform.getSecValues().getComplexity("*****")==2)?
                              "if (!pwd.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity()==3)?
-                             "if (!pwd.match(/"+SWBPlatform.getSecValues().getCustomExp()+"/) ) { ret=false;}":"")+"\n"+
+                         ((SWBPlatform.getSecValues().getComplexity("*****")==3)?
+                             "if (!pwd.match(/"+SWBPlatform.getSecValues().getCustomExp("*****")+"/) ) { ret=false;}":"")+"\n"+
                          "return ret;\n"+
                           "}\n"+
         "        </script>\n");

@@ -22,7 +22,11 @@
  */
 package org.semanticwb.security;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * Class to contain instance security configuration values, to avoid been converting every request
@@ -42,6 +46,7 @@ public class SWBSecurityInstanceValues {
     private boolean encrypt=false;
     private String complexityExp="";
     private String complexityMsg="";
+    private Map<String, LocalSecurityValues> localRepos = new HashMap<String, LocalSecurityValues>();
 
     public SWBSecurityInstanceValues(Properties props)
     {
@@ -61,16 +66,45 @@ public class SWBSecurityInstanceValues {
             try { encrypt = Boolean.parseBoolean(props.getProperty("login/encryptData", "false")); } catch (Exception noe) {} //if fails go for default value
             complexityExp = props.getProperty("password/customExp", "");
             complexityMsg = props.getProperty("password/customMsg", "");
+            Set<String> repos = new TreeSet();
+            for(Object oKey: props.keySet()){
+                String Key = (String)oKey;
+                int idx = Key.indexOf(".");
+                if (idx>-1){
+                    repos.add(Key.substring(0,idx));
+                }
+            }
+            for(String repo: repos){
+                LocalSecurityValues localsv = new LocalSecurityValues();
+                localRepos.put(repo, localsv);
+                try { localsv.minlength = Integer.parseInt(props.getProperty("password/minlength", ""+minlength)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.differFromLogin = Boolean.parseBoolean(props.getProperty("password/differFromLogin", ""+differFromLogin)); } catch (Exception noe) {} //if fails go for default value
+                if ("simple".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=1;}
+                if ("complex".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=2;}
+                if ("custom".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=3;}
+                if (localsv.complexity==0){localsv.complexity=complexity;}
+                try { localsv.forceChage = Boolean.parseBoolean(props.getProperty("password/forceChangeOnFirstLogon", ""+forceChage)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.expires = Integer.parseInt(props.getProperty("password/expiresInDays", ""+expires)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.history = Integer.parseInt(props.getProperty("password/noAllowRepeat", ""+history)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.inactive = Integer.parseInt(props.getProperty("account/inactiveInDays", ""+inactive)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.sendMail = Boolean.parseBoolean(props.getProperty("account/sendMailOnLogon", ""+sendMail)); } catch (Exception noe) {} //if fails go for default value
+                localsv.complexityExp = props.getProperty("password/customExp", complexityExp);
+                localsv.complexityMsg = props.getProperty("password/customMsg", complexityMsg);
+            }
         }
     }
 
-    public int getComplexity()
+    public int getComplexity(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.complexity;
         return complexity;
     }
 
-    public boolean isDifferFromLogin()
+    public boolean isDifferFromLogin(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.differFromLogin;
         return differFromLogin;
     }
 
@@ -79,23 +113,31 @@ public class SWBSecurityInstanceValues {
         return encrypt;
     }
 
-    public int getExpires()
+    public int getExpires(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.expires;
         return expires;
     }
 
-    public boolean isForceChage()
+    public boolean isForceChage(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.forceChage;
         return forceChage;
     }
 
-    public int getInactive()
+    public int getInactive(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.inactive;
         return inactive;
     }
 
-    public int getMinlength()
+    public int getMinlength(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.minlength;
         return minlength;
     }
 
@@ -109,23 +151,44 @@ public class SWBSecurityInstanceValues {
         return restrict;
     }
 
-    public boolean isSendMail()
+    public boolean isSendMail(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.sendMail;
         return sendMail;
     }
 
-    public int getHistory()
+    public int getHistory(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.history;
         return history;
     }
     
-    public String getCustomExp()
+    public String getCustomExp(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.complexityExp;
         return complexityExp;
     }
     
-    public String getCustomMsg()
+    public String getCustomMsg(String userRepoId)
     {
+        LocalSecurityValues localsv = localRepos.get(userRepoId);
+        if(null!=localsv)return localsv.complexityMsg;
         return complexityMsg;
     }
+}
+
+class LocalSecurityValues {
+    int minlength=0;
+    boolean differFromLogin=false;
+    int complexity=0;
+    boolean forceChage=false;
+    int expires=0;
+    int inactive=0;
+    int history=0;
+    boolean sendMail=false;
+    String complexityExp="";
+    String complexityMsg="";
 }

@@ -207,27 +207,28 @@ public class PasswordUpdate extends PasswordUpdateBase {
     public void validate(HttpServletRequest request, SemanticObject obj, SemanticProperty prop, String propName)
             throws FormValidateException {
         super.validate(request, obj, prop, propName);
-        String password = request.getParameter(propName);
-        if (password.length()<SWBPlatform.getSecValues().getMinlength())
+        String password = request.getParameter(propName); 
+        String repo  = ((User)obj.getGenericInstance()).getUserRepository().getId();
+        if (password.length()<SWBPlatform.getSecValues().getMinlength(repo))
         {
             throw new FormValidateException("Password don't comply with security measures: Minimal Longitude");
         }
-        if (null!=obj && SWBPlatform.getSecValues().isDifferFromLogin() &&
+        if (null!=obj && SWBPlatform.getSecValues().isDifferFromLogin(repo) &&
                 obj.getProperty(User.swb_usrLogin).equalsIgnoreCase(password))
         {
             throw new FormValidateException("Password don't comply with security measures: is equals to Login");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==1 && (!password.matches("^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$")))
+        if (SWBPlatform.getSecValues().getComplexity(repo)==1 && (!password.matches("^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$")))
         {
             throw new FormValidateException("Password don't comply with security measures: simple");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==2 && (!password.matches("^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$")))
+        if (SWBPlatform.getSecValues().getComplexity(repo)==2 && (!password.matches("^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$")))
         {
             throw new FormValidateException("Password don't comply with security measures: complex");
         }
-        if (SWBPlatform.getSecValues().getComplexity()==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp())))
+        if (SWBPlatform.getSecValues().getComplexity(repo)==3 && (!password.matches(SWBPlatform.getSecValues().getCustomExp(repo))))
         {
-            throw new FormValidateException(SWBPlatform.getSecValues().getCustomMsg());
+            throw new FormValidateException(SWBPlatform.getSecValues().getCustomMsg(repo));
         }
     }
 }
