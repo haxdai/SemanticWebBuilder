@@ -68,28 +68,28 @@ public class SWBSecurityInstanceValues {
             complexityMsg = props.getProperty("password/customMsg", "");
             Set<String> repos = new TreeSet();
             for(Object oKey: props.keySet()){
-                String Key = (String)oKey;
-                int idx = Key.indexOf(".");
+                String key = (String)oKey;
+                int idx = key.indexOf(".");
                 if (idx>-1){
-                    repos.add(Key.substring(0,idx));
+                    repos.add(key.substring(0,idx));
                 }
             }
             for(String repo: repos){
                 LocalSecurityValues localsv = new LocalSecurityValues();
                 localRepos.put(repo, localsv);
-                try { localsv.minlength = Integer.parseInt(props.getProperty("password/minlength", ""+minlength)); } catch (Exception noe) {} //if fails go for default value
-                try { localsv.differFromLogin = Boolean.parseBoolean(props.getProperty("password/differFromLogin", ""+differFromLogin)); } catch (Exception noe) {} //if fails go for default value
-                if ("simple".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=1;}
-                if ("complex".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=2;}
-                if ("custom".equalsIgnoreCase(props.getProperty("password/complexity", "none"))){localsv.complexity=3;}
+                try { localsv.minlength = Integer.parseInt(props.getProperty(repo+".password/minlength", ""+minlength)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.differFromLogin = Boolean.parseBoolean(props.getProperty(repo+".password/differFromLogin", ""+differFromLogin)); } catch (Exception noe) {} //if fails go for default value
+                if ("simple".equalsIgnoreCase(props.getProperty(repo+".password/complexity", "none"))){localsv.complexity=1;}
+                if ("complex".equalsIgnoreCase(props.getProperty(repo+".password/complexity", "none"))){localsv.complexity=2;}
+                if ("custom".equalsIgnoreCase(props.getProperty(repo+".password/complexity", "none"))){localsv.complexity=3;}
                 if (localsv.complexity==0){localsv.complexity=complexity;}
-                try { localsv.forceChage = Boolean.parseBoolean(props.getProperty("password/forceChangeOnFirstLogon", ""+forceChage)); } catch (Exception noe) {} //if fails go for default value
-                try { localsv.expires = Integer.parseInt(props.getProperty("password/expiresInDays", ""+expires)); } catch (Exception noe) {} //if fails go for default value
-                try { localsv.history = Integer.parseInt(props.getProperty("password/noAllowRepeat", ""+history)); } catch (Exception noe) {} //if fails go for default value
-                try { localsv.inactive = Integer.parseInt(props.getProperty("account/inactiveInDays", ""+inactive)); } catch (Exception noe) {} //if fails go for default value
-                try { localsv.sendMail = Boolean.parseBoolean(props.getProperty("account/sendMailOnLogon", ""+sendMail)); } catch (Exception noe) {} //if fails go for default value
-                localsv.complexityExp = props.getProperty("password/customExp", complexityExp);
-                localsv.complexityMsg = props.getProperty("password/customMsg", complexityMsg);
+                try { localsv.forceChage = Boolean.parseBoolean(props.getProperty(repo+".password/forceChangeOnFirstLogon", ""+forceChage)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.expires = Integer.parseInt(props.getProperty(repo+".password/expiresInDays", ""+expires)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.history = Integer.parseInt(props.getProperty(repo+".password/noAllowRepeat", ""+history)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.inactive = Integer.parseInt(props.getProperty(repo+".account/inactiveInDays", ""+inactive)); } catch (Exception noe) {} //if fails go for default value
+                try { localsv.sendMail = Boolean.parseBoolean(props.getProperty(repo+".account/sendMailOnLogon", ""+sendMail)); } catch (Exception noe) {} //if fails go for default value
+                localsv.complexityExp = props.getProperty(repo+".password/customExp", complexityExp);
+                localsv.complexityMsg = props.getProperty(repo+".password/customMsg", complexityMsg);
             }
         }
     }
