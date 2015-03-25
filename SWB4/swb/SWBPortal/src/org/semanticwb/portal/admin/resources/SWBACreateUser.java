@@ -59,24 +59,40 @@ public class SWBACreateUser extends GenericResource {
         StringBuffer ret = new StringBuffer();
         SWBResourceURL url = paramRequest.getActionUrl();
                  ret.append("<script type=\"text/javascript\">\n"+
-        "           dojo.require(\"dojo.parser\");\n"+
-        "                   dojo.require(\"dijit.layout.ContentPane\");\n"+
-        "                   dojo.require(\"dijit.form.FilteringSelect\");\n"+
-        "                   dojo.require(\"dijit.form.CheckBox\");\n"+
-                         "function validpwd(pwd){\n" +
-                         "var ret=true;\n"+
-                         ((SWBPlatform.getSecValues().isDifferFromLogin("*****"))?
-                             "if (dijit.byId('Ulogin').textbox.value == pwd) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getMinlength("*****")>0)?
-                             "if (pwd.length < "+SWBPlatform.getSecValues().getMinlength("*****")+") { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity("*****")==1)?
-                             "if (!pwd.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity("*****")==2)?
-                             "if (!pwd.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity("*****")==3)?
-                             "if (!pwd.match(/"+SWBPlatform.getSecValues().getCustomExp("*****")+"/) ) { ret=false;}":"")+"\n"+
-                         "return ret;\n"+
-                          "}\n"+
+        "dojo.require(\"dojo.parser\");\n"+
+        "dojo.require(\"dijit.layout.ContentPane\");\n"+
+        "dojo.require(\"dijit.form.FilteringSelect\");\n"+
+        "dojo.require(\"dijit.form.CheckBox\");\n"+
+        "var oldRepo = '';\n" +
+        "var jsonval=\"function(pwd) { return true; }\";\n" +
+        "var xmlhttp;\n" +
+        "if (window.XMLHttpRequest)\n" +
+        "  {// code for IE7+, Firefox, Chrome, Opera, Safari\n" +
+        "  xmlhttp=new XMLHttpRequest();\n" +
+        "  }\n" +
+        "else\n" +
+        "  {// code for IE6, IE5\n" +
+        "  xmlhttp=new ActiveXObject(\"Microsoft.XMLHTTP\");\n" +
+        "  }\n"+
+        "function getValidPwdFnc(model)\n" +
+        "  {\n" + 
+        "    if (oldRepo != model)\n" +
+        "      {\n" +
+        "        URL = '" +paramRequest.getRenderUrl().setCallMethod(
+                SWBResourceURL.Call_DIRECT).setMode(SWBResourceURL.Mode_HELP)+ 
+                         "?lmodel=' + model;\n"+
+        "        xmlhttp.open(\"GET\",URL,false);\n" +
+        "        xmlhttp.send();\n" +
+        "        jsonval = xmlhttp.responseText;\n"+
+        "        oldRepo = model;\n" +
+        "      }\n" +
+        "    return eval('('+jsonval+')');\n" +
+        "  }\n"+
+        "function validpwd(model, pwd)\n" +
+        "  {\n " +
+        "    isValidPwd = getValidPwdFnc(model);\n" +
+        "    return isValidPwd(pwd);" + 
+        "  }\n"+
         "        </script>\n");
       //http://www.semanticwebbuilder.org/swb4/ontology#User
         ret.append("<form id=\""+User.swb_User.getClassName()+"/create\" dojoType=\"dijit.form.Form\" class=\"swbform\" ");
@@ -104,7 +120,7 @@ public class SWBACreateUser extends GenericResource {
                 +" <em>*</em></label>\n\t\t\t</td>\n\t\t\t<td>");
         ret.append("<input type=\"password\" name=\"passwd\" dojoType=\"dijit.form.ValidationTextBox\" required=\"true\" ");
         ret.append("promptMessage=\""+paramRequest.getLocaleString("userMsgPWD")
-                +"\" invalidMessage=\""+paramRequest.getLocaleString("userErrPWD")+"\" trim=\"true\" isValid=\"return validpwd(this.textbox.value);\" />");
+                +"\" invalidMessage=\""+paramRequest.getLocaleString("userErrPWD")+"\" trim=\"true\" isValid=\"return validpwd(dijit.byId('userRepository').value,this.textbox.value);\" />");
         ret.append("\n\t\t\t</td>\n\t\t</tr>\n\t<tr>\n\t\t<td align=\"center\" colspan=\"2\">");
         ret.append("<button dojoType='dijit.form.Button' type=\"submit\">"+paramRequest.getLocaleString("SveBtn")+"</button>\n");
         ret.append("<button dojoType='dijit.form.Button' onclick=\"dijit.byId('swbDialog').hide();\">"+paramRequest.getLocaleString("CnlBtn")+"</button>\n");
@@ -157,5 +173,25 @@ public class SWBACreateUser extends GenericResource {
 
     }
 
-
+    @Override
+    public void doHelp(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        String model = request.getParameter("lmodel");
+        String ret
+                = "function (pwd){\n"
+                + ((SWBPlatform.getSecValues().isDifferFromLogin(model))
+                        ? "if (dijit.byId('Ulogin').textbox.value == pwd) { return false;}\n" : "")
+                + ((SWBPlatform.getSecValues().getMinlength(model) > 0)
+                        ? "if (pwd.length < " + SWBPlatform.getSecValues().getMinlength(model) + ") { return false;}\n" : "")
+                + ((SWBPlatform.getSecValues().getComplexity(model) == 1)
+                        ? "if (!pwd.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { return false;}\n" : "")
+                + ((SWBPlatform.getSecValues().getComplexity(model) == 2)
+                        ? "if (!pwd.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { return false;}\n" : "")
+                + ((SWBPlatform.getSecValues().getComplexity(model) == 3)
+                        ? "if (!pwd.match(/" + SWBPlatform.getSecValues().getCustomExp(model) + "/) ) { return false;}\n" : "")
+                + "return true;}\n";
+        response.getWriter().println(ret);
+    }
+    
 }

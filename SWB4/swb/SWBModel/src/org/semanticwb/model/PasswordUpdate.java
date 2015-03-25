@@ -209,6 +209,7 @@ public class PasswordUpdate extends PasswordUpdateBase {
         super.validate(request, obj, prop, propName);
         String password = request.getParameter(propName); 
         String repo  = ((User)obj.getGenericInstance()).getUserRepository().getId();
+        if (password.equals(passphrase)) return;
         if (password.length()<SWBPlatform.getSecValues().getMinlength(repo))
         {
             throw new FormValidateException("Password don't comply with security measures: Minimal Longitude");
