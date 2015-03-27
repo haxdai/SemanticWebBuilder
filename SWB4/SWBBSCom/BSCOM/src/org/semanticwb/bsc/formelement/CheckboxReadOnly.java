@@ -47,7 +47,7 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
         String falseTitle           = getDisplayFalseTitle(lang);
         String displayType          = getDisplayType();
 
-        if (sobj != null) {
+        if(sobj != null) {
             DisplayProperty dobj = new DisplayProperty(sobj);
             pmsg         = dobj.getDisplayPromptMessage(lang);
             imsg         = dobj.getDisplayInvalidMessage(lang);
@@ -56,87 +56,77 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
 
         String disabled = "";
 
-        if (DOJO) {
-            if (imsg == null) {
-                if (required) {
+        if(DOJO) {
+            if(imsg == null) {
+                if(required) {
                     imsg = label + " es requerido.";
-
-                    if (lang.equals("en")) {
+                    if(lang.equals("en")) {
                         imsg = label + " is required.";
                     }
-                } else {
+                }else {
                     imsg = "Dato invalido.";
-
-                    if (lang.equals("en")) {
+                    if(lang.equals("en")) {
                         imsg = "Invalid data.";
                     }
                 }
             }
 
-            if (pmsg == null) {
+            if(pmsg == null) {
                 pmsg = "Captura " + label + ".";
-
-                if (lang.equals("en")) {
+                if(lang.equals("en")) {
                     pmsg = "Enter " + label + ".";
                 }
             }
         }
 
-        if (isDisabled) {
+        if(isDisabled) {
             disabled = " disabled=\"disabled\"";
         }
 
-        if (prop.isDataTypeProperty() && prop.isBoolean()) {
+        if(prop.isDataTypeProperty() && prop.isBoolean())
+        {
             if(prop.isBoolean())
             {
                 String  checked = "";
                 boolean value   = false;
                 String  aux     = request.getParameter(propName);
 
-                if (aux != null) {
+                if(aux != null) {
                     value = true;
                     if (aux.equals("false")) {
                         value = false;
                     }
-                } else {
+                }else {
                     value = obj.getBooleanProperty(prop);
                 }
-
-                if (value) {
+                if(value) {
                     checked = "checked=\"checked\"";
                 }
-
-                if (displayType.equals("checkbox")) {
-                    
-/*System.out.println("\n\nCheckboxreadonly");
-SemanticModel model = getModel();
-System.out.println("model="+model);
-SWBModel m = (SWBModel) model.getModelObject().createGenericInstance();
-System.out.println("m="+m);
-if(m.getParentWebSite()!=null) {
-    m = m.getParentWebSite();
-}                    */
-User user;
-user = SWBContext.getSessionUser(SWBContext.USERREPOSITORY_ADMIN);
-/*System.out.println("user="+user);
-System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
-
-
-                    
+                if(displayType.equals("checkbox"))
+                {
                     ret.append("<input type=\"checkbox\" id_=\"").append(name).append("\" name=\"").append(name).append("\" ").append(checked);
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" dojoType=\"dijit.form.CheckBox\"");
                         if(required)ret.append(" required=\"").append(required).append("\"");
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
-                    if (   !filterObject(request, sobj, user.getSemanticObject(), prop, propName, type, mode, lang) ||  isDisabled || mode.equals("view")) {
-                        ret.append(" disabled=\"disabled\"");
+                    
+                    User user;
+                    user = SWBContext.getSessionUser(SWBContext.USERREPOSITORY_ADMIN);
+                    if(user==null) {    
+                        ret.append(" disabled ");
+                    }else {
+                        if( !filterObject(request, sobj, user.getSemanticObject(), prop, propName, type, mode, lang) ||  isDisabled || mode.equals("view") ) {
+                            ret.append(" disabled=\"disabled\"");
+                        }
                     }
                     ret.append("/>");
-                } else if (displayType.equals("select")) {
+                }
+                else if(displayType.equals("select"))
+                {
                     ret.append("<select id_=\"").append(name).append("\" name=\"").append(name).append("\" ");
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" dojoType=\"dijit.form.FilteringSelect\"");
                         if(required)ret.append(" required=\"").append(required).append("\"");
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
@@ -150,30 +140,32 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
                     ret.append("<option value=\"true\"").append(value?"selected":"").append(" >").append(trueTitle).append("</option>");
                     ret.append("<option value=\"false\"").append(!value?"selected":"").append(" >").append(falseTitle).append("</option>");
                     ret.append("</select>");
-                } else if (displayType.equals("radio")) {
+                }
+                else if(displayType.equals("radio"))
+                {
                     ret.append("<input type=\"radio\" id_=\"").append(name).append("\" id=\"").append(name).append("_True\" name=\"").append(name).append("\" ").append(value?"checked=\"checked\"":"").append(" value=\"true\"");
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" dojoType=\"dijit.form.RadioButton\"");
                         if(required)ret.append(" required=\"").append(required).append("\"");
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
                     ret.append(disabled);
-                    if (mode.equals("view")) {
+                    if(mode.equals("view")) {
                         ret.append(" disabled=\"disabled\"");
                     }
                     ret.append("/>");
                     ret.append("<label for=\"").append(name).append("_True\">").append(trueTitle).append("</label> ");
                     
                     ret.append("<input type=\"radio\" id_=\"").append(name).append("\" id=\"").append(name).append("_False\" name=\"").append(name).append("\" ").append(!value?"checked=\"checked\"":"").append(" value=\"false\"");
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" dojoType=\"dijit.form.RadioButton\"");
                         if(required)ret.append(" required=\"").append(required).append("\"");
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
                     ret.append(disabled);
-                    if (mode.equals("view")) {
+                    if(mode.equals("view")) {
                         ret.append(" disabled=\"disabled\"");
                     }
                     ret.append("/>");
@@ -183,40 +175,36 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
             else
             {
                 String value = request.getParameter(propName);
-
-                if (value == null) {
+                if(value == null) {
                     value = obj.getProperty(prop);
                 }
-
-                if (value == null) {
+                if(value == null) {
                     value = "";
                 }
                 value=value.replace("\"", "&quot;");
-                if (mode.equals("edit") || mode.equals("create") || mode.equals("filter")) {
+                if(mode.equals("edit") || mode.equals("create") || mode.equals("filter"))
+                {
                     ret.append("<input _id=\"").append(name).append("\" name=\"").append(name).append("\" value=\"").append(value + "\"");
-
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" dojoType=\"dijit.form.ValidationTextBox\"");
                     }
-
-                    if (!mode.equals("filter") || DOJO) {
+                    if(!mode.equals("filter") || DOJO) {
                         if(required)ret.append(" required=\"").append(required).append("\"");
                     }
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                     }
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
                     ret.append(" style=\"width:300px;\"");
                     ret.append(" ").append(getAttributes());
-
-                    if (DOJO) {
+                    if(DOJO) {
                         ret.append(" trim=\"true\"");
                     }
                     ret.append(disabled);
                     ret.append("/>");
-                } else if (mode.equals("view")) {
+                }else if(mode.equals("view")) {
                     ret.append("<span _id=\"").append(name).append("\" name=\"").append(name).append("\">").append(value).append("</span>");
                 }
             }
@@ -228,14 +216,12 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
     
     public boolean filterObject(HttpServletRequest request, SemanticObject base_obj, SemanticObject filter_obj, SemanticProperty prop, String propName, String type, String mode, String lang) {        
         SWBModel m;
-        m = (SWBModel) filter_obj.getModel().getModelObject().createGenericInstance();
+        m = (SWBModel) filter_obj.getModel().getModelObject().createGenericInstance();        
         User filterUser;
+        filterUser = (User) filter_obj.createGenericInstance();
         boolean hasUserGroup = false;
         boolean hasRole = false;
         boolean ret = true;
-        //if (filter_obj != null) {
-            filterUser = (User) filter_obj.createGenericInstance();
-        //}
         
         //No se especificó un grupo o roles para filtrar
         if((getReadonlyRoleIds()==null || getReadonlyRoleIds().isEmpty()) && (getReadonlyUserGroupIds()==null || getReadonlyUserGroupIds().isEmpty()))
@@ -248,36 +234,38 @@ System.out.println("admin rep id="+SWBContext.getAdminRepository().getId());*/
             //Revisar si tiene el grupo de usuarios especificado
             UserGroup filterUserGroup = ((UserRepository)m).getUserGroup(getReadonlyUserGroupIds());
             //UserGroup filterUserGroup = UserGroup.ClassMgr.getUserGroup(getFilterUserGroupId(), m);
-            if (filterUser != null && filterUserGroup != null) {
-                if (filterUser.hasUserGroup(filterUserGroup)) {
+            if(filterUser != null && filterUserGroup != null) {
+                if(filterUser.hasUserGroup(filterUserGroup)) {
                     hasUserGroup = true;
                 }
             }
             //Revisar si tiene alguno de los roles definidos
-            if (getReadonlyRoleIds()!= null && getReadonlyRoleIds().indexOf("|") > -1) {
+            if(getReadonlyRoleIds()!= null && getReadonlyRoleIds().indexOf("|") > -1) {
                 StringTokenizer stk = new StringTokenizer(getReadonlyRoleIds(), "|");
-                while (stk.hasMoreTokens()) {
+                while(stk.hasMoreTokens()) {
                     String roleId = stk.nextToken();
                     //Role filterRole = Role.ClassMgr.getRole(roleId, m);
                     Role filterRole = ((UserRepository)m).getRole(roleId);
-                    if (filterUser != null && filterRole != null) {
-                        if (filterUser.hasRole(filterRole)) {
+                    if(filterUser != null && filterRole != null) {
+                        if(filterUser.hasRole(filterRole)) {
                             hasRole = true;
                             break;
                         }
                     }
                 }
-            } else {
+            }else {
                 Role filterRole = ((UserRepository)m).getRole(getReadonlyRoleIds());
-                if (filterUser != null && filterRole != null) {
-                    if (filterUser.hasRole(filterRole)) {
+                if(filterUser != null && filterRole != null) {
+                    if(filterUser.hasRole(filterRole)) {
                         hasRole = true;
                     }
                 }
             }
         }
         
-        if (hasUserGroup || hasRole) ret = false;
+        if(hasUserGroup || hasRole) {
+            ret = false;
+        }
         return ret;
     }
 }
