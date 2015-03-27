@@ -1,13 +1,9 @@
 package org.semanticwb.bsc.resources;
 
-import com.arthurdo.parser.HtmlException;
-import com.arthurdo.parser.HtmlStreamTokenizer;
-import com.arthurdo.parser.HtmlTag;
 import com.hp.hpl.jena.ontology.OntClass;
 import com.hp.hpl.jena.rdf.model.Statement;
 import com.lowagie.text.DocumentException;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -22,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.bsc.BSC;
@@ -48,10 +43,8 @@ import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
-import org.semanticwb.model.Template;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
@@ -148,7 +141,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             }
         }
 
-        String propertiesScript = this.getClassesProperties(childMap);
+        String propertiesScript = this.getClassesProperties(childMap, paramRequest.getUser().getLanguage());
         output.append("      </select>");
         output.append("     </div>"); //cierra form-group
         output.append("    </div>");
@@ -515,7 +508,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                         list.append("          { value: \"");
                         list.append(element.getURI());
                         list.append("\", label: \"");
-                        list.append(element.getDisplayName());
+                        list.append(element.getDisplayName(user.getLanguage()));
                         list.append("\" }");
                         cont++;
                     }
@@ -580,7 +573,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                 list.append("          { value: \"");
                 list.append(state.getURI());
                 list.append("\", label: \"");
-                list.append(state.getTitle());
+                list.append(state.getDisplayTitle(paramRequest.getUser().getLanguage()));
                 list.append("\" }");
                 cont++;
             }
@@ -650,7 +643,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("  <tr>\n");
         for (SemanticProperty prop : criteria.getProps2Show()) {
             output.append("    <th class=\"swb-report-header\">");
-            output.append(prop.getLabel());
+            output.append(prop.getLabel(paramRequest.getUser().getLanguage()));
             output.append("</th>\n");
             if (prop.getURI().indexOf("title") != -1 && titleIndex == -1) {
                 titleIndex = itemsCount;
@@ -762,7 +755,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
      * an&oacute;nimos con las propiedades: value -uri de una propiedad
      * sem&aacute;ntica y label -nombre a desplegar de la propiedad)
      */
-    private String getClassesProperties(HashMap<String, OntClass> children) {
+    private String getClassesProperties(HashMap<String, OntClass> children, String lang) {
 
         StringBuilder script = new StringBuilder(512);
         int countClassses = 0;
@@ -797,7 +790,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                         script.append("        { value: \"");
                         script.append(prop.getURI());
                         script.append("\", label: \"");
-                        script.append(prop.getDisplayName());
+                        script.append(prop.getDisplayName(lang));
                         script.append("\" }");
                         cont++;
                     }
@@ -1634,7 +1627,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("  <tr>\n");
         for (SemanticProperty prop : criteria.getProps2Show()) {
             output.append("    <th>");
-            output.append(prop.getLabel());
+            output.append(prop.getLabel(paramRequest.getUser().getLanguage()));
             output.append("</th>\n");
             if (prop.getURI().indexOf("title") != -1 && titleIndex == -1) {
                 titleIndex = itemsCount;
