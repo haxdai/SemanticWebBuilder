@@ -12,7 +12,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.ImageResizer;
@@ -62,6 +61,9 @@ public class UserProfile extends GenericAdmResource {
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
         
         final User user = paramRequest.getUser();
         
@@ -70,6 +72,8 @@ public class UserProfile extends GenericAdmResource {
             response.sendError(403);
             return;
         }
+        
+System.out.println("\n\n---UserProfile.................");
         
         final String lang = user.getLanguage();
         PrintWriter out = response.getWriter();
@@ -115,49 +119,45 @@ public class UserProfile extends GenericAdmResource {
         formMgr.setMode(SWBFormMgr.MODE_EDIT);
         formMgr.setLang(lang);
         SWBResourceURL url = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_EDIT);
-
-        toReturn.append("<div class=\"row\">");
-        toReturn.append("<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 swb-panel-contenido \">");
         toReturn.append("<div class=\"panel panel-default\">");
         toReturn.append("   <div class=\"panel-heading swb-panel-cabeza\">Perfil de Usuario</div>");
         toReturn.append("   <div class=\"panel-body swb-panel-cuerpo perfil-usuario\">");
         //////////////////////MUESTRA FORM PARA SUBIR FOTO//////////////////////////////////
-        //toReturn.append("<div id=\"frmUser\">");
          toReturn.append("       <div class=\"row\">");
         toReturn.append("           <div class=\"col-lg-5 col-md-5 col-sm-12 col-xs-12 perfil-persona\" id=\"frmUser\">");
         toReturn.append("               <div class=\"row\">");
-        toReturn.append("               <form id=\"formUserPhoto\" class=\"swbform\" action=\"" + urlPhoto + "\" method=\"post\">\n"); 
+        toReturn.append("               <form id=\"formUserPhoto\" class=\"swbform\" action=\"");
+        toReturn.append(urlPhoto).append("\" method=\"post\">\n"); 
         toReturn.append(                    formMgrPhoto.getFormHiddens());
         toReturn.append("                   <div id=\"Photo\" class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">");
-        //toReturn.append("<div  class=\"foto\">");
-        toReturn.append("                       <img src=\"" + img + "\" />");
+        toReturn.append("                       <img src=\"").append(img).append("\" >");
         Iterator<SemanticProperty> itUser = SWBComparator.sortSortableObject(formMgrPhoto.getProperties().iterator());
         while (itUser.hasNext()) {
             SemanticProperty prop1 = itUser.next();
             toReturn.append("<p>");
-            toReturn.append(
-                    formMgrPhoto.getFormElement(prop1).renderElement(
-                            request, user.getSemanticObject(), prop1,
-                            prop1.getName(), "dojo", SWBFormMgr.MODE_EDIT, lang).replace("label=\"Select File\"", "label=\"Cambiar foto\" class=\"btn btn-default btn-morado\""));
+            
+            String html = formMgrPhoto.getFormElement(prop1).renderElement(
+                    request, user.getSemanticObject(), prop1
+                    ,prop1.getName(), "dojo", SWBFormMgr.MODE_EDIT, lang);            
+            toReturn.append(html);
             toReturn.append("</p>");
         }
-        toReturn.append("                       <button class=\"btn btn-default btn-morado\" dojoType=\"dijit.form.Button\" type=\"submit\" name=\"enviarPhoto\" >");
+        toReturn.append("                       <button class=\"btn btn-default \" dojoType=\"dijit.form.Button\" type=\"submit\" name=\"enviarPhoto\" >\n");
         toReturn.append(paramRequest.getLocaleString("lbl_Save"));
-        toReturn.append("    <script type=\"dojo/on\" data-dojo-event=\"click\" data-dojo-args=\"evt\">");
+        toReturn.append("    <script type=\"dojo/on\" data-dojo-event=\"click\" data-dojo-args=\"evt\">\n");
         toReturn.append("require([\"dojo/dom\"], function(dom){");
         toReturn.append("    dom.byId(\"formUserPhoto\").submit();");
         toReturn.append("});");
-        toReturn.append("</script>");
+        toReturn.append("</script>\n");
         toReturn.append("                       </button>");
-    
         toReturn.append("                   </div>");
-        toReturn.append("                </form>\n"); //cierra form
-        toReturn.append("               </div>"); //cierra div row
-        toReturn.append("               <p></p>");
-        toReturn.append("               <div class=\"row\">");
-        toReturn.append("                   <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">");
-        toReturn.append("                       <p class=\"swb-bold\">" + user.getFullName() + "</p>");
-        toReturn.append("                       <p>" + user.getEmail() + "</p>");
+        toReturn.append("               </form>\n"); //cierra form
+        toReturn.append("              </div>"); //cierra div row
+        toReturn.append("              <p></p>");
+        toReturn.append("              <div class=\"row\">");
+        toReturn.append("                  <div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12\">\n");
+        toReturn.append("                      <p class=\"swb-bold\">" + user.getFullName() + "</p>\n");
+        toReturn.append("                      <p>" + user.getEmail() + "</p>\n");
         boolean canChangePw = Boolean.parseBoolean(base.getAttribute("canChangePassword", "false"));
         if (canChangePw) {
             SWBResourceURL urlChangePass = paramRequest.getRenderUrl().setMode(Mode_CHANGEPASSWORD);
@@ -215,7 +215,6 @@ public class UserProfile extends GenericAdmResource {
         toReturn.append("                   </div>");//cierra div col 12
         toReturn.append("                </div>"); //cierra div row
         toReturn.append("           </div>");// cierra div perfil-persona
-        //toReturn.append("       </div>");// primer row
 
        //////////////////////////MUESTRA FORM PARA DATOS DE CONTACTO DE TRABAJO////////////
         toReturn.append("<script type=\"text/javascript\">\n");
@@ -226,20 +225,21 @@ public class UserProfile extends GenericAdmResource {
         toReturn.append("           <form id=\"formContactWork\" class=\"swbform\" action=\"" + url + "\" method=\"post\" type=\"dijit.form.Form\">\n");        
         toReturn.append(formMgr.getFormHiddens());
 		toReturn.append("               <div class=\"row\">"); //abre div row
+        String fe;
         Iterator<SemanticProperty> it = SWBComparator.sortSortableObject(formMgr.getProperties().iterator());
         while (it.hasNext()) {
             SemanticProperty prop1 = it.next();
             
             toReturn.append("               <div class=\"col-xs-6\">");
             toReturn.append("                   <div class=\"form-group user-group\">");
-            toReturn.append("                       <label>");
             toReturn.append(formMgr.renderLabel(request, prop1, prop1.getName(), SWBFormMgr.MODE_VIEW));
-            toReturn.append("                       </label>\n");
-            toReturn.append(
-                    formMgr.getFormElement(prop1).renderElement(
+            fe = formMgr.getFormElement(prop1).renderElement(
                             request, cw.getSemanticObject(), prop1,
-                            prop1.getName(), "dojo", SWBFormMgr.MODE_EDIT, lang).replace("<input ", "<input class=\"form-control\" ").replace("<select ", "<select class=\"form-control\" ").replace("size=\"30\"", "").replace("style=\"width:300px;\"", ""));
-            
+                            prop1.getName(), "dojo", SWBFormMgr.MODE_EDIT, lang);
+            toReturn.append(fe.replace("<input ", "<input class=\"form-control\" ")
+                    .replace("<select ", "<select class=\"form-control\" ")
+                    .replace("size=\"30\"", "")
+                    .replace("style=\"width:300px;\"", ""));            
             toReturn.append("                   </div>\n");
             toReturn.append("                </div>\n");
         }
@@ -269,8 +269,6 @@ public class UserProfile extends GenericAdmResource {
         toReturn.append("           </div>\n"); //cierra div perfil contacto
         toReturn.append("       </div>");// primer row
         toReturn.append("   </div>"); // cierra div perfil usuario
-        toReturn.append("</div>");
-        toReturn.append("</div>");
         toReturn.append("</div>");
         out.println(toReturn.toString());
     }
@@ -331,9 +329,10 @@ public class UserProfile extends GenericAdmResource {
      */
     public void doChangePassword(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        response.setContentType("text/html; charset=UTF-8");
+        response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
+        
         PrintWriter out = response.getWriter();
         StringBuilder toReturn = new StringBuilder();
         SWBResourceURLImp url = new SWBResourceURLImp(request, getResourceBase(),
@@ -465,7 +464,7 @@ public class UserProfile extends GenericAdmResource {
         if (cw == null) {
             cw = ContactWork.ClassMgr.createContactWork(user.getId(), wsite);
         }
-        //SemanticObject usrUri = SemanticObject.createSemanticObject(user.getURI());
+        
         if (SWBResourceURL.Action_ADD.equalsIgnoreCase(action)) {
             SWBFormMgr formMgrPhoto = new SWBFormMgr(user.getSemanticObject(), null, SWBFormMgr.MODE_EDIT);
             formMgrPhoto.clearProperties();
@@ -525,7 +524,13 @@ public class UserProfile extends GenericAdmResource {
      * utilizada para recursos de SWB
      * @throws IOException Excepti&oacute;n de IO
      */
-    public void doViewStrategy(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doViewStrategy(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         User user = paramRequest.getUser();
         if (!user.isSigned()) {
             UserProfile.log.error("El usuario no esta logueado.");
@@ -546,9 +551,6 @@ public class UserProfile extends GenericAdmResource {
         
         PrintWriter out = response.getWriter();
         String title = paramRequest.getLocaleString("msgProfile");
-//        out.println("<a href=\"" + surl + "\" class=\"swbstgy-toolbar-profile\" title=\""+title+"\">");
-//        out.println(user.getFullName());
-//        out.println("</a>");
         out.println("<li>");
         out.println("<a href=\"" + surl + "\" class=\"swbstgy-toolbar-profile\" title=\"" + title + "\">");
         out.println(user.getFullName());
@@ -564,10 +566,5 @@ public class UserProfile extends GenericAdmResource {
         out.println(paramRequest.getLocaleString("lbl_myAccount"));
         out.println("<span class=\"glyphicon glyphicon-user\"></a>");
         out.println("</li>");
-        /*
-         <li><a href="">Carlos Ramos Inch?tegui</a></li>
-         <li class="dropdown-header">carlos.ramos@infotec.com.mx</li>
-         <li><a href="#">Mi cuenta <span class="glyphicon glyphicon-user"></span></a></li>
-         */
     }
 }
