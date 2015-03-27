@@ -1,10 +1,13 @@
 package org.semanticwb.bsc.formelement;
 
 import javax.servlet.http.HttpServletRequest;
+import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.bsc.element.BSCElement;
 import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Risk;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
@@ -45,54 +48,45 @@ public class RelatedElement extends org.semanticwb.bsc.formelement.base.RelatedE
             SemanticProperty prop, String propName, String type, String mode,
             String lang) {
         
-        String toReturn = null;
+        String toReturn;
         StringBuilder viewString = new StringBuilder(128);
-        
-//        switch (mode) {
-//            case "create":
-//            case "edit":
-//            case "inlineEdit":
-//            case "view":
-//            default:
-                
-                boolean showLink = false;
-                SemanticClass rangeClass = prop.getRangeClass();
-                
-                if (rangeClass.getRootClass().equals(BSCElement.bsc_BSCElement)) {
+        boolean showLink = false;
+        SemanticClass rangeClass = prop.getRangeClass();
+        if (rangeClass.getRootClass().equals(BSCElement.bsc_BSCElement)) {
+            showLink = true;
+        }else if (rangeClass.getRootClass().isSWBInterface()) {
+            SemanticObject value = obj.getObjectProperty(prop);
+            if (value != null) {
+                GenericObject generic = value.createGenericInstance();
+                if (generic instanceof Indicator) {
+                    rangeClass = Indicator.bsc_Indicator;
                     showLink = true;
-                } else if (rangeClass.getRootClass().isSWBInterface()) {
-                    SemanticObject value = obj.getObjectProperty(prop);
-                    if (value != null) {
-                        GenericObject generic = value.createGenericInstance();
-                        if (generic instanceof Indicator) {
-                            rangeClass = Indicator.bsc_Indicator;
-                            showLink = true;
-                        } else if (generic instanceof Risk) {
-                            rangeClass = Risk.bsc_Risk;
-                            showLink = true;
-                        }
-                    }
+                } else if (generic instanceof Risk) {
+                    rangeClass = Risk.bsc_Risk;
+                    showLink = true;
                 }
+            }
+        }
                 
-                if (prop.isObjectProperty()) {
-                    SemanticObject value = obj.getObjectProperty(prop);
-                    
-                    if (value != null) {
-                        if (showLink) {
-                            viewString.append("<a href=\"");
-                            viewString.append(rangeClass.getName());
-                            viewString.append("?suri=");
-                            viewString.append(value.getEncodedURI());
-                            viewString.append("\" >");
-                        }
-                        viewString.append(value.getDisplayName());
-                        if (showLink) {
-                            viewString.append("</a>");
-                        }
-                    }
+        if (prop.isObjectProperty()) {
+            SemanticObject value = obj.getObjectProperty(prop);
+            if(value!=null) {
+                if (showLink) {                            
+                    SWBModel model = (SWBModel)obj.getModel().getModelObject().getGenericInstance();
+                    String url = request.getScheme()+"://"+request.getServerName()+":"
+                            +request.getServerPort()+SWBPlatform.getContextPath()+"/"
+                            +lang+"/"+model.getId()+"/"+rangeClass.getName()
+                            +"?suri="+value.getEncodedURI();
+                    viewString.append("<a href=\"");
+                    viewString.append(url);
+                    viewString.append("\" >");
                 }
-            
-//        }
+                viewString.append(value.getDisplayName(lang));
+                if (showLink) {
+                    viewString.append("</a>");
+                }
+            }
+        }
         toReturn = viewString.toString();
         if (toReturn == null) {
             toReturn = "";
