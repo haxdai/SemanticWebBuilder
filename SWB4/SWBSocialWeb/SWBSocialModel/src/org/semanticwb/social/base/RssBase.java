@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Manejo de Rss en una marca 
    */
-public abstract class RssBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass
+public abstract class RssBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Tagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty social_dailyHour=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#dailyHour");
    /**

@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Fuente de Rss 
    */
-public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable
+public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable
 {
    /**
    * Url del rss
