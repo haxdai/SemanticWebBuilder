@@ -843,6 +843,26 @@
     >true</swb:autogenId>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
+  <owl:Class rdf:ID="Google">
+    <rdfs:label xml:lang="en">Google+ Account</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#PostOutMonitorable"/>
+    <rdfs:subClassOf rdf:resource="#Kloutable"/>
+    <rdfs:label xml:lang="es">Cuenta de Google+</rdfs:label>
+    <rdfs:subClassOf rdf:resource="#Oauthable"/>
+    <rdfs:subClassOf rdf:resource="#Photoable"/>
+    <rdfs:subClassOf rdf:resource="#Messageable"/>
+    <rdfs:subClassOf>
+      <swb:Interface rdf:ID="DeveloperKeyable">
+        <rdfs:comment>Propiedad Developer Key, para redes sociales de Google por el momento (youtube, google+, etc), sin embargo, despues podemos querer integrar alguna otra red social que pueda utilizar este campo.</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+      </swb:Interface>
+    </rdfs:subClassOf>
+    <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
+    <rdfs:subClassOf rdf:resource="#Videoable"/>
+    <rdfs:subClassOf rdf:resource="#SocialNetwork"/>
+    <rdfs:comment>Clase red social para Google+</rdfs:comment>
+  </owl:Class>
   <owl:Class rdf:about="#GeoCatalog">
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
@@ -938,13 +958,7 @@
     <rdfs:comment>Clase que almacenara las diferentes cuentas de una organización para la red social YouTube.</rdfs:comment>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
     <rdf:type rdf:resource="#NetworkType"/>
-    <rdfs:subClassOf>
-      <swb:Interface rdf:ID="DeveloperKeyable">
-        <rdfs:comment>Propiedad Developer Key, para redes sociales de Google por el momento (youtube, google+, etc), sin embargo, despues podemos querer integrar alguna otra red social que pueda utilizar este campo.</rdfs:comment>
-        <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
-        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
-      </swb:Interface>
-    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#DeveloperKeyable"/>
     <rdfs:subClassOf rdf:resource="#Messageable"/>
     <rdfs:subClassOf rdf:resource="#SocialNetwork"/>
     <rdfs:subClassOf rdf:resource="#Videoable"/>
@@ -2476,6 +2490,11 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </rdfs:domain>
+  </owl:DatatypeProperty>
+  <owl:DatatypeProperty rdf:ID="canPublish">
+    <rdfs:comment>Propiedad que indica si la instancia de facebook tiene permiso para publicar. Este permiso es solicitado a facebook en el momento de la autenticación vía oAuth.</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+    <rdfs:domain rdf:resource="#Facebook"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="po_publishDate">
     <rdfs:comment>Fecha en que se publica el PostOut, o por lo menos intenta publicarse (ya que talvez marque error).</rdfs:comment>
