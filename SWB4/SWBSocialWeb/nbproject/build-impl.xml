@@ -1048,8 +1048,6 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.SWBTripleStoreLevelDB.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.SWBTripleStore.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${file.reference.commons-validator-1.4.0.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.guava-16.0.1.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${file.reference.hadoop-common-2.3.0.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.SWBBase.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.SWBModel.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.SWBPlatform.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
@@ -1073,8 +1071,6 @@ exists or setup the property manually. For example like this:
         <copyfiles files="${reference.SWBTripleStoreLevelDB.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.SWBTripleStore.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${file.reference.commons-validator-1.4.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.guava-16.0.1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${file.reference.hadoop-common-2.3.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.SWBBase.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.SWBModel.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.SWBPlatform.jar}" todir="${build.web.dir}/WEB-INF/lib"/>

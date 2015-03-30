@@ -64,7 +64,7 @@
 <%
     try
     {
-        WebSite site=SWBContext.getWebSite("Jore");
+        WebSite site=SWBContext.getWebSite("marca1");
         System.out.println("Jsp-1:"+site+",query:"+query+"////FIN..");
         long time=System.currentTimeMillis();
         QueryExecution qe=new SWBQueryExecution(site.getSemanticModel().getRDFModel(), query);
