@@ -26,7 +26,8 @@
 
 <!-- Core files -->
 <script src="/swbadmin/js/jquery/jquery.alerts.mod.js" type="text/javascript"></script>
-<link href="/swbadmin/js/jquery/" rel="stylesheet" type="text/css" media="screen" />
+<!--link href="/swbadmin/js/jquery/" rel="stylesheet" type="text/css" media="screen" /-->
+<link href="/swbadmin/js/jquery/jquery.alerts.css" rel="stylesheet" type="text/css" />
 <style>
     #chart {
               height: 100%;
