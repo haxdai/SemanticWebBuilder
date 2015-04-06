@@ -326,7 +326,7 @@ public class AdmDBConnMgr {
                             if (i != -1) {
                                 filename = filename.substring(i + 1);
                             }
-
+                            filename=SWBUtils.TEXT.replaceSpecialCharacters(filename,'.',true);
                             child = dom.createElement(paramN);
                             child.appendChild(dom.createTextNode(filename.trim()));
                             root.appendChild(child);
