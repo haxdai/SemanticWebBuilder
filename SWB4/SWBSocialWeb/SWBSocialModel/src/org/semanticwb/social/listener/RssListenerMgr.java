@@ -202,7 +202,7 @@ public class RssListenerMgr {
                                 //System.out.println("Entra a RssListenerTask/run-7:"+comNew);
                                 Date pubDate=null;
                                 if(comNew.getPubDate()!=null && comNew.getPubDate().trim().length()>0) pubDate=new Date(comNew.getPubDate());
-                                if(pubDate.after(rssLastUpdate))
+                                if(pubDate!=null && pubDate.after(rssLastUpdate))
                                 {
                                     if(maxdateTmp==null || pubDate.after(maxdateTmp)) maxdateTmp=pubDate;
                                     //System.out.println("Entra a RssListenerTask/run-8:"+maxdateTmp);
