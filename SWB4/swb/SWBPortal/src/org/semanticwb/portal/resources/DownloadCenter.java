@@ -184,7 +184,9 @@ public class DownloadCenter extends GenericResource
                             int intPos = filename.lastIndexOf(".");
                             if (intPos != -1)
                             {
-                                filename = SWBUtils.TEXT.replaceSpecialCharactersForFile(filename.substring(0, intPos), ' ', true) + filename.substring(intPos);
+                                String tempFile=SWBUtils.TEXT.replaceSpecialCharactersForFile(filename.substring(0, intPos), ' ', true) ;
+                                tempFile=SWBUtils.TEXT.replaceSpecialCharacters(tempFile,'.',true);
+                                filename = tempFile+ filename.substring(intPos);
                             }
                             if (filename != null && !filename.trim().equals(""))
                             {
