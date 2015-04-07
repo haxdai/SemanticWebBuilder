@@ -52,7 +52,7 @@ public class SendEmail extends org.semanticwb.social.base.SendEmailBase
             if(sendEmail.getEmail()!=null && sendEmail.getActionMsg_Text()!=null)
             {
                 String message=SWBSocialUtil.Util.replaceTags(sendEmail.getActionMsg_Text(), postIn, stream.getSocialSite(), stream, socialNetwork);
-                SWBUtils.EMAIL.sendBGEmail(sendEmail.getEmail(), "Acción - Mensaje de entrada", message);
+                SWBUtils.EMAIL.sendBGEmail(sendEmail.getEmail().trim(), "Acción - Mensaje de entrada", message);
             }
         }catch(Exception e)
         {
