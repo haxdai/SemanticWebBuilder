@@ -236,6 +236,19 @@ public class SWB4GenericLDAPBridge extends ExtUserRepInt
      */
     private boolean AuthenticateLP(String login, Object credential)
     {
+        if (credential == null || credential.toString().trim().equals(""))
+        {
+            log.error("credential: " + credential + " login: " + login);
+
+            return false;
+        }
+        if (credential instanceof char[])
+        {
+            if (((char[]) credential).length == 0)
+            {
+                return false;
+            }
+        }
         Hashtable env = new Hashtable();
         env.put(Context.INITIAL_CONTEXT_FACTORY,
                 props.getProperty("factory", "com.sun.jndi.ldap.LdapCtxFactory"));
