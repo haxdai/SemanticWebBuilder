@@ -91,10 +91,12 @@ public class SWBAAdminSearch extends GenericAdmResource {
         out.println("<select name=\"wsid\" id=\"wsid" + getResourceBase().getId() + "\">");
         String selectws = "";
 
+        HashMap<String,WebSite> hmws = new HashMap();
         Iterator<WebSite> itws = WebSite.ClassMgr.listWebSites();
         while (itws.hasNext()) {
             WebSite webSite = itws.next();
-            if (webSite.isValid()) {
+            
+            if (webSite.isValid()&&null==hmws.get(webSite.getShortURI())) {
                 selectws = "";
                 if (wsid != null && wsid.equals(webSite.getId())) {
                     selectws = "selected";
@@ -102,8 +104,10 @@ public class SWBAAdminSearch extends GenericAdmResource {
                 out.println("<option value=\"" + webSite.getId() + "\" " + selectws + " >");
                 out.println(webSite.getId());
                 out.println("</option>");
+                hmws.put(webSite.getShortURI(), webSite);
             }
         }
+        
         Iterator<SemanticClass> itsc = WebSite.sclass.listSubClasses();
         while (itsc.hasNext()) {
             SemanticClass semanticClass = itsc.next();
@@ -112,7 +116,7 @@ public class SWBAAdminSearch extends GenericAdmResource {
                 SemanticObject semanticObject = itso.next();
                 if (semanticObject.createGenericInstance() instanceof WebSite) {
                     WebSite webSite = (WebSite) semanticObject.createGenericInstance();
-                    if (webSite.isValid()&&!webSite.getId().equals(SWBContext.WEBSITE_ADMIN)&&!webSite.getId().equals(SWBContext.WEBSITE_GLOBAL)&&!webSite.getId().equals(SWBContext.WEBSITE_ONTEDITOR)) {
+                    if (null==hmws.get(webSite.getShortURI())&&webSite.isValid()&&!webSite.getId().equals(SWBContext.WEBSITE_ADMIN)&&!webSite.getId().equals(SWBContext.WEBSITE_GLOBAL)&&!webSite.getId().equals(SWBContext.WEBSITE_ONTEDITOR)) {
                         selectws = "";
                         if (wsid != null && wsid.equals(webSite.getId())) {
                             selectws = "selected";
@@ -120,6 +124,7 @@ public class SWBAAdminSearch extends GenericAdmResource {
                         out.println("<option value=\"" + webSite.getId() + "\" " + selectws + " >");
                         out.println(webSite.getId());
                         out.println("</option>");
+                        hmws.put(webSite.getShortURI(), webSite);
                     }
                 }
             }
