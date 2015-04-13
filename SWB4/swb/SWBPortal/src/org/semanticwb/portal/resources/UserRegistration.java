@@ -40,6 +40,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.DisplayProperty;
 import org.semanticwb.model.FormElement;
+import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.GenericFormElement;
 import org.semanticwb.model.PropertyGroup;
 import org.semanticwb.model.SWBComparator;
@@ -380,18 +381,24 @@ public class UserRegistration extends GenericAdmResource
                     //TODO report Error, Loging Already Exists!
                     return;
                 }
-                User newUser = userRep.createUser();
-                newUser.setLogin(usrLogin);
-                subject.getPrincipals().clear();
-                subject.getPrincipals().add(newUser);
-                newUser.setLanguage(user.getLanguage());
-                newUser.setIp(user.getIp());
-                newUser.setActive(true);
-                newUser.setDevice(user.getDevice());
+                try {
+                    SWBFormMgr fm = new SWBFormMgr(User.sclass, null, "web");
+                    fm.validateElement(request, User.swb_usrPassword);
+                    User newUser = userRep.createUser();
+                    newUser.setLogin(usrLogin);
+                    subject.getPrincipals().clear();
+                    subject.getPrincipals().add(newUser);
+                    newUser.setLanguage(user.getLanguage());
+                    newUser.setIp(user.getIp());
+                    newUser.setActive(true);
+                    newUser.setDevice(user.getDevice());
 //                System.out.println("*************** "+newUser.isActive());
-                user = newUser;
-                newflg = true;
-                SWBContext.setSessionUser(newUser);
+                    user = newUser;
+                    newflg = true;
+                    SWBContext.setSessionUser(newUser);
+                } catch (FormValidateException fve){
+                    throw new SWBResourceException("Creating User", fve);
+                }
 //                System.out.println("*************** "+user.isActive());
             } else
             {
