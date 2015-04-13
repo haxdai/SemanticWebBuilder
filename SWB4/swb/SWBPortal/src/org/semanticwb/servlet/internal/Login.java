@@ -872,7 +872,7 @@ public class Login implements InternalServlet
     {
         String ruta = "/config/password.html";
         String login = null;
-        String repo = user.getUserRepository().getId();
+        String repo = (user.getUserRepository()!=null)?user.getUserRepository().getId():distributorParams.getWebPage().getWebSite().getUserRepository().getId();
         try
         {
 
