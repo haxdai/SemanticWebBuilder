@@ -174,12 +174,14 @@ public class MeasuresManager extends GenericAdmResource {
                 disabled = "";
             }
             
+            Measure measure;
+            String value, iconClass, statusTitle, title;
             Period period;
             SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);            
             while(measurablesPeriods.hasNext())
             {
                 period = measurablesPeriods.next();
-                Measure measure = series.getMeasure(period);
+                measure = series.getMeasure(period);
                 if(measure == null) {
                     measure = Measure.ClassMgr.createMeasure(period.getBSC());
                     series.addMeasure(measure);
@@ -195,8 +197,8 @@ public class MeasuresManager extends GenericAdmResource {
                         measure.getEvaluation().removeStatus();
                     }
                 }
-                String value = Float.isNaN(measure.getValue())?"":formatter.format(measure.getValue());
-                String iconClass, statusTitle;
+                value = Float.isNaN(measure.getValue())?"":formatter.format(measure.getValue());
+                //String iconClass, statusTitle;
                 try {
                     statusTitle = measure.getEvaluation().getStatus().getTitle(user.getLanguage())==null?measure.getEvaluation().getStatus().getTitle():measure.getEvaluation().getStatus().getTitle(user.getLanguage());
                     try {
@@ -209,7 +211,7 @@ public class MeasuresManager extends GenericAdmResource {
                     iconClass = "swbstrgy-unknown";
                 }
 
-                String title = period.getTitle(user.getLanguage()) == null ? period.getTitle() : period.getTitle(user.getLanguage());
+                title = period.getTitle(user.getLanguage()) == null ? period.getTitle() : period.getTitle(user.getLanguage());
                 title = title.replaceAll("'", "");
                 out.println("<tr>");
 
@@ -237,7 +239,7 @@ public class MeasuresManager extends GenericAdmResource {
                 out.println("</td>");
 
                 // Estatus
-                out.println("<td><span class=\""+iconClass+"\">&nbsp;</span><span>"+statusTitle+"</span></td>");
+                out.println("<td><span class=\"swbstrgy-semaphore "+iconClass+"\">&nbsp;</span><span>"+statusTitle+"</span></td>");
                 out.println("</tr>");
             }
             out.println(" </tbody>");
