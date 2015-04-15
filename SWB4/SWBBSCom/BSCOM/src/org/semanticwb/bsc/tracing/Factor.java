@@ -193,4 +193,9 @@ public class Factor extends org.semanticwb.bsc.tracing.base.FactorBase {
         }
         return controls.iterator();
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getRisk().isValid();
+    }
 }

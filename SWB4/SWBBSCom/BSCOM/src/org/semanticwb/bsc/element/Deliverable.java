@@ -324,4 +324,9 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
     public Period getNextPeriod() {
         return null;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getInitiative().isValid();
+    }
 }

@@ -228,7 +228,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             JSONObject row = new JSONObject();
             StringBuilder status = new StringBuilder();
-            status.append("<span class=\"").append(d.getStatusIconClass(thisPeriod)).append("\"></span> ");
+            status.append("<span class=\"swbstrgy-semaphore ").append(d.getStatusIconClass(thisPeriod)).append("\"></span> ");
             title = d.getStatusTitle(thisPeriod);
             status.append(title.isEmpty()?"--":title);
             try {
@@ -336,8 +336,8 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("      data : structure\n");
         output.append("    });\n");
         output.append("    myGrid = new dojox.grid.DataGrid({\n");
-output.append("columnReordering: true,\n");
-output.append("escapeHTMLInData: true,\n");
+        output.append("      columnReordering: true,\n");
+        output.append("      escapeHTMLInData: true,\n");
         output.append("      store: myStore,\n");
         output.append("      structure: [\n");
         // Coloca cada columna en la estructura del grid

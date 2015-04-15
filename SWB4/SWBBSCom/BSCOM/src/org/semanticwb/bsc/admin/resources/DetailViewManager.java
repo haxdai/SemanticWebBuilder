@@ -757,7 +757,7 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
             String periodId = request.getSession().getAttribute(modelName) != null
                     ? (String) request.getSession().getAttribute(modelName)
                     : null;
-            String statusStyleClass = "swbstrgy-undefined";
+            String statusStyleClass;
 //            String secondStatusStyleClass = null;
             //Si no hay sesión, la petición puede ser directa (una liga en un correo). Crear sesión y atributo:
             if (periodId == null) {
@@ -779,7 +779,7 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
             //        - Se agrega el &iacte;cono al encabezado y el t&iacte;tulo del objeto semObj
             html.append("<!-- .....Aqui va el iconclass.............. -->").append("\n");
             html.append("<h4>");
-            html.append("<span class=\"");
+            html.append("<span class=\"swbstrgy-semaphore ");
             html.append(statusStyleClass);
             html.append("\"></span>");
 

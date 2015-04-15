@@ -163,4 +163,9 @@ public class Series extends org.semanticwb.bsc.tracing.base.SeriesBase implement
         }
         return index;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getSm().isValid();
+    }
 }

@@ -60,4 +60,9 @@ public class Differentiator extends org.semanticwb.bsc.accessory.base.Differenti
         }
         return index;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getDifferentiatorGroup().isValid();
+    }
 }
