@@ -133,4 +133,9 @@ public class Agreement extends org.semanticwb.bsc.element.base.AgreementBase {
     public String getStatusTitle(Period period) {
         return "";
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getMeeting().isValid();
+    }
 }

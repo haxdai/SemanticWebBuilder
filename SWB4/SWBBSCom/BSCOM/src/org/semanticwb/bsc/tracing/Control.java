@@ -140,4 +140,9 @@ public class Control extends org.semanticwb.bsc.tracing.base.ControlBase {
         }
         return result;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getFactor().isValid();
+    }
 }

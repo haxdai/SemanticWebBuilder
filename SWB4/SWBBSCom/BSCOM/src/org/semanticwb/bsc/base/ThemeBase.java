@@ -4,7 +4,7 @@ package org.semanticwb.bsc.base;
    /**
    * Los temas estratégicos agrupan objetivos con fines en común. A su vez, los temas están agrupados dentro de las perspectivas. 
    */
-public abstract class ThemeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Traceable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Causal,org.semanticwb.bsc.Help
+public abstract class ThemeBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Referensable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Causal,org.semanticwb.model.Traceable,org.semanticwb.model.Hiddenable,org.semanticwb.model.FilterableClass
 {
    /**
    * Define las características de un Objetivo estratégico.

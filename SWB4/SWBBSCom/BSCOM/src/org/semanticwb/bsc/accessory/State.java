@@ -62,4 +62,9 @@ public class State extends org.semanticwb.bsc.accessory.base.StateBase implement
         }
         return index;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getStateGroup().isValid();
+    }
 }

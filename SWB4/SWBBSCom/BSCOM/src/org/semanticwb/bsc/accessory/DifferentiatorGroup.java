@@ -34,4 +34,9 @@ public class DifferentiatorGroup extends org.semanticwb.bsc.accessory.base.Diffe
                                                                     });
         return validDiffs;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getPerspective().isValid();
+    }
 }
