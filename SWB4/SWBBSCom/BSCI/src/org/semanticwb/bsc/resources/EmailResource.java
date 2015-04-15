@@ -288,8 +288,8 @@ public class EmailResource extends GenericResource {
         out.println("    alert('"+paramRequest.getLocaleString("msg_UnspecifiedRecipient")+"');");
         out.println("    return false;");
         out.println("  }");
-        out.println("  txt = txt.substring(0,txt.lastIndexOf(';'));");
-        out.println("  isValid = txt.split(';').every(isEmail);");
+        //out.println("  txt = txt.substring(0,txt.lastIndexOf(';'));");
+        out.println("  isValid = txt.split(',|;',0).every(isEmail);");
         out.println("  if( !isValid ) {");
         out.println("    alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized") +"');");
         out.println("    return false;");
@@ -297,8 +297,8 @@ public class EmailResource extends GenericResource {
         // Cc
         out.println("  txt = dojo.byId('ccText').value");
         out.println("  if( !isEmpty(txt) ) {");
-        out.println("    txt = txt.substring(0,txt.lastIndexOf(';'));");
-        out.println("    isValid = txt.split(';').every(isEmail);");
+        //out.println("    txt = txt.substring(0,txt.lastIndexOf(';'));");
+        out.println("    isValid = txt.split(',|;').every(isEmail);");
         out.println("    if( !isValid ) {");
         out.println("      alert('"+paramRequest.getLocaleString("msg_EmailAddressNotRecognized")+"');");
         out.println("      return false;");
@@ -493,7 +493,7 @@ public class EmailResource extends GenericResource {
             return null;
         }
         List<String> list = null;
-        String[] mails = accounts.split(";",0);
+        String[] mails = accounts.split(",|;",0);
         if(mails.length > 0) {            
             for (String account : mails) {
                 if (SWBUtils.EMAIL.isValidEmailAddress(account)) {

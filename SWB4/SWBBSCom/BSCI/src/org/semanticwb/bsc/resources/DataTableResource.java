@@ -143,13 +143,17 @@ out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>
                     state = sm.getMinimumState();
                     star.getMeasure(period).getEvaluation().setStatus(state);
                 }
-//                if(state==null) {
-//                    out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
-//                }
-//                else {
+                /*
+                    Es posible que la siguiente condición sea verdadera,
+                    principalmente si se desactiva el grupo de semáforos o algún
+                    semáforo(estado) vinculado con la instancia SM.
+                */
+                if(state==null) {
+                    out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
+                }else {
                     String title = state.getTitle(lang)==null?state.getTitle():state.getTitle(lang);
                     out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+title+"</span>");
-//                }
+                }
             }else {
                 out.println("Not set");
             }
