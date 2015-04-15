@@ -368,4 +368,9 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         }
         return title;
     }
+
+    @Override
+    public boolean isValid() {
+        return super.isValid() && getObjective().isValid();
+    }
 }
