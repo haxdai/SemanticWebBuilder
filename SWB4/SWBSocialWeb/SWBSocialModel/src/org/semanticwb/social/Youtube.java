@@ -37,11 +37,12 @@ package org.semanticwb.social;
  import com.google.api.services.youtube.model.SearchResult;
  import com.google.api.services.youtube.model.SearchResultSnippet;
  */
-import com.google.gdata.client.youtube.YouTubeService;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -85,7 +86,6 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.io.SWBFile;
-import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.WebPage;
@@ -100,16 +100,30 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+
 public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
+    
     private static Logger log = SWBUtils.getLogger(Youtube.class);
-    //private Date lastVideoID;
+    
     static String UPLOAD_URL = "http://uploads.gdata.youtube.com/feeds/api/users/default/uploads";
+    
     static String BASE_VIDEO_URL = "http://www.youtube.com/v/";
 
+    final public static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95";
+
+    final public static String HOST = "www.googleapis.com";
+    
+    /**
+     * URL al que se pueden hacer peticiones a Youtube para ejecutar recursos del API
+     * [{@literal https://www.googleapis.com/youtube/v3}]
+     */
+    final public static String API_URL = "https://www.googleapis.com/youtube/v3";
+    
     public Youtube(org.semanticwb.platform.SemanticObject base) {
         super(base);
     }  
+    
     static {
         Youtube.social_Youtube.registerObserver(new SocialNetSemanticObserver());
     }
@@ -262,6 +276,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         String url1 = UPLOAD_URL;
         URL url;
         HttpURLConnection conn = null;
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append("postVideo():\n");
+        
         try {
             url = new URL(url1);
             conn = (HttpURLConnection) url.openConnection();
@@ -278,6 +295,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             conn.setRequestProperty("Content-Type", "multipart/related; boundary=\"" + boundary + "\"");
             //conn.setRequestProperty("Content-Length", getLength());
             conn.setRequestProperty("Connection", "close");
+            
+            toFile.append(conn.getURL() + "\n");
+            toFile.append("AccessToken: " + this.getAccessToken());
+            toFile.append("Key: " + this.getDeveloperKey());
             DataOutputStream writer = new DataOutputStream(conn.getOutputStream());
             writer.write(("\r\n--" + boundary + "\r\n").getBytes());
             writer.write("Content-Type: application/atom+xml; charset=UTF-8\r\n\r\n".getBytes());
@@ -335,6 +356,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                videoInfo.append(line);
             }
             line = videoInfo.toString();
+            toFile.append(line);
+            toFile.append("\n");
             String videoId = line.substring(line.indexOf("<yt:videoid>"), line.lastIndexOf("</yt:videoid>"));
             videoId = videoId.replace("<yt:videoid>", "");
             //System.out.println("videoId..." + videoId);
@@ -367,7 +390,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
          {
             
          }*/
-
+        Youtube.write2File(toFile);
     }
 
     /*
@@ -383,37 +406,45 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     }
 */
 
+    /**
+     * Ejecuta una peticion a la url indicada cuyo queryString se compone de los 
+     * elementos recibidos en {@code params}
+     * @param params los parametros para formar el queryString de la peticion con sus correspondientes valores
+     * @param url ubicacion de Internet a la que se realiza la peticion
+     * @param userAgent el user agent desde el que se realiza la peticion
+     * @param method metodo solicitado para ejecutar la peticion
+     * @return un {@code String} con la respuesta obtenida por la ejecucion de la peticion
+     * @throws IOException en caso de algun problema con la ejecucion de la peticion
+     */
     public String getRequest(Map<String, String> params, String url,
             String userAgent, String method) throws IOException {
 
-        CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
+        CharSequence paramString = (null == params)
+                                   ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = null;
+        String userAgent2Use = userAgent != null ? userAgent : Youtube.USER_AGENT;
+        
         if (params != null) {
             serverUrl = new URL(url + "?" + paramString);
-            /*
-            if(url.equals("https://gdata.youtube.com/feeds/api/videos")){
-            //System.out.println("LA URL DE BUSQUEDA:" + serverUrl);
-            }*/
         } else {
             serverUrl = new URL(url);
         }
 
         HttpURLConnection conex = null;
-        OutputStream out = null;
         InputStream in = null;
         String response = null;
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" + paramString);
+        toFile.append("\n");
 
         if (method == null) {
             method = "POST";
         }
         try {
             conex = (HttpURLConnection) serverUrl.openConnection();
-            if (userAgent != null) {
-                conex.setRequestProperty("user-agent", userAgent);
-            }
-
-
-
+            conex.setRequestProperty("Host", Youtube.HOST);
+            //conex.setRequestProperty("user-agent", userAgent2Use);
+            conex.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
             conex.setConnectTimeout(30000);
             conex.setReadTimeout(60000);
             conex.setRequestMethod(method);
@@ -424,11 +455,11 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             response = getResponse(in);
 
         } catch (java.io.IOException ioe) {
-            /*if (conex.getResponseCode() >= 400) {
-                System.out.println("ERROR:" + getResponse(conex.getErrorStream()));                
-            }*/
-            log.error("ERROR in getRequest:" + getResponse(conex.getErrorStream()), ioe);
-            //ioe.printStackTrace();
+            if (conex != null) {
+                Youtube.log.error("ERROR in getRequest:" + getResponse(conex.getErrorStream()), ioe);
+            } else {
+                Youtube.log.error("ERROR in getRequest", ioe); 
+            }
         } finally {
             close(in);
             if (conex != null) {
@@ -438,6 +469,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         if (response == null) {
             response = "";
         }
+        toFile.append(response);
+        toFile.append("\n");
+        Youtube.write2File(toFile);
         return response;
     }
 
@@ -505,7 +539,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         }
     }
 
-    private String postRequest(Map<String, String> params, String url,
+    public String postRequest(Map<String, String> params, String url,
             String userAgent, String method) throws IOException {
 
         URL serverUrl = new URL(url);
@@ -515,6 +549,11 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         OutputStream out = null;
         InputStream in = null;
         String response = null;
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url);
+        toFile.append("?");
+        toFile.append(paramString);
+        toFile.append("\n");
 
         if (method == null) {
             method = "POST";
@@ -524,6 +563,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             if (userAgent != null) {
                 conex.setRequestProperty("user-agent", userAgent);
             }
+            conex.setRequestProperty("Host", Youtube.HOST);
+            conex.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
             conex.setConnectTimeout(30000);
             conex.setReadTimeout(60000);
             conex.setRequestMethod(method);
@@ -535,7 +576,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             response = getResponse(in);
         } catch (java.io.IOException ioe) {
             //ioe.printStackTrace();
-            log.error("ERROR in postRequest:" + getResponse(conex.getErrorStream()), ioe);
+            Youtube.log.error("ERROR in postRequest:" + getResponse(conex.getErrorStream()), ioe);
         } finally {
             close(in);
             close(out);
@@ -546,6 +587,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         if (response == null) {
             response = "";
         }
+        toFile.append(response);
+        Youtube.write2File(toFile);
         return response;
     }
 
@@ -556,7 +599,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         PrintWriter out = response.getWriter();
         String clientId = getAppKey();
         String clientSecret = getSecretKey();
-        String developerKey = getDeveloperKey();
+        //String developerKey = getDeveloperKey();
         String uri = getRedirectUrl(request, paramRequest);
         //YouTube no permite enviarle una url dinamica por lo cual se envia a un jsp y nuevamnete se redirecciona
         //String uriTemp = "http://localhost:8080/work/models/SWBAdmin/jsp/oauth/callback.jsp";
@@ -567,8 +610,15 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
 
         if (code == null) {
+            //https://gdata.youtube.com+
+            //https://www.googleapis.com/auth/userinfo.email+
+            //https://www.googleapis.com/auth/userinfo.profile
+            
             out.println("<script type=\"text/javascript\">");
-            out.println("   location.href='"+ "https://accounts.google.com/o/oauth2/auth?client_id=" + clientId + "&redirect_uri=" + uriTemp + "&response_type=code&scope=https://gdata.youtube.com+https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&access_type=offline&state=/profile&approval_prompt=force"+"'");
+            out.println("   location.href='"+ "https://accounts.google.com/o/oauth2/auth?client_id=" +
+                    clientId + "&redirect_uri=" + uriTemp +
+                    "&response_type=code&scope=https://www.googleapis.com/auth/youtube+https://www.googleapis.com/auth/youtube.readonly+https://www.googleapis.com/auth/youtube.upload+https://www.googleapis.com/auth/youtube.force-ssl" +
+                    "&access_type=offline&state=/profile'");
             out.println("</script>");
         } else {
             Map<String, String> params = new HashMap<String, String>();
@@ -579,7 +629,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             params.put("grant_type", "authorization_code");
             //params.put("access_type", "offline");
             try {
-                String res = postRequest(params, "https://accounts.google.com/o/oauth2/token", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                //"https://accounts.google.com/o/oauth2/token"
+                String res = postRequest(params, "https://accounts.google.com/o/oauth2/token", Youtube.USER_AGENT, "POST");
                 //System.out.println("respuesta" + res);
 
                 JSONObject userData = new JSONObject(res);
@@ -590,10 +641,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     refresh_token = userData.getString("refresh_token");
                 }
 
-                setAccessToken(tokenAccess);
-                setAccessTokenSecret(refresh_token);
+                this.setAccessToken(tokenAccess);
+                this.setAccessTokenSecret(refresh_token);
                 if (!refresh_token.isEmpty()) {
-                    setRefreshToken(refresh_token);
+                    this.setRefreshToken(refresh_token);
                 } else {//Si ya no viene el refresh token entonces hay que validar si esa cuenta ya esta dada de alta
                     //en social. Se puede ver a quien pertenece un token usando el endpoint 'tokeninfo'
                 }
@@ -606,8 +657,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 * */
 
             } catch (Exception ex) {
-                //System.out.println("Error en la autenticacion: " + ex);
-                log.error(ex);
+                System.out.println("Error en la autenticacion: " + ex);
+                Youtube.log.error(ex);
             } finally {
                 out.println("<script type=\"text/javascript\">");
                 out.println("try{" +
@@ -1270,6 +1321,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
     @Override
     public void postMsg(Message message) {
+        
+        StringBuilder toFile = new StringBuilder(128);
+        
         if(!isSn_authenticated() || getAccessToken() == null ){
             log.error("Not authenticated network: " + getTitle() + ". Unable to post Comment");
             return;
@@ -1312,6 +1366,17 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     conn.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
                     conn.setRequestProperty("GData-Version", "2");
                     conn.setRequestProperty("X-GData-Key", "key=" + this.getDeveloperKey());
+                    toFile.append(urlComment);
+                    toFile.append("\n");
+                    
+                    Iterator<String> it = conn.getRequestProperties().keySet().iterator();
+                    while (it.hasNext()) {
+                        String key = it.next();
+                        toFile.append(key);
+                        toFile.append(": ");
+                        toFile.append(conn.getRequestProperties().get(key));
+                        toFile.append("\n");
+                    }
 
                     DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
                     String xml = "<?xml version=\"1.0\"?>"
@@ -1351,6 +1416,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                             }
                         }
                     }
+                    toFile.append(conn.getResponseMessage());
+                    Youtube.write2File(toFile);
                 }catch(Exception ex){                    
                     SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, null, ex.getMessage());
                     log.error("Problem posting comment ", ex);
@@ -1471,6 +1538,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = new URL(url + "?" +  paramString);       
         //System.out.println("URL:" +  serverUrl);
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" +  paramString);
         
         HttpURLConnection conex = null;
         InputStream in = null;
@@ -1509,6 +1578,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         if (response == null) {
             response = "";
         }
+        toFile.append("\n");
+        toFile.append(response);
+        Youtube.write2File(toFile);
         return response;
     }
     
@@ -1668,6 +1740,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     @Override
     public boolean removePostOutfromSocialNet(PostOut postOut, SocialNetwork socialNet) {
         boolean removed = false;
+        StringBuilder toFile = new StringBuilder(128);
         try {                        
             Iterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
             while(ponets.hasNext()){
@@ -1681,6 +1754,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                             HttpURLConnection conn = null;
                             try {
                                 url = new URL(urlVideo);
+                                toFile.append(urlVideo);
+                                toFile.append("\nDELETE");
                                 conn = (HttpURLConnection) url.openConnection();
                                 conn.setDoInput(true);
                                 conn.setDoOutput(true);
@@ -1696,8 +1771,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                                 //BufferedReader readerl = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                                 //String docxml = readerl.readLine();
                                 //System.out.println("Video Borrado:" + docxml);
-                                
-                                
+                                toFile.append(conn.getResponseMessage());
+                                toFile.append("\n");
                                 removed = true;
                             }catch(Exception ex){
                                 log.error("ERROR deleting video", ex);
@@ -1840,5 +1915,21 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         
         //System.out.println("Youtube Final String-->" + parsedPhrases + "<-");        
         return parsedPhrases;
+    }
+    
+    /**
+     * Escribe en un archivo el contenido de {@code toFile}
+     * @param toFile el contenido a ser agregado en el archivo
+     */
+    public static void write2File(StringBuilder toFile) {
+        
+        File file = new File("D:\\lacarpeta\\sistemas\\documentos\\Social\\docs\\youtube\\APIv2.txt");
+        try {
+            FileWriter writer = new FileWriter(file);
+            writer.write(toFile.toString());
+            writer.write("\n");
+        } catch (IOException ioe) {
+            Youtube.log.error("Al abrir el archivo", ioe);
+        }
     }
 }
