@@ -215,8 +215,8 @@ public class SWBProcessMgr
     
     private static boolean haveAccess(FlowNode node, User user)
     {
-        boolean add=false;                    
-        if(user.haveAccess(node))
+        boolean add=false;
+        if(user.isValid() && user.haveAccess(node))
         {
             add=true;                    
             GraphicalElement parent=node.getParent();
@@ -247,7 +247,9 @@ public class SWBProcessMgr
                 while (it.hasNext())
                 {
                     User user = it.next();
-                    if(haveAccess(node, user))arr.add(user);
+                    if (user.isValid() && haveAccess(node, user)) { 
+                        arr.add(user);
+                    }
                 }
             }
         }else
@@ -256,7 +258,9 @@ public class SWBProcessMgr
             while (it.hasNext())
             {
                 User user = it.next();
-                if(haveAccess(node, user))arr.add(user);
+                if(user.isValid() && haveAccess(node, user)) {
+                    arr.add(user);
+                }
             }
         }
         return arr;
