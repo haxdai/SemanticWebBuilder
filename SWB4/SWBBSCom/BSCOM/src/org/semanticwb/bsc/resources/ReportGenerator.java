@@ -603,6 +603,8 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         ArrayList<SemanticObject> results = this.processReport(criteria, paramRequest);
         int itemsCount = 0;
         int titleIndex = -1;
+        
+        final String lang = paramRequest.getUser().getLanguage();
 
         //Comentada para que en formelement.TextField se obtenga el Id desde el objeto semantico
         //request.setAttribute("websiteId", paramRequest.getWebPage().getWebSiteId());
@@ -637,13 +639,15 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         }
         output.append("</div>");
 
-
-        output.append("<table border=\"1\">\n");
-        output.append("  </tr>\n");
+        
+        //output.append("<div class=\"table-responsive\">");
+        output.append("<table class=\"table table-striped table-bordered\">\n");
+//encabezado        
+        output.append(" <thead>\n");
         output.append("  <tr>\n");
         for (SemanticProperty prop : criteria.getProps2Show()) {
             output.append("    <th class=\"swb-report-header\">");
-            output.append(prop.getLabel(paramRequest.getUser().getLanguage()));
+            output.append(prop.getLabel(lang));
             output.append("</th>\n");
             if (prop.getURI().indexOf("title") != -1 && titleIndex == -1) {
                 titleIndex = itemsCount;
@@ -651,7 +655,9 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             itemsCount++;
         }
         output.append("  </tr>\n");
-
+        output.append(" </thead>\n");
+//cuerpo
+        output.append(" <tbody>\n");
         for (SemanticObject item : results) {
             GenericObject gralItem = item.createGenericInstance();
             boolean sameKind = false;
@@ -665,11 +671,11 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
 
                 output.append("    <td class=\"swb-report\">\n");
                 if (sameKind) {
-                    output.append(this.renderPropertyValue(request, item, prop.getURI(), paramRequest.getUser().getLanguage()));
+                    output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
                 } else {
                     //de los objetos relacionados solo se va a mostrar el titulo en la tabla
                     if (itemsCount == titleIndex) {
-                        output.append(this.renderPropertyValue(request, item, prop.getURI(), paramRequest.getUser().getLanguage()));
+                        output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
                     } else {
                         output.append("      &nbsp;\n");
                     }
@@ -686,7 +692,10 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             output.append(paramRequest.getLocaleString("msg_noResults"));
             output.append("</td></tr>\n");
         }
+        output.append(" <tbody>\n");
+//fin
         output.append("</table>");
+        //output.append("</div>");
         out.print(output.toString());
     }
 
