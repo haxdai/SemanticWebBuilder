@@ -108,10 +108,18 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     
     static String UPLOAD_URL = "http://uploads.gdata.youtube.com/feeds/api/users/default/uploads";
     
+    /**
+     * URL para visualizar un video de Youtube dentro de su pagina
+     * [{@literal http://www.youtube.com/v/}]
+     */
     static String BASE_VIDEO_URL = "http://www.youtube.com/v/";
 
     final public static String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95";
 
+    /**
+     * Dominio de youtube al que se hacen peticiones de API
+     * [{@literal www.googleapis.com}]
+     */
     final public static String HOST = "www.googleapis.com";
     
     /**
@@ -245,24 +253,25 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
      log.error(e);
      }
      }*/
+    
     @Override
     public void postVideo(Video video) {
-        if(!isSn_authenticated() || getAccessToken() == null ){
-            log.error("Not authenticated network: " + getTitle() + ". Unable to post Video");
+        if (!isSn_authenticated() || getAccessToken() == null ) {
+            Youtube.log.error("Not authenticated network: " + getTitle() + ". Unable to post Video");
             return;
         }
         //System.out.println("Entra al metodo postVideo de YouTube....");
         if (video.getVideo() == null || video.getTitle() == null) {//Required fields
             return;
-        }        
+        }
 
         //Valida que este activo el token, de lo contrario lo refresca
-        if(!this.validateToken()){
-            log.error("Unable to update the access token inside postVideo Youtube!");
+        if (!this.validateToken()) {
+            Youtube.log.error("Unable to update the access token inside postVideo Youtube!");
             return;
         }
 
-        if (video.getMsg_Text() != null && video.getMsg_Text().trim().length() > 1) {            
+        if (video.getMsg_Text() != null && video.getMsg_Text().trim().length() > 1) {
             String messageText = this.shortMsgText(video);
             //video.setMsg_Text(messageText);
         }
@@ -273,7 +282,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             String caracter = base.substring(numero, numero + 1);
             boundary = boundary + caracter;
         }
-        String url1 = UPLOAD_URL;
+        String url1 = Youtube.API_URL + "/videos?part=snippet";
         URL url;
         HttpURLConnection conn = null;
         StringBuilder toFile = new StringBuilder(128);
@@ -286,11 +295,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             conn.setDoOutput(true);
             conn.setRequestMethod("POST");
             conn.setUseCaches(false);
-            conn.setRequestProperty("Host", "uploads.gdata.youtube.com");
+            conn.setRequestProperty("Host", "www.googleapis.com");
             conn.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
-            conn.setRequestProperty("GData-Version", "2");
-            //conn.setRequestProperty("X-GData-Client", clientID);
-            conn.setRequestProperty("X-GData-Key", "key=" + this.getDeveloperKey());
             conn.setRequestProperty("Slug", video.getTitle());
             conn.setRequestProperty("Content-Type", "multipart/related; boundary=\"" + boundary + "\"");
             //conn.setRequestProperty("Content-Length", getLength());
@@ -301,28 +307,48 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             toFile.append("Key: " + this.getDeveloperKey());
             DataOutputStream writer = new DataOutputStream(conn.getOutputStream());
             writer.write(("\r\n--" + boundary + "\r\n").getBytes());
-            writer.write("Content-Type: application/atom+xml; charset=UTF-8\r\n\r\n".getBytes());
-            String category = video.getCategory() == null || video.getCategory().isEmpty() ? "People" : video.getCategory();
+            writer.write("Content-Type: application/json; charset=UTF-8\r\n\r\n".getBytes());
+            
+            String category = video.getCategory() == null || video.getCategory().isEmpty()
+                              ? "22" : video.getCategory();  //Categoria 22 = People & blogs
             //System.out.println("THE CATEGORY->" + category + "<-");
-            String privacy = privacyValue(video);
-            String xml = "<?xml version=\"1.0\"?>\r\n"
-                    + " <entry xmlns=\"http://www.w3.org/2005/Atom\"" + "\r\n"
-                    + "xmlns:media=\"http://search.yahoo.com/mrss/\"\r\n"
-                    + "xmlns:yt=\"http://gdata.youtube.com/schemas/2007\"> \r\n"
-                    + " <media:group> \r\n"
-                    + " <media:title type=\"plain\">" + video.getTitle() + "</media:title> \r\n"
-                    + " <media:description type=\"plain\"> \r\n" + (video.getMsg_Text() == null ? "" : video.getMsg_Text()) + "\r\n"
-                    + " </media:description> \r\n"
-                    + " <media:category\r\n"
-                    + "scheme=\"http://gdata.youtube.com/schemas/2007/categories.cat\"> " + category + " \r\n"
-                    + " </media:category> \r\n"
-                    + " <media:keywords>" + (video.getTags() == null ? "" : video.getTags()) + "</media:keywords> \r\n"
-                    + (privacy.equals("PRIVATE") ? " <yt:private/> \r\n" :"")//Ad this tag to make a video PRIVATE
-                    + " </media:group> \r\n"
-                    + (privacy.equals("NOT_LISTED") ? " <yt:accessControl action='list' permission='denied'/> \r\n" : "")
-                    + " </entry> \r\n";
+            String privacy = this.privacyValue(video);
+            
+            JSONObject snippet = new JSONObject();
+            snippet.put("title", video.getTitle());
+            snippet.put("description", video.getMsg_Text() == null ? "" : video.getMsg_Text());
+            if (video.getTags() != null) {
+                snippet.put("tags", video.getTags());
+            }
+            snippet.put("categoryId", category);
+            JSONObject status = new JSONObject();
+            status.put("privacyStatus", 
+                       privacy.equalsIgnoreCase("NOT_LISTED") ? "unlisted" : privacy.toLowerCase());
+            status.put("embeddable", true);
+            status.put("publicStatsViewable", true);
+            JSONObject jsonVideo = new JSONObject();
+            jsonVideo.put("snippet", snippet);
+            jsonVideo.put("status", status);
+            
+//            String xml = "<?xml version=\"1.0\"?>\r\n"
+//                    + " <entry xmlns=\"http://www.w3.org/2005/Atom\"" + "\r\n"
+//                    + "xmlns:media=\"http://search.yahoo.com/mrss/\"\r\n"
+//                    + "xmlns:yt=\"http://gdata.youtube.com/schemas/2007\"> \r\n"
+//                    + " <media:group> \r\n"
+//                    + " <media:title type=\"plain\">" + video.getTitle() + "</media:title> \r\n"
+//                    + " <media:description type=\"plain\"> \r\n" + (video.getMsg_Text() == null ? "" : video.getMsg_Text()) + "\r\n"
+//                    + " </media:description> \r\n"
+//                    + " <media:category\r\n"
+//                    + "scheme=\"http://gdata.youtube.com/schemas/2007/categories.cat\"> " + category + " \r\n"
+//                    + " </media:category> \r\n"
+//                    + " <media:keywords>" + (video.getTags() == null ? "" : video.getTags()) + "</media:keywords> \r\n"
+//                    + (privacy.equals("PRIVATE") ? " <yt:private/> \r\n" :"")//Ad this tag to make a video PRIVATE
+//                    + " </media:group> \r\n"
+//                    + (privacy.equals("NOT_LISTED") ? " <yt:accessControl action='list' permission='denied'/> \r\n" : "")
+//                    + " </entry> \r\n";
             //System.out.println("XML:" + xml);
-            writer.write(xml.getBytes("UTF-8"));
+            
+            writer.write(jsonVideo.toString().getBytes("UTF-8"));
             writer.write(("--" + boundary + "\r\n").getBytes());
             String[] arr = video.getVideo().split("\\.");
             String ext = "Content-Type: video/" + arr[1] + "\r\n";
@@ -352,14 +378,14 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             BufferedReader readerl = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
             StringBuilder videoInfo = new StringBuilder();
             String line;
-            while((line = readerl.readLine()) != null) {
+            while ((line = readerl.readLine()) != null) {
                videoInfo.append(line);
             }
             line = videoInfo.toString();
             toFile.append(line);
             toFile.append("\n");
-            String videoId = line.substring(line.indexOf("<yt:videoid>"), line.lastIndexOf("</yt:videoid>"));
-            videoId = videoId.replace("<yt:videoid>", "");
+            JSONObject newVideo = new JSONObject(line);
+            String videoId = !newVideo.isNull(("id")) ? newVideo.getString("id") : null;
             //System.out.println("videoId..." + videoId);
             //Si el videoId es diferente de null manda a preguntar por el status del video
             //de lo contrario manda el error al log
@@ -367,19 +393,18 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 SWBSocialUtil.PostOutUtil.savePostOutNetID(video, this, videoId, null);
             }
         } catch (Exception ex) {
-            try{
-                //log.error("PROBLEM UPLOADING VIDEO:" + conn.getResponseMessage());
-                String errorMessage = getResponse(conn.getErrorStream());
-                log.error("PROBLEM UPLOADING VIDEO: " + errorMessage);
-                if (errorMessage != null  &&errorMessage.contains("<error>")) {
+            try {
+                String errorMessage = this.getResponse(conn.getErrorStream());
+                Youtube.log.error("PROBLEM UPLOADING VIDEO: " + errorMessage);
+                if (errorMessage != null  && errorMessage.contains("<error>")) {
                     SWBSocialUtil.PostOutUtil.savePostOutNetID(video, this, null, errorMessage);
-                }else if(conn.getResponseMessage() != null){
+                } else if(conn.getResponseMessage() != null) {
                     SWBSocialUtil.PostOutUtil.savePostOutNetID(video, this, null, conn.getResponseMessage());
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 //System.out.println("IGNORED:" + e.getMessage());
             }
-            log.error("ERROR-->",ex);
+            Youtube.log.error("ERROR-->", ex);
         }
 
         /*   try
@@ -452,11 +477,11 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             conex.connect();
 
             in = conex.getInputStream();
-            response = getResponse(in);
+            response = this.getResponse(in);
 
         } catch (java.io.IOException ioe) {
             if (conex != null) {
-                Youtube.log.error("ERROR in getRequest:" + getResponse(conex.getErrorStream()), ioe);
+                Youtube.log.error("ERROR in getRequest:" + this.getResponse(conex.getErrorStream()), ioe);
             } else {
                 Youtube.log.error("ERROR in getRequest", ioe); 
             }
@@ -696,10 +721,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             }
         } catch (NumberFormatException nfe) {
             lastVideoID = new Date(0L);
-            log.error("Error in getLastVideoID():" + nfe);
+            Youtube.log.error("Error in getLastVideoID():" + nfe);
             //System.out.println("Invalid value found in NextDatetoSearch(). Set:" + lastVideoID);
         } catch (ParseException pex) {
-            log.error("Error in parseDate() in getLastVideoID:" + pex);
+            Youtube.log.error("Error in parseDate() in getLastVideoID:" + pex);
         }
         return lastVideoID;
     }
@@ -726,9 +751,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 //System.out.println("NO ESTÁ GUARDANDO NADA PORQUE EL VALOR ALMACENADO YA ES IGUAL O MAYOR AL ACTUAL");
             }
         } catch (NumberFormatException nfe) {
-            log.error("Error in setLastVideoID():" + nfe);
+            Youtube.log.error("Error in setLastVideoID():" + nfe);
         } catch (ParseException pe) {
-            log.error("Error in parseDate():" + pe);
+            Youtube.log.error("Error in parseDate():" + pe);
         }
     }
 
@@ -877,16 +902,21 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
      t.printStackTrace();
      }
      }*/
+    
+    /**
+     * Obtiene informacion de videos en Yutube para analizar y almacenar
+     * @param stream 
+     */
     @Override
     public void listen(Stream stream) {
-        if(!isSn_authenticated() || getAccessToken() == null ){
-            log.error("Not authenticated network: " + getTitle() + "!!!");
+        if (!this.isSn_authenticated() || this.getAccessToken() == null ) {
+            Youtube.log.event("Not authenticated network: " + getTitle() + "!!!");
             return;
         }
         
         //Valida que este activo el token, de lo contrario lo refresca
-        if(!this.validateToken()){
-            log.error("Unable to update the access token inside listen Youtube!");
+        if (!this.validateToken()) {
+            Youtube.log.event("Unable to update the access token inside listen Youtube!");
             this.validateToken();
         }
         //Busca en las categorias: Comedy, Film, Music, People
@@ -897,183 +927,232 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
 
         //System.out.println("Entra al metodo listen.... Youtube");
-        ArrayList<ExternalPost> aListExternalPost = new ArrayList();
-        String searchPhrases = formatsYoutubePhrases(stream);//getPhrases(stream.getPhrase());
-        if(searchPhrases == null || searchPhrases.isEmpty()){
-            log.warn("\n Not a valid value to make a youtube search:" + searchPhrases);
+        ArrayList<ExternalPost> aListExternalPost = new ArrayList(256);
+        String searchPhrases = this.formatsYoutubePhrases(stream);//getPhrases(stream.getPhrase());
+        if (searchPhrases == null || searchPhrases.isEmpty()) {
+            Youtube.log.warn("\n Not a valid value to make a youtube search:" + searchPhrases);
             return;
         }
         String category = "";
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         DecimalFormat df = new DecimalFormat("#.00");
-        if(searchPhrases == null || searchPhrases.isEmpty()){
+        if (searchPhrases == null || searchPhrases.isEmpty()) {
             return;
         }
         
-        Iterator<YouTubeCategory> it = listYoutubeCategories();
-        if (it.hasNext()) {//The first category
-            category = it.next().getId();
-        }
-
-        while (it.hasNext()) {//More categories
-            category = category + "|" + it.next().getId();
-        }
-        SocialSite socialSite = (SocialSite)WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
+//        Iterator<YouTubeCategory> it = this.listYoutubeCategories();
+//        if (it.hasNext()) {//The first category
+//            category = it.next().getId();
+//        }
+//
+//        while (it.hasNext()) {//More categories
+//            category = category + "|" + it.next().getId();
+//        }
+        SocialSite socialSite = (SocialSite) WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
         
         int blockOfVideos = 500; //this is the default Value,
-        try{
-            if(socialSite.getBlockofMsgToClassify() > 0){
+        try {
+            if (socialSite.getBlockofMsgToClassify() > 0) {
                 blockOfVideos = socialSite.getBlockofMsgToClassify();
             }
-        }catch(Exception e){}
+        } catch (Exception e) {}
         //System.out.println("Message Block Youtube:" + blockOfVideos);
         
         int limit = 500;
         int maxResults = 50;
-        int totalResources = 0;
+        //int totalResources = 0;
         boolean canGetMoreVideos = true;
-        int iteration = 1;
+        //int iteration = 1;
         int count = 0;
-        Date lastVideoID = getLastVideoID(stream); //gets the value stored in NextDatetoSearch
-        //if(1==1)return;
+        Date lastVideoID = this.getLastVideoID(stream); //gets the value stored in NextDatetoSearch
+        String index = "";
+        boolean breakFor = false;
+        String uploadedStr = null; //fecha de publicacion del ultimo video extraido de Youtube
+        
         for (int startIndex = 1; startIndex <= limit; startIndex++) {
-            String index = String.valueOf(startIndex);
             // idClave = idClave.replace("|", "/");
             Map<String, String> params = new HashMap<String, String>();
+            params.put("part", "id");
+            params.put("type", "video");
             params.put("q", searchPhrases);
-            params.put("v", "2");
-            params.put("start-index", index);
-            params.put("max-results", String.valueOf(maxResults));
-            params.put("alt", "jsonc");
-            params.put("orderby", "published");
-            //params.put("location","lat,long!");
-            //params.put("location-radius","100km");
+            params.put("maxResults", String.valueOf(maxResults));
+            params.put("order", "date");
+            
+            //Si se conoce la fecha de publicacion del ultimo video extraido
+            if (lastVideoID != null) {
+                params.put("publishedAfter", formatter.format(lastVideoID));
+            }
             if (!category.isEmpty()) {
                 params.put("category", category);
             }
-            if(stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 && stream.getGeoRadio() > 0){
-                if(stream.getGeoRadio() < 50){//Default value
-                    params.put("location",stream.getGeoCenterLatitude() +"," + stream.getGeoCenterLongitude() +"!");
-                    params.put("location-radius","50km");
+            if (stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 &&
+                    stream.getGeoRadio() > 0) {
+                if (stream.getGeoRadio() < 50) {//Default value
+                    params.put("location", stream.getGeoCenterLatitude() + "," + stream.getGeoCenterLongitude());// + "!"
+                    params.put("locationRadius", "50km");
                     //query.setGeoCode(new GeoLocation(stream.getGeoCenterLatitude(), stream.getGeoCenterLongitude()), 50, "km");//(latitude, longitude), radius, units of distance
-                }if(stream.getGeoRadio() > 1000){//Max value
-                    params.put("location",stream.getGeoCenterLatitude() +"," + stream.getGeoCenterLongitude() +"!");
-                    params.put("location-radius","1000km");
+                } if (stream.getGeoRadio() > 1000) {//Max value
+                    params.put("location", stream.getGeoCenterLatitude() + "," + stream.getGeoCenterLongitude());// +"!"
+                    params.put("locationRadius", "1000km");
                     //query.setGeoCode(new GeoLocation(stream.getGeoCenterLatitude(), stream.getGeoCenterLongitude()), 50, "km");//(latitude, longitude), radius, units of distance
-                }else{
-                    params.put("location",stream.getGeoCenterLatitude() +"," + stream.getGeoCenterLongitude() +"!");
-                    params.put("location-radius",stream.getGeoRadio() + "km");
+                } else {
+                    params.put("location", stream.getGeoCenterLatitude() + "," + stream.getGeoCenterLongitude());// +"!"
+                    params.put("locationRadius", stream.getGeoRadio() + "km");
                     //query.setGeoCode(new GeoLocation(stream.getGeoCenterLatitude(), stream.getGeoCenterLongitude()), stream.getGeoRadio(), "km");//(latitude, longitude), radius, units of distance
                 }
             }
+            //index contiene el valor de nextPageToken de la respuesta de cada peticion a Youtube
+            if (index != null && !index.isEmpty()) {
+                params.put("pageToken", index);
+            }
 
             try {
-                String youtubeResponse = getRequest(params, "https://gdata.youtube.com/feeds/api/videos", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+                String videoIds = null;
+                String youtubeResponse = this.getRequest(params, Youtube.API_URL + "/search",
+                        Youtube.USER_AGENT, "GET");
                 //Convertir la String youtubeResponse a un objeto json
                 JSONObject resp = new JSONObject(youtubeResponse);
-                JSONObject data = resp.getJSONObject("data");
-                if (data.has("items")) {
-                    JSONArray items = data.getJSONArray("items");
+                JSONArray items = null;
+                if (resp.has("items")) {
+                    items = resp.getJSONArray("items");
                     count = items.length();
 
-                    //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-                    //formatter.setTimeZone(TimeZone.getTimeZone("GMT-6"));
-                    //Date currentVideoID = new Date(0L);
-
-                    //System.out.println("\n\n*******Antes de entrar al for:" + count);
+                    for (int j = 0; j < count; j++) {
+                        JSONObject videoIdentified = items.getJSONObject(j);
+                        if (!videoIdentified.isNull("id") && !videoIdentified.getJSONObject("id").isNull("videoId")) {
+                            if (count > 0) {
+                                videoIds += ("," + videoIdentified.getJSONObject("id").getString("videoId"));
+                            } else {
+                                videoIds = videoIdentified.getJSONObject("id").getString("videoId");
+                            }
+                        }
+                    }
+                }
+                if (!resp.isNull("nextPageToken")) {
+                    index = resp.getString("nextPageToken");
+                } else {
+                    breakFor = true;
+                }
+                
+                if (videoIds != null) {
+                    Map<String, String> paramsDetail = new HashMap<String, String>();
+                    paramsDetail.put("part", "snippet,contentDetails,recordingDetails");
+                    paramsDetail.put("id", videoIds);
+                    
+                    String detailInfo = this.getRequest(paramsDetail, Youtube.API_URL + "/videos",
+                            Youtube.USER_AGENT, "GET");
+                    JSONObject videosResp = new JSONObject(detailInfo);
+                    items = !videosResp.isNull("items") ? videosResp.getJSONArray("items") : null;
+                    if (items != null) {
+                        count = items.length();
+                    } else {
+                        count = 0;
+                    }
+                    
                     for (int i = 0; i < count; i++) {
                         ExternalPost external = new ExternalPost();
-                        JSONObject id = items.getJSONObject(i);
+                        JSONObject video = items.getJSONObject(i);
                         //System.out.println("TouTube Listen:"+id.toString());
-                        String idItem = id.getString("id");
-                        String uploader = id.getString("uploader");
-                        String updatedItem = id.getString("updated");
-                        String title = id.getString("title");
-
-                        String uploadedStr = id.getString("uploaded");
-                        String description = id.getString("description");
+                        String idItem = video.getString("id");
+                        JSONObject snippet = video.getJSONObject("snippet");
+                        //String uploader = id.getString("uploader");
+                        String updatedItem = snippet.getString("publishedAt");
+                        String title = snippet.getString("title");
+                        String channel = snippet.getString("channelId");
+                        String description = snippet.getString("description");
                         if (description == null || description.equals("")) {
                             description = title;
                         } else {
                             description = title + " / " + description;
                         }
-                        String categoryItem = id.getString("category");
+                        String categoryItem = snippet.getString("categoryId");
+                        uploadedStr = snippet.getString("publishedAt");
                         Double latitude = null;
                         Double longitude = null;
                         
-                        if(!id.isNull("geoCoordinates")){
-                            if(!id.getJSONObject("geoCoordinates").isNull("latitude") &&
-                            !id.getJSONObject("geoCoordinates").isNull("longitude")){
-                                latitude = id.getJSONObject("geoCoordinates").getDouble("latitude");
-                                longitude = id.getJSONObject("geoCoordinates").getDouble("longitude");
+                        if (!video.isNull("recordingDetails")) {
+                            JSONObject recDetails = video.getJSONObject("recordingDetails");
+                            JSONObject location = !recDetails.isNull("location")
+                                                  ? recDetails.getJSONObject("location") : null;
+                            if (location != null && !location.isNull("latitude") &&
+                                    !location.isNull("longitude")) {
+                                latitude = location.getDouble("latitude");
+                                longitude = location.getDouble("longitude");
                             }
                         }
-
-                        Date uploaded = formatter.parse(id.getString("uploaded"));
+                        
+                        Date uploaded = formatter.parse(uploadedStr);
                         if (uploaded.before(lastVideoID) || uploaded.equals(lastVideoID)) {
                             //System.out.println("Terminar la busqueda, limite alcanzado");
                             canGetMoreVideos = false;
                             break;
                         } else {
                             external.setPostId(idItem);
-                            external.setCreatorId(uploader);
-                            external.setCreatorName(uploader);
+//                            external.setCreatorId(uploader);
+//                            external.setCreatorName(uploader);
                             
-                            external.setUserUrl("https://www.youtube.com/" + uploader);
+                            external.setUserUrl("https://www.youtube.com/" + channel);
                             external.setPostUrl("https://www.youtube.com/watch?v=" + idItem + "&feature=youtube_gdata");
-                            if(formatter.parse(uploadedStr).after(new Date())){
+                            if (uploaded.after(new Date())) {
                                 external.setCreationTime(new Date());
-                            }else{
-                                external.setCreationTime(formatter.parse(uploadedStr));
+                            } else {
+                                external.setCreationTime(uploaded);
                             }
                             //external.setUpdateTime(updatedItem);
                             external.setMessage(description);
                             external.setCategory(categoryItem);
                             external.setSocialNetwork(this);
-                            external.setVideo(BASE_VIDEO_URL + idItem);
+                            external.setVideo(Youtube.BASE_VIDEO_URL + idItem);
                             external.setPostType(SWBSocialUtil.VIDEO);
                             aListExternalPost.add(external);
-                            if(latitude != null && longitude != null){
+                            if (latitude != null && longitude != null) {
                                 external.setLatitude(latitude);
                                 external.setLongitude(longitude);
-                                external.setPlace("(" +df.format(latitude) + "," + df.format(longitude) + ")");
+                                external.setPlace("(" + df.format(latitude) + "," + df.format(longitude) + ")");
                             }
                             //currentVideoID = uploaded;
                         }
 
-                        if (iteration == 1) {
-                            iteration = 0;
-                            //System.out.println("uploaded:" + uploadedStr + " -- " + lastVideoID);
-                            //System.out.println("Saving: " + uploadedStr);
-                            setLastVideoID(uploadedStr, stream);//uploadedStr
-                        }
-                        totalResources++;
+                        //totalResources++;
                     }
                     
-                    if((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)){//Classify the block of videos
+                    if ((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)) {//Classify the block of videos
                         //System.out.println("CLASSIFYING:" + aListExternalPost.size());
-                        new Classifier((ArrayList <ExternalPost>)aListExternalPost.clone(), stream, this, true);
+                        new Classifier((ArrayList <ExternalPost>) aListExternalPost.clone(), stream, this, true);
                         aListExternalPost.clear();
                     }
-                    if(!stream.isActive()){//If the stream has been disabled stop listening
+                    if (!stream.isActive()) {//If the stream has been disabled stop listening
                         canGetMoreVideos = false;
                     }
                     if (canGetMoreVideos == false) {
                         //System.out.println("Terminando... " + "<=" + lastVideoID);
                         break;
                     }
-                } else {//Not found JSONArray items[]                    
+                } else {//There are no video ids to search for
                     canGetMoreVideos = false;
                     break;
                 }
+
+                //Si ya no hay mas videos que extraer de Youtube
+                if (breakFor) {
+                    canGetMoreVideos = false;
+                    break;
+                }
+                
             } catch (Exception e) {
-                log.error("Error reading Youtube stream ", e);
+                Youtube.log.error("Error reading Youtube stream ", e);
                 canGetMoreVideos = false;
                 break;
             }
-            startIndex = startIndex + (count -1);
+            startIndex = startIndex + (count - 1);
         }
         //System.out.println("Total Videos in Array: " + aListExternalPost.size());
+        if (uploadedStr != null) {
+            //iteration = 0;
+            //System.out.println("uploaded:" + uploadedStr + " -- " + lastVideoID);
+            //System.out.println("Saving: " + uploadedStr);
+            this.setLastVideoID(uploadedStr, stream);//uploadedStr
+        }
 
         if (aListExternalPost.size() > 0) {
             new Classifier(aListExternalPost, stream, this, true);
@@ -1102,68 +1181,96 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         return parsedPhrases;
     }
 
+    /**
+     * Determina si un video ya tiene el estado de publicado en Youtube o se esta procesando al momento de la peticion
+     * @param postOutNet
+     * @return un {@code boolean} que indica si el estado de un video en Youtube es publicado o no
+     */
     @Override
     public boolean isPublished(PostOutNet postOutNet) {
         //System.out.println("Entra al metodo isPublished....");
         //System.out.println("El id del video es...." + postOutNet.getPo_socialNetMsgID());
 
         boolean exit = false;
+        String descriptionReason = "";
+        int setErr = 0;
+        
         try {
-            HttpClient client = new DefaultHttpClient();
-            HttpGet get = new HttpGet("https://gdata.youtube.com/feeds/api/users/default/uploads/" + postOutNet.getPo_socialNetMsgID());
-            get.setHeader("Authorization", "Bearer " + this.getAccessToken());
-            HttpResponse res = client.execute(get);
-            BufferedReader rd = new BufferedReader(new InputStreamReader(res.getEntity().getContent()));
-            //String dcxml = rd.readLine();
-            StringBuilder videoInfo = new StringBuilder();
-            String dcxml;
-            while((dcxml = rd.readLine()) != null) {
-               videoInfo.append(dcxml);
-            }
-            dcxml = videoInfo.toString();
-            //System.out.println("docxml dentro de isPublished:   " + dcxml);
-            if (dcxml.contains("Video not found")) {
-                //   postOutNet.setError(dcxml);
-                exit = true;
-            }
-            Document doc = SWBUtils.XML.xmlToDom(dcxml);
-            doc.getDocumentElement().normalize();
-            NodeList nodosRaiz = doc.getDocumentElement().getChildNodes();
             boolean found = false;
-            int setErr = 0;
-            String reasonCode = "";
-            String descriptionReason = "";
-            for (int i = 0; i < nodosRaiz.getLength(); i++) {
-                Node childNode = nodosRaiz.item(i);
-                if (childNode.getNodeName().equals("app:control")) {
+            Map<String, String> params = new HashMap<String, String>(2);
+            params.put("part", "processingDetails");
+            params.put("id", postOutNet.getPo_socialNetMsgID());
+            
+            String response = this.getRequest(params, Youtube.API_URL + "/videos", Youtube.USER_AGENT, "GET");
+            JSONObject jresp = new JSONObject(response);
+            if (!jresp.isNull("items") && jresp.getJSONArray("items").length() > 0) {
+                JSONObject video = jresp.getJSONArray("items").getJSONObject(0);
+                JSONObject processingDet = !video.isNull("processingDetails")
+                                           ? video.getJSONObject("processingDetails") : null;
+                if (processingDet != null && !processingDet.isNull("processingStatus")) {
+                    //La propiedad puede tener los valores: failed, processing, succeeded y terminated
                     found = true;
-                    //System.out.println("Entra a app:control....");
-                    NodeList children = childNode.getChildNodes();
-                    for (int j = 0; j < children.getLength(); j++) {
-                        Node children2 = children.item(j);
-                        if (children2.getNodeName().equals("yt:state")) {
-                            String name = children2.getAttributes().getNamedItem("name").getTextContent();
-                            //System.out.println("lo que trae yt:state name: " + name);
-                            if (name.equals("processing")) {
-                                //System.out.println("Entra a la validacion de que el name es igual a processing");
-                                //exit = false;
-                            } else {
-                                reasonCode = children2.getAttributes().getNamedItem("reasonCode").getTextContent();
-                                //System.out.println("lo que trae yt:state reasonCode: " + reasonCode);
-                                descriptionReason = children2.getTextContent();
-                                //System.out.println("lo que trae yt:state: " + descriptionReason);
-                                setErr = 1;
-                            }
-                        }
+                    if (processingDet.getString("processingStatus").equalsIgnoreCase("terminated")) {
+                        
+                    } else if (processingDet.getString("processingStatus").equalsIgnoreCase("failed")) {
+                        descriptionReason = processingDet.getString("processingFailureReason");
+                        setErr = 1;
                     }
-                    break;
                 }
             }
+            
+//            HttpClient client = new DefaultHttpClient();
+//            HttpGet get = new HttpGet("https://gdata.youtube.com/feeds/api/users/default/uploads/" + postOutNet.getPo_socialNetMsgID());
+//            get.setHeader("Authorization", "Bearer " + this.getAccessToken());
+//            HttpResponse res = client.execute(get);
+//            BufferedReader rd = new BufferedReader(new InputStreamReader(res.getEntity().getContent()));
+//            //String dcxml = rd.readLine();
+//            StringBuilder videoInfo = new StringBuilder();
+//            String dcxml;
+//            while((dcxml = rd.readLine()) != null) {
+//               videoInfo.append(dcxml);
+//            }
+//            dcxml = videoInfo.toString();
+//            //System.out.println("docxml dentro de isPublished:   " + dcxml);
+//            if (dcxml.contains("Video not found")) {
+//                //   postOutNet.setError(dcxml);
+//                exit = true;
+//            }
+//            Document doc = SWBUtils.XML.xmlToDom(dcxml);
+//            doc.getDocumentElement().normalize();
+//            NodeList nodosRaiz = doc.getDocumentElement().getChildNodes();
+//            String reasonCode = "";
+//            for (int i = 0; i < nodosRaiz.getLength(); i++) {
+//                Node childNode = nodosRaiz.item(i);
+//                if (childNode.getNodeName().equals("app:control")) {
+//                    found = true;
+//                    //System.out.println("Entra a app:control....");
+//                    NodeList children = childNode.getChildNodes();
+//                    for (int j = 0; j < children.getLength(); j++) {
+//                        Node children2 = children.item(j);
+//                        if (children2.getNodeName().equals("yt:state")) {
+//                            String name = children2.getAttributes().getNamedItem("name").getTextContent();
+//                            //System.out.println("lo que trae yt:state name: " + name);
+//                            if (name.equals("processing")) {
+//                                //System.out.println("Entra a la validacion de que el name es igual a processing");
+//                                //exit = false;
+//                            } else {
+//                                reasonCode = children2.getAttributes().getNamedItem("reasonCode").getTextContent();
+//                                //System.out.println("lo que trae yt:state reasonCode: " + reasonCode);
+//                                descriptionReason = children2.getTextContent();
+//                                //System.out.println("lo que trae yt:state: " + descriptionReason);
+//                                setErr = 1;
+//                            }
+//                        }
+//                    }
+//                    break;
+//                }
+//            }
             if (found == true) {
                 //System.out.println("La variable found es true, si encontro un tag llamado app.control");
                 if (setErr == 1) {
                     postOutNet.setStatus(0);
-                    postOutNet.setError(reasonCode + " : " + descriptionReason);
+                    postOutNet.setError(descriptionReason);
                     exit = true;
                 } else {
                     exit = false;
@@ -1174,24 +1281,29 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 exit = true;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Youtube.log.error("Can't determine if video is published", e);
         }
         return exit;
     }
 
+    /**
+     * Obtiene informacion del perfil de Google Plus, a traves del identificador de usuario de Youtube proporcionado
+     * @param userId identificador de usuario de Youtube
+     * @return un objeto {@code JSON} con los datos del perfil del usuario de Google Plus correspondiente
+     */
     @Override
     public JSONObject getUserInfobyId(String userId) {
         //Realiza la peticion a Youtube para obtener id de Google+
-        HashMap<String, String> params = new HashMap<String, String>(3);
-        params.put("v", "2");
-        params.put("alt", "json");
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("part", "contentDetails,statistics");
+        params.put("mine", "true");
 
         JSONObject userInfo = new JSONObject();
         String responseIdGoogle = null;
         String googlePlusUserId = "";
 
         try {
-            responseIdGoogle = getRequest(params, "https://gdata.youtube.com/feeds/api/users/" + userId, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+            responseIdGoogle = this.getRequest(params, Youtube.API_URL + "/channels", Youtube.USER_AGENT, "GET");
 
             if (responseIdGoogle.equals("")) {
                 return userInfo;
@@ -1199,14 +1311,29 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             JSONObject parseUsrInfYoutube = null;
             parseUsrInfYoutube = new JSONObject(responseIdGoogle);
 
-            JSONObject information = parseUsrInfYoutube.getJSONObject("entry");
-            if (information.has("yt$googlePlusUserId") && !information.isNull("yt$googlePlusUserId")) {
-                googlePlusUserId = information.getJSONObject("yt$googlePlusUserId").getString("$t");
-               userInfo.put("third_party_id", information.getJSONObject("yt$googlePlusUserId").getString("$t"));
+            JSONArray items = parseUsrInfYoutube.getJSONArray("items");
+            if (items.length() > 0) {
+                JSONObject information = items.getJSONObject(0);
+                if (!information.isNull("contentDetails")) {
+                    String googlePlusId = information.getJSONObject("contentDetails").getString("googlePlusUserId");
+                    if (googlePlusId != null && !googlePlusId.equals("")) {
+                        userInfo.putOnce("third_party_id", googlePlusId);
+                    }
+                }
+                if (!information.isNull("statistics")) {
+                    String subscribers = information.getJSONObject("statistics").getString("subscriberCount");
+                    if (subscribers != null && !subscribers.equals("")) {
+                        userInfo.putOnce("followers", subscribers);
+                    }
+                }
             }
-            if(information.has("yt$statistics") && !information.isNull("yt$statistics")){       
-                userInfo.put("followers", information.getJSONObject("yt$statistics").getString("subscriberCount"));
-            }
+//            if (information.has("yt$googlePlusUserId") && !information.isNull("yt$googlePlusUserId")) {
+//                googlePlusUserId = information.getJSONObject("yt$googlePlusUserId").getString("$t");
+//               userInfo.put("third_party_id", information.getJSONObject("yt$googlePlusUserId").getString("$t"));
+//            }
+//            if(information.has("yt$statistics") && !information.isNull("yt$statistics")){       
+//                userInfo.put("followers", information.getJSONObject("yt$statistics").getString("subscriberCount"));
+//            }
             
         } catch (Exception e) {
             //System.out.println("Error getting user information" + e.getMessage());
@@ -1219,11 +1346,13 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         }
 
         try {
-            String youtubeResponse = getRequest(null, "https://www.googleapis.com/plus/v1/people/" + googlePlusUserId + "?key=AIzaSyBEbVYqvZudUYdt-UeHkgRl-rkvNHCw4Z8", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+            String googlePlus = getRequest(null, "https://www.googleapis.com/plus/v1/people/" +
+                    googlePlusUserId + "?key=AIzaSyBEbVYqvZudUYdt-UeHkgRl-rkvNHCw4Z8", 
+                    Youtube.USER_AGENT, "GET");
             JSONObject parseUsrInf = null;
-            try{
-                parseUsrInf = new JSONObject(youtubeResponse);
-            }catch(JSONException jse){
+            try {
+                parseUsrInf = new JSONObject(googlePlus);
+            } catch (JSONException jse) {
                 parseUsrInf = new JSONObject();
             }
             //System.out.println(parseUsrInf);
@@ -1270,9 +1399,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         } catch (ParseException ex) {
             java.util.logging.Logger.getLogger(Youtube.class.getName()).log(Level.SEVERE, null, ex);
         } catch (JSONException ex) {
-            log.error(ex);
+            Youtube.log.error(ex);
         } catch (IOException ex) {
-            log.error(ex);
+            Youtube.log.error(ex);
         }
 
         return userInfo;
@@ -1299,59 +1428,66 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     params.put("client_id", this.getAppKey());
                     params.put("client_secret", this.getSecretKey());
                     params.put("grant_type", "refresh_token");
-                    String res = postRequest(params, "https://accounts.google.com/o/oauth2/token", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                    String res = postRequest(params, "https://accounts.google.com/o/oauth2/token",
+                            Youtube.USER_AGENT, "POST");
                     //System.out.println("respuesta de peticion del token nuevo" + res);
                     JSONObject userData = new JSONObject(res);
                     String tokenAccess = userData.getString("access_token");
                     this.setAccessToken(tokenAccess);
                     refreshedToken = true;
                 } catch (IOException io) {
-                    System.out.println("Error en la peticion del nuevo accessToken" + io);
+                    Youtube.log.error("Error en la peticion del nuevo accessToken", io);
                 } catch (JSONException ex) {
-                    System.out.println("Error en la respuesta del nuevo accessToken" + ex);
+                    Youtube.log.error("Error en la respuesta del nuevo accessToken", ex);
                 }
             }
-            //e.printStackTrace();
         } catch (IOException ex) {
-            System.out.println("Error: " + ex);
+            Youtube.log.error("Error validating token: ", ex);
         }
         return refreshedToken;
-
     }
 
+    /**
+     * Publica un comentario en Youtube y lo asocia al video correspondiente
+     * @param message el {@code Message} que contiene el texto a publicar, asi como el identificador del video
+     *                al que se desea asociar el comentario.
+     */
     @Override
     public void postMsg(Message message) {
         
         StringBuilder toFile = new StringBuilder(128);
         
-        if(!isSn_authenticated() || getAccessToken() == null ){
-            log.error("Not authenticated network: " + getTitle() + ". Unable to post Comment");
+        if (!isSn_authenticated() || getAccessToken() == null ) {
+            Youtube.log.error("Not authenticated network: " + getTitle() + ". Unable to post Comment");
             return;
         }
         //System.out.println("Posting comment to a video");
-        if (message != null && message.getMsg_Text() != null && message.getMsg_Text().trim().length() > 1) {            
-            if(message.getPostInSource()!=null && message.getPostInSource().getSocialNetMsgId()!=null){
+        if (message != null && message.getMsg_Text() != null && message.getMsg_Text().trim().length() > 1) {
+            if (message.getPostInSource() != null && message.getPostInSource().getSocialNetMsgId() != null) {
                 String messageText = this.shortMsgText(message);
                 //message.setMsg_Text(messageText);
-                //System.out.println("Youtube Making comment:...:" + message.getPostInSource().getPostInSocialNetworkUser().getSnu_name());                
+                //System.out.println("Youtube Making comment:...:" + message.getPostInSource().getPostInSocialNetworkUser().getSnu_name());
                 String videoId = message.getPostInSource().getSocialNetMsgId();
                 //String comment = message.getMsg_Text();
                 
                 String urlLocalPost = "";
                 Iterator<String> files = message.listFiles();
                 if(files.hasNext()){//If at least one file found
-                    String absolutePath = SWBPortal.getEnv("swbsocial/absolutePath") == null ? "" : SWBPortal.getEnv("swbsocial/absolutePath");
-                    urlLocalPost = absolutePath + "/es/SWBAdmin/ViewPostFiles?uri=" + message.getEncodedURI() + "&neturi=" + this.getEncodedURI();
+                    String absolutePath = SWBPortal.getEnv("swbsocial/absolutePath") == null
+                            ? "" : SWBPortal.getEnv("swbsocial/absolutePath");
+                    urlLocalPost = absolutePath + "/es/SWBAdmin/ViewPostFiles?uri=" +
+                            message.getEncodedURI() + "&neturi=" + this.getEncodedURI();
                     urlLocalPost = SWBSocialUtil.Util.shortSingleUrl(urlLocalPost);
                     messageText += " " + urlLocalPost;
                 }
                 
-                if(!this.validateToken()){
-                    log.error("Unable to update the access token inside post Comment!");
+                if (!this.validateToken()) {
+                    Youtube.log.error("Unable to update the access token inside post Comment!");
                     return;
                 }
                 
-                String urlComment = "https://gdata.youtube.com/feeds/api/videos/" + videoId + "/comments";
+                //String urlComment = "https://gdata.youtube.com/feeds/api/videos/" + videoId + "/comments";
+                String urlComment = Youtube.API_URL + "/commentThreads?part=id&shareOnGooglePlus=false";
                 URL url;
                 HttpURLConnection conn = null;
                 try {
@@ -1361,11 +1497,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     conn.setDoOutput(true);
                     conn.setRequestMethod("POST");
                     conn.setUseCaches(false);
-                    conn.setRequestProperty("Host", "gdata.youtube.com");
-                    conn.setRequestProperty("Content-Type", "application/atom+xml");
+                    conn.setRequestProperty("Host", Youtube.HOST);
+                    conn.setRequestProperty("Content-Type", "application/json");
                     conn.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
-                    conn.setRequestProperty("GData-Version", "2");
-                    conn.setRequestProperty("X-GData-Key", "key=" + this.getDeveloperKey());
                     toFile.append(urlComment);
                     toFile.append("\n");
                     
@@ -1378,80 +1512,97 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                         toFile.append("\n");
                     }
 
-                    DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
-                    String xml = "<?xml version=\"1.0\"?>"
-                        + "<entry xmlns=\"http://www.w3.org/2005/Atom\""
-                        + " xmlns:yt=\"http://gdata.youtube.com/schemas/2007\">"
-                        + "<content>" + messageText + "</content>"
-                        + "</entry>";
-                    writer.write(xml.getBytes("UTF-8"));
+                    JSONObject commSnippet = new JSONObject();
+                    commSnippet.put("textOriginal", messageText);
+                    JSONObject topLevelComment = new JSONObject();
+                    topLevelComment.put("snippet", commSnippet);
+                    JSONObject snippet = new JSONObject();
+                    snippet.put("channelId", videoId);
+                    snippet.put("isPublic", true);
+                    snippet.put("videoId", videoId);
+                    snippet.put("topLevelComment", topLevelComment);
+                    JSONObject jComment = new JSONObject();
+                    jComment.put("snippet", snippet);
+                    
+                    DataOutputStream writer = new DataOutputStream(conn.getOutputStream());
+////                    String xml = "<?xml version=\"1.0\"?>"
+////                        + "<entry xmlns=\"http://www.w3.org/2005/Atom\""
+////                        + " xmlns:yt=\"http://gdata.youtube.com/schemas/2007\">"
+////                        + "<content>" + messageText + "</content>"
+////                        + "</entry>";
+//                    writer.write(xml.getBytes("UTF-8"));
+                    writer.write(jComment.toString().getBytes("UTF-8"));
                     writer.flush();
-                    writer.close();                        
+                    writer.close();
                     BufferedReader readerl = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    //String docxml = readerl.readLine();
-                    StringBuilder videoInfo = new StringBuilder();
+//                    String commentIdCreated = readerl.readLine();
+                    StringBuilder commentInfo = new StringBuilder();
                     String docxml;
                     while((docxml = readerl.readLine()) != null) {
-                       videoInfo.append(docxml);
+                       commentInfo.append(docxml);
                     }
-                    docxml = videoInfo.toString();
+                    JSONObject comment = new JSONObject(commentInfo.toString());
 
+                    if (!comment.isNull("id")) {
+                        String commentId = comment.getString("id");
+                        SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, commentId, null);
+                    }
+                    
                     //SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, String.valueOf(longStat), null);
-                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder builder;
-                    builder = factory.newDocumentBuilder();
-                    Document xmlDoc = builder.parse(new InputSource(new StringReader(docxml)));
-                    xmlDoc.getDocumentElement().normalize();
-                    NodeList rootNode = xmlDoc.getDocumentElement().getChildNodes();
-
-                    for( int tmp = 0; tmp < rootNode.getLength(); tmp++){
-                        Node nNode= rootNode.item(tmp);
-                        if(nNode.getNodeName().equals("id")){
-                            //System.out.println("id-->" + nNode.getTextContent());
-                            if(nNode.getTextContent().contains("comment:")){
-                                String commentId = nNode.getTextContent().substring(nNode.getTextContent().indexOf("comment:") + 8);
-                                SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, commentId, null);
-                                //System.out.println("ID-->" + commentId + "<--");
-                                break;
-                            }
-                        }
-                    }
+//                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//                    DocumentBuilder builder;
+//                    builder = factory.newDocumentBuilder();
+//                    Document xmlDoc = builder.parse(new InputSource(new StringReader(docxml)));
+//                    xmlDoc.getDocumentElement().normalize();
+//                    NodeList rootNode = xmlDoc.getDocumentElement().getChildNodes();
+//
+//                    for (int tmp = 0; tmp < rootNode.getLength(); tmp++) {
+//                        Node nNode= rootNode.item(tmp);
+//                        if (nNode.getNodeName().equals("id")) {
+//                            //System.out.println("id-->" + nNode.getTextContent());
+//                            if (nNode.getTextContent().contains("comment:")) {
+//                                String commentId = nNode.getTextContent().substring(nNode.getTextContent().indexOf("comment:") + 8);
+//                                SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, commentId, null);
+//                                //System.out.println("ID-->" + commentId + "<--");
+//                                break;
+//                            }
+//                        }
+//                    }
                     toFile.append(conn.getResponseMessage());
                     Youtube.write2File(toFile);
-                }catch(Exception ex){                    
+                } catch (Exception ex) {
                     SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, null, ex.getMessage());
-                    log.error("Problem posting comment ", ex);
-                    try{
-                        //System.out.println("ERROR:" + getResponse(conn.getErrorStream()));                
-                        if(conn.getResponseMessage() != null){
-                            log.error("Error code:" + conn.getResponseCode() + " " + conn.getErrorStream());
+                    Youtube.log.error("Problem posting comment ", ex);
+                    try {
+                        if (conn.getResponseMessage() != null) {
+                            Youtube.log.error("Error code:" + conn.getResponseCode() + " " + conn.getErrorStream(), ex);
                         }
-                    }catch(Exception e){
-                    
+                    } catch (Exception e) {
+                        Youtube.log.error("Reading data from connexion", e);
                     }
                 }
-                
-            }else{
-                //System.out.println("Youtube only allows comment to a video not POSTS!");
-                log.error("Youtube only allows comment to a video not POSTS!");
+            } else {
+                Youtube.log.error("Youtube only allows comment to a video not POSTS!");
             }
-        }        
+        }
     }
     
-    private String privacyValue(PostOut postout){
-        Iterator<PostOutPrivacyRelation> privacyRelation = PostOutPrivacyRelation.ClassMgr.listPostOutPrivacyRelationByPopr_postOut(postout);        
+    private String privacyValue(PostOut postout) {
+        
+        Iterator<PostOutPrivacyRelation> privacyRelation = PostOutPrivacyRelation.ClassMgr.
+                listPostOutPrivacyRelationByPopr_postOut(postout);
         String privacy = "";
-        try{
-            while(privacyRelation.hasNext()){
+        try {
+            while(privacyRelation.hasNext()) {
                 PostOutPrivacyRelation privacyR = privacyRelation.next();
-                if(privacyR.getPopr_socialNetwork().getURI().equals(this.getURI())){
-                    if(privacyR.getPopr_privacy() != null){
+                if (privacyR.getPopr_socialNetwork().getURI().equals(this.getURI())) {
+                    if (privacyR.getPopr_privacy() != null) {
                         privacy = privacyR.getPopr_privacy().getId();
                     }
                 }
             }
-        }catch(Exception e){
-            log.error("Problem setting privacy:", e );
+        } catch(Exception e) {
+            Youtube.log.error("Problem setting privacy:", e );
         }
         //System.out.println("PRIVACY:" + privacy);
         return privacy;
@@ -1493,44 +1644,71 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         return hMapPostOutNets;
     }
     
-    public long comments(String videoId){
+    /**
+     * Calcula el total de comentarios publicados asociados a un video.
+     * @param videoId identificador del video del cual se desea conocer el número de comentarios asociados
+     * @return el numero de comentarios publicados asociados al video identificado por el valor de {@code videoId}
+     */
+    public long comments(String videoId) {
         long totalComments = 0L;
-        try{
-        String video = getcommentsFromVideoId(videoId, this.getAccessToken());
-        JSONObject videoResp = new JSONObject(video);
-
-        if(!videoResp.isNull("feed")){
-            if(!videoResp.getJSONObject("feed").isNull("openSearch$totalResults")){
-                if(!videoResp.getJSONObject("feed").getJSONObject("openSearch$totalResults").isNull("$t")){
-                    totalComments = videoResp.getJSONObject("feed").getJSONObject("openSearch$totalResults").getLong("$t");
+        HashMap<String, String> params = new HashMap<String, String>(4);
+        params.put("part", "id");
+        params.put("videoId", videoId);//alt
+        //params.put("start-index","1");//alt
+        params.put("maxResults", "1");//alt
+        try {
+            //String video = getcommentsFromVideoId(videoId);
+            //"https://gdata.youtube.com/feeds/api/videos/" + id +"/comments"
+            String comThreads = this.getRequest(params, Youtube.API_URL + "/commentThreads",
+                                       Youtube.USER_AGENT, "GET");
+            JSONObject threadsResp = new JSONObject(comThreads);
+            if (!threadsResp.isNull("items")) {
+                JSONArray threadsArray = threadsResp.getJSONArray("items");
+                //de cada elemento del array, se obtiene el total de comentarios para sumarlos
+                for (int i = 0; i < threadsArray.length(); i++) {
+                    JSONObject thread = threadsArray.getJSONObject(i);
+                    JSONObject threadSnippet = !thread.isNull("snippet") ? thread.getJSONObject("snippet") : null;
+                    if (threadSnippet != null && !threadSnippet.isNull("videoId") &&
+                            threadSnippet.getString("videoId").equalsIgnoreCase(videoId)) {
+                        String threadId = thread.getString("id");
+                        totalComments++;
+                    }
+                    if (threadSnippet != null && !threadSnippet.isNull("totalReplyCount")) {
+                        totalComments += threadSnippet.getInt("totalReplyCount");
+                    }
                 }
-            }            
-        }
+            }
         //System.out.println("YOUTUBE:" + videoId + " AND THE NUMBER:" + totalComments);
-        }catch(Exception e){
-            log.error("Youtube: Not data found for ->" + videoId );
+        } catch (Exception e) {
+            Youtube.log.error("Youtube: Not data found for -> " + videoId, e);
         }
         return totalComments;
     }
-    
-    public String getcommentsFromVideoId(String id, String accessToken){
-        HashMap<String, String> params = new HashMap<String, String>(3);    
-        params.put("v", "2");
-        params.put("alt","json");//alt
-        params.put("start-index","1");//alt
-        params.put("max-results","1");//alt
-    
-        String response = null;
-        try{
-            //https://gdata.youtube.com/feeds/api/videos/Wwv6iOVFZvw/comments?v=2&alt=json&start-index=1&max-results=1&prettyprint=true
-            response = getRequestVideo(params, "https://gdata.youtube.com/feeds/api/videos/" + id +"/comments",
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", accessToken);
 
-        }catch(Exception e){
-            System.out.println("Error getting video information"  + e.getMessage());
-        }
-        return response;
-    }
+    /**
+     * 
+     * @param id
+     * @param accessToken
+     * @return 
+     */
+//    public String getcommentsFromVideoId(String id) {
+//        
+//        HashMap<String, String> params = new HashMap<String, String>(4);
+//        params.put("part", "id");
+//        params.put("videoId", id);//alt
+//        //params.put("start-index","1");//alt
+//        params.put("maxResults", "1");//alt
+//    
+//        String response = null;
+//        try {
+//            //"https://gdata.youtube.com/feeds/api/videos/" + id +"/comments"
+//            response = this.getRequest(params, Youtube.API_URL + "/commentThreads",
+//                                       Youtube.USER_AGENT, "GET");
+//        } catch (Exception e) {
+//            System.out.println("Error getting video information"  + e.getMessage());
+//        }
+//        return response;
+//    }
     
     public String getRequestVideo(Map<String, String> params, String url,
             String userAgent, String accessToken) throws IOException {
@@ -1689,32 +1867,46 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         //System.out.println("Twitter Klout/answer-2:"+answer);
         return answer;
     }
-    
-    private String getYouTubeThird_party_id(String youtubeUserId)
-    {
-        String idPlus = "" ; 
-        HashMap<String, String> params = new HashMap<String, String>(3);
-        params.put("v", "2");
-        params.put("alt", "json");
 
+    /**
+     * Obtiene el identificador de Google+ para el identificador de usuario de Youtube proporcionado
+     * @param youtubeUserId identificador de usuario de Youtube
+     * @return un {@code String} con el identificador de Google+ correspondiente al identificador
+     * de usuario de Youtube proporcionado
+     */
+    private String getYouTubeThird_party_id(String youtubeUserId) {
+        
         String responseIdGoogle = null;
+        String idPlus = "";
+        HashMap<String, String> params = new HashMap<String, String>(4);
+        params.put("part", "contentDetails");
+        params.put("id", youtubeUserId);
+        params.put("maxResults", "3");
 
         try {
-            responseIdGoogle = getRequest(params, "https://gdata.youtube.com/feeds/api/users/" + youtubeUserId, "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
-
+            responseIdGoogle = this.getRequest(params, Youtube.API_URL + "/channels",
+                    Youtube.USER_AGENT, "GET");
             if (responseIdGoogle.equals("")) {
                 return idPlus;
             }
             
             JSONObject parseUsrInfYoutube = new JSONObject(responseIdGoogle);
-            JSONObject information = parseUsrInfYoutube.getJSONObject("entry");
-            if (information.has("yt$googlePlusUserId") && !information.isNull("yt$googlePlusUserId")) {
-                idPlus = information.getJSONObject("yt$googlePlusUserId").getString("$t");            
-            }                  
-            
+            if (!parseUsrInfYoutube.isNull("items")) {
+                JSONArray items = parseUsrInfYoutube.getJSONArray("items");
+                for (int i = 0; i < items.length(); i++) {
+                    JSONObject item = items.getJSONObject(i);
+                    if (!item.isNull("contentDetails") &&
+                            !item.getJSONObject("contentDetails").isNull("googlePlusUserId")) {
+                        idPlus = item.getJSONObject("contentDetails").getString("googlePlusUserId");
+                    }
+                    if (!idPlus.equals("")) {
+                        break;
+                    }
+                }
+            }
         } catch (Exception e) {
-            System.out.println("Error getting user information" + e.getMessage());
-        }        
+            System.out.println("Error getting user information " + e.getMessage());
+        }
         return idPlus;
     }
     
@@ -1743,48 +1935,61 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         StringBuilder toFile = new StringBuilder(128);
         try {                        
             Iterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
-            while(ponets.hasNext()){
+            while (ponets.hasNext()) {
                 PostOutNet postoutnet = ponets.next();
-                if(postoutnet.getSocialNetwork().equals(socialNet)){//PostOut enviado de la red social
-                    if(postoutnet.getStatus() == 1){//publicado
+                if (postoutnet.getSocialNetwork().equals(socialNet)) {//PostOut enviado de la red social
+                    if (postoutnet.getStatus() == 1) {//publicado
                         //System.out.println("1va a borrar!");
-                        if(postoutnet.getPo_socialNetMsgID() != null){//Tiene id
-                            String urlVideo = "http://gdata.youtube.com/feeds/api/users/default/uploads/" + postoutnet.getPo_socialNetMsgID();
-                            URL url;
-                            HttpURLConnection conn = null;
-                            try {
-                                url = new URL(urlVideo);
-                                toFile.append(urlVideo);
-                                toFile.append("\nDELETE");
-                                conn = (HttpURLConnection) url.openConnection();
-                                conn.setDoInput(true);
-                                conn.setDoOutput(true);
-                                conn.setRequestMethod("DELETE");
-                                conn.setUseCaches(false);
-                                conn.setRequestProperty("Host", "gdata.youtube.com");
-                                conn.setRequestProperty("Content-Type", "application/atom+xml");
-                                conn.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
-                                conn.setRequestProperty("GData-Version", "2");
-                                conn.setRequestProperty("X-GData-Key", "key=" + this.getDeveloperKey());
-                                conn.connect();
-                                //System.out.println("Video Borrado:" + getResponse(conn.getInputStream()));
-                                //BufferedReader readerl = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                                //String docxml = readerl.readLine();
-                                //System.out.println("Video Borrado:" + docxml);
-                                toFile.append(conn.getResponseMessage());
-                                toFile.append("\n");
+                        if (postoutnet.getPo_socialNetMsgID() != null) {//Tiene id
+                            toFile.append(Youtube.API_URL + "/videos  -- " + postoutnet.getPo_socialNetMsgID());
+                            toFile.append("\nDELETE");
+                            HashMap<String, String> params = new HashMap<String, String>(2);
+                            params.put("id", postoutnet.getPo_socialNetMsgID());
+                            String response = this.postRequest(params, Youtube.API_URL + "/videos",
+                                                Youtube.USER_AGENT, "DELETE");
+                            JSONObject jresp = new JSONObject(response);
+                            if (!jresp.isNull("id") && jresp.getString("id").equals(postoutnet.getPo_socialNetMsgID())) {
                                 removed = true;
-                            }catch(Exception ex){
-                                log.error("ERROR deleting video", ex);
-                                //ex.printStackTrace();
                             }
                             
+                            
+//                            String urlVideo = "http://gdata.youtube.com/feeds/api/users/default/uploads/" + postoutnet.getPo_socialNetMsgID();
+//                            URL url;
+//                            HttpURLConnection conn = null;
+//                            try {
+//                                url = new URL(urlVideo);
+//                                toFile.append(urlVideo);
+//                                toFile.append("\nDELETE");
+//                                conn = (HttpURLConnection) url.openConnection();
+//                                conn.setDoInput(true);
+//                                conn.setDoOutput(true);
+//                                conn.setRequestMethod("DELETE");
+//                                conn.setUseCaches(false);
+//                                conn.setRequestProperty("Host", "gdata.youtube.com");
+//                                conn.setRequestProperty("Content-Type", "application/atom+xml");
+//                                conn.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
+//                                conn.setRequestProperty("GData-Version", "2");
+//                                conn.setRequestProperty("X-GData-Key", "key=" + this.getDeveloperKey());
+//                                conn.connect();
+//                                //System.out.println("Video Borrado:" + getResponse(conn.getInputStream()));
+//                                //BufferedReader readerl = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//                                //String docxml = readerl.readLine();
+//                                //System.out.println("Video Borrado:" + docxml);
+//                                toFile.append(conn.getResponseMessage());
+//                                toFile.append("\n");
+//                                removed = true;
+//                            } catch (Exception ex) {
+//                                Youtube.log.error("ERROR deleting video", ex);
+//                            }
+                            toFile.append("Eliminado: " + removed);
+                            toFile.append("\n");
+                            Youtube.write2File(toFile);
                         }
                     }
                 }
             }
-        }catch(Exception e){
-            log.error("Post Not removed!");
+        } catch (Exception e) {
+            Youtube.log.error("Youtube - Post Not removed!", e);
         }
         return removed;
     }
@@ -1850,7 +2055,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         if(stream.getStream_allPhrases() != null && !stream.getStream_allPhrases().trim().isEmpty()){//All phrases
             allPhrases = stream.getStream_allPhrases();
             allPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(allPhrases);
-            allPhrases = allPhrases.trim().replaceAll("\\s+", " "); //replace multiple spaces beetwen words for one only one space
+            allPhrases = allPhrases.trim().replaceAll("\\s+", " "); //replace multiple spaces beetwen words for only one space
             String words[] = allPhrases.split(" ");
             int wordsNumber = words.length;
             String tmpString = "";
