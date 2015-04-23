@@ -16,6 +16,9 @@ import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -64,7 +67,7 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
  * encontrados por la b&uacute;squeda, adem&aacute;s de tener el control sobre
  * la ejecuci&oacute;n para la obtenci&oacute;n de los datos
  *
- * @author jose.jimenez
+ * @author jose.jimenez, carlos.ramos
  */
 public class ReportGenerator extends GenericResource implements PDFExportable {
 
@@ -90,17 +93,16 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
     public void doView(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
 
         PrintWriter out = response.getWriter();
         StringBuilder output = new StringBuilder(256);
-        SWBResourceURL url = paramRequest.getRenderUrl();
+        SWBResourceURL url = paramRequest.getRenderUrl().setMode("report");
         Role actualUserRole = paramRequest.getUser().getRole();
         UserRepository repository = paramRequest.getWebPage().getWebSite().getUserRepository();
-        url.setMode("report");
 
-        output.append("<div class=\"panel panel-default\">");
-        output.append(" <div class=\"panel-heading swb-panel-cabeza\">Reportes</div>");
-        output.append(" <div class=\"panel-body swb-panel-cuerpo swb-reportes\">");
         output.append("  <form name=\"reportCrit\" id=\"reportCrit\" action=\"");
         output.append(url.toString());
         output.append("\" method=\"post\">\n");
@@ -145,7 +147,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("      </select>");
         output.append("     </div>"); //cierra form-group
         output.append("    </div>");
-
         output.append("    <div class=\"col-lg-6 col-md-6 col-sm-12 col-xs-12\">");
         output.append("     <div class=\"form-group\">");
         output.append("      <label for=\"title\">");
@@ -171,7 +172,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             periodOpt.append("</option>").append("\n");
         }
         output.append("<hr>");
-        
         output.append("   <div class=\"row\">");
         output.append("    <div class=\"col-lg-6 col-md-6 col-sm-12 col-xs-12\">");
         output.append("     <div class=\"form-group\">");
@@ -239,8 +239,8 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("   </div>");//cierra row
 
         //Para un rol en particular (Estratega) se debe permitir revisar a los Sponsor
-        if (actualUserRole != null && actualUserRole.getId().equalsIgnoreCase(paramRequest.getLocaleString("superUserRole"))) {
-            
+        if (actualUserRole != null && actualUserRole.getId().equalsIgnoreCase(paramRequest.getLocaleString("superUserRole")))
+        {    
             output.append("   <div class=\"row\">");
             output.append("    <div class=\"col-lg-6 col-md-6 col-sm-12 col-xs-12\">");
             output.append("     <div class=\"form-group\">");
@@ -437,10 +437,112 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("        \n");
         output.append("    }\n");
         output.append("  </script>");
-        output.append(" </div>");// cierra panel body
-        output.append("</div>");// cierra div panel default
         out.println(output.toString());
     }
+    
+    /*
+     * Versión original del método doReport que maneja una tabla html en lugar
+     * de un grid de dojo
+     *
+        public void doReport(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+
+        PrintWriter out = response.getWriter();
+        StringBuilder output = new StringBuilder(256);
+        ReportCriteria criteria = this.createCriteria(request);
+        ArrayList<SemanticObject> results = this.processReport(criteria, paramRequest);
+        int itemsCount = 0;
+        int titleIndex = -1;
+        
+        final String lang = paramRequest.getUser().getLanguage();
+
+        output.append("<div id=\"criteria\">");
+        Enumeration en = request.getParameterNames();
+        while (en.hasMoreElements()) {
+            Object object = en.nextElement();
+            String value = request.getParameter(object + "");
+            if (object != null && !object.toString().equals("props2Show")) {
+                output.append(" <input type=\"hidden\" name=\"");
+                output.append(object.toString());
+                output.append("\" id=\"");
+                output.append(object.toString());
+                output.append("\" value=\"");
+                output.append(value);
+                output.append("\"/>");
+            } else {
+                String[] selectedProps = request.getParameterValues(object.toString());
+                output.append("<select id=\"");
+                output.append(object.toString());
+                output.append("\" name=\"");
+                output.append(object.toString());
+                output.append("\" multiple style=\"display:none;visibility:hidden\"> ");//
+                for (int i = 0; i < selectedProps.length; i++) {
+                    output.append("<option value=\"");
+                    output.append(selectedProps[i]);
+                    output.append("\" selected></option>");
+                }
+                output.append("</select>");
+            }
+        }
+        output.append("</div>");
+        
+        output.append("<div class=\"table-responsive\">");
+        output.append("<table class=\"table table-striped table-bordered\">\n");  
+        output.append(" <thead>\n");
+        output.append("  <tr>\n");
+        for (SemanticProperty prop : criteria.getProps2Show()) {
+            output.append("    <th class=\"swb-report-header\">");
+            output.append(prop.getLabel(lang));
+            output.append("</th>\n");
+            if (prop.getURI().indexOf("title") != -1 && titleIndex == -1) {
+                titleIndex = itemsCount;
+            }
+            itemsCount++;
+        }
+        output.append("  </tr>\n");
+        output.append(" </thead>\n");
+        output.append(" <tbody>\n");
+        for (SemanticObject item : results) {
+            GenericObject gralItem = item.createGenericInstance();
+            boolean sameKind = false;
+
+            if (gralItem.getURI().contains(criteria.getElementType())) {
+                sameKind = true;
+            }
+            itemsCount = 0;
+            output.append("  <tr>\n");
+            for (SemanticProperty prop : criteria.getProps2Show()) {
+
+                output.append("    <td class=\"swb-report\">\n");
+                if (sameKind) {
+                    output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
+                } else {
+                    //de los objetos relacionados solo se va a mostrar el titulo en la tabla
+                    if (itemsCount == titleIndex) {
+                        output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
+                    } else {
+                        output.append("      &nbsp;\n");
+                    }
+                }
+                output.append("    </td>\n");
+                itemsCount++;
+            }
+            output.append("  </tr>\n");
+        }
+        if (results.isEmpty()) {
+            output.append("  <tr><td colspan=\"");
+            output.append(criteria.getProps2Show().size());
+            output.append("\">");
+            output.append(paramRequest.getLocaleString("msg_noResults"));
+            output.append("</td></tr>\n");
+        }
+        output.append(" <tbody>\n");
+        output.append("</table>");
+        output.append("</div>");
+        out.print(output.toString());
+    }    
+    
+    */
 
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response,
@@ -543,20 +645,16 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                 iterator = ((Objective) generic).listStates();
             }else if(generic instanceof Indicator) {
                 iterator = ((Indicator) generic).getObjective().listStates();
-            }
-            /*else if(generic instanceof Initiative)
-            {
+            }else if(generic instanceof Initiative) {
 //                if(((Initiative) generic).getStatusAssigned() != null) {
 //                    states.add(((Initiative) generic).getStatusAssigned());
 //                }
-            }
-            else if(generic instanceof Deliverable)
-            {
+            }else if(generic instanceof Deliverable) {
 //                    Initiative ini = (Initiative) ((Deliverable) generic).getInitiative();
 //                    if(ini.getStatusAssigned() != null) {
 //                        states.add(ini.getStatusAssigned());
 //                    }
-            }*/
+            }
             while (iterator != null && iterator.hasNext()) {
                 State state = iterator.next();
                 if (state != null && state.isValid()) {
@@ -596,102 +694,128 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
      */
     public void doReport(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
 
         PrintWriter out = response.getWriter();
-        StringBuilder output = new StringBuilder(256);
-        ReportCriteria criteria = this.createCriteria(request);
-        ArrayList<SemanticObject> results = this.processReport(criteria, paramRequest);
-        int itemsCount = 0;
-        int titleIndex = -1;
-        
+        StringBuilder output = new StringBuilder();
+        ReportCriteria criteria = createCriteria(request);
+        ArrayList<SemanticObject> results = processReport(criteria, paramRequest);
         final String lang = paramRequest.getUser().getLanguage();
-
-        //Comentada para que en formelement.TextField se obtenga el Id desde el objeto semantico
-        //request.setAttribute("websiteId", paramRequest.getWebPage().getWebSiteId());
-
-        output.append("<div id=\"criteria\">");
-        Enumeration en = request.getParameterNames();
-        while (en.hasMoreElements()) {
-            Object object = en.nextElement();
-            String value = request.getParameter(object + "");
-            if (object != null && !object.toString().equals("props2Show")) {
-                output.append(" <input type=\"hidden\" name=\"");
-                output.append(object.toString());
-                output.append("\" id=\"");
-                output.append(object.toString());
-                output.append("\" value=\"");
-                output.append(value);
-                output.append("\"/>");
-            } else {
-                String[] selectedProps = request.getParameterValues(object.toString());
-                output.append("<select id=\"");
-                output.append(object.toString());
-                output.append("\" name=\"");
-                output.append(object.toString());
-                output.append("\" multiple style=\"display:none;visibility:hidden\"> ");//
-                for (int i = 0; i < selectedProps.length; i++) {
-                    output.append("<option value=\"");
-                    output.append(selectedProps[i]);
-                    output.append("\" selected></option>");
-                }
-                output.append("</select>");
-            }
-        }
-        output.append("</div>");
         
-        output.append("<div class=\"table-responsive\">");
-        output.append("<table class=\"table table-striped table-bordered\">\n");  
-        output.append(" <thead>\n");
-        output.append("  <tr>\n");
-        for (SemanticProperty prop : criteria.getProps2Show()) {
-            output.append("    <th class=\"swb-report-header\">");
-            output.append(prop.getLabel(lang));
-            output.append("</th>\n");
-            if (prop.getURI().indexOf("title") != -1 && titleIndex == -1) {
-                titleIndex = itemsCount;
-            }
-            itemsCount++;
+        
+output.append("<div id=\"criteria\">");
+Enumeration en = request.getParameterNames();
+while (en.hasMoreElements()) {
+    Object object = en.nextElement();
+    String value = request.getParameter(object + "");
+    if (object != null && !object.toString().equals("props2Show")) {
+        output.append(" <input type=\"hidden\" name=\"");
+        output.append(object.toString());
+        output.append("\" id=\"");
+        output.append(object.toString());
+        output.append("\" value=\"");
+        output.append(value);
+        output.append("\"/>");
+    } else {
+        String[] selectedProps = request.getParameterValues(object.toString());
+        output.append("<select id=\"");
+        output.append(object.toString());
+        output.append("\" name=\"");
+        output.append(object.toString());
+        output.append("\" multiple style=\"display:none;visibility:hidden\"> ");//
+        for (int i = 0; i < selectedProps.length; i++) {
+            output.append("<option value=\"");
+            output.append(selectedProps[i]);
+            output.append("\" selected></option>");
         }
-        output.append("  </tr>\n");
-        output.append(" </thead>\n");
-        output.append(" <tbody>\n");
+        output.append("</select>");
+    }
+}
+output.append("</div>");        
+        
+        
+        JSONObject structure = new JSONObject();
+        JSONArray items = new JSONArray();
+        JSONObject row;
+        try {
+            structure.append("identifier", "uri");
+        }catch(JSONException jsone) {
+            ReportGenerator.log.error("En la creacion de objetos JSON", jsone);
+        }
+        GenericObject gralItem;
         for (SemanticObject item : results) {
-            GenericObject gralItem = item.createGenericInstance();
-            boolean sameKind = false;
-
-            if (gralItem.getURI().contains(criteria.getElementType())) {
-                sameKind = true;
-            }
-            itemsCount = 0;
-            output.append("  <tr>\n");
+            gralItem = item.createGenericInstance();
+            row = new JSONObject();
             for (SemanticProperty prop : criteria.getProps2Show()) {
-
-                output.append("    <td class=\"swb-report\">\n");
-                if (sameKind) {
-                    output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
-                } else {
-                    //de los objetos relacionados solo se va a mostrar el titulo en la tabla
-                    if (itemsCount == titleIndex) {
-                        output.append(this.renderPropertyValue(request, item, prop.getURI(), lang));
-                    } else {
-                        output.append("      &nbsp;\n");
-                    }
+                try {
+                    row.put(prop.getName(), SWBUtils.TEXT.parseHTML(renderPropertyValue(request, item, prop.getURI(), lang)));
+                }catch(InterruptedException ie) {
+                    ReportGenerator.log.error(ie); 
+                }catch(JSONException jsone) {
+                    ReportGenerator.log.error("En la creacion de objetos JSON", jsone);
                 }
-                output.append("    </td>\n");
-                itemsCount++;
             }
-            output.append("  </tr>\n");
+            try {
+                row.put("uri", gralItem.getURI());
+            }catch(JSONException jsone) {
+                ReportGenerator.log.error("En la creacion de objetos JSON", jsone);
+            }
+            items.put(row);
         }
-        if (results.isEmpty()) {
-            output.append("  <tr><td colspan=\"");
-            output.append(criteria.getProps2Show().size());
-            output.append("\">");
-            output.append(paramRequest.getLocaleString("msg_noResults"));
-            output.append("</td></tr>\n");
+        try {
+            structure.put("items", items);
+        }catch(JSONException jsone) {
+            ReportGenerator.log.error("En la creacion de objetos JSON", jsone);
         }
-        output.append(" <tbody>\n");
-        output.append("</table>");
-        output.append("</div>");
+        output.append("<script type=\"text/javascript\">\n");
+        output.append("  dojo.require('dojo.parser');\n");
+        output.append("  dojo.require('dojox.layout.ContentPane');\n");
+        output.append("  dojo.require('dojox.grid.DataGrid');\n");
+        output.append("  dojo.require('dojo.data.ItemFileReadStore');\n");
+        output.append("  var structure = ");
+        try {
+            output.append(structure.toString(2));
+        }catch(JSONException jsone) {
+            ReportGenerator.log.error("En la escritura de store del grid", jsone);
+            output.append("{}");
+        }
+        output.append(";\n");
+
+        output.append("  var myStore, myGrid;\n");
+        output.append("  dojo.addOnLoad(function() {\n");
+        output.append("    myStore = new dojo.data.ItemFileReadStore({\n");
+        output.append("      data : structure\n");
+        output.append("    });\n");
+        output.append("    myGrid = new dojox.grid.DataGrid({\n");
+        output.append("      columnReordering: true,\n");
+        output.append("      store: myStore,\n");
+        output.append("      structure: [\n");
+        Iterator<SemanticProperty> propsIt = criteria.getProps2Show().iterator();
+        SemanticProperty prop;
+        while(propsIt.hasNext()) {
+            prop = propsIt.next();
+            output.append("{");
+            output.append("name:" + "'").append(prop.getLabel(lang)).append("',");
+            output.append("field:" + "'").append(prop.getName()).append("',");
+            output.append("width:'100px'");
+            output.append("}");
+            if(propsIt.hasNext()) {
+                output.append(",");
+            }
+            output.append("\n");
+        }
+        output.append("      ],\n");
+        output.append("      rowSelector: '10px', \n");
+        output.append("      autoWidth: false, \n");
+        output.append("      initialWidth: '100%', \n");
+        output.append("      autoHeight: true \n");
+        output.append("    }, \"grid\");\n");
+        output.append("    myGrid.startup();\n");
+        output.append("  });\n");
+        output.append("</script>\n");
+        output.append("<div id=\"grid\"></div>\n");
         out.print(output.toString());
     }
 
@@ -764,6 +888,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
 
         StringBuilder script = new StringBuilder(512);
         int countClassses = 0;
+        //script.append("<script type=\"text/javascript\">");
         if (children != null && !children.isEmpty()) {
             Iterator<String> classNames = children.keySet().iterator();
             script.append("  var props4Select = [\n");
@@ -805,6 +930,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             }
             script.append("\n  ];\n");
         }
+        //script.append("<script>\n");
         return script.toString();
     }
 
@@ -1061,7 +1187,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         }
 
         ArrayList<SemanticObject> processed = new ArrayList<SemanticObject>(256);
-        //int count = 0;
+        int count = 0;
 
         //el conjunto inicial de objetos, se filtra con los criterios seleccionados por el usuario
         while (initialSet != null && initialSet.hasNext()) {
@@ -1188,14 +1314,16 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                         }
                     } else if (inTurn instanceof Deliverable) {
                         Deliverable deli = (Deliverable) inTurn;
-                        Initiative ini = (Initiative) deli.getInitiative();
-                        if (ini.getInitiativeAssignable() != null
-                                && ini.getInitiativeAssignable() instanceof Indicator) {
-                            Indicator indi = (Indicator) ini.getInitiativeAssignable();
-                            if (indi.getObjective().getSponsor().equals(criteria.getSponsor())) {
-                                mustBeAdded = true;
+//                        if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
+                            Initiative ini = (Initiative) deli.getInitiative();
+                            if (ini.getInitiativeAssignable() != null
+                                    && ini.getInitiativeAssignable() instanceof Indicator) {
+                                Indicator indi = (Indicator) ini.getInitiativeAssignable();
+                                if (indi.getObjective().getSponsor().equals(criteria.getSponsor())) {
+                                    mustBeAdded = true;
+                                }
                             }
-                        }
+//                        }
                     }
                 }
             } else if (criteria.getSponsor() == null && mustBeAdded) {
@@ -1208,8 +1336,9 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                     addRelated(processed, inTurn, criteria.getRelatedElements());
                 }
             }
-            //count++;
+            count++;
         }
+
         return processed;
     }
 
@@ -1300,21 +1429,25 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             Deliverable deli = (Deliverable) element;
             for (String type : relatedTypes) {
                 if (type.endsWith(Objective.bsc_Objective.getName())) {
-                    //Se hace la comparacion debido a la creacion de la interface DeliverableAssignable
-                    Initiative ini = (Initiative) deli.getInitiative();
-                    if (ini.getInitiativeAssignable() != null
-                            && ini.getInitiativeAssignable() instanceof Indicator) {
-                        //se obtiene el objetivo del entregable a partir de la iniciativa
-                        Indicator indi = (Indicator) ini.getInitiativeAssignable();
-                        additional.add(indi.getObjective().getSemanticObject());
-                    }
+//                    if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
+                        //Se hace la comparacion debido a la creacion de la interface DeliverableAssignable
+                        Initiative ini = (Initiative) deli.getInitiative();
+                        if (ini.getInitiativeAssignable() != null
+                                && ini.getInitiativeAssignable() instanceof Indicator) {
+                            //se obtiene el objetivo del entregable a partir de la iniciativa
+                            Indicator indi = (Indicator) ini.getInitiativeAssignable();
+                            additional.add(indi.getObjective().getSemanticObject());
+                        }
+//                    }
                 } else if (type.endsWith(Indicator.bsc_Indicator.getName())) {
-                    Initiative ini = (Initiative) deli.getInitiative();
-                    if (ini.getInitiativeAssignable() != null
-                            && ini.getInitiativeAssignable() instanceof Indicator) {
-                        //se obtiene el indicador a partir de la iniciativa
-                        additional.add(((Indicator) ini.getInitiativeAssignable()).getSemanticObject());
-                    }
+//                    if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
+                        Initiative ini = (Initiative) deli.getInitiative();
+                        if (ini.getInitiativeAssignable() != null
+                                && ini.getInitiativeAssignable() instanceof Indicator) {
+                            //se obtiene el indicador a partir de la iniciativa
+                            additional.add(((Indicator) ini.getInitiativeAssignable()).getSemanticObject());
+                        }
+//                    }
                 } else if (type.endsWith(Initiative.bsc_Initiative.getName()) && deli.getInitiative()!= null) {
                     additional.add(deli.getInitiative().getSemanticObject());
                 }
@@ -1730,6 +1863,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             SWBResourceURL url = new SWBResourceURLImp(request, base2, paramRequest.getWebPage(), SWBResourceURL.UrlType_RENDER);
             url.setMode(Mode_StreamPDF);
             url.setCallMethod(SWBResourceURL.Call_DIRECT);
+//            String alt = paramRequest.getLocaleString("msgPrintPDFDocument");
 
             OntClass claseOnt = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel().getOntClass("http://www.semanticwebbuilder.org/swb4/bsc#BSCElement");
             List<String> elements = new ArrayList<String>();
@@ -1843,6 +1977,14 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             toReturn.append("\n     }");
             toReturn.append("\n  }");
             toReturn.append("\n </script>");
+
+//            toReturn.append("<a href=\"javascript:getCriteria()");
+//            toReturn.append("\" class=\"export-stgy\" title=\"");
+//            toReturn.append(alt);
+//            toReturn.append("\" >");
+//            toReturn.append(alt);
+//            toReturn.append("</a>");
+            
             toReturn.append("<button type=\"button\" class=\"btn btn-default\" onclick=\"javascript:getCriteria();\"><span class=\"glyphicon glyphicon-export\"></span></button>");
             toReturn.append("<form id=\"frmDetail\" method=\"post\" action=\"");
             toReturn.append(url);
