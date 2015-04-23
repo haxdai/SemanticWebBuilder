@@ -145,10 +145,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         output.append("      </select>");
         output.append("     </div>"); //cierra form-group
         output.append("    </div>");
-        //output.append("   </div>");//cierra div row
-        
-//        output.append("   <hr>");
-        //output.append("   <div class=\"row\">");
+
         output.append("    <div class=\"col-lg-6 col-md-6 col-sm-12 col-xs-12\">");
         output.append("     <div class=\"form-group\">");
         output.append("      <label for=\"title\">");
@@ -268,7 +265,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             output.append("     </div>");
             output.append("    </div>");
             output.append("   </div>");//cierra row
-            //output.append("<hr>");
         }
         output.append("   <hr>");
         output.append("   <div class=\"row swb-reportes-checkboxinline\">");
@@ -547,16 +543,20 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                 iterator = ((Objective) generic).listStates();
             }else if(generic instanceof Indicator) {
                 iterator = ((Indicator) generic).getObjective().listStates();
-            }else if(generic instanceof Initiative) {
+            }
+            /*else if(generic instanceof Initiative)
+            {
 //                if(((Initiative) generic).getStatusAssigned() != null) {
 //                    states.add(((Initiative) generic).getStatusAssigned());
 //                }
-            }else if(generic instanceof Deliverable) {
+            }
+            else if(generic instanceof Deliverable)
+            {
 //                    Initiative ini = (Initiative) ((Deliverable) generic).getInitiative();
 //                    if(ini.getStatusAssigned() != null) {
 //                        states.add(ini.getStatusAssigned());
 //                    }
-            }
+            }*/
             while (iterator != null && iterator.hasNext()) {
                 State state = iterator.next();
                 if (state != null && state.isValid()) {
@@ -638,11 +638,9 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             }
         }
         output.append("</div>");
-
         
-        //output.append("<div class=\"table-responsive\">");
-        output.append("<table class=\"table table-striped table-bordered\">\n");
-//encabezado        
+        output.append("<div class=\"table-responsive\">");
+        output.append("<table class=\"table table-striped table-bordered\">\n");  
         output.append(" <thead>\n");
         output.append("  <tr>\n");
         for (SemanticProperty prop : criteria.getProps2Show()) {
@@ -656,7 +654,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         }
         output.append("  </tr>\n");
         output.append(" </thead>\n");
-//cuerpo
         output.append(" <tbody>\n");
         for (SemanticObject item : results) {
             GenericObject gralItem = item.createGenericInstance();
@@ -693,9 +690,8 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             output.append("</td></tr>\n");
         }
         output.append(" <tbody>\n");
-//fin
         output.append("</table>");
-        //output.append("</div>");
+        output.append("</div>");
         out.print(output.toString());
     }
 
@@ -768,7 +764,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
 
         StringBuilder script = new StringBuilder(512);
         int countClassses = 0;
-        //script.append("<script type=\"text/javascript\">");
         if (children != null && !children.isEmpty()) {
             Iterator<String> classNames = children.keySet().iterator();
             script.append("  var props4Select = [\n");
@@ -810,7 +805,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             }
             script.append("\n  ];\n");
         }
-        //script.append("<script>\n");
         return script.toString();
     }
 
@@ -1067,7 +1061,7 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
         }
 
         ArrayList<SemanticObject> processed = new ArrayList<SemanticObject>(256);
-        int count = 0;
+        //int count = 0;
 
         //el conjunto inicial de objetos, se filtra con los criterios seleccionados por el usuario
         while (initialSet != null && initialSet.hasNext()) {
@@ -1194,16 +1188,14 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                         }
                     } else if (inTurn instanceof Deliverable) {
                         Deliverable deli = (Deliverable) inTurn;
-//                        if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
-                            Initiative ini = (Initiative) deli.getInitiative();
-                            if (ini.getInitiativeAssignable() != null
-                                    && ini.getInitiativeAssignable() instanceof Indicator) {
-                                Indicator indi = (Indicator) ini.getInitiativeAssignable();
-                                if (indi.getObjective().getSponsor().equals(criteria.getSponsor())) {
-                                    mustBeAdded = true;
-                                }
+                        Initiative ini = (Initiative) deli.getInitiative();
+                        if (ini.getInitiativeAssignable() != null
+                                && ini.getInitiativeAssignable() instanceof Indicator) {
+                            Indicator indi = (Indicator) ini.getInitiativeAssignable();
+                            if (indi.getObjective().getSponsor().equals(criteria.getSponsor())) {
+                                mustBeAdded = true;
                             }
-//                        }
+                        }
                     }
                 }
             } else if (criteria.getSponsor() == null && mustBeAdded) {
@@ -1216,9 +1208,8 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
                     addRelated(processed, inTurn, criteria.getRelatedElements());
                 }
             }
-            count++;
+            //count++;
         }
-
         return processed;
     }
 
@@ -1309,25 +1300,21 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             Deliverable deli = (Deliverable) element;
             for (String type : relatedTypes) {
                 if (type.endsWith(Objective.bsc_Objective.getName())) {
-//                    if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
-                        //Se hace la comparacion debido a la creacion de la interface DeliverableAssignable
-                        Initiative ini = (Initiative) deli.getInitiative();
-                        if (ini.getInitiativeAssignable() != null
-                                && ini.getInitiativeAssignable() instanceof Indicator) {
-                            //se obtiene el objetivo del entregable a partir de la iniciativa
-                            Indicator indi = (Indicator) ini.getInitiativeAssignable();
-                            additional.add(indi.getObjective().getSemanticObject());
-                        }
-//                    }
+                    //Se hace la comparacion debido a la creacion de la interface DeliverableAssignable
+                    Initiative ini = (Initiative) deli.getInitiative();
+                    if (ini.getInitiativeAssignable() != null
+                            && ini.getInitiativeAssignable() instanceof Indicator) {
+                        //se obtiene el objetivo del entregable a partir de la iniciativa
+                        Indicator indi = (Indicator) ini.getInitiativeAssignable();
+                        additional.add(indi.getObjective().getSemanticObject());
+                    }
                 } else if (type.endsWith(Indicator.bsc_Indicator.getName())) {
-//                    if (deli.getDeliverableAssignable() != null && deli.getDeliverableAssignable() instanceof Initiative) {
-                        Initiative ini = (Initiative) deli.getInitiative();
-                        if (ini.getInitiativeAssignable() != null
-                                && ini.getInitiativeAssignable() instanceof Indicator) {
-                            //se obtiene el indicador a partir de la iniciativa
-                            additional.add(((Indicator) ini.getInitiativeAssignable()).getSemanticObject());
-                        }
-//                    }
+                    Initiative ini = (Initiative) deli.getInitiative();
+                    if (ini.getInitiativeAssignable() != null
+                            && ini.getInitiativeAssignable() instanceof Indicator) {
+                        //se obtiene el indicador a partir de la iniciativa
+                        additional.add(((Indicator) ini.getInitiativeAssignable()).getSemanticObject());
+                    }
                 } else if (type.endsWith(Initiative.bsc_Initiative.getName()) && deli.getInitiative()!= null) {
                     additional.add(deli.getInitiative().getSemanticObject());
                 }
@@ -1743,7 +1730,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             SWBResourceURL url = new SWBResourceURLImp(request, base2, paramRequest.getWebPage(), SWBResourceURL.UrlType_RENDER);
             url.setMode(Mode_StreamPDF);
             url.setCallMethod(SWBResourceURL.Call_DIRECT);
-//            String alt = paramRequest.getLocaleString("msgPrintPDFDocument");
 
             OntClass claseOnt = SWBPlatform.getSemanticMgr().getSchema().getRDFOntModel().getOntClass("http://www.semanticwebbuilder.org/swb4/bsc#BSCElement");
             List<String> elements = new ArrayList<String>();
@@ -1857,14 +1843,6 @@ public class ReportGenerator extends GenericResource implements PDFExportable {
             toReturn.append("\n     }");
             toReturn.append("\n  }");
             toReturn.append("\n </script>");
-
-//            toReturn.append("<a href=\"javascript:getCriteria()");
-//            toReturn.append("\" class=\"export-stgy\" title=\"");
-//            toReturn.append(alt);
-//            toReturn.append("\" >");
-//            toReturn.append(alt);
-//            toReturn.append("</a>");
-            
             toReturn.append("<button type=\"button\" class=\"btn btn-default\" onclick=\"javascript:getCriteria();\"><span class=\"glyphicon glyphicon-export\"></span></button>");
             toReturn.append("<form id=\"frmDetail\" method=\"post\" action=\"");
             toReturn.append(url);
