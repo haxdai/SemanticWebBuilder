@@ -1421,7 +1421,7 @@ public class YoutubeWall extends GenericResource{
      * @throws SWBResourceException
      * @throws IOException 
      */
-    public void doPrintVideo(HttpServletRequest request, HttpServletResponse response, 
+    public static void doPrintVideo(HttpServletRequest request, HttpServletResponse response, 
              SWBParamRequest paramRequest, java.io.Writer out, String postURI, JSONObject video,
              boolean userCanDoEverything, boolean userCanRetopicMsg, boolean userCanRespondMsg,
              boolean userCanRemoveMsg) throws SWBResourceException, IOException {
@@ -1514,7 +1514,7 @@ public class YoutubeWall extends GenericResource{
                         JSONObject comment = arrayComments.getJSONObject(c);
                         if (!comment.isNull("snippet") && !comment.getJSONObject("snippet").isNull("topLevelComment")) {
                             JSONObject topLevelComment = comment.getJSONObject("snippet").getJSONObject("topLevelComment");
-                            out.write(this.assembleCommentHtml(topLevelComment, paramRequest, objUri, video.getString("id")));
+                            out.write(YoutubeWall.assembleCommentHtml(topLevelComment, paramRequest, objUri, video.getString("id")));
                         }
 //                        JSONObject usrCommentProfile = null;
 //                        if (!comment.isNull("author")) {
@@ -1533,7 +1533,7 @@ public class YoutubeWall extends GenericResource{
                             JSONArray replies = comment.getJSONObject("replies").getJSONArray("comments");
                             for (int i = 0; i < replies.length(); i++) {
                                 totalComments++;
-                                out.write(this.assembleCommentHtml(replies.getJSONObject(i),
+                                out.write(YoutubeWall.assembleCommentHtml(replies.getJSONObject(i),
                                         paramRequest, objUri, video.getString("id")));
                             }
                         }
@@ -1647,7 +1647,7 @@ public class YoutubeWall extends GenericResource{
      * @param comment
      * @return el String que contiene el HTML generado
      */
-    private String assembleCommentHtml(JSONObject comment, SWBParamRequest paramRequest, String objUri, String videoId) {
+    private static String assembleCommentHtml(JSONObject comment, SWBParamRequest paramRequest, String objUri, String videoId) {
 
         StringBuilder output = new StringBuilder(256);
         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm a", new Locale("es", "MX"));
@@ -1779,103 +1779,111 @@ public class YoutubeWall extends GenericResource{
             PrintWriter out = response.getWriter();
             //maxVideoId contiene la pagina de los resultados que debe obtenerse valor de nextPageToken en una peticion a Youtube
             String maxVideoId = request.getParameter("maxVideoId");
+            String uploadsList = request.getParameter("uploadsList");
+            int videosInChannel = 0;
+            JSONArray videosArray = null;
             HashMap<String, String> params = new HashMap<String, String>(4);
             params.put("part", "id,contentDetails");
             params.put("mine", "true");
-            params.put("maxResults", "10");
+            params.put("maxResults", "2");
             String objUri = (String) request.getParameter("suri");
+            
             SemanticObject semanticObject = SemanticObject.createSemanticObject(objUri);
             Youtube semanticYoutube = (Youtube) semanticObject.createGenericInstance();
-            int videosInChannel = 0;
             
             if (!semanticYoutube.validateToken()) {//If was unable to refresh the token
                 YoutubeWall.log.error("Unable to refresh the access token!");
                 return;
             }
-            //Primero se obtiene la lista de canales del usuario
-            String ytResponse = semanticYoutube.getRequest(params, Youtube.API_URL + "/channels",
-                                                           Youtube.USER_AGENT, "GET");
-            JSONObject channelsResponse = new JSONObject(ytResponse);
-            JSONArray channelLists = null;
-            if (!channelsResponse.isNull("items")) {
-                channelLists = channelsResponse.getJSONArray("items");
-            }
-            if (channelLists != null && channelLists.length() > 0) {
-                for (int i = 0; i < channelLists.length(); i++) {
-                    JSONObject channel = channelLists.getJSONObject(i);
-                    String uploadList = null;
-                    JSONArray videosArray = null;
+            if (uploadsList == null || (uploadsList != null &&
+                    (uploadsList.isEmpty() || uploadsList.equals("null")) )) {
+                //Se obtiene la lista de canales del usuario
+                String ytResponse = semanticYoutube.getRequest(params, Youtube.API_URL + "/channels",
+                                                               Youtube.USER_AGENT, "GET");
+                JSONObject channelsResponse = new JSONObject(ytResponse);
+                JSONArray channelLists = null;
+                if (!channelsResponse.isNull("items")) {
+                    channelLists = channelsResponse.getJSONArray("items");
+                }
+                if (channelLists != null && channelLists.length() > 0) {
+                    JSONObject channel = channelLists.getJSONObject(0);
                     if (!channel.isNull("contentDetails") &&
                             !channel.getJSONObject("contentDetails").isNull("relatedPlaylists")) {
                         JSONObject relatedLists = channel.getJSONObject("contentDetails").getJSONObject("relatedPlaylists");
-                        uploadList = !relatedLists.isNull(("uploads")) 
-                                     ? relatedLists.getString("uploads") : null;
+                        uploadsList = !relatedLists.isNull(("uploads"))
+                                      ? relatedLists.getString("uploads") : null;
                     }
-                    //De cada canal, se obtiene la lista de videos cargados
-                    if (uploadList != null) {
-                        HashMap<String, String> videoParams = new HashMap<String, String>(2);
-                        videoParams.put("part", "id,snippet");
-                        videoParams.put("playlistId", uploadList);
-                        if (maxVideoId != null && !maxVideoId.isEmpty()) {
-                            params.put("pageToken", maxVideoId);
-                        }
-                        
-                        //antes: http://gdata.youtube.com/feeds/api/users/default/uploads
-                        String videosResponse = semanticYoutube.getRequest(videoParams,
-                                Youtube.API_URL + "/playlistItems", Youtube.USER_AGENT, "GET");
-                        JSONObject videosList = new JSONObject(videosResponse);
-                        if (!videosList.isNull("items")) {
-                            videosArray = videosList.getJSONArray("items");
-                        }
-                        if (!videosList.isNull("pageInfo") &&
-                                !videosList.getJSONObject("pageInfo").isNull("totalResults")) {
-                            videosInChannel = videosList.getJSONObject("pageInfo").getInt("totalResults");
-                        }
-                    }
-                    
-                    if (videosArray != null && videosArray.length() > 0) {
-                        String postURI = null;
-                        org.semanticwb.model.User user = paramRequest.getUser();
-                        HashMap<String, SemanticProperty> mapa = new HashMap<String, SemanticProperty>();
-                        Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().
-                                getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialUserExtAttributes").listProperties();
-                        while (list.hasNext()) {
-                            SemanticProperty sp = list.next();
-                            mapa.put(sp.getName(),sp);
-                        }
-                        boolean userCanRetopicMsg = ((Boolean) user.getExtendedAttribute(
-                                mapa.get("userCanReTopicMsg"))).booleanValue();
-                        boolean userCanRespondMsg = ((Boolean) user.getExtendedAttribute(
-                                mapa.get("userCanRespondMsg"))).booleanValue();
-                        boolean userCanRemoveMsg = ((Boolean) user.getExtendedAttribute(
-                                mapa.get("userCanRemoveMsg"))).booleanValue();
-                        UserGroup userSuperAdminGrp = SWBContext.getAdminWebSite().
-                                getUserRepository().getUserGroup("su");
-                        //THE INFO OF THE USER SHOULD BE DISPLAYED AT TOP
-                        int totalVideos = 0;
-            
-                        for (int j = 0; j < videosArray.length(); j++ ) {
-                            this.doPrintVideo(request, response, paramRequest, out,
-                                    postURI, videosArray.getJSONObject(j),
-                                    user.hasUserGroup(userSuperAdminGrp),
-                                    userCanRetopicMsg, userCanRespondMsg,
-                                    userCanRemoveMsg);
-                            totalVideos++;
-                        }
+                }
+            }
+            //se obtiene la lista de videos cargados
+            if (uploadsList != null) {
+                HashMap<String, String> videoParams = new HashMap<String, String>(4);
+                videoParams.put("part", "id,snippet");
+                videoParams.put("playlistId", uploadsList);
+                videoParams.put("maxResults", "10");
+                if (maxVideoId != null && !maxVideoId.isEmpty()) {
+                    params.put("pageToken", maxVideoId);
+                }
 
-                        if (totalVideos + Integer.parseInt(maxVideoId) < videosInChannel) {
-                            out.write("<div align=\"center\">");
-                            out.write("<label id=\"" + objUri + "/moreVideosLabel\">");
-                            out.write("<a href=\"#\" onclick=\"appendHtmlAt('");
-                            out.write(paramRequest.getRenderUrl().setMode("getMoreVideos").
-                                    setParameter("maxVideoId", (totalVideos + Integer.parseInt(maxVideoId))+"").
-                                    setParameter("suri", objUri).toString());
-                            out.write("','" + objUri + "/getMoreVideos', 'bottom');");
-                            out.write("try{this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );}catch(noe){}; return false;\">");
-                            out.write("More Videos</a></label>");
-                            out.write("</div>");
-                        }
-                    }
+                //antes: http://gdata.youtube.com/feeds/api/users/default/uploads
+                String videosResponse = semanticYoutube.getRequest(videoParams,
+                                        Youtube.API_URL + "/playlistItems", Youtube.USER_AGENT, "GET");
+                JSONObject videosList = new JSONObject(videosResponse);
+                if (!videosList.isNull("items")) {
+                    videosArray = videosList.getJSONArray("items");
+                }
+                if (!videosList.isNull("pageInfo") &&
+                        !videosList.getJSONObject("pageInfo").isNull("totalResults")) {
+                    videosInChannel = videosList.getJSONObject("pageInfo").getInt("totalResults");
+                }
+                if (!videosList.isNull("nextPageToken")) {
+                    maxVideoId = videosList.getString("nextPageToken");
+                }
+            }
+            
+            if (videosArray != null && videosArray.length() > 0) {
+                String postURI = null;
+                org.semanticwb.model.User user = paramRequest.getUser();
+                HashMap<String, SemanticProperty> mapa = new HashMap<String, SemanticProperty>();
+                Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().
+                        getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialUserExtAttributes").listProperties();
+                while (list.hasNext()) {
+                    SemanticProperty sp = list.next();
+                    mapa.put(sp.getName(),sp);
+                }
+                boolean userCanRetopicMsg = ((Boolean) user.getExtendedAttribute(
+                        mapa.get("userCanReTopicMsg"))).booleanValue();
+                boolean userCanRespondMsg = ((Boolean) user.getExtendedAttribute(
+                        mapa.get("userCanRespondMsg"))).booleanValue();
+                boolean userCanRemoveMsg = ((Boolean) user.getExtendedAttribute(
+                        mapa.get("userCanRemoveMsg"))).booleanValue();
+                UserGroup userSuperAdminGrp = SWBContext.getAdminWebSite().
+                        getUserRepository().getUserGroup("su");
+                //THE INFO OF THE USER SHOULD BE DISPLAYED AT TOP
+                //int totalVideos = 0;
+
+                for (int j = 0; j < videosArray.length(); j++ ) {
+                    YoutubeWall.doPrintVideo(request, response, paramRequest, out,
+                            postURI, videosArray.getJSONObject(j),
+                            user.hasUserGroup(userSuperAdminGrp),
+                            userCanRetopicMsg, userCanRespondMsg,
+                            userCanRemoveMsg);
+                    //totalVideos++;
+                }
+
+                //antes:totalVideos + Integer.parseInt(maxVideoId) < videosInChannel
+                if (maxVideoId != null && !maxVideoId.isEmpty()) {
+                    out.write("<div align=\"center\">");
+                    out.write("<label id=\"" + objUri + "/moreVideosLabel\">");
+                    out.write("<a href=\"#\" onclick=\"appendHtmlAt('");
+                    out.write(paramRequest.getRenderUrl().setMode("getMoreVideos").
+                            setParameter("maxVideoId", maxVideoId).
+                            setParameter("playlistId", uploadsList).
+                            setParameter("suri", objUri).toString());
+                    out.write("','" + objUri + "/getMoreVideos', 'bottom');");
+                    out.write("try{this.parentNode.parentNode.parentNode.removeChild( this.parentNode.parentNode );}catch(noe){}; return false;\">");
+                    out.write("More Videos</a></label>");
+                    out.write("</div>");
                 }
             }
         } catch (Exception e) {
