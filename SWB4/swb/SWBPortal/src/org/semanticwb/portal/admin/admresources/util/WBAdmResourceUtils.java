@@ -895,6 +895,9 @@ public class WBAdmResourceUtils {
         return false;
     }
 
+    public String uploadFileParsed(Resource base, WBFileUpload fUp, String pInForm, String idsession) {
+        return uploadFileParsed(base, null, pInForm, idsession,false);
+    }
     /**
      * Sube un archivo parseado al filesystem.
      * 
@@ -904,13 +907,17 @@ public class WBAdmResourceUtils {
      * @param idsession the idsession
      * @return    Regresa un nuevo String que contiene el applet para subir las imágenes relativas al archivo parseado.
      */
-    public String uploadFileParsed(Resource base, WBFileUpload fUp, String pInForm, String idsession) {
+    public String uploadFileParsed(Resource base, WBFileUpload fUp, String pInForm, String idsession,boolean replace_special_chars) {
         StringBuffer strb = null;
         String strWorkPath = workPath;
         String strFile = null, strClientPath = "";
         int intPos;
         try {
             strFile = fUp.getFileName(pInForm);
+            if(replace_special_chars)
+            {
+                strFile=SWBUtils.TEXT.replaceSpecialCharacters(strFile,'.',true);
+            }
             if (strFile != null && !strFile.trim().equals("")) {
                 strFile = strFile.replace('\\', '/');
                 intPos = strFile.lastIndexOf("/");
