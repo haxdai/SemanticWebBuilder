@@ -1127,6 +1127,10 @@ public class SWBUtils
 
         public static String replaceSpecialCharactersForFile(String txt, char ch, boolean replaceSpaces)
         {
+            return replaceSpecialCharactersForFile(txt, ch, replaceSpaces, '_');            
+        }
+        public static String replaceSpecialCharactersForFile(String txt, char ch, boolean replaceSpaces,char word_separator)
+        {
             String aux = txt;
             //aux = aux.toLowerCase();
             aux = aux.replace('Á', 'A');
@@ -1198,7 +1202,8 @@ public class SWBUtils
 
             if (replaceSpaces)
             {
-                aux = aux.replace(' ', '_');
+                
+                aux = aux.replace(' ', word_separator);
             }
             return aux;
         }
