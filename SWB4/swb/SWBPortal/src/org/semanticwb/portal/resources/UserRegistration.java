@@ -382,7 +382,7 @@ public class UserRegistration extends GenericAdmResource
                     return;
                 }
                 try {
-                    SWBFormMgr fm = new SWBFormMgr(User.sclass, null, "web");
+                    SWBFormMgr fm = new SWBFormMgr(User.sclass, userRep.getSemanticObject(), "web");
                     fm.validateElement(request, User.swb_usrPassword);
                     User newUser = userRep.createUser();
                     newUser.setLogin(usrLogin);
