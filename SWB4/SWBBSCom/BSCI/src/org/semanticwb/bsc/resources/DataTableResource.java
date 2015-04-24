@@ -100,14 +100,15 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             periods = lperiods.iterator();
         }
         out.println("<a name=\""+ANCHOR_NAME+"\"></a>");
-        out.println("<div class=\"row\">");
-        out.println("<div class=\"col-lg-12 col-md-12 col-sm-12 col-xs-12 swb-interli\">");
+        out.println("<div class=\"panel panel-default panel-detalle\">");
+        out.println("<div class=\"panel-heading head-detalle\">"+getResourceBase().getDisplayTitle(lang)+"</div>");        
+        out.println("<div class=\"panel-body body-detalle\">");
         out.println("<div class=\"table-responsive\">");
         out.println("<table class=\"table table-hover table-striped\">"); 
         out.println("<thead>");
         out.println("<tr>");
-//out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
-//out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
+        //out.println("<th width=\"25%\">"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
+        //out.println("<th width=\"25%\">"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Period")+"</th>");
         out.println("<th>"+paramRequest.getLocaleString("lbl_App_Semaphore")+"</th>");
         // Series
@@ -116,8 +117,8 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         for(Series series:serieses) {
             out.println("<th width=\"10%\">"+(series.getTitle(lang)==null?series.getTitle():series.getTitle(lang))+"</th>");
         }
-out.println("<th>"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
-out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
+        out.println("<th>"+sm.getSemanticObject().getSemanticClass().getDisplayName(lang)+"</th>");
+        out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>");
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
@@ -175,16 +176,16 @@ out.println("<th>"+sm.getParent().getSemanticClass().getDisplayName(lang)+"</th>
                 out.println("</td>");
             }
             // 2.- Instancia Sm
-out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
+            out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
             // 1.- Elemento padre (objetivo/iniciativa)
-out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
+            out.println("<td>"+(sm.getParent().getDisplayName(lang)==null?sm.getParent().getDisplayName():sm.getParent().getDisplayName(lang))+"</td>");
             out.println("</tr>");
         }
         out.println("</tbody>");
         out.println("</table>");
-        out.println("</div>");
-        out.println("</div>");
-        out.println("</div>");
+        out.println("</div> <!-- /.table-responsive -->");
+        out.println("</div> <!-- /.panel-body body-detalle -->");
+        out.println("</div> <!-- /.panel panel-default panel-detalle -->");
     }
     
     @Override
