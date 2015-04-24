@@ -731,7 +731,12 @@ public class WBFileUpload
                 Hashtable hashtable1 = new Hashtable(4);
                 hashtable1.put("name", s9);
                 //hashtable1.put("filename", s7);
-                hashtable1.put("filename", SWBUtils.TEXT.replaceSpecialCharactersForFile(s7,'.',true));
+                String word_separator=SWBPortal.getEnv("swb/word_separator", "_");
+                if(word_separator.isEmpty())
+                {
+                    word_separator="_";
+                }
+                hashtable1.put("filename", SWBUtils.TEXT.replaceSpecialCharactersForFile(s7,'.',true,word_separator.charAt(0)));
                 if(s8 == null)
                     s8 = "application/octet-stream";
                 hashtable1.put("content-type", s8);
