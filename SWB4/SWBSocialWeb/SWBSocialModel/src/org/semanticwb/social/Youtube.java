@@ -564,11 +564,87 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         }
     }
 
+    /**
+     * Ejecuta una peticion HTTP al API de Youtube de acuerdo a los parametros recibidos
+     * @param params contiene las parejas de parametro/valor que forman el query string de la peticion
+     * @param url define la URL de la peticion a realizar
+     * @param userAgent indica el identificador del navegador Web utilizado en la peticion
+     * @param method indica el metodo HTTP utilizado en la peticion
+     * @return la respuesta a la ejecucion de la peticion. Si la peticion no genera una respuesta,
+     *         se devuelve un {@code String} vacio.
+     * @throws IOException en caso de ocurrir algun problema con la conexion HTTP
+     */
     public String postRequest(Map<String, String> params, String url,
             String userAgent, String method) throws IOException {
 
-        URL serverUrl = new URL(url);
-        CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
+        HttpURLConnection conex = null;
+        OutputStream out = null;
+        InputStream in = null;
+        String response = null;
+        StringBuilder toFile = new StringBuilder(128);
+
+        if (method == null) {
+            method = "POST";
+        }
+        try {
+            CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
+            URL serverUrl = new URL(url);
+            toFile.append(url);
+            toFile.append("?");
+            toFile.append(paramString);
+            toFile.append("\n");
+            conex = (HttpURLConnection) serverUrl.openConnection();
+            if (userAgent != null) {
+                conex.setRequestProperty("user-agent", userAgent);
+            }
+            conex.setRequestProperty("Host", Youtube.HOST);
+            conex.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
+            conex.setConnectTimeout(30000);
+            conex.setReadTimeout(60000);
+            conex.setRequestMethod(method);
+            conex.setDoOutput(true);
+            conex.connect();
+            out = conex.getOutputStream();
+            out.write(paramString.toString().getBytes("UTF-8"));
+            in = conex.getInputStream();
+            response = this.getResponse(in);
+        } catch (java.io.IOException ioe) {
+            if (conex != null) {
+                Youtube.log.error("ERROR in Youtube.postRequest():\n" + getResponse(conex.getErrorStream()), ioe);
+            } else {
+                Youtube.log.error("ERROR in Youtube.postRequest():\n", ioe);
+            }
+        } finally {
+            close(in);
+            close(out);
+            if (conex != null) {
+                conex.disconnect();
+            }
+        }
+        if (response == null) {
+            response = "";
+        }
+        toFile.append(response);
+        Youtube.write2File(toFile);
+        return response;
+    }
+
+    /**
+     * Realiza una peticion HTTP al API de Youtube con los parametros recibidos, conteniendo informacion en su cuerpo
+     * @param params debe contener las parejas de parametro/valor a incluir en el query string
+     *               de la peticion HTTP a realizar
+     * @param url ubicacion URL de la peticion a realizar
+     * @param object objeto en formato JSON a incluir en el cuerpo de la peticion
+     * @param userAgent cadena de identificacion del navegador Web con el que se hace la peticion
+     * @param method metodo HTTP a utilizar en la peticion, por defecto: POST
+     * @return el cuerpo de la respuesta generada por la ejecucion de la peticion HTTP contenido en un {@code String}
+     * @throws IOException derivado de cualquier problema con la conexion realizada
+     */
+    public String postRequestWithBody(Map<String, String> params, String url,
+            JSONObject object, String userAgent, String method) throws IOException {
+
+        CharSequence paramString = (null == params) ? "" : this.delimit(params.entrySet(), "&", "=", true);
+        URL serverUrl = new URL(url + "?" + paramString);
 
         HttpURLConnection conex = null;
         OutputStream out = null;
@@ -590,18 +666,29 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             }
             conex.setRequestProperty("Host", Youtube.HOST);
             conex.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
+            conex.setRequestProperty("Content-Type", "application/json");
             conex.setConnectTimeout(30000);
             conex.setReadTimeout(60000);
             conex.setRequestMethod(method);
+            conex.setDoInput(true);
             conex.setDoOutput(true);
-            conex.connect();
-            out = conex.getOutputStream();
-            out.write(paramString.toString().getBytes("UTF-8"));
+            conex.setUseCaches(false);
+            if (object != null) {
+                DataOutputStream writer = new DataOutputStream(conex.getOutputStream());
+                writer.write(object.toString().getBytes("UTF-8"));
+                writer.flush();
+                writer.close();
+            }
+//            out = conex.getOutputStream();
+//            out.write(paramString.toString().getBytes("UTF-8"));
             in = conex.getInputStream();
-            response = getResponse(in);
+            response = Youtube.getResponse(in);
         } catch (java.io.IOException ioe) {
-            //ioe.printStackTrace();
-            Youtube.log.error("ERROR in postRequest:" + getResponse(conex.getErrorStream()), ioe);
+            if (conex != null) {
+                Youtube.log.error("ERROR in postRequestWithBody:" + Youtube.getResponse(conex.getErrorStream()), ioe);
+            } else {
+                Youtube.log.error("ERROR in postRequestWithBody:", ioe);
+            }
         } finally {
             close(in);
             close(out);
@@ -616,7 +703,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         Youtube.write2File(toFile);
         return response;
     }
-
+    
     @Override
     public void authenticate(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         String code = request.getParameter("code");
@@ -2136,5 +2223,70 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         } catch (IOException ioe) {
             Youtube.log.error("Al abrir el archivo", ioe);
         }
+    }
+    
+    /**
+     * Agrega a la lista de favoritos del usuario autenticado en Youtube, el video identificado por {@code videoId}
+     * @param videoId identificador del video que se desea agregar a la lista de favoritos
+     * @return el identificador del elemento {@literal playlistItem} creado como resultado de la operacion
+     */
+    public String addFavorite(String videoId) {
+        
+        String favoriteAdded = null;
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("part", "id,contentDetails");
+        params.put("mine", "true");
+        
+        try {
+            String ytResponse = this.getRequest(params, Youtube.API_URL + "/channels",
+                                                           Youtube.USER_AGENT, "GET");
+            JSONObject channelsResponse = new JSONObject(ytResponse);
+            JSONArray channelLists = null;
+            if (!channelsResponse.isNull("items")) {
+                channelLists = channelsResponse.getJSONArray("items");
+            }
+            if (channelLists != null && channelLists.length() > 0) {
+                for (int i = 0; i < channelLists.length(); i++) {
+                    JSONObject channel = channelLists.getJSONObject(i);
+                    String favoritesList = null;
+                    if (!channel.isNull("contentDetails") &&
+                            !channel.getJSONObject("contentDetails").isNull("relatedPlaylists")) {
+                        JSONObject relatedLists = channel.getJSONObject("contentDetails").getJSONObject("relatedPlaylists");
+                        favoritesList = !relatedLists.isNull(("favorites")) 
+                                        ? relatedLists.getString("favorites") : null;
+                    }
+                    //De cada canal, se obtiene la lista de videos cargados
+                    if (favoritesList != null) {
+                        HashMap<String, String> favParams = new HashMap<String, String>(2);
+                        favParams.put("part", "snippet");
+                        
+                        JSONObject favorite = new JSONObject();
+                        JSONObject snippet = new JSONObject();
+                        JSONObject resourceId = new JSONObject();
+                        snippet.put("playlistId", favoritesList);
+                        resourceId.put("kind", "youtube#video");
+                        resourceId.put("videoId", videoId);
+                        snippet.put("resourceId", resourceId);
+                        favorite.put("snippet", snippet);
+                        
+                        String addingResponse = this.postRequestWithBody(favParams,
+                                Youtube.API_URL + "/playlistItems", favorite, Youtube.USER_AGENT, "POST");
+                        try {
+                            JSONObject response = new JSONObject(addingResponse);
+                            if (!response.isNull("id")) {
+                                favoriteAdded = response.getString("id");
+                                break;
+                            }
+                        } catch (JSONException jsone) {
+                            Youtube.log.event("Unexpected response at adding a favorite in Youtube: " +
+                                              addingResponse, jsone);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Youtube.log.error("Adding a favorite", e);
+        }
+        return favoriteAdded;
     }
 }
