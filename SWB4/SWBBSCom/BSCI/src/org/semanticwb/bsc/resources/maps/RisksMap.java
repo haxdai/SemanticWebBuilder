@@ -171,7 +171,7 @@ public class RisksMap extends GenericResource {
             try {
                  SVGjs = getSvg();
             }catch(XPathExpressionException xpe) {
-                System.out.println(xpe.toString());
+                log.error(xpe);
                 out.println(xpe.getMessage());
                 return;
             }

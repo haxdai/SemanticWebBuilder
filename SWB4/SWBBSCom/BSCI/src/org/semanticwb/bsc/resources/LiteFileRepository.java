@@ -1576,64 +1576,10 @@ public class LiteFileRepository extends GenericResource {
         try {
             FileOutputStream fos = new FileOutputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
             SWBUtils.IO.copyStream(in, fos);
-        } catch (Exception e) {
+        } catch (IOException e) {
         }
     }
-
-    /*private OutputStream storeFile(String originalName, String name, String comment, boolean bigVersionInc, RepositoryFile repoFile) throws FileNotFoundException
-     {
-     VersionInfo v = VersionInfo.ClassMgr.createVersionInfo(repoFile.getRepositoryFileDirectory().getWebSite());
-
-     v.setVersionFile(originalName);
-
-     numf.setMaximumFractionDigits(1);
-
-     if (comment != null)
-     {
-     v.setVersionComment(comment);
-     }
-     VersionInfo vl = repoFile.getLastVersion();
-     String sver = "1.0";
-     int ver = 1;
-     if (vl != null)
-     {
-     vl.setNextVersion(v);
-     v.setPreviousVersion(vl);
-     ver = vl.getVersionNumber();
-     sver = vl.getVersionValue();
-
-     double f = Double.parseDouble(sver);
-
-     if (bigVersionInc)
-     {
-     f = (int) f + 1;
-     sver = "" + (float) f;
-     } else
-     {
-     f = f + 0.10D;
-
-     String sfver = numf.format(f);
-     if (sfver.indexOf(".") == -1)
-     {
-     sfver = "" + (float) f;
-     }
-     sver = sfver;
-     }
-     ver++;
-     }
-     v.setVersionNumber(ver);
-     v.setVersionValue(sver);
-     repoFile.setActualVersion(v);
-     repoFile.setLastVersion(v);
-
-     System.out.println("work path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
-     File file = new File(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver);
-     file.mkdirs();
-     System.out.println("directorio creado....inicia escritura de archivo...");
-     System.out.println("file path="+SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
-     FileOutputStream fos = new FileOutputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver + "/" + name);
-     return fos;
-     }*/
+    
     private String getFileType(String filename) {
         String file = "Document";
         String type = filename.toLowerCase();

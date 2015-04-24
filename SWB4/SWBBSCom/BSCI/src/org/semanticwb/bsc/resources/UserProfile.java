@@ -73,8 +73,6 @@ public class UserProfile extends GenericAdmResource {
             return;
         }
         
-System.out.println("\n\n---UserProfile.................");
-        
         final String lang = user.getLanguage();
         PrintWriter out = response.getWriter();
         StringBuilder toReturn = new StringBuilder();
