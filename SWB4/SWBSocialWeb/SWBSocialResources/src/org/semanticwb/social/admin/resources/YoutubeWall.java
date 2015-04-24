@@ -122,12 +122,24 @@ public class YoutubeWall extends GenericResource{
     public static String DISCOVER_TAB ="/discover";
     public static String CONEXION ="/conexion";
     
+    /**
+     * Define el numero de comentarios asociados a videos por defecto = 5
+     */
     public static int DEFAULT_VIDEO_COMMENTS = 5;
+    
+    /**
+     * Define la url base para la reproduccion de los videos [{@literal http://www.youtube.com/v/}]
+     */
     public static String BASE_VIDEO_URL = "http://www.youtube.com/v/";
+    
+    /**
+     * Define el formato a utilizar para el despliegue de fechas [{@value yyyy-MM-dd'T'HH:mm:ss.SSS}]
+     */
     public static DateFormat FORMATTER = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
         String objUri = (String) request.getParameter("suri");
         String contentTabId = (String) request.getParameter("contentTabId");
