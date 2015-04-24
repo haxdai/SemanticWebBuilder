@@ -333,7 +333,7 @@ public class AdmDBConnMgr {
 
                             afiles.put(paramN, filename.trim());
 
-                            String tmp = admResUtils.uploadFileParsed(base, fUpload, paramN, req.getSession().getId());
+                            String tmp = admResUtils.uploadFileParsed(base, fUpload, paramN, req.getSession().getId(),true);
                             if (tmp != null) {
                                 imgapplet += tmp;
                             }
