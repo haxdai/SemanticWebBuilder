@@ -3,6 +3,7 @@ package org.semanticwb.bsc.resources.maps;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +28,7 @@ import static org.semanticwb.bsc.PDFExportable.Mode_StreamPNG;
 import org.semanticwb.bsc.Theme;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
+import org.semanticwb.bsc.utils.BSCUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
@@ -132,9 +134,7 @@ public class StrategicMap extends GenericResource
             out.println("  function getFile(url) {");
             out.println("   var form = document.getElementById('exportsmfrm');");
             out.println("   var svg = document.getElementsByTagName('svg')[0];");
-            //out.println("   var dom = new DOMParser().parseFromString(svg, 'text/xml');");
             out.println("   var svg_xml = (new XMLSerializer()).serializeToString(svg);");
-            out.println("console.log('data='+svg_xml);");            
             out.println("   form.action = url;");
             out.println("   form['data'].value = svg_xml;");
             out.println("   form.submit();");
@@ -1010,7 +1010,6 @@ public class StrategicMap extends GenericResource
 
                         expression = "//obj[@id='" + oid + "']//rel";
                         NodeList nlRels = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
-                        //nlRels = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
                         for (int n = 0; n < nlRels.getLength(); n++)
                         {
                             Node nodeR = nlRels.item(n);
@@ -1093,18 +1092,15 @@ public class StrategicMap extends GenericResource
                         SVGjs.append("   posFrm.x = from.x.baseVal.value;").append("\n");
                         SVGjs.append("   posFrm.y = from.y.baseVal.value;").append("\n");
                         SVGjs.append("   posFrm = posFrm.matrixTransform(matxFrm);").append("\n");
-
-                        //SVGjs.append("   path = createPath(,,,posTo.x,(posTo.y+2),'#9854A9','#b786c3', 1,60);").append("\n");
-SVGjs.append("  path = document.createElementNS(SVG_,'path');").append("\n");
-SVGjs.append("  var d = 'M'+(posTo.x-60)+','+(posFrm.y-7)+' L'+(posTo.x+60)+','+(posFrm.y-7)+' L'+(posTo.x)+','+(posTo.y+2)+' Z';").append("\n");
-SVGjs.append("  path.setAttributeNS(null, 'id', posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y);").append("\n");
-SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
-SVGjs.append("  path.style.fill = '#9854A9';").append("\n");
-SVGjs.append("  path.style.stroke = '#b786c3';").append("\n");
-SVGjs.append("  path.style.strokeWidth = 2;").append("\n");
-
                         
-                        //SVGjs.append("   svg.appendChild(path);").append("\n");
+                        SVGjs.append("  path = document.createElementNS(SVG_,'path');").append("\n");
+                        SVGjs.append("  var d = 'M'+(posTo.x-60)+','+(posFrm.y-7)+' L'+(posTo.x+60)+','+(posFrm.y-7)+' L'+(posTo.x)+','+(posTo.y+2)+' Z';").append("\n");
+                        SVGjs.append("  path.setAttributeNS(null, 'id', posFrm.x+'_'+posFrm.y+'_'+posTo.x+'_'+posTo.y);").append("\n");
+                        SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
+                        SVGjs.append("  path.style.fill = '#9854A9';").append("\n");
+                        SVGjs.append("  path.style.stroke = '#b786c3';").append("\n");
+                        SVGjs.append("  path.style.strokeWidth = 2;").append("\n");
+                        
                         SVGjs.append("   svg.insertBefore(path,svg.firstChild);").append("\n");
                         SVGjs.append(" }").append("\n");
                     } // if
@@ -1147,22 +1143,19 @@ SVGjs.append("  path.style.strokeWidth = 2;").append("\n");
         SVGjs.append("}").append("\n");
         
         SVGjs.append("function remark(evt) {").append("\n");
-        //SVGjs.append("    evt.target.style.stroke = '#0000FF';").append("\n");
         SVGjs.append("    evt.target.removeEventListener('click', remark, false);").append("\n");
         SVGjs.append("    evt.target.addEventListener('click', forget, false);").append("\n");
         SVGjs.append("    evt.target.style.strokeWidth = '7';").append("\n");
         SVGjs.append("    evt.target.setAttributeNS(null,'stroke-opacity',1);").append("\n");
         SVGjs.append("}").append("\n");
         SVGjs.append("function forget(evt) {").append("\n");
-        //SVGjs.append("    evt.target.style.stroke = '#FF0099';").append("\n");
         SVGjs.append("    evt.target.removeEventListener('click', forget, false);").append("\n");
         SVGjs.append("    evt.target.addEventListener('click', remark, false);").append("\n");
         SVGjs.append("    evt.target.style.strokeWidth = '2';").append("\n");
         SVGjs.append("    evt.target.setAttributeNS(null,'stroke-opacity',1);").append("\n");
         SVGjs.append("}").append("\n");
-
-        //SVGjs.append("var colors=new Array('#d02090','#ee82ee','#8a2be2','#0000ff','#00008b','#8ee5ee','#00ff00','#008b00','#adff2f','#ffff00','#8b8b00','#ffa500','#8b5a00','#ff4500','#ff0000','#8b0000','#8a8a8a','#1a1a1a');").append("\n");
-        SVGjs.append("var colors=new Array('#d02090','#8a2be2','#ff4500','#0000ff','#00008b','#008b00','#8b8b00','#ffa500','#8b5a00','#ff0000','#8b0000','#8a8a8a','#1a1a1a');").append("\n");
+        
+        SVGjs.append("var colors=new Array('#f44336', '#673ab7', '#03a9f4', '#4caf50', '#ffc107', '#e91e63', '#3f51b5', '#00bcd4', '#8bc34a', '#ff9800', '#9c27b0', '#2196f3', '#009688', '#cddc39', '#ff5722', '#d50000', '#311b92', '#01579b', '#1b5e20', '#ffab00', '#880e4f', '#1a237e', '#006064', '#33691e', '#ff6f00', '#aa00ff', '#0d47a1', '#004d40', '#827717', '#795548');").append("\n");
         SVGjs.append("var colorIndex = 0;").append("\n");   // recupera el siguiente código de color almacenado en el arreglo colors
 
         SVGjs.append("function resetColorIndex() {").append("\n");
@@ -1171,26 +1164,16 @@ SVGjs.append("  path.style.strokeWidth = 2;").append("\n");
 
         SVGjs.append("function colorIndexOf(index) {").append("\n");
         SVGjs.append("  var color = null;").append("\n");
-//        SVGjs.append("  try {").append("\n");
-//        SVGjs.append("    index++; ").append("\n");
-//        SVGjs.append("  }catch(err) {").append("\n");
-//        SVGjs.append("    index=0;").append("\n");
-//        SVGjs.append("    resetColorIndex();").append("\n");
-//        SVGjs.append("  }").append("\n");
         SVGjs.append("  color = colors[index%colors.length]").append("\n");
         SVGjs.append("  return color;").append("\n");
         SVGjs.append("}").append("\n");
+        
         SVGjs.append("var rp_=new Array();").append("\n");        
         SVGjs.append("var offset_v = 5;").append("\n");
         SVGjs.append("var offset_h = 5;").append("\n");
         
-
         SVGjs.append("function createArrow(id,x1,y1,x2,y2) {").append("\n");
-SVGjs.append("console.log('id='+id+',x1='+x1+',y1='+y1+',x2='+x2+',y2='+y2);").append("\n");
-        //SVGjs.append("  var color = '#'+Math.floor(Math.random()*16777215).toString(16);").append("\n");
-        //SVGjs.append("  percent_+=15;").append("\n");
         SVGjs.append("  var color = colorIndexOf(colorIndex++);").append("\n");
-SVGjs.append("console.log('color='+color);").append("\n");
         SVGjs.append("  if(srch1(x1,y1)) {").append("\n");
         SVGjs.append("    offset_h+=3;").append("\n");
         SVGjs.append("    x1-=3;").append("\n");
@@ -1224,39 +1207,36 @@ SVGjs.append("console.log('color='+color);").append("\n");
         SVGjs.append("  return arrow;").append("\n");
         SVGjs.append("}").append("\n");
         
-SVGjs.append("function createPath(id,x1,y1,x2,y2,fillColor, strkColor, strokeWidth,offset) {").append("\n");
-SVGjs.append("  var path = document.createElementNS(SVG_,'path');").append("\n");
-SVGjs.append("  var d = 'M'+(x1-offset)+','+y1+' L'+(x1+offset)+','+(y1)+' L'+(x1)+','+(y2)+' Z';").append("\n");
-SVGjs.append("  path.setAttributeNS(null, 'id', id);").append("\n");
-SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
-SVGjs.append("  path.style.fill = fillColor;").append("\n");
-SVGjs.append("  path.style.stroke = strkColor;").append("\n");
-SVGjs.append("  path.style.strokeWidth = strokeWidth;").append("\n");
-SVGjs.append("  return path;").append("\n");
-SVGjs.append("}").append("\n");        
-        
+        SVGjs.append("function createPath(id,x1,y1,x2,y2,fillColor, strkColor, strokeWidth,offset) {").append("\n");
+        SVGjs.append("  var path = document.createElementNS(SVG_,'path');").append("\n");
+        SVGjs.append("  var d = 'M'+(x1-offset)+','+y1+' L'+(x1+offset)+','+(y1)+' L'+(x1)+','+(y2)+' Z';").append("\n");
+        SVGjs.append("  path.setAttributeNS(null, 'id', id);").append("\n");
+        SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
+        SVGjs.append("  path.style.fill = fillColor;").append("\n");
+        SVGjs.append("  path.style.stroke = strkColor;").append("\n");
+        SVGjs.append("  path.style.strokeWidth = strokeWidth;").append("\n");
+        SVGjs.append("  return path;").append("\n");
+        SVGjs.append("}").append("\n");        
         
         SVGjs.append("function createPathL(id,x1,y1,x2,y2,color, offset_h,offset_v) {").append("\n");
-        //SVGjs.append("  y2-=2;").append("\n");
         SVGjs.append("  var path = document.createElementNS(SVG_,'path');").append("\n");
         SVGjs.append("  var d = 'M'+x1+','+y1+' L'+(x1)+','+(y1-offset_h)+' L'+( offset_v)+','+(y1-offset_h)+' L'+( offset_v)+','+y2+' L'+x2+','+y2+' L'+x2+','+(y2+2);").append("\n");
         SVGjs.append("  path.setAttributeNS(null, 'id', id);").append("\n");
         SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
         SVGjs.append("  path.style.fill = 'none';").append("\n");
         SVGjs.append("  path.style.stroke = color;").append("\n");
-        SVGjs.append("  path.style.strokeWidth = '2';").append("\n");
+        SVGjs.append("  path.style.strokeWidth = '3';").append("\n");
         SVGjs.append("  return path;").append("\n");
         SVGjs.append("}").append("\n");
         
         SVGjs.append("function createPathR(id,x1,y1,x2,y2,color, offset_h,offset_v) {").append("\n");
-        //SVGjs.append("  y2-=2;").append("\n");
         SVGjs.append("  var path = document.createElementNS(SVG_,'path');").append("\n");
         SVGjs.append("  var d = 'M'+x1+','+y1+' L'+(x1)+','+(y1-offset_h)+' L'+(width-offset_v)+','+(y1-offset_h)+' L'+(width-offset_v)+','+y2+' L'+x2+','+y2+' L'+x2+','+(y2+2);").append("\n");
         SVGjs.append("  path.setAttributeNS(null, 'id', id);").append("\n");
         SVGjs.append("  path.setAttributeNS(null, 'd', d);").append("\n");
         SVGjs.append("  path.style.fill = 'none';").append("\n");
         SVGjs.append("  path.style.stroke = color;").append("\n");
-        SVGjs.append("  path.style.strokeWidth = '2';").append("\n");
+        SVGjs.append("  path.style.strokeWidth = '3';").append("\n");
         SVGjs.append("  return path;").append("\n");
         SVGjs.append("}").append("\n");
         
