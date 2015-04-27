@@ -95,6 +95,9 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.social.listener.Classifier;
 import org.semanticwb.social.util.SWBSocialUtil;
+import org.semanticwb.social.youtube.YoutubeChannelInfo;
+import org.semanticwb.social.youtube.YoutubeCommentThreadsInfo;
+import org.semanticwb.social.youtube.YoutubeVideoInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -443,7 +446,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
      */
     public String getRequest(Map<String, String> params, String url,
             String userAgent, String method) throws IOException {
-
+        
         CharSequence paramString = (null == params)
                                    ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = null;
@@ -454,7 +457,6 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         } else {
             serverUrl = new URL(url);
         }
-
         HttpURLConnection conex = null;
         InputStream in = null;
         String response = null;
@@ -466,6 +468,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             method = "POST";
         }
         try {
+            
             conex = (HttpURLConnection) serverUrl.openConnection();
             conex.setRequestProperty("Host", Youtube.HOST);
             //conex.setRequestProperty("user-agent", userAgent2Use);
@@ -478,7 +481,6 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
             in = conex.getInputStream();
             response = this.getResponse(in);
-
         } catch (java.io.IOException ioe) {
             if (conex != null) {
                 Youtube.log.error("ERROR in getRequest:" + this.getResponse(conex.getErrorStream()), ioe);
@@ -1493,7 +1495,64 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
         return userInfo;
     }
-
+    
+    public YoutubeVideoInfo getVideoFullInfoById(String videoId){
+        String response = null;
+        YoutubeVideoInfo videoInfo = null;
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("id", videoId);
+        //Modificar si se necesita mas informacion
+        params.put("part", "snippet,status");
+        try {
+            response = getRequest(params, Youtube.API_URL + "/videos",
+                    Youtube.USER_AGENT, getAccessToken());
+            videoInfo = new YoutubeVideoInfo( new JSONObject(response));
+        }catch (IOException e) {
+            log.error("Error getting video information", e);
+        } catch (JSONException e) {
+            log.error("Error getting video information", e);
+        }
+        return videoInfo;
+    }
+    
+    public YoutubeChannelInfo getChannelFullInfoById(String ChannelId){
+        String response = null;
+        YoutubeChannelInfo channelInfo = null;
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("id", ChannelId);
+        //Modificar si se necesita mas informacion
+        params.put("part", "snippet");
+        try {
+            response = getRequest(params, Youtube.API_URL + "/channels",
+                    Youtube.USER_AGENT, getAccessToken());
+            channelInfo = new YoutubeChannelInfo( new JSONObject(response));
+        }catch (IOException e) {
+            log.error("Error getting channels information", e);
+        } catch (JSONException e) {
+            log.error("Error getting channels information", e);
+        }
+        return channelInfo;
+    }
+    
+    public YoutubeCommentThreadsInfo getCommentThreadsFullInfoByVideoId(String videoId){
+        String response = null;
+        YoutubeCommentThreadsInfo commentThreadsInfo = null;
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("videoId", videoId);
+        //Modificar si se necesita mas informacion
+        params.put("part", "snippet");
+        try {
+            response = getRequest(params, Youtube.API_URL + "/commentThreads",
+                    Youtube.USER_AGENT, getAccessToken());
+            commentThreadsInfo = new YoutubeCommentThreadsInfo( new JSONObject(response));
+        }catch (IOException e) {
+            log.error("Error getting commentThreads information", e);
+        } catch (JSONException e) {
+            log.error("Error getting commentThreads information", e);
+        }
+        return commentThreadsInfo;
+    }
+    
     public boolean validateToken() {
         boolean refreshedToken = false;
         try {
