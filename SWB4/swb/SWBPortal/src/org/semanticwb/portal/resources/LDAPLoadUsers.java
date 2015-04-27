@@ -355,11 +355,24 @@ public class LDAPLoadUsers extends GenericResource
             ctx.close();
             return answers;
         }
-        
+        private User getUserByLogin(String login)
+        {
+            User getUserByLogin=null;
+            Iterator<User> users= userRep.listUsers();
+            while(users.hasNext())
+            {
+                User temp=users.next();
+                if(temp.getLogin().equals(login))
+                {
+                    getUserByLogin=temp;
+                }
+            }
+            return getUserByLogin;
+        }
         public String loadUser(String login)
         {
             
-            User user = userRep.getUserByLogin(login);
+            User user = getUserByLogin(login);
             try
             {
                 Attributes atts = getUserAttributes(login);
