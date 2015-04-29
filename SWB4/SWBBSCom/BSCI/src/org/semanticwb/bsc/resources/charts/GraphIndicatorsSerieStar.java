@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.semanticwb.bsc.resources.charts;
 
 import java.io.IOException;
@@ -13,12 +8,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.catalogs.Format;
 import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.tracing.Measure;
 import org.semanticwb.bsc.tracing.Series;
+import org.semanticwb.bsc.utils.BSCUtils;
+import static org.semanticwb.bsc.utils.BSCUtils.ColorPalette;
 import org.semanticwb.bsc.utils.InappropriateFrequencyException;
 import org.semanticwb.bsc.utils.UndefinedFrequencyException;
 import org.semanticwb.model.GenericObject;
@@ -31,167 +29,171 @@ import org.semanticwb.portal.api.SWBResourceException;
 
 /**
  *
- * @author ana.garcias
+ * @author ana.garcias, carlos.ramos
  */
 public class GraphIndicatorsSerieStar extends GenericAdmResource {
+    private static final org.semanticwb.Logger log = SWBUtils.getLogger(GraphGeneration.class);
+    private static  String SVG_ID;
 
-    private static final String[] colors = {
-        "#0431B4", "#5882FA", "#58FAF4", "#A9A9F5", "#D0A9F5", "#AC58FA"};
+    @Override
+    public void setResourceBase(Resource base) throws SWBResourceException {
+        super.setResourceBase(base);
+        SVG_ID = "_"+getResourceBase().getId();
+    }
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        final String suri = request.getParameter("suri");
-        SemanticObject semanticObj = SemanticObject.getSemanticObject(suri);
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        Resource base = getResourceBase();
+        
+        final String suri = request.getParameter("suri");
+        if(suri==null) {
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
+            response.flushBuffer();
+            return;
+        }
+        SemanticObject semanticObj = SemanticObject.getSemanticObject(suri);
         final User user = paramRequest.getUser();
+        if(!user.isSigned() || !user.haveAccess(semanticObj.getGenericInstance()))     {
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
+            response.flushBuffer();
+            return;
+        }
+        
         PrintWriter out = response.getWriter();
-        StringBuilder output = new StringBuilder(512);
-        StringBuilder firstOutput = new StringBuilder(128);
-        StringBuilder svgOutput = new StringBuilder(64);
-        StringBuilder usedColors = new StringBuilder(32);
-        String graphHeight = base.getAttribute("graphPSHeight", "400px");
-        String graphWidth = base.getAttribute("graphPSWidth", "100%");
-        String marginLeftH = base.getAttribute("marginLeftH", "125");
-        String marginRightH = base.getAttribute("marginRightH", "20");
-        String marginTopH = base.getAttribute("marginTopH", "30");
-        String marginBottomH = base.getAttribute("marginBottomH", "40");
-        String marginLeftV = base.getAttribute("marginLeftV", "125");
-        String marginRightV = base.getAttribute("marginRightV", "20");
-        String marginTopV = base.getAttribute("marginTopV", "10");
-        String marginBottomV = base.getAttribute("marginBottomVt", "110");
-        String rotateLabels = base.getAttribute("rotateLabelV", "-80");
+        Resource base = getResourceBase();
+        
+        StringBuilder output = new StringBuilder();
+        StringBuilder firstOutput = new StringBuilder();
+        StringBuilder svgOutput = new StringBuilder();
+        
+        final String lang = user.getLanguage();
+        final String graphHeight = base.getAttribute("graphPSHeight", "400px");
+        final String graphWidth = base.getAttribute("graphPSWidth", "100%");
+        final String marginLeftH = base.getAttribute("marginLeftH", "125");
+        final String marginRightH = base.getAttribute("marginRightH", "20");
+        final String marginTopH = base.getAttribute("marginTopH", "30");
+        final String marginBottomH = base.getAttribute("marginBottomH", "40");
+        final String marginLeftV = base.getAttribute("marginLeftV", "125");
+        final String marginRightV = base.getAttribute("marginRightV", "20");
+        final String marginTopV = base.getAttribute("marginTopV", "10");
+        final String marginBottomV = base.getAttribute("marginBottomVt", "110");
+        final String rotateLabels = base.getAttribute("rotateLabelV", "-80");
+        
+        GenericObject genericObj = semanticObj.createGenericInstance();
+        if (genericObj instanceof Objective) {
 
-        if (suri == null) {
-            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNoSuchSemanticElement") + "</div>");
-            response.flushBuffer();
-            return;
-        }
-        if (!user.isSigned() || !user.haveAccess(semanticObj.getGenericInstance())) {
-            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgUserHasNotPermissions") + "</div>");
-            response.flushBuffer();
-            return;
-        }
-
-        if (semanticObj != null) {
-            GenericObject genericObj = semanticObj.createGenericInstance();
-            if (genericObj instanceof Objective) {
-
-                Objective objective = (Objective) genericObj;
-                List<Period> periodsList = new java.util.ArrayList<Period>();
-                Iterator<Period> listPeriodIndic = null;
-
-                //Codigo HTML para generar la grafica
-                firstOutput.append("<div class=\"row\">\n");
-                firstOutput.append("<div class=\"col-xs-12\">\n");
-                firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
-
-                firstOutput.append("<div id=\"graphContainer\">\n");
-                firstOutput.append("   <div id=\"chart1Ind\" class=\'with-3d-shadow with-transitions\'>\n");
-                firstOutput.append("       <div class=\"panel-heading head-detalle\">");
-                firstOutput.append(paramRequest.getLocaleString("msgTitle"));
-                firstOutput.append(": ");
-                firstOutput.append(objective.getTitle());
-                firstOutput.append("       </div>\n");
-                firstOutput.append("       <div class=\"panel-body body-detalle\">\n");
-                firstOutput.append("       <div class=\"centerSvg\">\n");
-                firstOutput.append("         <input type=\"radio\" name=\"graphType2\" id=\"hGraph2\" value=\"1\" onclick=\"javascript:showGraph(this);\" checked=\"checked\"><label for=\"hGraph2\">Horizontal</label>\n");
-                firstOutput.append("         <input type=\"radio\" name=\"graphType2\" id=\"vGraph2\" value=\"2\" onclick=\"javascript:showGraph(this);\"><label for=\"vGraph2\">Vertical</label>\n");
-                firstOutput.append("       </div>\n");
-                firstOutput.append("       </div>\n");
-
-                output.append("   </div>\n");
+            Objective objective = (Objective)genericObj;
+            
+//            Iterator<Period> listPeriodIndic;
+            
+            //firstOutput.append("<div class=\"row\">\n");
+            //firstOutput.append("<div class=\"col-xs-12\">\n");
+            firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
+            //firstOutput.append("<div id=\"graphContainer\">\n");
+            firstOutput.append(" <div id=\""+SVG_ID+"\" class=\'with-3d-shadow with-transitions\'>\n");
+            firstOutput.append("  <div class=\"panel-heading head-detalle\">");
+            firstOutput.append(paramRequest.getLocaleString("msgTitle"));
+            firstOutput.append("&nbsp;");
+            firstOutput.append(objective.getDisplayTitle(lang));
+            firstOutput.append("  </div>\n");
+            firstOutput.append("  <div class=\"panel-body body-detalle\">\n");
+            firstOutput.append("   <div class=\"centerSvg\">\n");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\""
+                    + " id=\"hGraph"+SVG_ID+"\" value=\"1\" onclick=\"showGraph(this);\" "
+                    + " checked=\"checked\"><label for=\"hGraph"+SVG_ID+"\">");
+            firstOutput.append(paramRequest.getLocaleString("lblLandscape")).append("</label>\n");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\""
+                    + " id=\"vGraph"+SVG_ID+"\" value=\"2\" onclick=\"showGraph(this);\">"
+                    + "<label for=\"vGraph"+SVG_ID+"\">");
+            firstOutput.append(paramRequest.getLocaleString("lblNarrow")).append("</label>\n");
+            firstOutput.append("   </div>\n");
+            firstOutput.append("  </div>\n");
+            
+            //List<Indicator> indicatorLst = objective.listValidIndicators();
+            Iterator<Indicator> indicators = objective.listValidIndicators().iterator();
+            //if(!indicatorLst.isEmpty())
+            if(indicators.hasNext())
+            {
+                int colorIndex = -1;
                 output.append("<script type=\"text/javascript\">\n");
                 output.append("long_short_data2 = [\n");
-                short indicCount = 0;
-                //Valida que contenga indicadores asociados al objetivo.
-                List<Indicator> indic = objective.listValidIndicators();
-                if (indic != null) {
-                    for (Indicator indicator : indic) {
-                        try {
-                            listPeriodIndic = indicator.listMeasurablesPeriods();
-                            while (listPeriodIndic.hasNext()) {
-                                periodsList.add(listPeriodIndic.next());
-                            }
-                        } catch (UndefinedFrequencyException ex) {
-                            Logger.getLogger(GraphIndicatorsSerieStar.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (InappropriateFrequencyException ex) {
-                            Logger.getLogger(GraphIndicatorsSerieStar.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        if (indicCount > 0) {
-                            output.append(",\n");  //separador de series
-                        }
-                        //Trae la serieStar
-                        Series serieSt = indicator.getStar();
-                        if (serieSt.isValid()) {
-                            Format serieFormat = serieSt.getFormat();
-                            output.append("{");
-                            output.append("  key: \"");
-                            output.append(serieSt.getTitle());
-                            output.append(" de ");
-                            output.append(indicator.getTitle());
-                            if (serieFormat != null) {
-                                output.append(" en ");
-                                output.append(serieFormat.getTitle());
-                            }
-                            output.append("\" ,\n");
-
-                            short colorIndex = (short) (Math.random() * colors.length);
-                            boolean colorAssigned = false;
-                            while (!colorAssigned) {
-                                if (usedColors.indexOf(colorIndex + ",") == -1) {
-                                    usedColors.append(colorIndex);
-                                    usedColors.append(",");
-                                    colorAssigned = true;
-                                } else {
-                                    colorIndex = (short) (Math.random() * colors.length);
-                                }
-                            }
-                            //Se coloca el color a utilizar para la serie
-                            output.append("  color: '");
-                            output.append(colors[colorIndex]);
-                            output.append("',\n");
-                            output.append("  values: [\n");
-
-                            int periodsCount = 0;
-                            for (Period p : periodsList) {
-                                if (p.isCurrent() || p.isFuture()) {
-                                    break;
-                                }
-                                Measure measure = serieSt.getMeasure(p);
-                                if (periodsCount > 0) {
-                                    output.append(",\n");
-                                }
-                                output.append("    {");
-                                output.append(" \"label\" : \"");
-                                output.append(p.getTitle());
-                                output.append("\", ");
-                                try {
-                                    if (measure.getValue() != 0) {
-                                        output.append("\"value\" : ");
-                                        output.append(measure.getValue());
-                                    }
-                                } catch (Exception e) {
-                                    output.append("\"value\" : 0.0 ");
-                                }
-                                output.append(" }");
-                                periodsCount++;
-                            }
-                            output.append("  ]");
-                            output.append("}");
-                            indicCount++;
-                        }
-
+                //short indicCount = 0;
+                //for(Indicator indicator : indicatorLst) {
+                Period p;
+                Indicator indicator;
+                Iterator<Period> measurablesPeriods;
+                while(indicators.hasNext()) {
+                    indicator = indicators.next();
+                    try {
+                        measurablesPeriods = indicator.listMeasurablesPeriods();
+                    }catch(UndefinedFrequencyException ex) {
+                        log.error(ex);
+                        continue;
+                    }catch(InappropriateFrequencyException ex) {
+                        log.error(ex);
+                        continue;
+                    }                    
+                    Series star = indicator.getStar();
+                    if(null==star || !measurablesPeriods.hasNext()) {
+                        continue;
                     }
-                } else { // No hay indicadores para graficar
-                    out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotIndicators") + "</div>");
-                    out.flush();
-                    return;
-                }
+                    if(!star.isValid()) {
+                        continue;
+                    }
+                        Format serieFormat = star.getFormat();
+                        output.append("{");
+                        output.append("  key: \"");
+                        output.append(star.getDisplayTitle(lang));
+                        output.append(" de ");
+                        output.append(indicator.getTitle());
+                        if (serieFormat != null) {
+                            output.append(" en ");
+                            output.append(serieFormat.getTitle());
+                        }
+                        output.append("\" ,\n");
 
-                //Se termina de armar el Javascript para la presentacion de la grafica
+                        colorIndex = ++colorIndex % ColorPalette.length;
+                        output.append("  color: '");
+                        output.append(BSCUtils.ColorPalette[colorIndex]);
+                        output.append("',\n");
+                        output.append("  values: [\n");
+
+                        //int periodsCount = 0;
+                        //for (Period p : periodsList)
+                        while(measurablesPeriods.hasNext())
+                        {
+                            p = measurablesPeriods.next();
+                            if(p.isCurrent() || p.isFuture()) {
+                                break;
+                            }
+                            Measure measure = star.getMeasure(p);
+//                            if (periodsCount > 0) {
+//                                output.append(",\n");
+//                            }
+                            output.append("{");
+                            output.append(" \"label\" : \"");
+                            output.append(p.getDisplayTitle(lang));
+                            output.append("\", ");
+                            try {
+                                //if(measure.getValue() != 0) {
+                                    output.append("\"value\" : ");
+                                    output.append(measure.getValue());
+                                //}
+                            }catch(Exception e) {
+                                output.append("\"value\" : 0.0 ");
+                            }
+                            //output.append(" }");
+                            output.append(measurablesPeriods.hasNext()?"},\n":"}\n");
+                            //periodsCount++;
+                        }
+                        //output.append("  ]");
+                        //output.append("}");
+//                        indicCount++;
+                    //}
+                    output.append(indicators.hasNext()?"]},\n":"]}\n");
+                }
                 output.append("];\n");
                 output.append("var chartInd;\n");
                 output.append("var chart2Ind;\n");
@@ -211,8 +213,8 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 output.append("    .transitionDuration(250)\n");
                 output.append("    .showControls(false);\n");
                 output.append("  chartInd.yAxis\n");
-                output.append("    .tickFormat(d3.format(',.2d'));\n");
-                output.append("  d3.select('#chart1Ind svg')\n");
+                output.append("    .tickFormat(d3.format(',.3d'));\n");
+                output.append("  d3.select('#"+SVG_ID+" svg')\n");
                 output.append("    .datum(long_short_data2)\n");
                 output.append("    .call(chartInd);\n");
                 output.append("  nv.utils.windowResize(chartInd.update);\n");
@@ -248,38 +250,43 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 output.append("});\n");
                 output.append("  function showGraph(radioBtn) {\n");
                 output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
-                output.append("      d3.select('#chart1Ind svg g').remove();\n");
-                output.append("      d3.select('#chart1Ind svg')\n");
+                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
+                output.append("      d3.select('#"+SVG_ID+" svg')\n");
                 output.append("        .datum(long_short_data2)\n");
                 output.append("        .call(chartInd);\n");
                 output.append("    } else if (radioBtn.value == 2 && radioBtn.checked) {\n");
-                output.append("      d3.select('#chart1Ind svg g').remove();\n");
-                output.append("      d3.select('#chart1Ind svg')\n");
+                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
+                output.append("      d3.select('#"+SVG_ID+" svg')\n");
                 output.append("        .datum(long_short_data2)\n");
                 output.append("        .call(chart2Ind);\n");
                 output.append("    }\n");
                 output.append("  }\n");
                 output.append("  </script>\n");
-                output.append("</div>\n");
-
-                svgOutput.append("       <div class=\"panel-body body-detalle\">\n");
-                svgOutput.append("       <div class=\"centerSvg\">\n");
-                svgOutput.append("       <svg style=\"height:");
-                svgOutput.append(graphHeight);
-                svgOutput.append("; width:");
-                svgOutput.append(graphWidth);
-                svgOutput.append(";");
-                svgOutput.append("\"></svg>\n");
-                svgOutput.append("   </div>\n");
-                svgOutput.append("   </div>\n");
-
-                out.println(firstOutput.toString());
-                out.println(svgOutput.toString());
-                out.println(output.toString());
-
             }
+            else
+            {
+                out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotIndicators") + "</div>");
+                out.flush();
+                return;
+            }
+
+            //Se termina de armar el Javascript para la presentacion de la grafica
+            
+            svgOutput.append("<div class=\"panel-body body-detalle\">\n");
+            svgOutput.append(" <div class=\"centerSvg\">\n");
+            svgOutput.append("  <svg style=\"height:");
+            svgOutput.append(graphHeight);
+            svgOutput.append("; width:");
+            svgOutput.append(graphWidth);
+            svgOutput.append(";");
+            svgOutput.append("\"></svg>\n");
+            svgOutput.append(" </div>\n");
+            svgOutput.append("</div>\n");
+            out.println(firstOutput.toString());
+            out.println(svgOutput.toString());
+            out.println(output.toString());
+            out.println("  </div> <!-- //#chart1 -->");
+            out.println("</div> <!-- //.panel panel-default panel-detalle -->");
         }
-
     }
-
 }
