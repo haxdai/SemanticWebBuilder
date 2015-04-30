@@ -2,10 +2,12 @@ package org.semanticwb.bsc.resources.charts;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
@@ -83,7 +85,6 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
         
         GenericObject genericObj = semanticObj.createGenericInstance();
         if (genericObj instanceof Objective) {
-
             Objective objective = (Objective)genericObj;
             
 //            Iterator<Period> listPeriodIndic;
@@ -111,30 +112,32 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             firstOutput.append("   </div>\n");
             firstOutput.append("  </div>\n");
             
-            //List<Indicator> indicatorLst = objective.listValidIndicators();
-            Iterator<Indicator> indicators = objective.listValidIndicators().iterator();
+            List<Indicator> indicatorLst = objective.listValidIndicators();
+            Collections.sort(indicatorLst, new SortByMeasurementFrequency());
+            Iterator<Indicator> indicators = indicatorLst.iterator();
             //if(!indicatorLst.isEmpty())
             if(indicators.hasNext())
             {
                 int colorIndex = -1;
                 output.append("<script type=\"text/javascript\">\n");
                 output.append("long_short_data2 = [\n");
-                //short indicCount = 0;
-                //for(Indicator indicator : indicatorLst) {
+                SortedSet<Period> periods = new TreeSet<Period>();
                 Period p;
                 Indicator indicator;
                 Iterator<Period> measurablesPeriods;
-                while(indicators.hasNext()) {
+                while(indicators.hasNext())
+                {
                     indicator = indicators.next();
                     try {
-                        measurablesPeriods = indicator.listMeasurablesPeriods();
+                        periods.addAll(SWBUtils.Collections.copyIterator(indicator.listMeasurablesPeriods()));
                     }catch(UndefinedFrequencyException ex) {
                         log.error(ex);
                         continue;
                     }catch(InappropriateFrequencyException ex) {
                         log.error(ex);
                         continue;
-                    }                    
+                    }
+                    measurablesPeriods = periods.iterator();
                     Series star = indicator.getStar();
                     if(null==star || !measurablesPeriods.hasNext()) {
                         continue;
@@ -159,9 +162,6 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                         output.append(BSCUtils.ColorPalette[colorIndex]);
                         output.append("',\n");
                         output.append("  values: [\n");
-
-                        //int periodsCount = 0;
-                        //for (Period p : periodsList)
                         while(measurablesPeriods.hasNext())
                         {
                             p = measurablesPeriods.next();
@@ -169,29 +169,18 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                                 break;
                             }
                             Measure measure = star.getMeasure(p);
-//                            if (periodsCount > 0) {
-//                                output.append(",\n");
-//                            }
                             output.append("{");
-                            output.append(" \"label\" : \"");
+                            output.append(" \"label\": \"");
                             output.append(p.getDisplayTitle(lang));
                             output.append("\", ");
-                            try {
-                                //if(measure.getValue() != 0) {
-                                    output.append("\"value\" : ");
-                                    output.append(measure.getValue());
-                                //}
-                            }catch(Exception e) {
-                                output.append("\"value\" : 0.0 ");
+                            if(measure==null) {
+                                output.append("\"value\": 0.0 ");
+                            }else {
+                                output.append("\"value\": ");
+                                output.append(measure.getValue());
                             }
-                            //output.append(" }");
                             output.append(measurablesPeriods.hasNext()?"},\n":"}\n");
-                            //periodsCount++;
                         }
-                        //output.append("  ]");
-                        //output.append("}");
-//                        indicCount++;
-                    //}
                     output.append(indicators.hasNext()?"]},\n":"]}\n");
                 }
                 output.append("];\n");
@@ -289,4 +278,14 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             out.println("</div> <!-- //.panel panel-default panel-detalle -->");
         }
     }
+}
+
+class SortByMeasurementFrequency implements Comparator<Indicator>
+{
+    @Override
+    public int compare(Indicator o1, Indicator o2)
+    {
+        return o1.getPeriodicity().getNumberOfPeriods() - o2.getPeriodicity().getNumberOfPeriods();
+    }
+
 }
