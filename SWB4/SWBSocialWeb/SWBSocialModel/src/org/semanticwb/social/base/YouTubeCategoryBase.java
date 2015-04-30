@@ -7,6 +7,10 @@ package org.semanticwb.social.base;
 public abstract class YouTubeCategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable
 {
    /**
+   * Updated. 30-Abril-2015. Youtube Category Id
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_id=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#id");
+   /**
    * Categorias a llenar en una colección.
    */
     public static final org.semanticwb.platform.SemanticClass social_YouTubeCategory=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#YouTubeCategory");
@@ -125,6 +129,24 @@ public abstract class YouTubeCategoryBase extends org.semanticwb.model.SWBClass 
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Id property
+* @return String with the Id
+*/
+    public String getId()
+    {
+        return getSemanticObject().getProperty(social_id);
+    }
+
+/**
+* Sets the Id property
+* @param value long with the Id
+*/
+    public void setId(String value)
+    {
+        getSemanticObject().setProperty(social_id, value);
     }
 
 /**

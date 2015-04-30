@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase red social para Google+ 
    */
-public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.social.Oauthable,org.semanticwb.model.Filterable,org.semanticwb.social.Messageable,org.semanticwb.social.Photoable,org.semanticwb.social.Listenerable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.model.Activeable,org.semanticwb.social.Relationable,org.semanticwb.social.Kloutable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.Videoable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableClass,org.semanticwb.social.DeveloperKeyable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable
+public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Listenerable,org.semanticwb.social.Videoable,org.semanticwb.model.Trashable,org.semanticwb.social.Photoable,org.semanticwb.social.Oauthable,org.semanticwb.social.Messageable,org.semanticwb.social.DeveloperKeyable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.social.Kloutable,org.semanticwb.social.Relationable,org.semanticwb.model.Traceable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableClass
 {
    /**
    * Clase red social para Google+
