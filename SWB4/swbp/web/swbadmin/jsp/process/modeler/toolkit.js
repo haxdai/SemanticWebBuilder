@@ -508,63 +508,48 @@
                 
         createToolTip:function() {
             var _this = ToolKit,
-                constructor = function() {
-                    var obj = document.createElementNS(_this.svgNS,"rect");
-                    obj.setAttributeNS(null, "rx", "10");
-                    obj.setAttributeNS(null, "ry", "10");
-                    return obj;
-                };
-            
-            var msgBox = _this.createBaseObject(constructor, null, null);
-            msgBox.setAttributeNS(null,"class","toolTip");
-            msgBox.setAttributeNS(null,"filter","url(#dropshadow)");
-            msgBox.canSelect=false;
-            msgBox.onmousemove = function() {
-                return false;
-            };
-            msgBox.onmouseup = function() {
-                return false;
-            };
-            
+                //msgBox = document.createDocumentFragment(),//$('<div class="tooltip"></div>');
+                msgBox = document.createElement("div");
+                msgBox.style.display="none";
+                msgBox.setAttribute("id","modelerTooltip");
+                msgBox.setAttribute("class","toolTip");
+                document.body.appendChild(msgBox);
             _this.tooltip=msgBox;
         },
 
         showTooltip:function(pos, tooltipText, width, tooltipType) {
-            var _this = ToolKit;
+            var _this = ToolKit,
+                classNames;
             
-            if (_this.tmHandler && _this.tmHandler !== null) {
-                clearTimeout(_this.tmHandler);
+            _this.tmHandler && clearTimeout(_this.tmHandler);
+            _this.tooltip || _this.createToolTip();
+            
+            classNames = _this.tooltip.className.split(" ") || [];
+
+            if (tooltipType === "Error") {
+                var index = classNames.indexOf("warningToolTip");
+                (index > -1) && classNames.splice(index,1);
+                
+                if (classNames.indexOf("errorToolTip") === -1) {
+                    classNames.push("errorToolTip");
+                }
+            } else if (tooltipType === "Warning") {
+                var index = classNames.indexOf("errorToolTip");
+                (index > -1) && classNames.splice(index,1);
+                
+                if (classNames.indexOf("warningToolTip") === -1) {
+                    classNames.push("warningToolTip");
+                }
             }
-            
-            if (_this.tooltip === null) _this.createToolTip();
-            
-            if (tooltipType==="Error") {
-                _this.tooltip.setAttributeNS(null,"class","errorToolTip");
-            } else if (tooltipType==="Warning") {
-                _this.tooltip.setAttributeNS(null,"class","warningToolTip");
-            }
-            _this.tooltip.setText(tooltipText,0,0,width,1);
-            _this.tooltip.resize(width, 60);
-            _this.tooltip.move(window.pageXOffset+_this.tooltip.getWidth()/2+10, window.pageYOffset+_this.tooltip.getHeight()/2+10);
-    
-//            var anim = document.createElementNS(_this.svgNS, "animate");
-//            anim.setAttributeNS(null, "attributeType", "CSS");
-//            anim.setAttributeNS(null, "attributeName", "opacity");
-//            anim.setAttributeNS(null, "from", "0");
-//            anim.setAttributeNS(null, "to", "1");
-//            anim.setAttributeNS(null, "dur", "2s");
-//            _this.tooltip.appendChild(anim);
-            _this.tooltip.show();
-            _this.tooltip.moveFirst();
-            _this.tooltip.text.moveFirst();
-            _this.tmHandler = setTimeout(function(){_this.tooltip.hide();},3000);
+            _this.tooltip.className = classNames.join(" ");
+            _this.tooltip.innerHTML = '<p>'+tooltipText+'</p>';
+            _this.tmHandler = setTimeout(function(){_this.tooltip.style.display="none";},3000);
+            _this.tooltip.style.display="";
         },
                 
         hideToolTip:function() {
-            var _this=ToolKit;
-            if (_this.tooltip !== null) {
-                _this.tooltip.hide();
-                //_this.svg.removeChild(_this.tooltip);
+            if (ToolKit.tooltip) {
+                ToolKit.tooltip.style.display="none";
             }
         },
 
