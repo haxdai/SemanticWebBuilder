@@ -81,20 +81,26 @@ s/*
 }
 
 .toolTip {
-    fill:lightyellow;
-    stroke:#000000;
-    stroke-width:1.5;
+    background-color: #fff;
+    opacity: 0.8;
+    border: 1px solid #000;
+    position: fixed;
+    top: 10px;
+    margin-left: 50%;
+    width:200px;
+    max-width: 300px;
+    text-align: center;
+    border-radius: 3px;
 }
+
 .errorToolTip {
-    fill:lightpink;
-    stroke:#000000;
-    stroke-width:1.5;
+    background-color: #e7c1c1;
+    border: 1px solid red;
 }
 
 .warningToolTip {
-    fill:#EFB81F;
-    stroke:#000000;
-    stroke-width:1.5;
+    background-color: #faf2cc;
+    border: 1px solid orange;
 }
 
 .overlay {
