@@ -48,7 +48,7 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
         if (!isViewMode) {
     %>
     <div class="toolbarContainer">
-        <div id="toolBar" this.style.opacity=1;">
+        <div id="toolBar">
             <div class="toolbarItem">
                 <span class="toolbarHeader"></span>
             </div>
@@ -1081,14 +1081,14 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
 
         function showLoadDialog() {
             var ov = document.getElementById("overlayBackground");
-            ov.style.display = "block";
+            if (ov) {ov.style.display = "block";}
             //ov.style.width = window.outerWidth+"px";
             //ov.style.height = window.outerHeight+"px";
         }
 
         function hideLoadDialog() {
             var ov = document.getElementById("overlayBackground");
-            ov.style.display = "none";
+            if (ov) {ov.style.display = "none";}
         }
 
         <%
