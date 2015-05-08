@@ -256,6 +256,13 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
                 stroke-width:1px;
             }
             
+            text {
+                font-family: Verdana, sans-serif;
+                font-size: 10px;
+                stroke: none;
+                fill: #000;
+            }
+            
             /*Common fill properties for activities*/
             .task, .task_o, .callactivity, .callactivity_o, .eventsubTask, .eventsubTask_o, .transactionSquare, .taskMarker, .pathMarker {
                 fill:url(#linearGradientTask);
