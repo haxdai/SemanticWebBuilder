@@ -251,300 +251,203 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
     <div style="margin-left:66px;">
         <svg id="modeler" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" class="modeler">
         <style type="text/css"><![CDATA[
-            /*.resizeBox {
-                stroke:#008000;
-                fill:url(#linearGradientStartEvent);
-                stroke-width:1.5;  
-            }*/
-            .task {
+            .resizeBox {
+                stroke:#696161;
+                stroke-width:1px;
+            }
+            
+            /*Common fill properties for activities*/
+            .task, .task_o, .callactivity, .callactivity_o, .eventsubTask, .eventsubTask_o, .transactionSquare, .taskMarker, .pathMarker {
+                fill:url(#linearGradientTask);
                 stroke:#79adc8;
-                fill:url(#linearGradientTask);
-                stroke-width:2;
-                cursor:pointer;
+                stroke-width: 1px;
+                cursor: pointer;
             }
-            .task_o {
-                stroke:#2cff20;
-                fill:url(#linearGradientTask);
-                stroke-width:2;
-                cursor:pointer;
+            
+            .callactivity, .callactivity_o {
+                stroke-width:2px;
             }
-            .callactivity {
-                stroke:#79adc8;
-                fill:url(#linearGradientTask);
-                stroke-width:4;
-                cursor:pointer;
-            }
-
-            .callactivity_o {
-                stroke:#2cff20;
-                fill:url(#linearGradientTask);
-                stroke-width:4;
-                cursor:pointer;
-            }
-            .eventsubTask {
-                stroke:#79adc8;
-                fill:url(#linearGradientTask);
-                stroke-width:2;
-                cursor:pointer;
+            
+            .eventsubTask, .eventsubTask_o {
                 stroke-dasharray:6,4;
             }
-
-            .eventsubTask_o {
+            
+            .task_o, .callactivity_o, .eventsubTask_o {
                 stroke:#2cff20;
-                fill:url(#linearGradientTask);
-                stroke-width:2;
-                cursor:pointer;
-                stroke-dasharray:6,4;
             }
-            .startEvent
-            {
-                stroke:#008000;
-                fill:url(#linearGradientStartEvent);
-                stroke-width:1.5;
-                cursor:pointer;
-            }
-
-            .startEvent_o
-            {
-                stroke:#2cff20;
-                fill:url(#linearGradientStartEvent);
-                stroke-width:1.5;
-                cursor: pointer;
-            }
-
-            .intermediateInterruptingEvent
-            {
-                stroke:#2c5aa0;
-                fill:url(#linearGradientIntermediateEvent);
-                fill-opacity:1;
-                stroke-width:1.5;
-                stroke-dasharray: 3,3;
-                /*stroke-dashoffset: 5;*/
-            }
-
-            .intermediateInterruptingEvent_o
-            {
-                stroke:#2cff20;
-                fill:url(#linearGradientIntermediateEvent);
-                fill-opacity:1;
-                stroke-width:1.5;
-                stroke-dasharray: 3,3;
-                /*stroke-dashoffset: 5;*/
-            }
-
-            .intermediateEvent
-            {
-                stroke:#2c5aa0;
-                fill:url(#linearGradientIntermediateEvent);
-                fill-opacity:1;
-                stroke-width:1.5;
-                cursor:pointer;
-            }
-
-            .intermediateEvent_o
-            {
-                stroke:#2cff20;
-                fill:url(#linearGradientIntermediateEvent);
-                fill-opacity:1;
-                stroke-width:1.5;
-                cursor:pointer;
-            }
-            .endEvent
-            {
-                stroke:#550000;
-                fill:url(#linearGradientEndEvent);
-                stroke-width:2.5;
-                cursor:pointer;
-            }
-
-            .endEvent_o
-            {
-                stroke:#2cff20;
-                fill:url(#linearGradientEndEvent);
-                stroke-width:2.5;
-                cursor:pointer;
-            }    
-
-            .gateway
-            {
-                stroke:#d4aa00;
-                fill:url(#linearGradientGateway);
-                stroke-width:2;
-                cursor:pointer;
-            }
-
-            .gateway_o
-            {
-                stroke:#2cff20;
-                fill:url(#linearGradientGateway);
-                stroke-width:2;
-                cursor:pointer;
-            }
-
-            .sequenceFlowSubLine {
-                fill:none;
-                stroke:#ffffff;
-                stroke-opacity:0.1;
-                stroke-width:8;
-                cursor: pointer;
-            }
-
-            .sequenceFlowSubLine_o {
-                fill:none;
-                stroke:#2cff20;
-                stroke-width:8;
-                cursor:pointer;
-            }
-
-            .swimlane
-            {
-                fill: #E8E8FF;
-                stroke-width:2;
-                stroke: #ADADAE;
-                fill-opacity:1;
-                cursor:pointer;
-            }
-
-            .swimlane_o
-            {
-                stroke:#2cff20;
-                fill: #E8E8FF;
-                stroke-width:2;
-                fill-opacity:1;
-                cursor: pointer;
-            }
-
-            .sequenceFlowLine {
-                fill: none;
-                stroke-width: 2;
-                stroke: #000000;
-                cursor:pointer;
-            }
-
-            .sequenceFlowLine_o {
-                fill: none;
-                stroke-width: 2;
-                stroke: #2cff20;
-                cursor:pointer;
-            }
-
-            .intermediateEvent1
-            {
-                stroke:#2c5aa0;
-                fill:none;
-                stroke-width:1;
-            }
-
-            .itemaware {
-                fill:url(#linearGradientDataObject);
-                stroke:#666666;
-                stroke-width:2;
-                cursor:pointer;
-            }
-
-            .itemaware_o {
-                fill:url(#linearGradientDataObject);
-                stroke:#2cff20;
-                stroke-width:2;
-                cursor:pointer;
-            }
-
+            
             .transactionSquare {
-                stroke:#2c5aa0;
-                cursor:pointer;
                 fill:none;
-                stroke-width:1.5;
             }
-
-            .group {
-                stroke:#2c5aa0;
-                cursor:pointer;
-                fill:none;
-                stroke-width:1.5;
-            }
-
-            .annotationArtifact {
-                fill:none;
-                stroke:#000000;
-                stroke-width:1.5px;
-                cursor:pointer;
-            }
-
-            .annotationArtifactRect {
-                fill:none;
-                stroke:none;
-                fill:#E6E6E6;
-                fill-opacity:0.2;
-                cursor:pointer;
-            }
-
-            .annotationArtifactRect_o {
-                fill:none;
-                fill:#E6E6E6;
-                stroke:#2cff20;
-                fill-opacity:0.2;
-                cursor:pointer;
-            }
-
-            .group_o {
-                stroke:#2cff20;
-                cursor:pointer;
-                fill:none;
-                stroke-width:1.5;
-            }
-
-            .taskMarker
-            {
-                stroke:#2c5aa0;
-                cursor:pointer;
-            }
-
+            
             .pathMarker{
                 fill:none;
-                stroke-width:1;
             }
-
-            .startMarker{
+                        
+            /*Common fill properties for events*/
+            .startEvent, .startEvent_o {
+                stroke:#008000;
+                fill:url(#linearGradientStartEvent);
+                stroke-width:1px;
+                cursor:pointer;
+            }
+            
+            .startEvent_o {
+                stroke:#2cff20;
+            }
+            
+            .startMarker {
                 stroke:#008000;
                 fill:none;
-                stroke-width:2.5;                        
-            }
-
-            .startMarker{
-                stroke:#008000;
-                fill:none;
-                stroke-width:2.5;                        
+                stroke-width:2px;
             }
 
             .startFilledMarker{
                 fill:#008000;
                 stroke:none;
-                stroke-width:1;
+            }
+            
+            .intermediateInterruptingEvent, .intermediateInterruptingEvent_o, .intermediateEvent, .intermediateEvent_o, .intermediateEvent1 {
+                stroke:#2c5aa0;
+                fill:url(#linearGradientIntermediateEvent);
+                stroke-width:1px;
+                cursor:pointer;
             }
 
-            .intermediateMarker{
+            .intermediateInterruptingEvent {
+                stroke-dasharray: 3,3;
+                /*stroke-dashoffset: 5;*/
+            }
+
+            .intermediateEvent_o, .intermediateInterruptingEvent_o {
+                stroke:#2cff20;
+                /*stroke-dashoffset: 5;*/
+            }
+            
+            .intermediateEvent1 {
+                fill:none;
+            }
+            
+            .intermediateMarker, .intermediateFilledMarker {
+                fill:none;
                 stroke:#2c5aa0;
-                fill:#ffffff;
-                fill-opacity:0.1;
-                stroke-width:2.5;
+                stroke-width:2px;
                 cursor:pointer;
             }
 
             .intermediateFilledMarker {
                 fill:#2c5aa0;
-                stroke:#2c5aa0;
-                stroke-width:1;
-                cursor:pointer;
+                stroke-width:1px;
             }
 
-            .endFilledMarked
-            {
-                fill:#550000;   
+            .endEvent, .endEvent_o {
                 stroke:#550000;
-                stroke-width:1;
+                fill:url(#linearGradientEndEvent);
+                stroke-width:2px;
                 cursor:pointer;
             }
 
+            .endEvent_o {
+                stroke:#2cff20;
+            }
+            
+            .endFilledMarked {
+                fill:#550000;
+                stroke:#550000;
+                stroke-width:1px;
+                cursor:pointer;
+            }
+
+            /*Common fill properties for gateways*/
+            .gateway, .gateway_o {
+                stroke:#d4aa00;
+                fill:url(#linearGradientGateway);
+                stroke-width:1px;
+                cursor:pointer;
+            }
+
+            .gateway_o {
+                stroke:#2cff20;
+            }
+
+            /*Common fill properties for lines*/
+            .sequenceFlowSubLine, .sequenceFlowSubLine_o, .sequenceFlowLine, .sequenceFlowLine_o {
+                fill:none;
+                stroke-width:10px;
+                cursor:pointer;
+            }
+            
+            .sequenceFlowLine, .sequenceFlowLine_o {
+                stroke-width: 1px;
+            }
+            
+            .sequenceFlowSubLine {
+                stroke:#ffffff;
+                stroke-opacity:0.1;
+            }
+            
+            .sequenceFlowLine {
+                stroke: #000000;
+            }
+            
+            .sequenceFlowLine_o {
+                stroke:#2cff20;
+            }
+
+            /*Common fill properties for swimlanes*/
+            .swimlane, .swimlane_o {
+                fill: #FFF;
+                stroke-width:1px;
+                stroke: #ADADAE;
+                cursor:pointer;
+            }
+           
+            .swimlane_o {
+                stroke:#2cff20;
+            }
+
+            /*Common fill properties for dataobjects*/
+            .itemaware, .itemaware_o {
+                fill:url(#linearGradientDataObject);
+                stroke:#666666;
+                stroke-width:1px;
+                cursor:pointer;
+            }
+
+            .itemaware_o {
+                stroke:#2cff20;
+            }
+
+            /*Common fill properties for annotations*/
+            .group, .group_o {
+                stroke:#2c5aa0;
+                cursor:pointer;
+                fill:none;
+                stroke-width:1.5px;
+            }
+            
+            .group_o {
+                stroke:#2cff20;
+            }
+
+            .annotationArtifact, .annotationArtifactRect {
+                fill:none;
+                stroke:#000000;
+                stroke-width:1px;
+                cursor:pointer;
+            }
+
+            .annotationArtifactRect, .annotationArtifactRect_o {
+                stroke:none;
+                fill:#FFF;
+                fill-opacity:1;
+            }
+
+            .annotationArtifactRect_o {
+                stroke:#2cff20;
+            }
+            
+            /*NavPath Styles*/
             .navPath {
                 fill:#e7e7e7;
                 stroke:gray;
