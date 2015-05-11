@@ -261,6 +261,7 @@ SWBParamRequest paramRequest = (SWBParamRequest)request.getAttribute("paramReque
                 font-size: 10px;
                 stroke: none;
                 fill: #000;
+                cursor: pointer;
             }
             
             /*Common fill properties for activities*/
