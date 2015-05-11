@@ -3874,6 +3874,8 @@ var _GraphicalElement = function(obj) {
                                     for (var m = 1; m < _points.length - 1; m++) {
                                         obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(_points[m].x, _points[m].y));
                                     }
+                                    obj.xe = obj.xe || end.getX();
+                                    obj.ye = obj.ye || end.getY();
                                     obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(obj.xe, obj.ye));
                                     obj.snap2Grid();
                                     obj.updateSubLine();
@@ -4052,7 +4054,12 @@ var _GraphicalElement = function(obj) {
             };
             Modeler.navPath.bar.style.display="none";
             ToolKit.svg.appendChild(g);
-            window.onscroll = function(){if (Modeler.navPath && Modeler.navPath !== null) {Modeler.navPath.bar.move((window.pageXOffset+window.innerWidth)-Modeler.navPath.bar.getWidth()/2-ToolKit.svg.offsetLeft-18, window.pageYOffset+Modeler.navPath.bar.getHeight()/2);};};
+            //EHSP - Agregado if para evitar scroll en vista no editable, cuando la barra de navegación no es visible
+            if (Modeler.navPath && Modeler.navPath !== null && Modeler.navPath.bar.style.display !== "none") {
+                window.onscroll = function() {
+                    Modeler.navPath.bar.move((window.pageXOffset+window.innerWidth)-Modeler.navPath.bar.getWidth()/2-ToolKit.svg.offsetLeft-18, window.pageYOffset+Modeler.navPath.bar.getHeight()/2);
+                };
+            }
         },
 
         getGraphElementByURI:function(parent, uri) {
