@@ -4175,175 +4175,175 @@ var _GraphicalElement = function(obj) {
                     break;
                 case 'StartEvent':
                     ret = new _StartEvent(Modeler.createObject("#startEvent",null,null));
-                    ret.setText("Inicio Normal");
+                    ret.setText("");
                     break;
                 case 'MessageStartEvent':
                     ret = new _MessageStartEvent(Modeler.createObject("#messageStartEvent",null,null));
-                    ret.setText("Inicio por mensaje");
+                    ret.setText("");
                     break;
                 case 'TimerStartEvent':
                     ret = new _TimerStartEvent(Modeler.createObject("#timerStartEvent",null,null));
-                    ret.setText("Inicio temporizado");
+                    ret.setText("");
                     break;
                 case 'RuleStartEvent':
                     ret = new _RuleStartEvent(Modeler.createObject("#ruleStartEvent",null,null));
-                    ret.setText("Inicio por regla de negocio");
+                    ret.setText("");
                     break;
                 case 'SignalStartEvent':
                     ret = new _SignalStartEvent(Modeler.createObject("#signalStartEvent",null,null));
-                    ret.setText("Inicio por señal");
+                    ret.setText("");
                     break;
                 case 'MultipleStartEvent':
                     ret = new _MultipleStartEvent(Modeler.createObject("#multipleStartEvent",null,null));
-                    ret.setText("Inicio múltiple");
+                    ret.setText("");
                     break;
                 case 'ParallelStartEvent':
                     ret = new _ParallelStartEvent(Modeler.createObject("#parallelStartEvent",null,null));
-                    ret.setText("Inicio paralelo");
+                    ret.setText("");
                     break;
                 case 'ScalationStartEvent':
                     ret = new _ScalationStartEvent(Modeler.createObject("#scalationStartEvent",null,null));
-                    ret.setText("Inicio por escalamiento");
+                    ret.setText("");
                     break;
                 case 'ErrorStartEvent':
                     ret = new _ErrorStartEvent(Modeler.createObject("#errorStartEvent",null,null));
-                    ret.setText("Inicio por error");
+                    ret.setText("");
                     break;
                 case 'CompensationStartEvent':
                     ret = new _CompensationStartEvent(Modeler.createObject("#compensationStartEvent",null,null));
-                    ret.setText("Inicio por compensación");
+                    ret.setText("");
                     break;
                 case 'MessageIntermediateCatchEvent':
                     ret = new _MessageIntermediateCatchEvent(Modeler.createObject("#messageIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción de mensaje");
+                    ret.setText("");
                     break;
                 case 'MessageIntermediateThrowEvent':
                     ret = new _MessageIntermediateThrowEvent(Modeler.createObject("#messageIntermediateThrowEvent",null,null));
-                    ret.setText("Envío de mensaje");
+                    ret.setText("");
                     break;
                 case 'TimerIntermediateCatchEvent':
                     ret = new _TimerIntermediateCatchEvent(Modeler.createObject("#timerIntermediateEvent",null,null));
-                    ret.setText("Temporizador");
+                    ret.setText("");
                     break;
                 case 'ErrorIntermediateCatchEvent':
                     ret = new _ErrorIntermediateCatchEvent(Modeler.createObject("#errorIntermediateEvent",null,null));
-                    ret.setText("Recepción de error");
+                    ret.setText("");
                     break;
                 case 'CancelationIntermediateCatchEvent':
                     ret = new _CancelationIntermediateCatchEvent(Modeler.createObject("#cancelIntermediateEvent",null,null));
-                    ret.setText("Cancelación");
+                    ret.setText("");
                     break;
                 case 'CompensationIntermediateCatchEvent':
                     ret = new _CompensationIntermediateCatchEvent(Modeler.createObject("#compensationIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción de compensación");
+                    ret.setText("");
                     break;
                 case 'CompensationIntermediateThrowEvent':
                     ret = new _CompensationIntermediateThrowEvent(Modeler.createObject("#compensationIntermediateThrowEvent",null,null));
-                    ret.setText("Disparo de compensación");
+                    ret.setText("");
                     break;
                 case 'RuleIntermediateCatchEvent':
                     ret = new _RuleIntermediateCatchEvent(Modeler.createObject("#ruleIntermediateEvent",null,null));
-                    ret.setText("Regla de negocio");
+                    ret.setText("");
                     break;
                 case 'LinkIntermediateCatchEvent':
                     ret = new _LinkIntermediateCatchEvent(Modeler.createObject("#linkIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción de enlace");
+                    ret.setText("");
                     break;
                 case 'LinkIntermediateThrowEvent':
                     ret = new _LinkIntermediateThrowEvent(Modeler.createObject("#linkIntermediateThrowEvent",null,null));
-                    ret.setText("Disparo de enlace");
+                    ret.setText("");
                     break;
                 case 'SignalIntermediateCatchEvent':
                     ret = new _SignalIntermediateCatchEvent(Modeler.createObject("#signalIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción de señal");
+                    ret.setText("");
                     break;
                 case 'SignalIntermediateThrowEvent':
                     ret = new _SignalIntermediateThrowEvent(Modeler.createObject("#signalIntermediateThrowEvent",null,null));
-                    ret.setText("Disparo de señal");
+                    ret.setText("");
                     break;
                 case 'MultipleIntermediateCatchEvent':
                     ret = new _MultipleIntermediateCatchEvent(Modeler.createObject("#multipleIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción múltiple");
+                    ret.setText("");
                     break;
                 case 'MultipleIntermediateThrowEvent':
                     ret = new _MultipleIntermediateThrowEvent(Modeler.createObject("#multipleIntermediateThrowEvent",null,null));
-                    ret.setText("Disparo múltiple");
+                    ret.setText("");
                     break;
                 case 'ScalationIntermediateCatchEvent':
                     ret = new _ScalationIntermediateCatchEvent(Modeler.createObject("#scalationIntermediateCatchEvent",null,null));
-                    ret.setText("Recepción de escalamiento");
+                    ret.setText("");
                     break;
                 case 'ScalationIntermediateThrowEvent':
                     ret = new _ScalationIntermediateThrowEvent(Modeler.createObject("#scalationIntermediateThrowEvent",null,null));
-                    ret.setText("Disparo de escalamiento");
+                    ret.setText("");
                     break;
                 case 'ParallelIntermediateCatchEvent':
                     ret = new _ParallelIntermediateCatchEvent(Modeler.createObject("#parallelIntermediateEvent",null,null));
-                    ret.setText("Paralelo");
+                    ret.setText("");
                     break;
                 case 'EndEvent':
                     ret = new _EndEvent(Modeler.createObject("#endEvent",null,null));
-                    ret.setText("Fin normal");
+                    ret.setText("");
                     break;
                 case 'MessageEndEvent':
                     ret = new _MessageEndEvent(Modeler.createObject("#messageEndEvent",null,null));
-                    ret.setText("Fin con mensaje");
+                    ret.setText("");
                     break;
                 case 'ErrorEndEvent':
                     ret = new _ErrorEndEvent(Modeler.createObject("#errorEndEvent",null,null));
-                    ret.setText("Fin con error");
+                    ret.setText("");
                     break;
                 case 'CancelationEndEvent':
                     ret = new _CancelationEndEvent(Modeler.createObject("#cancelationEndEvent",null,null));
-                    ret.setText("Fin con cancelación");
+                    ret.setText("");
                     break;
                 case 'CompensationEndEvent':
                     ret = new _CompensationEndEvent(Modeler.createObject("#compensationEndEvent",null,null));
-                    ret.setText("Fin con compensación");
+                    ret.setText("");
                     break;
                 case 'SignalEndEvent':
                     ret = new _SignalEndEvent(Modeler.createObject("#signalEndEvent",null,null));
-                    ret.setText("Fin con señal");
+                    ret.setText("");
                     break;
                 case 'MultipleEndEvent':
                     ret = new _MultipleEndEvent(Modeler.createObject("#multipleEndEvent",null,null));
-                    ret.setText("Fin múltiple");
+                    ret.setText("");
                     break;
                 case 'ScalationEndEvent':
                     ret = new _ScalationEndEvent(Modeler.createObject("#scalationEndEvent",null,null));
-                    ret.setText("Fin con escalamiento");
+                    ret.setText("");
                     break;
                 case 'TerminationEndEvent':
                     ret= new _TerminationEndEvent(Modeler.createObject("#terminationEndEvent",null,null));
-                    ret.setText("Terminación");
+                    ret.setText("");
                     break;
                 case 'ExclusiveGateway':
                     ret = new _ExclusiveGateway(Modeler.createObject("#exclusiveDataGateway",null,null));
-                    ret.setText("Exclusiva (datos)");
+                    ret.setText("");
                     break;
                 case 'InclusiveGateway':
                     ret = new _InclusiveGateway(Modeler.createObject("#inclusiveDataGateway",null,null));
-                    ret.setText("Inclusiva (datos)");
+                    ret.setText("");
                     break;
                 case 'ExclusiveStartEventGateway':
                     ret = new _ExclusiveStartEventGateway(Modeler.createObject("#exclusiveStartGateway",null,null));
-                    ret.setText("Exclusiva (evetos iniciales)");
+                    ret.setText("");
                     break;
                 case 'ExclusiveIntermediateEventGateway':
                     ret = new _ExclusiveIntermediateEventGateway(Modeler.createObject("#eventGateway",null,null));
-                    ret.setText("Exclusiva (evetos intermedios)");
+                    ret.setText("");
                     break;
                 case 'ParallelGateway':
                     ret = new _ParallelGateway(Modeler.createObject("#parallelGateway",null,null));
-                    ret.setText("Paralela");
+                    ret.setText("");
                     break;
                 case 'ParallelStartEventGateway':
                     ret = new _ParallelStartEventGateway(Modeler.createObject("#parallelStartGateway",null,null));
-                    ret.setText("Paralela (eventos iniciales)");
+                    ret.setText("");
                     break;
                 case 'ComplexGateway':
                     ret = new _ComplexGateway(Modeler.createObject("#complexGateway",null,null));
-                    ret.setText("Compleja");
+                    ret.setText("");
                     break;
                 case 'GroupArtifact':
                     ret = new _Group(Modeler.createGroupArtifact(null,null));
@@ -4356,19 +4356,19 @@ var _GraphicalElement = function(obj) {
                     break;
                 case 'DataObject':
                     ret = new _DataObject(Modeler.createObject("#data",null,null));
-                    ret.setText("Dato");
+                    ret.setText("");
                     break;
                 case 'DataInput':
                     ret = new _DataInput(Modeler.createObject("#dataInput",null,null));
-                    ret.setText("Dato de entrada");
+                    ret.setText("");
                     break;
                 case 'DataOutput':
                     ret = new _DataOutput(Modeler.createObject("#dataOutput",null,null));
-                    ret.setText("Dato de salida");
+                    ret.setText("");
                     break;
                 case 'DataStore':
                     ret = new _DataStore(Modeler.createObject("#dataStore",null,null));
-                    ret.setText("Almacén de datos");
+                    ret.setText("");
                     break;
                 case 'UserTask':
                     ret = new _UserTask(Modeler.createTask(null,null));
