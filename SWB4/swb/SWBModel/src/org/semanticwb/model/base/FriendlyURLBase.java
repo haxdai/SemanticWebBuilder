@@ -1,7 +1,7 @@
 package org.semanticwb.model.base;
 
 
-public abstract class FriendlyURLBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Localeable,org.semanticwb.model.Countryable,org.semanticwb.model.Traceable
+public abstract class FriendlyURLBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Countryable,org.semanticwb.model.Traceable,org.semanticwb.model.Localeable
 {
    /**
    * Una Página Web es el elemento de SemanticWebBuilder a través del cual se estructura la información del portal.
@@ -11,6 +11,7 @@ public abstract class FriendlyURLBase extends org.semanticwb.model.SWBClass impl
     public static final org.semanticwb.platform.SemanticProperty swb_frindlyOldURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#frindlyOldURL");
     public static final org.semanticwb.platform.SemanticProperty swb_friendlyURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#friendlyURL");
     public static final org.semanticwb.platform.SemanticProperty swb_friendlyURLDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#friendlyURLDescription");
+    public static final org.semanticwb.platform.SemanticProperty swb_friendlySubPaths=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/ontology#friendlySubPaths");
     public static final org.semanticwb.platform.SemanticClass swb_FriendlyURL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#FriendlyURL");
    /**
    * The semantic class that represents the currentObject
@@ -495,5 +496,23 @@ public abstract class FriendlyURLBase extends org.semanticwb.model.SWBClass impl
     public void setFriendlyURLDescription(String value)
     {
         getSemanticObject().setProperty(swb_friendlyURLDescription, value);
+    }
+
+/**
+* Gets the FriendlySubPaths property
+* @return boolean with the FriendlySubPaths
+*/
+    public boolean isFriendlySubPaths()
+    {
+        return getSemanticObject().getBooleanProperty(swb_friendlySubPaths);
+    }
+
+/**
+* Sets the FriendlySubPaths property
+* @param value long with the FriendlySubPaths
+*/
+    public void setFriendlySubPaths(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_friendlySubPaths, value);
     }
 }
