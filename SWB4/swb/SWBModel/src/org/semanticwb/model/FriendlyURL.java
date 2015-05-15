@@ -24,20 +24,183 @@ package org.semanticwb.model;
 
 import com.hp.hpl.jena.rdf.model.Property;
 import com.hp.hpl.jena.rdf.model.Statement;
-import com.hp.hpl.jena.vocabulary.RDF;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticObserver;
 import org.semanticwb.platform.SemanticTSObserver;
 
 
 public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase 
 {
+    
+    static class ConcurrentHashMapFriendlyURL extends ConcurrentHashMap<String, Object>
+    {
+
+        public static List<String> extractPaths(String path)
+        {
+
+            List<String> extractPaths = new ArrayList<String>();
+            if (path == null || path.isEmpty())
+            {
+                return extractPaths;
+            }
+            if(path.equals("/"))
+            {
+                extractPaths.add(path);
+                return extractPaths;
+            }
+            if(path.endsWith("/"))
+            {
+                path=path.substring(0,path.length()-1);
+            }
+            String[] values = path.split("/");
+
+            List<String> paths = new ArrayList<String>();
+            List<String> temp = Arrays.asList(values);
+            paths.addAll(temp);
+            //paths.remove(paths.size()-1);
+            while (!paths.isEmpty())
+            {
+                StringBuilder newPath = new StringBuilder();
+                for (String value : paths)
+                {
+                    if (!value.isEmpty())
+                    {
+                        newPath.append("/");
+                        newPath.append(value);
+                    }
+
+                }
+                if(!newPath.toString().isEmpty())
+                {
+                    extractPaths.add(newPath.toString());
+                }
+                paths.remove(paths.size()-1);
+            }
+            extractPaths.add("/");
+            return extractPaths;
+
+        }
+        @Override
+        public Object get(Object key)
+        {
+            Object ret=super.get(key);
+            if(ret!=null)
+            {
+                return ret;
+            }       
+            if(key instanceof String)
+            {
+                String pathKey=(String)key;
+                if(pathKey.endsWith("/"))
+                {
+                    pathKey=pathKey.substring(0,pathKey.length()-1);
+                }
+                List<String> subpaths=extractPaths(pathKey);
+                for(String subpath : subpaths)
+                {
+                    ret=super.get(subpath);
+                    if(ret!=null)
+                    {
+                        if(ret instanceof FriendlyURL)
+                        {
+                            FriendlyURL friendlyURL=(FriendlyURL)ret;
+                            if(!friendlyURL.isFriendlySubPaths())
+                            {
+                                return null;
+                            }
+                            else
+                            {
+                                return ret;
+                            }
+                        }
+                        else
+                        {
+                            return ret;
+                        }
+                    }
+                }
+                /*for(Object obj : this.values())
+                {          
+                    if(obj instanceof FriendlyURL)
+                    {
+                        FriendlyURL friendlyURL=(FriendlyURL)obj;                
+                        if(friendlyURL.isFriendlySubPaths())
+                        {
+                            if(pathKey.startsWith(friendlyURL.getURL()))
+                            {
+                                return obj;
+                            }
+                        }
+                    }
+                    else if(obj instanceof ArrayList)
+                    {
+                        ArrayList list=(ArrayList)obj;
+                        for(Object arrObj : list)
+                        {
+                            if(arrObj instanceof FriendlyURL)
+                            {
+                                FriendlyURL friendlyURL=(FriendlyURL)arrObj;  
+                                if(friendlyURL.isFriendlySubPaths())
+                                {
+                                    if(pathKey.startsWith(friendlyURL.getURL()))
+                                    {
+                                        return list;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }*/
+            }
+            return super.get(key);
+            
+        }
+
+        
+
+        /*@Override
+        public Object get(Object key)
+        {
+            Object ret=super.get(key);
+            if(ret!=null)
+            {
+                return ret;
+            }            
+            if(key instanceof String)
+            {
+                String pathKey=(String)key;
+                for(Object obj : this.values())
+                {
+                    if(obj instanceof FriendlyURL)
+                    {
+                        FriendlyURL friendlyURL=(FriendlyURL)obj;
+                        if(friendlyURL.isFriendlySubPaths())
+                        {
+                            if(pathKey.startsWith(friendlyURL.getURL()))
+                            {
+                                return friendlyURL;
+                            }
+                        }
+                    }
+                }
+                return super.get(key);
+            }
+            else
+            {
+                return super.get(key);
+            }
+        }*/
+        
+    }    
+    
     /** The names. */
-    private static ConcurrentHashMap<String, Object> urls = null;
+    private static ConcurrentHashMapFriendlyURL urls = null;
 
     public FriendlyURL(org.semanticwb.platform.SemanticObject base)
     {
@@ -143,7 +306,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
     public static void refresh() 
     {
         if(urls!=null)return;
-        urls = new ConcurrentHashMap(); 
+        urls = new ConcurrentHashMapFriendlyURL(); 
         Iterator<WebSite> its=SWBContext.listWebSites();
         while (its.hasNext())
         {
