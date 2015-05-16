@@ -1,3 +1,5 @@
+  4.5.10.0
+    - Soporte a subrutas en friendyUrls (Vic, Jei)
     - Se agrego clase SWB4GenericLDAPLocalBridge para soporte a autenticacion por LDAP y Local simultaneas (Serch)
     - Corrección de applet de templates, soporte a OSX (Jei)
     - Actualizacion de versión de Servlets (Jei)
