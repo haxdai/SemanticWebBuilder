@@ -36,171 +36,10 @@ import org.semanticwb.platform.SemanticTSObserver;
 
 public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase 
 {
-    
-    static class ConcurrentHashMapFriendlyURL extends ConcurrentHashMap<String, Object>
-    {
-
-        public static List<String> extractPaths(String path)
-        {
-
-            List<String> extractPaths = new ArrayList<String>();
-            if (path == null || path.isEmpty())
-            {
-                return extractPaths;
-            }
-            if(path.equals("/"))
-            {
-                extractPaths.add(path);
-                return extractPaths;
-            }
-            if(path.endsWith("/"))
-            {
-                path=path.substring(0,path.length()-1);
-            }
-            String[] values = path.split("/");
-
-            List<String> paths = new ArrayList<String>();
-            List<String> temp = Arrays.asList(values);
-            paths.addAll(temp);
-            //paths.remove(paths.size()-1);
-            while (!paths.isEmpty())
-            {
-                StringBuilder newPath = new StringBuilder();
-                for (String value : paths)
-                {
-                    if (!value.isEmpty())
-                    {
-                        newPath.append("/");
-                        newPath.append(value);
-                    }
-
-                }
-                if(!newPath.toString().isEmpty())
-                {
-                    extractPaths.add(newPath.toString());
-                }
-                paths.remove(paths.size()-1);
-            }
-            extractPaths.add("/");
-            return extractPaths;
-
-        }
-        @Override
-        public Object get(Object key)
-        {
-            Object ret=super.get(key);
-            if(ret!=null)
-            {
-                return ret;
-            }       
-            if(key instanceof String)
-            {
-                String pathKey=(String)key;
-                if(pathKey.endsWith("/"))
-                {
-                    pathKey=pathKey.substring(0,pathKey.length()-1);
-                }
-                List<String> subpaths=extractPaths(pathKey);
-                for(String subpath : subpaths)
-                {
-                    ret=super.get(subpath);
-                    if(ret!=null)
-                    {
-                        if(ret instanceof FriendlyURL)
-                        {
-                            FriendlyURL friendlyURL=(FriendlyURL)ret;
-                            if(!friendlyURL.isFriendlySubPaths())
-                            {
-                                return null;
-                            }
-                            else
-                            {
-                                return ret;
-                            }
-                        }
-                        else
-                        {
-                            return ret;
-                        }
-                    }
-                }
-                /*for(Object obj : this.values())
-                {          
-                    if(obj instanceof FriendlyURL)
-                    {
-                        FriendlyURL friendlyURL=(FriendlyURL)obj;                
-                        if(friendlyURL.isFriendlySubPaths())
-                        {
-                            if(pathKey.startsWith(friendlyURL.getURL()))
-                            {
-                                return obj;
-                            }
-                        }
-                    }
-                    else if(obj instanceof ArrayList)
-                    {
-                        ArrayList list=(ArrayList)obj;
-                        for(Object arrObj : list)
-                        {
-                            if(arrObj instanceof FriendlyURL)
-                            {
-                                FriendlyURL friendlyURL=(FriendlyURL)arrObj;  
-                                if(friendlyURL.isFriendlySubPaths())
-                                {
-                                    if(pathKey.startsWith(friendlyURL.getURL()))
-                                    {
-                                        return list;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                }*/
-            }
-            return super.get(key);
-            
-        }
-
-        
-
-        /*@Override
-        public Object get(Object key)
-        {
-            Object ret=super.get(key);
-            if(ret!=null)
-            {
-                return ret;
-            }            
-            if(key instanceof String)
-            {
-                String pathKey=(String)key;
-                for(Object obj : this.values())
-                {
-                    if(obj instanceof FriendlyURL)
-                    {
-                        FriendlyURL friendlyURL=(FriendlyURL)obj;
-                        if(friendlyURL.isFriendlySubPaths())
-                        {
-                            if(pathKey.startsWith(friendlyURL.getURL()))
-                            {
-                                return friendlyURL;
-                            }
-                        }
-                    }
-                }
-                return super.get(key);
-            }
-            else
-            {
-                return super.get(key);
-            }
-        }*/
-        
-    }    
-    
     /** The names. */
-    private static ConcurrentHashMapFriendlyURL urls = null;
+    private static ConcurrentHashMap<String,Object> urls = null;
+    /** The names. */
+    private static ConcurrentHashMap<String,Object> suburls = null;
 
     public FriendlyURL(org.semanticwb.platform.SemanticObject base)
     {
@@ -219,6 +58,17 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                 {
                     Property p=stmt.getPredicate();
                     if(p.equals(swb_friendlyURL.getRDFProperty()))
+                    {
+                        if(action.equals(SemanticObject.ACT_REMOVE))
+                        {
+                            //System.out.println("remove friendly...");
+                            removeObject(obj);
+                        }else
+                        {
+                            //System.out.println("add friendly...");
+                            addFriendlyUrl((FriendlyURL)obj.createGenericInstance());                    
+                        }
+                    }else if(p.equals(swb_friendlySubPaths.getRDFProperty()))
                     {
                         if(action.equals(SemanticObject.ACT_REMOVE))
                         {
@@ -277,26 +127,70 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                 }
             }
         }
+        
+        it=suburls.values().iterator();
+        while (it.hasNext())
+        {
+            Object object = it.next();
+            if(object instanceof FriendlyURL)
+            {
+                FriendlyURL f=(FriendlyURL)object;
+                if(f.getURI().equals(obj.getURI()))it.remove();
+            }
+            if(object instanceof ArrayList)
+            {
+                Iterator<FriendlyURL> it2=((ArrayList)object).iterator();
+                while (it2.hasNext())
+                {
+                    FriendlyURL f=(FriendlyURL)it2.next();
+                    if(f.getURI().equals(obj.getURI()))it.remove();
+                }
+            }
+        }        
+        
     }
 
     private static void addFriendlyUrl(FriendlyURL url)
     {
         if(url.getURL()==null)return;
-        Object obj=urls.get(url.getURL());
+        
+        {
+            Object obj=urls.get(url.getURL());
 
-        if(obj==null)
+            if(obj==null)
+            {
+                urls.put(url.getURL(), url);
+            }else if(obj instanceof FriendlyURL)
+            {
+                ArrayList<FriendlyURL> arr=new ArrayList();
+                arr.add((FriendlyURL)obj);
+                arr.add(url);
+                urls.put(url.getURL(), arr);
+            }else if(obj instanceof ArrayList)
+            {
+                ArrayList<FriendlyURL> arr=(ArrayList<FriendlyURL>)obj;
+                arr.add(url);
+            }
+        }
+        
+        if(url.isFriendlySubPaths())
         {
-            urls.put(url.getURL(), url);
-        }else if(obj instanceof FriendlyURL)
-        {
-            ArrayList<FriendlyURL> arr=new ArrayList();
-            arr.add((FriendlyURL)obj);
-            arr.add(url);
-            urls.put(url.getURL(), arr);
-        }else if(obj instanceof ArrayList)
-        {
-            ArrayList<FriendlyURL> arr=(ArrayList<FriendlyURL>)obj;
-            arr.add(url);
+            Object obj=suburls.get(url.getURL());
+
+            if(obj==null)
+            {
+                suburls.put(url.getURL(), url);
+            }else if(obj instanceof FriendlyURL)
+            {
+                ArrayList<FriendlyURL> arr=new ArrayList();
+                arr.add((FriendlyURL)obj);
+                arr.add(url);
+                suburls.put(url.getURL(), arr);
+            }else if(obj instanceof ArrayList)
+            {
+                ArrayList<FriendlyURL> arr=(ArrayList<FriendlyURL>)obj;
+                arr.add(url);
+            }        
         }
     }
 
@@ -306,7 +200,8 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
     public static void refresh() 
     {
         if(urls!=null)return;
-        urls = new ConcurrentHashMapFriendlyURL(); 
+        urls = new ConcurrentHashMap(); 
+        suburls = new ConcurrentHashMap(); 
         Iterator<WebSite> its=SWBContext.listWebSites();
         while (its.hasNext())
         {
@@ -332,7 +227,22 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
         //System.out.println("path:"+path+" host:"+host);
         if(urls==null)return null;
         Object obj=urls.get(path);
-        if(obj==null)return null;
+        if(obj==null)
+        {
+            if(!suburls.isEmpty())
+            {
+                List<String> subpaths=extractPaths(path);
+                for(String subpath : subpaths)
+                {
+                    obj=suburls.get(subpath);
+                    if(obj!=null)
+                    {
+                        break;
+                    }
+                }
+                if(obj==null)return null;
+            }else return null;
+        }
         if(obj instanceof FriendlyURL)return (FriendlyURL)obj;
         if(obj instanceof ArrayList)
         {
@@ -357,5 +267,22 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
         }
         return null;
     }
+    
+    
+    private static List<String> extractPaths(String path)
+    {
+        //"/swb/meta/jei/serch/"
+        List<String> ret = new ArrayList<String>();
+        String tmp=path;
+        int i=-1;
+        while((i=tmp.lastIndexOf('/'))>-1)
+        {
+            tmp=tmp.substring(0,i);
+            ret.add(tmp+"/");
+            if(tmp.length()>0)ret.add(tmp);
+        }
+        return ret;
+    } 
+    
 
 }
