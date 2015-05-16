@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
@@ -179,7 +180,13 @@ public class TestSort
     public static void main(String args[])
     {
         //arr();
-        map();
+        //map();
+        Iterator<String> it=extractPaths("/swb/meta/jei/serch").iterator();
+        while (it.hasNext()) {
+            String st = it.next();
+            System.out.println("ret:"+st);
+        }
+        
 
 //        ini=System.currentTimeMillis();
 //        for(int x=0;x<n;x++)
@@ -255,8 +262,24 @@ public class TestSort
         */
 
     }
+    
+    private static List<String> extractPaths(String path)
+    {
+        //"/swb/meta/jei/serch/"
+        List<String> ret = new ArrayList<String>();
+        String tmp=path;
+        int i=-1;
+        while((i=tmp.lastIndexOf('/'))>-1)
+        {
+            tmp=tmp.substring(0,i);
+            ret.add(tmp+"/");
+            if(tmp.length()>0)ret.add(tmp);
+        }
+        return ret;
+    }    
 
 }
+
 
 
 class CacheNode
