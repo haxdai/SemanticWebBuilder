@@ -45,6 +45,7 @@ import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.ResourceCollectionCategory;
 import org.semanticwb.model.User;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.*;
 
 // TODO: Auto-generated Javadoc
@@ -267,9 +268,10 @@ public class SWBNews extends org.semanticwb.portal.resources.sem.news.base.SWBNe
                 
                 if (device && isOnSchedule && resource.isActive() && !resource.isDeleted() && user.haveAccess(resource) && resource.isValid())
                 {
-                    if(resource.getResourceData()!=null)
+                    SemanticObject resourceData=resource.getResourceData();
+                    if(resourceData!=null)
                     {
-                        SWBNewContent object = (SWBNewContent) resource.getResourceData().createGenericInstance();
+                        SWBNewContent object = (SWBNewContent) resourceData.createGenericInstance();
                         if (uri == null)
                         {
                             try
