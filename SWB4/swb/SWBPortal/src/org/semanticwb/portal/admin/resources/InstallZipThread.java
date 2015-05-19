@@ -37,6 +37,7 @@ import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticModel;
+import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.api.SWBResource;
 import org.semanticwb.repository.Workspace;
 import org.w3c.dom.Document;
@@ -176,6 +177,11 @@ public class InstallZipThread extends java.lang.Thread {
                     rdfcontent = SWBUtils.TEXT.replaceAll(rdfcontent, oldIDModel + "_rep", newId + "_rep");
                     rdfcontent = SWBUtils.TEXT.replaceAll(rdfcontent, "http://repository." + oldIDModel + ".swb#", "http://repository." + newId + ".swb#");
 
+                    //EHSP: Added to handle instance data model in process sites
+                    if (rdfcontent.contains("http://pdim." + oldIDModel + ".swb#")) {
+                        rdfcontent = SWBUtils.TEXT.replaceAll(rdfcontent, "http://pdim." + oldIDModel + ".swb#", "http://pdim." + newId + ".swb#");
+                        rdfcontent = SWBUtils.TEXT.replaceAll(rdfcontent, oldIDModel + "_pdim", newId + "_pdim");
+                    }
                     //rdfcontent = SWBUtils.TEXT.replaceAllIgnoreCase(rdfcontent, oldName, newName); //Reemplazar nombre anterior x nuevo nombre
                     //rdfcontent = parseRdfContent(rdfcontent, oldTitle, newTitle, oldIDModel, newId, newNs);
 
@@ -249,6 +255,29 @@ public class InstallZipThread extends java.lang.Thread {
                                     }else
                                     {
                                         log.error("Error creating document repository...");                                        
+                                    }
+                                }
+                            }
+                        }
+                        //EHSP: Added to handle swb process internal data model
+                        if (key.endsWith("_pdim")) {
+                            if (null != xmodelID) {
+                                int pos = xmodelID.lastIndexOf("_pdim");
+                                if (pos > -1) {
+                                    xmodelID = xmodelID.substring(0, pos);
+                                    //Rename user references
+                                    rdfmodel = SWBUtils.TEXT.replaceAll(rdfmodel, "<http://user."+xmodelID+".swb#", "<http://user."+newId+".swb#");
+                                    rdfmodel = SWBUtils.TEXT.replaceAll(rdfmodel, xmodelID+"_usr", newId+"_usr");
+
+                                    //Rename data model reference
+                                    rdfmodel = SWBUtils.TEXT.replaceAll(rdfmodel, "<http://pdim."+xmodelID+".swb#", "<http://pdim."+newId+".swb#");
+                                    rdfmodel = SWBUtils.TEXT.replaceAll(rdfmodel, xmodelID+"_pdim", newId+"_pdim");
+
+                                    //Create RDF model for data instances
+                                    io = SWBUtils.IO.getStreamFromString(rdfmodel);
+                                    SemanticModel pdim = SWBPlatform.getSemanticMgr().createDBModelByRDF(newId + "_pdim", "http://pdim." + newId + ".swb#", io, "N-TRIPLE");
+                                    if (pdim == null) {
+                                        log.error("Error creating data instance model...");
                                     }
                                 }
                             }
