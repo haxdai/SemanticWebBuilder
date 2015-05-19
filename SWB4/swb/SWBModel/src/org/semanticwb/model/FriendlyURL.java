@@ -123,7 +123,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                 while (it2.hasNext())
                 {
                     FriendlyURL f=(FriendlyURL)it2.next();
-                    if(f.getURI().equals(obj.getURI()))it.remove();
+                    if(f.getURI().equals(obj.getURI()))it2.remove();
                 }
             }
         }
@@ -143,7 +143,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                 while (it2.hasNext())
                 {
                     FriendlyURL f=(FriendlyURL)it2.next();
-                    if(f.getURI().equals(obj.getURI()))it.remove();
+                    if(f.getURI().equals(obj.getURI()))it2.remove();
                 }
             }
         }        
