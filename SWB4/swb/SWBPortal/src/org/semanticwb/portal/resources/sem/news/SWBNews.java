@@ -267,25 +267,11 @@ public class SWBNews extends org.semanticwb.portal.resources.sem.news.base.SWBNe
                 
                 if (device && isOnSchedule && resource.isActive() && !resource.isDeleted() && user.haveAccess(resource) && resource.isValid())
                 {
-                    SWBNewContent object = (SWBNewContent) resource.getResourceData().createGenericInstance();
-                    if (uri == null)
+                    if(resource.getResourceData()!=null)
                     {
-                        try
+                        SWBNewContent object = (SWBNewContent) resource.getResourceData().createGenericInstance();
+                        if (uri == null)
                         {
-                            object.setResourceBase(resource);
-                            news.add(object);
-                        }
-                        catch (SWBResourceException e)
-                        {
-                            log.error(e);
-
-                        }
-                    }
-                    else
-                    {
-                        if (uri.equals(resource.getURI()) || uri.equals(resource.getId()))
-                        {
-
                             try
                             {
                                 object.setResourceBase(resource);
@@ -295,6 +281,23 @@ public class SWBNews extends org.semanticwb.portal.resources.sem.news.base.SWBNe
                             {
                                 log.error(e);
 
+                            }
+                        }
+                        else
+                        {
+                            if (uri.equals(resource.getURI()) || uri.equals(resource.getId()))
+                            {
+
+                                try
+                                {
+                                    object.setResourceBase(resource);
+                                    news.add(object);
+                                }
+                                catch (SWBResourceException e)
+                                {
+                                    log.error(e);
+
+                                }
                             }
                         }
                     }
