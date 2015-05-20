@@ -28,7 +28,8 @@ public class ImpactMap extends GenericResource {
     public void setResourceBase(Resource base) throws SWBResourceException {
         super.setResourceBase(base);
         setUrlObjectivePage(base.getWebSite().getWebPage(Objective.class.getSimpleName()).getUrl());
-        path = SWBPlatform.getContextPath()+"/swbadmin/jsp/swbstrgy/maps/"+this.getClass().getSimpleName()+"/view.jsp";
+        path = "/work/models/" + getResourceBase().getWebSiteId() + "/jsp/" 
+                + this.getClass().getSimpleName() + "/" + "view.jsp";
     }
     
     @Override
