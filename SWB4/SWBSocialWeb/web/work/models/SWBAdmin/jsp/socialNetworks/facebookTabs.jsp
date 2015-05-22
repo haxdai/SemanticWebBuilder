@@ -80,8 +80,8 @@
         out.println("<div class=\"pub-redes\" style=\"width: 400px; height:500px;\" id=\""+ objUri + FRIENDS_TAB +"\" dojoType=\"dijit.layout.ContentPane\" title=\""+paramRequest.getLocaleString("myConnections")+"\" refreshOnShow=\""+"false"+"\" href=\"" + resourcePath + param + FRIENDS_TAB +"\" _loadingMessage=\""+loading+"\" style=\"overflow:auto;\" style_=\"border:0px; width:100%; height:100%\" onLoad_=\"onLoadTab(this);\">");
         out.println("</div>");
 
-        out.println("<div class=\"pub-redes\" style=\"width: 400px; height:500px;\" id=\""+ objUri + FOLLOWERS_TAB +"\" dojoType=\"dijit.layout.ContentPane\" title=\""+paramRequest.getLocaleString("myConnections")+"\" refreshOnShow=\""+"false"+"\" href=\"" + resourcePath + param + FOLLOWERS_TAB +"\" _loadingMessage=\""+loading+"\" style=\"overflow:auto;\" style_=\"border:0px; width:100%; height:100%\" onLoad_=\"onLoadTab(this);\">");
-        out.println("</div>");
+//        out.println("<div class=\"pub-redes\" style=\"width: 400px; height:500px;\" id=\""+ objUri + FOLLOWERS_TAB +"\" dojoType=\"dijit.layout.ContentPane\" title=\""+paramRequest.getLocaleString("myConnections")+"\" refreshOnShow=\""+"false"+"\" href=\"" + resourcePath + param + FOLLOWERS_TAB +"\" _loadingMessage=\""+loading+"\" style=\"overflow:auto;\" style_=\"border:0px; width:100%; height:100%\" onLoad_=\"onLoadTab(this);\">");
+//        out.println("</div>");
     }
 
 
