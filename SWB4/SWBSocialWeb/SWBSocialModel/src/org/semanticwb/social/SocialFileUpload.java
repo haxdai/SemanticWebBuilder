@@ -24,7 +24,6 @@
  
 package org.semanticwb.social;
 
-import com.google.gdata.data.extensions.Image;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

@@ -49,6 +49,8 @@
         
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = new URL(url + "?" +  paramString);
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" +  paramString + "\n");
         
         //URL serverUrl = new URL(url);
         //System.out.println("URL:" +  serverUrl);
@@ -92,6 +94,8 @@
         if (response == null) {
             response = "";
         }
+        toFile.append(response + "\n");
+        Youtube.write2File(toFile);
         return response;
     }
     
@@ -101,6 +105,8 @@
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = new URL(url + "?" +  paramString);       
         //System.out.println("URL:" +  serverUrl);
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" +  paramString + "\n");
         
         HttpURLConnection conex = null;
         InputStream in = null;
@@ -135,6 +141,8 @@
         if (response == null) {
             response = "";
         }
+        toFile.append(response + "\n");
+        Youtube.write2File(toFile);
         return response;
     }
     
@@ -346,157 +354,208 @@
         }
     }
 
-    public boolean doYTLikeDislike(PostIn postIn, String action){
+    /** Aplica un like o dislike al video indicado */
+    public boolean doYTLikeDislike(PostIn postIn, String action) {
+        
         String videoId = postIn.getSocialNetMsgId();
         SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
         Youtube semanticYoutube = (Youtube) postInSN;
-        if(!semanticYoutube.validateToken()){
+        if (!semanticYoutube.validateToken()) {
             //System.out.println("Unable to update the access token!");
             return false;
         }
         
-        String url1 = "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/ratings";
-        URL url;
-        HttpURLConnection conn = null;
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(Youtube.API_URL + "/videos/rate\n");
+        toFile.append("AccessToken: " + semanticYoutube.getAccessToken() + "\n");
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("id", videoId);
+        params.put("rating", action.toLowerCase());
         try {
-            url = new URL(url1);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setUseCaches(false);
-            conn.setRequestProperty("Host", "gdata.youtube.com");
-            conn.setRequestProperty("Content-Type", "application/atom+xml");
-            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
-            conn.setRequestProperty("GData-Version", "2");
-            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
-
-            DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
-            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
-            " <entry xmlns=\"http://www.w3.org/2005/Atom\"\r\n" +
-            " xmlns:yt=\"http://gdata.youtube.com/schemas/2007\">\r\n" +
-            " <yt:rating value=\"" + action + "\"/>\r\n" +
-            "</entry>\r\n";
-            writer.write(xml.getBytes("UTF-8"));
-            writer.flush();
-            writer.close();                        
-            
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
-            StringBuilder likeInfo = new StringBuilder();
-            String line;
-            while((line = reader.readLine()) != null) {
-               likeInfo.append(line);
-            }
-            //System.out.println("--Ejecuted Like/disLike:" + likeInfo.toString());
-        }catch(Exception ex){
-            //System.out.println("ERROR" + ex.toString());
-            ex.printStackTrace();
+            String response = semanticYoutube.postRequest(params,
+                Youtube.API_URL + "/videos/rate", Youtube.USER_AGENT, "POST");
+            Youtube.write2File(toFile);
+        } catch (IOException ioe) {
             return false;
         }
+//        String url1 = "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/ratings";
+//        URL url;
+//        HttpURLConnection conn = null;
+//        try {
+//            url = new URL(url1);
+//            conn = (HttpURLConnection) url.openConnection();
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//            conn.setRequestMethod("POST");
+//            conn.setUseCaches(false);
+//            conn.setRequestProperty("Host", "gdata.youtube.com");
+//            conn.setRequestProperty("Content-Type", "application/atom+xml");
+//            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
+//            conn.setRequestProperty("GData-Version", "2");
+//            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
+//
+//            DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
+//            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
+//            " <entry xmlns=\"http://www.w3.org/2005/Atom\"\r\n" +
+//            " xmlns:yt=\"http://gdata.youtube.com/schemas/2007\">\r\n" +
+//            " <yt:rating value=\"" + action + "\"/>\r\n" +
+//            "</entry>\r\n";
+//            writer.write(xml.getBytes("UTF-8"));
+//            writer.flush();
+//            writer.close();                        
+//            
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
+//            StringBuilder likeInfo = new StringBuilder();
+//            String line;
+//            while((line = reader.readLine()) != null) {
+//               likeInfo.append(line);
+//            }
+//            //System.out.println("--Ejecuted Like/disLike:" + likeInfo.toString());
+//            toFile.append(conn.getResponseCode() + " : ");
+//            toFile.append(conn.getResponseMessage() + "\n");
+//            Youtube.write2File(toFile);
+//        }catch(Exception ex){
+//            //System.out.println("ERROR" + ex.toString());
+//            ex.printStackTrace();
+//            return false;
+//        }
         return true;
     }
 
-    public String doYTFavorite(PostIn postIn){
+    public String doYTFavorite(PostIn postIn) {
         String videoId = postIn.getSocialNetMsgId();
         SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
         Youtube semanticYoutube = (Youtube) postInSN;
         String favoriteId = null;
-        if(!semanticYoutube.validateToken()){
+        
+        if (!semanticYoutube.validateToken()) {
             //System.out.println("Unable to update the access token!");
             return null;
         }
         
-        String url1 = "http://gdata.youtube.com/feeds/api/users/default/favorites";
-        URL url;
-        HttpURLConnection conn = null;
-        try {
-            url = new URL(url1);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("POST");
-            conn.setUseCaches(false);
-            conn.setRequestProperty("Host", "gdata.youtube.com");
-            conn.setRequestProperty("Content-Type", "application/atom+xml");
-            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
-            conn.setRequestProperty("GData-Version", "2");
-            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
-
-            DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
-            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
-            " <entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n" +
-            " <id>" + videoId + "</id>\r\n" +
-            "</entry>\r\n";
-            writer.write(xml.getBytes("UTF-8"));
-            writer.flush();
-            writer.close();
-            
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
-            StringBuilder favoriteInfo = new StringBuilder();
-            String line;
-            while( (line = reader.readLine()) != null) {
-               favoriteInfo.append(line);
-            }
-
-            //System.out.println("favoriteInfo-->" + favoriteInfo + "<--\n");
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder;
-            builder = factory.newDocumentBuilder();
-            Document xmlDoc = builder.parse(new InputSource(new StringReader(favoriteInfo.toString())));
-            xmlDoc.getDocumentElement().normalize();
-            NodeList rootNode = xmlDoc.getDocumentElement().getChildNodes();
-
-            for( int tmp = 0; tmp < rootNode.getLength(); tmp++){
-                Node nNode= rootNode.item(tmp);
-                if(nNode.getNodeName().equals("yt:favoriteId")){                    
-                    favoriteId = nNode.getTextContent();
-                    //System.out.println("yt:favoriteId-->" + favoriteId);
-                }
-            }
-        }catch(Exception ex){
-            //System.out.println("ERROR->" + ex.toString());
-            //ex.printStackTrace();
-            return null;
-        }
+        favoriteId = semanticYoutube.addFavorite(videoId);
+        
+//        String url1 = "http://gdata.youtube.com/feeds/api/users/default/favorites";
+//        URL url;
+//        HttpURLConnection conn = null;
+//        StringBuilder toFile = new StringBuilder(128);
+//        toFile.append(url1 + "\n");
+//        toFile.append("AccessToken: " + semanticYoutube.getAccessToken() + "\n");
+//        toFile.append("Key: " + semanticYoutube.getDeveloperKey() + "\n");
+//        try {
+//            url = new URL(url1);
+//            conn = (HttpURLConnection) url.openConnection();
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//            conn.setRequestMethod("POST");
+//            conn.setUseCaches(false);
+//            conn.setRequestProperty("Host", "gdata.youtube.com");
+//            conn.setRequestProperty("Content-Type", "application/atom+xml");
+//            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
+//            conn.setRequestProperty("GData-Version", "2");
+//            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
+//
+//            DataOutputStream writer = new DataOutputStream(conn.getOutputStream());                        
+//            String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n" +
+//            " <entry xmlns=\"http://www.w3.org/2005/Atom\">\r\n" +
+//            " <id>" + videoId + "</id>\r\n" +
+//            "</entry>\r\n";
+//            writer.write(xml.getBytes("UTF-8"));
+//            writer.flush();
+//            writer.close();
+//            
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
+//            StringBuilder favoriteInfo = new StringBuilder();
+//            String line;
+//            while( (line = reader.readLine()) != null) {
+//               favoriteInfo.append(line);
+//            }
+//
+//            //System.out.println("favoriteInfo-->" + favoriteInfo + "<--\n");
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder builder;
+//            builder = factory.newDocumentBuilder();
+//            Document xmlDoc = builder.parse(new InputSource(new StringReader(favoriteInfo.toString())));
+//            xmlDoc.getDocumentElement().normalize();
+//            NodeList rootNode = xmlDoc.getDocumentElement().getChildNodes();
+//
+//            for( int tmp = 0; tmp < rootNode.getLength(); tmp++){
+//                Node nNode= rootNode.item(tmp);
+//                if(nNode.getNodeName().equals("yt:favoriteId")){                    
+//                    favoriteId = nNode.getTextContent();
+//                    //System.out.println("yt:favoriteId-->" + favoriteId);
+//                }
+//            }
+//            toFile.append(conn.getResponseCode() + " : ");
+//            toFile.append(conn.getResponseMessage() + "\n");
+//            Youtube.write2File(toFile);
+//        }catch(Exception ex){
+//            //System.out.println("ERROR->" + ex.toString());
+//            //ex.printStackTrace();
+//            return null;
+//        }
         return favoriteId;
     }
 
-    public String undoYTFavorite(PostIn postIn, String favoriteId){       
-        SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
+    public String undoYTFavorite(PostIn postIn, String favoriteId) {
+        
+        String id2Return = favoriteId;
+        SocialNetwork postInSN = postIn.getPostInSocialNetwork();
         Youtube semanticYoutube = (Youtube) postInSN;
-        if(!semanticYoutube.validateToken()){
+        if (!semanticYoutube.validateToken()) {
             //System.out.println("Unable to update the access token!");
             return null;
         }
         
-        String url1 = "http://gdata.youtube.com/feeds/api/users/default/favorites/" + favoriteId;
-        URL url;
-        HttpURLConnection conn = null;
+        HashMap<String, String> params = new HashMap<String, String>(2);
+        params.put("id", favoriteId);
+        
+        String url1 = Youtube.API_URL + "/playlistItems";
         try {
-            url = new URL(url1);
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setRequestMethod("DELETE");
-            conn.setUseCaches(false);
-            conn.setRequestProperty("Host", "gdata.youtube.com");
-            conn.setRequestProperty("Content-Type", "application/atom+xml");
-            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
-            conn.setRequestProperty("GData-Version", "2");
-            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
-            
-            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
-            StringBuilder favoriteInfo = new StringBuilder();
-            String line;
-            while((line = reader.readLine()) != null) {
-               favoriteInfo.append(line);
+            String response = semanticYoutube.postRequest(params, url1, Youtube.USER_AGENT, "DELETE");
+            JSONObject deleted = new JSONObject(response);
+            if (deleted != null && !deleted.isNull("id")) {
+                id2Return = null;
             }
-        }catch(Exception ex){
-            //System.out.println("ERROR->" + ex.toString());
-            return favoriteId; //On error return the same id
+        } catch (JSONException jsone) {
+            jsone.printStackTrace();
+        } catch (java.io.IOException ioe) {
+            ioe.printStackTrace();
         }
+//        URL url;
+//        HttpURLConnection conn = null;
+//        StringBuilder toFile = new StringBuilder(128);
+//        toFile.append(url1 + "\n");
+//        toFile.append("AccessToken: " + semanticYoutube.getAccessToken() + "\n");
+//        toFile.append("Key: " + semanticYoutube.getDeveloperKey() + "\n");
+//        try {
+//            url = new URL(url1);
+//            conn = (HttpURLConnection) url.openConnection();
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//            conn.setRequestMethod("DELETE");
+//            conn.setUseCaches(false);
+//            conn.setRequestProperty("Host", "gdata.youtube.com");
+//            conn.setRequestProperty("Content-Type", "application/atom+xml");
+//            conn.setRequestProperty("Authorization", "Bearer " + semanticYoutube.getAccessToken());
+//            conn.setRequestProperty("GData-Version", "2");
+//            conn.setRequestProperty("X-GData-Key", "key=" + semanticYoutube.getDeveloperKey());
+//            
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));            
+//            StringBuilder favoriteInfo = new StringBuilder();
+//            String line;
+//            while((line = reader.readLine()) != null) {
+//               favoriteInfo.append(line);
+//            }
+//            toFile.append(conn.getResponseCode() + " : ");
+//            toFile.append(conn.getResponseMessage() + "\n");
+//            Youtube.write2File(toFile);
+//        }catch(Exception ex){
+//            //System.out.println("ERROR->" + ex.toString());
+//            return favoriteId; //On error return the same id
+//        }
         //The server does not return info when the favorite is deleted.
-        return null;
+        return id2Return;
     }
 %>
 

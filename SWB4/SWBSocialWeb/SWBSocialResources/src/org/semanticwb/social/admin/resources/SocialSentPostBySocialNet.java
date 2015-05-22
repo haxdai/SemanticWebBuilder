@@ -3172,7 +3172,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         HttpURLConnection conex = null;
         InputStream in = null;
         String response = null;
-
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" + paramString + "\n");
         try {
             conex = (HttpURLConnection) serverUrl.openConnection();
             if (userAgent != null) {
@@ -3198,6 +3199,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         if (response == null) {
             response = "";
         }
+        toFile.append(response + "\n");
+        Youtube.write2File(toFile);
         return response;
     }
     
@@ -3795,7 +3798,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         HttpURLConnection conex = null;
         InputStream in = null;
         String response = null;
-       
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" +  paramString + "\n");
         try {
             conex = (HttpURLConnection) serverUrl.openConnection();
             if (userAgent != null) {
@@ -3830,6 +3834,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         if (response == null) {
             response = "";
         }
+        toFile.append(response + "\n");
+        Youtube.write2File(toFile);
         return response;
     }
     
@@ -4132,7 +4138,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = new URL(url + "?" +  paramString);       
         //System.out.println("URL:" +  serverUrl);
-        
+        StringBuilder toFile = new StringBuilder(128);
+        toFile.append(url + "?" +  paramString + "\n");
         HttpURLConnection conex = null;
         InputStream in = null;
         String response = null;
@@ -4169,6 +4176,8 @@ public class SocialSentPostBySocialNet extends GenericResource{
         if (response == null) {
             response = "";
         }
+        toFile.append(response + "\n");
+        Youtube.write2File(toFile);
         return response;
     }
     /**
@@ -4329,7 +4338,7 @@ public class SocialSentPostBySocialNet extends GenericResource{
                             
                             out.write("</p>");
 
-                            //Date commentTime = formatter.parse(comments.getJSONObject(k).getString("created_time"));
+                            //Date commentTime = FORMATTER.parse(comments.getJSONObject(k).getString("created_time"));
 
                             out.write("<p class=\"timelinedate\">");
                             //out.write("<span dojoType=\"dojox.layout.ContentPane\">");
