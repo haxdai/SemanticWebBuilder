@@ -27,7 +27,6 @@ package org.semanticwb.social.admin.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
-import javax.crypto.SecretKey;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,25 +35,18 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceModes;
-import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.social.Facebook;
-import org.semanticwb.social.FacebookGC;
 import org.semanticwb.social.Instagram;
-import org.semanticwb.social.SocialAdmin;
 import org.semanticwb.social.SocialNetwork;
 import org.semanticwb.social.SocialSite;
 import org.semanticwb.social.Twitter;
-import org.semanticwb.social.TwitterGC;
 import org.semanticwb.social.Youtube;
-import org.semanticwb.social.YoutubeGC;
 
 /**
  *
@@ -77,9 +69,9 @@ public class SocialWebResource extends GenericAdmResource
     
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(OAUTH_MODE.equals(paramRequest.getMode())) {
+        if(SocialWebResource.OAUTH_MODE.equals(paramRequest.getMode())) {
             doAuthenticate(request, response, paramRequest);
-        }else if(RELOAD_TAB.equals(paramRequest.getMode())){
+        }else if(SocialWebResource.RELOAD_TAB.equals(paramRequest.getMode())){
             doReloadTab(request, response, paramRequest);
         }else {
             super.processRequest(request, response, paramRequest);
@@ -106,7 +98,8 @@ public class SocialWebResource extends GenericAdmResource
         PrintWriter out = response.getWriter();
         User user = paramRequest.getUser();
         SocialNetwork socialNetwork;
-        String objUri = request.getParameter("suri"); //uri of socialNetwork        
+        String objUri = request.getParameter("suri"); //uri of socialNetwork
+        boolean isFacebookNet = false;
         ////System.out.println("Entrando a red doView de autenticate");
         try {
             socialNetwork = (SocialNetwork)SemanticObject.createSemanticObject(objUri).getGenericInstance();
@@ -114,7 +107,8 @@ public class SocialWebResource extends GenericAdmResource
             if(socialNetwork instanceof Twitter){//for twitter nets
                     validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/twitterAppKey"), SWBPortal.getEnv("swbsocial/twitterSecretKey"));
             }else if(socialNetwork instanceof Facebook){//for facebook nets
-                    validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/facebookAppKey"), SWBPortal.getEnv("swbsocial/facebookSecretKey"));                
+                    validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/facebookAppKey"), SWBPortal.getEnv("swbsocial/facebookSecretKey"));
+                    isFacebookNet = true;
             }else if(socialNetwork instanceof Youtube){//for youtube nets
                 Youtube youtube = (Youtube)socialNetwork;
                 
@@ -128,7 +122,7 @@ public class SocialWebResource extends GenericAdmResource
                     }
                 }
                 
-            }if(socialNetwork instanceof Instagram){//for instagram nets                    
+            }if(socialNetwork instanceof Instagram){//for instagram nets
                     socialNetwork.setAppKey(null);
                     socialNetwork.setSecretKey(null);
                     validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/instagramAppKey"), SWBPortal.getEnv("swbsocial/instagramSecretKey"));
@@ -175,29 +169,37 @@ public class SocialWebResource extends GenericAdmResource
         }
         
         if(user.isSigned()){
-            if(socialNetwork.isSn_authenticated())
-               {
-                    out.println("<form id=\"authNet/" + socialNetwork.getEncodedURI() + "\" action=\"" + paramRequest.getRenderUrl().setParameter("suri", objUri)+ "\" method=\"post\" onsubmit=\"try{document.getElementById('csLoading" + socialNetwork.getEncodedURI() + "').style.display='inline';}catch(noe){}; setTimeout(function(){submitForm('authNet/" + socialNetwork.getEncodedURI() + "')},1000); return false;\">" );
-                    out.println("<div id=\"configuracion_redes\">");
-                    out.println("<div id=\"autenticacion\">");
-                    out.println("<p>" + paramRequest.getLocaleString("authenticated") + "</p>");
-                    out.println("</div>");
-                    if(socialNetwork instanceof Facebook && ((Facebook)socialNetwork).isIsFanPage()){//for facebook nets
-                        //If the social network is a fan page DO NOT authenticate manually
-                    }else{
-                        out.println("<div id=\"refrescar_cred\">");                    
-                        /*out.println("   <form type=\"dijit.form.Form\" id=\"authenticate/" + objUri + "\" action=\"" +  paramRequest.getRenderUrl().setMode(OAUTH_MODE) + "\" method=\"post\" onsubmit=\"submitForm('authenticate/" + objUri +  "'); return false;\">");
-                        out.println("       <input type=\"hidden\"  name=\"suri\" value=\"" + objUri +"\">");
-                        out.println("       <input type=\"hidden\"  name=\"wsid\" value=\"" + socialNetwork.getSemanticObject().getModel().getName()+"\">");
-                        out.println("       <input type=\"hidden\"  name=\"fromDoView\" value=\"true\">");
-                        out.println("       <a href=\"#\" onclick=\"submitForm('authenticate/" + objUri +  "'); return false;\" title=\"" + paramRequest.getLocaleString("refreshCredentials") +"\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
-                        out.println("   </form>");*/
-                        out.println("<a href=\"#\" onclick=\"myFunction('" + paramRequest.getRenderUrl().setMode(OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true") + "'); return false;\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
-                        out.println("</div>");
-                        out.println("</div>");
+            if(socialNetwork.isSn_authenticated()) {
+                out.println("<form id=\"authNet/" + socialNetwork.getEncodedURI() + "\" action=\"" + paramRequest.getRenderUrl().setParameter("suri", objUri)+ "\" method=\"post\" onsubmit=\"try{document.getElementById('csLoading" + socialNetwork.getEncodedURI() + "').style.display='inline';}catch(noe){}; setTimeout(function(){submitForm('authNet/" + socialNetwork.getEncodedURI() + "')},1000); return false;\">" );
+                out.println("<div id=\"configuracion_redes\">");
+                out.println("<div id=\"autenticacion\">");
+                out.println("<p>" + paramRequest.getLocaleString("authenticated") + "</p>");
+
+                if (isFacebookNet) {
+                    String checkPubPerm = ((Facebook) socialNetwork).hasPublishPermissions();
+                    if (checkPubPerm.equalsIgnoreCase("false")) {
+                        out.println("<p style=\"background-color: red;\">Aunque sin permisos de publicaci&oacute;n;");
+                        out.println("por favor, pulsa el bot&oacute;n de abajo y acepta que esta aplicaci&oacute;n publique en tu nombre.</p>");
                     }
-                    out.println("</form>");
-                    out.println("<div align=\"center\"><span id=\"csLoading" + socialNetwork.getEncodedURI() + "\" style=\"width: 100px; display: none\" align=\"center\"><img src=\"" +SWBPlatform.getContextPath() + "/swbadmin/images/loading.gif\"/></span></div>");
+                }
+                    
+                out.println("</div>");
+                if (isFacebookNet && ((Facebook) socialNetwork).isIsFanPage()) {//for facebook nets
+                    //If the social network is a fan page DO NOT authenticate manually
+                } else {
+                    out.println("<div id=\"refrescar_cred\">");
+                    /*out.println("   <form type=\"dijit.form.Form\" id=\"authenticate/" + objUri + "\" action=\"" +  paramRequest.getRenderUrl().setMode(OAUTH_MODE) + "\" method=\"post\" onsubmit=\"submitForm('authenticate/" + objUri +  "'); return false;\">");
+                    out.println("       <input type=\"hidden\"  name=\"suri\" value=\"" + objUri +"\">");
+                    out.println("       <input type=\"hidden\"  name=\"wsid\" value=\"" + socialNetwork.getSemanticObject().getModel().getName()+"\">");
+                    out.println("       <input type=\"hidden\"  name=\"fromDoView\" value=\"true\">");
+                    out.println("       <a href=\"#\" onclick=\"submitForm('authenticate/" + objUri +  "'); return false;\" title=\"" + paramRequest.getLocaleString("refreshCredentials") +"\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
+                    out.println("   </form>");*/
+                    out.println("<a href=\"#\" onclick=\"myFunction('" + paramRequest.getRenderUrl().setMode(SocialWebResource.OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true") + "'); return false;\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
+                    out.println("</div>");
+                    out.println("</div>");
+                }
+                out.println("</form>");
+                out.println("<div align=\"center\"><span id=\"csLoading" + socialNetwork.getEncodedURI() + "\" style=\"width: 100px; display: none\" align=\"center\"><img src=\"" +SWBPlatform.getContextPath() + "/swbadmin/images/loading.gif\"/></span></div>");
                 /*
                 ////System.out.println("Ya esta autenticada, puede refrescar tokens");
                 out.println("<div class=\"swbform\">");
@@ -244,7 +246,7 @@ public class SocialWebResource extends GenericAdmResource
                 */
                 //out.println("<a href=\"" + paramRequest.getRenderUrl().setMode(OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true")+ "\" target=\"_new\" onclick=\"setInterval(postSocialHtml('" + paramRequest.getRenderUrl().setMode(RELOAD_TAB).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("suri", socialNetwork.getEncodedURI()) + "','resp/" + objUri + "'),1000)\"><span>Autenticar</span></a>");
                 //out.println("<a href=\"" + paramRequest.getRenderUrl().setMode(OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true")+ "\" target=\"_new\" onclick=\"var intervalValue = setInterval(function () {postSocialHtml('" + paramRequest.getRenderUrl().setMode(RELOAD_TAB).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("suri", socialNetwork.getEncodedURI()) + "','resp/" + objUri + "')},3000); console.log('Interval:' + intervalValue);\"><span>Autenticar</span></a>");
-                out.println("<a href=\"#\" onclick=\"myFunction('" + paramRequest.getRenderUrl().setMode(OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true") + "'); return false;\"><span>" + paramRequest.getLocaleString("lblAuthentic") + "</span></a>");
+                out.println("<a href=\"#\" onclick=\"myFunction('" + paramRequest.getRenderUrl().setMode(SocialWebResource.OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true") + "'); return false;\"><span>" + paramRequest.getLocaleString("lblAuthentic") + "</span></a>");
                 out.println("</div>");
                 out.println("</div>");
                 out.println("</form>");

@@ -149,7 +149,6 @@ text {
 <script src="../../js/nv.d3.js"></script>
 
 <script>
-
 var chart;
 nv.addGraph(function() {
   chart = nv.models.multiBarHorizontalChart()
@@ -180,41 +179,47 @@ nv.addGraph(function() {
 
 function getChartData() {      
     return[
-        <%
-            String labels[] = {"Neutros","Positivos","Negativos"};
-            String colors[] = {"#838383","#008000","#FF0000"};
-            for(int i = 0; i < 3 ; i++){//for
-        %>
+<%
+    String labels[] = {"Neutros","Positivos","Negativos"};
+    String colors[] = {"#838383","#008000","#FF0000"};
+    for(int i = 0; i < 3 ; i++) {//for
+%>
         {
             key:'<%=labels[i]%>',
             color:'<%=colors[i]%>',
             values:[
-        <%
-                maxUsers = 0;
-                Iterator entries =  userCount.entrySet().iterator();
-                while(entries.hasNext()){//while
-                    if(++maxUsers > 10 )break; 
-                    Map.Entry entry = (Map.Entry)entries.next();
-                    SocialNetworkUser userEntry = (SocialNetworkUser) entry.getKey();
-                    String socialNetWork=userEntry.getSnu_SocialNetworkObj().getId();
-                    if(socialNetWork!=null) socialNetWork=socialNetWork.substring(0,4);
-                    else socialNetWork="NA";
-                    int userKlout=userEntry.getSnu_klout();  
-                    
-                    Integer entrySentiments[] = (Integer[]) entry.getValue();
-        %>
+<%
+        maxUsers = 0;
+        Iterator entries =  userCount.entrySet().iterator();
+        while (entries.hasNext()) {//while
+            if (++maxUsers > 10 ) {
+                break;
+            }
+            Map.Entry entry = (Map.Entry) entries.next();
+            SocialNetworkUser userEntry = (SocialNetworkUser) entry.getKey();
+            String socialNetWork = userEntry.getSnu_SocialNetworkObj().getId();
+            if (socialNetWork != null) {
+                if (socialNetWork.length() > 4) {
+                    socialNetWork = socialNetWork.substring(0, 4);
+                }
+            } else {
+                socialNetWork = "NA";
+            }
+            int userKlout = userEntry.getSnu_klout();
+            Integer entrySentiments[] = (Integer[]) entry.getValue();
+%>
             {
                 "label": "<%=userEntry.getSnu_name()%>(<%=socialNetWork%>/<%=userKlout%>)",
                 "value": <%=entrySentiments[i]%>
             }<%=entries.hasNext() && maxUsers < 10 ? ",":""%>
-        <%
+<%
                 }//while
-        %>
+%>
             ]
         }<%=i<2 ?",":""%>
-        <%
-            }//for
-        %>                                                
+<%
+    }//for
+%>
     ];
 }
 

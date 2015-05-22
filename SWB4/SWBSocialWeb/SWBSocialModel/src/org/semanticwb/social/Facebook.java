@@ -27,6 +27,7 @@ package org.semanticwb.social;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
@@ -69,13 +70,18 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
      * Inicio de la URL utilizada para las peticiones de informacion a Facebook
      */
     //private static final String FACEBOOKGRAPH = "https://graph-video.facebook.com/";
-    private static final String FACEBOOKGRAPH = "https://graph.facebook.com/";
+    public static final String FACEBOOKGRAPH = "https://graph.facebook.com/";
     private static final String FACEBOOKGRAPH_VIDEO = "https://graph-video.facebook.com/";
     /**
      * Indica el numero de mensajes maximo a extraer en cada busqueda
      */
     private static final short QUERYLIMIT = 100;
-    private static Logger log = SWBUtils.getLogger(Facebook.class);
+    private static final Logger log = SWBUtils.getLogger(Facebook.class);
+    
+    /**
+     * Representa la definicion del User-Agent a utilizar en las peticiones a Facebook
+     */
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95";
 
     public Facebook(org.semanticwb.platform.SemanticObject base) {
         super(base);
@@ -170,7 +176,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
                     params.put("batch", renderFacebookQueries(queriesArray));
                     String fbResponse = postRequest(params, Facebook.FACEBOOKGRAPH,
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                            Facebook.USER_AGENT, "POST");
 
                     //Se analiza la respuesta de Facebook y se extraen los datos de los mensajes
                     canGetMoreResults = parseResponse(fbResponse, stream, queriesArray, iterations++, firstSearch);
@@ -834,22 +840,20 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         try {
             if (message.getPostInSource() != null && message.getPostInSource().getSocialNetMsgId() != null) {//is a response
                 ///System.out.println("1ST OPTION: RESPONDING TO SOMEONE:" + message.getPostInSource().getSocialNetMsgId());
-                facebookResponse = postRequest(params, "https://graph.facebook.com/" + message.getPostInSource().getSocialNetMsgId() + "/comments",
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                facebookResponse = postRequest(params, Facebook.FACEBOOKGRAPH + message.getPostInSource().getSocialNetMsgId() + "/comments",
+                        Facebook.USER_AGENT, "POST");
             } else {//is a single post to my wall
                 ///System.out.println("2ND OPTION: MAKING SINGLE POST");
-                facebookResponse = postRequest(params, url,
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95",
-                        "POST");
+                facebookResponse = postRequest(params, url, Facebook.USER_AGENT, "POST");
             }
             /*
              facebookResponse = postRequest(params, url, 
-             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95",
+             Facebook.USER_AGENT,
              "POST");
              */
 
+            System.out.println("THIS IS THE RESPONSE MSG:\n" + facebookResponse);
             jsonResponse = new JSONObject(facebookResponse);
-            //System.out.println("THIS IS THE RESPONSE MSG:" + jsonResponse);
             if (jsonResponse != null && jsonResponse.has("id")) {
                 SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, jsonResponse.get("id").toString(), null);
                 //System.out.println("SAVING MSG SENT WITH POST ID: " + jsonResponse.get("id").toString());
@@ -989,8 +993,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                     urlLocalPost = SWBSocialUtil.Util.shortUrl(urlLocalPost);
 
                     params.put("message", (messageText == null ? "" : messageText + " " + urlLocalPost));
-                    facebookResponse = postRequest(params, "https://graph.facebook.com/" + photo.getPostInSource().getSocialNetMsgId() + "/comments",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                    facebookResponse = postRequest(params, Facebook.FACEBOOKGRAPH + photo.getPostInSource().getSocialNetMsgId() + "/comments",
+                            Facebook.USER_AGENT, "POST");
                     //System.out.println("1ST OPTION: RESPONDING TO SOMEONE WITH PICTURE:" + photo.getPostInSource().getSocialNetMsgId());
 
                 } else {//is a single post to my wall
@@ -1095,8 +1099,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                     params.remove("title");
                     params.remove("description");
                     params.remove("privacy");
-                    facebookResponse = postRequest(params, "https://graph.facebook.com/" + video.getPostInSource().getSocialNetMsgId() + "/comments",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                    facebookResponse = postRequest(params, Facebook.FACEBOOKGRAPH + video.getPostInSource().getSocialNetMsgId() + "/comments",
+                            Facebook.USER_AGENT, "POST");
                     //System.out.println("1ST OPTION: RESPONDING TO SOMEONE WITH VIDEO:" + video.getPostInSource().getSocialNetMsgId());
 
                 } else {//is a single post to my wall
@@ -1450,27 +1454,31 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
     }
 
     @Override
-    public void authenticate(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void authenticate(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
         String code = request.getParameter("code");
         String state = request.getParameter("state");
         String error = request.getParameter("error");
         HttpSession session = request.getSession(true);
-        //System.out.println("Facebook.autenticate.............");
+        
         if (code == null) {
-            //System.out.println("Facebook----paso 1");
+            //Inicia el proceso de autenticacion
             String url = doRequestPermissions(request, paramRequest);
             PrintWriter out = response.getWriter();
-           
             
             out.println("<script type=\"text/javascript\">");
-            out.println("   location.href="+ url+"");
+            out.println("   location.href=" + url + ";");
             out.println("</script>");
         } else if (state != null && state.equals(session.getAttribute("state")) && error == null) {
             //System.out.println("Facebook----2");
             session.removeAttribute("state");
             String accessToken = null;
 //            long secsToExpiration = 0L;
-            String token_url = "https://graph.facebook.com/oauth/access_token?" + "client_id=" + getAppKey() + "&redirect_uri=" + URLEncoder.encode(getRedirectUrl(request, paramRequest), "utf-8") + "&client_secret=" + getSecretKey() + "&code=" + code;
+            String token_url = "https://graph.facebook.com/oauth/access_token?client_id="
+                    + getAppKey() + "&redirect_uri="
+                    + URLEncoder.encode(getRedirectUrl(request, paramRequest), "utf-8")
+                    + "&client_secret=" + getSecretKey() + "&code=" + code;
 //            if(accessToken == null) {
             //System.out.println("Facebook----2.1");
             URL pagina = new URL(token_url);
@@ -1499,7 +1507,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                     answer = "";
                 }
                 //String aux = null;
-                //System.out.println("access token original:" + answer);
+                //System.out.println("Termino de Login - respuesta:\n" + answer);
                 if (answer.contains("access_token")) {
                     String params[] = answer.split("&");
                     for (int i = 0; i < params.length; i++) {
@@ -1524,16 +1532,22 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 //            }
             if (accessToken != null) {
                 //System.out.println("Facebook----2.2");
-                String graph_url = "https://graph.facebook.com/me?access_token=" + accessToken;
+                String graph_url = Facebook.FACEBOOKGRAPH + "me?access_token=" + accessToken;
                 String me = Facebook.graphRequest(graph_url, request.getHeader("user-agent"));
                 try {
                     JSONObject userData = new JSONObject(me);
                     //System.out.println("userData="+userData);                    
                     //String username = userData.getString("username");
                     String userId = userData.getString("id");
-                    setFacebookUserId(userId);
-                    setAccessToken(accessToken);
-                    setSn_authenticated(true);
+                    this.setFacebookUserId(userId);
+                    this.setAccessToken(accessToken);
+                    this.setSn_authenticated(true);
+                    String publishPerm = this.hasPublishPermissions();
+                    if (publishPerm.equals("true")) {
+                        this.setCanPublish(true);
+                    } else {
+                        this.setCanPublish(false);
+                    }
 
                     request.setAttribute("msg", userId);
                     PrintWriter out = response.getWriter();
@@ -1550,14 +1564,15 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                     "}catch(e){window.opener=self; window.close();}");
                     out.println("</script>");
 
-                    String app_token_url = "https://graph.facebook.com/oauth/access_token?" + "client_id=" + getAppKey() + "&client_secret=" + getSecretKey() + "&grant_type=client_credentials";
+                    String app_token_url = "https://graph.facebook.com/oauth/access_token?client_id="
+                            + getAppKey() + "&client_secret=" + getSecretKey() + "&grant_type=client_credentials";
                     String appToken = Facebook.graphRequest(app_token_url, request.getHeader("user-agent"));
                     //System.out.println("APPTOKEN:" + appToken);
                     if (appToken != null) {
                         if (appToken.startsWith("access_token")) {
                             appToken = appToken.substring(appToken.indexOf("=") + 1);
                             //System.out.println("THA APP TOKEN-->" + appToken);
-                            setAppAccessToken(appToken);
+                            this.setAppAccessToken(appToken);
                         }
                     }
                 } catch (JSONException e) {
@@ -1606,6 +1621,14 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         return address.toString();
     }
 
+    /**
+     * Genera la URL a la que se solicita la autenticacion del usuario para las cuentas de Facebook,
+     * incluye la indicacion de los permisos solicitados al usuario sobre su informacion y se almacena en el
+     * objeto {@code String} devuelto.
+     * @param request la peticion HTTP realizada desde la maquina del cliente
+     * @param paramRequest objeto especifico de SWB con datos adicionales sobre la peticion realizada
+     * @return un objeto {@code String} que contiene la URL generada
+     */
     public String doRequestPermissions(HttpServletRequest request, SWBParamRequest paramRequest) {
         StringBuilder url = new StringBuilder(128);
         String state = SWBPortal.UTIL.getRandString(7, ALPHABETH);
@@ -1617,8 +1640,9 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         url.append("'&redirect_uri='+");
         url.append("encodeURI('").append(getRedirectUrl(request, paramRequest)).append("')+");
         url.append("'&scope='+");
-        //url.append("encodeURIComponent('publish_stream,read_stream')+");
-        url.append("encodeURIComponent('user_about_me,friends_about_me,user_activities,friends_activities,user_birthday,friends_birthday,user_checkins,friends_checkins,user_education_history,friends_education_history,user_events,friends_events,user_groups,friends_groups,user_hometown,friends_hometown,user_interests,friends_interests,user_likes,friends_likes,user_location,friends_location,user_notes,friends_notes,user_photos,friends_photos,user_relationships,friends_relationships,user_relationship_details,friends_relationship_details,user_religion_politics,friends_religion_politics,user_status,friends_status,user_videos,friends_videos,user_website,friends_website,email,manage_pages,publish_stream,read_stream,read_page_mailboxes,read_insights,ads_management,user_questions,user_subscriptions,user_work_history,user_games_activity,friends_subscriptions,friends_work_history,friends_questions,friends_games_activity,publish_actions,create_note,friends_online_presence,share_item,status_update,manage_pages')+");
+        url.append("encodeURIComponent('publish_actions')+");
+        //url.append("encodeURIComponent('user_about_me,friends_about_me,user_activities,friends_activities,user_birthday,friends_birthday,user_checkins,friends_checkins,user_education_history,friends_education_history,user_events,friends_events,user_groups,friends_groups,user_hometown,friends_hometown,user_interests,friends_interests,user_likes,friends_likes,user_location,friends_location,user_notes,friends_notes,user_photos,friends_photos,user_relationships,friends_relationships,user_relationship_details,friends_relationship_details,user_religion_politics,friends_religion_politics,user_status,friends_status,user_videos,friends_videos,user_website,friends_website,email,manage_pages,publish_stream,read_stream,read_page_mailboxes,read_insights,ads_management,user_questions,user_subscriptions,user_work_history,user_games_activity,friends_subscriptions,friends_work_history,friends_questions,friends_games_activity,publish_actions,create_note,friends_online_presence,share_item,status_update,manage_pages')+");
+        //url.append("encodeURIComponent('read_insights,read_stream')+");
         url.append("'&state='+");
         url.append("'").append(state).append("'");
         return url.toString();
@@ -1633,7 +1657,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             params.put("access_token", facebook.getAccessToken());
         }
 
-        String url = "https://graph.facebook.com/" + facebook.getFacebookUserId() + "/photos";
+        String url = Facebook.FACEBOOKGRAPH + facebook.getFacebookUserId() + "/photos";
 
 
         try {
@@ -1726,8 +1750,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
         JSONObject userInfo = new JSONObject();
         try {
-            String fbResponse = getRequest(params, "https://graph.facebook.com/fql",
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
+            String fbResponse = getRequest(params, Facebook.FACEBOOKGRAPH + "fql",
+                    Facebook.USER_AGENT);
             try {
                 JSONObject parseUsrInf = new JSONObject(fbResponse);
                 JSONObject user = null;
@@ -1945,8 +1969,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         long totalComments = 0;
         params.put("fields", "comments.summary(true)");
         try {
-            String fbResponse = getRequest(params, "https://graph.facebook.com/" + postID,
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
+            String fbResponse = getRequest(params, Facebook.FACEBOOKGRAPH + postID,
+                    Facebook.USER_AGENT);
 
             //System.out.println("Facebook response:" + fbResponse);
             JSONObject response = new JSONObject(fbResponse);
@@ -2065,7 +2089,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
     private String getFacebookThird_party_id(String facebookUserId) {
         String thirdPID = null;
-        String thirdpid_url = "https://graph.facebook.com/" + facebookUserId + "?fields=third_party_id&access_token=" + getAppAccessToken();
+        String thirdpid_url = Facebook.FACEBOOKGRAPH + facebookUserId + "?fields=third_party_id&access_token=" + getAppAccessToken();
         try {
             String thirdPartyID = Facebook.graphRequest(thirdpid_url, null);
             if (thirdPartyID != null) {
@@ -2111,8 +2135,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                             params.put("access_token", this.getAccessToken());
 
                             String fbResponse = "";
-                            fbResponse = postRequest(params, "https://graph.facebook.com/" + postoutnet.getPo_socialNetMsgID(),
-                                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "DELETE");
+                            fbResponse = postRequest(params, Facebook.FACEBOOKGRAPH + postoutnet.getPo_socialNetMsgID(),
+                                    Facebook.USER_AGENT, "DELETE");
                             if (fbResponse.equalsIgnoreCase("true")) {
                                 removed = true;
                                 //System.out.println("borrado de FB");
@@ -2171,8 +2195,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             params.put("access_token", f.getPageAccessToken());
             params.put("position", String.valueOf(sortNameInt));
             try{
-                String responseSort = postRequestParams(params, "https://graph.facebook.com/" + f.getPage_id() + "/tabs/app_" + fp.getFace_appid(),
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                String responseSort = postRequestParams(params, Facebook.FACEBOOKGRAPH + f.getPage_id() + "/tabs/app_" + fp.getFace_appid(),
+                        Facebook.USER_AGENT, "POST");
                 if(responseSort != null && !responseSort.trim().isEmpty()){
                     if(responseSort.equals("true")){
                         success = true;
@@ -2201,8 +2225,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             params.put("access_token", f.getPageAccessToken());
             params.put("position", String.valueOf(sortNameInt));
             try{
-                String responseSort = postRequestParams(params, "https://graph.facebook.com/" + f.getPage_id() + "/tabs/app_" + fp.getFace_appid(),
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                String responseSort = postRequestParams(params, Facebook.FACEBOOKGRAPH + f.getPage_id() + "/tabs/app_" + fp.getFace_appid(),
+                        Facebook.USER_AGENT, "POST");
                 if(responseSort != null && !responseSort.trim().isEmpty()){
                     if(responseSort.equals("true")){
                         success = true;
@@ -2241,8 +2265,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 HashMap<String, String> params = new HashMap<String, String>(2);
                 params.put("access_token", f.getPageAccessToken());
                 params.put("app_id", fp.getFace_appid());
-                String response = postRequestParams(params, "https://graph.facebook.com/" + f.getPage_id() + "/tabs",
-                        "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
+                String response = postRequestParams(params, Facebook.FACEBOOKGRAPH + f.getPage_id() + "/tabs",
+                        Facebook.USER_AGENT, "POST");
                 if(response != null && !response.trim().isEmpty()){
                     if(response.equals("true")){//Si el tab se agrego bien
                         //actualizar el nombre de ordenamiento
@@ -2293,8 +2317,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             HashMap<String, String> params = new HashMap<String, String>(2);
             params.put("access_token", f.getPageAccessToken());
             params.put("app_id", app_id);
-            String removed = postRequestParams(params, "https://graph.facebook.com/" + f.getPage_id() + "/tabs/app_" + app_id,
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "DELETE");
+            String removed = postRequestParams(params, Facebook.FACEBOOKGRAPH + f.getPage_id() + "/tabs/app_" + app_id,
+                    Facebook.USER_AGENT, "DELETE");
             //System.out.println("removed:" + removed);
             if(removed != null && removed.isEmpty()){
                 if(removed.equalsIgnoreCase("true")){
@@ -2317,8 +2341,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
             params.put("access_token", this.getAccessToken());
             //System.out.println("THE CURRENT ACCESS TOKEN:" + this.getAccessToken());
             params.put("fields", "access_token");
-            pageAccessToken = postRequestParams(params, "https://graph.facebook.com/" + pageId,
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+            pageAccessToken = postRequestParams(params, Facebook.FACEBOOKGRAPH + pageId,
+                    Facebook.USER_AGENT, "GET");
             JSONObject jsonObject = new JSONObject(pageAccessToken);
             if(jsonObject.has("access_token")){
                 pageAccessToken = jsonObject.getString("access_token");
@@ -2388,8 +2412,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         try {
             HashMap<String, String> params = new HashMap<String, String>(2);
             params.put("access_token", fp.getPageAccessToken());
-            String pageTabs = postRequestParams(params, "https://graph.facebook.com/" + fp.getPage_id() +"/tabs",
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+            String pageTabs = postRequestParams(params, Facebook.FACEBOOKGRAPH + fp.getPage_id() +"/tabs",
+                    Facebook.USER_AGENT, "GET");
             //System.out.println("pageTabs:" + pageTabs);
             JSONObject jsonObject = new JSONObject(pageTabs);
             do{
@@ -2420,7 +2444,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                         if(paging.has("next")){
                             HashMap<String, String> params1 = new HashMap<String, String>(2);                            
                             String pageTabsNext = postRequestParams(params, paging.getString("next"),
-                                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
+                                Facebook.USER_AGENT, "GET");
                             jsonObject = new JSONObject(pageTabsNext);
                         }else{
                             keepSearching = false;
@@ -2483,8 +2507,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 int likes = 0;
                 int talkingAbout = 0;
                 try {                    
-                        response = getRequest(params, "https://graph.facebook.com/" + this.getFacebookUserId(),
-                                "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");                   
+                        response = getRequest(params, Facebook.FACEBOOKGRAPH + this.getFacebookUserId(),
+                                Facebook.USER_AGENT);                   
                         
                         try{
                             JSONObject jsonObj = null;
@@ -2508,8 +2532,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 String fbResponse = null;
                 boolean successfulFriens = false;
                 try{
-                    fbResponse = getRequest(params, "https://graph.facebook.com/v2.0/me/friends/",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
+                    fbResponse = getRequest(params, Facebook.FACEBOOKGRAPH + "v2.0/me/friends/",
+                            Facebook.USER_AGENT);
                     try{
                         JSONObject jsonObj = new JSONObject(fbResponse);
                         if(!jsonObj.isNull("summary")){
@@ -2522,8 +2546,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                         log.error("Error recovering friends_count ", je);
                     }
                     
-                    fbResponse = getRequest(params, "https://graph.facebook.com/v2.0/me/subscribers/",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
+                    fbResponse = getRequest(params, Facebook.FACEBOOKGRAPH + "v2.0/me/subscribers/",
+                            Facebook.USER_AGENT);
                     try{
                         JSONObject jsonObj = new JSONObject(fbResponse);
                         if(!jsonObj.isNull("summary")){
@@ -2546,5 +2570,51 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         }else{
             log.warn("Not authenticated network:" + this.getTitle());
         }        
+    }
+    
+    /**
+     * Determina si la cuenta de Facebook tiene permisos asignados de publicaci&oacute;n para la
+     * aplicaci&oacute;n configurada
+     * @return un objeto {@code String} indicando {@literal true} si se comprueba que se cuenta
+     *      con los permisos; {@literal false} si se comprueba lo contrario y {@literal undefined}
+     *      si no es posible comprobar los permisos asignados.
+     */
+    public String hasPublishPermissions() {
+        
+        String permissionsUrl = Facebook.FACEBOOKGRAPH + "me/permissions?access_token="
+                + this.getAccessToken();
+        String publishPerm = null;
+        String permResponse = null;
+        String status = "false";
+        
+        try {
+            permResponse = this.graphRequest(permissionsUrl, Facebook.USER_AGENT);
+        } catch(MalformedURLException murle) {
+            status = "undefined";
+            Facebook.log.error("Facebook.hasPublishPermissions() - Revisar URL generada: " + permissionsUrl, murle);
+        } catch(IOException ioe) {
+            status = "undefined";
+            Facebook.log.error("Facebook.hasPublishPermissions() - I/O problem" , ioe);
+        }
+        
+        try {
+            JSONObject jsonResp = new JSONObject(permResponse);
+            JSONArray permissions = jsonResp.getJSONArray("data");
+
+            for (int i = 0; i < permissions.length(); i++) {
+                if (permissions.getJSONObject(i).has("permission") &&
+                        permissions.getJSONObject(i).getString("permission").equals("publish_actions")) {
+                    publishPerm = permissions.getJSONObject(i).getString("status");
+                }
+            }
+        } catch (JSONException jsone) {
+            status = "undefined";
+            Facebook.log.error("Respuesta de Facebook no esperada:\n" + permResponse);
+            Facebook.log.trace("SocialWebResource.doView()", jsone);
+        }
+        if (publishPerm != null && publishPerm.equals("granted")) {
+            status = "true";
+        }
+        return status;
     }
 }

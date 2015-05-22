@@ -3,10 +3,9 @@
     Created on : 17/09/2013, 11:25:38 AM
     Author     : francisco.jimenez
 --%>
-
 <%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="javax.print.attribute.standard.MediaSize.Other"%>
-<%@page import="org.semanticwb.social.Facebook"%>
+<%@page import="org.semanticwb.social.Youtube"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="java.io.Writer"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
@@ -14,43 +13,11 @@
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONException"%>
 <%@page import="org.json.JSONObject"%>
-
-<%@page import="static org.semanticwb.social.admin.resources.FacebookWall.*"%>
+<%@page import="static org.semanticwb.social.admin.resources.YoutubeWall.*"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
-
 <%@page contentType="text/html" pageEncoding="x-iso-8859-11"%>
 <!DOCTYPE html>
-
-<%!      
-    public static String getFullUserProfileFromId(String id){
-        HashMap<String, String> params = new HashMap<String, String>(3);    
-        params.put("v", "2");
-        params.put("alt","json");
-    
-        String response = null;
-        try{
-         response = getRequest(params, "https://gdata.youtube.com/feeds/api/users/" + id,
-                    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
-
-        }catch(Exception e){
-            //System.out.println("Error getting user information"  + e.getMessage());
-            e.printStackTrace();
-        }
-        return response;
-    }
-%>
-
 <%
-    String target = (String) request.getParameter("id");
-    if(target == null){
-        return;
-    }
-    
-    String usrProfile = getFullUserProfileFromId(target);
-    //out.println("userprofile:" + usrProfile);
-        
-    JSONObject usrResp = new JSONObject(usrProfile);
-    
     String sex = "";
     String name = "";
     String birthday="";
@@ -63,47 +30,71 @@
     String subscribers = "";
     int friendsCount = 0;
     int mutualFriendsCount = 0;
+    String target = (String) request.getParameter("id");
+    if(target == null) {
+        return;
+    }
+    String objUri = (String) request.getParameter("suri");
     
-    
-    //System.out.println("Displaying user information!!");
-    JSONObject information = usrResp.getJSONObject("entry");      
-
-    
-    if(!information.isNull("title")){
-        name = information.getJSONObject("title").getString("$t");
+    if (objUri == null || objUri.isEmpty()) {
+        objUri = (String) request.getAttribute("suri");
     }
-    if(!information.isNull("summary")){
-        aboutMe = information.getJSONObject("summary").getString("$t");
+    SemanticObject semanticObject = SemanticObject.createSemanticObject(objUri);
+    Youtube semanticYoutube = (Youtube) semanticObject.createGenericInstance();
+    HashMap<String, String> params = new HashMap<String, String>(2);
+    params.put("part", "snippet,statistics");
+    params.put("id", target);
+    String usrProfile = null;
+    try {
+        usrProfile = semanticYoutube.getRequest(params, Youtube.API_URL + "/channels", Youtube.USER_AGENT, "GET");
+    } catch (Exception e) {
+        e.printStackTrace();
     }
-    
-    if(!information.isNull("media$thumbnail")){
-        picture = information.getJSONObject("media$thumbnail").getString("url");
-    }
-
-    if(!information.isNull("yt$location")){
-        locationName = information.getJSONObject("yt$location").getString("$t");
-    }
-    if(!information.isNull("birthday_date")){
-        birthday = information.getString("birthday_date");
-    }
-    if(!information.isNull("yt$statistics")){
-        if(!information.getJSONObject("yt$statistics").isNull("subscriberCount")){
-            subscribers = information.getJSONObject("yt$statistics").getString("subscriberCount");
+//    String usrProfile = getFullUserProfileFromId(target, semanticYoutube);
+    //out.println("userprofile:" + usrProfile);
+    if (usrProfile != null && !usrProfile.isEmpty()) {
+        JSONObject information = null;
+        JSONObject result = new JSONObject(usrProfile);
+        if (!result.has("error") && !result.isNull("items")) {
+            information = result.getJSONArray("items").getJSONObject(0);
+        }
+        if (information != null) {
+            JSONObject snippet = information.getJSONObject("snippet");
+            if (!snippet.isNull("title") ){
+                name = snippet.getString("title");
+            }
+            if(!snippet.isNull("description")){
+                aboutMe = snippet.getString("description");
+            }
+            if (!snippet.isNull("thumbnails")) {
+                if (!snippet.getJSONObject("thumbnails").isNull("default")) {
+                    picture = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
+                } else if (!snippet.getJSONObject("thumbnails").isNull("medium")) {
+                    picture = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
+                }
+            }
+            if (!information.isNull("statistics") && !information.getJSONObject("statistics").isNull("subscriberCount")) {
+                subscribers = information.getJSONObject("statistics").getString("subscriberCount");
+            }
         }
     }
+    System.out.println("Name: " + name + ", picture: " + picture);
+//    if(!information.isNull("yt$location")){
+//        locationName = information.getJSONObject("yt$location").getString("$t");
+//    }
+//    if(!information.isNull("birthday_date")){
+//        birthday = information.getString("birthday_date");
+//    }
 %>
-
 <div class="swbform" style="width: 500px">
-    
     <fieldset>
         <div align="center"><img src="<%=picture%>" height="150" width="150"/></div>
     </fieldset>
-    
     <fieldset>
         <div align="center"><a title="Ver en YouTube" target="_blank" href="https://www.youtube.com/channel/<%=target%>"><%=name%></a></div>
     </fieldset>
 <%
-    if(!aboutMe.isEmpty()){
+    if (!aboutMe.isEmpty()) {
 %>
     <fieldset>
         <legend><%=paramRequest.getLocaleString("aboutMe")%>:</legend>
@@ -111,10 +102,7 @@
     </fieldset>
 <%
     }
-%>
-
-<%
-    if(!birthday.isEmpty()){
+    if (!birthday.isEmpty()) {
 %>
     <fieldset>
         <legend>Birthday:</legend>
@@ -122,11 +110,7 @@
     </fieldset>
 <%
     }
-%>
-
-
-<%
-    if(!subscribers.isEmpty()){
+    if (!subscribers.isEmpty()) {
 %>
     <fieldset>
          <legend><%=paramRequest.getLocaleString("subscribers")%>:</legend>
@@ -137,10 +121,7 @@
     </fieldset>
 <%
     }
-%>
-
-<%
-    if(!locationName.isEmpty()){
+    if (!locationName.isEmpty()) {
 %>
     <fieldset>
         <legend><%=paramRequest.getLocaleString("countryCode")%>:</legend>
@@ -150,11 +131,7 @@
     </fieldset>
 <%
     }
-%>
-
-
-<%
-    if(!profileUrl.isEmpty()){
+    if (!profileUrl.isEmpty()) {
 %>
     <fieldset>
         <legend>Profile URL:</legend>
@@ -164,10 +141,7 @@
     </fieldset>
 <%
     }
-%>
-
-<%
-    if(!sex.isEmpty()){
+    if (!sex.isEmpty()) {
 %>
     <fieldset>
          <legend>Gender:</legend>
@@ -177,6 +151,3 @@
     }
 %>
 </div>
-
-<%  
-%>
