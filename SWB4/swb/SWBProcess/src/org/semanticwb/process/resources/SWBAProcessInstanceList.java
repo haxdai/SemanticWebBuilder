@@ -24,6 +24,7 @@ package org.semanticwb.process.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,13 +48,14 @@ import org.semanticwb.process.model.ProcessSite;
 import org.semanticwb.process.model.SWBProcessMgr;
 import org.semanticwb.process.model.SubProcessInstance;
 import org.semanticwb.process.model.Task;
+import org.semanticwb.process.model.Process;
 
 /**
  *
  * @author juan.fernandez
  */
 public class SWBAProcessInstanceList extends GenericResource {
-
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY - HH:mm:ss");
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
 
@@ -65,7 +67,7 @@ public class SWBAProcessInstanceList extends GenericResource {
         User user = paramRequest.getUser();
         String id = request.getParameter("suri"); // del process
         String page = request.getParameter("page");
-        org.semanticwb.process.model.Process process = null;
+        Process process = null;
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj = ont.getGenericObject(id);
@@ -75,16 +77,14 @@ public class SWBAProcessInstanceList extends GenericResource {
             action = "";
         }
 
-        if (gobj instanceof org.semanticwb.process.model.Process) {
-            process = (org.semanticwb.process.model.Process) gobj;
+        if (gobj instanceof Process) {
+            process = (Process) gobj;
         } else {
             return;
         }
 
         ProcessSite site = process.getProcessSite();
-
         if (null != process) {
-
             if ("".equals(action)) {
                 SWBResourceURL urlact = paramRequest.getActionUrl();
                 urlact.setParameter("suri", id);
@@ -167,17 +167,17 @@ public class SWBAProcessInstanceList extends GenericResource {
                     out.println("</td>");
                     User usrtmp = pi.getCreator();
                     out.println("<td>");
-                    if(usrtmp!=null)out.println(usrtmp.getFullName());
+                    out.println(usrtmp==null?"---":usrtmp.getFullName());
                     out.println("</td>");
                     out.println("<td>");
                     usrtmp = pi.getAssignedto();
                     out.println((usrtmp!=null?usrtmp.getFullName():paramRequest.getLocaleString("notAssigned")));
                     out.println("</td>");
                     out.println("<td>");
-                    out.println(pi.getCreated());
+                    out.println(sdf.format(pi.getCreated()));
                     out.println("</td>");
                     out.println("<td>");
-                    out.println(pi.getEnded()!=null?pi.getEnded().toString():"---");
+                    out.println(pi.getEnded()!=null?sdf.format(pi.getEnded()):"---");
                     out.println("</td>");
 
                     //liga para ver artefactos asociados a esta instancia de proceso.
@@ -190,7 +190,6 @@ public class SWBAProcessInstanceList extends GenericResource {
                     out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("showartifacts") + "\" onclick=\"submitUrl('" + urlart + "',this); return false;\">" + paramRequest.getLocaleString("msgview") + "</a>");
                     out.println("</td>");
                     out.println("</tr>");
-
                 }
 
 
@@ -209,9 +208,7 @@ public class SWBAProcessInstanceList extends GenericResource {
                 out.println("</fieldset>");
                 out.println("</div>");
             } else if ("artifacts".equals(action)) {
-
                 String pinsturi = request.getParameter("suripi");
-
                 ProcessInstance pi = ProcessInstance.ClassMgr.getProcessInstance(pinsturi, site);
 
                 out.println("<div class=\"swbform\">");
@@ -247,11 +244,8 @@ public class SWBAProcessInstanceList extends GenericResource {
                 out.println("</fieldset>");
                 out.println("</div>");
             } else if ("pidetail".equals(action)) {
-
                 String pinsturi = request.getParameter("suripi");
-                //System.out.println(pinsturi);
                 GenericObject pigobj = ont.getGenericObject(pinsturi);
-
                 ProcessInstance pi = null;
 
                 if(pigobj instanceof ProcessInstance)
@@ -272,12 +266,13 @@ public class SWBAProcessInstanceList extends GenericResource {
                 out.println("<table width=\"100%\">");
 
                 out.println("<tr>");
-                out.print("<th>"+paramRequest.getLocaleString("ID")+"</th>");
+                out.print("<th>"+paramRequest.getLocaleString("id")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("activity")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("class")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("creator")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("started")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("assigned")+"</th>");
+                out.print("<th>"+paramRequest.getLocaleString("assignedDate")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("endedby")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("ended")+"</th>");
                 out.print("<th>"+paramRequest.getLocaleString("action")+"</th>");
@@ -290,7 +285,6 @@ public class SWBAProcessInstanceList extends GenericResource {
                 Iterator<FlowNodeInstance> actit = SWBComparator.sortByCreated(pi.listFlowNodeInstances());
                 while (actit.hasNext()) {
                     FlowNodeInstance obj = actit.next();
-                    //System.out.println("->"+obj.getCreated()+" "+obj.getFlowNodeType().getTitle());
                     printActivityInstance(obj, out, paramRequest,0);
                 }
                 out.println("</table>");
@@ -340,7 +334,6 @@ public class SWBAProcessInstanceList extends GenericResource {
 
     public void printActivityInstance(FlowNodeInstance ai, PrintWriter out, SWBParamRequest paramRequest,int espacios) throws IOException, SWBResourceException {
         out.println("<tr>");
-
         String space = "";
         if(espacios>0)
         {
@@ -363,12 +356,18 @@ public class SWBAProcessInstanceList extends GenericResource {
         out.print("<td>");
         if(ai.getCreated()!=null)
         {
-            out.print(ai.getCreated());
+            out.print(sdf.format(ai.getCreated()));
         }
         out.print("<td>");
         if(ai.getAssignedto()!=null)
         {
             out.print("<a href=\"\" onclick=\"addNewTab('"+ai.getAssignedto().getURI()+"',null,'"+ai.getAssignedto().getLogin()+"'); return false;\">"+ai.getAssignedto().getFullName()+"</a>");
+        }
+        out.print("</td>");
+        out.print("<td>");
+        if(ai.getAssigned()!=null)
+        {
+            out.print(sdf.format(ai.getAssigned()));
         }
         out.print("</td>");
         out.print("<td>");
@@ -380,7 +379,7 @@ public class SWBAProcessInstanceList extends GenericResource {
         out.print("<td>");
         if(ai.getEnded()!=null)
         {
-            out.print(ai.getEnded());
+            out.print(sdf.format(ai.getEnded()));
         }
         out.print("</td>");
         out.print("<td>");
@@ -442,20 +441,16 @@ public class SWBAProcessInstanceList extends GenericResource {
             SubProcessInstance pi = (SubProcessInstance) ai;
             Iterator<FlowNodeInstance> acit = SWBComparator.sortByCreated(pi.listFlowNodeInstances());
             if (acit.hasNext()) {
-                //out.println("<table>");
                 while (acit.hasNext()) {
                     FlowNodeInstance actinst = acit.next();
-                    //System.out.println("-->"+actinst.getCreated()+" "+actinst.getFlowNodeType().getTitle());
                     printActivityInstance(actinst, out, paramRequest,espacios);
                 }
-                //out.println("</table>");
             }
         }
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-
         User user = response.getUser();
         String id = request.getParameter("suri");
         String act = request.getParameter("act");
@@ -477,27 +472,23 @@ public class SWBAProcessInstanceList extends GenericResource {
         }
 
         site = process.getProcessSite();
+        if (act.equals("rpi")) {
 
-        if (act != null) {
-            if (act.equals("rpi")) {
-
-                String pinst = request.getParameter("suripi");
-                ProcessInstance inst = ProcessInstance.ClassMgr.getProcessInstance(pinst, site);
-                inst.remove();
-            }
-            if (act.equals("cpi")) {
-
-                process = (org.semanticwb.process.model.Process) SemanticObject.createSemanticObject(id).createGenericInstance();
-                SWBProcessMgr.createProcessInstance(process, user);
-            }
-            if (act.equals("accept") || act.equals("reject")) {
-
-                String piid = request.getParameter("id");
-                FlowNodeInstance inst = FlowNodeInstance.ClassMgr.getFlowNodeInstance(piid, site);
-                inst.close(user, act);
-            }
+            String pinst = request.getParameter("suripi");
+            ProcessInstance inst = ProcessInstance.ClassMgr.getProcessInstance(pinst, site);
+            inst.remove();
         }
+        if (act.equals("cpi")) {
 
+            process = (org.semanticwb.process.model.Process) SemanticObject.createSemanticObject(id).createGenericInstance();
+            SWBProcessMgr.createProcessInstance(process, user);
+        }
+        if (act.equals("accept") || act.equals("reject")) {
+
+            String piid = request.getParameter("id");
+            FlowNodeInstance inst = FlowNodeInstance.ClassMgr.getFlowNodeInstance(piid, site);
+            inst.close(user, act);
+        }
 
         if (id != null) {
             response.setRenderParameter("suri", id);
