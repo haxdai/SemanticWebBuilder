@@ -1184,10 +1184,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         try {
             if (this.getTokenExpirationDate() != null) {
                 timeLeft = (int) (this.getTokenExpirationDate().getTime() - now.getTime().getTime());
-            } else if (this.getTokenExpirationDate() == null ||
-                    now.getTime().getTime() > this.getTokenExpirationDate().getTime()) {
-                Youtube.log.event("**** Token vencido: " + 
-                        this.getTokenExpirationDate() != null ? this.getTokenExpirationDate().toString() : "null");
+//            } else if (this.getTokenExpirationDate() == null ||
+//                    now.getTime().getTime() > this.getTokenExpirationDate().getTime()) {
+//                Youtube.log.event("**** Token vencido: " + 
+//                        this.getTokenExpirationDate() != null ? this.getTokenExpirationDate().toString() : "null");
             }
             
             Map<String, String> params = new HashMap<String, String>(4);
