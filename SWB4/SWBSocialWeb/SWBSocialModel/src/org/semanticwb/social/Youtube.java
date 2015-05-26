@@ -177,7 +177,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         
         String[] arr = video.getVideo().split("\\.");
         String videoType = "video/" + this.getMimeType(arr[1]);
-        System.out.println("Mime type: " + videoType);
+        //System.out.println("Mime type: " + videoType);
         String videoPath = SWBPortal.getWorkPath() + video.getWorkPath() + "/" + video.getVideo();
         SWBFile fileVideo = new SWBFile(videoPath);
         try {
@@ -232,14 +232,10 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             
             // Call the API and upload the video.
             com.google.api.services.youtube.model.Video returnedVideo = videosInsert.execute();
-            System.out.println("Ya se hizo la peticion de carga" + returnedVideo.toPrettyString());
             if (returnedVideo != null && returnedVideo.getId() != null) {
-                System.out.println("Se va a pedir guardar el video en la BD");
-                System.out.println("video: " + video.getMsg_Text() + "\nYoutube id: " + returnedVideo.getId());
                 SWBSocialUtil.PostOutUtil.savePostOutNetID(video, this, returnedVideo.getId(), null);
-                System.out.println("Ya se guardo el video, supuestamente...");
             } else {
-                System.out.println("returnVideo es nulo!!!  ...?");
+                Youtube.log.debug("returnVideo es nulo!!!  ...?");
             }
         } catch (NullPointerException npe) {
             Youtube.log.error("Que paso???", npe);
@@ -765,9 +761,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
             try {
                 String videoIds = null;
-                System.out.println("Objeto creado para busquedas:\n" + search.toString());
+                //System.out.println("Objeto creado para busquedas:\n" + search.toString());
                 SearchListResponse searchResponse = search.execute();
-                System.out.println("Respuesta:\n" + searchResponse.getPageInfo().toString() + "\n++++++++++++++++++++++++++++++");
+                //System.out.println("Respuesta:\n" + searchResponse.getPageInfo().toString() + "\n++++++++++++++++++++++++++++++");
                 List<SearchResult> searchResultList = searchResponse.getItems();
                 if (!searchResultList.isEmpty()) {
                     count = searchResultList.size();
@@ -793,7 +789,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 }
                 
                 if (videoIds != null) {
-                    System.out.println("Videos to search for: \n" + videoIds);
+                    //System.out.println("Videos to search for: \n" + videoIds);
                     Map<String, String> paramsDetail = new HashMap<String, String>();
                     paramsDetail.put("part", "snippet,contentDetails,recordingDetails");
                     paramsDetail.put("id", videoIds);
@@ -866,10 +862,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                                 external.setLongitude(longitude);
                                 external.setPlace("(" + df.format(latitude) + "," + df.format(longitude) + ")");
                             }
-                            System.out.println("Video importado: " + video.getString("id"));
                         }
                     }
-                    System.out.println("Objetos por clasificar: " + aListExternalPost.size());
                     if ((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)) {//Classify the block of videos
                         new Classifier((ArrayList <ExternalPost>) aListExternalPost.clone(), stream, this, true);
                         aListExternalPost.clear();
@@ -1583,24 +1577,20 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
                 conex.setConnectTimeout(20000); //15 segundos maximo, si no contesta la red Klout, cortamos la conexión
             } catch (Exception nexc) {
-                System.out.println("nexc Error:"+nexc.getMessage());
+                Youtube.log.error("Klout Error:"+nexc.getMessage());
                 conex = null;
             }
-            //System.out.println("Twitter Klout/conex:"+conex);
             //Analizar la respuesta a la peticion y obtener el access token
             if (conex != null) {
                 try
                 {
-                    //System.out.println("Va a checar esto en Klit:"+conex.getInputStream());
                     answer = getResponse(conex.getInputStream());
                 }catch(Exception e)
                 {
                     //log.error(e);
                 }
-                //System.out.println("Twitter Klout/answer-1:"+answer);
             }
         }
-        //System.out.println("Twitter Klout/answer-2:"+answer);
         return answer;
     }
 
@@ -1641,7 +1631,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error getting user information " + e.getMessage());
+            Youtube.log.error("Error getting user third party information ", e);
         }
         return idPlus;
     }
