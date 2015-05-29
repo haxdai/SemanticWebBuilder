@@ -2,7 +2,6 @@ package org.semanticwb.bsc.formelement;
 
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.bsc.element.BSCElement;
 import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Risk;
@@ -47,50 +46,46 @@ public class RelatedElement extends org.semanticwb.bsc.formelement.base.RelatedE
     public String renderElement(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode,
             String lang) {
-        
-        String toReturn;
-        StringBuilder viewString = new StringBuilder(128);
+        StringBuilder html = new StringBuilder();
         boolean showLink = false;
         SemanticClass rangeClass = prop.getRangeClass();
-        if (rangeClass.getRootClass().equals(BSCElement.bsc_BSCElement)) {
+        if(rangeClass.getRootClass().equals(BSCElement.bsc_BSCElement)) {
             showLink = true;
-        }else if (rangeClass.getRootClass().isSWBInterface()) {
+        }else if(rangeClass.getRootClass().isSWBInterface()) {
             SemanticObject value = obj.getObjectProperty(prop);
-            if (value != null) {
+            if(value != null) {
                 GenericObject generic = value.createGenericInstance();
-                if (generic instanceof Indicator) {
+                if(generic instanceof Indicator) {
                     rangeClass = Indicator.bsc_Indicator;
                     showLink = true;
-                } else if (generic instanceof Risk) {
+                }else if(generic instanceof Risk) {
                     rangeClass = Risk.bsc_Risk;
                     showLink = true;
                 }
             }
         }
-                
-        if (prop.isObjectProperty()) {
+        if(prop.isObjectProperty()) {
             SemanticObject value = obj.getObjectProperty(prop);
             if(value!=null) {
-                if (showLink) {                            
+                //html.append(value.getDisplayName(lang));
+                if(showLink) {
                     SWBModel model = (SWBModel)obj.getModel().getModelObject().getGenericInstance();
                     String url = request.getScheme()+"://"+request.getServerName()+":"
                             +request.getServerPort()+SWBPlatform.getContextPath()+"/"
                             +lang+"/"+model.getId()+"/"+rangeClass.getName()
                             +"?suri="+value.getEncodedURI();
-                    viewString.append("<a href=\"");
-                    viewString.append(url);
-                    viewString.append("\" >");
+                    html.append(" <a href=\"");
+                    html.append(url);
+                    html.append("\">");
+                    //html.append("<span class=\"summary-grid glyphicon glyphicon-eye-open\"></span>\n");
+                    //html.append("</a>\n");
                 }
-                viewString.append(value.getDisplayName(lang));
-                if (showLink) {
-                    viewString.append("</a>");
+                html.append(value.getDisplayName(lang));
+                if(showLink) {
+                    html.append("</a>");
                 }
             }
         }
-        toReturn = viewString.toString();
-        if (toReturn == null) {
-            toReturn = "";
-        }
-        return toReturn;
+        return html.toString();
     }
 }
