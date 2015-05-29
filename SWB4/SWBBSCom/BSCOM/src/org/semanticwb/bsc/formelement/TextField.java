@@ -1,6 +1,7 @@
 package org.semanticwb.bsc.formelement;
 
 import javax.servlet.http.HttpServletRequest;
+import org.semanticwb.SWBPlatform;
 import org.semanticwb.bsc.element.BSCElement;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.SWBModel;
@@ -39,7 +40,7 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
             toReturn = super.renderElement(request, obj, prop, propName, type, mode, lang);
         } else if (mode.equals("view")) {
             StringBuilder viewString = new StringBuilder(128);
-            String baseUrl = null;
+//            String baseUrl = null;
 
             GenericObject genObject = obj.createGenericInstance();
             SemanticClass rootClass = obj.getSemanticClass().getRootClass();
@@ -47,13 +48,19 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
             if (rootClass.equals(BSCElement.bsc_BSCElement)) {
                 if (request.getAttribute("pdf") == null) {
                     viewString.append("<a href=\"");
-                    if (websiteId != null && request.getRequestURI().contains(websiteId)) {
-                        baseUrl = request.getRequestURI().substring(0,
-                                request.getRequestURI().indexOf(websiteId) + websiteId.length() + 1);
-                    }
-                    if (baseUrl != null) {
-                        viewString.append(baseUrl);
-                    }
+//                    if (websiteId != null && request.getRequestURI().contains(websiteId)) {
+//                        baseUrl = request.getRequestURI().substring(0,
+//                                request.getRequestURI().indexOf(websiteId) + websiteId.length() + 1);
+//                    }
+//                    if (baseUrl != null) {
+//                        viewString.append(baseUrl);
+//                    }
+System.out.println("\nurl="+request.getRequestURI().substring(0,request.getRequestURI().indexOf(websiteId) + websiteId.length() + 1));
+                    viewString.append(request.getScheme()).append("://")
+                            .append(request.getServerName()).append(":")
+                            .append(request.getServerPort())
+                            .append(SWBPlatform.getContextPath()).append("/")
+                            .append(lang).append("/").append(websiteId).append("/");
                     
                     String imsg = "Ver detalle";
                     if (lang.equals("en")) {
