@@ -4,7 +4,7 @@ package org.semanticwb.model.base;
    /**
    * Define una categoria dentro de una colección de recursos 
    */
-public abstract class ResourceCollectionCategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Resourceable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
+public abstract class ResourceCollectionCategoryBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Resourceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable
 {
    /**
    * Define una agrupacion de objetos de tipo resource
