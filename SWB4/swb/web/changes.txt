@@ -1,3 +1,5 @@
+  4.5.10.1 01/06/15
+    - Soporte de filtros de administraci-on para categorias de collecciones de recursos
   4.5.10.0 15/05/15
     - Soporte a subrutas en friendyUrls (Vic, Jei)
     - Se agrego clase SWB4GenericLDAPLocalBridge para soporte a autenticacion por LDAP y Local simultaneas (Serch)
