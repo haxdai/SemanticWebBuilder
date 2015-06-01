@@ -179,9 +179,6 @@ public class SWBAFilters extends SWBATree
             } else if (cmd.equals("getDirectories"))
             {
                 getDirectories(user, res, src);
-            } else if (cmd.equals("getCollections"))
-            {
-                getCollections(user, res, src);
             } else if (cmd.equals("getGlobal"))
             {
                 addGlobal(user, res, PARCIAL_ACCESS);
@@ -2035,37 +2032,5 @@ public class SWBAFilters extends SWBATree
         }
     }
 
-    private void getCollections(User user, Element res, Document src)
-    {
-        Iterator<WebSite> sites = WebSite.ClassMgr.listWebSites();
-        while (sites.hasNext())
-        {
-            WebSite site = sites.next();
-            if (!site.getId().equals(SWBContext.WEBSITE_GLOBAL))
-            {
-                Element siteElement = addNode("site", site.getId(), site.getTitle(), res);
-                if (site.isActive())
-                {
-                    siteElement.setAttribute("icon", "sitev");
-
-                } else
-                {
-                    siteElement.setAttribute("icon", "siter");
-                }
-                Iterator<ResourceCollection> collections = ResourceCollection.ClassMgr.listResourceCollections(site);
-                while (collections.hasNext())
-                {
-                    ResourceCollection resourceCollection = collections.next();
-                    Element collection = addNode("collection", resourceCollection.getId(), resourceCollection.getTitle(), siteElement);
-                    Iterator<ResourceCollectionCategory> categories = resourceCollection.listCategories();
-                    while (categories.hasNext())
-                    {
-                        ResourceCollectionCategory category = categories.next();
-                        addNode("category", category.getId(), category.getTitle(), collection);
-                    }
-                }
-            }
-        }
-
-    }
+    
 }
