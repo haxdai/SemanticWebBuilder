@@ -37,6 +37,9 @@
     >collection</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/transformView">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/visualization"/>
+    </owl:inverseOf>
     <rdfs:range>
       <swb:Interface rdf:about="http://www.infotec.com/inegi/TransformView">
         <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
@@ -72,6 +75,12 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Class>
     </rdfs:range>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/visualization">
+    <rdfs:range rdf:resource="http://www.infotec.com/inegi/Visualization"/>
+    <rdfs:domain rdf:resource="http://www.infotec.com/inegi/TransformView"/>
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >visualization</rdfs:label>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/extraction">
     <rdfs:range>
@@ -129,6 +138,9 @@
     </rdfs:range>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/transformCollection">
+    <owl:inverseOf>
+      <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/transformationProcess"/>
+    </owl:inverseOf>
     <rdfs:range rdf:resource="http://www.infotec.com/inegi/TransformCollection"/>
     <rdfs:domain rdf:resource="http://www.infotec.com/inegi/Collection"/>
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -165,6 +177,12 @@
     <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Tipo de dato</rdfs:label>
     <rdfs:domain rdf:resource="http://www.infotec.com/inegi/MetaData"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/transformationProcess">
+    <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >transformation process</rdfs:label>
+    <rdfs:domain rdf:resource="http://www.infotec.com/inegi/TransformCollection"/>
+    <rdfs:range rdf:resource="http://www.infotec.com/inegi/Collection"/>
   </owl:ObjectProperty>
   <owl:ObjectProperty rdf:about="http://www.infotec.com/inegi/collectionType">
     <rdfs:range>
