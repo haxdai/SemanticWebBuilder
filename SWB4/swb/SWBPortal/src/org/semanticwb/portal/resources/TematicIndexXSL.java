@@ -35,6 +35,7 @@ import org.semanticwb.model.WebPage;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -52,7 +53,7 @@ public class TematicIndexXSL extends GenericAdmResource
 {
     
     /** The log. */
-    private static Logger log = SWBUtils.getLogger(TematicIndexXSL.class);
+    private static final Logger log = SWBUtils.getLogger(TematicIndexXSL.class);
     
     /** The tpl. */
     javax.xml.transform.Templates tpl; 
@@ -121,7 +122,8 @@ public class TematicIndexXSL extends GenericAdmResource
         Resource base=getResourceBase();
         try
         {        
-            String usrlanguage=paramRequest.getUser().getLanguage();
+            String usrlanguage=paramRequest.getUser().getLanguage()==null
+                    ? "es" : paramRequest.getUser().getLanguage();
             int ison = 0;
             int igrandson = 0;
             
@@ -129,7 +131,6 @@ public class TematicIndexXSL extends GenericAdmResource
             Element out = dom.createElement("resource");
             dom.appendChild(out);
             Element father = dom.createElement("father");
-            father.appendChild(dom.createTextNode(""));
             out.appendChild(father);
 
             WebPage pageBase=paramRequest.getWebPage();
@@ -141,10 +142,16 @@ public class TematicIndexXSL extends GenericAdmResource
             fathertitle.appendChild(dom.createTextNode(pageBase.getDisplayName(usrlanguage)));
             father.setAttribute("path", path);
             father.setAttribute("id", pageBase.getId());
+            father.setAttribute("fatherref", pageBase.getUrl(usrlanguage,false));
             father.appendChild(fathertitle);
+            if(paramRequest.getWebPage().equals(pageBase)) {
+                father.setAttribute("current", "1");
+            }else {
+                father.setAttribute("current", "0");
+            }
+            father.setAttribute("desc", pageBase.getDisplayDescription(usrlanguage)==null?"":pageBase.getDisplayDescription(usrlanguage));
             
-            if(usrlanguage!=null)
-            {
+            //if(usrlanguage!=null) {
                 String descr=pageBase.getDisplayDescription(usrlanguage);
                 if(descr!=null)
                 {
@@ -153,7 +160,7 @@ public class TematicIndexXSL extends GenericAdmResource
                     fatherdescription.appendChild(dom.createTextNode(descr));
                     father.appendChild(fatherdescription);
                 }
-            }
+            //}
             
             Iterator <WebPage> hijos = pageBase.listChilds(usrlanguage, true, false, false, null);
             ison=0;
@@ -164,22 +171,27 @@ public class TematicIndexXSL extends GenericAdmResource
                 {
                     ison++;
                     Element son = dom.createElement("son");
-                    son.appendChild(dom.createTextNode(""));
-                    //son.setAttribute("sonref",webpath+dist+"/"+tm.getId()+"/"+hijo.getId());
+                    //son.appendChild(dom.createTextNode(""));
                     son.setAttribute("sonref",hijo.getUrl(usrlanguage,false));
                     son.setAttribute("path", path);
                     son.setAttribute("id", hijo.getId());
                     if (hijo.getTarget() != null && !"".equalsIgnoreCase(hijo.getTarget())) {
                         son.setAttribute("target", hijo.getTarget());
                     }
+                    if(paramRequest.getWebPage().equals(hijo)) {
+                        son.setAttribute("current", "1");
+                    }else {
+                        son.setAttribute("current", "0");
+                    }
+                    son.setAttribute("desc", hijo.getDisplayDescription(usrlanguage)==null
+                            ?"":hijo.getDisplayDescription(usrlanguage));
                     Element sontitle = dom.createElement("sontitle");
                     sontitle.appendChild(dom.createTextNode(hijo.getDisplayName(usrlanguage)));
                     son.appendChild(sontitle);
                     father.appendChild(son);
                     
-                    if(usrlanguage!=null)
-                    {
-                        String descr=hijo.getDisplayDescription(usrlanguage);
+                    //if(usrlanguage!=null) {
+                        descr = hijo.getDisplayDescription(usrlanguage);
                         if(descr!=null)
                         {
                             son.setAttribute("hassondescription","1");
@@ -187,7 +199,7 @@ public class TematicIndexXSL extends GenericAdmResource
                             sondescription.appendChild(dom.createTextNode(descr));
                             son.appendChild(sondescription);
                         }
-                    }
+                    //}
                     Iterator <WebPage> nietos=hijo.listChilds(usrlanguage, true, false, false, null);
                     igrandson=0;
                     while(nietos.hasNext())
@@ -197,21 +209,26 @@ public class TematicIndexXSL extends GenericAdmResource
                         {
                             igrandson++;
                             Element grandson = dom.createElement("grandson");
-                            grandson.appendChild(dom.createTextNode(""));
-                            //grandson.setAttribute("grandsonref",webpath+dist+"/"+tm.getId()+"/"+nieto.getId());
+                            //grandson.appendChild(dom.createTextNode(""));
                             grandson.setAttribute("grandsonref",nieto.getUrl(usrlanguage,false));
                             grandson.setAttribute("path", path);
                             grandson.setAttribute("id", nieto.getId());
                             if (nieto.getTarget() != null && !"".equalsIgnoreCase(nieto.getTarget())) {
                                 grandson.setAttribute("target", nieto.getTarget());
                             }
+                            if(paramRequest.getWebPage().equals(nieto)) {
+                                grandson.setAttribute("current", "1");
+                            }else {
+                                grandson.setAttribute("current", "0");
+                            }
+                            son.setAttribute("desc", nieto.getDisplayDescription(usrlanguage)==null
+                                    ?"":nieto.getDisplayDescription(usrlanguage));
                             Element grandsontitle = dom.createElement("grandsontitle");
                             grandsontitle.appendChild(dom.createTextNode(nieto.getDisplayName(usrlanguage)));
                             grandson.appendChild(grandsontitle);
                             
-                            if(usrlanguage!=null)
-                            {
-                                String descr=nieto.getDisplayDescription(usrlanguage);
+                            //if(usrlanguage!=null) {
+                                descr = nieto.getDisplayDescription(usrlanguage);
                                 if(descr!=null)
                                 {
                                     grandson.setAttribute("hasgrandsondescription","1");
@@ -219,7 +236,7 @@ public class TematicIndexXSL extends GenericAdmResource
                                     grandsondescription.appendChild(dom.createTextNode(descr));
                                     grandson.appendChild(grandsondescription);
                                 }
-                            }
+                            //}
                             son.appendChild(grandson);
                         }
                       }
@@ -229,7 +246,10 @@ public class TematicIndexXSL extends GenericAdmResource
             father.setAttribute("totalson",Integer.toString(ison));
             return dom;
         }
-        catch (Exception e) { log.error("Error while generating the comments form in resource "+ base.getResourceType().getResourceClassName() +" with identifier " + base.getId() + " - " + base.getTitle(), e); }
+        catch (DOMException e) {
+            log.error("Error while generating the comments form in resource "
+                    + base.getResourceType().getResourceClassName() +" with identifier " 
+                    + base.getId() + " - " + base.getTitle(), e); }
         return null;
     }
     
