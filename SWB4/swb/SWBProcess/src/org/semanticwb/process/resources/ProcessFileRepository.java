@@ -77,9 +77,11 @@ public class ProcessFileRepository extends GenericResource {
     public static final String MODE_PROPS = "props";
     public static final String MODE_ADDFILE = "addFile";
     public static final String MODE_ADDFOLDER = "addFolder";
+    public static final String MODE_EDITFOLDER = "editFolder";
     public static final String MODE_HISTORY = "versionHistory";
     public static final String ACT_NEWFILE = "newfile";
     public static final String ACT_NEWFOLDER = "newfolder";
+    public static final String ACT_EDITFOLDER = "updateFolder";
     public static final String DEFAULT_MIME_TYPE = "application/octet-stream";
     public static final String LVL_VIEW = "prop_view";
     public static final String LVL_MODIFY = "prop_modify";
@@ -100,6 +102,8 @@ public class ProcessFileRepository extends GenericResource {
             doAddFile(request, response, paramRequest);
         } else if (MODE_ADDFOLDER.equals(mode)) {
             doAddFolder(request, response, paramRequest);
+        } else if (MODE_EDITFOLDER.equals(mode)) {
+            doEditFolder(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -138,6 +142,19 @@ public class ProcessFileRepository extends GenericResource {
             rd.include(request, response);
         } catch (Exception ex) {
             log.error("Error including addFolder.jsp", ex);
+        }
+    }
+    
+   public void doEditFolder(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String jsp = "/swbadmin/jsp/process/repository/repositoryEditFolder.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        
+        response.setContentType("text/html; charset=UTF-8");
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (Exception ex) {
+            log.error("Error including props.jsp", ex);
         }
     }
     
@@ -602,7 +619,16 @@ public class ProcessFileRepository extends GenericResource {
                 }
             }
             response.setMode(SWBParamRequest.Mode_VIEW);
-        } else {
+        }
+        else if(ACT_EDITFOLDER.equals(action)){
+            String fid = request.getParameter("fid");
+            String newTitle = request.getParameter("titleRep");
+            RepositoryDirectory rd = null;
+            rd = RepositoryDirectory.ClassMgr.getRepositoryDirectory(fid, site);
+            rd.setTitle(newTitle);
+            response.setMode(SWBParamRequest.Mode_VIEW);      
+            
+        }else {
             super.processAction(request, response);
         }
     }
