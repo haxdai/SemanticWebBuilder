@@ -1005,7 +1005,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             JSONArray items = parseUsrInfYoutube.getJSONArray("items");
             if (items.length() > 0) {
                 JSONObject information = items.getJSONObject(0);
-                if (!information.isNull("contentDetails")) {
+                if (!information.isNull("contentDetails") &&
+                        information.getJSONObject("contentDetails").has("googlePlusUserId")) {
                     String googlePlusId = information.getJSONObject("contentDetails").getString("googlePlusUserId");
                     if (googlePlusId != null && !googlePlusId.isEmpty()) {
                         userInfo.put("third_party_id", googlePlusId);
