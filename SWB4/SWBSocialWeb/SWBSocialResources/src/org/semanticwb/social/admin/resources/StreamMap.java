@@ -83,7 +83,9 @@ public class StreamMap extends GenericResource{
         
         String streamMapView="";
         if(request.getParameter("streamMapView")!=null) streamMapView=request.getParameter("streamMapView");
-        String date=request.getParameter("mapSinceDate");
+        String clsName = semObj.createGenericInstance().getClass().getSimpleName(); 
+        String date=request.getParameter("mapSinceDate" +  semObj.getModel().getName() + semObj.getId() + clsName) ;
+        String date1=request.getParameter("mapToDate" +  semObj.getModel().getName() + semObj.getId() + clsName);
         
         out.println("<div class=\"divMap\">");
         //out.println("<div class=\"swbform\">");
@@ -177,7 +179,24 @@ public class StreamMap extends GenericResource{
        out.println("</select>");
        out.println("</label>");
         
-       out.println("<label><div>Desde el día:</div><input type=\"text\" name=\"mapSinceDate\" id=\"mapSinceDate"+semObj.getModel().getName() + semObj.getId()+"\"  dojoType=\"dijit.form.DateTextBox\" hasDownArrow=\"true\" value=\""+date+"\" class=\"txtfld-calendar\"/></label>");
+       //out.println("<label><div>Desde el día:</div><input type=\"text\" name=\"mapSinceDate\" id=\"mapSinceDate"+semObj.getModel().getName() + semObj.getId()+"\"  dojoType=\"dijit.form.DateTextBox\" hasDownArrow=\"true\" value=\""+date+"\" class=\"txtfld-calendar\"/></label>");
+       
+       out.println("<label><div>Desde el día:</div><input name=\"mapSinceDate" + 
+               semObj.getModel().getName() + semObj.getId() + clsName +"\" id=\"mapSinceDate"+
+               semObj.getModel().getName() + semObj.getId() + clsName +
+               "\"  dojoType=\"dijit.form.DateTextBox\" hasDownArrow=\"true\" value=\""+
+               date+"\" class=\"txtfld-calendar\" data-dojo-id=\"mapSinceDate" + 
+               semObj.getModel().getName() + semObj.getId() + clsName + "\" onChange=\"mapToDate" 
+               + semObj.getModel().getName() + semObj.getId() 
+               + clsName + ".constraints.min = arguments[0];\"/></label>");
+       out.println("<label><div>al día:</div><input name=\"mapToDate" + 
+               semObj.getModel().getName() + semObj.getId() + clsName + "\" id=\"mapToDate"+
+               semObj.getModel().getName() + semObj.getId() + clsName +
+               "\"  dojoType=\"dijit.form.DateTextBox\" hasDownArrow=\"true\" value=\""+
+               date1+"\" class=\"txtfld-calendar\" data-dojo-id=\"mapToDate" + 
+               semObj.getModel().getName() + semObj.getId() + clsName + "\" onChange=\"mapSinceDate" + 
+               semObj.getModel().getName() + semObj.getId() + clsName 
+               + ".constraints.max = arguments[0];\"/></label>");
         
         ArrayList aNetsSelected=new ArrayList();
         String[] paramNet=request.getParameterValues("networks");
@@ -236,11 +255,11 @@ public class StreamMap extends GenericResource{
         out.println("</form>");
         //out.println("</div>");
         out.println("</div>");
-        if(request.getParameter("mapSinceDate")!=null)
+        if(request.getParameter("mapSinceDate" +  semObj.getModel().getName() + semObj.getId() + clsName)!=null)
         {
             ////System.out.println("mapSinceDate k LLega a Clase:"+request.getParameter("mapSinceDate"));
             out.println("<div class=\"swbSocialMapIframe\">");
-            out.println("   <iframe width=\"100%\" height=\"100%\" src=\""+paramRequest.getRenderUrl().setMode(Mode_showMap).setParameter("suri", request.getParameter("suri")).setParameter("mapSinceDate"+semObj.getModel().getName() + semObj.getId(), request.getParameter("mapSinceDate")).setParameter("streamMapView", request.getParameter("streamMapView")).setParameter("networks", request.getParameterValues("networks")).setParameter("showGeoProfile", request.getParameter("showGeoProfile")) +"\"></iframe> ");
+            out.println("   <iframe width=\"100%\" height=\"100%\" src=\""+paramRequest.getRenderUrl().setMode(Mode_showMap).setParameter("suri", request.getParameter("suri")).setParameter("mapSinceDate"+  semObj.getModel().getName() + semObj.getId() + clsName, request.getParameter("mapSinceDate" +  semObj.getModel().getName() + semObj.getId() + clsName)).setParameter("mapToDate"+  semObj.getModel().getName() + semObj.getId() + clsName, request.getParameter("mapToDate" +  semObj.getModel().getName() + semObj.getId() + clsName)).setParameter("streamMapView", request.getParameter("streamMapView")).setParameter("networks", request.getParameterValues("networks")).setParameter("showGeoProfile", request.getParameter("showGeoProfile")) +"\"></iframe> ");
             out.println("</div>");
         }
     }
