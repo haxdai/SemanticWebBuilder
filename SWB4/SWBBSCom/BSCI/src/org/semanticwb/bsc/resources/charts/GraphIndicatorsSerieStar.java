@@ -31,7 +31,7 @@ import org.semanticwb.portal.api.SWBResourceException;
 
 /**
  *
- * @author ana.garcias, carlos.ramos
+ * @author carlos.ramos, ana.garcias
  */
 public class GraphIndicatorsSerieStar extends GenericAdmResource {
     private static final org.semanticwb.Logger log = SWBUtils.getLogger(GraphGeneration.class);
@@ -86,14 +86,8 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
         GenericObject genericObj = semanticObj.createGenericInstance();
         if (genericObj instanceof Objective) {
             Objective objective = (Objective)genericObj;
-            
-//            Iterator<Period> listPeriodIndic;
-            
-            //firstOutput.append("<div class=\"row\">\n");
-            //firstOutput.append("<div class=\"col-xs-12\">\n");
             firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
-            //firstOutput.append("<div id=\"graphContainer\">\n");
-            firstOutput.append(" <div id=\""+SVG_ID+"\" class=\'with-3d-shadow with-transitions\'>\n");
+            firstOutput.append(" <div id=\"").append(SVG_ID).append("\" class=\'with-3d-shadow with-transitions\'>\n");
             firstOutput.append("  <div class=\"panel-heading head-detalle\">");
             firstOutput.append(paramRequest.getLocaleString("msgTitle"));
             firstOutput.append("&nbsp;");
@@ -101,13 +95,15 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             firstOutput.append("  </div>\n");
             firstOutput.append("  <div class=\"panel-body body-detalle\">\n");
             firstOutput.append("   <div class=\"centerSvg\">\n");
-            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\""
-                    + " id=\"hGraph"+SVG_ID+"\" value=\"1\" onclick=\"showGraph(this);\" "
-                    + " checked=\"checked\"><label for=\"hGraph"+SVG_ID+"\">");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType")
+                    .append(SVG_ID).append("\" id=\"hGraph").append(SVG_ID)
+                    .append("\" value=\"1\" onclick=\"showGraph(this);\" checked=\"checked\"><label for=\"hGraph")
+                    .append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblLandscape")).append("</label>\n");
-            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\""
-                    + " id=\"vGraph"+SVG_ID+"\" value=\"2\" onclick=\"showGraph(this);\">"
-                    + "<label for=\"vGraph"+SVG_ID+"\">");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType")
+                    .append(SVG_ID).append("\" id=\"vGraph").append(SVG_ID)
+                    .append("\" value=\"2\" onclick=\"showGraph(this);\"><label for=\"vGraph")
+                    .append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblNarrow")).append("</label>\n");
             firstOutput.append("   </div>\n");
             firstOutput.append("  </div>\n");
@@ -115,7 +111,6 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             List<Indicator> indicatorLst = objective.listValidIndicators();
             Collections.sort(indicatorLst, new SortByMeasurementFrequency());
             Iterator<Indicator> indicators = indicatorLst.iterator();
-            //if(!indicatorLst.isEmpty())
             if(indicators.hasNext())
             {
                 int colorIndex = -1;
@@ -145,42 +140,37 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                     if(!star.isValid()) {
                         continue;
                     }
-                        Format serieFormat = star.getFormat();
-                        output.append("{");
-                        output.append("  key: \"");
-                        output.append(star.getDisplayTitle(lang));
-                        output.append(" de ");
-                        output.append(indicator.getTitle());
-                        if (serieFormat != null) {
-                            output.append(" en ");
-                            output.append(serieFormat.getTitle());
-                        }
-                        output.append("\" ,\n");
+                    output.append("{");
+                    output.append("  key: \"");
+                    output.append(star.getDisplayTitle(lang));
+                    output.append(" ");
+                    output.append(indicator.getDisplayTitle(lang));
+                    output.append("\" ,\n");
 
-                        colorIndex = ++colorIndex % ColorPalette.length;
-                        output.append("  color: '");
-                        output.append(BSCUtils.ColorPalette[colorIndex]);
-                        output.append("',\n");
-                        output.append("  values: [\n");
-                        while(measurablesPeriods.hasNext())
-                        {
-                            p = measurablesPeriods.next();
-                            if(p.isCurrent() || p.isFuture()) {
-                                break;
-                            }
-                            Measure measure = star.getMeasure(p);
-                            output.append("{");
-                            output.append(" \"label\": \"");
-                            output.append(p.getDisplayTitle(lang));
-                            output.append("\", ");
-                            if(measure==null) {
-                                output.append("\"value\": 0.0 ");
-                            }else {
-                                output.append("\"value\": ");
-                                output.append(measure.getValue());
-                            }
-                            output.append(measurablesPeriods.hasNext()?"},\n":"}\n");
+                    colorIndex = ++colorIndex % ColorPalette.length;
+                    output.append("  color: '");
+                    output.append(BSCUtils.ColorPalette[colorIndex]);
+                    output.append("',\n");
+                    output.append("  values: [\n");
+                    while(measurablesPeriods.hasNext())
+                    {
+                        p = measurablesPeriods.next();
+                        if(p.isCurrent() || p.isFuture()) {
+                            break;
                         }
+                        Measure measure = star.getMeasure(p);
+                        output.append("{");
+                        output.append(" \"label\": \"");
+                        output.append(p.getDisplayTitle(lang));
+                        output.append("\", ");
+                        if(measure==null) {
+                            output.append("\"value\": 0.0 ");
+                        }else {
+                            output.append("\"value\": ");
+                            output.append(measure.getValue());
+                        }
+                        output.append(measurablesPeriods.hasNext()?"},\n":"}\n");
+                    }
                     output.append(indicators.hasNext()?"]},\n":"]}\n");
                 }
                 output.append("];\n");
@@ -203,7 +193,7 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 output.append("    .showControls(false);\n");
                 output.append("  chartInd.yAxis\n");
                 output.append("    .tickFormat(d3.format(',.3d'));\n");
-                output.append("  d3.select('#"+SVG_ID+" svg')\n");
+                output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("    .datum(long_short_data2)\n");
                 output.append("    .call(chartInd);\n");
                 output.append("  nv.utils.windowResize(chartInd.update);\n");
@@ -224,13 +214,11 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 output.append(" })\n");
                 output.append("      .transitionDuration(350)\n");
                 output.append("      .reduceXTicks(false)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
-
                 output.append("      .rotateLabels(");
                 output.append(rotateLabels);
                 output.append(")\n");
                 output.append("      .staggerLabels(true)\n");     /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
-
-                output.append("      .showControls(false)\n");
+                output.append("      .showControls(true)\n");
                 output.append("      .groupSpacing(0.2);\n");    /*Distance between each group of bars.*/
 
                 output.append("  chart2Ind.yAxis\n");
@@ -239,13 +227,13 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
                 output.append("});\n");
                 output.append("  function showGraph(radioBtn) {\n");
                 output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data2)\n");
                 output.append("        .call(chartInd);\n");
                 output.append("    } else if (radioBtn.value == 2 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data2)\n");
                 output.append("        .call(chart2Ind);\n");
                 output.append("    }\n");
@@ -254,13 +242,11 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             }
             else
             {
-                out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotIndicators") + "</div>");
+                out.println("<div class=\"alert alert-warning\" role=\"alert\">" 
+                        + paramRequest.getLocaleString("msgNotIndicators") + "</div>");
                 out.flush();
                 return;
             }
-
-            //Se termina de armar el Javascript para la presentacion de la grafica
-            
             svgOutput.append("<div class=\"panel-body body-detalle\">\n");
             svgOutput.append(" <div class=\"centerSvg\">\n");
             svgOutput.append("  <svg style=\"height:");
