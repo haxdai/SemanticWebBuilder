@@ -486,15 +486,18 @@ public class SWBAFTP extends GenericResource
     public static void getDirectories(Element edir, File fdir, User user)
     {
         File[] dirs = fdir.listFiles();
-        Arrays.sort(dirs, new FileComprator());
-        for (int i = 0; i < dirs.length; i++)
+        if (dirs != null)
         {
-            File file = dirs[i];
-            if (file.isDirectory() && showDirectory(user, file))
+            Arrays.sort(dirs, new FileComprator());
+            for (int i = 0; i < dirs.length; i++)
             {
-                Element dir = addNode("dir", "", file.getName(), edir);
-                dir.setAttribute("path", file.getAbsolutePath());
-                dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(file)));
+                File file = dirs[i];
+                if (file.isDirectory() && showDirectory(user, file))
+                {
+                    Element dir = addNode("dir", "", file.getName(), edir);
+                    dir.setAttribute("path", file.getAbsolutePath());
+                    dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(file)));
+                }
             }
         }
     }
@@ -524,30 +527,33 @@ public class SWBAFTP extends GenericResource
     public static void downloadDir(Element edir, File fdir, User user, File appPath)
     {
         File[] dirs = fdir.listFiles();
-        Arrays.sort(dirs, new FileComprator());
-        for (int i = 0; i < dirs.length; i++)
+        if (dirs != null)
         {
-            File file = dirs[i];
-            if (file.isDirectory())
+            Arrays.sort(dirs, new FileComprator());
+            for (int i = 0; i < dirs.length; i++)
             {
-                if (showDirectory(user, file))
+                File file = dirs[i];
+                if (file.isDirectory())
                 {
-                    Element dir = addNode("dir", "", file.getName(), edir);
+                    if (showDirectory(user, file))
+                    {
+                        Element dir = addNode("dir", "", file.getName(), edir);
+                        String relpath = file.getAbsolutePath();
+                        String basePath = appPath.getAbsolutePath();
+                        relpath = relpath.substring(basePath.length());
+                        dir.setAttribute("path", file.getAbsolutePath());
+                        dir.setAttribute("relpath", relpath);
+                        downloadDir(edir, file, user, appPath);
+                    }
+                } else
+                {
+                    Element dir = addNode("file", "", file.getName(), edir);
                     String relpath = file.getAbsolutePath();
                     String basePath = appPath.getAbsolutePath();
                     relpath = relpath.substring(basePath.length());
                     dir.setAttribute("path", file.getAbsolutePath());
                     dir.setAttribute("relpath", relpath);
-                    downloadDir(edir, file, user, appPath);
                 }
-            } else
-            {
-                Element dir = addNode("file", "", file.getName(), edir);
-                String relpath = file.getAbsolutePath();
-                String basePath = appPath.getAbsolutePath();
-                relpath = relpath.substring(basePath.length());
-                dir.setAttribute("path", file.getAbsolutePath());
-                dir.setAttribute("relpath", relpath);
             }
         }
     }
@@ -967,20 +973,23 @@ public class SWBAFTP extends GenericResource
             {
                 java.text.SimpleDateFormat simpleDateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm");
                 File[] files = apppath.listFiles();
-                ArrayList<File> vfiles = new ArrayList();
-                vfiles.addAll(Arrays.asList(files));
-                Collections.sort(vfiles);
-                Iterator itfiles = vfiles.iterator();
-                while (itfiles.hasNext())
+                if (files != null)
                 {
-                    File file = (File) itfiles.next();
-                    if (file.isFile())
+                    ArrayList<File> vfiles = new ArrayList();
+                    vfiles.addAll(Arrays.asList(files));
+                    Collections.sort(vfiles);
+                    Iterator itfiles = vfiles.iterator();
+                    while (itfiles.hasNext())
                     {
-                        Element efile = addNode("file", "", file.getName(), res);
-                        efile.setAttribute("path", file.getAbsolutePath());
-                        efile.setAttribute("size", String.valueOf(file.length()));
-                        java.sql.Date date = new java.sql.Date(file.lastModified());
-                        efile.setAttribute("lastupdate", simpleDateFormat.format(date));
+                        File file = (File) itfiles.next();
+                        if (file.isFile())
+                        {
+                            Element efile = addNode("file", "", file.getName(), res);
+                            efile.setAttribute("path", file.getAbsolutePath());
+                            efile.setAttribute("size", String.valueOf(file.length()));
+                            java.sql.Date date = new java.sql.Date(file.lastModified());
+                            efile.setAttribute("lastupdate", simpleDateFormat.format(date));
+                        }
                     }
                 }
             }
