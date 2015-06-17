@@ -44,21 +44,30 @@ import org.semanticwb.model.UserGroup;
 import org.semanticwb.portal.api.GenericResource;
 
 // TODO: Auto-generated Javadoc
-/** Recurso que despliega los archivos que se encuentran en el servidor, permitiendo
- * agregar archivos o carpetas, renombrarlos, eliminarlos y descargarlos.
+/**
+ * Recurso que despliega los archivos que se encuentran en el servidor,
+ * permitiendo agregar archivos o carpetas, renombrarlos, eliminarlos y
+ * descargarlos.
  *
  * Resource that unfolds the archives that are in the servant, allowing to add
  * archives or folders, to rename, to eliminate and to download.
+ *
  * @author Victor Lorenzana
  */
 public class SWBAFTP extends GenericResource
 {
 
-    /** The Constant df. */
+    /**
+     * The Constant df.
+     */
     private static final SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    /** The log. */
+    /**
+     * The log.
+     */
     private static Logger log = SWBUtils.getLogger(SWBAFTP.class);
-    /** The Constant prohibitedPaths. */
+    /**
+     * The Constant prohibitedPaths.
+     */
     public static final String[] prohibitedPaths =
     {
         "/work",
@@ -75,7 +84,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Creates a new instance of SWBAFTP.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
@@ -85,29 +94,25 @@ public class SWBAFTP extends GenericResource
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
-        if(request.getHeader("FTP")!=null)
+        if (request.getHeader("FTP") != null)
         {
             processRequestFTP(request, response, paramRequest);
-        }
-        else
+        } else
         {
             super.processRequest(request, response, paramRequest);
         }
 
-
     }
 
-    public static void  processRequestFTP(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
+    public static void processRequestFTP(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         if (paramRequest.getMode().equals("gateway"))
         {
             doGateway(request, response, paramRequest);
-        }
-        else if (paramRequest.getMode().equals("upload"))
+        } else if (paramRequest.getMode().equals("upload"))
         {
             doUpload(request, response, paramRequest);
-        }
-        else if (paramRequest.getMode().equals("download"))
+        } else if (paramRequest.getMode().equals("download"))
         {
             doDownload(request, response, paramRequest);
         }
@@ -115,7 +120,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Log.
-     * 
+     *
      * @param msg the msg
      * @param ip the ip
      */
@@ -127,8 +132,7 @@ public class SWBAFTP extends GenericResource
         try
         {
             SWBUtils.IO.log2File(logPath, msg);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             log.error(e);
         }
@@ -136,7 +140,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Do download.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
@@ -168,18 +172,15 @@ public class SWBAFTP extends GenericResource
                     }
                     fin.close();
                     out.close();
-                }
-                else
+                } else
                 {
                     response.sendError(500);
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 response.sendError(500, e.getMessage());
             }
-        }
-        else
+        } else
         {
             response.sendError(500);
         }
@@ -198,7 +199,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Do upload.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
@@ -228,8 +229,7 @@ public class SWBAFTP extends GenericResource
                 if (f.isDirectory())
                 {
                     log("CREATED|DIR:\"" + f.getAbsolutePath() + "\"|USER:\"" + paramRequest.getUser().getLogin() + "_" + paramRequest.getUser().getUserRepository().getId() + "\"", request.getRemoteAddr());
-                }
-                else
+                } else
                 {
                     log("CREATED|FILE:\"" + f.getAbsolutePath() + "\"|USER:\"" + paramRequest.getUser().getLogin() + "_" + paramRequest.getUser().getUserRepository().getId() + "\"", request.getRemoteAddr());
                 }
@@ -249,13 +249,11 @@ public class SWBAFTP extends GenericResource
                 }
                 in.close();
                 fout.close();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 response.sendError(500, e.getMessage());
             }
-        }
-        else
+        } else
         {
             response.sendError(500);
         }
@@ -263,7 +261,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Do gateway.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
@@ -300,13 +298,11 @@ public class SWBAFTP extends GenericResource
             if (res == null)
             {
                 ret = SWBUtils.XML.domToXml(getError(3));
-            }
-            else
+            } else
             {
                 ret = SWBUtils.XML.domToXml(res, true);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             log.error(e);
         }
@@ -316,7 +312,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Gets the service.
-     * 
+     *
      * @param cmd the cmd
      * @param src the src
      * @param user the user
@@ -331,7 +327,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Adds the node.
-     * 
+     *
      * @param node the node
      * @param id the id
      * @param name the name
@@ -354,7 +350,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Adds the element.
-     * 
+     *
      * @param name the name
      * @param value the value
      * @param parent the parent
@@ -374,7 +370,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Gets the error.
-     * 
+     *
      * @param id the id
      * @return the error
      */
@@ -392,81 +388,62 @@ public class SWBAFTP extends GenericResource
             if (id == 0)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_loginfail") + "...", err);
-            }
-            else if (id == 1)
+            } else if (id == 1)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_nouser") + "...", err);
-            }
-            else if (id == 2)
+            } else if (id == 2)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_noservice") + "...", err);
-            }
-            else if (id == 3)
+            } else if (id == 3)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_serviceprocessfail") + "...", err);
-            }
-            else if (id == 4)
+            } else if (id == 4)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_parametersprocessfail") + "...", err);
-            }
-            else if (id == 5)
+            } else if (id == 5)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_noTopicmap") + "...", err);
-            }
-            else if (id == 6)
+            } else if (id == 6)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_noTopic") + "...", err);
-            }
-            else if (id == 7)
+            } else if (id == 7)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_usernopermiss") + "...", err);
-            }
-            else if (id == 8)
+            } else if (id == 8)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_TopicAlreadyexist") + "...", err);
-            }
-            else if (id == 9)
+            } else if (id == 9)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_byImplement") + "...", err);
-            }
-            else if (id == 10)
+            } else if (id == 10)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_TopicMapAlreadyExist") + "...", err);
-            }
-            else if (id == 11)
+            } else if (id == 11)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_FileNotFound") + "...", err);
-            }
-            else if (id == 12)
+            } else if (id == 12)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_noversions") + "...", err);
-            }
-            else if (id == 13)
+            } else if (id == 13)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getError_xmlinconsistencyversion") + "...", err);
-            }
-            else if (id == 14)
+            } else if (id == 14)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getError_noResourcesinMemory") + "...", err);
-            }
-            else if (id == 15)
+            } else if (id == 15)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getError_noTemplatesinMemory") + "...", err);
-            }
-            else if (id == 16)
+            } else if (id == 16)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getError_TemplatenotRemovedfromFileSystem") + "...", err);
-            }
-            else if (id == 17)
+            } else if (id == 17)
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getError_adminUsernotCreated") + "...", err);
-            }
-            else
+            } else
             {
                 addElement("message", SWBUtils.TEXT.getLocaleString("locale_Gateway", "usrmsg_Gateway_getService_errornotfound") + "...", err);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             log.error(SWBUtils.TEXT.getLocaleString("locale_Gateway", "error_Gateway_getService_documentError") + "...", e);
         }
@@ -476,7 +453,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Checks for subdirectories.
-     * 
+     *
      * @param fdir the fdir
      * @return true, if successful
      * @return
@@ -484,12 +461,15 @@ public class SWBAFTP extends GenericResource
     public static boolean hasSubdirectories(File fdir)
     {
         File[] dirs = fdir.listFiles();
-        for (int i = 0; i < dirs.length; i++)
+        if (dirs != null)
         {
-            File file = dirs[i];
-            if (file.isDirectory())
+            for (int i = 0; i < dirs.length; i++)
             {
-                return true;
+                File file = dirs[i];
+                if (file.isDirectory())
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -497,7 +477,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Gets the directories.
-     * 
+     *
      * @param edir the edir
      * @param fdir the fdir
      * @param user the user
@@ -521,7 +501,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Checks for permission file.
-     * 
+     *
      * @param edir the edir
      * @param src the src
      * @param user the user
@@ -541,7 +521,7 @@ public class SWBAFTP extends GenericResource
         dir.setAttribute("permission", String.valueOf(hasPermission(user, file)));
     }
 
-    public static void downloadDir(Element edir, File fdir, User user,File appPath)
+    public static void downloadDir(Element edir, File fdir, User user, File appPath)
     {
         File[] dirs = fdir.listFiles();
         Arrays.sort(dirs, new FileComprator());
@@ -558,10 +538,9 @@ public class SWBAFTP extends GenericResource
                     relpath = relpath.substring(basePath.length());
                     dir.setAttribute("path", file.getAbsolutePath());
                     dir.setAttribute("relpath", relpath);
-                    downloadDir(edir, file, user,appPath);
+                    downloadDir(edir, file, user, appPath);
                 }
-            }
-            else
+            } else
             {
                 Element dir = addNode("file", "", file.getName(), edir);
                 String relpath = file.getAbsolutePath();
@@ -585,16 +564,16 @@ public class SWBAFTP extends GenericResource
         File apppath = new File(path);
         if (apppath.isDirectory() && showDirectory(user, apppath))
         {
-            Element dir = addNode("dir", "", apppath.getName(), res);            
-            dir.setAttribute("path",apppath.getAbsolutePath());
+            Element dir = addNode("dir", "", apppath.getName(), res);
+            dir.setAttribute("path", apppath.getAbsolutePath());
             dir.setAttribute("relpath", "/");
-            downloadDir(dir, apppath, user,apppath);
+            downloadDir(dir, apppath, user, apppath);
         }
     }
 
     /**
      * Gets the directories.
-     * 
+     *
      * @param res the res
      * @param src the src
      * @param user the user
@@ -615,8 +594,7 @@ public class SWBAFTP extends GenericResource
             if (newpath.endsWith("/"))
             {
                 newpath += path.substring(1);
-            }
-            else
+            } else
             {
                 newpath += path;
             }
@@ -634,7 +612,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Creates the dir.
-     * 
+     *
      * @param res the res
      * @param src the src
      * @param user the user
@@ -659,13 +637,11 @@ public class SWBAFTP extends GenericResource
                     if (f.isDirectory())
                     {
                         log("CREATED|DIR:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"", ip);
-                    }
-                    else
+                    } else
                     {
                         log("CREATED|FILE:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"", ip);
                     }
-                }
-                catch (Exception e)
+                } catch (Exception e)
                 {
                     log.error(e);
                 }
@@ -678,7 +654,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Rename.
-     * 
+     *
      * @param res the res
      * @param src the src
      * @param user the user
@@ -710,21 +686,18 @@ public class SWBAFTP extends GenericResource
                         if (f.isDirectory())
                         {
                             log("RENAME|DIR:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"|NEWFILE:\"" + newfile + "\"", ip);
-                        }
-                        else
+                        } else
                         {
                             log("RENAME|FILE:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"|NEWFILE:\"" + newfile + "\"", ip);
                         }
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         log.error(e);
                     }
                     addElement("rename", "true", res);
                     return;
                 }
-            }
-            else
+            } else
             {
                 addElement("err", java.util.ResourceBundle.getBundle("org/semanticwb/portal/admin/resources/SWBAFTP").getString("msg"), res);
             }
@@ -734,7 +707,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Exists.
-     * 
+     *
      * @param res the res
      * @param src the src
      */
@@ -750,8 +723,7 @@ public class SWBAFTP extends GenericResource
             {
                 addElement("exists", "true", res);
                 return;
-            }
-            else
+            } else
             {
                 addElement("exists", "false", res);
                 return;
@@ -762,7 +734,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Checks if is protected.
-     * 
+     *
      * @param f the f
      * @return true, if is protected
      * @return
@@ -783,8 +755,7 @@ public class SWBAFTP extends GenericResource
                     {
                         return true;
                     }
-                }
-                else
+                } else
                 {
                     if (pathProhibited.equals(path))
                     {
@@ -792,8 +763,7 @@ public class SWBAFTP extends GenericResource
                     }
                 }
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             log.error(e);
         }
@@ -802,7 +772,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Delete.
-     * 
+     *
      * @param res the res
      * @param src the src
      * @param user the user
@@ -829,21 +799,18 @@ public class SWBAFTP extends GenericResource
                         if (f.isDirectory())
                         {
                             log("DELETED|DIR:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"", ip);
-                        }
-                        else
+                        } else
                         {
                             log("DELETED|FILE:\"" + f.getAbsolutePath() + "\"|USER:\"" + user.getLogin() + "_" + user.getUserRepository().getId() + "\"", ip);
                         }
-                    }
-                    catch (Exception e)
+                    } catch (Exception e)
                     {
                         log.error(e);
                     }
                     addElement("delete", "true", res);
                     return;
                 }
-            }
-            else
+            } else
             {
                 addElement("err", java.util.ResourceBundle.getBundle("org/semanticwb/portal/admin/resources/SWBAFTP").getString("msg"), res);
             }
@@ -853,7 +820,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Checks for permission.
-     * 
+     *
      * @param user the user
      * @param directory the directory
      * @return true, if successful
@@ -899,8 +866,7 @@ public class SWBAFTP extends GenericResource
                                         break;
                                     }
                                 }
-                            }
-                            catch (Exception e)
+                            } catch (Exception e)
                             {
                                 log.error(e);
                             }
@@ -914,7 +880,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Show directory.
-     * 
+     *
      * @param user the user
      * @param directory the directory
      * @return true, if successful
@@ -963,8 +929,7 @@ public class SWBAFTP extends GenericResource
                                         break;
                                     }
                                 }
-                            }
-                            catch (Exception e)
+                            } catch (Exception e)
                             {
                                 log.error(e);
                             }
@@ -978,7 +943,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Gets the files.
-     * 
+     *
      * @param res the res
      * @param src the src
      * @param user the user
@@ -1024,7 +989,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Gets the document.
-     * 
+     *
      * @param user the user
      * @param src the src
      * @param cmd the cmd
@@ -1045,37 +1010,29 @@ public class SWBAFTP extends GenericResource
             if (cmd.equals("getDirectories"))
             {
                 getDirectories(res, src, user);
-            }
-            else if (cmd.equals("downloadDir"))
+            } else if (cmd.equals("downloadDir"))
             {
                 downloadDir(res, src, user);
-            }
-            else if (cmd.equals("hasPermissionFile"))
+            } else if (cmd.equals("hasPermissionFile"))
             {
                 hasPermissionFile(res, src, user);
-            }
-            else if (cmd.equals("ftp.getFiles"))
+            } else if (cmd.equals("ftp.getFiles"))
             {
                 getFiles(res, src, user);
-            }
-            else if (cmd.equals("delete"))
+            } else if (cmd.equals("delete"))
             {
                 delete(res, src, user, ip);
-            }
-            else if (cmd.equals("createDir"))
+            } else if (cmd.equals("createDir"))
             {
                 createDir(res, src, user, ip);
-            }
-            else if (cmd.equals("rename"))
+            } else if (cmd.equals("rename"))
             {
                 rename(res, src, user, ip);
-            }
-            else if (cmd.equals("exists"))
+            } else if (cmd.equals("exists"))
             {
                 exists(res, src);
             }
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             log.error(e);
             return getError(3);
@@ -1085,7 +1042,7 @@ public class SWBAFTP extends GenericResource
 
     /**
      * Do view.
-     * 
+     *
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
@@ -1124,7 +1081,7 @@ public class SWBAFTP extends GenericResource
             url.setCallMethod(url.Call_DIRECT);
             out.println("<param name =\"downloadpath\" value=\"" + url + "\">");
             out.println("<param name =\"ContextPath\" value=\"" + SWBPortal.getContextPath() + "\">");
-            out.println("<param name =\"ApplicationPath\" value=\"" + SWBUtils.getApplicationPath()+ "\">");
+            out.println("<param name =\"ApplicationPath\" value=\"" + SWBUtils.getApplicationPath() + "\">");
             //out.println("<PARAM NAME =\"jsess\" VALUE=\""+request.getSession().getId()+"\">");            
             out.println("</applet>");
             out.println("</div>");
