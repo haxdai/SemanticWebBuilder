@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ import org.w3c.dom.Document;
  * Genera el c&oacute;digo HTML para presentar una gr&aacute;fica con los datos
  * de las series activas del indicador cuyo uri se recibe.
  *
- * @author ana.garcias, carlos.ramos
+ * @author carlos.ramos, ana.garcias
  */
 public class GraphGeneration extends GenericAdmResource implements ComponentExportable {
     private static final Logger log = SWBUtils.getLogger(GraphGeneration.class);
@@ -113,9 +114,10 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
             }
             List<Period> periodsList;
             periodsList = SWBUtils.Collections.copyIterator(measurablePeriods);
+            Collections.sort(periodsList);
 
             firstOutput.append("  <div class=\"panel panel-default panel-detalle\">\n");
-            firstOutput.append("    <div id=\""+SVG_ID+"\" class=\'with-3d-shadow with-transitions\'>\n");
+            firstOutput.append("    <div id=\"").append(SVG_ID).append("\" class=\'with-3d-shadow with-transitions\'>\n");
             firstOutput.append("     <div class=\"panel-heading head-detalle\">");
             firstOutput.append(semanticObj.getSemanticClass().getDisplayName(lang));
             firstOutput.append(":&nbsp;");
@@ -123,22 +125,24 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
             firstOutput.append("     </div>\n");
             firstOutput.append("     <div class=\"panel-body body-detalle\">\n");
             firstOutput.append("      <div class=\"centerSvg\">\n");
-            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"hGraph"+SVG_ID+"\" value=\"1\" onclick=\"showGraph(this);\" checked><label for=\"hGraph"+SVG_ID+"\">");
+            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"hGraph").append(SVG_ID).append("\" value=\"1\" onclick=\"showGraph(this);\" checked><label for=\"hGraph").append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblLandscape")).append("</label>\n");
-            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"vGraph"+SVG_ID+"\" value=\"2\" onclick=\"showGraph(this);\"><label for=\"vGraph"+SVG_ID+"\">");
+            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"vGraph").append(SVG_ID).append("\" value=\"2\" onclick=\"showGraph(this);\"><label for=\"vGraph").append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblNarrow")).append("</label>\n");
             firstOutput.append("      </div>\n");
             firstOutput.append("     </div>\n");
-
-            Iterator<Series> seriesIt = indicator.listValidSerieses().iterator();
-            if(seriesIt.hasNext())
+            
+            List<Series> seriesLst = indicator.listValidSerieses();
+            Collections.sort(seriesLst);
+            Iterator<Series> serieses = seriesLst.iterator();
+            if(serieses.hasNext())
             {
                 int colorIndex = -1;
                 output.append("<script type=\"text/javascript\">\n");
-                output.append("  long_short_data = [\n");
-                while(seriesIt.hasNext()) 
+                output.append("var  long_short_data = [\n");
+                while(serieses.hasNext()) 
                 {
-                    Series graphSeries = seriesIt.next();
+                    Series graphSeries = serieses.next();
                     Format seriesFormat = graphSeries.getFormat();
                     output.append("{");
                     //Se coloca el identificador de cada serie
@@ -183,7 +187,7 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                     }
                     output.append("  ]");
                     output.append("}");
-                    output.append(seriesIt.hasNext()?",\n":"\n");
+                    output.append(serieses.hasNext()?",\n":"\n");
                 }
                 output.append("];\n");
                 output.append("var chart;\n");
@@ -205,7 +209,7 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("    .showControls(true);\n");
                 output.append("  chart.yAxis\n");
                 output.append("    .tickFormat(d3.format(',.2f'));\n");
-                output.append("  d3.select('#"+SVG_ID+" svg')\n");
+                output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("    .datum(long_short_data)\n");
                 output.append("    .call(chart);\n");
                 output.append("  nv.utils.windowResize(chart.update);\n");
@@ -238,13 +242,13 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("});\n");
                 output.append("  function showGraph(radioBtn) {\n");
                 output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");
                 output.append("        .call(chart);\n");
                 output.append("    } else if (radioBtn.value == 2 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");
                 output.append("        .call(chart2);\n");
                 output.append("    }\n");
