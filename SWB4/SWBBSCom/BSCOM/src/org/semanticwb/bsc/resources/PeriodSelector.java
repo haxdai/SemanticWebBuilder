@@ -8,7 +8,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.SortedSet;
 import java.util.TimeZone;
+import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
@@ -92,6 +94,8 @@ public class PeriodSelector extends GenericResource {
                     return !s.isValid() || !user.haveAccess(s);
                 }
             });
+        SortedSet<Period> periodsO = new TreeSet<Period>();
+        periodsO.addAll(periods);
         
         Period nearestPeriod = null;
         //Obtener el Periodo actual
@@ -125,8 +129,12 @@ public class PeriodSelector extends GenericResource {
         if(!periods.isEmpty()) {
             String title;
             output.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n");
-            for(Period nextPeriod:periods) {
-                title = nextPeriod.getDisplayTitle(lang)==null?nextPeriod.getTitle():nextPeriod.getDisplayTitle(lang);
+            Period nextPeriod;
+            allPeriods = periodsO.iterator();
+            //for(Period nextPeriod:periods) {
+            while(allPeriods.hasNext()) {
+                nextPeriod = allPeriods.next();
+                title = nextPeriod.getDisplayTitle(lang);
                 if(nextPeriod==nearestPeriod) {
                     output.append("      <li role=\"presentation\" class=\"disabled\">");
                     output.append("<a role=\"menuitem\" href=\"#\">");
