@@ -29,7 +29,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
 
 /**
  * Muestra la interface para que el usuario seleccione el período deseado a fin de visualizar la información.
- * @author Jose.Jimenez
+ * @author carlos.ramos, jose.jimenez
  */
 public class PeriodSelector extends GenericResource {
     
