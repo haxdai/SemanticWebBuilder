@@ -33,7 +33,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.logging.Level;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -537,7 +536,14 @@ public class ProcessFileRepository extends GenericResource {
                 } else if (fname.indexOf("/") != -1) {
                     fname = fname.substring(fname.lastIndexOf("/") + 1);
                 }
-                //System.out.println("fname: "+fname);
+                //Replace special characters in file name to avoid 404 when linking directly to file
+                if (fname.lastIndexOf(".") > -1) {
+                    String tfname = fname.substring(0, fname.lastIndexOf("."));
+                    String tfext = fname.substring(fname.lastIndexOf("."), fname.length());
+                    
+                    fname = SWBUtils.TEXT.replaceSpecialCharacters(tfname, true) + tfext;
+                }
+                
                 repoFile.storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoEleStat);
             } else {
                 RepositoryURL repoUrl = null;
