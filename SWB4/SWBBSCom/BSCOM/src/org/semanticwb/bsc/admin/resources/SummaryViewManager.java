@@ -166,7 +166,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         SemanticClass semWorkClass = this.getWorkClass().transformToSemanticClass();
         WebSite website = this.getResourceBase().getWebSite();
         Iterator<GenericObject> allInstances = website.listInstancesOfClass(semWorkClass);
-        String identifier = "uri"; //de los elementos del grid
+        String identifier = "uri";
         String filters = null;
         boolean addStatus = false;
 
@@ -181,22 +181,22 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
 
         //Define el identificador a utilizar de acuerdo al tipo de objetos a presentar
         if (semWorkClass.equals(Objective.bsc_Objective)) {
-            identifier = paramRequest.getLocaleString("value_ObjectiveId");
+            //identifier = paramRequest.getLocaleString("value_ObjectiveId");
             filters = paramRequest.getLocaleString("value_ObjectiveFilter");
             addStatus = true;
         } else if (semWorkClass.equals(Indicator.bsc_Indicator)) {
-            identifier = paramRequest.getLocaleString("value_IndicatorId");
+            //identifier = paramRequest.getLocaleString("value_IndicatorId");
             filters = paramRequest.getLocaleString("value_IndicatorFilter");
             addStatus = true;
         } else if (semWorkClass.equals(Initiative.bsc_Initiative)) {
-            identifier = paramRequest.getLocaleString("value_InitiativeId");
+            //identifier = paramRequest.getLocaleString("value_InitiativeId");
             filters = paramRequest.getLocaleString("value_InitiativeFilter");
             addStatus = true;
         } else if (semWorkClass.equals(Deliverable.bsc_Deliverable)) {
-            identifier = paramRequest.getLocaleString("value_DeliverableId");
+            //identifier = paramRequest.getLocaleString("value_DeliverableId");
             filters = paramRequest.getLocaleString("value_DeliverableFilter");
         } else if (semWorkClass.equals(Agreement.bsc_Agreement)) {
-            identifier = paramRequest.getLocaleString("value_AgreementId");
+            //identifier = paramRequest.getLocaleString("value_AgreementId");
             filters = paramRequest.getLocaleString("value_AgreementFilter");
         }
         //objeto JSON que almacenara la estructura del grid de Dojo
@@ -204,7 +204,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         JSONArray items = new JSONArray();
         try {
             structure.append("identifier", identifier);
-        } catch (JSONException jsone) {
+        }catch (JSONException jsone) {
             SummaryViewManager.log.error("En la creacion de objetos JSON", jsone);
         }
 
@@ -225,7 +225,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             if(!hasPeriod || !d.canView()) {
                continue;
             }
-            Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
+            
             JSONObject row = new JSONObject();
             StringBuilder status = new StringBuilder();
             status.append("<span class=\"swbstrgy-semaphore ").append(d.getStatusIconClass(thisPeriod)).append("\"></span> ");
@@ -233,24 +233,25 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             status.append(title.isEmpty()?"--":title);
             try {
                 row.put("status", status.toString());
-            } catch (JSONException jsone) {
+            }catch(JSONException jsone) {
                 SummaryViewManager.log.error("En la creacion de objetos JSON", jsone);
             }
             
             //Por cada propiedad en la vista:
+            Iterator<PropertyListItem> viewPropertiesList = propsInView.iterator();
             PropertyListItem propListItem;
-            while (viewPropertiesList.hasNext()) {
+            while(viewPropertiesList.hasNext()) {
                 propListItem = viewPropertiesList.next();
                 if(propListItem==null || propListItem.getElementProperty()==null){
                     continue;
                 }
                 SemanticProperty elementProperty = propListItem.getElementProperty().transformToSemanticProperty();
-                String propertyValue = null; //para las propiedades tipo objeto
+                String propertyValue; //para las propiedades tipo objeto
                 //Para mostrar los valores de las propiedades, de acuerdo a los FormElements asignados a cada propiedad:
                 propertyValue = renderPropertyValue(request, semObj, elementProperty.getURI(), lang);
                 try {
                     row.put(elementProperty.getName(), propertyValue);
-                } catch (JSONException jsone) {
+                }catch(JSONException jsone) {
                     SummaryViewManager.log.error("En la creacion de objetos JSON", jsone);
                 }
             }
@@ -287,7 +288,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 PropertyListItem propListItem = viewPropertiesList.next();
                 if(propListItem != null)
                 {
-                    if(propListItem.getElementProperty()==null){
+                    if(propListItem.getElementProperty()==null) {
                         continue;
                     }
                     SemanticProperty property = propListItem.getElementProperty().transformToSemanticProperty();
@@ -298,7 +299,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                     if(property != null) {
                         String[] heading = {
                             property.getName(),
-                            property.getLabel(lang),
+                            property.getDisplayName(lang),//getLabel(lang),
                             (filters != null && filters.contains(property.getName()))
                             ? "true" : "false"
                         };
@@ -337,19 +338,19 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("    });\n");
         output.append("    myGrid = new dojox.grid.DataGrid({\n");
         output.append("      columnReordering: true,\n");
-        output.append("      escapeHTMLInData: true,\n");
         output.append("      store: myStore,\n");
         output.append("      structure: [\n");
         // Coloca cada columna en la estructura del grid
         Entry thisHeading = headings2Show.firstEntry();
-        int iCount = 0;
+        boolean comma = false;
         while(thisHeading != null)
         {
             Integer thisKey = (Integer) thisHeading.getKey();
-            if (iCount > 0) {
+            if(comma) {
                 output.append(",\n");
             }else {
                 output.append("\n");
+                comma = true;
             }
             String[] heading = (String[]) thisHeading.getValue();
             if(heading != null && heading.length > 1)
@@ -359,8 +360,8 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 output.append(heading[1]);
                 output.append("\", field: \"");
                 output.append(heading[0]);
-                output.append("\", width: \"auto\",\n");
-                output.append("          formatter: function(content, rowIndex, cell) {\n");
+                output.append("\", width: '100px'\n");
+                output.append(", formatter: function(content, rowIndex, cell) {\n");
                 output.append("            var toReturn = content;\n");
                 output.append("            while (content.indexOf(\"&lt\") > -1) {\n");
                 output.append("              toReturn = content.replace(\"&lt;\", \"<\");\n");
@@ -370,14 +371,16 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 output.append("          }\n");
                 output.append("        }");
             }
-            iCount++;
+            //iCount++;
             thisHeading = headings2Show.higherEntry(thisKey);
         }
         output.append("      ],\n");
         output.append("      rowSelector: '10px', \n");
+        output.append("      autoWidth: false, \n");
+        output.append("      initialWidth: '100%', \n");
         output.append("      autoHeight: true \n");
         output.append("    }, \"grid\");\n");
-        output.append("    myGrid.queryOptions = {ignoreCase:true};");
+        output.append("    myGrid.queryOptions = {ignoreCase: true};");
         output.append("    myGrid.startup();\n");
         output.append("  });\n");
         output.append("</script>\n");
@@ -909,12 +912,15 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
             if (semWorkClass != null) {
                 GenericIterator<PropertyListItem> viewPropertiesList = viewSemObject.listPropertyListItems();
                 HashMap<Integer, String> selectedOptions = new HashMap<Integer, String>(16);
-
                 if (viewPropertiesList != null) {
                     while (viewPropertiesList.hasNext()) {
                         PropertyListItem listItem = viewPropertiesList.next();
+                        if(listItem==null || listItem.getElementProperty()==null) {
+                            continue;
+                        }
+                        
                         SemanticProperty elementPropertySO = listItem.getElementProperty().transformToSemanticProperty();
-                        if (listItem != null && elementPropertySO != null) {
+                        if(elementPropertySO != null) {
                             selectedOptions.put(listItem.getPropertyOrder(),
                                     elementPropertySO.getURI() + "|"
                                     + elementPropertySO.getDisplayName(lang));
@@ -1701,7 +1707,6 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
      */
     private String renderPropertyValue(HttpServletRequest request, SemanticObject elementBSC,
             String propUri, String lang) {
-
         String ret = null;
         SWBFormMgr formMgr = new SWBFormMgr(elementBSC, null, SWBFormMgr.MODE_VIEW);
         SemanticProperty semProp = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty(propUri);
