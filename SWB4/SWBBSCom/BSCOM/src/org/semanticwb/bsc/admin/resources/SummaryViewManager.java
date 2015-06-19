@@ -338,6 +338,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("    });\n");
         output.append("    myGrid = new dojox.grid.DataGrid({\n");
         output.append("      columnReordering: true,\n");
+        //output.append("      escapeHTMLInData: true,\n");
         output.append("      store: myStore,\n");
         output.append("      structure: [\n");
         // Coloca cada columna en la estructura del grid
