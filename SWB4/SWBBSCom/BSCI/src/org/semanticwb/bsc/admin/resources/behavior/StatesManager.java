@@ -112,13 +112,13 @@ public class StatesManager extends GenericResource {
                             out.println("<tr>");
                             //iconclass
                             if(state.getIconClass()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 out.println(" <td><span class=\""+state.getIconClass()+"\"></span></td>");
                             }
                             //color
                             if(state.getColorHex()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 try {
                                     c = Color.decode(state.getColorHex());
@@ -137,7 +137,7 @@ public class StatesManager extends GenericResource {
 
                             // Estado anterior
                             if(state.getPrevius()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 State previus = (State)state.getPrevius();
                                 out.println(" <td>");
@@ -147,7 +147,7 @@ public class StatesManager extends GenericResource {
 
                             // Estado siguiente
                             if(state.getNext()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 State next = (State)state.getNext();
                                 out.println(" <td>");
@@ -292,13 +292,13 @@ public class StatesManager extends GenericResource {
                             out.println("<tr>");
                             //iconclass
                             if(state.getIconClass()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 out.println(" <td><span class=\""+state.getIconClass()+"\"></span></td>");
                             }
                             //color
                             if(state.getColorHex()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 try {
                                     c = Color.decode(state.getColorHex());
@@ -317,7 +317,7 @@ public class StatesManager extends GenericResource {
 
                             // Estado anterior
                             if(state.getPrevius()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 State previus = (State)state.getPrevius();
                                 out.println(" <td>");
@@ -327,7 +327,7 @@ public class StatesManager extends GenericResource {
 
                             // Estado siguiente
                             if(state.getNext()==null) {
-                                out.println(" <td>Not set</td>");
+                                out.println(" <td>-</td>");
                             }else {
                                 State next = (State)state.getNext();
                                 out.println(" <td>");
