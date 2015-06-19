@@ -121,8 +121,8 @@ public class PeriodSelector extends GenericResource {
         output.append("    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\"><span class=\"hidden-xs\">");
         output.append(paramRequest.getLocaleString("lbl_title"));
         output.append(":&nbsp;</span>");
-        output.append(nearestPeriod != null ? nearestPeriod.getTitle() : "");
-        if(periods.size() > 1) {
+        output.append(nearestPeriod != null ? nearestPeriod.getDisplayTitle(lang) : "");
+        if(!periods.isEmpty()) {
             output.append("<span class=\"caret\"></span>");
         }
         output.append("</a>\n");
@@ -131,7 +131,6 @@ public class PeriodSelector extends GenericResource {
             output.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n");
             Period nextPeriod;
             allPeriods = periodsO.iterator();
-            //for(Period nextPeriod:periods) {
             while(allPeriods.hasNext()) {
                 nextPeriod = allPeriods.next();
                 title = nextPeriod.getDisplayTitle(lang);
