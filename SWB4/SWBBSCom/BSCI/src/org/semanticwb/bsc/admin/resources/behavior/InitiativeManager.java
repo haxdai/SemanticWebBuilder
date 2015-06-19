@@ -6,14 +6,8 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.bsc.BSC;
-import org.semanticwb.bsc.Committable;
-import org.semanticwb.bsc.InitiativeAssignable;
-import org.semanticwb.bsc.accessory.Period;
-import static org.semanticwb.bsc.admin.resources.behavior.InitiativeRiskManager.STTS_MSG;
-import org.semanticwb.bsc.element.Indicator;
-import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -22,7 +16,13 @@ import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
-
+import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.Committable;
+import org.semanticwb.bsc.accessory.Period;
+import org.semanticwb.bsc.element.Indicator;
+import org.semanticwb.bsc.element.Initiative;
+import org.semanticwb.bsc.InitiativeAssignable;
+import static org.semanticwb.bsc.admin.resources.behavior.InitiativeRiskManager.STTS_MSG;
 /**
  * InitiativeManager es una clase que permite asignar y desasignar inicitaivas a
  * un objetivo
@@ -100,14 +100,15 @@ public class InitiativeManager extends GenericResource {
         }
         
         BSC bsc = (BSC)semObj.getModel().getModelObject().getGenericInstance();
-        Iterator<Initiative> itInit = bsc.listInitiatives();
+        Iterator<Initiative> initiatives = bsc.listInitiatives();
+        initiatives = SWBComparator.sortByDisplayName(initiatives, lang);
         SWBResourceURL urlAdd;
         urlAdd = paramRequest.getActionUrl();
         urlAdd.setAction(Action_UPDT_ACTIVE);
         urlAdd.setParameter("suri", suri);
         Period p;
-        while (itInit.hasNext()) {                    
-            Initiative initiative = itInit.next();
+        while (initiatives.hasNext()) {                    
+            Initiative initiative = initiatives.next();
             if(  (initiative.isValid() && user.haveAccess(initiative)) || (!initiative.isActive() && semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject()) && user.haveAccess(initiative))  )
             {
                 urlAdd.setParameter("sval", initiative.getId());
@@ -122,17 +123,16 @@ public class InitiativeManager extends GenericResource {
 
                 // Responsable
                 out.println("<td>" + (initiative.getInitiativeFacilitator()==null 
-                        ? "Not set"
+                        ? "-"
                         : initiative.getInitiativeFacilitator().getFullName()) + "</td>");
-
                 // Área
                 /*out.println("<td>" + (initiative.getArea()==null
-                        ? "Not set"
+                        ? "-"
                         :initiative.getArea()) + "</td>");*/
                 p = initiative.getFirstPeriod();
                 if(null==p) {
-                    out.println("<td>Not set</td>\n");
-                    out.println("<td>Not set</td>\n");
+                    out.println("<td>-</td>\n");
+                    out.println("<td>-</td>\n");
                 }else {
                     out.println("<td>");
                     out.println(p.getDisplayTitle(lang));
@@ -144,10 +144,10 @@ public class InitiativeManager extends GenericResource {
                 }
 
                 // Activo?
-                out.println("<td>"+(initiative.isActive()?paramRequest.getLocaleString("lblIsActive"):paramRequest.getLocaleString("lblIsNotActive"))+"</td>");
+                out.println("<td align=\"center\">"+(initiative.isActive()?paramRequest.getLocaleString("lblIsActive"):paramRequest.getLocaleString("lblIsNotActive"))+"</td>");
 
                 // Asignar
-                out.println("<td>");
+                out.println("<td align=\"center\">");
                 out.print("<input type=\"checkbox\" name=\"initiative\" ");
                 out.print(disabled);
                 out.print("onchange=\"submitUrl('" + urlAdd + "&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
