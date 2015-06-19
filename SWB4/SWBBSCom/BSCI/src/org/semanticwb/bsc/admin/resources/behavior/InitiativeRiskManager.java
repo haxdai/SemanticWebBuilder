@@ -11,6 +11,7 @@ import org.semanticwb.bsc.InitiativeAssignable;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Risk;
+import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -128,10 +129,9 @@ public class InitiativeRiskManager extends GenericResource {
         htm.append("</thead>\n");
         
         InitiativeAssignable ias = (InitiativeAssignable)risk;
-        //Iterator<Initiative> it = ias.listInitiatives();
         BSC bsc = (BSC)semObj.getModel().getModelObject().createGenericInstance();
-        Iterator<Initiative> it = bsc.listInitiatives();
-        
+        Iterator<Initiative> initiatives = bsc.listInitiatives();
+        initiatives = SWBComparator.sortByDisplayName(initiatives, lang);
         Initiative initiative;
         SWBResourceURL urlDelete;
         urlDelete = paramRequest.getActionUrl();
@@ -142,9 +142,9 @@ public class InitiativeRiskManager extends GenericResource {
         urlAxn = paramRequest.getActionUrl();
         urlAxn.setParameter("suri", suri);
         Period p;
-        while(it.hasNext())
+        while(initiatives.hasNext())
         {
-            initiative = it.next();
+            initiative = initiatives.next();
             if(null == initiative) {
                 continue;
             }
@@ -188,7 +188,7 @@ public class InitiativeRiskManager extends GenericResource {
                     // Descripción de la iniciativa
                     htm.append("<td>");                    
                     htm.append(initiative.getDisplayDescription(lang) == null
-                            ? "Not set"
+                            ? "-"
                             : initiative.getDisplayDescription(lang).substring(0
                                     , initiative.getDisplayDescription(lang).length()>=30
                                             ?30
@@ -197,17 +197,17 @@ public class InitiativeRiskManager extends GenericResource {
                     // Responsable
                     htm.append("<td>");
                     htm.append(initiative.getInitiativeFacilitator()==null
-                            ?"Not set":initiative.getInitiativeFacilitator().getFullName());
+                            ?"-":initiative.getInitiativeFacilitator().getFullName());
                     htm.append("</td>\n");
                     // Area
                     htm.append("<td>");
-                    htm.append(initiative.getArea()==null?"Not set":initiative.getArea());
+                    htm.append(initiative.getArea()==null?"-":initiative.getArea());
                     htm.append("</td>\n");
                     
                     p = initiative.getFirstPeriod();
                     if(null==p) {
-                        htm.append("<td>Not set</td>\n");
-                        htm.append("<td>Not set</td>\n");
+                        htm.append("<td>-</td>\n");
+                        htm.append("<td>-</td>\n");
                     }else {
                         htm.append("<td>");
                         htm.append(p.getDisplayTitle(lang));
@@ -220,13 +220,13 @@ public class InitiativeRiskManager extends GenericResource {
                     /*
                     // Fecha de creación de la iniciativa
                     htm.append("<td>");
-                    htm.append((initiative.getCreated() == null ? "Not set"
+                    htm.append((initiative.getCreated() == null ? "-"
                             : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
                                     "es", "dd/mm/yyyy")));
                     htm.append("</td>\n");
                     // Fecha de la última actualización de la iniciativa
                     htm.append("<td>");
-                    htm.append((initiative.getUpdated() == null ? "Not set"
+                    htm.append((initiative.getUpdated() == null ? "-"
                             : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
                                     "es", "dd/mm/yyyy")));
                     htm.append("</td>\n");*/
@@ -252,7 +252,6 @@ public class InitiativeRiskManager extends GenericResource {
                     htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
                     htm.append(" dojoType=\"dijit.form.CheckBox\" value=\"");
                     htm.append(initiative.getId()).append("\"");
-                    //htm.append(semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject())?"checked=\"checked\"":"").append(" />");
                     htm.append(ias.hasInitiative(initiative)?" checked=\"checked\" ":"").append(" />");
                     htm.append("</td>\n");
                     
@@ -390,9 +389,9 @@ public class InitiativeRiskManager extends GenericResource {
         }
         else if(Action_ACTIVE_ALL.equalsIgnoreCase(action))
         {
-            Iterator it = ias.listInitiatives();
-            while (it.hasNext()) {
-                Initiative initiative = (Initiative) it.next();
+            Iterator<Initiative> initiatives = ias.listInitiatives();
+            while(initiatives.hasNext()) {
+                Initiative initiative = initiatives.next();
                 initiative.setActive(true);
             }
             response.setRenderParameter("allURI", "allURI");
@@ -400,9 +399,9 @@ public class InitiativeRiskManager extends GenericResource {
         }
         else if (Action_DEACTIVE_ALL.equalsIgnoreCase(action))
         {
-            Iterator it = ias.listInitiatives();
-            while (it.hasNext()) {
-                Initiative initiative = (Initiative) it.next();
+            Iterator<Initiative> initiatives = ias.listInitiatives();
+            while(initiatives.hasNext()) {
+                Initiative initiative = initiatives.next();
                 initiative.setActive(false);
             }
             response.setRenderParameter("allURI", "allURI");
@@ -430,5 +429,4 @@ public class InitiativeRiskManager extends GenericResource {
             }
         }
     }
-
 }
