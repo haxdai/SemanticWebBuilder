@@ -207,7 +207,7 @@ public class MeasuresManager extends GenericAdmResource {
                         iconClass = "swbstrgy-unknown";
                     }
                 }catch(Exception e) {
-                    statusTitle = "Not set";
+                    statusTitle = "-";
                     iconClass = "swbstrgy-unknown";
                 }
 
