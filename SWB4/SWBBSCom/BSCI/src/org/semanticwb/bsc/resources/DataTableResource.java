@@ -156,7 +156,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
                     out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+title+"</span>");
                 }
             }else {
-                out.println("Not set");
+                out.println("-");
             }
             out.println("</td>");
             // 5.- Series
@@ -347,8 +347,8 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             }
             String data = request.getParameter("value");
             WebSite model = base.getWebSite();
-            String pid = request.getParameter("pid");
-            String sid = request.getParameter("sid");
+            String pid = request.getParameter("pid"); // Period Id
+            String sid = request.getParameter("sid"); // Serie Id
             if(Period.ClassMgr.hasPeriod(pid, model) && Series.ClassMgr.hasSeries(sid, model))
             {
                 Period period = Period.ClassMgr.getPeriod(pid, model);
