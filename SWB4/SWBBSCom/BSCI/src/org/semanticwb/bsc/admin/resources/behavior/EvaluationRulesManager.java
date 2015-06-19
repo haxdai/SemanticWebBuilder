@@ -195,7 +195,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
                 urlchoose.setParameter("sval", rule.getURI());
                 out.println("   <td>");
                 if(rule.getAppraisal()==null) {
-                    out.println("Not set");
+                    out.println("-");
                 }else {
                     out.println("<a href=\"#\" onclick=\"addNewTab('" + rule.getAppraisal().getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + (rule.getAppraisal().getTitle(lang)==null?(rule.getAppraisal().getTitle()==null?"Sin título":rule.getAppraisal().getTitle().replaceAll("'","")):rule.getAppraisal().getTitle(lang).replaceAll("'","")) + "');return false;\" >" + (rule.getAppraisal().getTitle(lang)==null?(rule.getAppraisal().getTitle()==null?"Sin título":rule.getAppraisal().getTitle().replaceAll("'","")):rule.getAppraisal().getTitle(lang).replaceAll("'","")) + "</a>");
                 }
