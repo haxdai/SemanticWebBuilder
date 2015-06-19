@@ -128,7 +128,7 @@ public class PeriodsManager extends GenericResource {
                         titleFormer = former.getDisplayTitle(user.getLanguage());
                         hasFormer = true;
                     }else {
-                        titleFormer = "Not set";
+                        titleFormer = "-";
                         hasFormer = false;
                     }
                     if (period.getNext() != null) {
@@ -136,7 +136,7 @@ public class PeriodsManager extends GenericResource {
                         titleNext = next.getDisplayTitle(user.getLanguage()) ;
                         hasNext = true;
                     } else {
-                        titleNext = "Not set";
+                        titleNext = "-";
                         hasNext = false;
                     }
 
