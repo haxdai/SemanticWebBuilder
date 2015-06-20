@@ -12,6 +12,7 @@ import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Risk;
 import org.semanticwb.model.SWBComparator;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -333,6 +334,7 @@ public class InitiativeRiskManager extends GenericResource {
             throws SWBResourceException, IOException {
         final String action = response.getAction();
         final String suri = request.getParameter("suri");
+        
         response.setAction(SWBResourceURL.Action_EDIT);
         response.setRenderParameter("suri", suri);
         request.getSession(true).setAttribute("suri", suri);
@@ -344,12 +346,16 @@ public class InitiativeRiskManager extends GenericResource {
             return;
         }
         
-        InitiativeAssignable ias = (InitiativeAssignable)semObj.getGenericInstance();
         User user = response.getUser();
-        if(!user.isSigned() || !user.haveAccess(ias)) {
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
+        
+        InitiativeAssignable ias = (InitiativeAssignable)semObj.getGenericInstance();
         BSC bsc = (BSC)semObj.getModel().getModelObject().createGenericInstance();
         
         if(Action_DELETE.equalsIgnoreCase(action))

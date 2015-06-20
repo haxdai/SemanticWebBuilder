@@ -385,7 +385,8 @@ public class StatesManager extends GenericResource {
         }
     }
     
-    private void doChooseStatesGroup(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    private void doChooseStatesGroup(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest)
+            throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
 
         final String suri=request.getParameter("suri");
@@ -467,8 +468,7 @@ public class StatesManager extends GenericResource {
                     out.println(" </td>");
                     out.println("</tr>");
                 }
-//                    }
-//                }
+                
                 out.println("</tbody>");
                 out.println("</table>");
                 out.println("</fieldset>");                
@@ -493,8 +493,9 @@ public class StatesManager extends GenericResource {
     }
     
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
-    {        
+    public void processAction(HttpServletRequest request, SWBActionResponse response)
+            throws SWBResourceException, IOException {
+        
         final String action = response.getAction();
         final String suri = request.getParameter("suri");
         
@@ -505,6 +506,15 @@ public class StatesManager extends GenericResource {
         SemanticObject semObj = ont.getSemanticObject(suri);
         if(semObj==null) {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
+            return;
+        }
+        
+        User user = response.getUser();
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
         

@@ -353,23 +353,27 @@ public class EvaluationRulesManager extends GenericAdmResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
-        final String suri = request.getParameter("suri");        
+        final String suri = request.getParameter("suri");
+        
+        response.setAction(SWBResourceURL.Action_EDIT);
+        response.setRenderParameter("suri", suri);
+        
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        SemanticObject obj = ont.getSemanticObject(suri);
-        if(obj==null) {
+        SemanticObject semObj = ont.getSemanticObject(suri);
+        if(semObj==null) {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
         
         User user = response.getUser();
-        Measurable measurable = (Measurable)obj.getGenericInstance();
-        if(!user.isSigned() || !user.haveAccess(measurable)) {
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
         processObjectiveRuleAction(request, response);
-        response.setAction(SWBResourceURL.Action_EDIT);
-        response.setRenderParameter("suri", suri);
     }
     
     private void processObjectiveRuleAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException

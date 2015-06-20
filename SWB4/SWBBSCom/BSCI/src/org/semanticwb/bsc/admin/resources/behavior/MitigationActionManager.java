@@ -14,6 +14,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.element.Risk;
 import org.semanticwb.bsc.tracing.MitigationAction;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -255,12 +256,25 @@ public class MitigationActionManager extends GenericResource {
             throws SWBResourceException, IOException {
         final String action = response.getAction();
         final String suri = request.getParameter("suri");
+        
         response.setAction(SWBResourceURL.Action_EDIT);
         response.setRenderParameter("suri", suri);
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         SemanticObject semObj = ont.getSemanticObject(suri);
-
+        if(semObj==null) {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
+            return;
+        }
+        
+        User user = response.getUser();
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
+            return;
+        }
         Risk risk = (Risk) semObj.getGenericInstance();
         BSC bsc = risk.getBSC();
         if (Action_DELETE.equalsIgnoreCase(action)) {

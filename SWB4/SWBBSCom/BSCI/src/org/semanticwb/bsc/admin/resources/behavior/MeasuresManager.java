@@ -27,6 +27,7 @@ import org.semanticwb.bsc.tracing.Series;
 import org.semanticwb.bsc.utils.InappropriateFrequencyException;
 import org.semanticwb.bsc.utils.UndefinedFrequencyException;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -264,22 +265,27 @@ public class MeasuresManager extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         final String suri = request.getParameter("suri");
+        
+        response.setAction(SWBResourceURL.Action_EDIT);
+        response.setRenderParameter("suri", suri);
+        
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        SemanticObject obj = ont.getSemanticObject(suri);
-        if(obj==null) {
+        SemanticObject semObj = ont.getSemanticObject(suri);
+        if(semObj==null) {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
         
         User user = response.getUser();
-        Measurable measurable = (Measurable)obj.getGenericInstance();
-        if(!user.isSigned() || !user.haveAccess(measurable)) {
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
+        
         processMeasureEvaluation(request, response);
-        response.setAction(SWBResourceURL.Action_EDIT);
-        response.setRenderParameter("suri", suri);
     }
     
     private void processMeasureEvaluation(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
