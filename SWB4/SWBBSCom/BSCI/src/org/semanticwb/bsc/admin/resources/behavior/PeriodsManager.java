@@ -17,6 +17,7 @@ import org.semanticwb.bsc.Committable;
 import org.semanticwb.bsc.Seasonable;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.Undeleteable;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
@@ -235,8 +236,12 @@ public class PeriodsManager extends GenericResource {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
+        
         User user = response.getUser();
-        if(!user.isSigned() || !user.haveAccess(semObj.getGenericInstance())) {
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }

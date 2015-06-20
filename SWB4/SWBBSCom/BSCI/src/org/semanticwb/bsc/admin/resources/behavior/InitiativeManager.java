@@ -23,6 +23,7 @@ import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.InitiativeAssignable;
 import static org.semanticwb.bsc.admin.resources.behavior.InitiativeRiskManager.STTS_MSG;
+import org.semanticwb.model.SWBContext;
 /**
  * InitiativeManager es una clase que permite asignar y desasignar inicitaivas a
  * un objetivo
@@ -183,7 +184,8 @@ public class InitiativeManager extends GenericResource {
     }
 
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
+    {
         final String action = response.getAction();
         final String suri = request.getParameter("suri");
         
@@ -198,12 +200,16 @@ public class InitiativeManager extends GenericResource {
             return;
         }
         
-        InitiativeAssignable ias = (InitiativeAssignable) semObj.getGenericInstance();
         User user = response.getUser();
-        if(!user.isSigned() || !user.haveAccess(ias)) {
-            response.setRenderParameter(STTS_MSG, response.getLocaleString("msgUnauthorizedUser"));
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
+        
+        InitiativeAssignable ias = (InitiativeAssignable) semObj.getGenericInstance();
         BSC model = (BSC)semObj.getModel().getModelObject().getGenericInstance();
         
         if(Action_UPDT_ACTIVE.equalsIgnoreCase(action))
