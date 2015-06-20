@@ -271,6 +271,12 @@ class SortByMeasurementFrequency implements Comparator<Indicator>
     @Override
     public int compare(Indicator o1, Indicator o2)
     {
+        if(o1.getPeriodicity()==null) {
+            return -1;
+        }
+        if(o2.getPeriodicity()==null) {
+            return 1;
+        }
         return o1.getPeriodicity().getNumberOfPeriods() - o2.getPeriodicity().getNumberOfPeriods();
     }
 
