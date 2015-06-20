@@ -48,14 +48,16 @@ public class GraphPeriodStatus extends GenericAdmResource {
         
         final String suri = request.getParameter("suri");
         if(suri==null) {
-            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"
+                    +paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
             response.flushBuffer();
             return;
         }
         final SemanticObject semanticObj = SemanticObject.getSemanticObject(suri);
         final User user = paramRequest.getUser();
         if(!user.isSigned() || !user.haveAccess(semanticObj.getGenericInstance()))     {
-            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"
+                    +paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
             response.flushBuffer();
             return;
         }
@@ -68,7 +70,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
         
         final String lang = user.getLanguage();
         final String graphHeight = base.getAttribute("graphPSHeight","300px");
-        final String graphWidth = base.getAttribute("graphPSWidth","100%");
+        final String graphWidth = base.getAttribute("graphPSWidth","80%");
         final String marginLeftH = base.getAttribute("marginLeftH","125");
         final String marginRightH = base.getAttribute("marginRightH","175");
         final String marginTopH = base.getAttribute("marginTopH","30");
@@ -85,17 +87,46 @@ public class GraphPeriodStatus extends GenericAdmResource {
         {
             Objective obj = (Objective)genericObj;
             firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
-            firstOutput.append(" <div id=\""+SVG_ID+"\" class=\'with-3d-shadow with-transitions\'>\n");
+            firstOutput.append(" <div id=\"").append(SVG_ID)
+                    .append("\" class=\'with-3d-shadow with-transitions\'>\n");
             firstOutput.append("  <div class=\"panel-heading head-detalle\">");
             firstOutput.append(semanticObj.getSemanticClass().getDisplayName(lang));
             firstOutput.append(":&nbsp;");
             firstOutput.append(obj.getDisplayTitle(lang));
             firstOutput.append("  </div>\n");
             firstOutput.append("  <div class=\"panel-body body-detalle\">\n");
+            
+            // Cuadro de valores. Inicio
+            SortedSet<State> states = new TreeSet<State>();
+            states.addAll(obj.listValidStates());
+            Iterator<State> iterator = states.iterator();
+            if(iterator.hasNext()) {
+                svgOutput.append("<ul class=\"list-group swbstrgy-list-group\">").append("\n");
+                while(iterator.hasNext()) {
+                    State st = iterator.next();
+                    svgOutput.append("<li class=\"list-group-item swbstrgy-list-group-item\">");
+                    svgOutput.append("<span class=\"badge\">");
+                    svgOutput.append(st.getIndex());
+                    svgOutput.append("</span>");
+                    svgOutput.append(st.getDisplayTitle(lang));
+                    svgOutput.append("</li>").append("\n");
+                }
+                svgOutput.append("</ul>").append("\n");
+            }
+            // Cuadro de valores. Fin            
+            
             firstOutput.append("   <div class=\"centerSvg\">\n");
-            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\" id=\"hGraph"+SVG_ID+"\" value=\"1\" onclick=\"showGraph"+SVG_ID+"(this);\" checked=\"checked\"><label for=\"hGraph"+SVG_ID+"\">");
-            firstOutput.append(paramRequest.getLocaleString("lblLandscape")).append("</label>\n");
-            firstOutput.append("    <input type=\"radio\" name=\"graphType"+SVG_ID+"\" id=\"vGraph"+SVG_ID+"\" value=\"2\" onclick=\"showGraph"+SVG_ID+"(this);\"><label for=\"vGraph"+SVG_ID+"\">");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType")
+                    .append(SVG_ID).append("\" id=\"hGraph").append(SVG_ID)
+                    .append("\" value=\"1\" onclick=\"showGraph").append(SVG_ID)
+                    .append("(this);\" checked=\"checked\"><label for=\"hGraph")
+                    .append(SVG_ID).append("\">");
+            firstOutput.append(paramRequest.getLocaleString("lblLandscape"))
+                    .append("</label>\n");
+            firstOutput.append("    <input type=\"radio\" name=\"graphType")
+                    .append(SVG_ID).append("\" id=\"vGraph").append(SVG_ID)
+                    .append("\" value=\"2\" onclick=\"showGraph").append(SVG_ID)
+                    .append("(this);\"><label for=\"vGraph").append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblNarrow")).append("</label>\n");
             firstOutput.append("   </div>\n");
             firstOutput.append("  </div><!-- // .panel-body body-detalle -->\n");
@@ -133,11 +164,8 @@ public class GraphPeriodStatus extends GenericAdmResource {
                         output.append(" \"label\" : \"");
                         output.append(period.getTitle());
                         output.append("\", ");
-                        //if(ps.getStatus().getIndex() == st.getIndex()) {
-                            output.append("\"value\" : ");
-                            //output.append(ps.getStatus().getIndex());
-                            output.append(st.getIndex());
-                        //}
+                        output.append("\"value\" : ");
+                        output.append(st.getIndex());
                         output.append("}");
                         output.append(periods.hasNext()?",\n":"\n");
                     }
@@ -163,7 +191,7 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("    .showControls(false);\n");
                 output.append("  chart.yAxis\n");
                 output.append("      .tickFormat(d3.format(',.2d'));\n");
-                output.append("  d3.select('#"+SVG_ID+" svg')\n");
+                output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("    .datum(long_short_data)\n");
                 output.append("    .call(chart);\n");
                 output.append("  nv.utils.windowResize(chart.update);\n");
@@ -194,25 +222,25 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("      .tickFormat(d3.format(',.2d'));\n");
                 output.append("  return chart2;\n");
                 output.append("});\n");
-                output.append("  function showGraph"+SVG_ID+"(radioBtn) {\n");
+                output.append("  function showGraph").append(SVG_ID).append("(radioBtn) {\n");
                 output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");
                 output.append("        .call(chart);\n");
                 output.append("    }else if (radioBtn.value == 2 && radioBtn.checked) {\n");
-                output.append("      d3.select('#"+SVG_ID+" svg g').remove();\n");
-                output.append("      d3.select('#"+SVG_ID+" svg')\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");
                 output.append("        .call(chart2);\n");
                 output.append("    }\n");
                 output.append("  }\n");
                 output.append("  </script>\n");
-                //output.append("</div>\n");
             }
             else
             {
-                out.println("<div class=\"alert alert-warning\" role=\"alert\">" + paramRequest.getLocaleString("msgNotPeriods") + "</div>");
+                out.println("<div class=\"alert alert-warning\" role=\"alert\">" 
+                        + paramRequest.getLocaleString("msgNotPeriods") + "</div>");
                 out.flush();
                 return;
             }
@@ -223,24 +251,6 @@ public class GraphPeriodStatus extends GenericAdmResource {
             svgOutput.append("; width:");
             svgOutput.append(graphWidth);
             svgOutput.append(";\"></svg>\n");
-            // Cuadro de valores
-            SortedSet<State> states = new TreeSet<State>();
-            states.addAll(obj.listValidStates());
-            Iterator<State> iterator = states.iterator();
-            if(iterator.hasNext()) {
-                svgOutput.append("<ul class=\"list-group swbstrgy-list-group\">").append("\n");
-                while(iterator.hasNext()) {
-                    State st = iterator.next();
-                    svgOutput.append("<li class=\"list-group-item swbstrgy-list-group-item\">");
-                    svgOutput.append("<span class=\"badge\">");
-                    svgOutput.append(st.getIndex());
-                    svgOutput.append("</span>");
-                    svgOutput.append(st.getDisplayTitle(lang));
-                    svgOutput.append("</li>").append("\n");
-                }
-                svgOutput.append("</ul>").append("\n");
-            }
-            // Cuadro de valores. Fin
             svgOutput.append(" </div>\n");
             svgOutput.append("</div>\n");
 

@@ -279,6 +279,12 @@ class SortDeliverablesByPlannedDate implements Comparator<Deliverable>
     @Override
     public int compare(Deliverable o1, Deliverable o2)
     {
+        if(o1.getPlannedStart()==null) {
+            return -1;
+        }
+        if(o2.getPlannedStart()==null) {
+            return 1;
+        }
         return o1.getPlannedStart().compareTo(o2.getPlannedStart());
     }
 
