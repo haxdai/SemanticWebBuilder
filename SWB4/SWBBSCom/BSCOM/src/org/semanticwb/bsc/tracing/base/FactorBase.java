@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Clase que define un factor de riesgo. 
    */
-public abstract class FactorBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.bsc.Help,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Traceable
+public abstract class FactorBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente.
@@ -149,29 +149,6 @@ public abstract class FactorBase extends org.semanticwb.bsc.tracing.BSCTracing i
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Factor with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.Factor
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.Factor with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.Factor with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.Factor
@@ -218,26 +195,72 @@ public abstract class FactorBase extends org.semanticwb.bsc.tracing.BSCTracing i
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Factor with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.Factor
        * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Factor with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Factor
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Factor
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Factor with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Factor
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Factor> listFactorByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }

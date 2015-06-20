@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Clase que define el valor de un estado en un periodo. Ejemplo: Para el periodo "Enero 2013" - Estado "En Riesgo" 
    */
-public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
+public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Un estado define la situación de una medición  en un indicador respecto de las metas de su objetivo.
@@ -164,29 +164,6 @@ public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTra
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.PeriodStatus
-       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.PeriodStatus
@@ -210,26 +187,72 @@ public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTra
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.PeriodStatus
        * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.PeriodStatus
+       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.PeriodStatus
+       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.PeriodStatus with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.PeriodStatus
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.PeriodStatus> listPeriodStatusByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.PeriodStatus> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }

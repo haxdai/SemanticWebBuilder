@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Persiste la información de una Sesión. Existen  dos tipos de sesiones: RAE y NOA 
    */
-public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Serializable,org.semanticwb.bsc.Status,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.bsc.Help,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Traceable
+public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Status,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Serializable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Almacena la clasificación de sesiones: RAE y NOA.
@@ -147,29 +147,6 @@ public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing 
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.Meeting
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.Meeting with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.Meeting
@@ -193,26 +170,49 @@ public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing 
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.Meeting
        * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Meeting
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -236,6 +236,29 @@ public abstract class MeetingBase extends org.semanticwb.bsc.tracing.BSCTracing 
         public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByAgreement(org.semanticwb.bsc.element.Agreement value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAgreement,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Meeting
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Meeting with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Meeting
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Meeting> listMeetingByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Meeting> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }

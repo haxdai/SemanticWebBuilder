@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Permite almacenar los valores que pueden tomar los determinantes definidos para conocer si son suficientes o no los controles de un riesgo 
    */
-public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
+public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Gestiona la información de un control en un Riesgo.
@@ -148,29 +148,6 @@ public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BS
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.DeterminantValue
-       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.DeterminantValue
@@ -217,26 +194,72 @@ public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BS
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.DeterminantValue
        * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.DeterminantValue
+       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.DeterminantValue
+       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.DeterminantValue with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.DeterminantValue
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.DeterminantValue> listDeterminantValueByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.DeterminantValue> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
