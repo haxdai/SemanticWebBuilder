@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.tracing.base;
 
 
-public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
+public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass implements org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
     public static final org.semanticwb.platform.SemanticClass bsc_BSCTracing=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#BSCTracing");
    /**
@@ -102,29 +102,6 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.BSCTracing
-       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.BSCTracing
@@ -148,26 +125,72 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.BSCTracing
        * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.BSCTracing
+       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.BSCTracing
+       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.BSCTracing with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.BSCTracing
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.BSCTracing> listBSCTracingByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.BSCTracing> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -184,6 +207,24 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
     public BSCTracingBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the NotInheritRoleRef property
+* @return boolean with the NotInheritRoleRef
+*/
+    public boolean isNotInheritRoleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_notInheritRoleRef);
+    }
+
+/**
+* Sets the NotInheritRoleRef property
+* @param value long with the NotInheritRoleRef
+*/
+    public void setNotInheritRoleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_notInheritRoleRef, value);
     }
    /**
    * Sets the value for the property ModifiedBy
@@ -312,6 +353,24 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
+* Gets the NotInheritUserGroupRef property
+* @return boolean with the NotInheritUserGroupRef
+*/
+    public boolean isNotInheritUserGroupRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_notInheritUserGroupRef);
+    }
+
+/**
+* Sets the NotInheritUserGroupRef property
+* @param value long with the NotInheritUserGroupRef
+*/
+    public void setNotInheritUserGroupRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_notInheritUserGroupRef, value);
+    }
+
+/**
 * Gets the Deleted property
 * @return boolean with the Deleted
 */
@@ -328,70 +387,23 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
     {
         getSemanticObject().setBooleanProperty(swb_deleted, value);
     }
-   /**
-   * Gets all the org.semanticwb.model.UserGroup
-   * @return A GenericIterator with all the org.semanticwb.model.UserGroup
-   */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroup> listUserGroups()
+/**
+* Gets the NotInheritRuleRef property
+* @return boolean with the NotInheritRuleRef
+*/
+    public boolean isNotInheritRuleRef()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroup>(getSemanticObject().listObjectProperties(swb_hasUserGroup));
+        return getSemanticObject().getBooleanProperty(swb_notInheritRuleRef);
     }
 
-   /**
-   * Gets true if has a UserGroup
-   * @param value org.semanticwb.model.UserGroup to verify
-   * @return true if the org.semanticwb.model.UserGroup exists, false otherwise
-   */
-    public boolean hasUserGroup(org.semanticwb.model.UserGroup value)
+/**
+* Sets the NotInheritRuleRef property
+* @param value long with the NotInheritRuleRef
+*/
+    public void setNotInheritRuleRef(boolean value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroup,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a UserGroup
-   * @param value org.semanticwb.model.UserGroup to add
-   */
-
-    public void addUserGroup(org.semanticwb.model.UserGroup value)
-    {
-        getSemanticObject().addObjectProperty(swb_hasUserGroup, value.getSemanticObject());
-    }
-   /**
-   * Removes all the UserGroup
-   */
-
-    public void removeAllUserGroup()
-    {
-        getSemanticObject().removeProperty(swb_hasUserGroup);
-    }
-   /**
-   * Removes a UserGroup
-   * @param value org.semanticwb.model.UserGroup to remove
-   */
-
-    public void removeUserGroup(org.semanticwb.model.UserGroup value)
-    {
-        getSemanticObject().removeObjectProperty(swb_hasUserGroup,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the UserGroup
-   * @return a org.semanticwb.model.UserGroup
-   */
-    public org.semanticwb.model.UserGroup getUserGroup()
-    {
-         org.semanticwb.model.UserGroup ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroup);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.UserGroup)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setBooleanProperty(swb_notInheritRuleRef, value);
     }
 
 /**
@@ -449,71 +461,6 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
          }
          return ret;
     }
-   /**
-   * Gets all the org.semanticwb.model.Role
-   * @return A GenericIterator with all the org.semanticwb.model.Role
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.Role> listRoles()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.Role>(getSemanticObject().listObjectProperties(swb_hasRole));
-    }
-
-   /**
-   * Gets true if has a Role
-   * @param value org.semanticwb.model.Role to verify
-   * @return true if the org.semanticwb.model.Role exists, false otherwise
-   */
-    public boolean hasRole(org.semanticwb.model.Role value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(swb_hasRole,value.getSemanticObject());
-        }
-        return ret;
-    }
-   /**
-   * Adds a Role
-   * @param value org.semanticwb.model.Role to add
-   */
-
-    public void addRole(org.semanticwb.model.Role value)
-    {
-        getSemanticObject().addObjectProperty(swb_hasRole, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Role
-   */
-
-    public void removeAllRole()
-    {
-        getSemanticObject().removeProperty(swb_hasRole);
-    }
-   /**
-   * Removes a Role
-   * @param value org.semanticwb.model.Role to remove
-   */
-
-    public void removeRole(org.semanticwb.model.Role value)
-    {
-        getSemanticObject().removeObjectProperty(swb_hasRole,value.getSemanticObject());
-    }
-
-   /**
-   * Gets the Role
-   * @return a org.semanticwb.model.Role
-   */
-    public org.semanticwb.model.Role getRole()
-    {
-         org.semanticwb.model.Role ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRole);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.Role)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the Title property
@@ -546,5 +493,281 @@ public abstract class BSCTracingBase extends org.semanticwb.model.SWBClass imple
     public void setTitle(String title, String lang)
     {
         getSemanticObject().setProperty(swb_title, title, lang);
+    }
+   /**
+   * Gets all the org.semanticwb.model.RuleRef
+   * @return A GenericIterator with all the org.semanticwb.model.RuleRef
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.RuleRef> listRuleRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.RuleRef>(getSemanticObject().listObjectProperties(swb_hasRuleRef));
+    }
+
+   /**
+   * Gets true if has a RuleRef
+   * @param value org.semanticwb.model.RuleRef to verify
+   * @return true if the org.semanticwb.model.RuleRef exists, false otherwise
+   */
+    public boolean hasRuleRef(org.semanticwb.model.RuleRef value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasRuleRef,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets all the RuleRefs inherits
+   * @return A GenericIterator with all the org.semanticwb.model.RuleRef
+   */
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.RuleRef> listInheritRuleRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.RuleRef>(getSemanticObject().listInheritProperties(swb_hasRuleRef));
+    }
+   /**
+   * Adds a RuleRef
+   * @param value org.semanticwb.model.RuleRef to add
+   */
+
+    public void addRuleRef(org.semanticwb.model.RuleRef value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasRuleRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the RuleRef
+   */
+
+    public void removeAllRuleRef()
+    {
+        getSemanticObject().removeProperty(swb_hasRuleRef);
+    }
+   /**
+   * Removes a RuleRef
+   * @param value org.semanticwb.model.RuleRef to remove
+   */
+
+    public void removeRuleRef(org.semanticwb.model.RuleRef value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasRuleRef,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the RuleRef
+   * @return a org.semanticwb.model.RuleRef
+   */
+    public org.semanticwb.model.RuleRef getRuleRef()
+    {
+         org.semanticwb.model.RuleRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRuleRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.RuleRef)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the AndEvalUserGroupRef property
+* @return boolean with the AndEvalUserGroupRef
+*/
+    public boolean isAndEvalUserGroupRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalUserGroupRef);
+    }
+
+/**
+* Sets the AndEvalUserGroupRef property
+* @param value long with the AndEvalUserGroupRef
+*/
+    public void setAndEvalUserGroupRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalUserGroupRef, value);
+    }
+   /**
+   * Gets all the org.semanticwb.model.UserGroupRef
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listUserGroupRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listObjectProperties(swb_hasUserGroupRef));
+    }
+
+   /**
+   * Gets true if has a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to verify
+   * @return true if the org.semanticwb.model.UserGroupRef exists, false otherwise
+   */
+    public boolean hasUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets all the UserGroupRefs inherits
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listInheritUserGroupRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listInheritProperties(swb_hasUserGroupRef));
+    }
+   /**
+   * Adds a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to add
+   */
+
+    public void addUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasUserGroupRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the UserGroupRef
+   */
+
+    public void removeAllUserGroupRef()
+    {
+        getSemanticObject().removeProperty(swb_hasUserGroupRef);
+    }
+   /**
+   * Removes a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to remove
+   */
+
+    public void removeUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the UserGroupRef
+   * @return a org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.UserGroupRef getUserGroupRef()
+    {
+         org.semanticwb.model.UserGroupRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroupRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.UserGroupRef)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.model.RoleRef
+   * @return A GenericIterator with all the org.semanticwb.model.RoleRef
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.RoleRef> listRoleRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.RoleRef>(getSemanticObject().listObjectProperties(swb_hasRoleRef));
+    }
+
+   /**
+   * Gets true if has a RoleRef
+   * @param value org.semanticwb.model.RoleRef to verify
+   * @return true if the org.semanticwb.model.RoleRef exists, false otherwise
+   */
+    public boolean hasRoleRef(org.semanticwb.model.RoleRef value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasRoleRef,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets all the RoleRefs inherits
+   * @return A GenericIterator with all the org.semanticwb.model.RoleRef
+   */
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.RoleRef> listInheritRoleRefs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.RoleRef>(getSemanticObject().listInheritProperties(swb_hasRoleRef));
+    }
+   /**
+   * Adds a RoleRef
+   * @param value org.semanticwb.model.RoleRef to add
+   */
+
+    public void addRoleRef(org.semanticwb.model.RoleRef value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasRoleRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the RoleRef
+   */
+
+    public void removeAllRoleRef()
+    {
+        getSemanticObject().removeProperty(swb_hasRoleRef);
+    }
+   /**
+   * Removes a RoleRef
+   * @param value org.semanticwb.model.RoleRef to remove
+   */
+
+    public void removeRoleRef(org.semanticwb.model.RoleRef value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasRoleRef,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the RoleRef
+   * @return a org.semanticwb.model.RoleRef
+   */
+    public org.semanticwb.model.RoleRef getRoleRef()
+    {
+         org.semanticwb.model.RoleRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasRoleRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.RoleRef)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the AndEvalRoleRef property
+* @return boolean with the AndEvalRoleRef
+*/
+    public boolean isAndEvalRoleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRoleRef);
+    }
+
+/**
+* Sets the AndEvalRoleRef property
+* @param value long with the AndEvalRoleRef
+*/
+    public void setAndEvalRoleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
+    }
+
+/**
+* Gets the AndEvalRuleRef property
+* @return boolean with the AndEvalRuleRef
+*/
+    public boolean isAndEvalRuleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRuleRef);
+    }
+
+/**
+* Sets the AndEvalRuleRef property
+* @param value long with the AndEvalRuleRef
+*/
+    public void setAndEvalRuleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRuleRef, value);
     }
 }

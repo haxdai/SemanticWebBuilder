@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.tracing.base;
 
 
-public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Measurable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.ReadOnly,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Committable
+public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Committable,org.semanticwb.bsc.ReadOnly,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Sortable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Measurable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Trashable
 {
    /**
    * Interfaz que define un elemento que trabaja con instancias de Series
@@ -185,29 +185,6 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Series with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.tracing.Series
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.tracing.Series with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.tracing.Series with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.tracing.Series
@@ -231,26 +208,26 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Series with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.tracing.Series
        * @return Iterator with all the org.semanticwb.bsc.tracing.Series
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.tracing.Series with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.tracing.Series
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -274,6 +251,52 @@ public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing i
         public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByEvaluationRule(org.semanticwb.bsc.tracing.EvaluationRule value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasEvaluationRule,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Series
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.tracing.Series
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.tracing.Series with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.tracing.Series
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.tracing.Series> listSeriesByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Series> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
