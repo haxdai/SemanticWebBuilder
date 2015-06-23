@@ -10,9 +10,7 @@ import java.util.TreeSet;
 import org.semanticwb.bsc.accessory.Determinant;
 import org.semanticwb.bsc.element.Risk;
 import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
-import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
 
@@ -151,11 +149,14 @@ public class Factor extends org.semanticwb.bsc.tracing.base.FactorBase {
         
         Iterator<Control> controlIt = listControls();
         TreeMap<String, Control> validControls = new TreeMap<String, Control>();
-        User user = SWBContext.getSessionUser();
+        /*User user = SWBContext.getSessionUser();*/
         
         while (controlIt != null && controlIt.hasNext()) {
             Control control = controlIt.next();
-            if (control.isValid() && user != null && user.haveAccess(control)) {
+            /*if (control.isValid() && user != null && user.haveAccess(control)) {
+                validControls.put(control.getPrefix(), control);
+            }*/
+            if(control.isValid()) {
                 validControls.put(control.getPrefix(), control);
             }
         }
@@ -178,11 +179,14 @@ public class Factor extends org.semanticwb.bsc.tracing.base.FactorBase {
         
         Iterator<Control> controlIt = listControls();
         ArrayList<Control> controls = new ArrayList<Control>();
-        User user = SWBContext.getSessionUser();
+        /*User user = SWBContext.getSessionUser();*/
         
         while (controlIt != null && controlIt.hasNext()) {
             Control control = controlIt.next();
-            if (control.isValid() && user != null && user.haveAccess(control)) {
+            /*if (control.isValid() && user != null && user.haveAccess(control)) {
+                controls.add(control);
+            }*/
+            if(control.isValid()) {
                 controls.add(control);
             }
         }
