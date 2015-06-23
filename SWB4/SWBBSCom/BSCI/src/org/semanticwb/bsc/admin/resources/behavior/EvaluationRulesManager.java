@@ -13,7 +13,6 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.Committable;
-import org.semanticwb.bsc.Measurable;
 import org.semanticwb.bsc.SM;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.catalogs.Operation;
@@ -140,8 +139,9 @@ public class EvaluationRulesManager extends GenericAdmResource {
                                     new GenericFilterRule<Operation>(){
                                         @Override
                                         public boolean filter(Operation o) {
-                                            User user = SWBContext.getAdminUser();
-                                            return !o.isValid() || !user.haveAccess(o);
+                                            /*User user = SWBContext.getAdminUser();
+                                            return !o.isValid() || !user.haveAccess(o);*/
+                                            return !o.isValid();
                                         } 
                                     });
 
@@ -354,8 +354,6 @@ public class EvaluationRulesManager extends GenericAdmResource {
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
         final String suri = request.getParameter("suri");
-        
-        response.setAction(SWBResourceURL.Action_EDIT);
         response.setRenderParameter("suri", suri);
         
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
@@ -364,7 +362,6 @@ public class EvaluationRulesManager extends GenericAdmResource {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
-        
         User user = response.getUser();
         if( !user.isSigned() 
                 || (!user.haveAccess(semObj.getGenericInstance())
@@ -374,6 +371,7 @@ public class EvaluationRulesManager extends GenericAdmResource {
             return;
         }
         processObjectiveRuleAction(request, response);
+        response.setAction(SWBResourceURL.Action_EDIT);
     }
     
     private void processObjectiveRuleAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
@@ -390,10 +388,12 @@ public class EvaluationRulesManager extends GenericAdmResource {
             response.setRenderParameter("statmsg", response.getLocaleString("msgNoSuchSemanticElement"));
             return;
         }
-        
         User user = response.getUser();
-        if(!user.isSigned() || !user.haveAccess(semObj.getGenericInstance())) {
-            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
+        if( !user.isSigned() 
+                || (!user.haveAccess(semObj.getGenericInstance())
+                    && !SWBContext.getAdminRepository().hasUser(user.getId())) )
+        {
+            response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));   
             return;
         }
         if(Action_UPDT_OPER.equalsIgnoreCase(action))
