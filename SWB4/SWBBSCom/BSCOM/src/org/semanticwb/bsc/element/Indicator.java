@@ -31,15 +31,6 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
     public static final String names[] = {"Actual", "Meta", "Actual Acumulado", "Meta Acumulada"};
 
     static {
-//        bsc_analysis.registerObserver(new SemanticObserver() {
-//            @Override
-//            public void notify(SemanticObject obj, Object prop, String lang, String action) {
-//                System.out.println("\n\nIndicator.bsc_Updateable.... action=" + action);
-//                System.out.println("obj=" + obj);
-//                System.out.println("prop=" + prop);
-//            }
-//        });
-
         bsc_hasSeries.registerObserver(new SemanticObserver() {
             @Override
             public void notify(SemanticObject obj, Object prop, String lang, String action) {
@@ -278,11 +269,12 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         List<Series> validSerieses = SWBUtils.Collections.filterIterator(super.listSerieses(), new GenericFilterRule<Series>() {
             @Override
             public boolean filter(Series s) {
-                User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !s.isValid() || !user.haveAccess(s);
+                return !s.isValid() || !user.haveAccess(s);*/
+                return !s.isValid();
             }
         });
         return validSerieses;
@@ -293,11 +285,12 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
         List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
             @Override
             public boolean filter(Period p) {
-                User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !p.isValid() || !user.haveAccess(p);
+                return !p.isValid() || !user.haveAccess(p);*/
+                return !p.isValid();
             }
         });
         return validPeriods;
