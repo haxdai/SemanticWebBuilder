@@ -34,6 +34,7 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.ComponentExportable;
 import org.semanticwb.bsc.Detailed;
+import org.semanticwb.bsc.FixedMeasurable;
 import org.semanticwb.bsc.PDFExportable;
 import static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF;
 import org.semanticwb.bsc.Perspective;
@@ -2011,10 +2012,11 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
      * {@literal true}, de lo contrario devuelve {
      * @false}
      */
-    private boolean isNonMeasurableElement(SemanticObject object) {
-
+    private boolean isNonMeasurableElement(SemanticObject object)
+    {
         GenericObject generic = object.createGenericInstance();
-        return (generic instanceof Initiative || generic instanceof Deliverable
-                || generic instanceof Agreement || generic instanceof Risk);
+        return !(generic instanceof FixedMeasurable);
+        /*return (generic instanceof Initiative || generic instanceof Deliverable
+                || generic instanceof Agreement || generic instanceof Risk);*/
     }
 }
