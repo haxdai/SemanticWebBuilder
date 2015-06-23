@@ -268,11 +268,12 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
                                                             if(s==null) {
                                                                 return true;
                                                             }
-                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                                                            /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                                                             if(user==null) {
                                                                 user = SWBContext.getAdminUser();
                                                             }
-                                                            return !s.isValid() || !user.haveAccess(s);
+                                                            return !s.isValid() || !user.haveAccess(s);*/
+                                                            return !s.isValid();
                                                         }            
                                                     });
         return validStates;
@@ -297,11 +298,12 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         List<Indicator> validIndicators = SWBUtils.Collections.filterIterator(super.listIndicators(), new GenericFilterRule<Indicator>() {
                                                         @Override
                                                         public boolean filter(Indicator s) {
-                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                                                            /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                                                             if(user==null) {
                                                                 user = SWBContext.getAdminUser();
                                                             }
-                                                            return !s.isValid() || !user.haveAccess(s);
+                                                            return !s.isValid() || !user.haveAccess(s);*/
+                                                            return !s.isValid();
                                                         }            
                                                     });
         return validIndicators;
