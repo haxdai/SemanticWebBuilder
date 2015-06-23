@@ -107,11 +107,12 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
                 if(null==p) {
                     return true;
                 }
-                User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !p.isValid() || !user.haveAccess(p);
+                return !p.isValid() || !user.haveAccess(p);*/
+                return !p.isValid();
             }
         });
         return validPeriods;
@@ -163,13 +164,14 @@ public class Deliverable extends org.semanticwb.bsc.element.base.DeliverableBase
         List<Series> validSerieses = SWBUtils.Collections.filterIterator(super.listSerieses(), new GenericFilterRule<Series>() {
             @Override
             public boolean filter(Series s) {
-                //s.getUserGroup().getUserRepository().getId()
-                BSC scorecard = (BSC) s.getSemanticObject().getModel().getModelObject().createGenericInstance();
-                User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
+                /*BSC scorecard = (BSC) s.getSemanticObject().getModel().getModelObject().createGenericInstance();
+                User user;
+                user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !s.isValid() || !user.haveAccess(s);
+                return !s.isValid() || !user.haveAccess(s);*/
+                return !s.isValid();
             }
         });
         return validSerieses;
