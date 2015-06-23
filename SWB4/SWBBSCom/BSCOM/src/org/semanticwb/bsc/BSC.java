@@ -32,11 +32,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         List<Initiative> validInitiative = SWBUtils.Collections.filterIterator(super.listInitiatives(), new GenericFilterRule<Initiative>() {
                                                                         @Override
                                                                         public boolean filter(Initiative s) {
-                                                                            User user = SWBContext.getSessionUser(getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !s.isValid() || !user.haveAccess(s);
+                                                                            return !s.isValid() || !user.haveAccess(s);*/
+                                                                            return !s.isValid();
                                                                         }            
                                                                     });
         return validInitiative;
@@ -94,11 +95,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                                                                             if(p==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !p.isValid() || !user.haveAccess(p);
+                                                                            return !p.isValid() || !user.haveAccess(p);*/
+                                                                            return !p.isValid();
                                                                         }            
                                                                     });
         return validPeriods;
@@ -111,11 +113,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                                                                             if(p==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !p.isValid() || !user.haveAccess(p);
+                                                                            return !p.isValid() || !user.haveAccess(p);*/
+                                                                            return !p.isValid();
                                                                         }            
                                                                     });
         return validPerspectives;
@@ -128,11 +131,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                                                                             if(r==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !r.isValid() || !user.haveAccess(r);
+                                                                            return !r.isValid() || !user.haveAccess(r);*/
+                                                                            return !r.isValid();
                                                                         }            
                                                                     });
         return validRisks;
