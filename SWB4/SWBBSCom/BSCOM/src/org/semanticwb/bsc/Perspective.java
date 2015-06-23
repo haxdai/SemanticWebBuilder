@@ -11,9 +11,7 @@ import org.semanticwb.bsc.accessory.DifferentiatorGroup;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.model.FormValidateException;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
-import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
@@ -82,11 +80,12 @@ public class Perspective extends org.semanticwb.bsc.base.PerspectiveBase impleme
                                                                             if(t==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !t.isValid() || !user.haveAccess(t);
+                                                                            return !t.isValid() || !user.haveAccess(t);*/
+                                                                            return !t.isValid();
                                                                         }            
                                                                     });
         return validThemes;
@@ -99,11 +98,12 @@ public class Perspective extends org.semanticwb.bsc.base.PerspectiveBase impleme
                                                                             if(diffgroup==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !diffgroup.isValid() || !user.haveAccess(diffgroup);
+                                                                            return !diffgroup.isValid() || !user.haveAccess(diffgroup);*/
+                                                                            return !diffgroup.isValid();
                                                                         }            
                                                                     });
         return validDiffGroups;
