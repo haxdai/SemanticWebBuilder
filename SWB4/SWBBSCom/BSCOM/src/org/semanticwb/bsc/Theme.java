@@ -7,8 +7,6 @@ import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.GenericIterator;
-import org.semanticwb.model.SWBContext;
-import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticProperty;
 
 
@@ -37,11 +35,12 @@ public class Theme extends org.semanticwb.bsc.base.ThemeBase implements Comparab
                                                                             if(o==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getPerspective().getBSC().getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getPerspective().getBSC().getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !o.isValid() || !user.haveAccess(o);
+                                                                            return !o.isValid() || !user.haveAccess(o);*/
+                                                                            return !o.isValid();
                                                                         }            
                                                                     });
         return validObjectives;
