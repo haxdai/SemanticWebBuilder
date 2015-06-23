@@ -155,20 +155,16 @@ public class BooleanElement extends org.semanticwb.bsc.formelement.base.BooleanE
                     ret.append("/>");
                     ret.append("<label for=\"").append(name).append("_False\">").append(falseTitle).append("</label>");
                 }
-            } else {
+            }else {
                 String value = request.getParameter(propName);
 
                 if (value == null) {
                     value = obj.getProperty(prop);
                 }
-
                 if (value == null) {
                     value = "";
                 }
-
-                //System.out.print(value);
                 value=value.replace("\"", "&quot;");
-                //System.out.println(" "+value);
 
                 if (mode.equals("edit") || mode.equals("create") || mode.equals("filter")) {
                     ret.append("<input _id=\"").append(name).append("\" name=\"").append(name).append("\" value=\"").append(value + "\"");
@@ -180,32 +176,25 @@ public class BooleanElement extends org.semanticwb.bsc.formelement.base.BooleanE
                     if (!mode.equals("filter") || DOJO) {
                         if(required)ret.append(" required=\"").append(required).append("\"");
                     }
-
-                    // + " propercase=\"true\""
                     if (DOJO) {
                         ret.append(" promptMessage=\"").append(pmsg).append("\"");
                     }
-
                     if (DOJO) {
                         ret.append(" invalidMessage=\"").append(imsg).append("\"");
                     }
-
                     ret.append(" style=\"width:300px;\"");
                     ret.append(" ").append(getAttributes());
 
                     if (DOJO) {
                         ret.append(" trim=\"true\"");
                     }
-
                     ret.append(disabled);
                     ret.append("/>");
-                } else if (mode.equals("view")) {
+                }else if(mode.equals("view")) {
                     ret.append("<span _id=\"").append(name).append("\" name=\"").append(name).append("\">").append(value).append("</span>");
                 }
             }
         }
-
-        // System.out.println("ret:"+ret);
         return ret.toString();
     }
 }
