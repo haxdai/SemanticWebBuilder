@@ -3,9 +3,6 @@ package org.semanticwb.bsc.accessory;
 import java.util.List;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
-import org.semanticwb.bsc.element.Objective;
-import org.semanticwb.model.SWBContext;
-import org.semanticwb.model.User;
 
 
    /**
@@ -25,11 +22,12 @@ public class DifferentiatorGroup extends org.semanticwb.bsc.accessory.base.Diffe
                                                                             if(diff==null) {
                                                                                 return true;
                                                                             }
-                                                                            User user = SWBContext.getSessionUser(getPerspective().getBSC().getUserRepository().getId());
+                                                                            /*User user = SWBContext.getSessionUser(getPerspective().getBSC().getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !diff.isValid() || !user.haveAccess(diff);
+                                                                            return !diff.isValid() || !user.haveAccess(diff);*/
+                                                                            return !diff.isValid();
                                                                         }            
                                                                     });
         return validDiffs;
