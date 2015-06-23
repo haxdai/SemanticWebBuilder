@@ -110,12 +110,13 @@ public class Series extends org.semanticwb.bsc.tracing.base.SeriesBase implement
         List<EvaluationRule> validRules = SWBUtils.Collections.filterIterator(listEvaluationRules(), new GenericFilterRule<EvaluationRule>() {
                                                                         @Override
                                                                         public boolean filter(EvaluationRule r) {
-                                                                            BSC scorecard = (BSC)r.getSemanticObject().getModel().getModelObject().createGenericInstance();
+                                                                            /*BSC scorecard = (BSC)r.getSemanticObject().getModel().getModelObject().createGenericInstance();
                                                                             User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !r.isValid() || !user.haveAccess(r);
+                                                                            return !r.isValid() || !user.haveAccess(r);*/
+                                                                            return !r.isValid();
                                                                         }            
                                                                     });
         if(ascendent) {
