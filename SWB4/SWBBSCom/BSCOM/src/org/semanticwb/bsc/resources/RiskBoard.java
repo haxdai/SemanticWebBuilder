@@ -200,7 +200,7 @@ public class RiskBoard extends GenericResource
         output.append("<div class=\"panel-body swbstrgy-panel-body swbstrgy-risk-board\">");
         output.append("<div class=\"table-responsive\">");
 
-        output.append("<table>\n");
+        output.append("<table >\n");
         output.append(this.createTableHeading(determinants));
         output.append(this.createTableBody(determinants, website, mode, request, paramRequest));
         output.append("</table>\n");
