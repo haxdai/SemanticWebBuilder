@@ -1,8 +1,10 @@
 package org.semanticwb.bsc.formelement;
 
-import java.net.URLDecoder;
-import java.util.Date;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
@@ -10,7 +12,6 @@ import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Deliverable;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.model.FormElementURL;
-import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
@@ -71,19 +72,19 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
     @Override
     public String renderElement(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode, String lang) {
-        StringBuilder toReturn = new StringBuilder();
+        
+        StringBuilder html = new StringBuilder();
         String modeTmp = request.getParameter("modeTmp");
         String downloadEle = request.getAttribute("downloadEle") != null
                 ? request.getAttribute("downloadEle").toString() : null;
-        
         if (modeTmp == null && mode.equals(SWBFormMgr.MODE_VIEW) && downloadEle == null) {
-            toReturn.append(renderModeView(request, obj, prop, propName, type, mode, lang));
+            html.append(renderModeView(request, obj, prop, propName, type, mode, lang));
         } else if (modeTmp == null || (modeTmp != null && Mode_VIEW.equals(modeTmp))) {
-            toReturn.append(renderElementView(request, obj, prop, propName, type, mode, lang));
+            html.append(renderElementView(request, obj, prop, propName, type, mode, lang));
         } else if (Mode_RELOAD.equals(modeTmp)) {
-            toReturn.append(renderElementReload(request, obj, prop, type));
+            html.append(renderElementReload(request, obj, prop, type));
         }
-        return toReturn.toString();
+        return html.toString();
     }
 
     /**
@@ -139,93 +140,89 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
      */
     public String renderElementView(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode, String lang) {
-        StringBuilder toReturn = new StringBuilder();
-        String suri = (String) request.getParameter("suri");
+        
+        StringBuilder html = new StringBuilder();
 
         String usrWithGrants = (String) request.getAttribute("usrWithGrants") == null
                 ? (String) request.getParameter("usrWithGrants")
                 : (String) request.getAttribute("usrWithGrants");
 
-        if (suri != null) {
-            SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
-            Initiative element;
-            if( semObj!=null && semObj.createGenericInstance() instanceof Initiative ) {
-                element = (Initiative) semObj.createGenericInstance();
-                //Iterator<Deliverable> itDeliverables = element.listDeliverables();
-                FormElementURL urlFE = getRenderURL(obj, prop, type, mode, lang);
-                urlFE.setParameter("modeTmp", Mode_RELOAD);
-                urlFE.setParameter("suri", suri);
-                urlFE.setParameter("usrWithGrants", usrWithGrants);
+        Initiative initiative;            
+        if( obj.getGenericInstance() instanceof Initiative )
+        {
+            initiative = (Initiative)obj.getGenericInstance();
 
-                toReturn.append("\n<script type=\"text/javascript\">");
-                toReturn.append("\n  dojo.require(\"dijit.Dialog\");");
-                toReturn.append("\n  dojo.require(\"dijit.form.Button\");");
-                toReturn.append("\n  dojo.require(\"dojo.parser\");");
-                toReturn.append("\n  dojo.require(\"dojox.layout.ContentPane\");");
+            FormElementURL urlFE = getRenderURL(obj, prop, type, mode, lang);
+            urlFE.setParameter("modeTmp", Mode_RELOAD);
+            urlFE.setParameter("suri", obj.getURI());
+            urlFE.setParameter("usrWithGrants", usrWithGrants);
 
-                toReturn.append("\nfunction processUrlDeliv(url,id)");
-                toReturn.append("\n{");
-                toReturn.append("\n    dojo.xhrPost({");
-                toReturn.append("\n        url: url,");
-                toReturn.append("\n        load: function(response)");
-                toReturn.append("\n        {");
-                toReturn.append("\n             if(id != null && document.getElementById(id) != null){");
-                toReturn.append("\n               document.getElementById(id).innerHTML ");
-                toReturn.append("= response;");
-                toReturn.append("\n             } else {");
-                toReturn.append("\n               processUrlDeliv('");
-                toReturn.append(urlFE.setContentType("text/html; charset=UTF-8"));
-                toReturn.append("', 'swbDeliverable');");
-                toReturn.append("\n                 dijit.byId('swbDialog3').show();");
-                toReturn.append("\n             }");
-                toReturn.append("\n        },");
-                toReturn.append("\n        error: function(response)");
-                toReturn.append("\n        {");
-                toReturn.append("\n            return response;");
-                toReturn.append("\n        },");
-                toReturn.append("\n        handleAs: \"text\"");
-                toReturn.append("\n    });");
-                toReturn.append("\n}");
-                toReturn.append("\n</script>");
+            html.append("\n<script type=\"text/javascript\">");
+            html.append("\n  dojo.require(\"dijit.Dialog\");");
+            html.append("\n  dojo.require(\"dijit.form.Button\");");
+            html.append("\n  dojo.require(\"dojo.parser\");");
+            html.append("\n  dojo.require(\"dojox.layout.ContentPane\");");
 
-                toReturn.append("\n<div dojoType=\"dijit.Dialog\" class=\"col-lg-2 col-lg-offset-5 co-md-8 col-sm-8 col-sm-offset-2 col-xs-12 swb-ventana-dialogo\" "); //soria
-                toReturn.append("id=\"swbDialog3\" title=\"");
-                toReturn.append(getLocaleString("successfulOperation", lang));
-                toReturn.append("");
-                toReturn.append("\" >\n");
-                toReturn.append("\n<div class=\"panelDialog panelDialog-default\">");
-                toReturn.append("\n<div class=\"swb-panel-cuerpo\">");
-                toReturn.append("  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" ");
-                toReturn.append("id=\"swbDialogImp3\" executeScripts=\"true\">\n");
-                toReturn.append("          <p class=\"text-center bold\"><strong>");
-                toReturn.append(getLocaleString("successfulOperation", lang));
-                toReturn.append("</strong></p>\n");
-                toReturn.append("<div class=\"btn-group col-lg-2 col-lg-offset-3 col-md-12 \">");
-                toReturn.append("<button dojoType=\"dijit.form.Button\" class=\"swb-boton-enviar\" ");
-                toReturn.append("onclick=\"dijit.byId('swbDialog3').hide()\">");
-                toReturn.append(getLocaleString("success", lang));
-                toReturn.append("</button>");
-                toReturn.append("  </div>\n");
+            html.append("\nfunction processUrlDeliv(url,id)");
+            html.append("\n{");
+            html.append("\n    dojo.xhrPost({");
+            html.append("\n        url: url,");
+            html.append("\n        load: function(response)");
+            html.append("\n        {");
+            html.append("\n             if(id != null && document.getElementById(id) != null){");
+            html.append("\n               document.getElementById(id).innerHTML ");
+            html.append("= response;");
+            html.append("\n             } else {");
+            html.append("\n               processUrlDeliv('");
+            html.append(urlFE.setContentType("text/html; charset=UTF-8"));
+            html.append("', 'swbDeliverable');");
+            html.append("\n                 dijit.byId('swbDialog3').show();");
+            html.append("\n             }");
+            html.append("\n        },");
+            html.append("\n        error: function(response)");
+            html.append("\n        {");
+            html.append("\n            return response;");
+            html.append("\n        },");
+            html.append("\n        handleAs: \"text\"");
+            html.append("\n    });");
+            html.append("\n}");
+            html.append("\n</script>");
 
-                toReturn.append("  </div>\n");
-                toReturn.append("  </div>\n");
-                toReturn.append("  </div>\n");
-                toReturn.append("</div>\n");
-                Iterator<Deliverable> itDeliverables = element.listDeliverables();
-                if (itDeliverables.hasNext()) {
-                    final SWBModel scorecard = (SWBModel) obj.getModel().getModelObject().getGenericInstance();
-                    final String scorecardId = scorecard.getId();
-                    Object periodId = request.getSession(true).getAttribute(scorecardId);
-                    if (periodId != null && Period.ClassMgr.hasPeriod(periodId.toString(), scorecard)) {
-                        Period period = Period.ClassMgr.getPeriod(periodId.toString(), scorecard);
-                        toReturn.append("\n<div class=\"table-responsive\" id=\"swbDeliverable\">");
-                        toReturn.append(renderDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
-                        toReturn.append("\n</div>");
-                    }
-                }
+            html.append("\n<div dojoType=\"dijit.Dialog\" class=\"col-lg-2 col-lg-offset-5 co-md-8 col-sm-8 col-sm-offset-2 col-xs-12 swb-ventana-dialogo\" "); //soria
+            html.append("id=\"swbDialog3\" title=\"");
+            html.append(getLocaleString("successfulOperation", lang));
+            html.append("");
+            html.append("\" >\n");
+            html.append("\n<div class=\"panelDialog panelDialog-default\">");
+            html.append("\n<div class=\"swb-panel-cuerpo\">");
+            html.append("  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" ");
+            html.append("id=\"swbDialogImp3\" executeScripts=\"true\">\n");
+            html.append("          <p class=\"text-center bold\"><strong>");
+            html.append(getLocaleString("successfulOperation", lang));
+            html.append("</strong></p>\n");
+            html.append("<div class=\"btn-group col-lg-2 col-lg-offset-3 col-md-12 \">");
+            html.append("<button dojoType=\"dijit.form.Button\" class=\"swb-boton-enviar\" ");
+            html.append("onclick=\"dijit.byId('swbDialog3').hide()\">");
+            html.append(getLocaleString("success", lang));
+            html.append("</button>");
+            html.append("  </div>\n");
+
+            html.append("  </div>\n");
+            html.append("  </div>\n");
+            html.append("  </div>\n");
+            html.append("</div>\n");
+
+            SWBModel scorecard = initiative.getBSC();
+            final String scorecardId = scorecard.getId();
+            final String periodId = (String)request.getSession(true).getAttribute(scorecardId);
+            if( Period.ClassMgr.hasPeriod(periodId, scorecard) ) {
+                Period period = Period.ClassMgr.getPeriod(periodId, scorecard);
+                html.append("<div class=\"table-responsive\" id=\"swbDeliverable\">\n");
+                html.append(renderDeliverables(initiative, obj, prop, type, period, usrWithGrants));
+                html.append("</div>\n");
             }
         }
-        return toReturn.toString();
+        return html.toString();
     }
 
     /**
@@ -249,28 +246,24 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
      */
     private String renderElementReload(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String type) {
-        StringBuilder toReturn = new StringBuilder();
-        String suri = (String) request.getParameter("suri");
+        StringBuilder html = new StringBuilder();
         String usrWithGrants = (String) request.getAttribute("usrWithGrants") == null
                 ? (String) request.getParameter("usrWithGrants")
                 : (String) request.getAttribute("usrWithGrants");
-        if (suri != null) {
-            SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
-            Initiative element = null;
-            if (semObj != null && semObj.createGenericInstance() instanceof Initiative) {
-                element = (Initiative) semObj.createGenericInstance();
-                Iterator<Deliverable> itDeliverables = element.listDeliverables();
 
-                final BSC scorecard = element.getBSC();
-                final String scorecardId = scorecard.getId();
-                Object periodId = request.getSession(true).getAttribute(scorecardId);
-                if (periodId != null && Period.ClassMgr.hasPeriod(periodId.toString(), scorecard)) {
-                    Period period = Period.ClassMgr.getPeriod(periodId.toString(), scorecard);
-                    toReturn.append(renderDeliverables(itDeliverables, suri, obj, prop, type, period, usrWithGrants));
-                }
+        Initiative initiative= null;
+        if(obj.getGenericInstance() instanceof Initiative) {
+            initiative = (Initiative)obj.getGenericInstance();
+
+            final BSC scorecard = initiative.getBSC();
+            final String scorecardId = scorecard.getId();
+            final String periodId = (String)request.getSession(true).getAttribute(scorecardId);
+            if(Period.ClassMgr.hasPeriod(periodId, scorecard)) {
+                Period period = Period.ClassMgr.getPeriod(periodId, scorecard);
+                html.append(renderDeliverables(initiative, obj, prop, type, period, usrWithGrants));
             }
         }
-        return toReturn.toString();
+        return html.toString();
     }
 
     /**
@@ -288,91 +281,95 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
      * @return el objeto String que representa el c&oacute;digo HTML con el
      * conjunto de entregables.
      */
-    private String renderDeliverables(Iterator<Deliverable> itDeliverables, String suri,
-            SemanticObject obj, SemanticProperty prop, String lang, Period period, String usrWithGrants) {
-        StringBuilder toReturn = new StringBuilder();
+    private String renderDeliverables(Initiative initiative,
+            SemanticObject obj, SemanticProperty prop, String lang, final Period period, final String usrWithGrants) {
         
-        toReturn.append("\n<div class=\"table-responsive\">");
-        toReturn.append("\n<table class=\"table table-hover table-condensed\">");
-        toReturn.append("\n<tbody>");
-        itDeliverables = SWBComparator.sortByCreated(itDeliverables, false);
-        Deliverable deliverable;
-        FormElementURL urlRemove;
-        while (itDeliverables.hasNext()) {
-            deliverable = itDeliverables.next();
-            if(deliverable.isValid()) {
-                toReturn.append("\n<tr>");
-
+        StringBuilder html = new StringBuilder();        
+        List<Deliverable> deliverableLst = initiative.listValidDeliverables();
+        Collections.sort(deliverableLst, new SortDeliverablesByPlannedDate());
+        Iterator<Deliverable> deliverables = deliverableLst.iterator();
+        if(deliverables.hasNext()) {
+            Locale locale = new Locale(lang);
+            html.append("<div class=\"table-responsive\">\n");
+            html.append(" <table class=\"table table-hover table-condensed\">\n");
+            html.append("  <thead>\n");
+            html.append("   <tr>\n");
+            html.append("    <th>").append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblProgress",locale)).append("</th>\n");
+            html.append("    <th>").append(Deliverable.swb_title.getDisplayName(lang)).append("</th>\n");
+            html.append("    <th>").append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblDatePlan",locale)).append("</th>\n");
+html.append("    <th>").append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblDateActual",locale)).append("</th>\n");
+            html.append("    <th>").append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblAxn",locale)).append("</th>\n");
+            html.append("   </tr>\n");
+            html.append("  </thead>").append("\n");
+            html.append("  <tbody>\n");
+            
+            Deliverable deliverable;
+            FormElementURL urlRemove;
+            while(deliverables.hasNext())
+            {
+                deliverable = deliverables.next();
+                html.append("<tr>\n");
                 urlRemove = getProcessURL(obj, prop);
-                urlRemove.setParameter("_action", Action_REMOVE);
+                //urlRemove.setParameter("action", Action_REMOVE);
                 urlRemove.setParameter("suriDeliv", deliverable.getURI());
-                urlRemove.setParameter("obj", suri);
+                urlRemove.setParameter("obj", obj.getURI());
                 urlRemove.setParameter("usrWithGrants", usrWithGrants);
-                toReturn.append("\n<td>");
-                toReturn.append("<span title=\""+deliverable.getStatusTitle(period)+"\" class=\"");
-                toReturn.append(deliverable.getStatusIconClass(period));
-                toReturn.append(" swbstrgy-semaphore\"></span>");
-//                toReturn.append("<span class=\"");
-//                toReturn.append(deliverable.getStatusAssigned().getIconClass());
-//                toReturn.append(" swbstrgy-semaphore\"></span>");
-                toReturn.append("\n</td>");
-
-//                toReturn.append("\n<td>");
-//                toReturn.append("<div");
-//                toReturn.append(" class=\"");
-//                if (deliverable.getStatusAssigned() != null && deliverable.getStatusAssigned().
-//                        getStatus() != null && deliverable.getStatusAssigned().getIconClass()
-//                        != null) {
-//                    toReturn.append(deliverable.getStatusAssigned().getIconClass());
-//                } else {
-//                    toReturn.append("indefinido");
-//                }
-//                toReturn.append("\"></div>");
-//                toReturn.append("\n</td>");
-                toReturn.append("\n<td>");
-                toReturn.append("\n<a class=\"swb-url-lista detalle-archivos\" href=\"Deliverable");
-                toReturn.append("?suri=");
-                toReturn.append(deliverable.getEncodedURI());
-                toReturn.append("\">");
-                toReturn.append(deliverable.getTitle() == null ? "" : deliverable.getTitle());
-                toReturn.append("\n</a>");
-                toReturn.append("\n</td>");
-                toReturn.append("\n<td>");
-                toReturn.append(deliverable.getActualStart() == null ? ""
-                        : SWBUtils.TEXT.getStrDate(deliverable.getActualStart(), "es", "dd/mm/yyyy"));
-                toReturn.append(deliverable.getActualEnd() == null ? "" : " - ");
-                toReturn.append(deliverable.getActualEnd() == null ? ""
-                        : SWBUtils.TEXT.getStrDate(deliverable.getActualEnd(), "es", "dd/mm/yyyy"));
-                toReturn.append("\n</td>");
-
+                html.append(" <td>\n");
+                html.append("  <span title=\"").append(deliverable.getStatusTitle(period)).append("\" class=\"");
+                html.append(deliverable.getStatusIconClass(period));
+                html.append(" swbstrgy-semaphore\"></span>\n");
+                html.append(" </td>\n");
+                html.append(" <td>\n");
+                html.append("  <a class=\"swb-url-lista detalle-archivos\" ");
+                html.append(" title=\"");
+                html.append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblProgress",locale));
+                html.append("\" ");
+                html.append("href=\"Deliverable?suri=");
+                html.append(deliverable.getEncodedURI());
+                html.append("\">\n");
+                html.append(deliverable.getDisplayTitle(lang));
+                html.append("  </a>\n");
+                html.append(" </td>\n");
+                html.append(" <td>\n");
+                html.append(deliverable.getPlannedStart() == null ? ""
+                        : SWBUtils.TEXT.getStrDate(deliverable.getPlannedStart(), "es", "dd/mm/yyyy"));
+                html.append(" - ");
+                html.append(deliverable.getPlannedEnd() == null ? ""
+                        : SWBUtils.TEXT.getStrDate(deliverable.getPlannedEnd(), "es", "dd/mm/yyyy"));
+                html.append(" </td>\n");
+html.append(" <td>\n");
+html.append(deliverable.getActualStart() == null ? ""
+        : SWBUtils.TEXT.getStrDate(deliverable.getActualStart(), "es", "dd/mm/yyyy"));
+html.append(" - ");
+html.append(deliverable.getActualEnd() == null ? ""
+        : SWBUtils.TEXT.getStrDate(deliverable.getActualEnd(), "es", "dd/mm/yyyy"));
+html.append(" </td>\n");
                 if ("true".equals(usrWithGrants)) {
-                    toReturn.append("\n<td class=\"swb-td-accion\">");
-                    toReturn.append("\n<a href=\"#\" onclick=\"if(confirm(\'");
-                    toReturn.append("¿");
-                    toReturn.append(getLocaleString("alertDeleteElement", lang));
-                    toReturn.append(" \\'");
-                    toReturn.append(deliverable.getTitle());
-                    toReturn.append("\\' ?\')){ ");
-                    toReturn.append("processUrlDeliv('");
-                    toReturn.append(urlRemove);
-                    toReturn.append("', 'null'); ");
-                    toReturn.append("} else { return false;}");
-                    toReturn.append("\">");
-
-//                    toReturn.append("<i class=\"fa fa-trash-o fa-lg swb-boton-accion\" title=\"");
-//                    toReturn.append(getLocaleString("delete", lang));
-//                    toReturn.append("\"></i>");
-                    toReturn.append("<span class=\"glyphicon glyphicon-trash\"></span>");
-                    toReturn.append("\n</a>");
-                    toReturn.append("\n</td>");
+                    html.append(" <td class=\"swb-td-accion\">\n");
+                    html.append("  <a href=\"#\" title=\"");
+                    html.append(SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblAxnDelete",locale));
+                    html.append("\" onclick=\"if(confirm(\'");
+                    html.append("¿");
+                    html.append(getLocaleString("alertDeleteElement", lang));
+                    html.append(" \\'");
+                    html.append(deliverable.getTitle());
+                    html.append("\\' ?\')){ ");
+                    html.append("processUrlDeliv('");
+                    html.append(urlRemove);
+                    html.append("', 'null'); ");
+                    html.append("} else { return false;}");
+                    html.append("\">\n");
+                    html.append("   <span class=\"glyphicon glyphicon-trash\"></span>\n");
+                    html.append("  </a>\n");
+                    html.append(" </td>\n");
                 }
-                toReturn.append("\n</tr>");
+                html.append("</tr>\n");
             }
+            html.append("  </tbody>\n");
+            html.append(" </table>\n");
+            html.append("</div>\n");
         }
-        toReturn.append("\n</tbody>");
-        toReturn.append("\n</table>");
-        toReturn.append("\n</div>");
-        return toReturn.toString();
+        return html.toString();
     }
 
     /**
@@ -396,41 +393,58 @@ public class DeliverableElement extends org.semanticwb.bsc.formelement.base.Deli
      */
     public String renderModeView(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode, String lang) {
-        StringBuilder toReturn = new StringBuilder();
-        String suri = (String) request.getParameter("suri");
-        if (suri == null) {
-            suri = (String) request.getAttribute("suri");
-        }
-
-        if (suri != null) {
-            SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
-            Initiative element = null;
-            if (semObj != null && semObj.createGenericInstance() instanceof Initiative) {
-                element = (Initiative) semObj.createGenericInstance();
-                Iterator<Deliverable> itDeliverables = element.listDeliverables();
-                toReturn.append("\n<table width=\"98%\">");
-                itDeliverables = SWBComparator.sortByCreated(itDeliverables, false);
-
-                while (itDeliverables.hasNext()) {
-                    Deliverable deliverable = itDeliverables.next();
-                    toReturn.append("\n<tr>");
-                    toReturn.append("\n<td>");
-                    toReturn.append("\n<div>");
-                    toReturn.append(deliverable.getDisplayTitle(lang) == null ? deliverable.getTitle() : deliverable.getDisplayTitle(lang));
-                    toReturn.append("\n</div>");
-                    toReturn.append("\n</td>");
-
-                    toReturn.append("\n<td>");
-                    toReturn.append(deliverable.getCreated() == null
-                            ? SWBUtils.TEXT.getStrDate(new Date(), lang, "dd/mm/yyyy")
-                            : SWBUtils.TEXT.getStrDate(deliverable.getCreated(), lang, "dd/mm/yyyy"));
-                    toReturn.append("\n</td>");
-
-                    toReturn.append("</tr>");
+        
+        StringBuilder html = new StringBuilder();
+        Initiative initiative;
+        if(obj.getGenericInstance() instanceof Initiative) {
+            initiative = (Initiative) obj.getGenericInstance();
+            List<Deliverable> deliverableLst = initiative.listValidDeliverables();
+            Collections.sort(deliverableLst, new SortDeliverablesByPlannedDate());
+            Iterator<Deliverable> deliverables = deliverableLst.iterator();
+            if(deliverables.hasNext()) {
+                html.append("<div class=\"table-responsive\">").append("\n");
+                html.append("<table class=\"table table-striped table-condensed table-bordered\">").append("\n");
+                html.append(" <thead>");
+                html.append("  <tr>");
+                html.append("   <th>").append(Deliverable.swb_title.getLabel(lang)).append("</th>");
+                html.append("   <th>").append(Deliverable.bsc_plannedStart.getLabel(lang)).append("</th>");
+                html.append("  </tr>");
+                html.append(" </thead>").append("\n");
+                html.append(" <tbody>");
+                while (deliverables.hasNext()) {
+                    Deliverable deliverable = deliverables.next();
+                    html.append("  <tr>").append("\n");
+                    html.append("   <td scope=\"row\">");
+                    html.append(deliverable.getDisplayTitle(lang));
+                    html.append("</td>").append("\n");
+                    html.append("   <td>");
+                    html.append(deliverable.getPlannedStart() == null
+                            ? SWBUtils.TEXT.getStrDate(deliverable.getCreated(), lang, "dd/mm/yyyy")
+                            : SWBUtils.TEXT.getStrDate(deliverable.getPlannedStart(), lang, "dd/mm/yyyy"));
+                    html.append("</td>").append("\n");
+                    html.append("  </tr>").append("\n");
                 }
-                toReturn.append("\n</table>");
+                html.append(" </tbody>").append("\n");
+                html.append("</table>");
+                html.append("</div>");
             }
         }
-        return toReturn.toString();
+        return html.toString();
     }
+}
+
+class SortDeliverablesByPlannedDate implements Comparator<Deliverable>
+{
+    @Override
+    public int compare(Deliverable o1, Deliverable o2)
+    {
+        if(o1.getPlannedStart()==null) {
+            return -1;
+        }
+        if(o2.getPlannedStart()==null) {
+            return 1;
+        }
+        return o1.getPlannedStart().compareTo(o2.getPlannedStart());
+    }
+
 }
