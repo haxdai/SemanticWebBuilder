@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.semanticwb.bsc.tracing.DeterminantValue;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
-import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 
 
@@ -41,11 +39,14 @@ public class Determinant extends org.semanticwb.bsc.accessory.base.DeterminantBa
         
         if (webSite != null) {
             Iterator<Determinant> determIt = Determinant.ClassMgr.listDeterminants(webSite);
-            User user = SWBContext.getSessionUser(webSite.getUserRepository().getId());
+            /*User user = SWBContext.getSessionUser(webSite.getUserRepository().getId());*/
             
             while (determIt != null && determIt.hasNext()) {
                 Determinant det = determIt.next();
-                if (det.isValid() && user.haveAccess(det)) {
+                /*if (det.isValid() && user.haveAccess(det)) {
+                    validItems.add(det);
+                }*/
+                if(det.isValid()) {
                     validItems.add(det);
                 }
             }
