@@ -92,11 +92,12 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         List<Deliverable> validDeliverables = SWBUtils.Collections.filterIterator(super.listDeliverables(), new GenericFilterRule<Deliverable>() {
             @Override
             public boolean filter(Deliverable d) {
-                User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !d.isValid() || !user.haveAccess(d);
+                return !d.isValid() || !user.haveAccess(d);*/
+                return !d.isValid();
             }
         });
         return validDeliverables;
@@ -110,11 +111,12 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
                 if (s == null) {
                     return true;
                 }
-                User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
+                /*User user = SWBContext.getSessionUser(getBSC().getUserRepository().getId());
                 if (user == null) {
                     user = SWBContext.getAdminUser();
                 }
-                return !s.isValid() || !user.haveAccess(s);
+                return !s.isValid() || !user.haveAccess(s);*/
+                return !s.isValid();
             }
         });
         return validStates;
@@ -221,11 +223,15 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
         // Calcular el porcentaje de avance formulado como un promedio ponderado
         for (Deliverable deliverable : deliverables) {
             Series star = deliverable.getStar();
-            if (star == null || star.getMeasure(period) == null ) {
-                log.error("No existe STAR definido en el entregable");
+            if(star == null) {
+                log.error("No existe STAR definido en el entregable "+deliverable.getTitle());
                 continue;
             }
-            if (deliverable.getPriority() == null) {
+            if(star.getMeasure(period) == null) {
+                log.error("El entregable "+deliverable.getTitle()+" no mide para el periodo "+period.getTitle());
+                continue;
+            }
+            if(deliverable.getPriority() == null) {
                 log.error("No existe prioridad definida en el entregable "+deliverable.getTitle());
                 continue;
             }
@@ -235,7 +241,12 @@ public class Initiative extends org.semanticwb.bsc.element.base.InitiativeBase {
             }else {
                 f = BSCUtils.Formats.round(value * deliverable.getPriority().getWeighing(), 2).floatValue();
             }
-            deliverable.setProgress(f);
+            // f puede, en un periodo dado, ser menor que el valor acumulado
+            // actual ya que puede que para ese periodo no exista valor porque, 
+            // tal vez, no se capturó.
+            if(f>deliverable.getProgress()) {
+                deliverable.setProgress(f);
+            }
             xwSum += deliverable.getProgress();
             weighingSum += deliverable.getPriority().getWeighing();
         }
