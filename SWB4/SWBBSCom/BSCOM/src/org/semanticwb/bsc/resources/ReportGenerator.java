@@ -1259,9 +1259,9 @@ output.append("</div>");
                             //el estatus debe estar asignado al entregable
                             if (inTurn instanceof Deliverable) {
                                 Deliverable deli = (Deliverable) inTurn;
-                                if ( deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()) ) {
+                                //if ( deli.getAutoStatus() != null && deli.getAutoStatus().equals(criteria.getStatus()) ) {
                                     mustBeAdded = true;
-                                }
+                                //}
                             }
                         }
                     }
@@ -1977,15 +1977,10 @@ output.append("</div>");
             toReturn.append("\n     }");
             toReturn.append("\n  }");
             toReturn.append("\n </script>");
-
-//            toReturn.append("<a href=\"javascript:getCriteria()");
-//            toReturn.append("\" class=\"export-stgy\" title=\"");
-//            toReturn.append(alt);
-//            toReturn.append("\" >");
-//            toReturn.append(alt);
-//            toReturn.append("</a>");
             
-            toReturn.append("<button type=\"button\" class=\"btn btn-default\" onclick=\"javascript:getCriteria();\"><span class=\"glyphicon glyphicon-export\"></span></button>");
+            toReturn.append("<button type=\"button\" class=\"btn btn-default\" ");
+            toReturn.append(" data-toggle=\"tooltip\" data-placement=\"bottom\" data-container=\"#menu\" ");
+            toReturn.append(" onclick=\"getCriteria();\"><span class=\"glyphicon glyphicon-export\"></span></button>");
             toReturn.append("<form id=\"frmDetail\" method=\"post\" action=\"");
             toReturn.append(url);
             toReturn.append("\" style=\"display:none\">");
