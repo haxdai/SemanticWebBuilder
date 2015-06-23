@@ -171,11 +171,14 @@ public class Risk extends org.semanticwb.bsc.element.base.RiskBase {
 
         Iterator<Factor> facIt = listFactors();
         TreeMap<String, Factor> validFactors = new TreeMap<String, Factor>();
-        User user = SWBContext.getSessionUser();
+        /*User user = SWBContext.getSessionUser();*/
 
         while (facIt != null && facIt.hasNext()) {
             Factor factor = facIt.next();
-            if (factor.isValid() && user != null && user.haveAccess(factor)) {
+            /*if (factor.isValid() && user != null && user.haveAccess(factor)) {
+                validFactors.put(factor.getPrefix(), factor);
+            }*/
+            if(factor.isValid()) {
                 validFactors.put(factor.getPrefix(), factor);
             }
         }
@@ -199,11 +202,14 @@ public class Risk extends org.semanticwb.bsc.element.base.RiskBase {
 
         Iterator<Factor> facIt = listFactors();
         ArrayList<Factor> factors = new ArrayList();
-        User user = SWBContext.getSessionUser();
+        /*User user = SWBContext.getSessionUser();*/
 
         while (facIt != null && facIt.hasNext()) {
             Factor factor = facIt.next();
-            if (factor.isValid() && user != null && user.haveAccess(factor)) {
+            /*if (factor.isValid() && user != null && user.haveAccess(factor)) {
+                factors.add(factor);
+            }*/
+            if(factor.isValid()) {
                 factors.add(factor);
             }
         }
