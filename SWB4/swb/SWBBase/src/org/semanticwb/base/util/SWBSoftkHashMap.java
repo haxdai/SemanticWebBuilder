@@ -83,9 +83,10 @@ public class SWBSoftkHashMap<K,V> extends AbstractMap<K,V> {
         // we don't want to search through it each time to remove
         // duplicates.
         hardCache.addFirst(result);
-        if (hardCache.size() > HARD_SIZE) {
-          // Remove the last entry if list longer than HARD_SIZE
-          hardCache.removeLast();
+        if (hardCache.size() > HARD_SIZE && !hardCache.isEmpty()) {
+          // Remove the last entry if list longer than HARD_SIZE            
+            hardCache.removeLast();
+            
         }
       }
     }
