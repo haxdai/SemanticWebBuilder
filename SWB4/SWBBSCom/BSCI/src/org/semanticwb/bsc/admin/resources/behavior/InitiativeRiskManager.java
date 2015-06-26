@@ -149,115 +149,113 @@ public class InitiativeRiskManager extends GenericResource {
             if(null == initiative) {
                 continue;
             }
-            if(  (initiative.isValid() && user.haveAccess(initiative)) || (ias.hasInitiative(initiative) && !initiative.isActive() && user.haveAccess(initiative))  )
-            {
-                if(user.haveAccess(initiative)) {
-                    
-                    urlDelete.setParameter("sval", initiative.getId());
-                    urlAxn.setParameter("sval", initiative.getId());
-                    
-                    htm.append("<tr>");
-                    // Acción
+            //if(  (initiative.isValid() && user.haveAccess(initiative)) || (ias.hasInitiative(initiative) && !initiative.isActive() && user.haveAccess(initiative))  )
+            if(  initiative.isValid()  || (ias.hasInitiative(initiative) && !initiative.isActive() )  )
+            {                    
+                urlDelete.setParameter("sval", initiative.getId());
+                urlAxn.setParameter("sval", initiative.getId());
+
+                htm.append("<tr>");
+                // Acción
+                htm.append("<td>");
+                htm.append("\n<a href=\"#\" onclick=\"if(confirm('");
+                htm.append(paramRequest.getLocaleString("msgDeleteQuery"));
+                htm.append("')){submitUrl('");
+                htm.append(urlDelete);
+                htm.append("',this);reloadTab('");
+                htm.append(ias.getURI());
+                htm.append("');} else{return false;}\">");
+                htm.append("\n<img src=\"");
+                htm.append(SWBPlatform.getContextPath());
+                htm.append("/swbadmin/icons/iconelim.png\" alt=\"");
+                htm.append(paramRequest.getLocaleString("lblDelete"));
+                htm.append("\"/>");
+                htm.append("\n</a>");
+                htm.append("</td>\n");
+                // Título de la iniciativa
+                htm.append("<td>");
+                htm.append("<a href=\"#\" onclick=\"addNewTab('");
+                htm.append(initiative.getURI());
+                htm.append("','");
+                htm.append(SWBPlatform.getContextPath());
+                htm.append("/swbadmin/jsp/objectTab.jsp");
+                htm.append("','");
+                htm.append(initiative.getTitle());
+                htm.append("');return false;\" >");
+                htm.append(initiative.getDisplayTitle(lang).replaceAll("'", ""));
+                htm.append("</a>");
+                htm.append("</td>\n");
+                // Descripción de la iniciativa
+                htm.append("<td>");                    
+                htm.append(initiative.getDisplayDescription(lang) == null
+                        ? "-"
+                        : initiative.getDisplayDescription(lang).substring(0
+                                , initiative.getDisplayDescription(lang).length()>=30
+                                        ?30
+                                        :initiative.getDisplayDescription(lang).length()));
+                htm.append("</td>\n");
+                // Responsable
+                htm.append("<td>");
+                htm.append(initiative.getInitiativeFacilitator()==null
+                        ?"-":initiative.getInitiativeFacilitator().getFullName());
+                htm.append("</td>\n");
+                // Area
+                htm.append("<td>");
+                htm.append(initiative.getArea()==null?"-":initiative.getArea());
+                htm.append("</td>\n");
+
+                p = initiative.getFirstPeriod();
+                if(null==p) {
+                    htm.append("<td>-</td>\n");
+                    htm.append("<td>-</td>\n");
+                }else {
                     htm.append("<td>");
-                    htm.append("\n<a href=\"#\" onclick=\"if(confirm('");
-                    htm.append(paramRequest.getLocaleString("msgDeleteQuery"));
-                    htm.append("')){submitUrl('");
-                    htm.append(urlDelete);
-                    htm.append("',this);reloadTab('");
-                    htm.append(ias.getURI());
-                    htm.append("');} else{return false;}\">");
-                    htm.append("\n<img src=\"");
-                    htm.append(SWBPlatform.getContextPath());
-                    htm.append("/swbadmin/icons/iconelim.png\" alt=\"");
-                    htm.append(paramRequest.getLocaleString("lblDelete"));
-                    htm.append("\"/>");
-                    htm.append("\n</a>");
+                    htm.append(p.getDisplayTitle(lang));
                     htm.append("</td>\n");
-                    // Título de la iniciativa
+                    p = initiative.getLastPeriod();
                     htm.append("<td>");
-                    htm.append("<a href=\"#\" onclick=\"addNewTab('");
-                    htm.append(initiative.getURI());
-                    htm.append("','");
-                    htm.append(SWBPlatform.getContextPath());
-                    htm.append("/swbadmin/jsp/objectTab.jsp");
-                    htm.append("','");
-                    htm.append(initiative.getTitle());
-                    htm.append("');return false;\" >");
-                    htm.append(initiative.getDisplayTitle(lang).replaceAll("'", ""));
-                    htm.append("</a>");
+                    htm.append(p.getDisplayTitle(lang));
                     htm.append("</td>\n");
-                    // Descripción de la iniciativa
-                    htm.append("<td>");                    
-                    htm.append(initiative.getDisplayDescription(lang) == null
-                            ? "-"
-                            : initiative.getDisplayDescription(lang).substring(0
-                                    , initiative.getDisplayDescription(lang).length()>=30
-                                            ?30
-                                            :initiative.getDisplayDescription(lang).length()));
-                    htm.append("</td>\n");
-                    // Responsable
-                    htm.append("<td>");
-                    htm.append(initiative.getInitiativeFacilitator()==null
-                            ?"-":initiative.getInitiativeFacilitator().getFullName());
-                    htm.append("</td>\n");
-                    // Area
-                    htm.append("<td>");
-                    htm.append(initiative.getArea()==null?"-":initiative.getArea());
-                    htm.append("</td>\n");
-                    
-                    p = initiative.getFirstPeriod();
-                    if(null==p) {
-                        htm.append("<td>-</td>\n");
-                        htm.append("<td>-</td>\n");
-                    }else {
-                        htm.append("<td>");
-                        htm.append(p.getDisplayTitle(lang));
-                        htm.append("</td>\n");
-                        p = initiative.getLastPeriod();
-                        htm.append("<td>");
-                        htm.append(p.getDisplayTitle(lang));
-                        htm.append("</td>\n");
-                    }
-                    /*
-                    // Fecha de creación de la iniciativa
-                    htm.append("<td>");
-                    htm.append((initiative.getCreated() == null ? "-"
-                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
-                                    "es", "dd/mm/yyyy")));
-                    htm.append("</td>\n");
-                    // Fecha de la última actualización de la iniciativa
-                    htm.append("<td>");
-                    htm.append((initiative.getUpdated() == null ? "-"
-                            : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
-                                    "es", "dd/mm/yyyy")));
-                    htm.append("</td>\n");*/
-                    
-                    // Iniciativa activa/inactiva
-                    htm.append("     <td align=\"center\"><input name=\"");
-                    htm.append(Initiative.swb_active.getName());
-                    htm.append("\"");
-                    htm.append(" type=\"checkbox\" name=\"initiative\" value=\"");
-                    htm.append(initiative.getId());
-                    htm.append("\"  onchange=\"submitUrl('");
-                    htm.append(urlAxn.setAction(Action_UPDT_ACTIVE));
-                    htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
-                    htm.append(" dojoType=\"dijit.form.CheckBox\" ");
-                    htm.append(initiative.isActive() ? "checked=\"checked\"" : "");
-                    htm.append("/>");
-                    htm.append("</td>\n");
-                    // Asignar
-                    htm.append("<td align=\"center\">");
-                    htm.append("<input type=\"checkbox\" name=\"initiative\" ");
-                    htm.append("onchange=\"submitUrl('");
-                    htm.append(urlAxn.setAction(Action_UPDT_ASSIGN));
-                    htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
-                    htm.append(" dojoType=\"dijit.form.CheckBox\" value=\"");
-                    htm.append(initiative.getId()).append("\"");
-                    htm.append(ias.hasInitiative(initiative)?" checked=\"checked\" ":"").append(" />");
-                    htm.append("</td>\n");
-                    
-                    htm.append("</tr>\n");
                 }
+                /*
+                // Fecha de creación de la iniciativa
+                htm.append("<td>");
+                htm.append((initiative.getCreated() == null ? "-"
+                        : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
+                                "es", "dd/mm/yyyy")));
+                htm.append("</td>\n");
+                // Fecha de la última actualización de la iniciativa
+                htm.append("<td>");
+                htm.append((initiative.getUpdated() == null ? "-"
+                        : SWBUtils.TEXT.getStrDate(initiative.getCreated(),
+                                "es", "dd/mm/yyyy")));
+                htm.append("</td>\n");*/
+
+                // Iniciativa activa/inactiva
+                htm.append("     <td align=\"center\"><input name=\"");
+                htm.append(Initiative.swb_active.getName());
+                htm.append("\"");
+                htm.append(" type=\"checkbox\" name=\"initiative\" value=\"");
+                htm.append(initiative.getId());
+                htm.append("\"  onchange=\"submitUrl('");
+                htm.append(urlAxn.setAction(Action_UPDT_ACTIVE));
+                htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
+                htm.append(" dojoType=\"dijit.form.CheckBox\" ");
+                htm.append(initiative.isActive() ? "checked=\"checked\"" : "");
+                htm.append("/>");
+                htm.append("</td>\n");
+                // Asignar
+                htm.append("<td align=\"center\">");
+                htm.append("<input type=\"checkbox\" name=\"initiative\" ");
+                htm.append("onchange=\"submitUrl('");
+                htm.append(urlAxn.setAction(Action_UPDT_ASSIGN));
+                htm.append("&'+this.attr('name')+'='+this.attr('value'),this.domNode)\" ");
+                htm.append(" dojoType=\"dijit.form.CheckBox\" value=\"");
+                htm.append(initiative.getId()).append("\"");
+                htm.append(ias.hasInitiative(initiative)?" checked=\"checked\" ":"").append(" />");
+                htm.append("</td>\n");
+
+                htm.append("</tr>\n");
             }
         }
         htm.append("</table>\n");
