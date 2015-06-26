@@ -110,7 +110,8 @@ public class InitiativeManager extends GenericResource {
         Period p;
         while (initiatives.hasNext()) {                    
             Initiative initiative = initiatives.next();
-            if(  (initiative.isValid() && user.haveAccess(initiative)) || (!initiative.isActive() && semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject()) && user.haveAccess(initiative))  )
+            //if(  (initiative.isValid() && user.haveAccess(initiative)) || (!initiative.isActive() && semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject()) && user.haveAccess(initiative))  )
+            if(  initiative.isValid() || (!initiative.isActive() && semObj.hasObjectProperty(InitiativeAssignable.bsc_hasInitiative, initiative.getSemanticObject()))  )
             {
                 urlAdd.setParameter("sval", initiative.getId());
                 
