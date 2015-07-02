@@ -101,11 +101,11 @@
             return offTop ? evt.pageY - offTop : evt.pageY - 10;
         },
 
-        init:function(svgid)
+        init:function(svgid, options)
         {
             var _this=this;
             _this.svg=document.getElementById(svgid);
-            //desc(_this.svg,true);
+            _this.options = options || {};
 
             _this.svg.oncontextmenu=function(evt)
             {
@@ -338,20 +338,24 @@
             };                        
 
             //Add Key Events
-            if (window.addEventListener)
-            {
-                window.addEventListener('keydown', _this.keydown, true);
-                window.addEventListener('keyup', _this.keyup, true);
-            }
-            else if (window.attachEvent)
-            {
-                window.attachEvent("onkeydown", _this.keydown);
-                window.attachEvent("onkeyup", _this.keyup);
-            }
-            else
-            {
-                window.onkeydown= _this.keydown;  
-                window.onkeyup= _this.keyup;  
+            if (options.disableKeyEvents !== undefined && options.disableKeyEvents) {
+                
+            } else {
+                if (window.addEventListener)
+                {
+                    window.addEventListener('keydown', _this.keydown, true);
+                    window.addEventListener('keyup', _this.keyup, true);
+                }
+                else if (window.attachEvent)
+                {
+                    window.attachEvent("onkeydown", _this.keydown);
+                    window.attachEvent("onkeyup", _this.keyup);
+                }
+                else
+                {
+                    window.onkeydown= _this.keydown;  
+                    window.onkeyup= _this.keyup;  
+                }
             }
 
             _this.setWidth(1920);
