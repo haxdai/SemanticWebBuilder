@@ -2222,8 +2222,12 @@ var _GraphicalElement = function(obj) {
                     Modeler.options.layerNavigation = options.layerNavigation;
                 }
             }
-                
-            ToolKit.init(svgid);
+            
+            var options = {};
+            if (modeler.mode === "view") {
+                options.disableKeyEvents = true;
+            }
+            ToolKit.init(svgid, options);
             ToolKit.onmousedown=Modeler.onmousedown;
             ToolKit.onmousemove=Modeler.onmousemove;
             ToolKit.onmouseup=Modeler.onmouseup;
