@@ -7,20 +7,28 @@
 <%@page import="java.util.Set"%><%@page import="javax.naming.NamingEnumeration"%><%@page import="javax.naming.directory.SearchControls"%><%@page import="javax.naming.directory.InitialDirContext"%><%@page import="javax.naming.Context"%><%@page import="javax.naming.directory.DirContext"%>
 <%@page import="java.util.Hashtable"%><%@page import="java.util.Comparator"%><%@page import="javax.naming.NamingException"%><%@page import="org.semanticwb.model.User"%><%@page import="javax.naming.directory.Attributes"%>
 <%@page import="java.util.Properties"%><%@page import="org.semanticwb.model.UserRepository"%><jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
+
 <%!
     private final Logger log = SWBUtils.getLogger(SWBASearchUsers.class);
 
-    class UserInformationComparator implements Comparator<UserInformation>
+    private class UserInformationComparator implements Comparator
     {
-
-        @Override
-        public int compare(UserInformation u1, UserInformation u2)
+        public int compare(Object o1, Object o2)
         {
-            return u1.name.compareToIgnoreCase(u2.name);
+            if(o1 instanceof UserInformation && o2 instanceof UserInformation)
+            {
+                return ((UserInformation)o1).name.compareToIgnoreCase(((UserInformation)o2).name);
+            }
+            else
+            {
+                return 0;
+            }
         }
+       
+        
     }
 
-    class ConfigurationError extends Exception
+    private class ConfigurationError extends Exception
     {
 
         public ConfigurationError(String message)
@@ -39,6 +47,7 @@
             this.login = login;
             this.name = name;
         }
+       
     }
 
     private class Util
@@ -316,6 +325,7 @@
 
         private User getUserByLogin(String login)
         {
+            login=login.toLowerCase();
             User getUserByLogin = null;
             Iterator<User> users = userRep.listUsers();
             while (users.hasNext())
@@ -331,7 +341,7 @@
 
         public String loadUser(String login)
         {
-
+            login=login.toLowerCase();
             User user = getUserByLogin(login);
             try
             {
@@ -417,6 +427,7 @@
                                     if (searchResult.getAttributes() != null && searchResult.getAttributes().get(seekField) != null && searchResult.getAttributes().get(seekField).get() != null)
                                     {
                                         String login = searchResult.getAttributes().get(seekField).get().toString();
+                                        login=login.toLowerCase();
                                         if (!findUsers.containsKey(login))
                                         {
                                             Attributes atts = getUserAttributes(login);
@@ -439,6 +450,8 @@
 
     }
 %>
+
+
 <%
     String usrep = request.getParameter("userRepository");
     if (usrep == null)
@@ -447,14 +460,17 @@
     }
     UserRepository repository = UserRepository.ClassMgr.getUserRepository(usrep);
     String loginContext = repository.getLoginContext();
+   
     if ("LDAPModule".equals(loginContext))
     {
         String file = repository.getUserRepExternalConfigFile();
+   
         if (file != null)
         {
-            InputStream inProps = this.getClass().getClassLoader().getResourceAsStream(file);
+            InputStream inProps = this.getClass().getClassLoader().getResourceAsStream(file);   
             if (inProps != null)
             {
+  
                 Properties props = new Properties();
                 props.load(inProps);
                 Util util = new Util(repository, props);
@@ -469,9 +485,14 @@
                         if (usr != null)
                         {
                             String login = usr.getLogin();
-                            if (login != null && findUsers.keySet().contains(login))
-                            {
-                                delete.add(login);
+                            if (login != null)
+                            {                                
+                                login=login.toLowerCase();
+                                if(findUsers.keySet().contains(login))
+                                {
+                                    delete.add(login);
+                                }
+                                
                             }
                         }
                     }
