@@ -145,6 +145,7 @@ public class SWBSocialUtil {
     static public String MESSAGE="message";
     static public String PHOTO="photo";
     static public String VIDEO="video";
+    static public String AUDIO="audio";
     static public final String CLASSIFYSENTMGS_PROPNAME="classifySentMgs";
     static public double EART_RADIUS_KM = 6371.01;   //Kilometros
     static public double EART_RADIUS_MI = 3958.762079; //Millas
