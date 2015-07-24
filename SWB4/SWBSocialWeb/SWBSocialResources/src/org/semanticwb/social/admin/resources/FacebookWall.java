@@ -2569,7 +2569,10 @@ public class FacebookWall extends GenericResource {
             //writer.write("</span>"); 
             //Comments, end
             writer.write("<div class=\"clear\"></div>");
-            Date postTime = formatter.parse(postsData.getString("created_time"));
+            Date postTime = null;
+            if (postsData.has("created_time")) {
+                postTime = formatter.parse(postsData.getString("created_time"));
+            }
 
             writer.write("<div class=\"timelineresume\" dojoType=\"dijit.layout.ContentPane\">");
             if (postsData.has("icon") && !postsData.isNull("icon")) {
@@ -2579,8 +2582,8 @@ public class FacebookWall extends GenericResource {
                     facebook.getId() + postsData.getString("id") +
                     FacebookWall.INFORMATION + tabSuffix +
                     "\" dojoType=\"dojox.layout.ContentPane\">");
-            //writer.write("<em>" + facebookHumanFriendlyDate(postTime, paramRequest) + "</em>");            
-            writer.write("" + df.format(postTime) +"&nbsp;");
+            //writer.write("<em>" + facebookHumanFriendlyDate(postTime, paramRequest) + "</em>");
+            writer.write(postTime != null ? df.format(postTime) : "" +"&nbsp;");
             boolean iLikedPost = false;
             writer.write("<strong><span> Likes: </span>");
             if (postsData.has("likes")) {
