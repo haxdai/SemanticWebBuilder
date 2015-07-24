@@ -101,7 +101,7 @@ public class TumblrDashboard  extends GenericResource {
     @Override
     public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         SWBResourceURL renderUrl = paramRequest.getRenderUrl();
-        System.out.println(renderUrl.getMode());
+        //System.out.println(renderUrl.getMode());
         if(renderUrl.getMode().equals(DO_DASHBOARD)){
             doDashBoard(request, response, paramRequest);
         }else if(renderUrl.getMode().equals(DO_FOLLOWING)){
@@ -136,7 +136,7 @@ public class TumblrDashboard  extends GenericResource {
             SWBResourceURL urlDoUnFollow = paramRequest.getRenderUrl().setMode(DO_UNFOLLOW);
             SWBResourceURL urlDoReblog = paramRequest.getRenderUrl().setMode(DO_REBLOG);
             int offset = 0;
-            System.out.println(request.getParameter("offset"));
+            //System.out.println(request.getParameter("offset"));
             if(request.getParameter("offset")!=null){
                 offset = Integer.valueOf(request.getParameter("offset"));
             }
@@ -219,7 +219,7 @@ public class TumblrDashboard  extends GenericResource {
     
     private void doFollowers(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
          try {
-             System.out.println("Estoy en followers");
+            // System.out.println("Estoy en followers");
             RequestDispatcher rd = null;
             HashMap parameters = new HashMap();
             
@@ -247,7 +247,7 @@ public class TumblrDashboard  extends GenericResource {
 
     private void doFollow(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
         try {
-            System.out.println("Entro a Follow");
+            //System.out.println("Entro a Follow");
             PrintWriter writer = response.getWriter();
             String blogName =  request.getParameter("blogName");
             client = new JumblrClient(SWBPortal.getEnv("swbsocial/tumblrAppKey"),
@@ -268,7 +268,7 @@ public class TumblrDashboard  extends GenericResource {
 
     private void doUnFollow(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
          try {
-            System.out.println("Entro a unFollow");
+            //System.out.println("Entro a unFollow");
             PrintWriter writer = response.getWriter();
             String blogName =  request.getParameter("blogName");
             client = new JumblrClient(SWBPortal.getEnv("swbsocial/tumblrAppKey"),
@@ -289,7 +289,7 @@ public class TumblrDashboard  extends GenericResource {
 
     private void doLike(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
         try {
-            System.out.println("Entro a like");
+            //System.out.println("Entro a like");
             PrintWriter writer = response.getWriter();
             String idPost =  request.getParameter("idPost");
             String idReblog = request.getParameter("idReblog");
@@ -312,7 +312,7 @@ public class TumblrDashboard  extends GenericResource {
 
     private void doUnLike(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
         try {
-            System.out.println("Entro a unlike");
+           // System.out.println("Entro a unlike");
             PrintWriter writer = response.getWriter();
             String idPost =  request.getParameter("idPost");
             String idReblog = request.getParameter("idReblog");
@@ -336,7 +336,7 @@ public class TumblrDashboard  extends GenericResource {
     
      private void doReblog(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) {
         try {
-            System.out.println("Entro a rebolg");
+            //System.out.println("Entro a rebolg");
             HashMap parameters = new HashMap();
             PrintWriter writer = response.getWriter();
             String idPost =  request.getParameter("idPost");
@@ -348,12 +348,9 @@ public class TumblrDashboard  extends GenericResource {
             client.setToken(tumblr.getAccessToken(), tumblr.getAccessTokenSecret());
             User user = client.user();
             Blog blog = user.getBlogs().get(0);
-            System.out.println(blog.getName());
-            System.out.println("Comment: ");
-            System.out.println( comment != null ? comment :"");
+            
             parameters.put("comment", comment != null ? comment :"");
             if(idPost!= null && !idPost.isEmpty() && idReblog != null && !idPost.isEmpty()){
-                System.out.println(Long.valueOf(idPost));
                 client.postReblog(blog.getName(), Long.valueOf(idPost), idReblog);
                 writer.print("ok");
             }else{
