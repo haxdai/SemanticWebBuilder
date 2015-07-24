@@ -263,6 +263,7 @@ public class SWB4GenericLDAPBridge extends ExtUserRepInt
             ctx.close();
         } catch (NamingException e)
         {
+            log.error("Error login user: " + login, e);
             return false;
         }
         return true;
