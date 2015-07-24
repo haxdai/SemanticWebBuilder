@@ -3,6 +3,7 @@
     Created on : 22/05/2014, 11:34:52 AM
     Author     : francisco.jimenez
 --%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.DevicePlatform"%>
 <%@page import="java.util.LinkedHashMap"%>
@@ -21,16 +22,15 @@
 <%@page import="java.util.*"%> 
 <%@page import="java.util.Calendar"%> 
 <%@page import="static org.semanticwb.social.admin.resources.PieChart.*"%>
-
 <%@page contentType="text/html" pageEncoding="x-iso-8859-11"%>
 <!DOCTYPE html>
-
 <%
     String suri = request.getParameter("suri");    
     if(suri == null)return;
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String title = "";
+    String urlRender = (String)request.getParameter("urlRender");
     String clsName = semObj.createGenericInstance().getClass().getName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -49,6 +49,11 @@
         } catch(java.text.ParseException e) {
         }
     }       
+    String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
+    String args2 = "?suri=" + URLEncoder.encode(suri) +
+    "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null) +
+    "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null) +
+    "&type=graphDevicePlatform";
     
     Iterator<PostIn> itObjPostIns = null;
     LinkedHashMap<DevicePlatform, Integer[]> lhm = new LinkedHashMap<DevicePlatform,Integer[]>();
@@ -81,13 +86,13 @@
         DevicePlatform dp = dps.next();
         lhm.put(dp, new Integer[]{0,0,0});
     }
-    while(itObjPostIns.hasNext()){
+    while(itObjPostIns.hasNext()) {
         PostIn postIn = itObjPostIns.next();
         DevicePlatform pInDP = postIn.getPostInDevicePlatform();
-        if(pInDP != null){
-            if(lhm.containsKey(pInDP)){
+        if(pInDP != null) {
+            if(lhm.containsKey(pInDP)) {
                 Integer [] tmp = lhm.get(pInDP);//0Neutrals, 1positives, 2negatives
-                if(postIn.getPostSentimentalType() >= 0 &&postIn.getPostSentimentalType() <=2 ){
+                if(postIn.getPostSentimentalType() >= 0 && postIn.getPostSentimentalType() <= 2 ){
                     tmp[postIn.getPostSentimentalType()]++;
                 }
                 lhm.put(pInDP, tmp);
@@ -123,18 +128,34 @@ text {
 #chart1 svg {
   height: 500px;
 }
+.excel{
+    background-image:url(/swbadmin/css/images/ico-exp-excel.png); 
+    background-repeat:no-repeat; 
+    background-position: center; 
+    text-indent:-9999px
+}
+.aShowGraph a {
+  display: inline-block;
+  height: 30px;
+  width: 33px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
 
+}
 </style>
 <body class='with-3d-shadow with-transitions'>
-
 <div id="chart1" >
   <div align="center" style="margin-left: 100px; width: 700px">MENSAJES POR PLATAFORMA M&Oacute;VIL</div>
+    <div align="center" class="aShowGraph">
+        <a href="javascript:exportFile();" 
+                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+    </div>
   <svg style="height: 430px;"></svg>
 </div>
-
 <script src="../../js/d3.v3.js"></script>
 <script src="../../js/nv.d3.js"></script>
-
 <script>
 
 var chart;
@@ -198,5 +219,9 @@ function getChartData() {
     %>
     ];
 }
-
+function exportFile() {
+    var url = '<%=urlRender%>';
+    url += '<%=args2%>';
+    document.location.href = url;
+}
 </script>

@@ -4,6 +4,9 @@
     Author     : francisco.jimenez
 --%>
 
+<%@page import="java.net.URLEncoder"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -22,8 +25,10 @@
     if(suri == null)return;
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     String clsName = semObj.createGenericInstance().getClass().getName();
+    String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
     if(semObj == null)return;
     String title = "";
+    String urlRender = (String)request.getParameter("urlRender");
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
@@ -54,6 +59,10 @@
     if(sinDateAnalysis != null && tDateAnalysis != null) {
         itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
     }
+    String args2 = "?suri=" + URLEncoder.encode(suri);
+    args2 += "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
+    args2 += "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    args2 += "&type=graphChartByHour";
     if (itObjPostIns == null || !itObjPostIns.hasNext()) {
 %>
 <script>
@@ -126,17 +135,37 @@ svg {
   margin-top: 10px;
   margin-left: 100px;
 }
+.excel{
+    background-image:url(/swbadmin/css/images/ico-exp-excel.png); 
+    background-repeat:no-repeat; 
+    background-position: center; 
+    text-indent:-9999px
+}
+.aShowGraph a {
+  display: inline-block;
+  height: 30px;
+  width: 33px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+
+}
 </style>
 <body class='with-3d-shadow with-transitions'>
-
-<div align="center" style="margin-left: 100px; width: 700px">N&Uacute;MERO DE MENSAJES POR HORA DEL D&Iacute;A</div>
+<div align="center" class="aShowGraph">
+    <div align="center" style="margin-left: 100px; width: 700px">N&Uacute;MERO DE MENSAJES POR HORA DEL D&Iacute;A</div>
+    <div align="center">
+        <a href="javascript:exportFile();" 
+                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+    </div>
+</div>
 <div id="chart1" >  
   <svg style="height: 500px;"></svg>
 </div>
 
 <script src="../../js/d3.v3.js"></script>
 <script src="../../js/nv.d3.js"></script>
-
 <script>
 // Wrapping in nv.addGraph allows for '0 timeout render', stores rendered charts in nv.graphs, and may do more in the future... it's NOT required
 var chart;
@@ -202,4 +231,9 @@ function getChartData() {
   ];
 }
 
+function exportFile() {
+    var url = '<%=urlRender%>';
+    url += '<%=args2%>';
+    document.location.href = url;
+}
 </script>

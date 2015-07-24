@@ -58,8 +58,8 @@
         ArrayList listPostIn = new ArrayList();
         Iterator iListPostIn;
 
-
-        if (!selectedAnio.equals("") && selectMonth.equals("")) {
+        if ((!selectedAnio.equals("") && selectMonth.equals("")) || (request.getParameter("selectAnio") != null && 
+                request.getParameter("selectAnio").equals("") && !selectMonth.equals(""))){
             int neutrals = 0, positives = 0, negatives = 0;
 
             int selectedA = Integer.parseInt(selectedAnio);
@@ -236,7 +236,7 @@
             iListPostIn = listPostIn.iterator();
 
 
-        }
+        } 
 
 
         return node;
