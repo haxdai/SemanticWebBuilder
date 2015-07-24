@@ -1427,7 +1427,7 @@ public class StreamInBoxNoTopic extends GenericResource {
               query+="LIMIT "+limit;   
             }
            }
-           System.out.println("query: " + query);
+           //System.out.println("query: " + query);
            if(isCount)
            {
                WebSite wsite=WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
