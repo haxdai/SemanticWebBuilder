@@ -2605,8 +2605,8 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
                 for (int i = 0; i < permissions.length(); i++) {
                     String onePerm = permissions.getJSONObject(i).getString("permission");
-                    System.out.println("Permiso: " + onePerm +
-                            " - " + permissions.getJSONObject(i).getString("status"));
+                    //System.out.println("Permiso: " + onePerm +
+                    //        " - " + permissions.getJSONObject(i).getString("status"));
                     if (!permission.contains(onePerm)) {
                         status = "false";
                     } else
