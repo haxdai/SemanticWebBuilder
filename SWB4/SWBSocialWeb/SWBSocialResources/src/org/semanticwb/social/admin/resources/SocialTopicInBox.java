@@ -2522,12 +2522,13 @@ public class SocialTopicInBox extends GenericResource {
         String lang = user.getLanguage();
 
         
-         
+         /*
         System.out.println("User Temas Jorge:"+user);
         System.out.println("userCanRemoveMsg:"+userCanRemoveMsg);
         System.out.println("userCanRetopicMsg:"+userCanRetopicMsg);
         System.out.println("userCanRespondMsg:"+userCanRespondMsg);
         System.out.println("userCandoEveryThing:"+userCandoEveryThing);
+        */
         
         //Show Actions
         out.println("<td class=\"accion\">");
