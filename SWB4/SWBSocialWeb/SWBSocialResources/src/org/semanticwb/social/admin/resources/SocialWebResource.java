@@ -47,6 +47,7 @@ import org.semanticwb.social.Google;
 import org.semanticwb.social.Instagram;
 import org.semanticwb.social.SocialNetwork;
 import org.semanticwb.social.SocialSite;
+import org.semanticwb.social.Tumblr;
 import org.semanticwb.social.Twitter;
 import org.semanticwb.social.Youtube;
 
@@ -142,6 +143,9 @@ public class SocialWebResource extends GenericAdmResource
                         SWBPortal.getEnv("swbsocial/googleAppKey"),
                         SWBPortal.getEnv("swbsocial/googleSecretKey"));
                 isGoogleNet = true;
+            }else if(socialNetwork instanceof Tumblr ){//for Tumblr nets
+                System.out.println("Tumblr");
+                validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/tumblrAppKey"), SWBPortal.getEnv("swbsocial/tumblrSecretKey"));
             }
 
             if (validConfiguration == false) {
