@@ -620,9 +620,12 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     }
 
     private Date getLastVideoID(Stream stream) {
+        
         Date lastVideoID = new Date();
-        SocialNetStreamSearch socialStreamSerch = SocialNetStreamSearch.getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
-
+        SocialNetStreamSearch socialStreamSerch = null;
+        try {
+            socialStreamSerch = SocialNetStreamSearch.getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
+        } catch (NullPointerException npe) {}
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         Calendar defaultDate = Calendar.getInstance();
         try {
