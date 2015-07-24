@@ -21,15 +21,10 @@
 * dirección electrónica: 
 *  http://www.semanticwebbuilder.org
 **/ 
- 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.semanticwb.social.admin.resources;
 
+
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -40,20 +35,26 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
+
 
 /**
- *
+ * Controla el despliegue de: la pantalla de captura del periodo en que se desea conocer
+ * el "engagement", y la pantalla que muestra la gráfica con los datos correspondientes al periodo
+ * seleccionado.
  * @author francisco.jimenez
  */
-public class EngagementRate extends GenericResource{
+public class EngagementRate extends GenericResource {
+    
+    
     public static Logger log = SWBUtils.getLogger(EngagementRate.class);
     
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(request.getParameter("suri")!=null)
-        {
-            String jspResponse = SWBPlatform.getContextPath() +"/work/models/" + paramRequest.getWebPage().getWebSiteId() +"/jsp/socialNetworks/engagementRate.jsp";
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+        if (request.getParameter("suri") != null) {
+            String jspResponse = SWBPlatform.getContextPath() + "/work/models/" +
+                    paramRequest.getWebPage().getWebSiteId() + "/jsp/socialNetworks/engagementRate.jsp";
             if (request.getParameter("jspResponse") != null) {
                 jspResponse = request.getParameter("jspResponse");
             }
@@ -62,7 +63,7 @@ public class EngagementRate extends GenericResource{
                 request.setAttribute("paramRequest", paramRequest);
                 dis.include(request, response);
             } catch (Exception e) {
-                log.error(e);
+                EngagementRate.log.error(e);
             }
         }
         
@@ -83,26 +84,30 @@ public class EngagementRate extends GenericResource{
         }*/
 
     }
-
     
     @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        if(paramRequest.getMode().equals("showChart")){
+    public void processRequest(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+        if (paramRequest.getMode().equals("showChart")) {
             doShowChart(request, response, paramRequest);
-        }
-        else {
+        } else {
             super.processRequest(request, response, paramRequest);
         }
     }
-    
 
-    public void doShowChart(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {        
-        RequestDispatcher rd = request.getRequestDispatcher(SWBPlatform.getContextPath() +"/work/models/" + paramRequest.getWebPage().getWebSiteId() +"/jsp/socialNetworks/engagementRateChart.jsp");
+    public void doShowChart(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+        RequestDispatcher rd = request.getRequestDispatcher(SWBPlatform.getContextPath() +
+                "/work/models/" + paramRequest.getWebPage().getWebSiteId() +
+                "/jsp/socialNetworks/engagementRateChart.jsp");
         request.setAttribute("paramRequest", paramRequest);
+        
         try {
             rd.include(request, response);
         } catch (ServletException ex) {
-            log.error("Error al enviar los datos a engagementRateChart.jsp " + ex.getMessage());
+            EngagementRate.log.error("Error al enviar los datos a engagementRateChart.jsp", ex);
         }
     }
 }

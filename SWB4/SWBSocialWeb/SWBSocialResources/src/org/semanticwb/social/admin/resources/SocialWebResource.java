@@ -41,7 +41,9 @@ import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
+import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.social.Facebook;
+import org.semanticwb.social.Google;
 import org.semanticwb.social.Instagram;
 import org.semanticwb.social.SocialNetwork;
 import org.semanticwb.social.SocialSite;
@@ -93,46 +95,60 @@ public class SocialWebResource extends GenericAdmResource
     
     
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
         PrintWriter out = response.getWriter();
         User user = paramRequest.getUser();
         SocialNetwork socialNetwork;
         String objUri = request.getParameter("suri"); //uri of socialNetwork
         boolean isFacebookNet = false;
-        ////System.out.println("Entrando a red doView de autenticate");
+        boolean requestPublishPerm = false;
+        boolean isGoogleNet = false;
+        
         try {
-            socialNetwork = (SocialNetwork)SemanticObject.createSemanticObject(objUri).getGenericInstance();
+            socialNetwork = (SocialNetwork) SemanticObject.createSemanticObject(objUri).getGenericInstance();
             boolean validConfiguration = false;
-            if(socialNetwork instanceof Twitter){//for twitter nets
-                    validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/twitterAppKey"), SWBPortal.getEnv("swbsocial/twitterSecretKey"));
-            }else if(socialNetwork instanceof Facebook){//for facebook nets
-                    validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/facebookAppKey"), SWBPortal.getEnv("swbsocial/facebookSecretKey"));
-                    isFacebookNet = true;
-            }else if(socialNetwork instanceof Youtube){//for youtube nets
+            if (socialNetwork instanceof Twitter) {//for twitter nets
+                validConfiguration = isValidConfiguration(socialNetwork,
+                        SWBPortal.getEnv("swbsocial/twitterAppKey"),
+                        SWBPortal.getEnv("swbsocial/twitterSecretKey"));
+            } else if (socialNetwork instanceof Facebook) {//for facebook nets
+                validConfiguration = isValidConfiguration(socialNetwork,
+                        SWBPortal.getEnv("swbsocial/facebookAppKey"),
+                        SWBPortal.getEnv("swbsocial/facebookSecretKey"));
+                isFacebookNet = true;
+            } else if (socialNetwork instanceof Youtube) {//for youtube nets
                 Youtube youtube = (Youtube)socialNetwork;
-                
-                validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/youtubeAppKey"), SWBPortal.getEnv("swbsocial/youtubeSecretKey"));
+                validConfiguration = isValidConfiguration(socialNetwork,
+                        SWBPortal.getEnv("swbsocial/youtubeAppKey"),
+                        SWBPortal.getEnv("swbsocial/youtubeSecretKey"));
                 //Valid appkey and appsecret - validate
-                if(youtube.getDeveloperKey() == null || youtube.getDeveloperKey().isEmpty()){
-                    if(SWBPortal.getEnv("swbsocial/youtubeDeveloperKey") == null){
+                if (youtube.getDeveloperKey() == null || youtube.getDeveloperKey().isEmpty()) {
+                    if (SWBPortal.getEnv("swbsocial/youtubeDeveloperKey") == null) {
                         validConfiguration = false;
-                    }else{
+                    } else {
                         youtube.setDeveloperKey(SWBPortal.getEnv("swbsocial/youtubeDeveloperKey"));
                     }
                 }
-                
-            }if(socialNetwork instanceof Instagram){//for instagram nets
-                    socialNetwork.setAppKey(null);
-                    socialNetwork.setSecretKey(null);
-                    validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/instagramAppKey"), SWBPortal.getEnv("swbsocial/instagramSecretKey"));
+            } if (socialNetwork instanceof Instagram) {//for instagram nets
+                socialNetwork.setAppKey(null);
+                socialNetwork.setSecretKey(null);
+                validConfiguration = isValidConfiguration(socialNetwork,
+                        SWBPortal.getEnv("swbsocial/instagramAppKey"),
+                        SWBPortal.getEnv("swbsocial/instagramSecretKey"));
+            } else if (socialNetwork instanceof Google) {//for Google+ nets
+                validConfiguration = isValidConfiguration(socialNetwork,
+                        SWBPortal.getEnv("swbsocial/googleAppKey"),
+                        SWBPortal.getEnv("swbsocial/googleSecretKey"));
+                isGoogleNet = true;
             }
 
-            if(validConfiguration == false ){
-                 out.println("<div id=\"configuracion_redes\">");
+            if (validConfiguration == false) {
+                out.println("<div id=\"configuracion_redes\">");
                 out.println("<div id=\"autenticacion\">");
                 out.println("<p>No han sido configuradas la llave de la aplicación o la llave secreta ");
-                out.println((socialNetwork instanceof Youtube) ? "o la llave de desarrollador.":"");
+                out.println((socialNetwork instanceof Youtube) ? "o la llave de desarrollador." : "");
                 out.println(".</p></div>");
                 out.println("</div>");
                 return;
@@ -161,32 +177,65 @@ public class SocialWebResource extends GenericAdmResource
                 //System.out.println("EMPTY SOCIAL NET PARAMS");
                 return;
             }*/
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             socialNetwork = null;
             //System.out.println("No valid value for current social Network");
-            ex.printStackTrace();
+            SocialWebResource.log.error("", ex);
             return;
         }
         
-        if(user.isSigned()){
-            if(socialNetwork.isSn_authenticated()) {
-                out.println("<form id=\"authNet/" + socialNetwork.getEncodedURI() + "\" action=\"" + paramRequest.getRenderUrl().setParameter("suri", objUri)+ "\" method=\"post\" onsubmit=\"try{document.getElementById('csLoading" + socialNetwork.getEncodedURI() + "').style.display='inline';}catch(noe){}; setTimeout(function(){submitForm('authNet/" + socialNetwork.getEncodedURI() + "')},1000); return false;\">" );
+        if (user.isSigned()) {
+            if (socialNetwork.isSn_authenticated()) {
+                out.println("<form id=\"authNet/" + socialNetwork.getEncodedURI() +
+                        "\" action=\"" + paramRequest.getRenderUrl().setParameter("suri", objUri) +
+                        "\" method=\"post\" onsubmit=\"try{document.getElementById('csLoading" +
+                        socialNetwork.getEncodedURI() +
+                        "').style.display='inline';}catch(noe){}; setTimeout(function(){submitForm('authNet/" +
+                        socialNetwork.getEncodedURI() + "')},1000); return false;\">" );
                 out.println("<div id=\"configuracion_redes\">");
                 out.println("<div id=\"autenticacion\">");
                 out.println("<p>" + paramRequest.getLocaleString("authenticated") + "</p>");
+                String permission2Add = "";
+                boolean retryAskPerm = false;
 
                 if (isFacebookNet) {
-                    String checkPubPerm = ((Facebook) socialNetwork).hasPublishPermissions();
-                    if (checkPubPerm.equalsIgnoreCase("false")) {
-                        out.println("<p style=\"background-color: red;\">Aunque sin permisos de publicaci&oacute;n;");
-                        out.println("por favor, pulsa el bot&oacute;n de abajo y acepta que esta aplicaci&oacute;n publique en tu nombre.</p>");
+                    String checkPubPerm = null;
+                    if (!((Facebook) socialNetwork).isIsFanPage()) {
+                        permission2Add = "publish_actions";
+                        checkPubPerm = ((Facebook) socialNetwork).hasPermissions(permission2Add);
+                    } else {
+                        permission2Add = "manage_pages,publish_pages";
+                        checkPubPerm = "true"; //((Facebook) socialNetwork).hasPermissions(permission2Add);
                     }
+                    if (!checkPubPerm.equalsIgnoreCase("true")) {
+                        requestPublishPerm = true;
+                        out.println("<p style=\"background-color: red;\">Aunque sin permisos de publicaci&oacute;n;");
+                        out.println("por favor, pulsa el bot&oacute;n de abajo y acepta que esta aplicaci&oacute;n");
+                        out.println(" publique en tu nombre a fin de que tengas una mejor experiencia con Facebook.</p>");
+                        System.out.println("  ++  ++  ++  ++ checkPubPerm: " + checkPubPerm);
+                        if (checkPubPerm.equals("declined")) {
+                            retryAskPerm = true;
+                        }
+                    }
+                } else if (isGoogleNet) {
+                    //TODO: refrescar token para cuentas de Google+
                 }
                     
                 out.println("</div>");
                 if (isFacebookNet && ((Facebook) socialNetwork).isIsFanPage()) {//for facebook nets
                     //If the social network is a fan page DO NOT authenticate manually
                 } else {
+                    SWBResourceURL oAuthUrl = paramRequest.getRenderUrl();
+                    oAuthUrl.setMode(SocialWebResource.OAUTH_MODE).
+                            setParameter("suri", objUri).
+                            setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).
+                            setParameter("fromDoView", "true");
+                    if (requestPublishPerm) {
+                        oAuthUrl.setParameter("permission", permission2Add);
+                    }
+                    if (retryAskPerm) {
+                        oAuthUrl.setParameter("retry", "true");
+                    }
                     out.println("<div id=\"refrescar_cred\">");
                     /*out.println("   <form type=\"dijit.form.Form\" id=\"authenticate/" + objUri + "\" action=\"" +  paramRequest.getRenderUrl().setMode(OAUTH_MODE) + "\" method=\"post\" onsubmit=\"submitForm('authenticate/" + objUri +  "'); return false;\">");
                     out.println("       <input type=\"hidden\"  name=\"suri\" value=\"" + objUri +"\">");
@@ -194,7 +243,9 @@ public class SocialWebResource extends GenericAdmResource
                     out.println("       <input type=\"hidden\"  name=\"fromDoView\" value=\"true\">");
                     out.println("       <a href=\"#\" onclick=\"submitForm('authenticate/" + objUri +  "'); return false;\" title=\"" + paramRequest.getLocaleString("refreshCredentials") +"\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
                     out.println("   </form>");*/
-                    out.println("<a href=\"#\" onclick=\"myFunction('" + paramRequest.getRenderUrl().setMode(SocialWebResource.OAUTH_MODE).setParameter("suri", objUri).setParameter("wsid", socialNetwork.getSemanticObject().getModel().getName()).setParameter("fromDoView", "true") + "'); return false;\"><span>" + paramRequest.getLocaleString("refreshCredentials") + "</span></a>");
+                    out.println("<a href=\"#\" onclick=\"myFunction('" + oAuthUrl.toString() +
+                            "'); return false;\"><span>" + paramRequest.getLocaleString("refreshCredentials") +
+                            "</span></a>");
                     out.println("</div>");
                     out.println("</div>");
                 }
@@ -228,7 +279,7 @@ public class SocialWebResource extends GenericAdmResource
                 out.println("</table>");
                 out.println("</div>");
                 */
-            }else if(!socialNetwork.isSn_authenticated()){
+            } else if (!socialNetwork.isSn_authenticated()) {
                 ////System.out.println("No esta autenticada");
                 out.println("<form id=\"authNet/" + socialNetwork.getEncodedURI() + "\" action=\"" + paramRequest.getRenderUrl().setParameter("suri", objUri)+ "\" method=\"post\" onsubmit=\"try{document.getElementById('csLoading" + socialNetwork.getEncodedURI() + "').style.display='inline';}catch(noe){}; setTimeout(function(){submitForm('authNet/" + socialNetwork.getEncodedURI() + "')},1000); return false;\">" );
                 out.println("<div id=\"configuracion_redes\">");
@@ -269,48 +320,45 @@ public class SocialWebResource extends GenericAdmResource
                 out.println("</table>");
                 out.println("</div>");*/
             }
-        }else{
+        } else {
             out.println("<h3>Usuario no autorizado. Consulte a su administrador</h3>");
         }
     }
     
-    public void doAuthenticate(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doAuthenticate(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         ////System.out.println("**************** ENTRANDO A DO AUTHENTICATE*******************");
         ////System.out.println("\t\tsuri:" + request.getParameter("suri"));
         ////System.out.println("\t\twsid:" + request.getParameter("wsid"));
         ////System.out.println("\t\tParamX:" + request.getParameter("paramX"));
         
-        String fromDoView = (String)request.getParameter("fromDoView");
+        String fromDoView = (String) request.getParameter("fromDoView");
         HttpSession session = request.getSession(true);
         
-        if(fromDoView != null && fromDoView.equals("true")){//If the call is from the doView method clear session var affected
+        if (fromDoView != null && fromDoView.equals("true")) {//If the call is from the doView method clear session var affected
             session.removeAttribute("sw");
         }
         WebSite wsite = null;
         String suri = request.getParameter("suri");
         
-        if(WebSite.ClassMgr.getWebSite(request.getParameter("wsid")) instanceof WebSite){
+        if (WebSite.ClassMgr.getWebSite(request.getParameter("wsid")) instanceof WebSite) {
             wsite = WebSite.ClassMgr.getWebSite(request.getParameter("wsid"));
-        }else if(WebSite.ClassMgr.getWebSite(request.getParameter("wsid")) instanceof SocialSite){
-            wsite = (SocialSite)WebSite.ClassMgr.getWebSite(request.getParameter("wsid"));
+        } else if (WebSite.ClassMgr.getWebSite(request.getParameter("wsid")) instanceof SocialSite) {
+            wsite = (SocialSite) WebSite.ClassMgr.getWebSite(request.getParameter("wsid"));
         }
         
         ////System.out.println("\t\tsw:" + session.getAttribute("sw") );
-        if(session.getAttribute("sw") == null)
-        {
+        if (session.getAttribute("sw") == null) {
             ////System.out.println("\n\nLa primera vez que entra SW es null");
             ////System.out.println("SW:" + session.getAttribute("sw") );
             
-            SocialNetwork socialNetwork = (SocialNetwork)wsite.getSemanticObject().getModel().getGenericObject(suri);
+            SocialNetwork socialNetwork = (SocialNetwork) wsite.getSemanticObject().getModel().getGenericObject(suri);
 
             session.setAttribute("sw", socialNetwork);
             ////System.out.println("Ahora ya tiene un valor:" +  socialNetwork);
             socialNetwork.authenticate(request, response, paramRequest);
             //System.out.println("Y va a autenticar");
-        }
-        else
-        {
+        } else {
             ////System.out.println("\n\nLa segunda vez que entra SW ya no es null");
             SocialNetwork socialNetwork = (SocialNetwork)session.getAttribute("sw");
             session.removeAttribute("sw");
@@ -411,20 +459,35 @@ public class SocialWebResource extends GenericAdmResource
     }
     */
     
-    private boolean isValidConfiguration(SocialNetwork socialNetwork, String appKey, String appSecret){
+    /**
+     * Revisa si la {@code socialNetwork} tiene asignados los valores de {@code appKey} y {@code appSecret}
+     * de lo contrario asigna a {@code socialNetwork} los valores de los par&aacute;metros recibidos y devuelve {@literal true}.
+     * Si {@code socialNetwork} no tiene valores asignados y los par&aacute;metros tampoco, devolver&aacute; {@literal false}.
+     * @param socialNetwork la instancia de la red social de la que se desea hacer la verificaci&oacute;n
+     * @param appKey representa el valor de la llave de la aplicaci&oacute;n creada en la red social
+     * @param appSecret representa el valor secreto de la aplicaci&oacute;n creada en la red social
+     * @return {@literal true} si la {@code socialNetwork} tiene los valores de la llave y el secreto de la aplicaci&oacute;n
+     *         o si fueron asignados los valores de los par&aacute;metros, en caso contrario devuelve {@literal false}.
+     */
+    private boolean isValidConfiguration(SocialNetwork socialNetwork, String appKey, String appSecret) {
+        
         boolean validConfiguration = true;
         ////System.out.println("appKey:" + appKey + "---" + appSecret);
-        if(socialNetwork.getAppKey() == null || socialNetwork.getAppKey().isEmpty()){
-            if(appKey != null && !appKey.isEmpty()){
+        if (socialNetwork.getAppKey() == null || socialNetwork.getAppKey().isEmpty()) {
+            if (appKey != null && !appKey.isEmpty()) {
                 socialNetwork.setAppKey(appKey);
                 ////System.out.println("valid key!");
-            }else{validConfiguration = false;}
+            } else {
+                validConfiguration = false;
+            }
         }
-        if(socialNetwork.getSecretKey() == null || socialNetwork.getSecretKey().isEmpty()){
-            if(appSecret != null && !appSecret.isEmpty()){
+        if (socialNetwork.getSecretKey() == null || socialNetwork.getSecretKey().isEmpty()) {
+            if (appSecret != null && !appSecret.isEmpty()) {
                 socialNetwork.setSecretKey(appSecret);
                 ////System.out.println("valid secret!");
-            }else{validConfiguration = false;}
+            } else {
+                validConfiguration = false;
+            }
         }
         return validConfiguration;
     }

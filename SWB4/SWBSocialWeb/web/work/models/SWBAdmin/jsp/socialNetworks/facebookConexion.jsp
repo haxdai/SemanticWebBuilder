@@ -107,7 +107,7 @@
                 </p>
                 <p class="tweet">
                     <a onclick="showDialog('<%=paramRequest.getRenderUrl().setMode("fullProfile").setParameter("suri", objUri).setParameter("type", "noType").setParameter("id", image).setParameter("targetUser", name)%>','<%= name + " - " + name%>'); return false;" href="#">
-                        <img src="https://graph.facebook.com/<%=image%>/picture?width=150&height=150" width="150" height="150"/>                   
+                        <img src="<%=Facebook.FACEBOOKGRAPH + image%>/picture?width=150&height=150" width="150" height="150"/>                   
                     </a>
                 </p>                
             </div>
@@ -183,7 +183,7 @@
                 </p>
                 <p class="tweet">
                     <a onclick="showDialog('<%=paramRequest.getRenderUrl().setMode("fullProfile").setParameter("suri", objUri).setParameter("type", "noType").setParameter("id", imageFollow).setParameter("targetUser", imageFollow)%>','<%= imageFollow + " - " + imageFollow%>'); return false;" href="#">
-                        <img src="https://graph.facebook.com/<%=imageFollow%>/picture?width=150&height=150" width="150" height="150"/>
+                        <img src="<%=Facebook.FACEBOOKGRAPH + imageFollow%>/picture?width=150&height=150" width="150" height="150"/>
                     </a>
                 </p>
             </div>

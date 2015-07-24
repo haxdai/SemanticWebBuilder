@@ -145,83 +145,88 @@
         iframe {
             /*position: absolute;*/
             top: 0; left: 0; width: 100%; height: 100%;
-            border: none; padding-top: 32px;
+            border: none; padding-top: 5px;
             box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;
         }
     </style>
 <%
     String suri = request.getParameter("suri");    
-    if(suri == null)return;
+    if (suri == null) {
+        return;
+    }
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
-    if(semObj == null)return;
+    if (semObj == null) {
+        return;
+    }
     
     //System.out.println("Social Net 1");
-    SocialNetwork socialNet = (SocialNetwork)SemanticObject.getSemanticObject(suri).createGenericInstance();
+    SocialNetwork socialNet = (SocialNetwork) SemanticObject.getSemanticObject(suri).createGenericInstance();
     Date dateSince = null;
     Date dateTo = null;
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     
-    if(request.getParameter("chart") == null){ //if the param exists don't show the calendars again
+    if (request.getParameter("chart") == null) { //if the param exists don't show the calendars again
 %>
     <div>
         <div align="center" style="width:100%">
             <p>ENGAGEMENT POR PERIODO DE TIEMPO</p>
         </div>
     </div>
-<form name="engagement<%=socialNet.getURI()%>" id="engagement<%=socialNet.getURI()%>" action="<%=paramRequest.getRenderUrl().setParameter("suri", socialNet.getURI())%>" onsubmit="submitForm('engagement<%=socialNet.getURI()%>'); try{document.getElementById('csLoading<%=socialNet.getURI()%>').style.display='inline';}catch(noe){}; return false;">
-    <table style="width:100%;">
-        <tr>
-            <td style="text-align: right; ">
-                    <%
-                    Date todayDate = new Date();
-                    java.util.Calendar cal = java.util.Calendar.getInstance();
-                    cal.setTime(todayDate);                    
-                    
-                    String sinceDate = request.getParameter("engagement_inidate");
-                    String toDate = request.getParameter("engagement_enddate");
-                    SimpleDateFormat formatSince = new SimpleDateFormat("yyyy-MM-dd");
-                    SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            
-                    
-                    try{
-                            if(sinceDate != null && !sinceDate.trim().isEmpty() &&
-                                toDate != null && !toDate.trim().isEmpty()){
-                            
-                                toDate += " 23:59:59";
-                                dateSince = formatSince.parse(sinceDate);
-                                dateTo = formatTo.parse(toDate);
-                            }
-                        
-                    }catch(ParseException pe){
-                    
-                    }
-                        %>
-                <div><label for="engagement_inidate">Desde el dia: </label><input type="text" name="engagement_inidate" data-dojo-id="engagement_inidate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>" dojoType="dijit.form.DateTextBox"  size="11" style="width:110px;" hasDownArrow="true" value="<%= formatSince.format(dateSince != null ? dateSince : todayDate)%>" onChange="engagement_enddate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>.constraints.min = arguments[0];"/>
-                </div>
-            </td>
-            <td>
-                <div><label for="engagement_enddate">Hasta el dia: </label><input type="text" name="engagement_enddate" data-dojo-id="engagement_enddate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>" dojoType="dijit.form.DateTextBox"  size="11" style="width:110px;" hasDownArrow="true" value="<%= formatSince.format(dateTo != null ? dateTo : todayDate)%>" onChange="engagement_inidate<%=socialNet.getId()+ socialNet.getClass().getSimpleName()%>.constraints.max = arguments[0];"/>
-                </div>
-            </td>
-        </tr>
-        
-        <tr>
-            <td colspan="2" style="text-align: center;">
-                    <button dojoType="dijit.form.Button" type="submit">Calcular</button>
-            </td>
-        </tr>
-    </table>
-</form>
-    <%
-    }
-    if(dateTo != null && dateSince != null){
-%>
-    
-        <iframe src="<%=paramRequest.getRenderUrl().setMode("showChart").setParameter("suri", socialNet.getURI()).setParameter("chart","chart").setParameter("engagement_inidate",sdf.format(dateSince)).setParameter("engagement_enddate",sdf.format(dateTo))%>"  width="100%" height="550">
-        </iframe>
-    
+    <form name="engagement<%=socialNet.getURI()%>" id="engagement<%=socialNet.getURI()%>" action="<%=paramRequest.getRenderUrl().setParameter("suri", socialNet.getURI())%>" onsubmit="submitForm('engagement<%=socialNet.getURI()%>'); try{document.getElementById('csLoading<%=socialNet.getURI()%>').style.display='inline';}catch(noe){}; return false;">
+        <table style="width:50%;" align="center">
+            <tr>
+                <td style="text-align:left;">
 <%
+        Date todayDate = new Date();
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        cal.setTime(todayDate);                    
+
+        String sinceDate = request.getParameter("engagement_inidate");
+        String toDate = request.getParameter("engagement_enddate");
+        SimpleDateFormat formatSince = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+                if (sinceDate != null && !sinceDate.trim().isEmpty() &&
+                        toDate != null && !toDate.trim().isEmpty()) {
+
+                    toDate += " 23:59:59";
+                    dateSince = formatSince.parse(sinceDate);
+                    dateTo = formatTo.parse(toDate);
+                }
+        } catch (ParseException pe) {
+
         }
-       
 %>
-<div align="center"><span id="csLoading<%=socialNet.getURI()%>" style="width: 100px; display: none" align="center"><img src="<%=SWBPlatform.getContextPath()%>/swbadmin/images/loading.gif"/></span></div>
+                    <div>
+                        <label for="engagement_inidate">Desde el dia: </label>
+                        <input type="text" name="engagement_inidate" data-dojo-id="engagement_inidate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>" dojoType="dijit.form.DateTextBox"  size="11" style="width:110px;" hasDownArrow="true" value="<%= formatSince.format(dateSince != null ? dateSince : todayDate)%>" onChange="engagement_enddate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>.constraints.min = arguments[0];"/>
+                    </div>
+                </td>
+                <td>
+                    <div>
+                        <label for="engagement_enddate">Hasta el dia: </label>
+                        <input type="text" name="engagement_enddate" data-dojo-id="engagement_enddate<%=socialNet.getId() + socialNet.getClass().getSimpleName()%>" dojoType="dijit.form.DateTextBox"  size="11" style="width:110px;" hasDownArrow="true" value="<%= formatSince.format(dateTo != null ? dateTo : todayDate)%>" onChange="engagement_inidate<%=socialNet.getId()+ socialNet.getClass().getSimpleName()%>.constraints.max = arguments[0];"/>
+                    </div>
+                </td>
+            <!--/tr>
+            <tr-->
+                <td colspan="2" style="text-align:right;">
+                    <button dojoType="dijit.form.Button" type="submit">Calcular</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+<%
+    }
+    if (dateTo != null && dateSince != null) {
+%>
+    <iframe src="<%=paramRequest.getRenderUrl().setMode("showChart").setParameter("suri", socialNet.getURI()).setParameter("chart","chart").setParameter("engagement_inidate",sdf.format(dateSince)).setParameter("engagement_enddate",sdf.format(dateTo))%>" width="100%" height="350">
+    </iframe>
+<%
+    }
+%>
+<div align="center">
+    <span id="csLoading<%=socialNet.getURI()%>" style="width: 100px; display: none" align="center">
+        <img src="<%=SWBPlatform.getContextPath()%>/swbadmin/images/loading.gif"/>
+    </span>
+</div>

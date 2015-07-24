@@ -21,33 +21,23 @@
 * dirección electrónica: 
 *  http://www.semanticwebbuilder.org
 **/ 
- 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.semanticwb.social.admin.resources;
 
+
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
-import org.semanticwb.social.SocialNetwork;
-import static org.semanticwb.social.admin.resources.FacebookInteraction.log;
+
 
 /**
  *
@@ -55,8 +45,14 @@ import static org.semanticwb.social.admin.resources.FacebookInteraction.log;
  */
 public class SocialNetGrowth extends GenericResource{
 
+    
+    public static final Logger log = SWBUtils.getLogger(SocialNetGrowth.class);
+    
+    
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doView(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
         if (request.getParameter("doView") == null) {
             doEdit(request, response, paramRequest);
             return;
@@ -97,7 +93,9 @@ public class SocialNetGrowth extends GenericResource{
             out.println("</script>");
             
         }*/
-        final String myPath = SWBPlatform.getContextPath() + "/work/models/" + paramRequest.getWebPage().getWebSiteId() + "/jsp/socialNetworks/growthCharts.jsp";
+        final String myPath = SWBPlatform.getContextPath() + "/work/models/" +
+                paramRequest.getWebPage().getWebSiteId() + "/jsp/socialNetworks/growthCharts.jsp";
+        
         RequestDispatcher dis = request.getRequestDispatcher(myPath);
         if (dis != null) {
             try {
@@ -105,17 +103,22 @@ public class SocialNetGrowth extends GenericResource{
                 request.setAttribute("suri", request.getParameter("suri"));
                 dis.include(request, response);
             } catch (Exception ex) {
-                log.error(ex);
+                SocialNetGrowth.log.error(ex);
             }
         }
-
     }
 
     @Override
-    public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doEdit(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
         PrintWriter out = response.getWriter();
-        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")) + "\"></iframe> ");
+        out.println("<iframe width=\"100%\" height=\"100%\" src=\"" +
+                paramRequest.getRenderUrl().
+                        setMode(SWBResourceURL.Mode_VIEW).
+                        setParameter("doView", "1").
+                        setParameter("suri", request.getParameter("suri")) +
+                "\"></iframe> ");
     }
-    
     
 }
