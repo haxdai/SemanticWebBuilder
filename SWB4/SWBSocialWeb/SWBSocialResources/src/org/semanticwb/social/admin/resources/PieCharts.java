@@ -442,7 +442,7 @@ public class PieCharts extends GenericResource {
             ////System.out.println(" FILTER JAVA language : " + filter);
             // //System.out.println(" FILTER GENERAL JAVA language : " + filterGeneral);
             ArrayList lista = new ArrayList<PostIn>();
-            if (reemplazar(filterGeneral).equals("all")) {
+            if (filter.equalsIgnoreCase("") && reemplazar(filterGeneral).equals("all")) {
                 while (setso.hasNext()) {
                     Map.Entry e = (Map.Entry) setso.next();
                     //       //System.out.println("valor : " + e.getValue());
@@ -469,7 +469,16 @@ public class PieCharts extends GenericResource {
                 while (setso.hasNext()) {
                     Map.Entry e = (Map.Entry) setso.next();
                     ////System.out.println("...................." + e.getKey() + " - " + e.getValue());
-                    if (reemplazar(filterGeneral).equals(e.getKey())) {
+                    if(reemplazar(filterGeneral).equals("all") && (reemplazar(filter).equals(e.getKey()))) {
+                        ArrayList list = (ArrayList) e.getValue();
+                        if (list.isEmpty()) {
+                            continue;
+                        }
+                        for (int j = 0; j < list.size(); j++) {
+                            lista.add(list.get(j));
+                        }
+                        break;
+                    } else if (reemplazar(filterGeneral).equals(e.getKey())) {
                         ArrayList list = (ArrayList) e.getValue();
                         if (list.isEmpty()) {
                             continue;
