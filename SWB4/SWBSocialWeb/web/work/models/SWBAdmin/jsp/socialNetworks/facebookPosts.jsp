@@ -22,10 +22,11 @@
     String since = (String)session.getAttribute("since");
     
     HashMap<String, String> params1 = new HashMap<String, String>(3);    
-    params1.put("q", "SELECT actor_id, created_time, likes, post_id, attachment, message, comments FROM stream WHERE filter_key IN ( SELECT filter_key FROM stream_filter WHERE uid = me() AND NOT (name='Photos') AND NOT (name='Video')) LIMIT 10");
+//    params1.put("q", "SELECT actor_id, created_time, likes, post_id, attachment, message, comments FROM stream WHERE filter_key IN ( SELECT filter_key FROM stream_filter WHERE uid = me() AND NOT (name='Photos') AND NOT (name='Video')) LIMIT 10");
     params1.put("access_token", facebookBean.getAccessToken());
+    params1.put("fields", "from,created_time,likes.summary(true),id,attachment,message,comments");
     
-    String fbResponse = getRequest(params1, "https://graph.facebook.com/fql",
+    String fbResponse = getRequest(params1, "https://graph.facebook.com/me/posts",
                     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
     //String untilPost = picture(fbResponse, out, true, request, paramRequest);//Gets the newest post and saves the ID of the last one
     //System.out.println("fbresponse:" + fbResponse);

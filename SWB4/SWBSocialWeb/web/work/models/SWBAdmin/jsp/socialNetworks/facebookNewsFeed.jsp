@@ -3,7 +3,6 @@
     Created on : 26/06/2013, 04:34:46 PM
     Author     : francisco.jimenez
 --%>
-
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
 <%@page import="org.semanticwb.social.PostIn"%>
 <%@page import="org.semanticwb.model.WebSite"%>
@@ -34,13 +33,10 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <jsp:useBean id="facebookBean" scope="request" type="org.semanticwb.social.Facebook"/>
 <%@page import="static org.semanticwb.social.admin.resources.FacebookWall.*"%>
-
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONException"%>
 <%@page import="org.json.JSONObject"%>
-
 <%@page contentType="text/html" pageEncoding="x-iso-8859-11"%>
-
 <style type="text/css">
     div.bar{
       background-color: #F5F5F5;
@@ -56,9 +52,8 @@
     }
     span.inline { display:inline; }
 </style>    
-
 <%
-    try{
+    try {
         String objUri = (String) request.getParameter("suri");
         String username;
         HashMap<String, String> params = new HashMap<String, String>(2);
@@ -66,23 +61,23 @@
         
         String user = postRequest(params, "https://graph.facebook.com/me",
                                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "GET");
-        //System.out.println("user:"+ user);
+        
         JSONObject userObj = new JSONObject(user);
-        if(!userObj.isNull("name")){
+        if (!userObj.isNull("name")) {
             username = userObj.getString("name");
-        }else{
+        } else {
             username = facebookBean.getTitle();
         }
 %>
 <div class="timelineTab" style="padding:10px 5px 10px 5px; overflow-y: scroll; height: 400px;">
-<div class="timelineTab-title"><p><strong><%=username%> </strong><%=paramRequest.getLocaleString("newsFeed")%></p></div>
-<div class="bar" id="<%=objUri%>newPostsAvailable" dojoType="dojox.layout.ContentPane"></div>
-<div id="<%=objUri%>facebookStream" dojoType="dojox.layout.ContentPane"></div>
+    <div class="timelineTab-title"><p><strong><%=username%> </strong><%=paramRequest.getLocaleString("newsFeed")%></p></div>
+    <div class="bar" id="<%=objUri%>newPostsAvailable" dojoType="dojox.layout.ContentPane"></div>
+    <div id="<%=objUri%>facebookStream" dojoType="dojox.layout.ContentPane"></div>
 <%
-    SWBModel model=WebSite.ClassMgr.getWebSite(facebookBean.getSemanticObject().getModel().getName());
+    SWBModel model = WebSite.ClassMgr.getWebSite(facebookBean.getSemanticObject().getModel().getName());
     
     params.put("limit", "50");
-    params.put("fields", "id,from,to,message,message_tags,story,story_tags,picture,caption,link,object_id,application,source,name,description,properties,icon,actions,privacy,type,status_type,created_time,likes.summary(true),comments.limit(5).summary(true),place,icon");
+    params.put("fields", "id,from,to,message,message_tags,story,story_tags,picture,caption,link,object_id,application,source,name,description,properties,actions,privacy,type,status_type,created_time,likes.summary(true),comments.limit(5).summary(true),place");
 
     //SELECT status_id, time, source, message FROM status WHERE uid = me() Filtering status only
     //POSTS WITH LOCATION https://graph.facebook.com/me/home?with=location
@@ -94,50 +89,52 @@
     String since = (String)session.getAttribute(objUri + NEWS_FEED_TAB + "since");
     //System.out.println("\n\n\nsession.getAttribute(since):" + session.getAttribute(objUri + NEWS_FEED_TAB +  "since"));
 %>
-
-<div dojoType="dojox.layout.ContentPane">
-    <script type="dojo/method">
-        <%
+    <div dojoType="dojox.layout.ContentPane">
+        <script type="dojo/method">
+<%
             //System.out.println("SINCE: " +  since);
-            
-            if(since != null){//Check what this is for
+            if (since != null) {//Check what this is for
                 String intervalId = (String)session.getAttribute(objUri + "pooling");
                 //System.out.println("\n\nSESSION VAR FOR CURRENT FACEBOOK TAB:" + intervalId);
         
-                if(intervalId == null){
-        %>
+                if (intervalId == null) {
+%>
                     var interval = setInterval(function(){ postSocialHtmlListeners('<%=renderURL.setMode("newPostsAvailable")%>','<%=objUri%>newPostsAvailable'); },20000);
                     console.log('Value of FB Interval:' + interval);
                     saveInterval('<%=paramRequest.getRenderUrl().setMode("storeInterval").setParameter("suri", objUri)+"&interval="%>' + interval);
-        <%
-                }else{
-        %>
+<%
+                } else {
+%>
                     console.log('Stoping interval for current uri ' + ':' + <%=intervalId%>);
                     clearInterval(<%=intervalId%>);
                     var interval = setInterval(function(){ postSocialHtmlListeners('<%=renderURL.setMode("newPostsAvailable")%>','<%=objUri%>newPostsAvailable'); },20000);
                     console.log('Value of a NEW FB Interval:' + interval);
                     saveInterval('<%=paramRequest.getRenderUrl().setMode("storeInterval").setParameter("suri", objUri)+"&interval="%>' + interval);
-        <%
+<%
                 }
                 //In both cases an 'interval' variable is defined and is assigned to the onClose event
-        %>
+%>
                 //Change the default onClose method of the parent Tab
                 var tabId =  '<%=objUri%>' + '/tab';
                 var cPane = dijit.byId(tabId);        
                 cPane.attr('onClose', function callStopListener(){ clearInterval(interval); return true;});
-        <%
+<%
             }
-        %>
-   </script>
-</div>
-<div id="<%=objUri%>getMorePosts" dojoType="dijit.layout.ContentPane">
-    <div align="center" style="margin-bottom: 10px;">
-        <label id="<%=objUri%>morePostsLabel"><a href="#" onclick="appendHtmlAt('<%=renderURL.setMode("getMorePosts").setParameter("until", untilPost).setParameter("scope", "newsFeed")%>','<%=objUri%>getMorePosts', 'bottom');try{this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);}catch(noe){}; return false;"><%=paramRequest.getLocaleString("getMorePosts")%></a></label>
+%>
+        </script>
+    </div>
+    <div id="<%=objUri%>getMorePosts" dojoType="dijit.layout.ContentPane">
+         <div align="center" style="margin-bottom: 10px;">
+             <label id="<%=objUri%>morePostsLabel">
+                 <a href="#" onclick="appendHtmlAt('<%=renderURL.setMode("getMorePosts").setParameter("until", untilPost).setParameter("scope", "newsFeed")%>','<%=objUri%>getMorePosts', 'bottom');try{this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);}catch(noe){}; return false;">
+                     <%=paramRequest.getLocaleString("getMorePosts")%>
+                 </a>
+             </label>
+         </div>
     </div>
 </div>
-</div>
-    <%
-        }catch(Exception e){
+<%
+    } catch (Exception e) {
         out.print("Problem displaying News feed: " + e.getMessage());
     }
 %>

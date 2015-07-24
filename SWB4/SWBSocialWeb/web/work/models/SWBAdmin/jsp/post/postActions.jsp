@@ -3,7 +3,6 @@
     Created on : 7/10/2013, 12:31:40 PM
     Author     : francisco.jimenez
 --%>
-
 <%@page import="org.semanticwb.social.admin.resources.util.SWBSocialResUtil"%>
 <%@page import="org.w3c.dom.Node"%>
 <%@page import="org.w3c.dom.NodeList"%>
@@ -291,21 +290,22 @@
         return true;
     }
     
-    public boolean doFBLike(PostIn postIn){
+    public boolean doFBLike(PostIn postIn) {
         //System.out.println("LIKE-Start");
-        try{
-            String postID = postIn.getSocialNetMsgId();        
-            SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
-            Facebook facebook = (Facebook)postInSN;
+        try {
+            String postID = postIn.getSocialNetMsgId();
+            SocialNetwork postInSN = postIn.getPostInSocialNetwork();
+            Facebook facebook = (Facebook) postInSN;
 
             HashMap<String, String> params = new HashMap<String, String>(2);
             params.put("access_token", facebook.getAccessToken());
-            String fbResponse = postRequest(params, "https://graph.facebook.com/" + postID + "/likes",
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "POST");
-            if(!fbResponse.equals("true")){//If the response is not true, there was an error
+            //Ahora se usa el metodo de Facebook, no el local
+            String fbResponse = facebook.postRequest(params, Facebook.FACEBOOKGRAPH + postID + "/likes",
+                            Facebook.USER_AGENT, "POST");
+            if (!fbResponse.equals("true")) {//If the response is not true, there was an error
                 try {
                     JSONObject likeResponse = new JSONObject(fbResponse);
-                    if(likeResponse.has("error")){
+                    if (likeResponse.has("error")) {
                         //System.out.println(likeResponse.getJSONObject("error").getString("message"));
                         return false;
                     }
@@ -316,39 +316,39 @@
             }
             //System.out.println("LIKE-End");
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             //System.out.println("Error:" +  e.getMessage());
             return false;
         }
     }
 
     public boolean doFBDislike(PostIn postIn){
-        //System.out.println("DISLIKE-Start"); //If you liked a post from a user you gave like, you cannot give unlike            
-        try{
+        //System.out.println("DISLIKE-Start"); //If you liked a post from a user you gave like, you cannot give unlike
+        try {
             String postID = postIn.getSocialNetMsgId();
             SocialNetwork postInSN = postIn.getPostInSocialNetwork();
-            Facebook facebook = (Facebook)postInSN;
+            Facebook facebook = (Facebook) postInSN;
             
             HashMap<String, String> params = new HashMap<String, String>(2);
             params.put("access_token", facebook.getAccessToken());
             //System.out.println("\n\nComment ID:" + postID.substring(postID.indexOf('_') + 1));
-            String fbResponse ="";
-            fbResponse= postRequest(params, "https://graph.facebook.com/" + postID + "/likes" ,
-                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95", "DELETE");
-            if(!fbResponse.equals("true")){//If the response is not true, there was an error
-                //System.out.println("ERROR TRYING TO UNLIKE ID:" + fbResponse);                
+            String fbResponse = "";
+            fbResponse = postRequest(params, Facebook.FACEBOOKGRAPH + postID + "/likes" ,
+                            Facebook.USER_AGENT, "DELETE");
+            if (!fbResponse.equals("true")) {//If the response is not true, there was an error
+                //System.out.println("ERROR TRYING TO UNLIKE ID:" + fbResponse);
                     try {
                         JSONObject likeResponse = new JSONObject(fbResponse);
-                        if(likeResponse.has("error")){                            
+                        if (likeResponse.has("error")) {
                             //System.out.println(likeResponse.getJSONObject("error").getString("message"));
                         }
                     } catch (JSONException ex) {
                         //System.out.println("Error doing like action " +  ex.getMessage() );
-                    }            
+                    }
             }
             //System.out.println("DISLIKE-End");
             return true;
-        }catch(Exception e){
+        } catch (Exception e) {
             //System.out.println("ERROR:" + e.getMessage());
             return false;
         }
@@ -358,7 +358,7 @@
     public boolean doYTLikeDislike(PostIn postIn, String action) {
         
         String videoId = postIn.getSocialNetMsgId();
-        SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
+        SocialNetwork postInSN = postIn.getPostInSocialNetwork();
         Youtube semanticYoutube = (Youtube) postInSN;
         if (!semanticYoutube.validateToken()) {
             //System.out.println("Unable to update the access token!");
@@ -424,7 +424,7 @@
 
     public String doYTFavorite(PostIn postIn) {
         String videoId = postIn.getSocialNetMsgId();
-        SocialNetwork postInSN = postIn.getPostInSocialNetwork();        
+        SocialNetwork postInSN = postIn.getPostInSocialNetwork();
         Youtube semanticYoutube = (Youtube) postInSN;
         String favoriteId = null;
         
@@ -558,7 +558,6 @@
         return id2Return;
     }
 %>
-
 <%
     String lang = request.getParameter("lang");
     String postUri = request.getParameter("postUri");
@@ -569,20 +568,20 @@
     PostIn postIn = (PostIn) semObject.getGenericInstance();
     SocialNetwork postInSN = postIn.getPostInSocialNetwork();
     
-    if(action == null){//Displays user actions available for each social network
+    if (action == null) {//Displays user actions available for each social network
         //System.out.println("\n\t\tDisplays user actions available for each social network");
         out.println("<b><font color=\"#CC6600\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("availableActions", lang) + "</font></b></br>");
         
         out.print("<style type=\"text/css\">");
         out.print(" span.inline { display:inline; }");
         out.print("</style>");
-        if(postInSN instanceof Twitter){//Displays RT, Favorite
+        if (postInSN instanceof Twitter) {//Displays RT, Favorite
             out.println("<b><font color=\"#CC6600\">Twitter</font></b></br>");
             twitter4j.Twitter twitter = null;
-            Twitter semanticTwitter = (Twitter)postInSN;
-            try{
+            Twitter semanticTwitter = (Twitter) postInSN;
+            try {
                 twitter = new TwitterFactory(configureOAuth(semanticTwitter).build()).getInstance();
-                if(twitter == null){
+                if (twitter == null) {
                     return;
                 }
                 Long id = Long.parseLong(postIn.getSocialNetMsgId());
@@ -606,7 +605,8 @@
                 out.println("This tweet might not exist anymore");
                 //System.out.println("Error getting tweet information"  + e.getMessage());
             }
-        }else if(postInSN instanceof Facebook){//Displays Like
+        } else if (postInSN instanceof Facebook) {//Displays Like
+            /* Deshabilitado por el funcionamiento actual con el borde "likes" de un post
             out.println("<b><font color=\"#CC6600\">Facebook</font></b></br>");
             String postID = postIn.getSocialNetMsgId();
             Facebook facebook = (Facebook)postInSN;
@@ -616,7 +616,7 @@
             params.put("access_token", facebook.getAccessToken());
             String fbResponse = null;
             
-            try{
+            try {
                 fbResponse = getRequest(params, "https://graph.facebook.com/fql",
                            "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95");
                 JSONObject likeResp = new JSONObject(fbResponse);
@@ -635,6 +635,7 @@
                 out.println("This post might not exist anymore");
                 //System.out.println("Error getting like information for Facebook post"  + e.getMessage());
             }
+            */
         }else if(postInSN instanceof Youtube){//Displays Like, Favorite
             out.println("<b><font color=\"#CC6600\">Youtube</font></b></br>");
             out.print("<span id=\"" + postIn.getURI() + "/LIKE\"><a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=LIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("likePostIn", lang) + "</a></span> ");
@@ -693,12 +694,14 @@
             }
             //out.println("UNDOING FAV");
         }else if(action.equalsIgnoreCase("LIKE")){//LIKE Only for Youtube and Facebook
-            if(postInSN instanceof Facebook){//Do Like and shows 'Dislike'
+            if (postInSN instanceof Facebook) {//Do Like and shows 'Dislike'
+                /* Deshabilitado por el funcionamiento actual del borde "likes" de los posts
                 if(doFBLike(postIn)){//Action executed correctly
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=DISLIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("dislikePostIn", lang) + "</a> ");
                 }else{
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=LIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("likePostIn", lang) + "</a> ");
                 }
+                */
             }else if(postInSN instanceof Youtube){                
                 if(doYTLikeDislike(postIn, "like")){
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=DISLIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("dislikePostIn", lang) + "</a> ");
@@ -708,11 +711,13 @@
             }            
         }else if(action.equalsIgnoreCase("DISLIKE")){//DISLIKE Only for Youtube and Facebook
             if(postInSN instanceof Facebook){//Do Dislike and shows 'Like'
+                /* Deshabilitado por el funcionamiento actual del borde "likes" de los posts
                 if(doFBDislike(postIn)){//Action executed correctly
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=LIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("likePostIn", lang) + "</a> ");
                 }else{
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=DISLIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("dislikePostIn", lang) + "</a> ");
                 }
+                */
             }else if(postInSN instanceof Youtube){
                 if(doYTLikeDislike(postIn, "dislike")){
                     out.print("<a href=\"#\" onclick=\"try{dojo.byId(this.parentNode).innerHTML = '<img src=" + SWBPlatform.getContextPath() + "/swbadmin/icons/loading.gif>';}catch(noe){} postSocialHtml('" + "/work/models/SWBAdmin/jsp/post/postActions.jsp?postUri=" + postIn.getEncodedURI() + "&action=LIKE&lang=" + lang + "','" + postIn.getURI() +  "/LIKE'); return false;" +"\">" + SWBSocialResUtil.Util.getStringFromGenericLocale("likePostIn", lang) + "</a> ");
