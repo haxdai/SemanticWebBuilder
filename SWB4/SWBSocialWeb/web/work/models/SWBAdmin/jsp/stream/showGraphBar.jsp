@@ -20,6 +20,7 @@
 <%@page import="java.util.*"%>
 <%@page import="org.semanticwb.social.util.*"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
+<!DOCTYPE html>
 <%
     String suri = request.getParameter("suri");
     if (suri == null) {
@@ -35,9 +36,13 @@
     String selectedAnio = request.getParameter("selectedAnio");
     String selectAnio = request.getParameter("selectAnio");
     String selectMes = request.getParameter("selectMes");
+    
     args += "&selectedAnio=" + selectedAnio;
     args += "&selectAnio=" + selectAnio;
     args += "&selectMes=" + selectMes;
+    String args2 = "&selectedAnio=" + selectedAnio;
+    args2 += "&selectAnio=" + selectAnio;
+    args2 += "&selectMes=" + selectMes;
     SWBResourceURL urlRender = paramRequest.getRenderUrl();
 %>
 
@@ -46,13 +51,6 @@
     <head>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.min.js"></script>
-        <script language="javascript" type="text/javascript">
-            function resizeIframe() {
-                var iframe =  window.parent.document.getElementById('inneriframe');              
-                var container = document.getElementById('chart');     
-                iframe.style.height = container.offsetHeight + 'px';             
-            }
-        </script>
         <meta charset="utf-8">
         <style type="text/css">
             body {
@@ -129,14 +127,50 @@
                 left: 0;
             }
 
-
+            .excel{
+                background-image:url(/swbadmin/css/images/ico-exp-excel.png); 
+                background-repeat:no-repeat; 
+                /*background-position:4px 3px;*/
+                background-position: center; 
+                /*height: 30px;
+                width: 33px;*/
+                text-indent:-9999px
+            }
+            .aShowGraph a {
+              display: inline-block;
+              height: 30px;
+              width: 33px;
+              /*border: solid 1px #373f42;*/
+              /*background-color: #434c50;*/
+              /*float: left;*/
+              border-radius: 4px;
+              -moz-border-radius: 4px;
+              -webkit-border-radius: 4px;
+              -khtml-border-radius: 4px;
+              
+            }
+            .aShowGraph {
+                padding-bottom: 0px;
+            }
         </style>
+        <link href="/swbadmin/css/swbsocial.css" rel="stylesheet" type="text/css">
     </head>
-    <body onload="resizeIframe();javascript:valid('1');">        
+    <body onload="firstLoad();resizeIframe();">        <!--javascript:valid('1');-->
+        <div align="center" class="aShowGraph">
+            <div id="titleChange" style="margin-left: 100px; width: 700px">
+                <h1>MENCIONES POR MES</h1>
 
-        <div id="chart"></div>
+            </div>
+            <div align="center">
+                <a href="javascript:exportFile();" 
+			onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+            </div>
+        </div>
+        <div id="chart">
+            
+        </div>
         <script type="text/javascript" >
-
+            function firstLoad() {
             var margin = {top: 20, right: 20, bottom: 30, left: 40},
             width = 960 - margin.left - margin.right,
             height = 500 - margin.top - margin.bottom;
@@ -237,7 +271,8 @@
                 .on('mouseover', tip.show)
                 .on('mouseout', tip.hide)
                 .on("click", function(d) {
-                    <%if (request.getParameter("selectMes") != null && !request.getParameter("selectMes").trim().isEmpty()){                        
+                    <%
+                    if (request.getParameter("selectMes") != null && !request.getParameter("selectMes").trim().isEmpty()){                        
                     %>                        
                         var urlParams = '&selectedAnio='+d.year+'&selectedMes='+<%=request.getParameter("selectMes")%>+'&selectedDia='+d.day;
                         parent.postHtml('<%=urlRender.setMode("showBarByDay")%>?suri=<%=URLEncoder.encode(suri)%>' + urlParams, 'postInByHour');
@@ -246,9 +281,44 @@
                         document.location.href = url;
                     <%}%>
                 }) 
-   
             });
-
+            }
         </script>
-
+        <script language="javascript" type="text/javascript">
+            function resizeIframe() {
+                var iframe =  window.parent.document.getElementById('inneriframe');              
+                var container = document.getElementById('chart');  
+                var sizeIframe = 600;
+                if(container.offsetHeight !== 0) {
+                    sizeIframe = container.offsetHeight;
+                }
+                iframe.style.height = sizeIframe + 'px';    
+                if("<%=request.getParameter("selectMes")%>" !== "" && "<%=request.getParameter("selectAnio")%>" !== "") {
+                    document.getElementById("titleChange").innerHTML="MENCIONES POR D&iacute;A";
+                } else {
+                    document.getElementById("titleChange").innerHTML="MENCIONES POR MES";
+                }
+            }
+            
+            function exportFile() {
+                if(JSON.stringify(window.parent.document.getElementById('divAnual').style.display) === '"block"') {
+                    if(window.parent.document.getElementById("selectAnio").value === '') {
+                        alert("Seleccione el a\u00f1o");//&ntilde;
+                        return;
+                    }
+                } else if(JSON.stringify(window.parent.document.getElementById('divAnualMensual').style.display) === '"block"') {
+                    if(window.parent.document.getElementById("selectAnio2").value === '') {
+                        alert("Seleccione el a\u00f1o");//&ntilde;
+                        return;
+                    }
+                    if(window.parent.document.getElementById("selectMes").value === '') {
+                        alert("Seleccione el mes");//&ntilde;
+                        return;
+                    }
+                }
+                var url = '<%=urlRender.setMode("exportExcel").setParameter("type", "graphBar2").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri)%>';
+                url += '<%=args2%>';
+                document.location.href = url;
+            }
+        </script>
 </html>

@@ -113,7 +113,7 @@
             
             //obtenemos los json del array
 
-            getJsonArray(node, ii, s.getTitle(), s.getURI(), totalPost, filter, positives, negatives, neutrals, total);
+            getJsonArray(node, ii, s.getTitle(), s.getURI(), totalPost, filter, positives, negatives, neutrals, total, s.getId());
 
 
         }
@@ -138,7 +138,7 @@
         return Math.rint(number * 100) / 100;
     }
 
-    public JSONArray getJsonArray(JSONArray node, Iterator i, String title, String suri, int totalPost, String filter, int positives, int negatives, int neutrals, int total) throws Exception {
+    public JSONArray getJsonArray(JSONArray node, Iterator i, String title, String suri, int totalPost, String filter, int positives, int negatives, int neutrals, int total, String id) throws Exception {
 
         //System.out.println("entrando a getJsonArray:" + filter);
         float intPorcentaje = 0F;
@@ -172,6 +172,7 @@
             JSONObject node1 = new JSONObject();
             node1.put("label", title);
             node1.put("suri", suri);
+            node1.put("suri2", id);
             node1.put("value1", "" + total);
             node1.put("value2", "" + round(intPorcentaje));
               JSONObject joChild = new JSONObject();
@@ -221,6 +222,7 @@
                 JSONObject node1 = new JSONObject();
                 node1.put("label", "Positivos");
                 node1.put("suri", suri);
+                node1.put("suri2", "Positivos");
                 node1.put("value1", "" + positivesF);
                 node1.put("value2", "" + round(intPorcentajePositives));
                 node1.put("color", "#008000");
@@ -234,6 +236,7 @@
                 JSONObject node2 = new JSONObject();
                 node2.put("label", "Negativos");
                 node2.put("suri", suri);
+                node2.put("suri2", "Negativos");
                 node2.put("value1", "" + negativesF);
                 node2.put("value2", "" + round(intPorcentajeNegatives));
                 node2.put("color", "#FF0000");
@@ -247,6 +250,7 @@
                 JSONObject node3 = new JSONObject();
                 node3.put("label", "Neutros");
                 node3.put("suri", suri);
+                node3.put("suri2", "Neutros");
                 node3.put("value1", "" + neutralsF);
                 node3.put("value2", "" + round(intPorcentajeNeutrals));
                 node3.put("color", "#838383");

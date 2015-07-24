@@ -1209,8 +1209,10 @@
             <div class="geoselect">
                 <%
                     Iterator<CountryState> i = CountryState.ClassMgr.listCountryStates();
+                    i = SWBComparator.sortByDisplayName(i, lang);
                     while (i.hasNext()) {
                         CountryState c = i.next();
+                        
                         if (c != null && c.getCountry().getId().equals("MX")) {
                 %>
                 <input id="bcn<%=c.getTitle()%>" type="radio" name="geo" value="<%=reemplazar(c.getTitle())%>">
@@ -1478,6 +1480,7 @@
             <div class="geoselectEU">
                 <%
                     Iterator<CountryState> ieU = CountryState.ClassMgr.listCountryStates();
+                    ieU = SWBComparator.sortByDisplayName(ieU, lang);
                     while (ieU.hasNext()) {
                         CountryState c = ieU.next();
                         if (c != null && c.getCountry().getId().equals("US")) {
@@ -1714,7 +1717,270 @@
 
 
 
+    <!--  grafica Countrys-->
 
+    <div id="profileCountryParent">
+        <div class="grafTit">
+            <h1> Global </h1>
+            <a id="hrefCountry" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('øDesea exportar a excel?')" class="excel">Exportar excel</a>
+        </div> 
+        <div id="profileCountry">
+        </div>     
+        <div class="grafOptions">
+            <div>
+                <input id="todocountry" type="radio" name="country" value="all" checked="">
+                <label title="Todos" for="todocountry">Todos</label>
+                <div id="todoCountryDiv"></div>
+            </div>
+            <div class="countryselect">
+                <input id="bcnNodefinido" type="radio" name="country" value="No definido">
+                <label for="bcnNodefinido">No definido</label>
+                <%
+                    // Iterator languagei=  Language.ClassMgr.listLanguages(SWBContext.getAdminWebSite());
+                    WebSite ss = SWBSocialUtil.getConfigWebSite();
+                    Iterator<Country> country = Country.ClassMgr.listCountries(ss);
+                    country = SWBComparator.sortByDisplayName(country, lang);
+                    while (country.hasNext()) {
+                        Country co = country.next();
+                        if (co != null) {
+                %>
+                <input id="bcn<%=co.getId()%>" type="radio" name="country" value="<%=reemplazar(co.getTitle())%>">
+                <label for="bcn<%=co.getId()%>"><%=co.getTitle()%></label>
+                <%
+                        }
+                    }
+                %>
+            </div>
+        </div>
+    </div>
+    <script>
+        function pieCountry(parametro, cont){
+            document.getElementById('profileCountry').innerHTML="";
+            //console.log('THE PARAM GEO:' + parametro);        
+        
+            var acentosP = "√¿¡ƒ¬»…À ÃÕœŒ“”÷‘Ÿ⁄‹€„‡·‰‚ËÈÎÍÏÌÔÓÚÛˆÙ˘˙¸˚—Ò«Á";
+            var originalP = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
+
+            for (var i=0; i<acentosP.length; i++) {
+                parametro = parametro.replace(acentosP.charAt(i), originalP.charAt(i));
+            }
+ 
+            var val = document.querySelector('input[name="country"]:checked').value;
+            document.getElementById("hrefCountry").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+     
+            var opciones =  document.getElementsByName("country");//.disabled=false;
+            for(var i=0; i<opciones.length; i++) {        
+                opciones[i].disabled = true;
+            }
+                    
+            var width = 760,
+            height = 300,
+            radius = Math.min(width, height) / 2;
+            var geoArray = new Array();
+
+            var arc = d3.svg.arc()
+            .outerRadius(radius - 20)
+            .innerRadius(radius - 100);
+
+            var pie = d3.layout.pie()
+            .sort(null)
+            .value(function(d) { return d.value2; });
+
+            var arcOver = d3.svg.arc()
+            .outerRadius(radius - 10)
+            .innerRadius(0);
+    
+   
+
+            d3.json("<%=SWBPlatform.getContextPath()%>/work/models/<%=SWBContext.getAdminWebSite().getId()%>/jsp/stream/pieMapCountry.jsp<%=args%>&filter="+parametro, function(error, data) {
+
+                document.getElementById("profileCountry").removeAttribute("style");
+            
+                var svg = d3.select("#profileCountry").append("svg")
+                .attr("width", width)
+                .attr("height", height)
+                .append("g")
+                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+                var path = svg.datum(data).selectAll("path")
+                .data(pie)
+                .enter().append("path")
+                .attr("fill", function(d, i) { return d.data.color; })
+                .attr("d", arc)
+                .each(function(d) { this._current = d; }); // store the initial angles
+
+                   
+                d3.selectAll("input[name=country]")
+                .on("change", change);
+      
+                function change() {
+                    //  console.log('entro a change');
+                    var opciones =  document.getElementsByName("country");//.disabled=false;
+                    for(var i=0; i<opciones.length; i++) {        
+                        opciones[i].disabled = true;
+                    }
+                    pieCountry(this.value, cont);
+                    var value = this.value;
+                    pie.value(function(d) { return d[value]; }); // change the value function
+                    path = path.data(pie); // compute the new angles
+                    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
+                }
+  
+                function arcTween(a) {
+                    var i = d3.interpolate(this._current, a);
+                    this._current = i(0);
+                    return function(t) {
+                        return arc(i(t));
+                    };}
+            
+                var gl = svg.selectAll(".arcOver")
+                .data(pie(data))
+                .enter().append("g")
+                .attr("class", "arcOver")
+                .style("visibility","hidden");
+            
+                gl.append("path")
+                .attr("d", arcOver)
+                .style("fill-opacity", "0.6")
+                .style("fill", function(d) { return d.data.color; });
+
+                var tooltips = svg.select("#profileCountry")
+                .data(pie(data))
+                .enter().append("div")
+                .attr("class","chartToolTip")
+                .style("display", "none")
+                .style("position", "absolute")
+                .style("z-index", "10");
+
+                tooltips.append("p")
+                //.append("span")
+                .attr('class', 'd3-tip')      
+                .html(function(d) {                
+                    return ""+d.data.label+"<br><center>"+d.data.value1+"/"+d.data.value2+"%</center>";;
+                });       
+        
+        
+                var g = svg.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                .attr("class", "arc")
+                .on("mouseover", function(d, i) {
+                    d3.select(gl[0][i]).style("visibility","visible"); 
+                    d3.select(tooltips[0][i])
+                    .style("display","block");
+                })
+                .on("mouseout", function(d, i) {
+                    d3.select(gl[0][i]).style("visibility","hidden"); 
+                    d3.select(tooltips[0][i])
+                    .style("display","none");
+                    d3.select(gl[0][i]).style("fill",function(d) {
+                        return d.data.color;
+                    });
+                })
+                .on("click", function(d) {
+                    if(confirm('øDesea exportar a excel?')){
+                        var filter = d.data.label;  
+                        var acentos = "√¿¡ƒ¬»…À ÃÕœŒ“”÷‘Ÿ⁄‹€„‡·‰‚ËÈÎÍÏÌÔÓÚÛˆÙ˘˙¸˚—Ò«Á";
+                        var original = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
+
+                        for (var i=0; i<acentos.length; i++) {
+                            filter = filter.replace(acentos.charAt(i), original.charAt(i));
+                        }
+
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        document.location.href = url;
+                    }
+                }) 
+                .on("mousemove", function(d, i) {
+                    d3.select(tooltips[0][i])
+                    .style("top", d3.event.pageY-10+"px")
+                    .style("left", d3.event.pageX+10+"px")
+                });
+
+                //Create slices
+                g.append("path")
+                .attr("d", arc)
+                .style("stroke", "white")
+                .style("stroke-width", "2")
+                .style("fill", function(d, i) {
+                    return  d.data.color;
+                });
+
+                svg
+                .append("text")
+                .text("title")
+                .style("text-anchor","middle")
+                .style("fill","black")
+                .style("font-size","10pt")
+                .style("font-weight","bold")
+                .attr("x","0")
+                .attr("y",function(d) {
+                    return - width/2;
+                });
+        
+               
+                if(cont  == 0){
+                    var temp =  parseInt(data.length);
+                    var fin= temp -1 ; 
+                    // if(data.length!=1){
+                    for (var x = fin; x < data.length; x++) {  
+                        var to;
+                        to = data[x].valor;
+                        var paraPositives= document.createElement("p");   
+                        var paraNegatives= document.createElement("p");   
+                        var paraNeutrals= document.createElement("p");   
+
+                        var nodPositives = document.createTextNode(to.positivos);
+                        var nodNegatives= document.createTextNode(to.negativos);
+                        var nodNeutrals = document.createTextNode(to.neutros);
+                            
+                        paraPositives.appendChild(nodPositives);
+                        paraNegatives.appendChild(nodNegatives);
+                        paraNeutrals.appendChild(nodNeutrals);
+                        
+                        var element = document.getElementById("todoCountryDiv");               // gaby            
+                        element.appendChild(paraPositives);
+                        element.appendChild(paraNegatives);
+                        element.appendChild(paraNeutrals);
+                        break;
+                        cont++;
+                    }       
+                        
+                    /*   for (var i = 0; i < data.length; i++) {        
+                            if(data[i].label==="No definido"){
+                           
+                                var pPositives= document.createElement("p");   
+                                var pNegatives= document.createElement("p");   
+                                var pNeutrals= document.createElement("p");   
+                                var myJSONObject = data[i].valor; 
+                        
+                                var nodePositives = document.createTextNode(myJSONObject.positivos);
+                                var nodeNegatives = document.createTextNode(myJSONObject.negativos);
+                                var nodeNeutros = document.createTextNode(myJSONObject.neutros );             
+                        
+                                pPositives.appendChild(nodePositives);
+                                pNegatives.appendChild(nodeNegatives);
+                                pNeutrals.appendChild(nodeNeutros);
+                        
+                                //var element=document.getElementById("todoLanguageDiv");
+                                //element.appendChild(pPositives);
+                                //element.appendChild(pNegatives);
+                                //element.appendChild(pNeutrals);
+                            }                       
+                        }  */
+                    //    }
+                    cont++;
+                }
+                var opciones =  document.getElementsByName("country");//.disabled=false;
+                for(var i=0; i<opciones.length; i++) {        
+                    opciones[i].disabled = false;
+                }
+            });
+    
+        }  
+        
+        pieCountry('all', '0'); 
+    </script>
 
 
     <!--  grafica lenguajes-->
@@ -1737,6 +2003,7 @@
                 <%
                     // Iterator languagei=  Language.ClassMgr.listLanguages(SWBContext.getAdminWebSite());
                     Iterator languagei = Language.ClassMgr.listLanguages(SWBSocialUtil.getConfigWebSite());
+                    languagei = SWBComparator.sortByDisplayName(languagei, lang);
                     while (languagei.hasNext()) {
                         Language language = (Language) languagei.next();
                         if (language != null) {
@@ -1989,269 +2256,7 @@
 
 
 
-    <!--  grafica Countrys-->
 
-    <div id="profileCountryParent">
-        <div class="grafTit">
-            <h1> Global </h1>
-            <a id="hrefCountry" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('øDesea exportar a excel?')" class="excel">Exportar excel</a>
-        </div> 
-        <div id="profileCountry">
-        </div>     
-        <div class="grafOptions">
-            <div>
-                <input id="todocountry" type="radio" name="country" value="all" checked="">
-                <label title="Todos" for="todocountry">Todos</label>
-                <div id="todoCountryDiv"></div>
-            </div>
-            <div class="countryselect">
-                <input id="bcnNodefinido" type="radio" name="country" value="No definido">
-                <label for="bcnNodefinido">No definido</label>
-                <%
-                    // Iterator languagei=  Language.ClassMgr.listLanguages(SWBContext.getAdminWebSite());
-                    WebSite ss = SWBSocialUtil.getConfigWebSite();
-                    Iterator<Country> country = Country.ClassMgr.listCountries(ss);
-                    while (country.hasNext()) {
-                        Country co = country.next();
-                        if (co != null) {
-                %>
-                <input id="bcn<%=co.getId()%>" type="radio" name="country" value="<%=reemplazar(co.getTitle())%>">
-                <label for="bcn<%=co.getId()%>"><%=co.getTitle()%></label>
-                <%
-                        }
-                    }
-                %>
-            </div>
-        </div>
-    </div>
-    <script>
-        function pieCountry(parametro, cont){
-            document.getElementById('profileCountry').innerHTML="";
-            //console.log('THE PARAM GEO:' + parametro);        
-        
-            var acentosP = "√¿¡ƒ¬»…À ÃÕœŒ“”÷‘Ÿ⁄‹€„‡·‰‚ËÈÎÍÏÌÔÓÚÛˆÙ˘˙¸˚—Ò«Á";
-            var originalP = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
-
-            for (var i=0; i<acentosP.length; i++) {
-                parametro = parametro.replace(acentosP.charAt(i), originalP.charAt(i));
-            }
- 
-            var val = document.querySelector('input[name="country"]:checked').value;
-            document.getElementById("hrefCountry").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
-     
-            var opciones =  document.getElementsByName("country");//.disabled=false;
-            for(var i=0; i<opciones.length; i++) {        
-                opciones[i].disabled = true;
-            }
-                    
-            var width = 760,
-            height = 300,
-            radius = Math.min(width, height) / 2;
-            var geoArray = new Array();
-
-            var arc = d3.svg.arc()
-            .outerRadius(radius - 20)
-            .innerRadius(radius - 100);
-
-            var pie = d3.layout.pie()
-            .sort(null)
-            .value(function(d) { return d.value2; });
-
-            var arcOver = d3.svg.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(0);
-    
-   
-
-            d3.json("<%=SWBPlatform.getContextPath()%>/work/models/<%=SWBContext.getAdminWebSite().getId()%>/jsp/stream/pieMapCountry.jsp<%=args%>&filter="+parametro, function(error, data) {
-
-                document.getElementById("profileCountry").removeAttribute("style");
-            
-                var svg = d3.select("#profileCountry").append("svg")
-                .attr("width", width)
-                .attr("height", height)
-                .append("g")
-                .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-
-                var path = svg.datum(data).selectAll("path")
-                .data(pie)
-                .enter().append("path")
-                .attr("fill", function(d, i) { return d.data.color; })
-                .attr("d", arc)
-                .each(function(d) { this._current = d; }); // store the initial angles
-
-                   
-                d3.selectAll("input[name=country]")
-                .on("change", change);
-      
-                function change() {
-                    //  console.log('entro a change');
-                    var opciones =  document.getElementsByName("country");//.disabled=false;
-                    for(var i=0; i<opciones.length; i++) {        
-                        opciones[i].disabled = true;
-                    }
-                    pieCountry(this.value, cont);
-                    var value = this.value;
-                    pie.value(function(d) { return d[value]; }); // change the value function
-                    path = path.data(pie); // compute the new angles
-                    path.transition().duration(750).attrTween("d", arcTween); // redraw the arcs
-                }
-  
-                function arcTween(a) {
-                    var i = d3.interpolate(this._current, a);
-                    this._current = i(0);
-                    return function(t) {
-                        return arc(i(t));
-                    };}
-            
-                var gl = svg.selectAll(".arcOver")
-                .data(pie(data))
-                .enter().append("g")
-                .attr("class", "arcOver")
-                .style("visibility","hidden");
-            
-                gl.append("path")
-                .attr("d", arcOver)
-                .style("fill-opacity", "0.6")
-                .style("fill", function(d) { return d.data.color; });
-
-                var tooltips = svg.select("#profileCountry")
-                .data(pie(data))
-                .enter().append("div")
-                .attr("class","chartToolTip")
-                .style("display", "none")
-                .style("position", "absolute")
-                .style("z-index", "10");
-
-                tooltips.append("p")
-                //.append("span")
-                .attr('class', 'd3-tip')      
-                .html(function(d) {                
-                    return ""+d.data.label+"<br><center>"+d.data.value1+"/"+d.data.value2+"%</center>";;
-                });       
-        
-        
-                var g = svg.selectAll(".arc")
-                .data(pie(data))
-                .enter().append("g")
-                .attr("class", "arc")
-                .on("mouseover", function(d, i) {
-                    d3.select(gl[0][i]).style("visibility","visible"); 
-                    d3.select(tooltips[0][i])
-                    .style("display","block");
-                })
-                .on("mouseout", function(d, i) {
-                    d3.select(gl[0][i]).style("visibility","hidden"); 
-                    d3.select(tooltips[0][i])
-                    .style("display","none");
-                    d3.select(gl[0][i]).style("fill",function(d) {
-                        return d.data.color;
-                    });
-                })
-                .on("click", function(d) {
-                    if(confirm('øDesea exportar a excel?')){
-                        var filter = d.data.label;  
-                        var acentos = "√¿¡ƒ¬»…À ÃÕœŒ“”÷‘Ÿ⁄‹€„‡·‰‚ËÈÎÍÏÌÔÓÚÛˆÙ˘˙¸˚—Ò«Á";
-                        var original = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc";
-
-                        for (var i=0; i<acentos.length; i++) {
-                            filter = filter.replace(acentos.charAt(i), original.charAt(i));
-                        }
-
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
-                        document.location.href = url;
-                    }
-                }) 
-                .on("mousemove", function(d, i) {
-                    d3.select(tooltips[0][i])
-                    .style("top", d3.event.pageY-10+"px")
-                    .style("left", d3.event.pageX+10+"px")
-                });
-
-                //Create slices
-                g.append("path")
-                .attr("d", arc)
-                .style("stroke", "white")
-                .style("stroke-width", "2")
-                .style("fill", function(d, i) {
-                    return  d.data.color;
-                });
-
-                svg
-                .append("text")
-                .text("title")
-                .style("text-anchor","middle")
-                .style("fill","black")
-                .style("font-size","10pt")
-                .style("font-weight","bold")
-                .attr("x","0")
-                .attr("y",function(d) {
-                    return - width/2;
-                });
-        
-               
-                if(cont  == 0){
-                    var temp =  parseInt(data.length);
-                    var fin= temp -1 ; 
-                    // if(data.length!=1){
-                    for (var x = fin; x < data.length; x++) {  
-                        var to;
-                        to = data[x].valor;
-                        var paraPositives= document.createElement("p");   
-                        var paraNegatives= document.createElement("p");   
-                        var paraNeutrals= document.createElement("p");   
-
-                        var nodPositives = document.createTextNode(to.positivos);
-                        var nodNegatives= document.createTextNode(to.negativos);
-                        var nodNeutrals = document.createTextNode(to.neutros);
-                            
-                        paraPositives.appendChild(nodPositives);
-                        paraNegatives.appendChild(nodNegatives);
-                        paraNeutrals.appendChild(nodNeutrals);
-                        
-                        var element = document.getElementById("todoCountryDiv");               // gaby            
-                        element.appendChild(paraPositives);
-                        element.appendChild(paraNegatives);
-                        element.appendChild(paraNeutrals);
-                        break;
-                        cont++;
-                    }       
-                        
-                    /*   for (var i = 0; i < data.length; i++) {        
-                            if(data[i].label==="No definido"){
-                           
-                                var pPositives= document.createElement("p");   
-                                var pNegatives= document.createElement("p");   
-                                var pNeutrals= document.createElement("p");   
-                                var myJSONObject = data[i].valor; 
-                        
-                                var nodePositives = document.createTextNode(myJSONObject.positivos);
-                                var nodeNegatives = document.createTextNode(myJSONObject.negativos);
-                                var nodeNeutros = document.createTextNode(myJSONObject.neutros );             
-                        
-                                pPositives.appendChild(nodePositives);
-                                pNegatives.appendChild(nodeNegatives);
-                                pNeutrals.appendChild(nodeNeutros);
-                        
-                                //var element=document.getElementById("todoLanguageDiv");
-                                //element.appendChild(pPositives);
-                                //element.appendChild(pNegatives);
-                                //element.appendChild(pNeutrals);
-                            }                       
-                        }  */
-                    //    }
-                    cont++;
-                }
-                var opciones =  document.getElementsByName("country");//.disabled=false;
-                for(var i=0; i<opciones.length; i++) {        
-                    opciones[i].disabled = false;
-                }
-            });
-    
-        }  
-        
-        pieCountry('all', '0'); 
-    </script>
 
 
 

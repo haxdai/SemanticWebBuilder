@@ -4,6 +4,7 @@
     Author     : francisco.jimenez
 --%>
 
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="org.semanticwb.social.util.SWBSocialUtil"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
@@ -30,6 +31,8 @@
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String clsName = semObj.createGenericInstance().getClass().getName();
+    String urlRender = (String)request.getParameter("urlRender");
+    String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
@@ -47,6 +50,10 @@
         } catch(java.text.ParseException e) {
         }
     }    
+    String args2 = "?suri=" + URLEncoder.encode(suri);
+    args2 += "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
+    args2 += "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    args2 += "&type=graphChartByHourByNet";
     Iterator<PostIn> itObjPostIns = null;
     HashMap<SocialNetwork,Integer > networks = new HashMap<SocialNetwork,Integer>();
     if (semObj.getGenericInstance() instanceof Stream) {
@@ -150,10 +157,32 @@ svg {
   margin-top: 10px;
   margin-left: 100px;
 }
+.excel{
+    background-image:url(/swbadmin/css/images/ico-exp-excel.png); 
+    background-repeat:no-repeat; 
+    background-position: center; 
+    text-indent:-9999px
+}
+.aShowGraph a {
+  display: inline-block;
+  height: 30px;
+  width: 33px;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -khtml-border-radius: 4px;
+
+}
 </style>
 <body class='with-3d-shadow with-transitions'>
-
-<div align="center" style="margin-left: 100px; width: 700px">MENSAJES POR HORA DEL D&Iacute;A POR RED SOCIAL</div>
+    
+<div align="center" class="aShowGraph">
+    <div align="center" style="margin-left: 100px; width: 700px">MENSAJES POR HORA DEL D&Iacute;A POR RED SOCIAL</div>
+    <div align="center">
+        <a href="javascript:exportFile();" 
+                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+    </div>
+</div>
 <div id="chart1" >
   <svg style="height: 430px;"></svg>
 </div>
@@ -241,4 +270,10 @@ function getChartData() {
   ];
 }
 
+
+function exportFile() {
+    var url = '<%=urlRender%>';
+    url += '<%=args2%>';
+    document.location.href = url;
+}
 </script>
