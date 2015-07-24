@@ -284,25 +284,16 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         //Determinar la fecha del ultimo post guardado
         SocialNetStreamSearch socialStreamSerch = SocialNetStreamSearch.getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
         if (socialStreamSerch != null) {
-            System.out.println("Data: "+socialStreamSerch.getNextDatetoSearch());
+            //System.out.println("Data: "+socialStreamSerch.getNextDatetoSearch());
             if(socialStreamSerch.getNextDatetoSearch() == null){
                 tumblrListenHelper = new TumblrListenHelper(incomingPhasesFromStream(stream));
-               // socialStreamSerch.setNextDatetoSearch( tumblrListenHelper.getFormatString());                
+               //socialStreamSerch.setNextDatetoSearch( tumblrListenHelper.getFormatString());                
             }else{
                 tumblrListenHelper = new TumblrListenHelper(socialStreamSerch.getNextDatetoSearch());
             }        
         }
         //Configuro la fecha de inicio y de fin de la captura del stream
-        if(stream.getEndDate()!= null){
-            try {
-                lastTimePost = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(stream.getEndDate()).getTime() /1000;
-            } catch (ParseException ex) {
-                Logger.getLogger(Tumblr.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            lastTimePost = new Date().getTime()/1000;
-        }
-        if(stream.getInitialDate()!= null){
+         if(stream.getInitialDate()!= null){
             try {
                 firtsTimePost = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(stream.getInitialDate()).getTime() /1000;
             } catch (ParseException ex) {
@@ -312,21 +303,28 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             calendar.add(Calendar.YEAR, -1);
-            //calendar.add(Calendar.MONTH, -1);
-            //calendar.add(Calendar.DAY_OF_YEAR, );
+            //calendar.add(Calendar.MONTH, 0);
+            //calendar.add(Calendar.DAY_OF_YEAR, 0 );
             firtsTimePost = calendar.getTime().getTime()/1000;
          }
-         System.out.println("Termino de validar fechas");
+        if(stream.getEndDate()!= null){
+            try {
+                lastTimePost = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").parse(stream.getEndDate()).getTime() /1000;
+            } catch (ParseException ex) {
+                Logger.getLogger(Tumblr.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            lastTimePost = new Date().getTime()/1000;
+        }
+        //System.out.println("Termino de validar fechas");
           
-        
         while(iteratorPhases.hasNext()){
-            System.out.println("Entro al iterador de phases");
+            //System.out.println("Entro al iterador de phases");
             params = new HashMap();
             String phase = iteratorPhases.next();
             TumblrListenHelper.TumblrTimeHelper timeHelper = tumblrListenHelper.getTimeHelper(phase);
             //Se repite la consulta 50 veces, 20 post en cada consulta = 1000 post por phase en cada iteracion. 
-            for(int times=0;times<5;times++){
-                System.out.println("Times: "+times+" |--------------------------------------------");
+            for(int times=0;times<50;times++){
                 if(timeHelper.getEnd()==0){
                     params.put("before",lastTimePost);
                 }else{
@@ -334,10 +332,13 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
                       params.put("before",timeHelper.getInit());
                   }else{
                       params.put("before",lastTimePost);
+                      //timeHelper.setReachInit(false);
                   }  
                 }
                 ArrayList<Post> taggedItems =  (ArrayList<Post>) client.tagged(phase, params);
+                
                 if(taggedItems.isEmpty()){
+                    timeHelper.setReachInit(true);
                     break;
                 }
 
@@ -350,16 +351,12 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
                     }
                     timeHelper.setInit(postTime);
                     
-                    System.out.println("postTime: "+postTime);
-                    System.out.println("firtsTimePost: " +firtsTimePost);
-                    System.out.println("lastTimePost: "+lastTimePost);
-                    
                     if(timeHelper.isReachInit()){
-                       if(postTime < timeHelper.getEnd()){
+                       if(postTime <= timeHelper.getEnd()){
                            break;
                        } 
                     }
-                    if(postTime > firtsTimePost && postTime < lastTimePost){
+                    if(postTime > firtsTimePost  && postTime < lastTimePost){
                         ExternalPost externalPostFromTumblrPost = getExternalPostFromTumblrPost(post,stream);
                         if(externalPostFromTumblrPost!= null){
                             externalPostArray.add(externalPostFromTumblrPost);
@@ -367,6 +364,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
                     }else{
                         if(postTime < firtsTimePost){
                             timeHelper.setReachInit(true);
+                            //firtsTimePost = timeHelper.getEnd();
                         }
                         break;
                     }
@@ -378,7 +376,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         if(externalPostArray.size()>0){
             new Classifier(externalPostArray, stream, this, true);
         }
-        System.out.println("Termino la busqueda");
+        //System.out.println("Termino la busqueda");
         
     }
     /**
@@ -518,10 +516,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
             }
 
         }
-        System.out.println("------------------------------------");
-        System.out.println(post.getDateGMT());
-        System.out.println(post.getTimestamp());
-        System.out.println("------------------------------------");
+       
         
         return externalPost;
             
