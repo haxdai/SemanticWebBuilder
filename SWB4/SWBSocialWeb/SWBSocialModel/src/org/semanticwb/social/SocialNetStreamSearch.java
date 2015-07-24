@@ -39,11 +39,13 @@ public class SocialNetStreamSearch extends org.semanticwb.social.base.SocialNetS
     
     public static SocialNetStreamSearch getSocialNetStreamSearchbyStreamAndSocialNetwork(Stream stream, SocialNetwork socialNetwork)
     {
-        Iterator <SocialNetStreamSearch> itSocialNetStreamSearch=SocialNetStreamSearch.ClassMgr.listSocialNetStreamSearchByStream(stream, stream.getSocialSite());
-        while(itSocialNetStreamSearch.hasNext())
+        Iterator <SocialNetStreamSearch> itSocialNetStreamSearch = SocialNetStreamSearch.ClassMgr.listSocialNetStreamSearchByStream(stream, stream.getSocialSite());
+        while (itSocialNetStreamSearch.hasNext())
         {
-            SocialNetStreamSearch socialStreamSerch=itSocialNetStreamSearch.next();
-            if(socialStreamSerch.getSocialNetwork().getURI().equals(socialNetwork.getURI()))
+            SocialNetStreamSearch socialStreamSerch = itSocialNetStreamSearch.next();
+            if (socialStreamSerch.getSocialNetwork() != null &&
+                    socialStreamSerch.getSocialNetwork().getURI() != null &&
+                    socialStreamSerch.getSocialNetwork().getURI().equals(socialNetwork.getURI()))
             {
                
                 return socialStreamSerch;
