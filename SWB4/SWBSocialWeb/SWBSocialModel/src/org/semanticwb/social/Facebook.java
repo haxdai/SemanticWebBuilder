@@ -511,7 +511,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 if (msgsObtained > 0) {
                     //Si se obtuvieron mensajes, hay un nuevo valor para el ultimo mensaje leido, indicado en "nextQuery"
                     if (newQuery.indexOf("search?") > 0) {
-                        System.out.println("relative_url en Otras Veces:"+newQuery.substring(newQuery.indexOf("search?") - 1));
+                        //System.out.println("relative_url en Otras Veces:"+newQuery.substring(newQuery.indexOf("search?") - 1));
                         queriesArray[i].put("relative_url", newQuery.substring(newQuery.indexOf("search?") - 1));
                     }
 
@@ -852,7 +852,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
              "POST");
              */
 
-            System.out.println("THIS IS THE RESPONSE MSG:\n" + facebookResponse);
+            //System.out.println("THIS IS THE RESPONSE MSG:\n" + facebookResponse);
             jsonResponse = new JSONObject(facebookResponse);
             if (jsonResponse != null && jsonResponse.has("id")) {
                 SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, jsonResponse.get("id").toString(), null);
@@ -1219,7 +1219,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         //System.out.println("FACEBBOK url:"+url);
         URL serverUrl = new URL(url);
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
-        System.out.println("FACEBOOK paramStringXX: " + paramString.toString());
+        //System.out.println("FACEBOOK paramStringXX: " + paramString.toString());
         HttpURLConnection conex = null;
         OutputStream out = null;
         InputStream in = null;
