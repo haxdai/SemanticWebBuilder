@@ -15,7 +15,7 @@
      <link href="<%=org.semanticwb.SWBPlatform.getContextPath()%>\work\models\SWBAdmin\css\tumblrDashboard.css" rel="stylesheet">
     <div style="width: 400px;display: inline-block; height: 100%;overflow-y: scroll;" id = "dashboard"></div>
     <div style="width: 400px;display: inline-block; height: 100%;overflow-y: scroll;" id = "following"></div>
-    <div style="width: 400px;display: inline-block; height: 100%;overflow-y: scroll;" id = "followers"></div>
+    <!--div style="width: 400px;display: inline-block; height: 100%;overflow-y: scroll;" id = "followers"></div-->
 </main>   
 
 
@@ -111,11 +111,11 @@
         });
         
         
-        post(" <%= urlDoFollowers.toString() %>" , function(data){
+       /* post(" <%= urlDoFollowers.toString() %>" , function(data){
           var div = document.createElement('div');
           div.innerHTML = data;
           document.getElementById("followers").appendChild(div);
-      });
+      });*/
       
       loadPost(" <%= urlDoDashboard.toString() %>");
       
