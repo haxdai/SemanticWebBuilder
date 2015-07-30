@@ -22,29 +22,24 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 
 <main>
-<%= blogFollowers  %>
     <div class="content">
 <%  Iterator<User> userIterator =  blogFollowers.iterator();
     while(userIterator.hasNext()){
         User user =  userIterator.next();
 %>
-  <div class="post">
-            <!--img class="avatar-image" src="<%= user.getBlogs() %>" -->
-            <h2 class="post-title"><%= user.getBlogs() %></h2>
-            <%/* Iterator<Blog> blogIterator =  user.getBlogs().iterator();
-                while(blogIterator.hasNext()){
-                   Blog blog =  blogIterator.next();*/
-            %>
-              
-            <%
-               //}
-            %>
-        <br>
-        
-    </div>
+        <div class="post">
+            <p><%= user.getName() %></p>
+            <p><%= user.getBlogs().get(0) %></p>
+            <p><%= user.getDefaultPostFormat() %></p>
+            <p><%= user.getLikeCount() %></p>
+            <p><%= user.isFollowing() %></p>
+            <br> 
+        </div>
 <%
     }    
 %>
     </div>
    
 </main>
+
+   

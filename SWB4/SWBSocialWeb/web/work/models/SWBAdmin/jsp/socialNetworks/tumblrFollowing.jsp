@@ -28,16 +28,20 @@
         Blog blog =  blogIterator.next();
 %>
   <div class="post">
-            <img class="avatar-image" src="<%= blog.avatar() %>">
-            <h2 class="post-title"><%= blog.getName() %></h2>
-            <p>Titulo: <%= blog.getTitle() %></p>
-            <p>Descripcion: <%= blog.getDescription() %></p>
-             <button style="display: none;"  class="follow-button" data-urllike="<%= urlDoFollow
+            
+            <h4 class="post-title"><%= blog.getName() %></h4>
+             <div class="timelineresume">
+             <a style="display: none;"  class="follow-button clasifica follow-unfollow" data-urllike="<%= urlDoFollow
                     .setParameter("blogName", blog.getName()) %>"
-            >Seguir</button>
-            <button class="unfollow-button" data-urlunlike="<%= urlDoUnFollow
+            >Seguir</a>
+            <a class="unfollow-button clasifica follow-unfollow" data-urlunlike="<%= urlDoUnFollow
                 .setParameter("blogName", blog.getName()) %>"
-            >Dejar de seguir</button>
+            >Dejar de seguir</a>
+             </div>
+            <img class="avatar-image" src="<%= blog.avatar() %>">
+            <p> <%= blog.getTitle() %></p>
+            <p> <%= blog.getDescription() %></p>
+            
         <br>
         
     </div>

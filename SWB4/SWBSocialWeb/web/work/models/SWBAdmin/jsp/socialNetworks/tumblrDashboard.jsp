@@ -37,25 +37,27 @@
 
 
 <main>
-   
+
     <div class="content">
 <%  Iterator<Post> postIterator =  userDashboardPost.iterator();
     while(postIterator.hasNext()){
         Post post =  postIterator.next();
 %>
         <div class="post">
-            <img class="avatar-image" src="<%= avatarImages.get(post.getBlogName()) %>">
+           
             <h4 class="post-title"><%= post.getBlogName() %> <%= post.getRebloggedFromName()!= null ? " @ "+  post.getRebloggedFromName()   :"" %></h4>
-            
-            <button <%=  arrayFollowing.contains(post.getBlogName()) || blogName.equals(post.getBlogName())  ? "style='display: none; float:right;'" : "" %>  
-                class="like-button" data-urllike="<%= urlDoFollow
+            <div class="timelineresume">
+                <a <%=  arrayFollowing.contains(post.getBlogName()) || blogName.equals(post.getBlogName())  ? "style='display: none; '" : "" %>  
+                class="like-button follow-unfollow clasifica" data-urllike="<%= urlDoFollow
                     .setParameter("blogName", post.getBlogName()) %>"
-            >Seguir</button>
-            <button <%= !arrayFollowing.contains(post.getBlogName()) || blogName.equals(post.getBlogName())  ? "style='display:none; float:right;'" : "" %> 
-                class="unlike-button" data-urlunlike="<%= urlDoUnFollow
-                .setParameter("blogName", post.getBlogName()) %>"
-            >Dejar de seguir</button>
+                >Seguir</a>
+                <a <%= !arrayFollowing.contains(post.getBlogName()) || blogName.equals(post.getBlogName())  ? "style='display:none;'" : "" %> 
+                    class="unlike-button follow-unfollow clasifica" data-urlunlike="<%= urlDoUnFollow
+                    .setParameter("blogName", post.getBlogName()) %>"
+                >Dejar de seguir</a>
+            </div>
             
+            <img class="avatar-image" src="<%= avatarImages.get(post.getBlogName()) %>">
             
           
 <%
@@ -123,23 +125,23 @@
              %>
         </div>
         <br>
-        <div class="notas">
+        <div class="timelineresume">
             <span><%= post.getNoteCount()%> notas</span>
          
-            <button  <%=  post.getRebloggedFromName()!= null && post.getBlogName().equals( blogName )  ? "style='display: none;'" : "" %>  class="like-button" data-urllike="<%= urlDoReblog
+            <a  <%=  post.getRebloggedFromName()!= null && post.getBlogName().equals( blogName )  ? "style='display: none;'" : "" %>  class="like-button retweet" data-urllike="<%= urlDoReblog
                     .setParameter("idPost",String.valueOf(post.getId()))
                     .setParameter("idReblog", post.getReblogKey()) %>"
-            >Reblog</button>
-            <button  <%= !(post.getRebloggedFromName()!= null && post.getBlogName().equals( blogName )) ? "style='display: none;'" : "" %> >Ya Reblogueaste</button>
+            >Reblog</a>
+            <!--a  <%= !(post.getRebloggedFromName()!= null && post.getBlogName().equals( blogName )) ? "style='display: none;'" : "" %> >Ya Reblogueaste</a-->
             
-            <button  <%=  post.isLiked() ? "style='display: none;'" : "" %>  class="like-button" data-urllike="<%= urlDoLike
+            <a  <%=  post.isLiked() ? "style='display: none;'" : "" %>  class="like-button like" data-urllike="<%= urlDoLike
                     .setParameter("idPost",String.valueOf(post.getId()))
                     .setParameter("idReblog", post.getReblogKey()) %>"
-            >Me gusta</button>
-            <button <%= !post.isLiked() ? "style='display:none;'" : "" %>  class="unlike-button" data-urlunlike="<%= urlDoUnLike
+            >Me gusta</a>
+            <a <%= !post.isLiked() ? "style='display:none;'" : "" %>  class="unlike-button nolike" data-urlunlike="<%= urlDoUnLike
                 .setParameter("idPost",String.valueOf(post.getId()))
                 .setParameter("idReblog", post.getReblogKey()) %>"
-            >Ya no me gusta</button>      
+            >Ya no me gusta</a>      
         </div>
     </div>
 <%

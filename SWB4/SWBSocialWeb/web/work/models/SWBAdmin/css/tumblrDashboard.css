@@ -9,9 +9,9 @@ and open the template in the editor.
 */
 
 .avatar-image{
-    margin-left:  -16px;
-    margin-top:  -16px;
-    display: inline-block;
+    height: 64px;
+    width: 64px;
+    margin-top: -16px;
 }
 
 main{
@@ -20,29 +20,33 @@ main{
 
 
 .content{
-    margin: 0 auto;
-    width: 340px;
+
 }
 
 .post{
-    border: #AAA solid 1px;
-    margin: 1em 0;
-    background-color: white;
+    border: #CCC solid 1px;
+    margin-bottom: 1em ;
+    background: #fdfdfd;
     display: inline-block;
-    padding: 16px;
-    width: 308px;   
+    padding: 0px 0px 16px 16px;
+    width: 357px;   
 }
 
 .post-image{
-    margin: 0 -16px;
-    width: 340px;
+    margin: 0px;
+    width: 341px;
 }
 
 .post-title{
-    display: inline-block;
-    vertical-align: top;
+
 }
 
 .notas span{
     text-align: right;
+}
+
+.follow-unfollow{
+    float: right;
+    margin-right: 6px!important;
+    margin-top: -42px!important;
 }
