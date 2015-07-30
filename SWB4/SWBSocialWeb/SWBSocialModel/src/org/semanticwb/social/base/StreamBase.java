@@ -4,77 +4,45 @@ package org.semanticwb.social.base;
    /**
    * Clase que contendra los streams que configurados para cada usuario 
    */
-public abstract class StreamBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.social.Geolocable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.SocialRuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass
+public abstract class StreamBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.Descriptiveable,org.semanticwb.social.Geolocable,org.semanticwb.model.FilterableClass,org.semanticwb.social.SocialRuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableNode
 {
-   /**
-   * Número de Iteraciones que se ha tenido el Stream. Este dato se utiliza en conjunto con el de la propiedad "promPostNumber" para poder determinar si el número de mensajes que accesaron al Stream amerita que se envíe una notificación (alerta) indicando que llegaron mas mensajes al Stream que los que se tiene en promedio en un tiempo determinado.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_streamIterations=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamIterations");
-   /**
-   * Clase que engloba a las diferentes clases que representan cada una de las redes sociales.
-   */
-    public static final org.semanticwb.platform.SemanticClass social_SocialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetwork");
-   /**
-   * Redes sociales asociadas al stream. En estas redes sociales se escuchara la frase asociada a un stream.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_hasStream_socialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasStream_socialNetwork");
-   /**
-   * Clase a Cambiar despues por "Relacional".Clase en la cual se almacenan los usuarios que escriben los PostIn que llegan. No se puso como identificador de las instancias de esta clase el id que maneja el usuario en la red social, ya que un identificador de una red social, puede ser el mismo para otra red social, pero obviamnete para otro usuario.Es por ello que se puso como AutoGenID esta clase y por ello se maneja por separado el id de un usuario en una determinada red social, esto en la propiedad snu_id.
-   */
-    public static final org.semanticwb.platform.SemanticClass social_SocialNetworkUser=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetworkUser");
-   /**
-   * Lista todos las instancias de SocialNetworkUser que esten asociados con un determinado Stream, se utiliza para las campañas.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_hasSocialNetUserInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialNetUserInv");
     public static final org.semanticwb.platform.SemanticProperty social_endDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#endDate");
    /**
-   * Clase en la que se guardan datos que sirven para realizar una siguiente busqueda en una determinada red social y en un determinado stream.
+   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con intensidad alta
    */
-    public static final org.semanticwb.platform.SemanticClass social_SocialNetStreamSearch=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetStreamSearch");
+    public static final org.semanticwb.platform.SemanticProperty social_filterIntensityHigh=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterIntensityHigh");
    /**
-   * El stream puede tener varias instancias de la clase SocialNetStreamSearch, una por cada red social que tenga asignada.Si se elimina un Stream, se eliminan los objetos de esta clase (SocialNetStreamSerch) Asociados.
+   * Número de post en el periodo de tiempo determinado en la propiedad stream_PoolTime
    */
-    public static final org.semanticwb.platform.SemanticProperty social_hasSocialNetStreamSearch=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialNetStreamSearch");
+    public static final org.semanticwb.platform.SemanticProperty social_promPostNumber=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#promPostNumber");
    /**
-   * Logotipo del Stream
+   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con intensidad media
    */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_logo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_logo");
-   /**
-   * Descarta estas palabras de la búsqueda
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_notPhrase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_notPhrase");
-   /**
-   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con sentimiento negativo
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_filterSentimentalNegative=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterSentimentalNegative");
-   /**
-   * Lapso de tiempo en que se busca la información. Ej. Cada x tiempo
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_PoolTime=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_PoolTime");
-   /**
-   * Maxima cantidad de registros (mensajes) que almacenara un stream
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_maxMsg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_maxMsg");
-   /**
-   * Propiedad que indica si el stream va manejar conexiones abiertas en las cuentas de redes sociales que así lo permitan, en este momento solo twitter con su "Stream Api" lo maneja.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_keepAliveManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#keepAliveManager");
+    public static final org.semanticwb.platform.SemanticProperty social_filterIntensityMedium=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterIntensityMedium");
    /**
    * Frase a monitorear en un determinado stream, cada stream tiene sus propias frasea a monitorear.
    */
     public static final org.semanticwb.platform.SemanticProperty social_stream_phrase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_phrase");
    /**
+   * Propiedad que indica si el stream va manejar conexiones abiertas en las cuentas de redes sociales que así lo permitan, en este momento solo twitter con su "Stream Api" lo maneja.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_keepAliveManager=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#keepAliveManager");
+   /**
    * Número mximo de días que un mensaje va a permanecer en el stream antes de ser eliminado del mismo.
    */
     public static final org.semanticwb.platform.SemanticProperty social_stream_maxDays=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_maxDays");
    /**
-   * Fecha Inicial en que se permitira el acceso a mensajes de las redes sociales.
+   * Descarta estas palabras de la búsqueda
    */
-    public static final org.semanticwb.platform.SemanticProperty social_initialDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#initialDate");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_notPhrase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_notPhrase");
    /**
-   * Propiedad para escribir correos electronicos de los usuarios que recibiran alertas. Si entran mas mensajes (listener) a un Stream del promedio.
+   * Busca todas las palabras definidas en este campo
    */
-    public static final org.semanticwb.platform.SemanticProperty social_streamEmail2Alerts=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamEmail2Alerts");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_allPhrases=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_allPhrases");
+   /**
+   * Número de Iteraciones que se ha tenido el Stream. Este dato se utiliza en conjunto con el de la propiedad "promPostNumber" para poder determinar si el número de mensajes que accesaron al Stream amerita que se envíe una notificación (alerta) indicando que llegaron mas mensajes al Stream que los que se tiene en promedio en un tiempo determinado.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_streamIterations=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamIterations");
    /**
    * Clase que comprende todos los tipos de Post de entrada (Povientes del Listener)que pueden ir siendo creados en la herramienta.
    */
@@ -84,57 +52,89 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
    */
     public static final org.semanticwb.platform.SemanticProperty social_hasPostInStreamInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasPostInStreamInv");
    /**
-   * Busca en estas cuentas
+   * This property will accept an exact phrase to be search over SocialNetworks
    */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_fromAccount=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_fromAccount");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_exactPhrase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_exactPhrase");
    /**
-   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con sentimiento positivo
+   * Fecha Inicial en que se permitira el acceso a mensajes de las redes sociales.
    */
-    public static final org.semanticwb.platform.SemanticProperty social_filterSentimentalPositive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterSentimentalPositive");
-   /**
-   * Valor númerico minimo de klout que se desea filtrar para un stream. Los usuarios que tengan este klout o más y que hablen en las redes sociales configuradas para el stream, seran tomados sus mensajes para ser guardados en el sistema.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_KloutValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_KloutValue");
+    public static final org.semanticwb.platform.SemanticProperty social_initialDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#initialDate");
    /**
    * Catalogo de temas de un modelo (Marca)
    */
     public static final org.semanticwb.platform.SemanticClass social_SocialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialTopic");
    /**
-   * Temas en los que se clasificaran los mensajes
+   * Topics to classify messages
    */
     public static final org.semanticwb.platform.SemanticProperty social_hasTopics2Apply=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasTopics2Apply");
    /**
-   * Porcentaje de aumento en el promedio de los PostIns de entrada en el Stream. Si se llega a este porcentaje o mas en una nueva iteración del Stream, se envía notificación (alerta).
+   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con sentimiento positivo
    */
-    public static final org.semanticwb.platform.SemanticProperty social_streamPercentageAlert=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamPercentageAlert");
+    public static final org.semanticwb.platform.SemanticProperty social_filterSentimentalPositive=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterSentimentalPositive");
    /**
    * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con intensidad baja
    */
     public static final org.semanticwb.platform.SemanticProperty social_filterIntensityLow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterIntensityLow");
    /**
-   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con intensidad alta
+   * Lapso de tiempo en que se busca la información. Ej. Cada x tiempo
    */
-    public static final org.semanticwb.platform.SemanticProperty social_filterIntensityHigh=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterIntensityHigh");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_PoolTime=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_PoolTime");
+   /**
+   * Clase que engloba a las diferentes clases que representan cada una de las redes sociales.
+   */
+    public static final org.semanticwb.platform.SemanticClass social_SocialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetwork");
+   /**
+   * Redes sociales asociadas al stream. En estas redes sociales se escuchara la frase asociada a un stream.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_hasStream_socialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasStream_socialNetwork");
+   /**
+   * Clase en la que se guardan datos que sirven para realizar una siguiente busqueda en una determinada red social y en un determinado stream.
+   */
+    public static final org.semanticwb.platform.SemanticClass social_SocialNetStreamSearch=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetStreamSearch");
+   /**
+   * El stream puede tener varias instancias de la clase SocialNetStreamSearch, una por cada red social que tenga asignada.Si se elimina un Stream, se eliminan los objetos de esta clase (SocialNetStreamSerch) Asociados.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_hasSocialNetStreamSearch=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialNetStreamSearch");
+   /**
+   * Porcentaje de aumento en el promedio de los PostIns de entrada en el Stream. Si se llega a este porcentaje o mas en una nueva iteración del Stream, se envía notificación (alerta).
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_streamPercentageAlert=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamPercentageAlert");
    /**
    * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con sentimiento neutro
    */
     public static final org.semanticwb.platform.SemanticProperty social_filterSentimentalNeutral=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterSentimentalNeutral");
    /**
-   * This property will accept an exact phrase to be search over SocialNetworks
+   * Clase a Cambiar despues por "Relacional".Clase en la cual se almacenan los usuarios que escriben los PostIn que llegan. No se puso como identificador de las instancias de esta clase el id que maneja el usuario en la red social, ya que un identificador de una red social, puede ser el mismo para otra red social, pero obviamnete para otro usuario.Es por ello que se puso como AutoGenID esta clase y por ello se maneja por separado el id de un usuario en una determinada red social, esto en la propiedad snu_id.
    */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_exactPhrase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_exactPhrase");
+    public static final org.semanticwb.platform.SemanticClass social_SocialNetworkUser=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialNetworkUser");
    /**
-   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con intensidad media
+   * Lista todos las instancias de SocialNetworkUser que esten asociados con un determinado Stream, se utiliza para las campañas.
    */
-    public static final org.semanticwb.platform.SemanticProperty social_filterIntensityMedium=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterIntensityMedium");
+    public static final org.semanticwb.platform.SemanticProperty social_hasSocialNetUserInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialNetUserInv");
    /**
-   * Número de post en el periodo de tiempo determinado en la propiedad stream_PoolTime
+   * Valor númerico minimo de klout que se desea filtrar para un stream. Los usuarios que tengan este klout o más y que hablen en las redes sociales configuradas para el stream, seran tomados sus mensajes para ser guardados en el sistema.
    */
-    public static final org.semanticwb.platform.SemanticProperty social_promPostNumber=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#promPostNumber");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_KloutValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_KloutValue");
    /**
-   * Busca todas las palabras definidas en este campo
+   * Busca en estas cuentas
    */
-    public static final org.semanticwb.platform.SemanticProperty social_stream_allPhrases=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_allPhrases");
+    public static final org.semanticwb.platform.SemanticProperty social_stream_fromAccount=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_fromAccount");
+   /**
+   * Maxima cantidad de registros (mensajes) que almacenara un stream
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_stream_maxMsg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_maxMsg");
+   /**
+   * Propiedad para escribir correos electronicos de los usuarios que recibiran alertas. Si entran mas mensajes (listener) a un Stream del promedio.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_streamEmail2Alerts=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#streamEmail2Alerts");
+   /**
+   * Propiedad que indica si en el stream se desea aceptar que entren los mensajes que sean clasificados con sentimiento negativo
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_filterSentimentalNegative=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#filterSentimentalNegative");
+   /**
+   * Logotipo del Stream
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_stream_logo=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#stream_logo");
    /**
    * Clase que contendra los streams que configurados para cada usuario
    */
@@ -214,26 +214,26 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
             return (getStream(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetwork
-       * @param value SocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * Gets all org.semanticwb.social.Stream with a determined PostInStreamInv
+       * @param value PostInStreamInv of the type org.semanticwb.social.PostIn
        * @param model Model of the org.semanticwb.social.Stream
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetwork(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByPostInStreamInv(org.semanticwb.social.PostIn value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasStream_socialNetwork, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInStreamInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetwork
-       * @param value SocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * Gets all org.semanticwb.social.Stream with a determined PostInStreamInv
+       * @param value PostInStreamInv of the type org.semanticwb.social.PostIn
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetwork(org.semanticwb.social.SocialNetwork value)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByPostInStreamInv(org.semanticwb.social.PostIn value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasStream_socialNetwork,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInStreamInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -260,72 +260,26 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetUserInv
-       * @param value SocialNetUserInv of the type org.semanticwb.social.SocialNetworkUser
+       * Gets all org.semanticwb.social.Stream with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Stream
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetUserInv(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetUserInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetUserInv
-       * @param value SocialNetUserInv of the type org.semanticwb.social.SocialNetworkUser
+       * Gets all org.semanticwb.social.Stream with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetUserInv(org.semanticwb.social.SocialNetworkUser value)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetUserInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetStreamSearch
-       * @param value SocialNetStreamSearch of the type org.semanticwb.social.SocialNetStreamSearch
-       * @param model Model of the org.semanticwb.social.Stream
-       * @return Iterator with all the org.semanticwb.social.Stream
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearch, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Stream with a determined SocialNetStreamSearch
-       * @param value SocialNetStreamSearch of the type org.semanticwb.social.SocialNetStreamSearch
-       * @return Iterator with all the org.semanticwb.social.Stream
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearch,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Stream with a determined PostInStreamInv
-       * @param value PostInStreamInv of the type org.semanticwb.social.PostIn
-       * @param model Model of the org.semanticwb.social.Stream
-       * @return Iterator with all the org.semanticwb.social.Stream
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByPostInStreamInv(org.semanticwb.social.PostIn value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInStreamInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Stream with a determined PostInStreamInv
-       * @param value PostInStreamInv of the type org.semanticwb.social.PostIn
-       * @return Iterator with all the org.semanticwb.social.Stream
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByPostInStreamInv(org.semanticwb.social.PostIn value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInStreamInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -352,26 +306,72 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetwork
+       * @param value SocialNetwork of the type org.semanticwb.social.SocialNetwork
        * @param model Model of the org.semanticwb.social.Stream
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetwork(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasStream_socialNetwork, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Stream with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetwork
+       * @param value SocialNetwork of the type org.semanticwb.social.SocialNetwork
        * @return Iterator with all the org.semanticwb.social.Stream
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetwork(org.semanticwb.social.SocialNetwork value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasStream_socialNetwork,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetStreamSearch
+       * @param value SocialNetStreamSearch of the type org.semanticwb.social.SocialNetStreamSearch
+       * @param model Model of the org.semanticwb.social.Stream
+       * @return Iterator with all the org.semanticwb.social.Stream
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearch, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetStreamSearch
+       * @param value SocialNetStreamSearch of the type org.semanticwb.social.SocialNetStreamSearch
+       * @return Iterator with all the org.semanticwb.social.Stream
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearch,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetUserInv
+       * @param value SocialNetUserInv of the type org.semanticwb.social.SocialNetworkUser
+       * @param model Model of the org.semanticwb.social.Stream
+       * @return Iterator with all the org.semanticwb.social.Stream
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetUserInv(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetUserInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Stream with a determined SocialNetUserInv
+       * @param value SocialNetUserInv of the type org.semanticwb.social.SocialNetworkUser
+       * @return Iterator with all the org.semanticwb.social.Stream
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Stream> listStreamBySocialNetUserInv(org.semanticwb.social.SocialNetworkUser value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Stream> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetUserInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -414,6 +414,186 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
+* Gets the EndDate property
+* @return String with the EndDate
+*/
+    public String getEndDate()
+    {
+        return getSemanticObject().getProperty(social_endDate);
+    }
+
+/**
+* Sets the EndDate property
+* @param value long with the EndDate
+*/
+    public void setEndDate(String value)
+    {
+        getSemanticObject().setProperty(social_endDate, value);
+    }
+
+/**
+* Gets the FilterIntensityHigh property
+* @return boolean with the FilterIntensityHigh
+*/
+    public boolean isFilterIntensityHigh()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterIntensityHigh);
+    }
+
+/**
+* Sets the FilterIntensityHigh property
+* @param value long with the FilterIntensityHigh
+*/
+    public void setFilterIntensityHigh(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterIntensityHigh, value);
+    }
+
+/**
+* Gets the PromPostNumber property
+* @return float with the PromPostNumber
+*/
+    public float getPromPostNumber()
+    {
+        return getSemanticObject().getFloatProperty(social_promPostNumber);
+    }
+
+/**
+* Sets the PromPostNumber property
+* @param value long with the PromPostNumber
+*/
+    public void setPromPostNumber(float value)
+    {
+        getSemanticObject().setFloatProperty(social_promPostNumber, value);
+    }
+
+/**
+* Gets the FilterIntensityMedium property
+* @return boolean with the FilterIntensityMedium
+*/
+    public boolean isFilterIntensityMedium()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterIntensityMedium);
+    }
+
+/**
+* Sets the FilterIntensityMedium property
+* @param value long with the FilterIntensityMedium
+*/
+    public void setFilterIntensityMedium(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterIntensityMedium, value);
+    }
+
+/**
+* Gets the Active property
+* @return boolean with the Active
+*/
+    public boolean isActive()
+    {
+        return getSemanticObject().getBooleanProperty(swb_active);
+    }
+
+/**
+* Sets the Active property
+* @param value long with the Active
+*/
+    public void setActive(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_active, value);
+    }
+
+/**
+* Gets the Phrase property
+* @return String with the Phrase
+*/
+    public String getPhrase()
+    {
+        return getSemanticObject().getProperty(social_stream_phrase);
+    }
+
+/**
+* Sets the Phrase property
+* @param value long with the Phrase
+*/
+    public void setPhrase(String value)
+    {
+        getSemanticObject().setProperty(social_stream_phrase, value);
+    }
+
+/**
+* Gets the KeepAliveManager property
+* @return boolean with the KeepAliveManager
+*/
+    public boolean isKeepAliveManager()
+    {
+        return getSemanticObject().getBooleanProperty(social_keepAliveManager);
+    }
+
+/**
+* Sets the KeepAliveManager property
+* @param value long with the KeepAliveManager
+*/
+    public void setKeepAliveManager(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_keepAliveManager, value);
+    }
+
+/**
+* Gets the Stream_maxDays property
+* @return int with the Stream_maxDays
+*/
+    public int getStream_maxDays()
+    {
+        return getSemanticObject().getIntProperty(social_stream_maxDays);
+    }
+
+/**
+* Sets the Stream_maxDays property
+* @param value long with the Stream_maxDays
+*/
+    public void setStream_maxDays(int value)
+    {
+        getSemanticObject().setIntProperty(social_stream_maxDays, value);
+    }
+
+/**
+* Gets the Stream_notPhrase property
+* @return String with the Stream_notPhrase
+*/
+    public String getStream_notPhrase()
+    {
+        return getSemanticObject().getProperty(social_stream_notPhrase);
+    }
+
+/**
+* Sets the Stream_notPhrase property
+* @param value long with the Stream_notPhrase
+*/
+    public void setStream_notPhrase(String value)
+    {
+        getSemanticObject().setProperty(social_stream_notPhrase, value);
+    }
+
+/**
+* Gets the Stream_allPhrases property
+* @return String with the Stream_allPhrases
+*/
+    public String getStream_allPhrases()
+    {
+        return getSemanticObject().getProperty(social_stream_allPhrases);
+    }
+
+/**
+* Sets the Stream_allPhrases property
+* @param value long with the Stream_allPhrases
+*/
+    public void setStream_allPhrases(String value)
+    {
+        getSemanticObject().setProperty(social_stream_allPhrases, value);
+    }
+
+/**
 * Gets the StreamIterations property
 * @return int with the StreamIterations
 */
@@ -430,86 +610,42 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     {
         getSemanticObject().setIntProperty(social_streamIterations, value);
     }
-
-/**
-* Gets the GeoRadio property
-* @return float with the GeoRadio
-*/
-    public float getGeoRadio()
-    {
-        return getSemanticObject().getFloatProperty(social_geoRadio);
-    }
-
-/**
-* Sets the GeoRadio property
-* @param value long with the GeoRadio
-*/
-    public void setGeoRadio(float value)
-    {
-        getSemanticObject().setFloatProperty(social_geoRadio, value);
-    }
    /**
-   * Gets all the org.semanticwb.social.SocialNetwork
-   * @return A GenericIterator with all the org.semanticwb.social.SocialNetwork
+   * Gets all the org.semanticwb.social.PostIn
+   * @return A GenericIterator with all the org.semanticwb.social.PostIn
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetwork> listSocialNetworks()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.PostIn> listPostInStreamInvs()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetwork>(getSemanticObject().listObjectProperties(social_hasStream_socialNetwork));
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.PostIn>(getSemanticObject().listObjectProperties(social_hasPostInStreamInv));
     }
 
    /**
-   * Gets true if has a SocialNetwork
-   * @param value org.semanticwb.social.SocialNetwork to verify
-   * @return true if the org.semanticwb.social.SocialNetwork exists, false otherwise
+   * Gets true if has a PostInStreamInv
+   * @param value org.semanticwb.social.PostIn to verify
+   * @return true if the org.semanticwb.social.PostIn exists, false otherwise
    */
-    public boolean hasSocialNetwork(org.semanticwb.social.SocialNetwork value)
+    public boolean hasPostInStreamInv(org.semanticwb.social.PostIn value)
     {
         boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(social_hasStream_socialNetwork,value.getSemanticObject());
+           ret=getSemanticObject().hasObjectProperty(social_hasPostInStreamInv,value.getSemanticObject());
         }
         return ret;
     }
-   /**
-   * Adds a SocialNetwork
-   * @param value org.semanticwb.social.SocialNetwork to add
-   */
-
-    public void addSocialNetwork(org.semanticwb.social.SocialNetwork value)
-    {
-        getSemanticObject().addObjectProperty(social_hasStream_socialNetwork, value.getSemanticObject());
-    }
-   /**
-   * Removes all the SocialNetwork
-   */
-
-    public void removeAllSocialNetwork()
-    {
-        getSemanticObject().removeProperty(social_hasStream_socialNetwork);
-    }
-   /**
-   * Removes a SocialNetwork
-   * @param value org.semanticwb.social.SocialNetwork to remove
-   */
-
-    public void removeSocialNetwork(org.semanticwb.social.SocialNetwork value)
-    {
-        getSemanticObject().removeObjectProperty(social_hasStream_socialNetwork,value.getSemanticObject());
-    }
 
    /**
-   * Gets the SocialNetwork
-   * @return a org.semanticwb.social.SocialNetwork
+   * Gets the PostInStreamInv
+   * @return a org.semanticwb.social.PostIn
    */
-    public org.semanticwb.social.SocialNetwork getSocialNetwork()
+    public org.semanticwb.social.PostIn getPostInStreamInv()
     {
-         org.semanticwb.social.SocialNetwork ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasStream_socialNetwork);
+         org.semanticwb.social.PostIn ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasPostInStreamInv);
          if(obj!=null)
          {
-             ret=(org.semanticwb.social.SocialNetwork)obj.createGenericInstance();
+             ret=(org.semanticwb.social.PostIn)obj.createGenericInstance();
          }
          return ret;
     }
@@ -552,280 +688,60 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
          return ret;
     }
    /**
-   * Gets all the org.semanticwb.social.SocialNetworkUser
-   * @return A GenericIterator with all the org.semanticwb.social.SocialNetworkUser
+   * Sets the value for the property Creator
+   * @param value Creator to set
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetworkUser> listSocialNetUserInvs()
+    public void setCreator(org.semanticwb.model.User value)
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetworkUser>(getSemanticObject().listObjectProperties(social_hasSocialNetUserInv));
-    }
-
-   /**
-   * Gets true if has a SocialNetUserInv
-   * @param value org.semanticwb.social.SocialNetworkUser to verify
-   * @return true if the org.semanticwb.social.SocialNetworkUser exists, false otherwise
-   */
-    public boolean hasSocialNetUserInv(org.semanticwb.social.SocialNetworkUser value)
-    {
-        boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(social_hasSocialNetUserInv,value.getSemanticObject());
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
         }
-        return ret;
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
     }
 
    /**
-   * Gets the SocialNetUserInv
-   * @return a org.semanticwb.social.SocialNetworkUser
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
    */
-    public org.semanticwb.social.SocialNetworkUser getSocialNetUserInv()
+    public org.semanticwb.model.User getCreator()
     {
-         org.semanticwb.social.SocialNetworkUser ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialNetUserInv);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
          if(obj!=null)
          {
-             ret=(org.semanticwb.social.SocialNetworkUser)obj.createGenericInstance();
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
     }
 
 /**
-* Gets the EndDate property
-* @return String with the EndDate
+* Gets the Stream_exactPhrase property
+* @return String with the Stream_exactPhrase
 */
-    public String getEndDate()
+    public String getStream_exactPhrase()
     {
-        return getSemanticObject().getProperty(social_endDate);
+        return getSemanticObject().getProperty(social_stream_exactPhrase);
     }
 
 /**
-* Sets the EndDate property
-* @param value long with the EndDate
+* Sets the Stream_exactPhrase property
+* @param value long with the Stream_exactPhrase
 */
-    public void setEndDate(String value)
+    public void setStream_exactPhrase(String value)
     {
-        getSemanticObject().setProperty(social_endDate, value);
-    }
-   /**
-   * Gets all the org.semanticwb.social.SocialNetStreamSearch
-   * @return A GenericIterator with all the org.semanticwb.social.SocialNetStreamSearch
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetStreamSearch> listSocialNetStreamSearches()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetStreamSearch>(getSemanticObject().listObjectProperties(social_hasSocialNetStreamSearch));
-    }
-
-   /**
-   * Gets true if has a SocialNetStreamSearch
-   * @param value org.semanticwb.social.SocialNetStreamSearch to verify
-   * @return true if the org.semanticwb.social.SocialNetStreamSearch exists, false otherwise
-   */
-    public boolean hasSocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(social_hasSocialNetStreamSearch,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the SocialNetStreamSearch
-   * @return a org.semanticwb.social.SocialNetStreamSearch
-   */
-    public org.semanticwb.social.SocialNetStreamSearch getSocialNetStreamSearch()
-    {
-         org.semanticwb.social.SocialNetStreamSearch ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialNetStreamSearch);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.SocialNetStreamSearch)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Stream_logo property
-* @return String with the Stream_logo
-*/
-    public String getStream_logo()
-    {
-        return getSemanticObject().getProperty(social_stream_logo);
-    }
-
-/**
-* Sets the Stream_logo property
-* @param value long with the Stream_logo
-*/
-    public void setStream_logo(String value)
-    {
-        getSemanticObject().setProperty(social_stream_logo, value);
-    }
-
-/**
-* Gets the GeoCenterLongitude property
-* @return float with the GeoCenterLongitude
-*/
-    public float getGeoCenterLongitude()
-    {
-        return getSemanticObject().getFloatProperty(social_geoCenterLongitude);
-    }
-
-/**
-* Sets the GeoCenterLongitude property
-* @param value long with the GeoCenterLongitude
-*/
-    public void setGeoCenterLongitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_geoCenterLongitude, value);
-    }
-
-/**
-* Gets the Stream_notPhrase property
-* @return String with the Stream_notPhrase
-*/
-    public String getStream_notPhrase()
-    {
-        return getSemanticObject().getProperty(social_stream_notPhrase);
-    }
-
-/**
-* Sets the Stream_notPhrase property
-* @param value long with the Stream_notPhrase
-*/
-    public void setStream_notPhrase(String value)
-    {
-        getSemanticObject().setProperty(social_stream_notPhrase, value);
-    }
-
-/**
-* Gets the FilterSentimentalNegative property
-* @return boolean with the FilterSentimentalNegative
-*/
-    public boolean isFilterSentimentalNegative()
-    {
-        return getSemanticObject().getBooleanProperty(social_filterSentimentalNegative);
-    }
-
-/**
-* Sets the FilterSentimentalNegative property
-* @param value long with the FilterSentimentalNegative
-*/
-    public void setFilterSentimentalNegative(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_filterSentimentalNegative, value);
-    }
-
-/**
-* Gets the PoolTime property
-* @return int with the PoolTime
-*/
-    public int getPoolTime()
-    {
-        return getSemanticObject().getIntProperty(social_stream_PoolTime);
-    }
-
-/**
-* Sets the PoolTime property
-* @param value long with the PoolTime
-*/
-    public void setPoolTime(int value)
-    {
-        getSemanticObject().setIntProperty(social_stream_PoolTime, value);
-    }
-
-/**
-* Gets the Stream_maxMsg property
-* @return int with the Stream_maxMsg
-*/
-    public int getStream_maxMsg()
-    {
-        return getSemanticObject().getIntProperty(social_stream_maxMsg);
-    }
-
-/**
-* Sets the Stream_maxMsg property
-* @param value long with the Stream_maxMsg
-*/
-    public void setStream_maxMsg(int value)
-    {
-        getSemanticObject().setIntProperty(social_stream_maxMsg, value);
-    }
-
-/**
-* Gets the KeepAliveManager property
-* @return boolean with the KeepAliveManager
-*/
-    public boolean isKeepAliveManager()
-    {
-        return getSemanticObject().getBooleanProperty(social_keepAliveManager);
-    }
-
-/**
-* Sets the KeepAliveManager property
-* @param value long with the KeepAliveManager
-*/
-    public void setKeepAliveManager(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_keepAliveManager, value);
-    }
-
-/**
-* Gets the Phrase property
-* @return String with the Phrase
-*/
-    public String getPhrase()
-    {
-        return getSemanticObject().getProperty(social_stream_phrase);
-    }
-
-/**
-* Sets the Phrase property
-* @param value long with the Phrase
-*/
-    public void setPhrase(String value)
-    {
-        getSemanticObject().setProperty(social_stream_phrase, value);
-    }
-
-/**
-* Gets the Stream_maxDays property
-* @return int with the Stream_maxDays
-*/
-    public int getStream_maxDays()
-    {
-        return getSemanticObject().getIntProperty(social_stream_maxDays);
-    }
-
-/**
-* Sets the Stream_maxDays property
-* @param value long with the Stream_maxDays
-*/
-    public void setStream_maxDays(int value)
-    {
-        getSemanticObject().setIntProperty(social_stream_maxDays, value);
+        getSemanticObject().setProperty(social_stream_exactPhrase, value);
     }
 
 /**
@@ -844,168 +760,6 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     public void setInitialDate(String value)
     {
         getSemanticObject().setProperty(social_initialDate, value);
-    }
-
-/**
-* Gets the StreamEmail2Alerts property
-* @return String with the StreamEmail2Alerts
-*/
-    public String getStreamEmail2Alerts()
-    {
-        return getSemanticObject().getProperty(social_streamEmail2Alerts);
-    }
-
-/**
-* Sets the StreamEmail2Alerts property
-* @param value long with the StreamEmail2Alerts
-*/
-    public void setStreamEmail2Alerts(String value)
-    {
-        getSemanticObject().setProperty(social_streamEmail2Alerts, value);
-    }
-   /**
-   * Gets all the org.semanticwb.social.PostIn
-   * @return A GenericIterator with all the org.semanticwb.social.PostIn
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.PostIn> listPostInStreamInvs()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.PostIn>(getSemanticObject().listObjectProperties(social_hasPostInStreamInv));
-    }
-
-   /**
-   * Gets true if has a PostInStreamInv
-   * @param value org.semanticwb.social.PostIn to verify
-   * @return true if the org.semanticwb.social.PostIn exists, false otherwise
-   */
-    public boolean hasPostInStreamInv(org.semanticwb.social.PostIn value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(social_hasPostInStreamInv,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the PostInStreamInv
-   * @return a org.semanticwb.social.PostIn
-   */
-    public org.semanticwb.social.PostIn getPostInStreamInv()
-    {
-         org.semanticwb.social.PostIn ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasPostInStreamInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.PostIn)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Stream_fromAccount property
-* @return String with the Stream_fromAccount
-*/
-    public String getStream_fromAccount()
-    {
-        return getSemanticObject().getProperty(social_stream_fromAccount);
-    }
-
-/**
-* Sets the Stream_fromAccount property
-* @param value long with the Stream_fromAccount
-*/
-    public void setStream_fromAccount(String value)
-    {
-        getSemanticObject().setProperty(social_stream_fromAccount, value);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-
-/**
-* Gets the FilterSentimentalPositive property
-* @return boolean with the FilterSentimentalPositive
-*/
-    public boolean isFilterSentimentalPositive()
-    {
-        return getSemanticObject().getBooleanProperty(social_filterSentimentalPositive);
-    }
-
-/**
-* Sets the FilterSentimentalPositive property
-* @param value long with the FilterSentimentalPositive
-*/
-    public void setFilterSentimentalPositive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_filterSentimentalPositive, value);
-    }
-
-/**
-* Gets the Stream_KloutValue property
-* @return int with the Stream_KloutValue
-*/
-    public int getStream_KloutValue()
-    {
-        return getSemanticObject().getIntProperty(social_stream_KloutValue);
-    }
-
-/**
-* Sets the Stream_KloutValue property
-* @param value long with the Stream_KloutValue
-*/
-    public void setStream_KloutValue(int value)
-    {
-        getSemanticObject().setIntProperty(social_stream_KloutValue, value);
-    }
-
-/**
-* Gets the GeoLanguage property
-* @return String with the GeoLanguage
-*/
-    public String getGeoLanguage()
-    {
-        return getSemanticObject().getProperty(social_geoLanguage);
-    }
-
-/**
-* Sets the GeoLanguage property
-* @param value long with the GeoLanguage
-*/
-    public void setGeoLanguage(String value)
-    {
-        getSemanticObject().setProperty(social_geoLanguage, value);
     }
    /**
    * Gets all the org.semanticwb.social.SocialTopic
@@ -1074,6 +828,290 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
+* Gets the FilterSentimentalPositive property
+* @return boolean with the FilterSentimentalPositive
+*/
+    public boolean isFilterSentimentalPositive()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterSentimentalPositive);
+    }
+
+/**
+* Sets the FilterSentimentalPositive property
+* @param value long with the FilterSentimentalPositive
+*/
+    public void setFilterSentimentalPositive(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterSentimentalPositive, value);
+    }
+
+/**
+* Gets the Deleted property
+* @return boolean with the Deleted
+*/
+    public boolean isDeleted()
+    {
+        return getSemanticObject().getBooleanProperty(swb_deleted);
+    }
+
+/**
+* Sets the Deleted property
+* @param value long with the Deleted
+*/
+    public void setDeleted(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_deleted, value);
+    }
+
+/**
+* Gets the GeoCenterLongitude property
+* @return float with the GeoCenterLongitude
+*/
+    public float getGeoCenterLongitude()
+    {
+        return getSemanticObject().getFloatProperty(social_geoCenterLongitude);
+    }
+
+/**
+* Sets the GeoCenterLongitude property
+* @param value long with the GeoCenterLongitude
+*/
+    public void setGeoCenterLongitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_geoCenterLongitude, value);
+    }
+
+/**
+* Gets the GeoDistanceUnit property
+* @return String with the GeoDistanceUnit
+*/
+    public String getGeoDistanceUnit()
+    {
+        return getSemanticObject().getProperty(social_geoDistanceUnit);
+    }
+
+/**
+* Sets the GeoDistanceUnit property
+* @param value long with the GeoDistanceUnit
+*/
+    public void setGeoDistanceUnit(String value)
+    {
+        getSemanticObject().setProperty(social_geoDistanceUnit, value);
+    }
+
+/**
+* Gets the FilterIntensityLow property
+* @return boolean with the FilterIntensityLow
+*/
+    public boolean isFilterIntensityLow()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterIntensityLow);
+    }
+
+/**
+* Sets the FilterIntensityLow property
+* @param value long with the FilterIntensityLow
+*/
+    public void setFilterIntensityLow(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterIntensityLow, value);
+    }
+
+/**
+* Gets the PoolTime property
+* @return int with the PoolTime
+*/
+    public int getPoolTime()
+    {
+        return getSemanticObject().getIntProperty(social_stream_PoolTime);
+    }
+
+/**
+* Sets the PoolTime property
+* @param value long with the PoolTime
+*/
+    public void setPoolTime(int value)
+    {
+        getSemanticObject().setIntProperty(social_stream_PoolTime, value);
+    }
+   /**
+   * Gets all the org.semanticwb.social.SocialNetwork
+   * @return A GenericIterator with all the org.semanticwb.social.SocialNetwork
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetwork> listSocialNetworks()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetwork>(getSemanticObject().listObjectProperties(social_hasStream_socialNetwork));
+    }
+
+   /**
+   * Gets true if has a SocialNetwork
+   * @param value org.semanticwb.social.SocialNetwork to verify
+   * @return true if the org.semanticwb.social.SocialNetwork exists, false otherwise
+   */
+    public boolean hasSocialNetwork(org.semanticwb.social.SocialNetwork value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(social_hasStream_socialNetwork,value.getSemanticObject());
+        }
+        return ret;
+    }
+   /**
+   * Adds a SocialNetwork
+   * @param value org.semanticwb.social.SocialNetwork to add
+   */
+
+    public void addSocialNetwork(org.semanticwb.social.SocialNetwork value)
+    {
+        getSemanticObject().addObjectProperty(social_hasStream_socialNetwork, value.getSemanticObject());
+    }
+   /**
+   * Removes all the SocialNetwork
+   */
+
+    public void removeAllSocialNetwork()
+    {
+        getSemanticObject().removeProperty(social_hasStream_socialNetwork);
+    }
+   /**
+   * Removes a SocialNetwork
+   * @param value org.semanticwb.social.SocialNetwork to remove
+   */
+
+    public void removeSocialNetwork(org.semanticwb.social.SocialNetwork value)
+    {
+        getSemanticObject().removeObjectProperty(social_hasStream_socialNetwork,value.getSemanticObject());
+    }
+
+   /**
+   * Gets the SocialNetwork
+   * @return a org.semanticwb.social.SocialNetwork
+   */
+    public org.semanticwb.social.SocialNetwork getSocialNetwork()
+    {
+         org.semanticwb.social.SocialNetwork ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasStream_socialNetwork);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.SocialNetwork)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.social.SocialNetStreamSearch
+   * @return A GenericIterator with all the org.semanticwb.social.SocialNetStreamSearch
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetStreamSearch> listSocialNetStreamSearches()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetStreamSearch>(getSemanticObject().listObjectProperties(social_hasSocialNetStreamSearch));
+    }
+
+   /**
+   * Gets true if has a SocialNetStreamSearch
+   * @param value org.semanticwb.social.SocialNetStreamSearch to verify
+   * @return true if the org.semanticwb.social.SocialNetStreamSearch exists, false otherwise
+   */
+    public boolean hasSocialNetStreamSearch(org.semanticwb.social.SocialNetStreamSearch value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(social_hasSocialNetStreamSearch,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the SocialNetStreamSearch
+   * @return a org.semanticwb.social.SocialNetStreamSearch
+   */
+    public org.semanticwb.social.SocialNetStreamSearch getSocialNetStreamSearch()
+    {
+         org.semanticwb.social.SocialNetStreamSearch ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialNetStreamSearch);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.SocialNetStreamSearch)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the GeoLanguage property
+* @return String with the GeoLanguage
+*/
+    public String getGeoLanguage()
+    {
+        return getSemanticObject().getProperty(social_geoLanguage);
+    }
+
+/**
+* Sets the GeoLanguage property
+* @param value long with the GeoLanguage
+*/
+    public void setGeoLanguage(String value)
+    {
+        getSemanticObject().setProperty(social_geoLanguage, value);
+    }
+
+/**
+* Gets the GeoRadio property
+* @return float with the GeoRadio
+*/
+    public float getGeoRadio()
+    {
+        return getSemanticObject().getFloatProperty(social_geoRadio);
+    }
+
+/**
+* Sets the GeoRadio property
+* @param value long with the GeoRadio
+*/
+    public void setGeoRadio(float value)
+    {
+        getSemanticObject().setFloatProperty(social_geoRadio, value);
+    }
+
+/**
+* Gets the GeoCenterLatitude property
+* @return float with the GeoCenterLatitude
+*/
+    public float getGeoCenterLatitude()
+    {
+        return getSemanticObject().getFloatProperty(social_geoCenterLatitude);
+    }
+
+/**
+* Sets the GeoCenterLatitude property
+* @param value long with the GeoCenterLatitude
+*/
+    public void setGeoCenterLatitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_geoCenterLatitude, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
 * Gets the StreamPercentageAlert property
 * @return int with the StreamPercentageAlert
 */
@@ -1089,6 +1127,81 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     public void setStreamPercentageAlert(int value)
     {
         getSemanticObject().setIntProperty(social_streamPercentageAlert, value);
+    }
+
+/**
+* Gets the FilterSentimentalNeutral property
+* @return boolean with the FilterSentimentalNeutral
+*/
+    public boolean isFilterSentimentalNeutral()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterSentimentalNeutral);
+    }
+
+/**
+* Sets the FilterSentimentalNeutral property
+* @param value long with the FilterSentimentalNeutral
+*/
+    public void setFilterSentimentalNeutral(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterSentimentalNeutral, value);
+    }
+   /**
+   * Gets all the org.semanticwb.social.SocialNetworkUser
+   * @return A GenericIterator with all the org.semanticwb.social.SocialNetworkUser
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetworkUser> listSocialNetUserInvs()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialNetworkUser>(getSemanticObject().listObjectProperties(social_hasSocialNetUserInv));
+    }
+
+   /**
+   * Gets true if has a SocialNetUserInv
+   * @param value org.semanticwb.social.SocialNetworkUser to verify
+   * @return true if the org.semanticwb.social.SocialNetworkUser exists, false otherwise
+   */
+    public boolean hasSocialNetUserInv(org.semanticwb.social.SocialNetworkUser value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(social_hasSocialNetUserInv,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the SocialNetUserInv
+   * @return a org.semanticwb.social.SocialNetworkUser
+   */
+    public org.semanticwb.social.SocialNetworkUser getSocialNetUserInv()
+    {
+         org.semanticwb.social.SocialNetworkUser ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialNetUserInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.SocialNetworkUser)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Stream_KloutValue property
+* @return int with the Stream_KloutValue
+*/
+    public int getStream_KloutValue()
+    {
+        return getSemanticObject().getIntProperty(social_stream_KloutValue);
+    }
+
+/**
+* Sets the Stream_KloutValue property
+* @param value long with the Stream_KloutValue
+*/
+    public void setStream_KloutValue(int value)
+    {
+        getSemanticObject().setIntProperty(social_stream_KloutValue, value);
     }
 
 /**
@@ -1143,203 +1256,54 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
-* Gets the FilterIntensityLow property
-* @return boolean with the FilterIntensityLow
+* Gets the Title property
+* @return String with the Title
 */
-    public boolean isFilterIntensityLow()
+    public String getTitle()
     {
-        return getSemanticObject().getBooleanProperty(social_filterIntensityLow);
+        return getSemanticObject().getProperty(swb_title);
     }
 
 /**
-* Sets the FilterIntensityLow property
-* @param value long with the FilterIntensityLow
+* Sets the Title property
+* @param value long with the Title
 */
-    public void setFilterIntensityLow(boolean value)
+    public void setTitle(String value)
     {
-        getSemanticObject().setBooleanProperty(social_filterIntensityLow, value);
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
 /**
-* Gets the Deleted property
-* @return boolean with the Deleted
+* Gets the Stream_fromAccount property
+* @return String with the Stream_fromAccount
 */
-    public boolean isDeleted()
+    public String getStream_fromAccount()
     {
-        return getSemanticObject().getBooleanProperty(swb_deleted);
+        return getSemanticObject().getProperty(social_stream_fromAccount);
     }
 
 /**
-* Sets the Deleted property
-* @param value long with the Deleted
+* Sets the Stream_fromAccount property
+* @param value long with the Stream_fromAccount
 */
-    public void setDeleted(boolean value)
+    public void setStream_fromAccount(String value)
     {
-        getSemanticObject().setBooleanProperty(swb_deleted, value);
-    }
-
-/**
-* Gets the Active property
-* @return boolean with the Active
-*/
-    public boolean isActive()
-    {
-        return getSemanticObject().getBooleanProperty(swb_active);
-    }
-
-/**
-* Sets the Active property
-* @param value long with the Active
-*/
-    public void setActive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_active, value);
-    }
-
-/**
-* Gets the GeoCenterLatitude property
-* @return float with the GeoCenterLatitude
-*/
-    public float getGeoCenterLatitude()
-    {
-        return getSemanticObject().getFloatProperty(social_geoCenterLatitude);
-    }
-
-/**
-* Sets the GeoCenterLatitude property
-* @param value long with the GeoCenterLatitude
-*/
-    public void setGeoCenterLatitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_geoCenterLatitude, value);
-    }
-
-/**
-* Gets the GeoDistanceUnit property
-* @return String with the GeoDistanceUnit
-*/
-    public String getGeoDistanceUnit()
-    {
-        return getSemanticObject().getProperty(social_geoDistanceUnit);
-    }
-
-/**
-* Sets the GeoDistanceUnit property
-* @param value long with the GeoDistanceUnit
-*/
-    public void setGeoDistanceUnit(String value)
-    {
-        getSemanticObject().setProperty(social_geoDistanceUnit, value);
-    }
-
-/**
-* Gets the FilterIntensityHigh property
-* @return boolean with the FilterIntensityHigh
-*/
-    public boolean isFilterIntensityHigh()
-    {
-        return getSemanticObject().getBooleanProperty(social_filterIntensityHigh);
-    }
-
-/**
-* Sets the FilterIntensityHigh property
-* @param value long with the FilterIntensityHigh
-*/
-    public void setFilterIntensityHigh(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_filterIntensityHigh, value);
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the FilterSentimentalNeutral property
-* @return boolean with the FilterSentimentalNeutral
-*/
-    public boolean isFilterSentimentalNeutral()
-    {
-        return getSemanticObject().getBooleanProperty(social_filterSentimentalNeutral);
-    }
-
-/**
-* Sets the FilterSentimentalNeutral property
-* @param value long with the FilterSentimentalNeutral
-*/
-    public void setFilterSentimentalNeutral(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_filterSentimentalNeutral, value);
-    }
-
-/**
-* Gets the Stream_exactPhrase property
-* @return String with the Stream_exactPhrase
-*/
-    public String getStream_exactPhrase()
-    {
-        return getSemanticObject().getProperty(social_stream_exactPhrase);
-    }
-
-/**
-* Sets the Stream_exactPhrase property
-* @param value long with the Stream_exactPhrase
-*/
-    public void setStream_exactPhrase(String value)
-    {
-        getSemanticObject().setProperty(social_stream_exactPhrase, value);
-    }
-
-/**
-* Gets the FilterIntensityMedium property
-* @return boolean with the FilterIntensityMedium
-*/
-    public boolean isFilterIntensityMedium()
-    {
-        return getSemanticObject().getBooleanProperty(social_filterIntensityMedium);
-    }
-
-/**
-* Sets the FilterIntensityMedium property
-* @param value long with the FilterIntensityMedium
-*/
-    public void setFilterIntensityMedium(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_filterIntensityMedium, value);
+        getSemanticObject().setProperty(social_stream_fromAccount, value);
     }
    /**
    * Gets all the org.semanticwb.social.SocialRuleRef
@@ -1408,39 +1372,75 @@ public abstract class StreamBase extends org.semanticwb.model.SWBClass implement
     }
 
 /**
-* Gets the PromPostNumber property
-* @return float with the PromPostNumber
+* Gets the Stream_maxMsg property
+* @return int with the Stream_maxMsg
 */
-    public float getPromPostNumber()
+    public int getStream_maxMsg()
     {
-        return getSemanticObject().getFloatProperty(social_promPostNumber);
+        return getSemanticObject().getIntProperty(social_stream_maxMsg);
     }
 
 /**
-* Sets the PromPostNumber property
-* @param value long with the PromPostNumber
+* Sets the Stream_maxMsg property
+* @param value long with the Stream_maxMsg
 */
-    public void setPromPostNumber(float value)
+    public void setStream_maxMsg(int value)
     {
-        getSemanticObject().setFloatProperty(social_promPostNumber, value);
+        getSemanticObject().setIntProperty(social_stream_maxMsg, value);
     }
 
 /**
-* Gets the Stream_allPhrases property
-* @return String with the Stream_allPhrases
+* Gets the StreamEmail2Alerts property
+* @return String with the StreamEmail2Alerts
 */
-    public String getStream_allPhrases()
+    public String getStreamEmail2Alerts()
     {
-        return getSemanticObject().getProperty(social_stream_allPhrases);
+        return getSemanticObject().getProperty(social_streamEmail2Alerts);
     }
 
 /**
-* Sets the Stream_allPhrases property
-* @param value long with the Stream_allPhrases
+* Sets the StreamEmail2Alerts property
+* @param value long with the StreamEmail2Alerts
 */
-    public void setStream_allPhrases(String value)
+    public void setStreamEmail2Alerts(String value)
     {
-        getSemanticObject().setProperty(social_stream_allPhrases, value);
+        getSemanticObject().setProperty(social_streamEmail2Alerts, value);
+    }
+
+/**
+* Gets the FilterSentimentalNegative property
+* @return boolean with the FilterSentimentalNegative
+*/
+    public boolean isFilterSentimentalNegative()
+    {
+        return getSemanticObject().getBooleanProperty(social_filterSentimentalNegative);
+    }
+
+/**
+* Sets the FilterSentimentalNegative property
+* @param value long with the FilterSentimentalNegative
+*/
+    public void setFilterSentimentalNegative(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_filterSentimentalNegative, value);
+    }
+
+/**
+* Gets the Stream_logo property
+* @return String with the Stream_logo
+*/
+    public String getStream_logo()
+    {
+        return getSemanticObject().getProperty(social_stream_logo);
+    }
+
+/**
+* Sets the Stream_logo property
+* @param value long with the Stream_logo
+*/
+    public void setStream_logo(String value)
+    {
+        getSemanticObject().setProperty(social_stream_logo, value);
     }
 
    /**

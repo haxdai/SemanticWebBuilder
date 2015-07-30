@@ -4,12 +4,8 @@ package org.semanticwb.social.base;
    /**
    * Clase que almacenara las diferentes cuentas de una organización para la red social Facebook. 
    */
-public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.social.SocialStatsMonitorable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Listenerable,org.semanticwb.social.Videoable,org.semanticwb.social.Photoable,org.semanticwb.model.Trashable,org.semanticwb.social.Oauthable,org.semanticwb.social.Messageable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.social.Pageable,org.semanticwb.social.Relationable,org.semanticwb.model.Traceable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableClass
+public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.social.Messageable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.Oauthable,org.semanticwb.model.Descriptiveable,org.semanticwb.social.Photoable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.social.SocialStatsMonitorable,org.semanticwb.model.Activeable,org.semanticwb.social.Secreteable,org.semanticwb.model.Traceable,org.semanticwb.social.Pageable,org.semanticwb.social.Videoable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable
 {
-   /**
-   * Eliminar despues esta propiedad, ver si Jose puede eliminar la propiedad login que se encuentra en la clase padre(SocialNetwork).
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_facebookUserId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#facebookUserId");
    /**
    * Access token de la aplicación. Esta propiedad se utiliza para poder obtener la propiedad Third_party_id de facebook y esta a su vez, para poder obtener el klout de facebook en la red Klout.
    */
@@ -18,6 +14,10 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
    * Propiedad que indica si la instancia de facebook tiene permiso para publicar. Este permiso es solicitado a facebook en el momento de la autenticación vía oAuth.
    */
     public static final org.semanticwb.platform.SemanticProperty social_canPublish=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#canPublish");
+   /**
+   * Eliminar despues esta propiedad, ver si Jose puede eliminar la propiedad login que se encuentra en la clase padre(SocialNetwork).
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_facebookUserId=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#facebookUserId");
    /**
    * Clase que almacenara las diferentes cuentas de una organización para la red social Facebook.
    */
@@ -97,6 +97,75 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
             return (getFacebook(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.social.Facebook with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined PostInSocialNetworkInv
+       * @param value PostInSocialNetworkInv of the type org.semanticwb.social.PostIn
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostInSocialNetworkInv(org.semanticwb.social.PostIn value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInSocialNetworkInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined PostInSocialNetworkInv
+       * @param value PostInSocialNetworkInv of the type org.semanticwb.social.PostIn
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostInSocialNetworkInv(org.semanticwb.social.PostIn value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInSocialNetworkInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.Facebook with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Facebook
@@ -117,6 +186,121 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
         public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialPostInv(org.semanticwb.social.PostOutNet value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined Popr_socialNetworkInv
+       * @param value Popr_socialNetworkInv of the type org.semanticwb.social.PostOutPrivacyRelation
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPopr_socialNetworkInv(org.semanticwb.social.PostOutPrivacyRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspopr_socialNetworkInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined Popr_socialNetworkInv
+       * @param value Popr_socialNetworkInv of the type org.semanticwb.social.PostOutPrivacyRelation
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPopr_socialNetworkInv(org.semanticwb.social.PostOutPrivacyRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspopr_socialNetworkInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @param model Model of the org.semanticwb.social.Facebook
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Facebook with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @return Iterator with all the org.semanticwb.social.Facebook
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -166,52 +350,6 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialPostInv(org.semanticwb.social.PostOutNet value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.Facebook with a determined FanPage
        * @param value FanPage of the type org.semanticwb.social.SocialNetwork
        * @param model Model of the org.semanticwb.social.Facebook
@@ -234,144 +372,6 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
             org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasFanPage,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined PostInSocialNetworkInv
-       * @param value PostInSocialNetworkInv of the type org.semanticwb.social.PostIn
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostInSocialNetworkInv(org.semanticwb.social.PostIn value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInSocialNetworkInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined PostInSocialNetworkInv
-       * @param value PostInSocialNetworkInv of the type org.semanticwb.social.PostIn
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostInSocialNetworkInv(org.semanticwb.social.PostIn value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostInSocialNetworkInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Popr_socialNetworkInv
-       * @param value Popr_socialNetworkInv of the type org.semanticwb.social.PostOutPrivacyRelation
-       * @param model Model of the org.semanticwb.social.Facebook
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPopr_socialNetworkInv(org.semanticwb.social.PostOutPrivacyRelation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspopr_socialNetworkInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Facebook with a determined Popr_socialNetworkInv
-       * @param value Popr_socialNetworkInv of the type org.semanticwb.social.PostOutPrivacyRelation
-       * @return Iterator with all the org.semanticwb.social.Facebook
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Facebook> listFacebookByPopr_socialNetworkInv(org.semanticwb.social.PostOutPrivacyRelation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Facebook> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspopr_socialNetworkInv,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
     public static FacebookBase.ClassMgr getFacebookClassMgr()
@@ -389,39 +389,57 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
     }
 
 /**
-* Gets the TokenExpirationDate property
-* @return java.util.Date with the TokenExpirationDate
+* Gets the AccessToken property
+* @return String with the AccessToken
 */
-    public java.util.Date getTokenExpirationDate()
+    public String getAccessToken()
     {
-        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
+        return getSemanticObject().getProperty(social_accessToken);
     }
 
 /**
-* Sets the TokenExpirationDate property
-* @param value long with the TokenExpirationDate
+* Sets the AccessToken property
+* @param value long with the AccessToken
 */
-    public void setTokenExpirationDate(java.util.Date value)
+    public void setAccessToken(String value)
     {
-        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
+        getSemanticObject().setProperty(social_accessToken, value);
     }
 
 /**
-* Gets the FacebookUserId property
-* @return String with the FacebookUserId
+* Gets the AppAccessToken property
+* @return String with the AppAccessToken
 */
-    public String getFacebookUserId()
+    public String getAppAccessToken()
     {
-        return getSemanticObject().getProperty(social_facebookUserId);
+        return getSemanticObject().getProperty(social_appAccessToken);
     }
 
 /**
-* Sets the FacebookUserId property
-* @param value long with the FacebookUserId
+* Sets the AppAccessToken property
+* @param value long with the AppAccessToken
 */
-    public void setFacebookUserId(String value)
+    public void setAppAccessToken(String value)
     {
-        getSemanticObject().setProperty(social_facebookUserId, value);
+        getSemanticObject().setProperty(social_appAccessToken, value);
+    }
+
+/**
+* Gets the CanPublish property
+* @return boolean with the CanPublish
+*/
+    public boolean isCanPublish()
+    {
+        return getSemanticObject().getBooleanProperty(social_canPublish);
+    }
+
+/**
+* Sets the CanPublish property
+* @param value long with the CanPublish
+*/
+    public void setCanPublish(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_canPublish, value);
     }
 
 /**
@@ -440,6 +458,42 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
     public void setIsFanPage(boolean value)
     {
         getSemanticObject().setBooleanProperty(social_isFanPage, value);
+    }
+
+/**
+* Gets the AccessTokenSecret property
+* @return String with the AccessTokenSecret
+*/
+    public String getAccessTokenSecret()
+    {
+        return getSemanticObject().getProperty(social_accessTokenSecret);
+    }
+
+/**
+* Sets the AccessTokenSecret property
+* @param value long with the AccessTokenSecret
+*/
+    public void setAccessTokenSecret(String value)
+    {
+        getSemanticObject().setProperty(social_accessTokenSecret, value);
+    }
+
+/**
+* Gets the FacebookUserId property
+* @return String with the FacebookUserId
+*/
+    public String getFacebookUserId()
+    {
+        return getSemanticObject().getProperty(social_facebookUserId);
+    }
+
+/**
+* Sets the FacebookUserId property
+* @param value long with the FacebookUserId
+*/
+    public void setFacebookUserId(String value)
+    {
+        getSemanticObject().setProperty(social_facebookUserId, value);
     }
    /**
    * Gets all the org.semanticwb.social.SocialNetwork
@@ -508,74 +562,20 @@ public abstract class FacebookBase extends org.semanticwb.social.SocialNetwork i
     }
 
 /**
-* Gets the AppAccessToken property
-* @return String with the AppAccessToken
+* Gets the TokenExpirationDate property
+* @return java.util.Date with the TokenExpirationDate
 */
-    public String getAppAccessToken()
+    public java.util.Date getTokenExpirationDate()
     {
-        return getSemanticObject().getProperty(social_appAccessToken);
+        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
     }
 
 /**
-* Sets the AppAccessToken property
-* @param value long with the AppAccessToken
+* Sets the TokenExpirationDate property
+* @param value long with the TokenExpirationDate
 */
-    public void setAppAccessToken(String value)
+    public void setTokenExpirationDate(java.util.Date value)
     {
-        getSemanticObject().setProperty(social_appAccessToken, value);
-    }
-
-/**
-* Gets the CanPublish property
-* @return boolean with the CanPublish
-*/
-    public boolean isCanPublish()
-    {
-        return getSemanticObject().getBooleanProperty(social_canPublish);
-    }
-
-/**
-* Sets the CanPublish property
-* @param value long with the CanPublish
-*/
-    public void setCanPublish(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_canPublish, value);
-    }
-
-/**
-* Gets the AccessToken property
-* @return String with the AccessToken
-*/
-    public String getAccessToken()
-    {
-        return getSemanticObject().getProperty(social_accessToken);
-    }
-
-/**
-* Sets the AccessToken property
-* @param value long with the AccessToken
-*/
-    public void setAccessToken(String value)
-    {
-        getSemanticObject().setProperty(social_accessToken, value);
-    }
-
-/**
-* Gets the AccessTokenSecret property
-* @return String with the AccessTokenSecret
-*/
-    public String getAccessTokenSecret()
-    {
-        return getSemanticObject().getProperty(social_accessTokenSecret);
-    }
-
-/**
-* Sets the AccessTokenSecret property
-* @param value long with the AccessTokenSecret
-*/
-    public void setAccessTokenSecret(String value)
-    {
-        getSemanticObject().setProperty(social_accessTokenSecret, value);
+        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
     }
 }

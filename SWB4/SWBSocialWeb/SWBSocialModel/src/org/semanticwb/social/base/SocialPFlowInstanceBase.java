@@ -6,7 +6,11 @@ package org.semanticwb.social.base;
    */
 public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.social.SocialPFlowable
 {
-    public static final org.semanticwb.platform.SemanticProperty social_pfiStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiStatus");
+   /**
+   * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
+   */
+    public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
+    public static final org.semanticwb.platform.SemanticProperty social_pfinstPostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfinstPostOut");
     public static final org.semanticwb.platform.SemanticProperty social_pfiTime=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiTime");
     public static final org.semanticwb.platform.SemanticProperty social_pfiStep=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiStep");
    /**
@@ -14,12 +18,8 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
    */
     public static final org.semanticwb.platform.SemanticClass social_SocialPFlow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialPFlow");
     public static final org.semanticwb.platform.SemanticProperty social_pfiPFlow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiPFlow");
-   /**
-   * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
-   */
-    public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
-    public static final org.semanticwb.platform.SemanticProperty social_pfinstPostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfinstPostOut");
     public static final org.semanticwb.platform.SemanticProperty social_pfiVersion=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiVersion");
+    public static final org.semanticwb.platform.SemanticProperty social_pfiStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pfiStatus");
    /**
    * Instancia de un recurso asociado a un flujo de publicación.
    */
@@ -99,29 +99,6 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
             return (getSocialPFlowInstance(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.SocialPFlowInstance with a determined Pflow
-       * @param value Pflow of the type org.semanticwb.social.SocialPFlow
-       * @param model Model of the org.semanticwb.social.SocialPFlowInstance
-       * @return Iterator with all the org.semanticwb.social.SocialPFlowInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowInstanceByPflow(org.semanticwb.social.SocialPFlow value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_pfiPFlow, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialPFlowInstance with a determined Pflow
-       * @param value Pflow of the type org.semanticwb.social.SocialPFlow
-       * @return Iterator with all the org.semanticwb.social.SocialPFlowInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowInstanceByPflow(org.semanticwb.social.SocialPFlow value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_pfiPFlow,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.SocialPFlowInstance with a determined PfinstPostOut
        * @param value PfinstPostOut of the type org.semanticwb.social.PostOut
        * @param model Model of the org.semanticwb.social.SocialPFlowInstance
@@ -144,6 +121,29 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_pfinstPostOut,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.social.SocialPFlowInstance with a determined Pflow
+       * @param value Pflow of the type org.semanticwb.social.SocialPFlow
+       * @param model Model of the org.semanticwb.social.SocialPFlowInstance
+       * @return Iterator with all the org.semanticwb.social.SocialPFlowInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowInstanceByPflow(org.semanticwb.social.SocialPFlow value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_pfiPFlow, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialPFlowInstance with a determined Pflow
+       * @param value Pflow of the type org.semanticwb.social.SocialPFlow
+       * @return Iterator with all the org.semanticwb.social.SocialPFlowInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowInstanceByPflow(org.semanticwb.social.SocialPFlow value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_pfiPFlow,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static SocialPFlowInstanceBase.ClassMgr getSocialPFlowInstanceClassMgr()
@@ -159,23 +159,43 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
     {
         super(base);
     }
+   /**
+   * Sets the value for the property PfinstPostOut
+   * @param value PfinstPostOut to set
+   */
 
-/**
-* Gets the Status property
-* @return int with the Status
-*/
-    public int getStatus()
+    public void setPfinstPostOut(org.semanticwb.social.PostOut value)
     {
-        return getSemanticObject().getIntProperty(social_pfiStatus);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(social_pfinstPostOut, value.getSemanticObject());
+        }else
+        {
+            removePfinstPostOut();
+        }
+    }
+   /**
+   * Remove the value for PfinstPostOut property
+   */
+
+    public void removePfinstPostOut()
+    {
+        getSemanticObject().removeProperty(social_pfinstPostOut);
     }
 
-/**
-* Sets the Status property
-* @param value long with the Status
-*/
-    public void setStatus(int value)
+   /**
+   * Gets the PfinstPostOut
+   * @return a org.semanticwb.social.PostOut
+   */
+    public org.semanticwb.social.PostOut getPfinstPostOut()
     {
-        getSemanticObject().setIntProperty(social_pfiStatus, value);
+         org.semanticwb.social.PostOut ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_pfinstPostOut);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.PostOut)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -251,44 +271,6 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
          }
          return ret;
     }
-   /**
-   * Sets the value for the property PfinstPostOut
-   * @param value PfinstPostOut to set
-   */
-
-    public void setPfinstPostOut(org.semanticwb.social.PostOut value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(social_pfinstPostOut, value.getSemanticObject());
-        }else
-        {
-            removePfinstPostOut();
-        }
-    }
-   /**
-   * Remove the value for PfinstPostOut property
-   */
-
-    public void removePfinstPostOut()
-    {
-        getSemanticObject().removeProperty(social_pfinstPostOut);
-    }
-
-   /**
-   * Gets the PfinstPostOut
-   * @return a org.semanticwb.social.PostOut
-   */
-    public org.semanticwb.social.PostOut getPfinstPostOut()
-    {
-         org.semanticwb.social.PostOut ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_pfinstPostOut);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.PostOut)obj.createGenericInstance();
-         }
-         return ret;
-    }
 
 /**
 * Gets the Version property
@@ -306,6 +288,24 @@ public abstract class SocialPFlowInstanceBase extends org.semanticwb.model.SWBCl
     public void setVersion(int value)
     {
         getSemanticObject().setIntProperty(social_pfiVersion, value);
+    }
+
+/**
+* Gets the Status property
+* @return int with the Status
+*/
+    public int getStatus()
+    {
+        return getSemanticObject().getIntProperty(social_pfiStatus);
+    }
+
+/**
+* Sets the Status property
+* @param value long with the Status
+*/
+    public void setStatus(int value)
+    {
+        getSemanticObject().setIntProperty(social_pfiStatus, value);
     }
 
    /**

@@ -7,6 +7,14 @@ package org.semanticwb.social.base;
 public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SWBClass 
 {
    /**
+   * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
+   */
+    public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
+   /**
+   * PostOut que se esta enviado.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_popr_postOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#popr_postOut");
+   /**
    * Clase de tipo catálogo que define las privacidades para los Post
    */
     public static final org.semanticwb.platform.SemanticClass social_PostOutPrivacy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOutPrivacy");
@@ -22,14 +30,6 @@ public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SW
    * SocialNetwork a la cual se envia el postOut
    */
     public static final org.semanticwb.platform.SemanticProperty social_popr_socialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#popr_socialNetwork");
-   /**
-   * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
-   */
-    public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
-   /**
-   * PostOut que se esta enviado.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_popr_postOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#popr_postOut");
    /**
    * Relación de Privacidad entre PostOut y las redes sociales a las cuales se envía.
    */
@@ -109,6 +109,29 @@ public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SW
             return (getPostOutPrivacyRelation(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.social.PostOutPrivacyRelation with a determined Popr_postOut
+       * @param value Popr_postOut of the type org.semanticwb.social.PostOut
+       * @param model Model of the org.semanticwb.social.PostOutPrivacyRelation
+       * @return Iterator with all the org.semanticwb.social.PostOutPrivacyRelation
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacyRelation> listPostOutPrivacyRelationByPopr_postOut(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_popr_postOut, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PostOutPrivacyRelation with a determined Popr_postOut
+       * @param value Popr_postOut of the type org.semanticwb.social.PostOut
+       * @return Iterator with all the org.semanticwb.social.PostOutPrivacyRelation
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacyRelation> listPostOutPrivacyRelationByPopr_postOut(org.semanticwb.social.PostOut value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_popr_postOut,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.PostOutPrivacyRelation with a determined Popr_privacy
        * @param value Popr_privacy of the type org.semanticwb.social.PostOutPrivacy
        * @param model Model of the org.semanticwb.social.PostOutPrivacyRelation
@@ -154,29 +177,6 @@ public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SW
             org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_popr_socialNetwork,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.social.PostOutPrivacyRelation with a determined Popr_postOut
-       * @param value Popr_postOut of the type org.semanticwb.social.PostOut
-       * @param model Model of the org.semanticwb.social.PostOutPrivacyRelation
-       * @return Iterator with all the org.semanticwb.social.PostOutPrivacyRelation
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacyRelation> listPostOutPrivacyRelationByPopr_postOut(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_popr_postOut, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PostOutPrivacyRelation with a determined Popr_postOut
-       * @param value Popr_postOut of the type org.semanticwb.social.PostOut
-       * @return Iterator with all the org.semanticwb.social.PostOutPrivacyRelation
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacyRelation> listPostOutPrivacyRelationByPopr_postOut(org.semanticwb.social.PostOut value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_popr_postOut,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
     public static PostOutPrivacyRelationBase.ClassMgr getPostOutPrivacyRelationClassMgr()
@@ -191,6 +191,44 @@ public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SW
     public PostOutPrivacyRelationBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property Popr_postOut
+   * @param value Popr_postOut to set
+   */
+
+    public void setPopr_postOut(org.semanticwb.social.PostOut value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(social_popr_postOut, value.getSemanticObject());
+        }else
+        {
+            removePopr_postOut();
+        }
+    }
+   /**
+   * Remove the value for Popr_postOut property
+   */
+
+    public void removePopr_postOut()
+    {
+        getSemanticObject().removeProperty(social_popr_postOut);
+    }
+
+   /**
+   * Gets the Popr_postOut
+   * @return a org.semanticwb.social.PostOut
+   */
+    public org.semanticwb.social.PostOut getPopr_postOut()
+    {
+         org.semanticwb.social.PostOut ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_popr_postOut);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.PostOut)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Sets the value for the property Popr_privacy
@@ -265,44 +303,6 @@ public abstract class PostOutPrivacyRelationBase extends org.semanticwb.model.SW
          if(obj!=null)
          {
              ret=(org.semanticwb.social.SocialNetwork)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Popr_postOut
-   * @param value Popr_postOut to set
-   */
-
-    public void setPopr_postOut(org.semanticwb.social.PostOut value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(social_popr_postOut, value.getSemanticObject());
-        }else
-        {
-            removePopr_postOut();
-        }
-    }
-   /**
-   * Remove the value for Popr_postOut property
-   */
-
-    public void removePopr_postOut()
-    {
-        getSemanticObject().removeProperty(social_popr_postOut);
-    }
-
-   /**
-   * Gets the Popr_postOut
-   * @return a org.semanticwb.social.PostOut
-   */
-    public org.semanticwb.social.PostOut getPopr_postOut()
-    {
-         org.semanticwb.social.PostOut ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_popr_postOut);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.PostOut)obj.createGenericInstance();
          }
          return ret;
     }

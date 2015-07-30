@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase que concentra propiedades para configuración general de youtube., para mostrar en sitio admin. ESTA CLASE YA NO SE UTILIZA, ELIMINAR DESPUES. 
    */
-public abstract class YoutubeGCBase extends org.semanticwb.social.GeneralConfig implements org.semanticwb.social.Secreteable,org.semanticwb.social.DeveloperKeyable
+public abstract class YoutubeGCBase extends org.semanticwb.social.GeneralConfig implements org.semanticwb.social.DeveloperKeyable,org.semanticwb.social.Secreteable
 {
    /**
    * Clase que concentra propiedades para configuración general de youtube., para mostrar en sitio admin. ESTA CLASE YA NO SE UTILIZA, ELIMINAR DESPUES.
@@ -101,24 +101,6 @@ public abstract class YoutubeGCBase extends org.semanticwb.social.GeneralConfig 
     }
 
 /**
-* Gets the RefreshToken property
-* @return String with the RefreshToken
-*/
-    public String getRefreshToken()
-    {
-        return getSemanticObject().getProperty(social_refreshToken);
-    }
-
-/**
-* Sets the RefreshToken property
-* @param value long with the RefreshToken
-*/
-    public void setRefreshToken(String value)
-    {
-        getSemanticObject().setProperty(social_refreshToken, value);
-    }
-
-/**
 * Gets the DeveloperKey property
 * @return String with the DeveloperKey
 */
@@ -134,5 +116,23 @@ public abstract class YoutubeGCBase extends org.semanticwb.social.GeneralConfig 
     public void setDeveloperKey(String value)
     {
         getSemanticObject().setProperty(social_developerKey, value);
+    }
+
+/**
+* Gets the RefreshToken property
+* @return String with the RefreshToken
+*/
+    public String getRefreshToken()
+    {
+        return getSemanticObject().getProperty(social_refreshToken);
+    }
+
+/**
+* Sets the RefreshToken property
+* @param value long with the RefreshToken
+*/
+    public void setRefreshToken(String value)
+    {
+        getSemanticObject().setProperty(social_refreshToken, value);
     }
 }

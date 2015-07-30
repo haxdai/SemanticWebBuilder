@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase en donde se almacenan todos los post de tipo Photo y que entran por el Listener 
    */
-public abstract class PhotoInBase extends org.semanticwb.social.PostIn implements org.semanticwb.model.Tagable,org.semanticwb.social.PostImageable,org.semanticwb.social.PostDataable,org.semanticwb.social.PostTextable
+public abstract class PhotoInBase extends org.semanticwb.social.PostIn implements org.semanticwb.social.PostDataable,org.semanticwb.social.PostImageable,org.semanticwb.model.Tagable,org.semanticwb.social.PostTextable
 {
    /**
    * Clase en donde se almacenan todos los post de tipo Photo y que entran por el Listener
@@ -85,26 +85,26 @@ public abstract class PhotoInBase extends org.semanticwb.social.PostIn implement
             return (getPhotoIn(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined PostInDevicePlatform
-       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
+       * Gets all org.semanticwb.social.PhotoIn with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
        * @param model Model of the org.semanticwb.social.PhotoIn
        * @return Iterator with all the org.semanticwb.social.PhotoIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined PostInDevicePlatform
-       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
+       * Gets all org.semanticwb.social.PhotoIn with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
        * @return Iterator with all the org.semanticwb.social.PhotoIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value)
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInBySocialTopic(org.semanticwb.social.SocialTopic value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -131,75 +131,6 @@ public abstract class PhotoInBase extends org.semanticwb.social.PostIn implement
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined Msg_lang
-       * @param value Msg_lang of the type org.semanticwb.model.Language
-       * @param model Model of the org.semanticwb.social.PhotoIn
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByMsg_lang(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined Msg_lang
-       * @param value Msg_lang of the type org.semanticwb.model.Language
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByMsg_lang(org.semanticwb.model.Language value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined GeoCountryObj
-       * @param value GeoCountryObj of the type org.semanticwb.social.Country
-       * @param model Model of the org.semanticwb.social.PhotoIn
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoCountryObj(org.semanticwb.social.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoCountryObj, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined GeoCountryObj
-       * @param value GeoCountryObj of the type org.semanticwb.social.Country
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoCountryObj(org.semanticwb.social.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoCountryObj,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined PostInSocialNetworkUser
-       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
-       * @param model Model of the org.semanticwb.social.PhotoIn
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined PostInSocialNetworkUser
-       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.PhotoIn with a determined PostInSocialNetwork
        * @param value PostInSocialNetwork of the type org.semanticwb.social.SocialNetwork
        * @param model Model of the org.semanticwb.social.PhotoIn
@@ -220,29 +151,6 @@ public abstract class PhotoInBase extends org.semanticwb.social.PostIn implement
         public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInSocialNetwork(org.semanticwb.social.SocialNetwork value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetwork,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
-       * @param model Model of the org.semanticwb.social.PhotoIn
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoStateMap(org.semanticwb.social.CountryState value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -269,6 +177,121 @@ public abstract class PhotoInBase extends org.semanticwb.social.PostIn implement
             return it;
         }
        /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * @param model Model of the org.semanticwb.social.PhotoIn
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoStateMap(org.semanticwb.social.CountryState value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined PostInDevicePlatform
+       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
+       * @param model Model of the org.semanticwb.social.PhotoIn
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined PostInDevicePlatform
+       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined PostInSocialNetworkUser
+       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
+       * @param model Model of the org.semanticwb.social.PhotoIn
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined PostInSocialNetworkUser
+       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined GeoCountryObj
+       * @param value GeoCountryObj of the type org.semanticwb.social.Country
+       * @param model Model of the org.semanticwb.social.PhotoIn
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoCountryObj(org.semanticwb.social.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoCountryObj, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined GeoCountryObj
+       * @param value GeoCountryObj of the type org.semanticwb.social.Country
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByGeoCountryObj(org.semanticwb.social.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoCountryObj,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined Msg_lang
+       * @param value Msg_lang of the type org.semanticwb.model.Language
+       * @param model Model of the org.semanticwb.social.PhotoIn
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByMsg_lang(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PhotoIn with a determined Msg_lang
+       * @param value Msg_lang of the type org.semanticwb.model.Language
+       * @return Iterator with all the org.semanticwb.social.PhotoIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByMsg_lang(org.semanticwb.model.Language value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.PhotoIn with a determined PostInStream
        * @param value PostInStream of the type org.semanticwb.social.Stream
        * @param model Model of the org.semanticwb.social.PhotoIn
@@ -289,29 +312,6 @@ public abstract class PhotoInBase extends org.semanticwb.social.PostIn implement
         public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInByPostInStream(org.semanticwb.social.Stream value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInStream,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
-       * @param model Model of the org.semanticwb.social.PhotoIn
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PhotoIn with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
-       * @return Iterator with all the org.semanticwb.social.PhotoIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PhotoIn> listPhotoInBySocialTopic(org.semanticwb.social.SocialTopic value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PhotoIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -7,18 +7,18 @@ package org.semanticwb.social.base;
 public abstract class PostBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.social.PostDataable,org.semanticwb.social.PostTextable
 {
    /**
-   * Propiedad con valor entero que representa el tipo de Sentimientos que expresa el Post, estos se estan definiendo de esta manera: 0) Neutro 1) Positivo 2)Negativo, estos valores pueden ser mas y permanecer en un objeto tipo colección en lo futuro.
+   * Catalogo de temas de un modelo (Marca)
    */
-    public static final org.semanticwb.platform.SemanticProperty social_postSentimentalType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postSentimentalType");
+    public static final org.semanticwb.platform.SemanticClass social_SocialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialTopic");
+    public static final org.semanticwb.platform.SemanticProperty social_socialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#socialTopic");
    /**
    * Longitud de donde se envía el mensaje
    */
     public static final org.semanticwb.platform.SemanticProperty social_longitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#longitude");
-    public static final org.semanticwb.platform.SemanticClass social_CountryState=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#CountryState");
    /**
-   * Instancia de Estado Geográfico de un país de donde provenga el mensaje. Si es que la latitud y longitud del mismo proviene de un estado/país registrados en los catálogos Country/CountryState.
+   * Indica si un mensaje es prioritario o no. Esta propiedad aplica tanto si es un mensaje de entrada (PostIn) o de salida (PostOut).
    */
-    public static final org.semanticwb.platform.SemanticProperty social_geoStateMap=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#geoStateMap");
+    public static final org.semanticwb.platform.SemanticProperty social_isPrioritary=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#isPrioritary");
    /**
    * Valor que es resultado del algoritmo de intensidad, mediante este valor se puede determinar si la intencidad es alta, media o baja. Este valor solo lo guardo como referencia, sin embargo el realmente importante es el resultado, el cual se encuentra en la propiedad postIntensity. Evaluar si BORRO esta propiedad o la dejo ahi como pura referencia.
    */
@@ -28,22 +28,22 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
    */
     public static final org.semanticwb.platform.SemanticProperty social_latitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#latitude");
    /**
-   * Valor que resulta del algoritmo de analisis sentimental, aqui se puede ver el porque se pone cierto valor a la propiedad PostSentimentalType. Este valor solo lo guardo como referencia, sin embargo el realmente importante es el resultado, el cual se encuentra en la propiedad PostSentimentalType. Evaluar si  BORRO esta propiedad o la dejo ahi como pura referencia.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_postSentimentalValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postSentimentalValue");
-   /**
-   * Indica si un mensaje es prioritario o no. Esta propiedad aplica tanto si es un mensaje de entrada (PostIn) o de salida (PostOut).
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_isPrioritary=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#isPrioritary");
-   /**
    * Tipo de Intensidad. 2=Alta;1=Media;0=Baja;
    */
     public static final org.semanticwb.platform.SemanticProperty social_postIntesityType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postIntesityType");
    /**
-   * Catalogo de temas de un modelo (Marca)
+   * Propiedad con valor entero que representa el tipo de Sentimientos que expresa el Post, estos se estan definiendo de esta manera: 0) Neutro 1) Positivo 2)Negativo, estos valores pueden ser mas y permanecer en un objeto tipo colección en lo futuro.
    */
-    public static final org.semanticwb.platform.SemanticClass social_SocialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialTopic");
-    public static final org.semanticwb.platform.SemanticProperty social_socialTopic=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#socialTopic");
+    public static final org.semanticwb.platform.SemanticProperty social_postSentimentalType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postSentimentalType");
+    public static final org.semanticwb.platform.SemanticClass social_CountryState=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#CountryState");
+   /**
+   * Instancia de Estado Geográfico de un país de donde provenga el mensaje. Si es que la latitud y longitud del mismo proviene de un estado/país registrados en los catálogos Country/CountryState.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_geoStateMap=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#geoStateMap");
+   /**
+   * Valor que resulta del algoritmo de analisis sentimental, aqui se puede ver el porque se pone cierto valor a la propiedad PostSentimentalType. Este valor solo lo guardo como referencia, sin embargo el realmente importante es el resultado, el cual se encuentra en la propiedad PostSentimentalType. Evaluar si  BORRO esta propiedad o la dejo ahi como pura referencia.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_postSentimentalValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postSentimentalValue");
    /**
    * Clase a Cambiar despues por "Relacional", esta y todas sus hijas. Clase que comprende todos los tipos de Post que pueden ir siendo creados en la herramienta..
    */
@@ -123,26 +123,26 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
             return (getPost(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Post with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * Gets all org.semanticwb.social.Post with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
        * @param model Model of the org.semanticwb.social.Post
        * @return Iterator with all the org.semanticwb.social.Post
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Post> listPostByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Post> listPostBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Post with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * Gets all org.semanticwb.social.Post with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
        * @return Iterator with all the org.semanticwb.social.Post
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Post> listPostByGeoStateMap(org.semanticwb.social.CountryState value)
+        public static java.util.Iterator<org.semanticwb.social.Post> listPostBySocialTopic(org.semanticwb.social.SocialTopic value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -169,26 +169,26 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Post with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * Gets all org.semanticwb.social.Post with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
        * @param model Model of the org.semanticwb.social.Post
        * @return Iterator with all the org.semanticwb.social.Post
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Post> listPostBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Post> listPostByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Post with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * Gets all org.semanticwb.social.Post with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
        * @return Iterator with all the org.semanticwb.social.Post
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Post> listPostBySocialTopic(org.semanticwb.social.SocialTopic value)
+        public static java.util.Iterator<org.semanticwb.social.Post> listPostByGeoStateMap(org.semanticwb.social.CountryState value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Post> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -206,151 +206,43 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
     {
         super(base);
     }
-
-/**
-* Gets the PostSentimentalType property
-* @return int with the PostSentimentalType
-*/
-    public int getPostSentimentalType()
-    {
-        return getSemanticObject().getIntProperty(social_postSentimentalType);
-    }
-
-/**
-* Sets the PostSentimentalType property
-* @param value long with the PostSentimentalType
-*/
-    public void setPostSentimentalType(int value)
-    {
-        getSemanticObject().setIntProperty(social_postSentimentalType, value);
-    }
-
-/**
-* Gets the Longitude property
-* @return float with the Longitude
-*/
-    public float getLongitude()
-    {
-        return getSemanticObject().getFloatProperty(social_longitude);
-    }
-
-/**
-* Sets the Longitude property
-* @param value long with the Longitude
-*/
-    public void setLongitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_longitude, value);
-    }
    /**
-   * Sets the value for the property GeoStateMap
-   * @param value GeoStateMap to set
+   * Sets the value for the property SocialTopic
+   * @param value SocialTopic to set
    */
 
-    public void setGeoStateMap(org.semanticwb.social.CountryState value)
+    public void setSocialTopic(org.semanticwb.social.SocialTopic value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(social_geoStateMap, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(social_socialTopic, value.getSemanticObject());
         }else
         {
-            removeGeoStateMap();
+            removeSocialTopic();
         }
     }
    /**
-   * Remove the value for GeoStateMap property
+   * Remove the value for SocialTopic property
    */
 
-    public void removeGeoStateMap()
+    public void removeSocialTopic()
     {
-        getSemanticObject().removeProperty(social_geoStateMap);
+        getSemanticObject().removeProperty(social_socialTopic);
     }
 
    /**
-   * Gets the GeoStateMap
-   * @return a org.semanticwb.social.CountryState
+   * Gets the SocialTopic
+   * @return a org.semanticwb.social.SocialTopic
    */
-    public org.semanticwb.social.CountryState getGeoStateMap()
+    public org.semanticwb.social.SocialTopic getSocialTopic()
     {
-         org.semanticwb.social.CountryState ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_geoStateMap);
+         org.semanticwb.social.SocialTopic ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_socialTopic);
          if(obj!=null)
          {
-             ret=(org.semanticwb.social.CountryState)obj.createGenericInstance();
+             ret=(org.semanticwb.social.SocialTopic)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the PostIntensityValue property
-* @return float with the PostIntensityValue
-*/
-    public float getPostIntensityValue()
-    {
-        return getSemanticObject().getFloatProperty(social_postIntensityValue);
-    }
-
-/**
-* Sets the PostIntensityValue property
-* @param value long with the PostIntensityValue
-*/
-    public void setPostIntensityValue(float value)
-    {
-        getSemanticObject().setFloatProperty(social_postIntensityValue, value);
-    }
-
-/**
-* Gets the Latitude property
-* @return float with the Latitude
-*/
-    public float getLatitude()
-    {
-        return getSemanticObject().getFloatProperty(social_latitude);
-    }
-
-/**
-* Sets the Latitude property
-* @param value long with the Latitude
-*/
-    public void setLatitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_latitude, value);
-    }
-
-/**
-* Gets the PostSentimentalValue property
-* @return float with the PostSentimentalValue
-*/
-    public float getPostSentimentalValue()
-    {
-        return getSemanticObject().getFloatProperty(social_postSentimentalValue);
-    }
-
-/**
-* Sets the PostSentimentalValue property
-* @param value long with the PostSentimentalValue
-*/
-    public void setPostSentimentalValue(float value)
-    {
-        getSemanticObject().setFloatProperty(social_postSentimentalValue, value);
-    }
-
-/**
-* Gets the IsPrioritary property
-* @return boolean with the IsPrioritary
-*/
-    public boolean isIsPrioritary()
-    {
-        return getSemanticObject().getBooleanProperty(social_isPrioritary);
-    }
-
-/**
-* Sets the IsPrioritary property
-* @param value long with the IsPrioritary
-*/
-    public void setIsPrioritary(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(social_isPrioritary, value);
     }
    /**
    * Sets the value for the property Msg_lang
@@ -392,6 +284,60 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the Longitude property
+* @return float with the Longitude
+*/
+    public float getLongitude()
+    {
+        return getSemanticObject().getFloatProperty(social_longitude);
+    }
+
+/**
+* Sets the Longitude property
+* @param value long with the Longitude
+*/
+    public void setLongitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_longitude, value);
+    }
+
+/**
+* Gets the IsPrioritary property
+* @return boolean with the IsPrioritary
+*/
+    public boolean isIsPrioritary()
+    {
+        return getSemanticObject().getBooleanProperty(social_isPrioritary);
+    }
+
+/**
+* Sets the IsPrioritary property
+* @param value long with the IsPrioritary
+*/
+    public void setIsPrioritary(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_isPrioritary, value);
+    }
+
+/**
+* Gets the PostIntensityValue property
+* @return float with the PostIntensityValue
+*/
+    public float getPostIntensityValue()
+    {
+        return getSemanticObject().getFloatProperty(social_postIntensityValue);
+    }
+
+/**
+* Sets the PostIntensityValue property
+* @param value long with the PostIntensityValue
+*/
+    public void setPostIntensityValue(float value)
+    {
+        getSemanticObject().setFloatProperty(social_postIntensityValue, value);
+    }
+
+/**
 * Gets the Tags property
 * @return String with the Tags
 */
@@ -425,6 +371,42 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
+* Gets the Msg_Text property
+* @return String with the Msg_Text
+*/
+    public String getMsg_Text()
+    {
+        return getSemanticObject().getProperty(social_msg_Text);
+    }
+
+/**
+* Sets the Msg_Text property
+* @param value long with the Msg_Text
+*/
+    public void setMsg_Text(String value)
+    {
+        getSemanticObject().setProperty(social_msg_Text, value);
+    }
+
+/**
+* Gets the Latitude property
+* @return float with the Latitude
+*/
+    public float getLatitude()
+    {
+        return getSemanticObject().getFloatProperty(social_latitude);
+    }
+
+/**
+* Sets the Latitude property
+* @param value long with the Latitude
+*/
+    public void setLatitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_latitude, value);
+    }
+
+/**
 * Gets the PostIntesityType property
 * @return int with the PostIntesityType
 */
@@ -443,58 +425,76 @@ public abstract class PostBase extends org.semanticwb.model.SWBClass implements 
     }
 
 /**
-* Gets the Msg_Text property
-* @return String with the Msg_Text
+* Gets the PostSentimentalType property
+* @return int with the PostSentimentalType
 */
-    public String getMsg_Text()
+    public int getPostSentimentalType()
     {
-        return getSemanticObject().getProperty(social_msg_Text);
+        return getSemanticObject().getIntProperty(social_postSentimentalType);
     }
 
 /**
-* Sets the Msg_Text property
-* @param value long with the Msg_Text
+* Sets the PostSentimentalType property
+* @param value long with the PostSentimentalType
 */
-    public void setMsg_Text(String value)
+    public void setPostSentimentalType(int value)
     {
-        getSemanticObject().setProperty(social_msg_Text, value);
+        getSemanticObject().setIntProperty(social_postSentimentalType, value);
     }
    /**
-   * Sets the value for the property SocialTopic
-   * @param value SocialTopic to set
+   * Sets the value for the property GeoStateMap
+   * @param value GeoStateMap to set
    */
 
-    public void setSocialTopic(org.semanticwb.social.SocialTopic value)
+    public void setGeoStateMap(org.semanticwb.social.CountryState value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(social_socialTopic, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(social_geoStateMap, value.getSemanticObject());
         }else
         {
-            removeSocialTopic();
+            removeGeoStateMap();
         }
     }
    /**
-   * Remove the value for SocialTopic property
+   * Remove the value for GeoStateMap property
    */
 
-    public void removeSocialTopic()
+    public void removeGeoStateMap()
     {
-        getSemanticObject().removeProperty(social_socialTopic);
+        getSemanticObject().removeProperty(social_geoStateMap);
     }
 
    /**
-   * Gets the SocialTopic
-   * @return a org.semanticwb.social.SocialTopic
+   * Gets the GeoStateMap
+   * @return a org.semanticwb.social.CountryState
    */
-    public org.semanticwb.social.SocialTopic getSocialTopic()
+    public org.semanticwb.social.CountryState getGeoStateMap()
     {
-         org.semanticwb.social.SocialTopic ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_socialTopic);
+         org.semanticwb.social.CountryState ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_geoStateMap);
          if(obj!=null)
          {
-             ret=(org.semanticwb.social.SocialTopic)obj.createGenericInstance();
+             ret=(org.semanticwb.social.CountryState)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the PostSentimentalValue property
+* @return float with the PostSentimentalValue
+*/
+    public float getPostSentimentalValue()
+    {
+        return getSemanticObject().getFloatProperty(social_postSentimentalValue);
+    }
+
+/**
+* Sets the PostSentimentalValue property
+* @param value long with the PostSentimentalValue
+*/
+    public void setPostSentimentalValue(float value)
+    {
+        getSemanticObject().setFloatProperty(social_postSentimentalValue, value);
     }
 }
