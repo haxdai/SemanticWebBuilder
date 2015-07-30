@@ -268,7 +268,7 @@ public class SelectMultipleActives extends org.semanticwb.social.base.SelectMult
                         }
                     }
 
-                    if(!deleted && active && !socialNetIsFanPage)
+                    if(!deleted && active && !socialNetIsFanPage && (sob.getGenericInstance() instanceof Listenerable))
                     {                    
 
                         if (sob.getURI() != null) {
@@ -292,6 +292,7 @@ public class SelectMultipleActives extends org.semanticwb.social.base.SelectMult
                             else if(sob.getGenericInstance() instanceof Facebook) ret.append("<img src=\"/swbadmin/css/images/config-fb.png\">");
                             else if(sob.getGenericInstance() instanceof Youtube) ret.append("<img src=\"/swbadmin/css/images/config-yt.png\">");
                             else if(sob.getGenericInstance() instanceof Instagram) ret.append("<img src=\"/swbadmin/css/images/config-ig.png\">");
+                            else if(sob.getGenericInstance() instanceof Tumblr) ret.append("<img src=\"/swbadmin/css/images/config-tb.png\">");
                             else if(sob.getGenericInstance() instanceof RssSource) ret.append("<img src=\"/swbadmin/css/images/config-rss.png\">");
                             
                             //ret.append(">" + sob.getDisplayName(lang) + "</option>");
