@@ -1465,6 +1465,14 @@ border-radius:2px;
 #pagination	span a	{ padding:3px 5px 4px; width:35px;}
 #pagination	span a:hover { }
 #pagination .pag-space	 { display:inline-block; width:10px; }
+/*Tumblr*/
+
+.tumbrl .avatar-image{ height: 64px; width: 64px; margin-top: -16px; }
+.tumbrl main{ height: 100%; }
+.tumbrl .post{ border: #CCC solid 1px; margin-bottom: 1em ; background: #fdfdfd; display: inline-block; padding: 0px 0px 16px 16px; width: 357px;}
+.tumbrl .post-image{ margin: 0px; width: 341px; }
+.tumbrl .notas span{ text-align: right; }
+.tumbrl .follow-unfollow{ float: right; margin-right: 6px!important; margin-top: -42px!important; }
 
 /*RSS*/
 .rssContent		 { font-family:Arial, Helvetica, sans-serif; font-size:12px;}

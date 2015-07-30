@@ -11,8 +11,7 @@
 <jsp:useBean id="blogName" scope="request" type="String"/>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <div dojoType="dojox.layout.ContentPane">
-<main style="width:1210px; height: 100%!important;">
-     <link href="<%=org.semanticwb.SWBPlatform.getContextPath()%>\work\models\SWBAdmin\css\tumblrDashboard.css" rel="stylesheet">
+    <main class="tumbrl" style="width:1210px; height: 100%!important;">
         <div style="width: 400px;display: inline-block; height: 100%;overflow-y: scroll;" id = "dashboard">    
             <div class="timelineTab-title">
                 <p><strong>Dashboard</strong><%=blogName%></p>
