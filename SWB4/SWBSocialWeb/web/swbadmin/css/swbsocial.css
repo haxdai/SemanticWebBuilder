@@ -1003,6 +1003,12 @@ background: #FFA51E !important;}
 .swbIconTwitterGrp,
 .swbIconTwitter,
 .swbIconTwitterU,
+.swbIconTumblrGrp,
+.swbIconTumblr,
+.swbIconTumblrU,
+.swbIconGoogleGrp,
+.swbIconGoogle,
+.swbIconGoogleU,
 .swbIconYoutubeGrp,
 .swbIconYouTube,
 .swbIconYouTubeU,
@@ -1067,6 +1073,14 @@ background-image: url(images/iconos-swbSocial.png) !important; }
 .swbIconInstagramGrp  { background-position: -40px -72px;}
 .swbIconInstagram     { background-position: -20px -162px;}
 .swbIconInstagramU    { background-position: -40px -162px;}
+
+.swbIconTumblrGrp	{ background-position: -80px -144px;}
+.swbIconTumblr		{ background-position: -100px -144px;}
+.swbIconTumblrU		{ background-position: -120px -144px;}
+
+.swbIconGoogleGrp	{ background-position: -80px -126px;}
+.swbIconGoogle		{ background-position: -100px -126px;}
+.swbIconGoogleU 	{ background-position: -120px -126px;}
 
 .swbIconStreamGrp   { background-position: -40px  0px;}
 .swbIconStream      { background-position: -40px -18px;}
@@ -2046,7 +2060,7 @@ border-radius:5px 5px 0 0;
 .klout { background:url(images/klout-flag.png) no-repeat; color:#FFF !important; display:block; width:24px; height:24px; font-size:11px; padding-top:3px; margin:auto;}
 .streamPhrases div { float:left; margin:4px 5px 3px 0px}
 .stream_twitter_icon, .stream_facebook_icon, .stream_youtube_icon { }
-
+.dijit.dijitReset.dijitInline.dijitCheckBox { float:left;}
 
 /*PORTADA PASOS*/
 #pasos3	{ margin-top:20px;}
