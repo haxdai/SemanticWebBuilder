@@ -75,11 +75,17 @@ public class TumblrDashboard  extends GenericResource {
                         request.setAttribute("errorType", AUTH_ERROR);
                         rd= request.getRequestDispatcher(jspTumblrDashboardError);
                     }else{
-                        rd= request.getRequestDispatcher(jspTumblrTabs);  
+                        client = new JumblrClient(SWBPortal.getEnv("swbsocial/tumblrAppKey"),
+                                SWBPortal.getEnv("swbsocial/tumblrSecretKey"));
+                        client.setToken(tumblr.getAccessToken(), tumblr.getAccessTokenSecret());
+                        User user = client.user();
+                        Blog blog = user.getBlogs().get(0); 
+                        request.setAttribute("blogName", blog.getName());
                         request.setAttribute("urlDoDashboard", urlDoDashboard);
                         request.setAttribute("urlDoFollowing", urlDoFollowing);
                         request.setAttribute("urlDoFollowers", urlDoFollowers);  
-                        request.setAttribute("paramRequest", paramRequest);                 
+                        request.setAttribute("paramRequest", paramRequest); 
+                        rd= request.getRequestDispatcher(jspTumblrTabs);  
                     }
                }else{
                     rd= request.getRequestDispatcher(jspTumblrDashboardError);
@@ -233,8 +239,11 @@ public class TumblrDashboard  extends GenericResource {
              User user = client.user();
             Blog blog = user.getBlogs().get(0);  
             parameters.put("offset",offset*20);
-            List<User> blogFollowers = client.blogFollowers(blog.getName());
-            rd= request.getRequestDispatcher(jspTumblrFollowers);
+            List<User> blogFollowers = blog.followers();
+            Iterator<User> iterator = blogFollowers.iterator();
+
+            
+            rd = request.getRequestDispatcher(jspTumblrFollowers);
             request.setAttribute("blogFollowers", blogFollowers);
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
