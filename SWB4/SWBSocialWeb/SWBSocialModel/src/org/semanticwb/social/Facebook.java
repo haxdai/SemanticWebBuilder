@@ -1703,8 +1703,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
 
         } catch (FileNotFoundException fnfe) {
-        } catch (IOException ioe) {
-        }
+        } 
     }
 
     /**

@@ -149,43 +149,23 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
     {
         super(base);
     }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
 
-    public void setModifiedBy(org.semanticwb.model.User value)
+/**
+* Gets the UserIP property
+* @return String with the UserIP
+*/
+    public String getUserIP()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
+        return getSemanticObject().getProperty(social_userIP);
     }
 
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
+/**
+* Sets the UserIP property
+* @param value long with the UserIP
+*/
+    public void setUserIP(String value)
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(social_userIP, value);
     }
 
 /**
@@ -224,6 +204,44 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
         getSemanticObject().setDateProperty(swb_updated, value);
     }
    /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
    * Sets the value for the property Creator
    * @param value Creator to set
    */
@@ -260,23 +278,5 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the UserIP property
-* @return String with the UserIP
-*/
-    public String getUserIP()
-    {
-        return getSemanticObject().getProperty(social_userIP);
-    }
-
-/**
-* Sets the UserIP property
-* @param value long with the UserIP
-*/
-    public void setUserIP(String value)
-    {
-        getSemanticObject().setProperty(social_userIP, value);
     }
 }

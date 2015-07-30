@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase red social para Google+ 
    */
-public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Listenerable,org.semanticwb.social.Videoable,org.semanticwb.model.Trashable,org.semanticwb.social.Photoable,org.semanticwb.social.Oauthable,org.semanticwb.social.Messageable,org.semanticwb.social.DeveloperKeyable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.social.Kloutable,org.semanticwb.social.Relationable,org.semanticwb.model.Traceable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableClass
+public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.social.Messageable,org.semanticwb.social.DeveloperKeyable,org.semanticwb.social.PostOutMonitorable,org.semanticwb.social.SocialNetPostable,org.semanticwb.social.Listenerable,org.semanticwb.social.Oauthable,org.semanticwb.model.Descriptiveable,org.semanticwb.social.Photoable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.social.Secreteable,org.semanticwb.model.Traceable,org.semanticwb.social.Videoable,org.semanticwb.social.Kloutable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable
 {
    /**
    * Clase red social para Google+
@@ -79,26 +79,72 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
             return (getGoogle(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Google with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
        * @param model Model of the org.semanticwb.social.Google
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Google with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Google with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @param model Model of the org.semanticwb.social.Google
+       * @return Iterator with all the org.semanticwb.social.Google
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Google with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @return Iterator with all the org.semanticwb.social.Google
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Google with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @param model Model of the org.semanticwb.social.Google
+       * @return Iterator with all the org.semanticwb.social.Google
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Google with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @return Iterator with all the org.semanticwb.social.Google
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -171,95 +217,49 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * Gets all org.semanticwb.social.Google with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
        * @param model Model of the org.semanticwb.social.Google
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * Gets all org.semanticwb.social.Google with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * Gets all org.semanticwb.social.Google with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Google
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * Gets all org.semanticwb.social.Google with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialPostInv(org.semanticwb.social.PostOutNet value)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Google with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @param model Model of the org.semanticwb.social.Google
-       * @return Iterator with all the org.semanticwb.social.Google
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Google with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @return Iterator with all the org.semanticwb.social.Google
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Google with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @param model Model of the org.semanticwb.social.Google
-       * @return Iterator with all the org.semanticwb.social.Google
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Google with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @return Iterator with all the org.semanticwb.social.Google
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -286,26 +286,26 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * Gets all org.semanticwb.social.Google with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
        * @param model Model of the org.semanticwb.social.Google
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Google with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * Gets all org.semanticwb.social.Google with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
        * @return Iterator with all the org.semanticwb.social.Google
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
+        public static java.util.Iterator<org.semanticwb.social.Google> listGoogleBySocialPostInv(org.semanticwb.social.PostOutNet value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Google> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -348,39 +348,21 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
     }
 
 /**
-* Gets the TokenExpirationDate property
-* @return java.util.Date with the TokenExpirationDate
+* Gets the DeveloperKey property
+* @return String with the DeveloperKey
 */
-    public java.util.Date getTokenExpirationDate()
+    public String getDeveloperKey()
     {
-        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
+        return getSemanticObject().getProperty(social_developerKey);
     }
 
 /**
-* Sets the TokenExpirationDate property
-* @param value long with the TokenExpirationDate
+* Sets the DeveloperKey property
+* @param value long with the DeveloperKey
 */
-    public void setTokenExpirationDate(java.util.Date value)
+    public void setDeveloperKey(String value)
     {
-        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
-    }
-
-/**
-* Gets the RefreshToken property
-* @return String with the RefreshToken
-*/
-    public String getRefreshToken()
-    {
-        return getSemanticObject().getProperty(social_refreshToken);
-    }
-
-/**
-* Sets the RefreshToken property
-* @param value long with the RefreshToken
-*/
-    public void setRefreshToken(String value)
-    {
-        getSemanticObject().setProperty(social_refreshToken, value);
+        getSemanticObject().setProperty(social_developerKey, value);
     }
 
 /**
@@ -402,21 +384,21 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
     }
 
 /**
-* Gets the DeveloperKey property
-* @return String with the DeveloperKey
+* Gets the TokenExpirationDate property
+* @return java.util.Date with the TokenExpirationDate
 */
-    public String getDeveloperKey()
+    public java.util.Date getTokenExpirationDate()
     {
-        return getSemanticObject().getProperty(social_developerKey);
+        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
     }
 
 /**
-* Sets the DeveloperKey property
-* @param value long with the DeveloperKey
+* Sets the TokenExpirationDate property
+* @param value long with the TokenExpirationDate
 */
-    public void setDeveloperKey(String value)
+    public void setTokenExpirationDate(java.util.Date value)
     {
-        getSemanticObject().setProperty(social_developerKey, value);
+        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
     }
 
 /**
@@ -435,5 +417,23 @@ public abstract class GoogleBase extends org.semanticwb.social.SocialNetwork imp
     public void setAccessTokenSecret(String value)
     {
         getSemanticObject().setProperty(social_accessTokenSecret, value);
+    }
+
+/**
+* Gets the RefreshToken property
+* @return String with the RefreshToken
+*/
+    public String getRefreshToken()
+    {
+        return getSemanticObject().getProperty(social_refreshToken);
+    }
+
+/**
+* Sets the RefreshToken property
+* @param value long with the RefreshToken
+*/
+    public void setRefreshToken(String value)
+    {
+        getSemanticObject().setProperty(social_refreshToken, value);
     }
 }

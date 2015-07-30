@@ -13,6 +13,11 @@ public interface GeoMapableBase extends org.semanticwb.model.GenericObject
    * Punto oeste, del punto South West (SW) de un bounding box. 
    */
     public static final org.semanticwb.platform.SemanticProperty social_west=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#west");
+    public static final org.semanticwb.platform.SemanticProperty social_capitalLongitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#capitalLongitude");
+   /**
+   * Punto sur, del punto South West (SW) de un bounding box. 
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_south=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#south");
    /**
    * Punto norte, del punto North East (NE) de un bounding box. 
    */
@@ -21,11 +26,6 @@ public interface GeoMapableBase extends org.semanticwb.model.GenericObject
    * Punto Este, del punto North East (NE) de un bounding box. 
    */
     public static final org.semanticwb.platform.SemanticProperty social_east=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#east");
-    public static final org.semanticwb.platform.SemanticProperty social_capitalLongitude=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#capitalLongitude");
-   /**
-   * Punto sur, del punto South West (SW) de un bounding box. 
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_south=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#south");
    /**
    * Interface que engloba elementos para poder mapear puntos en un mapa mediante un Bounding Box 
    */
@@ -39,14 +39,6 @@ public interface GeoMapableBase extends org.semanticwb.model.GenericObject
 
     public void setWest(float value);
 
-    public float getNorth();
-
-    public void setNorth(float value);
-
-    public float getEast();
-
-    public void setEast(float value);
-
     public float getCapitalLongitude();
 
     public void setCapitalLongitude(float value);
@@ -54,4 +46,12 @@ public interface GeoMapableBase extends org.semanticwb.model.GenericObject
     public float getSouth();
 
     public void setSouth(float value);
+
+    public float getNorth();
+
+    public void setNorth(float value);
+
+    public float getEast();
+
+    public void setEast(float value);
 }

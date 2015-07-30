@@ -4,8 +4,16 @@ package org.semanticwb.social.base;
    /**
    * Clase que hereda de swb:WebSite. Es un tipo de website Social. De esta manera se puede contar con todos los elementos en el arbol de navegación en la administración, y otros elementos utiles para Social Site (Marca). 
    */
-public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Countryable,org.semanticwb.model.Trashable,org.semanticwb.model.Localeable,org.semanticwb.model.Indexable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Undeleteable
+public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable
 {
+   /**
+   * Instituciones que contraten Marcas en SWB Social4Cloud
+   */
+    public static final org.semanticwb.platform.SemanticClass social_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#Institution");
+   /**
+   * Institución a la cual pertenece la marca
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#institution");
    /**
    * Número de Días antes de que se refresque información del usuario en las redes sociales
    */
@@ -22,14 +30,6 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
    * Enviar al clasificador un determinado número de mensajes o todos los que puedan llegar por la red social de un solo golpe. Si se registra un número en este campo apareceran los mensajes mas rapidamente clasificados en la pestaña "Mensajes de entrada" de un Stream y de los socialTopic, sin embargo, esto puede hacer que se generen mayor cantidad de threads en el aplicativo.
    */
     public static final org.semanticwb.platform.SemanticProperty social_blockofMsgToClassify=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#blockofMsgToClassify");
-   /**
-   * Instituciones que contraten Marcas en SWB Social4Cloud
-   */
-    public static final org.semanticwb.platform.SemanticClass social_Institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#Institution");
-   /**
-   * Institución a la cual pertenece la marca
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_institution=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#institution");
    /**
    * Contador que indica cuantas ligas se han codificado.
    */
@@ -169,6 +169,75 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
             return (getSocialSite(id)!=null);
         }
        /**
+       * Gets all org.semanticwb.social.SocialSite with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.SocialSite
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByHomePage(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @param model Model of the org.semanticwb.social.SocialSite
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByOntology(org.semanticwb.model.Ontology value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @param model Model of the org.semanticwb.social.SocialSite
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByUserRepository(org.semanticwb.model.UserRepository value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.SocialSite with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialSite
@@ -192,49 +261,49 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined SubModel
-       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * Gets all org.semanticwb.social.SocialSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialSite
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined SubModel
-       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * Gets all org.semanticwb.social.SocialSite with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteBySubModel(org.semanticwb.model.SWBModel value)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined LicenseType
-       * @param value LicenseType of the type org.semanticwb.social.LicenseType
+       * Gets all org.semanticwb.social.SocialSite with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
        * @param model Model of the org.semanticwb.social.SocialSite
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByLicenseType(org.semanticwb.social.LicenseType value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_licenseType, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined LicenseType
-       * @param value LicenseType of the type org.semanticwb.social.LicenseType
+       * Gets all org.semanticwb.social.SocialSite with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByLicenseType(org.semanticwb.social.LicenseType value)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCountry(org.semanticwb.model.Country value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_licenseType,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -284,49 +353,26 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined HomePage
-       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.SocialSite with a determined Institution
+       * @param value Institution of the type org.semanticwb.social.Institution
        * @param model Model of the org.semanticwb.social.SocialSite
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByInstitution(org.semanticwb.social.Institution value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_institution, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialSite with a determined HomePage
-       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.SocialSite with a determined Institution
+       * @param value Institution of the type org.semanticwb.social.Institution
        * @return Iterator with all the org.semanticwb.social.SocialSite
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByHomePage(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByInstitution(org.semanticwb.social.Institution value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @param model Model of the org.semanticwb.social.SocialSite
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByUserRepository(org.semanticwb.model.UserRepository value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_institution,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -353,6 +399,52 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
             return it;
         }
        /**
+       * Gets all org.semanticwb.social.SocialSite with a determined LicenseType
+       * @param value LicenseType of the type org.semanticwb.social.LicenseType
+       * @param model Model of the org.semanticwb.social.SocialSite
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByLicenseType(org.semanticwb.social.LicenseType value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_licenseType, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined LicenseType
+       * @param value LicenseType of the type org.semanticwb.social.LicenseType
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByLicenseType(org.semanticwb.social.LicenseType value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_licenseType,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @param model Model of the org.semanticwb.social.SocialSite
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialSite with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @return Iterator with all the org.semanticwb.social.SocialSite
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteBySubModel(org.semanticwb.model.SWBModel value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.SocialSite with a determined ModelProperty
        * @param value ModelProperty of the type org.semanticwb.model.ModelProperty
        * @param model Model of the org.semanticwb.social.SocialSite
@@ -375,98 +467,6 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasModelProperty,value.getSemanticObject(),sclass));
             return it;
         }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.social.SocialSite
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.SocialSite
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @param model Model of the org.semanticwb.social.SocialSite
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByOntology(org.semanticwb.model.Ontology value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Institution
-       * @param value Institution of the type org.semanticwb.social.Institution
-       * @param model Model of the org.semanticwb.social.SocialSite
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByInstitution(org.semanticwb.social.Institution value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_institution, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialSite with a determined Institution
-       * @param value Institution of the type org.semanticwb.social.Institution
-       * @return Iterator with all the org.semanticwb.social.SocialSite
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialSite> listSocialSiteByInstitution(org.semanticwb.social.Institution value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialSite> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_institution,value.getSemanticObject(),sclass));
-            return it;
-        }
     }
 
     public static SocialSiteBase.ClassMgr getSocialSiteClassMgr()
@@ -481,6 +481,44 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
     public SocialSiteBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property Institution
+   * @param value Institution to set
+   */
+
+    public void setInstitution(org.semanticwb.social.Institution value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(social_institution, value.getSemanticObject());
+        }else
+        {
+            removeInstitution();
+        }
+    }
+   /**
+   * Remove the value for Institution property
+   */
+
+    public void removeInstitution()
+    {
+        getSemanticObject().removeProperty(social_institution);
+    }
+
+   /**
+   * Gets the Institution
+   * @return a org.semanticwb.social.Institution
+   */
+    public org.semanticwb.social.Institution getInstitution()
+    {
+         org.semanticwb.social.Institution ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_institution);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.Institution)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -555,44 +593,6 @@ public abstract class SocialSiteBase extends org.semanticwb.model.WebSite implem
     public void setBlockofMsgToClassify(int value)
     {
         getSemanticObject().setIntProperty(social_blockofMsgToClassify, value);
-    }
-   /**
-   * Sets the value for the property Institution
-   * @param value Institution to set
-   */
-
-    public void setInstitution(org.semanticwb.social.Institution value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(social_institution, value.getSemanticObject());
-        }else
-        {
-            removeInstitution();
-        }
-    }
-   /**
-   * Remove the value for Institution property
-   */
-
-    public void removeInstitution()
-    {
-        getSemanticObject().removeProperty(social_institution);
-    }
-
-   /**
-   * Gets the Institution
-   * @return a org.semanticwb.social.Institution
-   */
-    public org.semanticwb.social.Institution getInstitution()
-    {
-         org.semanticwb.social.Institution ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_institution);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.Institution)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**

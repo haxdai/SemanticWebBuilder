@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase que controla un tab de page en Facebook 
    */
-public abstract class FacePageTabBase extends org.semanticwb.social.PageTab implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Tagable,org.semanticwb.model.Viewable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Localeable,org.semanticwb.model.RoleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.Indexable,org.semanticwb.model.FilterableClass,org.semanticwb.model.MetaTagable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Countryable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Trashable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Rankable,org.semanticwb.model.Expirable,org.semanticwb.model.Searchable,org.semanticwb.model.Resourceable,org.semanticwb.model.Hiddenable,org.semanticwb.model.Traceable,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable
+public abstract class FacePageTabBase extends org.semanticwb.social.PageTab implements org.semanticwb.model.Expirable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable
 {
    /**
    * Facebook Aplication ID
@@ -87,6 +87,52 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return (getFacePageTab(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.FacePageTab with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.FacePageTab
@@ -110,49 +156,164 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.social.FacePageTab with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
+       * Gets all org.semanticwb.social.FacePageTab with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisTypeAssociation(org.semanticwb.model.Association value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByAssMember(org.semanticwb.model.AssMember value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * Gets all org.semanticwb.social.FacePageTab with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * Gets all org.semanticwb.social.FacePageTab with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByTemplateRef(org.semanticwb.model.TemplateRef value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCreator(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCalendarRef(org.semanticwb.model.CalendarRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByVirtualParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -202,98 +363,6 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByWebPageVirtualChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined PFlowRef
-       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByPFlowRef(org.semanticwb.model.PFlowRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByUserGroupRef(org.semanticwb.model.UserGroupRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.FacePageTab with a determined FriendlyURL
        * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
        * @param model Model of the org.semanticwb.social.FacePageTab
@@ -317,49 +386,26 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.social.FacePageTab with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.social.FacePageTab with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisTypeAssociation(org.semanticwb.model.Association value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined ThisRoleAssMember
-       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisRoleAssMember(org.semanticwb.model.AssMember value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -386,95 +432,26 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined MetaTagsValue
-       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * Gets all org.semanticwb.social.FacePageTab with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByPFlowRef(org.semanticwb.model.PFlowRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined MetaTagsValue
-       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * Gets all org.semanticwb.social.FacePageTab with a determined PFlowRef
+       * @param value PFlowRef of the type org.semanticwb.model.PFlowRef
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByPFlowRef(org.semanticwb.model.PFlowRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.FacePageTab
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.FacePageTab
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasPFlowRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -501,49 +478,72 @@ public abstract class FacePageTabBase extends org.semanticwb.social.PageTab impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.FacePageTab with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.FacePageTab with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByVirtualParent(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByTemplateRef(org.semanticwb.model.TemplateRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * Gets all org.semanticwb.social.FacePageTab with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.social.FacePageTab
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacePageTab with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * Gets all org.semanticwb.social.FacePageTab with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.social.FacePageTab
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByRoleRef(org.semanticwb.model.RoleRef value)
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByWebPageVirtualChild(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.social.FacePageTab
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisRoleAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacePageTab with a determined ThisRoleAssMember
+       * @param value ThisRoleAssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.social.FacePageTab
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacePageTab> listFacePageTabByThisRoleAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacePageTab> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
             return it;
         }
     }

@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Cuenta de Instagram 
    */
-public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.social.Listenerable,org.semanticwb.model.Trashable,org.semanticwb.social.Oauthable,org.semanticwb.social.Kloutable,org.semanticwb.social.Relationable,org.semanticwb.model.Traceable,org.semanticwb.social.Secreteable,org.semanticwb.model.FilterableClass
+public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork implements org.semanticwb.social.Listenerable,org.semanticwb.social.Oauthable,org.semanticwb.model.Descriptiveable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.social.Secreteable,org.semanticwb.model.Traceable,org.semanticwb.social.Kloutable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable
 {
    /**
    * Instagram User Id
@@ -89,26 +89,72 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
             return (getInstagram(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Instagram with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
        * @param model Model of the org.semanticwb.social.Instagram
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Instagram with a determined SocialNetworkPostOutInv
+       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Instagram with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @param model Model of the org.semanticwb.social.Instagram
+       * @return Iterator with all the org.semanticwb.social.Instagram
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Instagram with a determined SocialNetStreamSearchInv
+       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * @return Iterator with all the org.semanticwb.social.Instagram
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Instagram with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @param model Model of the org.semanticwb.social.Instagram
+       * @return Iterator with all the org.semanticwb.social.Instagram
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Instagram with a determined Podur_SocialNetworkInv
+       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
+       * @return Iterator with all the org.semanticwb.social.Instagram
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -181,95 +227,49 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * Gets all org.semanticwb.social.Instagram with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
        * @param model Model of the org.semanticwb.social.Instagram
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialNetStreamSearchInv
-       * @param value SocialNetStreamSearchInv of the type org.semanticwb.social.SocialNetStreamSearch
+       * Gets all org.semanticwb.social.Instagram with a determined PostOutLinksInv
+       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetStreamSearchInv(org.semanticwb.social.SocialNetStreamSearch value)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetStreamSearchInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * Gets all org.semanticwb.social.Instagram with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Instagram
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialPostInv
-       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
+       * Gets all org.semanticwb.social.Instagram with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialPostInv(org.semanticwb.social.PostOutNet value)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Instagram with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @param model Model of the org.semanticwb.social.Instagram
-       * @return Iterator with all the org.semanticwb.social.Instagram
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Instagram with a determined Podur_SocialNetworkInv
-       * @param value Podur_SocialNetworkInv of the type org.semanticwb.social.PostOutDirectUserRelation
-       * @return Iterator with all the org.semanticwb.social.Instagram
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPodur_SocialNetworkInv(org.semanticwb.social.PostOutDirectUserRelation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspodur_SocialNetworkInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @param model Model of the org.semanticwb.social.Instagram
-       * @return Iterator with all the org.semanticwb.social.Instagram
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Instagram with a determined SocialNetworkPostOutInv
-       * @param value SocialNetworkPostOutInv of the type org.semanticwb.social.PostOut
-       * @return Iterator with all the org.semanticwb.social.Instagram
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialNetworkPostOutInv(org.semanticwb.social.PostOut value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialNetworkPostOutInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -296,26 +296,26 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * Gets all org.semanticwb.social.Instagram with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
        * @param model Model of the org.semanticwb.social.Instagram
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialPostInv(org.semanticwb.social.PostOutNet value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Instagram with a determined PostOutLinksInv
-       * @param value PostOutLinksInv of the type org.semanticwb.social.PostOutLinksHits
+       * Gets all org.semanticwb.social.Instagram with a determined SocialPostInv
+       * @param value SocialPostInv of the type org.semanticwb.social.PostOutNet
        * @return Iterator with all the org.semanticwb.social.Instagram
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramByPostOutLinksInv(org.semanticwb.social.PostOutLinksHits value)
+        public static java.util.Iterator<org.semanticwb.social.Instagram> listInstagramBySocialPostInv(org.semanticwb.social.PostOutNet value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasPostOutLinksInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Instagram> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPostInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -358,24 +358,6 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
     }
 
 /**
-* Gets the TokenExpirationDate property
-* @return java.util.Date with the TokenExpirationDate
-*/
-    public java.util.Date getTokenExpirationDate()
-    {
-        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
-    }
-
-/**
-* Sets the TokenExpirationDate property
-* @param value long with the TokenExpirationDate
-*/
-    public void setTokenExpirationDate(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
-    }
-
-/**
 * Gets the AccessToken property
 * @return String with the AccessToken
 */
@@ -394,24 +376,6 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
     }
 
 /**
-* Gets the AccessTokenSecret property
-* @return String with the AccessTokenSecret
-*/
-    public String getAccessTokenSecret()
-    {
-        return getSemanticObject().getProperty(social_accessTokenSecret);
-    }
-
-/**
-* Sets the AccessTokenSecret property
-* @param value long with the AccessTokenSecret
-*/
-    public void setAccessTokenSecret(String value)
-    {
-        getSemanticObject().setProperty(social_accessTokenSecret, value);
-    }
-
-/**
 * Gets the InstagramUserId property
 * @return String with the InstagramUserId
 */
@@ -427,5 +391,41 @@ public abstract class InstagramBase extends org.semanticwb.social.SocialNetwork 
     public void setInstagramUserId(String value)
     {
         getSemanticObject().setProperty(social_InstagramUserId, value);
+    }
+
+/**
+* Gets the TokenExpirationDate property
+* @return java.util.Date with the TokenExpirationDate
+*/
+    public java.util.Date getTokenExpirationDate()
+    {
+        return getSemanticObject().getDateProperty(social_tokenExpirationDate);
+    }
+
+/**
+* Sets the TokenExpirationDate property
+* @param value long with the TokenExpirationDate
+*/
+    public void setTokenExpirationDate(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(social_tokenExpirationDate, value);
+    }
+
+/**
+* Gets the AccessTokenSecret property
+* @return String with the AccessTokenSecret
+*/
+    public String getAccessTokenSecret()
+    {
+        return getSemanticObject().getProperty(social_accessTokenSecret);
+    }
+
+/**
+* Sets the AccessTokenSecret property
+* @param value long with the AccessTokenSecret
+*/
+    public void setAccessTokenSecret(String value)
+    {
+        getSemanticObject().setProperty(social_accessTokenSecret, value);
     }
 }
