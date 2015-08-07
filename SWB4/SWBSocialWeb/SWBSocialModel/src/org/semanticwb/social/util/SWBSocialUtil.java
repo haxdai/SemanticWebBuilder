@@ -2066,7 +2066,7 @@ public class SWBSocialUtil {
                         for(int i=0;i<netPrivacys.length;i++)
                         {//Creating again the postOut Privacy for the posts
                             String netPrivacy=netPrivacys[i];
-                            System.out.println("sendNewPost-3:"+netPrivacy);
+                            //System.out.println("sendNewPost-3:"+netPrivacy);
                             if(netPrivacy!=null && netPrivacy.trim().length()>0)
                             {
                                 int pos=netPrivacy.indexOf("|"); 
