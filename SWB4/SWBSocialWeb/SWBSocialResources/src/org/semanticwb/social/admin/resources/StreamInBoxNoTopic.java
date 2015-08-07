@@ -1185,6 +1185,7 @@ public class StreamInBoxNoTopic extends GenericResource {
         HashMap hmapResult=filtros(swbSocialUser, webSite, searchWord, request, stream, page, sinceDateStreamMsgNP, toDateStreamMsgNP);
         
         Iterator<PostIn> setso=((Iterator)hmapResult.get("itResult"));
+        if(setso==null) setso=new <PostIn>ArrayList().iterator();
 
         try {
 
@@ -2264,7 +2265,7 @@ public class StreamInBoxNoTopic extends GenericResource {
 
 
             sheet.setDisplayGridlines(false);
-            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 13));
+            sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));
 
             // creo una nueva fila
             Row trow = sheet.createRow((short) 0);
@@ -2285,14 +2286,14 @@ public class StreamInBoxNoTopic extends GenericResource {
             createHead(wb, row, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Creación");
             createHead(wb, row, 5, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Sentimiento");
             createHead(wb, row, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Intensidad");
-            createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Emot");
-            createHead(wb, row, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "RT/Likes");
-            createHead(wb, row, 9, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Usuario");
-            createHead(wb, row, 10, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Seguidores");
-            createHead(wb, row, 11, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Amigos");
+            //createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Emot");
+            createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "RT/Likes");
+            createHead(wb, row, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Usuario");
+            createHead(wb, row, 9, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Seguidores");
+            createHead(wb, row, 10, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Amigos");
             //createHead(wb, row, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Klout");
-            createHead(wb, row, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Lugar");
-            createHead(wb, row, 13, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Prioritario");
+            createHead(wb, row, 11, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Lugar");
+            createHead(wb, row, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Prioritario");
 
             String lang = paramRequest.getUser().getLanguage();
 
@@ -2364,6 +2365,7 @@ public class StreamInBoxNoTopic extends GenericResource {
                 }
                 createCell(cellStyle, wb, troww, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostIntesityType() == 0 ? paramRequest.getLocaleString("low") : postIn.getPostIntesityType() == 1 ? paramRequest.getLocaleString("medium") : postIn.getPostIntesityType() == 2 ? paramRequest.getLocaleString("high") : "---");
 
+                /*
                 if (postIn.getPostSentimentalEmoticonType() == 1) {
                     createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Positivo");
 
@@ -2372,7 +2374,7 @@ public class StreamInBoxNoTopic extends GenericResource {
                 } else if (postIn.getPostSentimentalEmoticonType() == 0) {
 
                     createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "---");
-                }
+                }*/
                 int postS = postIn.getPostShared();
                 String postShared = Integer.toString(postS);
                 createCell(cellStyle, wb, troww, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postShared);
@@ -2382,7 +2384,7 @@ public class StreamInBoxNoTopic extends GenericResource {
                 Serializable amigos = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getFriends() : paramRequest.getLocaleString("withoutUser");
                 createCell(cellStyle, wb, troww, 11, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, amigos.toString());
 
-                Serializable klout = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getSnu_klout() : paramRequest.getLocaleString("withoutUser");
+                //Serializable klout = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getSnu_klout() : paramRequest.getLocaleString("withoutUser");
 
                 //createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, klout.toString());
                 createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostPlace() == null ? "---" : postIn.getPostPlace());
@@ -2405,13 +2407,13 @@ public class StreamInBoxNoTopic extends GenericResource {
             ssheet.autoSizeColumn(4);
             ssheet.autoSizeColumn(5);
             ssheet.autoSizeColumn(6);
+            //ssheet.autoSizeColumn(7);
             ssheet.autoSizeColumn(7);
             ssheet.autoSizeColumn(8);
             ssheet.autoSizeColumn(9);
             ssheet.autoSizeColumn(10);
             ssheet.autoSizeColumn(11);
             ssheet.autoSizeColumn(12);
-            ssheet.autoSizeColumn(13);
             //ssheet.autoSizeColumn(14);
 
             OutputStream ou = response.getOutputStream();
