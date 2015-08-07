@@ -2067,7 +2067,7 @@ border-radius:5px 5px 0 0;
 
 .klout { background:url(images/klout-flag.png) no-repeat; color:#FFF !important; display:block; width:24px; height:24px; font-size:11px; padding-top:3px; margin:auto;}
 .streamPhrases div { float:left; margin:4px 5px 3px 0px}
-.stream_twitter_icon, .stream_facebook_icon, .stream_youtube_icon { }
+.stream_twitter_icon, .stream_facebook_icon, .stream_youtube_icon, .stream_instagram_icon, .stream_tumblr_icon, .stream_googlep_icon { }
 .dijit.dijitReset.dijitInline.dijitCheckBox { float:left;}
 
 /*PORTADA PASOS*/
