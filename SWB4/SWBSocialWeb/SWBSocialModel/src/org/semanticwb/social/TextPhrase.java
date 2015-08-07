@@ -194,6 +194,10 @@ public class TextPhrase extends org.semanticwb.social.base.TextPhraseBase
                      ret.append("<div class=\"stream_youtube_icon\"><img src=\"/swbadmin/css/images/config-yt.png\" /></div>");   //Youtube
                     }else if(socialNets[i].trim().equalsIgnoreCase("I")){
                      ret.append("<div class=\"stream_instagram_icon\"><img src=\"/swbadmin/css/images/config-ig.png\" /></div>");   //Youtube
+                    }else if(socialNets[i].trim().equalsIgnoreCase("TB")){
+                     ret.append("<div class=\"stream_tumblr_icon\"><img src=\"/swbadmin/css/images/config-tb.png\" /></div>");   //Tumblr
+                    }else if(socialNets[i].trim().equalsIgnoreCase("GP")){
+                     ret.append("<div class=\"stream_googlep_icon\"><img src=\"/swbadmin/css/images/config-gp.png\" /></div>");   //Tumblr
                     }
                 }
             }

@@ -353,25 +353,25 @@ public class ListenerMgr implements SWBAppObject {
                     }
                 }
                 
-                System.out.println("Empieza a revisar Tiempos Georgy...");
+                //System.out.println("Empieza a revisar Tiempos Georgy...");
                 //Initial and End Date -->Se revisa que initialDate sea mayor a la fecha y hora actual y que endDate sea menor que la fecha y hora actual
                     Calendar timeNow=Calendar.getInstance();
                     Date initialDate=getDate(stream.getInitialDate());
                     if(initialDate!=null)
                     {
-                       System.err.println("Init Year:"+initialDate.getYear()+",InitMont:"+initialDate.getMonth()+",InitDay:"+initialDate.getDay()); 
+                       //System.err.println("Init Year:"+initialDate.getYear()+",InitMont:"+initialDate.getMonth()+",InitDay:"+initialDate.getDay()); 
                        //initialDate=getDateWithHour(initialDate,"00:00");
                        if(timeNow.getTime().before(initialDate))return false;
                     }
                     Date endDate=getDate(stream.getEndDate());
-                    System.out.println("initialDate:"+initialDate+",endDate:"+endDate);
+                    //System.out.println("initialDate:"+initialDate+",endDate:"+endDate);
                     //endDate=getDateWithHour(initialDate,"23:59");
                     if(endDate!=null)
                     {
                         if(timeNow.getTime().after(endDate)) return false;
                     }
                 //--
-                 System.out.println("Pasa Tiempos");
+                 //System.out.println("Pasa Tiempos");
                 
                 //Si es isKeepAliveManager==true, no importaría si no le ponen un tiempo para que este llamandose el thread, 
                 //ya que este es llamado internamente desde cada red social que maneje esta caracteristica

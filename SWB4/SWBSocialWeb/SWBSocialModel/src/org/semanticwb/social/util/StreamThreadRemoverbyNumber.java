@@ -40,7 +40,7 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
     @Override
     public void run()
     {
-        System.out.println("StreamThreadRemoverbyNumber is going to Start Now:"+socialSite);
+        //System.out.println("StreamThreadRemoverbyNumber is going to Start Now:"+socialSite);
         try
         {
           Iterator<Stream> itStreams = socialSite.listStreams();
@@ -55,7 +55,7 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
                 //1000 es el menor número aceptado en un stream, 100,000 es el mayor número aceptado
                 //El número de mensajes en el stream no debe ser mayor que el que acepta el stream (entre 1000 y 100,000)
                 int postInStream=Integer.parseInt(getAllPostInStream(stream));
-                System.out.println("stream:"+stream+",postInStream:"+postInStream+",postInNumAccepted:"+postInNumAccepted);
+                //System.out.println("stream:"+stream+",postInStream:"+postInStream+",postInNumAccepted:"+postInNumAccepted);
                 if(postInNumAccepted<postInStream)    
                 {
                     long toErase=postInStream-postInNumAccepted;
@@ -74,7 +74,7 @@ public class StreamThreadRemoverbyNumber extends java.lang.Thread {
           }
           //Invoco a GC
           //System.gc();
-          System.out.println("StreamThreadRemoverbyNumber is ending Now:"+socialSite);
+          //System.out.println("StreamThreadRemoverbyNumber is ending Now:"+socialSite);
         } catch (Exception e) {
             log.error(e);
         }
