@@ -2260,7 +2260,7 @@ public class SocialSentPost extends GenericResource {
 
         //long nRec = ((Long) hmapResult.get("countResult")).longValue();
         Iterator<PostOut> setso = ((Iterator) hmapResult.get("itResult"));
-
+        if(setso==null) setso=new <PostIn>ArrayList().iterator();
 
         String classifyBySentiment = SWBSocialUtil.Util.getModelPropertyValue(webSite, SWBSocialUtil.CLASSIFYSENTMGS_PROPNAME);
 
@@ -2279,7 +2279,8 @@ public class SocialSentPost extends GenericResource {
 
             // Defino el Libro de Excel
             //Iterator v = setso.iterator();
-            String title = socialTopic.getTitle();
+            String lang = paramRequest.getUser().getLanguage();
+            String title = socialTopic.getTitle(lang);
 
             List list = IteratorUtils.toList(setso);
             Iterator<PostOut> setso1 = list.iterator();
@@ -2328,17 +2329,13 @@ public class SocialSentPost extends GenericResource {
                 createHead(wb, row, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Estatus");
             }
 
-
-
-
-            String lang = paramRequest.getUser().getLanguage();
-
+            
 
             //Número de filas
             int i = 3;
             CellStyle cellStyle = wb.createCellStyle();
 
-            SocialPFlowMgr pfmgr = SocialLoader.getPFlowManager();
+            //SocialPFlowMgr pfmgr = SocialLoader.getPFlowManager();
             boolean isInFlow = false;
             boolean isAuthorized = false;
             boolean needAuthorization = false;
