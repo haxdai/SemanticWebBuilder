@@ -2224,7 +2224,7 @@ var _GraphicalElement = function(obj) {
             }
             
             var options = {};
-            if (modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 options.disableKeyEvents = true;
             }
             ToolKit.init(svgid, options);
@@ -2234,7 +2234,7 @@ var _GraphicalElement = function(obj) {
             if(!ToolKit.svg.offsetLeft)ToolKit.svg.offsetLeft=60;
             if(!ToolKit.svg.offsetTop)ToolKit.svg.offsetTop=10;
             Modeler.createNavPath();
-            Modeler.mode = (options !== null && options.mode)?options.mode:"view";
+            //Modeler.mode = (options !== null && options.mode)?options.mode:"view";
             
             //Sobreescritura del método setLayer para establecer la barra de navegación
             var fSetLayer = ToolKit.setLayer;
@@ -2245,7 +2245,7 @@ var _GraphicalElement = function(obj) {
                 }
             };
             
-            if (Modeler.mode !== "view") {
+            if (Modeler.options.mode !== "view") {
                 //Add Key Events
                 if (window.addEventListener)
                 {
@@ -2470,7 +2470,7 @@ var _GraphicalElement = function(obj) {
         },
                 
         onmousedown:function(evt) {
-            if (Modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 return false;
             }
             
@@ -2545,7 +2545,7 @@ var _GraphicalElement = function(obj) {
                 
         onmousemove:function(evt) {
             var _this = ToolKit;
-            if (Modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 return false;
             }
             
@@ -2569,7 +2569,7 @@ var _GraphicalElement = function(obj) {
                 toObj = dragCon && dragCon.toObject,
                 p = resizeObj && resizeObj.parent;
         
-            if (Modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 return false;
             }
             
@@ -2596,7 +2596,7 @@ var _GraphicalElement = function(obj) {
         },                  
                 
         objectMouseDown:function(evt,obj) {
-            if (Modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 return false;
             }
             
@@ -2634,7 +2634,7 @@ var _GraphicalElement = function(obj) {
         },      
                 
         objectMouseMove:function(evt,obj) {
-            if (Modeler.mode === "view") {
+            if (Modeler.options.mode === "view") {
                 return false;
             }
             
@@ -2710,7 +2710,7 @@ var _GraphicalElement = function(obj) {
             };
             
             obj.onmousedown = function (evt) {
-                if (Modeler.mode === "view") {
+                if (Modeler.options.mode === "view") {
                     return false;
                 }
                 ToolKit.unSelectAll();
@@ -2743,7 +2743,7 @@ var _GraphicalElement = function(obj) {
             };
             
             obj.onmousemove = function (evt) {
-                if (Modeler.mode === "view") {
+                if (Modeler.options.mode === "view") {
                     return false;
                 }
                 
@@ -2765,7 +2765,7 @@ var _GraphicalElement = function(obj) {
             };
                 
             obj.onmouseup = function (evt) {
-                if (Modeler.mode === "view") {
+                if (Modeler.options.mode === "view") {
                     return false;
                 }
                 
@@ -3219,7 +3219,7 @@ var _GraphicalElement = function(obj) {
             obj.lanes = [];
             
             obj.mousedown=function(evt) {
-                if (Modeler.mode === "view") {
+                if (Modeler.options.mode === "view") {
                     return false;
                 }
                 
@@ -3236,7 +3236,7 @@ var _GraphicalElement = function(obj) {
             
             obj.onmousemove=function(evt) {
                 var dragCon = Modeler.dragConnection || null;
-                if (Modeler.mode === "view" || (dragCon !== null && dragCon.fromObject.isChild(obj))) {
+                if (Modeler.options.mode === "view" || (dragCon !== null && dragCon.fromObject.isChild(obj))) {
                     return false;
                 }
                 return Modeler.objectMouseMove(evt,obj);
@@ -3384,7 +3384,7 @@ var _GraphicalElement = function(obj) {
             obj.subLine.setAttributeNS(null,"oclass","annotationArtifact");
             obj.subLine.setBaseClass();
             obj.mouseup=function(x,y) {
-                return Modeler.mode === "view" ? false : true;
+                return Modeler.options.mode === "view" ? false : true;
             };
             obj.mousedown=function(evt){return Modeler.objectMouseDown(evt,obj);};
             //obj.mousedown=function(evt){return Modeler.objectMouseDown(evt,obj);}
@@ -3755,7 +3755,7 @@ var _GraphicalElement = function(obj) {
                     obj.snap2Grid();
 
                     //Evitar edición de texto
-                    if (Modeler.mode === "view") {
+                    if (Modeler.options.mode === "view") {
                         if (obj.text && obj.text !== null) {
                             obj.text.ondblclick = function(evt) {
                                 return false;
@@ -3785,7 +3785,7 @@ var _GraphicalElement = function(obj) {
                     par.move(par.getX(), par.getY());
 
                     //Evitar edición de texto
-                    if (Modeler.mode === "view") {
+                    if (Modeler.options.mode === "view") {
                         if (obj.text && obj.text !== null) {
                             obj.text.ondblclick = function(evt) {
                                 return false;
@@ -3834,7 +3834,7 @@ var _GraphicalElement = function(obj) {
                     }
 
                     //Evitar edición de texto
-                    if (Modeler.mode === "view") {
+                    if (Modeler.options.mode === "view") {
                         if (obj.text && obj.text !== null) {
                             obj.text.ondblclick = function(evt) {
                                 return false;
