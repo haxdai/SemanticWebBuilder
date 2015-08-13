@@ -27,8 +27,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7" >
     <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/js/dojo/dojo/dojo.js" djConfig="parseOnLoad: true, isDebug: false, locale: 'es'" ></script>
     <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/js/jquery/jquery.js" ></script>
-    <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/jsp/process/modeler/toolkit.js" charset="utf-8"></script>
-    <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/jsp/process/modeler/modeler.js" charset="utf-8"></script>
+    <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/jsp/process/modeler/toolkit.js?v=<%= Math.floor(Math.random() * 100) %>" charset="utf-8"></script>
+    <script type="text/javascript" src="<%=SWBPortal.getContextPath()%>/swbadmin/jsp/process/modeler/modeler.js?v=<%= Math.floor(Math.random() * 100) %>" charset="utf-8"></script>
     <link href="<%=SWBPortal.getContextPath()%>/swbadmin/jsp/process/modeler/images/modelerFrame.css" rel="stylesheet" type="text/css">
 </head>
 <body style="margin: 0px;" onload="Modeler.init('modeler', {mode: '<%=  !isViewMode ? "edit" : "view" %>'}, loadProcess);">
