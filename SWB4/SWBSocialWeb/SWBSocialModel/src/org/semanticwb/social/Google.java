@@ -325,7 +325,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         if (searchPhrases.isEmpty()) {
             return;
         }
-        System.out.println("A buscar: " + searchPhrases);
+        //System.out.println("A buscar: " + searchPhrases);
         int blockOfPosts = 500; //this is the default Value,
         int maxResults = 20;
         boolean canGetMoreItems = true;
@@ -353,7 +353,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             blockOfPosts = 2000;
         }
         int limit = blockOfPosts / maxResults;
-        System.out.println("Fecha del primer post recuperado anteriormente: " + lastPostRetrieved);
+        //System.out.println("Fecha del primer post recuperado anteriormente: " + lastPostRetrieved);
         //Se intentaria obtener maximo 500 publicaciones;
         //cada iteracion podria obtener maxResults = 20 y se realizan limit = 10 iteraciones
         for (int startIndex = 1; startIndex <= limit; startIndex++) {
@@ -371,7 +371,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             
             try {
                 //String postsIds = null;
-                System.out.println("Objeto creado para busquedas:\n" + search.toString());
+                //System.out.println("Objeto creado para busquedas:\n" + search.toString());
                 ActivityFeed searchResponse = search.execute();
                 //System.out.println("Respuesta:\n" + searchResponse.getPageInfo().toString()
                 //+ "\n++++++++++++++++++++++++++++++");
@@ -461,7 +461,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                             } else if (verb.equalsIgnoreCase("share")) {
                                                 //Se reclasifica como mensaje
                                                 external.setPostType(SWBSocialUtil.MESSAGE);
-                                                System.out.println("    >>>>> -- verbo: " + singlePost.getVerb());
+                                                //System.out.println("    >>>>> -- verbo: " + singlePost.getVerb());
                                             }
                                         } else if (att.getObjectType().equals("video")) {
                                             String videoUrl = null;
@@ -524,7 +524,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 if (count > 0) {
                     //Classify the block of posts
                     if (aListExternalPost.size() >= blockOfPosts) {
-                        System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
+                        //System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
                         new Classifier((ArrayList <ExternalPost>) aListExternalPost.clone(), stream, this, true);
                         aListExternalPost.clear();
                     }
@@ -559,12 +559,12 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             //startIndex = startIndex + (count - 1);
         }
         if (uploadedStr != null) {
-            System.out.println("Ultima fecha de post recuperado: " + uploadedStr);
+            //System.out.println("Ultima fecha de post recuperado: " + uploadedStr);
             this.setLastPostDate(uploadedStr, stream);//uploadedStr
         }
 
         if (aListExternalPost.size() > 0) {
-            System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
+            //System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
             new Classifier(aListExternalPost, stream, this, true);
         }
     }
@@ -684,7 +684,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             }
             
             Map<String, String> params = new HashMap<String, String>(4);
-            System.out.println("Tiempo de vigencia de token (mseg): " + timeLeft);
+            //System.out.println("Tiempo de vigencia de token (mseg): " + timeLeft);
             if (timeLeft < 1) {
                 String emailApp = this.getAppKey().substring(0, this.getAppKey().indexOf(".apps.googleusercontent.com")) +
                         "@developer.gserviceaccount.com";
