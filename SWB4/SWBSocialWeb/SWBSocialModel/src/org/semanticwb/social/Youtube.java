@@ -1246,8 +1246,6 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     @Override
     public void postMsg(Message message) {
         
-        StringBuilder toFile = new StringBuilder(128);
-        
         if (!isSn_authenticated() || getAccessToken() == null ) {
             Youtube.log.error("Not authenticated network: " + getTitle() + ". Unable to post Comment");
             return;
@@ -1298,18 +1296,13 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     if (videoCommentInsertResponse.getId() != null) {
                         SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this,
                                 videoCommentInsertResponse.getId(), null);
-                        toFile.append("Se ha publicado en youtube el mensaje: ");
-                        toFile.append(videoCommentInsertResponse.getId());
                     }
-                    Youtube.write2File(toFile);
                 } catch (Exception ex) {
                     SWBSocialUtil.PostOutUtil.savePostOutNetID(message, this, null, ex.getMessage());
                     Youtube.log.error("Problem posting comment ", ex);
                     try {
                         if (conn != null && conn.getResponseMessage() != null) {
                             Youtube.log.error("Error code:" + conn.getResponseCode() + " " + conn.getResponseMessage(), ex);
-                            toFile.append(conn.getResponseMessage());
-                            Youtube.write2File(toFile);
                         }
                     } catch (Exception e) {
                         Youtube.log.error("Reading data from connexion", e);
