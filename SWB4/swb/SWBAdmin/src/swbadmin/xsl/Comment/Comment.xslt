@@ -99,24 +99,40 @@
 			</FORM>
 			<SCRIPT type="text/javascript"><xsl:text disable-output-escaping="yes">
 				function jsValida(pForm) 
-				{ 
-				   if(pForm.txtFromName.value==null || pForm.txtFromName.value=='' || pForm.txtFromName.value==' ') 
-				   { 
-				       alert('Debe especificar el nombre del remitente.'); 
-				       pForm.txtFromName.focus(); 
-				       return false; 
-				   } 
-				   if(!isEmail(pForm.txtFromEmail)) return false; 
-				   if(pForm.tarMsg.value==null || pForm.tarMsg.value=='' || pForm.tarMsg.value==' ') 
-				   { 
-				       alert('Debe capturar su mensaje.'); 
-				       pForm.tarMsg.focus(); 
-				       return false; 
-				   } 	   
-				   return true; 		   
+				{
+                                    if(pForm.txtFromName.value==null || pForm.txtFromName.value=='' || pForm.txtFromName.value==' ') 
+                                    { 
+                                        alert('Debe especificar el nombre del remitente.'); 
+                                        pForm.txtFromName.focus(); 
+                                        return false; 
+                                    }
+                                    if(pForm.txtFromLName.value==null || pForm.txtFromLName.value=='' || pForm.txtFromLName.value==' ') 
+                                    { 
+                                        alert('Debe especificar el primer apellido del remitente.'); 
+                                        pForm.txtFromLName.focus(); 
+                                        return false; 
+                                    } 
+
+                                    if(!isEmail(pForm.txtFromEmail)) {
+                                        return false; 
+                                    }
+
+                                    if(pForm.tarMsg.value==null || pForm.tarMsg.value=='' || pForm.tarMsg.value==' ') 
+                                    { 
+                                        alert('Debe capturar su mensaje.'); 
+                                        pForm.tarMsg.focus(); 
+                                        return false; 
+                                    }     
+                                    if(pForm.cmnt_seccode.value==null || pForm.cmnt_seccode.value=='' || pForm.cmnt_seccode.value==' ') 
+                                    { 
+                                        alert('Debe especificar el valor de la imagen.'); 
+                                        pForm.cmnt_seccode.focus(); 
+                                        return false; 
+                                    }
+                                    return true;
 				} 
 				function isEmail(pEmail)
-				{ 
+				{
 				   var swOK=2; 
 				   pCaracter=pEmail.value.replace(" ","\0");
 				   for (var i = 0; i &lt; pCaracter.length; i++) 
@@ -127,7 +143,7 @@
 				   if (swOK &gt; 0 || pCaracter.length &lt; 5 || pCaracter.charAt(0) == '@' || pCaracter.charAt(0) == '.' || pCaracter.charAt(pCaracter.length-1)=='@' || pCaracter.charAt(pCaracter.length-1)=='.' || pCaracter.charAt(pCaracter.indexOf("@")+1)=='.') 
 				   { 
 				      pEmail.focus(); 
-				      alert('Este campo debe ser una dirección de correo electrónico y es obligatorio.');  
+				      alert('Direcci\u00F3n de correo incorrecta.');
 				      return false; 
 				   } 
 				   return true;
