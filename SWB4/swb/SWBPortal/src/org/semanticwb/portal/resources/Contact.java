@@ -306,12 +306,14 @@ public class Contact extends GenericAdmResource {
 
         if( contactPhone!=null ) {
             e = dom.createElement("instruction");
-            e.appendChild(dom.createTextNode(paramRequest.getLocaleString("instruction1")+" "+contactPhone));
+            e.appendChild(dom.createTextNode(base.getAttribute("instruction1"
+                    , paramRequest.getLocaleString("instruction1")+" "+contactPhone+".")));
             insts.appendChild(e);
         }
 
         e = dom.createElement("instruction");
-        e.appendChild(dom.createTextNode(paramRequest.getLocaleString("instruction2")));
+        e.appendChild(dom.createTextNode(base.getAttribute("instruction2"
+                , paramRequest.getLocaleString("instruction2"))));
         insts.appendChild(e);
 
 
