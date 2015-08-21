@@ -709,7 +709,7 @@ public class Comment extends GenericResource {
                     if(hasCaptcha) {
                         String captcha = (getCaptchaScript(paramRequest));
                         html = html.replaceFirst("captcha", captcha);
-                        html = html + getScript(paramRequest);
+                        html = html + getScriptCapcha();
                     }else
                         html = html.replaceFirst("captcha", "&nbsp;");
                 }catch(TransformerException te) {
@@ -1622,6 +1622,22 @@ public class Comment extends GenericResource {
         }
         return list;
     }
+    
+    private String getScriptCapcha() {
+        StringBuilder ret = new StringBuilder();
+        ret.append("\n");
+        ret.append("<script type=\"text/javascript\"> \n");
+        ret.append("<!-- \n");
+        ret.append("function changeSecureCodeImage(imgid) { \n");
+        ret.append("    var img = dojo.byId(imgid); \n");
+        ret.append("    if(img) { \n");
+        ret.append("        var rn = Math.floor(Math.random()*99999); \n");
+        ret.append("        img.src = '"+SWBPlatform.getContextPath()+"/swbadmin/jsp/securecode.jsp?nc='+rn; \n");
+        ret.append("    } \n");
+        ret.append("} \n");
+        ret.append("</script> \n");
+        return ret.toString();
+    }
 
     /**
      * Obtiene el c&oacute;digo de JavaScript necesario para validar los datos
@@ -1641,13 +1657,13 @@ public class Comment extends GenericResource {
             ret.append("<script type=\"text/javascript\"> \n");
             ret.append("<!-- \n");
 
-            ret.append("function changeSecureCodeImage(imgid) { \n");
-            ret.append("    var img = dojo.byId(imgid); \n");
-            ret.append("    if(img) { \n");
-            ret.append("        var rn = Math.floor(Math.random()*99999); \n");
-            ret.append("        img.src = '"+SWBPlatform.getContextPath()+"/swbadmin/jsp/securecode.jsp?nc='+rn; \n");
-            ret.append("    } \n");
-            ret.append("} \n");
+//            ret.append("function changeSecureCodeImage(imgid) { \n");
+//            ret.append("    var img = dojo.byId(imgid); \n");
+//            ret.append("    if(img) { \n");
+//            ret.append("        var rn = Math.floor(Math.random()*99999); \n");
+//            ret.append("        img.src = '"+SWBPlatform.getContextPath()+"/swbadmin/jsp/securecode.jsp?nc='+rn; \n");
+//            ret.append("    } \n");
+//            ret.append("} \n");
 
             ret.append("\nfunction jsValida(pForm, count, area, responsable, email) {");
 
