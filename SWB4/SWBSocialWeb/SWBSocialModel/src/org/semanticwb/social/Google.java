@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -293,6 +294,25 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    private String dateValue(Calendar dateTime) {
+        
+        StringBuilder sb = new StringBuilder(64);
+        // date
+        sb.append(dateTime.get(Calendar.YEAR));
+        sb.append('-');
+        sb.append(dateTime.get(Calendar.MONTH));
+        sb.append('-');
+        sb.append(dateTime.get(Calendar.DAY_OF_MONTH));
+        sb.append('T');
+        sb.append(dateTime.get(Calendar.HOUR_OF_DAY));
+        sb.append(':');
+        sb.append(dateTime.get(Calendar.MINUTE));
+        sb.append(':');
+        sb.append(dateTime.get(Calendar.SECOND));
+
+        return sb.toString();
+    }
+    
     /**
      * Obtiene informacion de Google+ para analizarla y almacenarla localmente
      * @param stream flujo de informacion con cuya configuracion se obtendra 
@@ -325,21 +345,32 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         if (searchPhrases.isEmpty()) {
             return;
         }
-        //System.out.println("A buscar: " + searchPhrases);
+        System.out.println("A buscar: " + searchPhrases);
         int blockOfPosts = 500; //this is the default Value,
         int maxResults = 20;
         boolean canGetMoreItems = true;
         int count = 0;
-        Date lastPostRetrieved = this.getLastPostDate(stream); //gets the value stored in NextDatetoSearch
-        Calendar dateOfLastPost = Calendar.getInstance();
-        int thisYear = dateOfLastPost.get(Calendar.YEAR);
-        dateOfLastPost.setTime(lastPostRetrieved);
-        int yearOfLastPost = dateOfLastPost.get(Calendar.YEAR);
-        String index = "";
+        String index = "";//pagetoken del paginado de respuestas al api
         boolean breakFor = false;
         String uploadedStr = null; //fecha de publicacion del ultimo post extraido de Google
         Plus apiPlus = this.getApiPlusInstance();
         Plus.Activities.Search search = null;
+        Date lastPostRetrieved = this.getLastPostDate(stream); //gets the value stored in NextDatetoSearch
+//        System.out.println("Fecha de ultimo post en Stream: " + lastPostRetrieved);
+        Calendar dateOfLastPost = new GregorianCalendar(TimeZone.getTimeZone("GMT-6"));
+        int thisYear = dateOfLastPost.get(Calendar.YEAR);
+        dateOfLastPost.setTime(lastPostRetrieved);
+        Calendar dateStoredInStream = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        dateStoredInStream.setTime(dateOfLastPost.getTime());
+        dateOfLastPost.setTimeZone(TimeZone.getTimeZone("GMT"));
+//        System.out.println("Fecha en Original: " + lastPostRetrieved +
+//                "\n **Mismo valor en Date: " + dateOfLastPost.getTime() + 
+//                "\n En GMT: " + dateValue(dateStoredInStream) + 
+//                "\n **GMT en Date: " + dateStoredInStream.getTime());
+        int yearOfLastPost = dateOfLastPost.get(Calendar.YEAR);
+        if (thisYear - yearOfLastPost == 2) {
+            blockOfPosts = 2000;
+        }
         try {
             if (apiPlus != null) {
                 search = apiPlus.activities().search(searchPhrases);
@@ -349,9 +380,6 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             }
         } catch (Exception e) {}
         
-        if (thisYear - yearOfLastPost == 2) {
-            blockOfPosts = 2000;
-        }
         int limit = blockOfPosts / maxResults;
         //System.out.println("Fecha del primer post recuperado anteriormente: " + lastPostRetrieved);
         //Se intentaria obtener maximo 500 publicaciones;
@@ -381,11 +409,22 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                     //StringBuilder resourceIds = new StringBuilder(512);
                     while (iteratorSearchResults.hasNext()) {
                         Activity singlePost = iteratorSearchResults.next();
-                        Date published = new Date(singlePost.getPublished().getValue());
+                        //Date published = new Date(singlePost.getPublished().getValue());
+                        Calendar published = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+                        Date postPublished = new Date(singlePost.getPublished().getValue());
+                        published.setTime(new Date(singlePost.getPublished().getValue()));
+//                        System.out.println(" --- ultimo: " +
+//                                dateOfLastPost.getTime() + " - este post: " +
+//                                postPublished +
+//                                "\n ultimo antes de este: " + dateOfLastPost.getTime().before(published.getTime()) +
+//                                "\n en milisegundos- ultimo: " + dateOfLastPost.getTimeInMillis() + 
+//                                "\n               este post: " + published.getTimeInMillis());
+//                        System.out.println("*** Fecha a fijar: " + singlePost.getPublished().toStringRfc3339() + 
+//                                           "\n*** En calendar:   " + formatter.format(published.getTime()));
                         
-                        if (singlePost.getKind().equals("plus#activity") && lastPostRetrieved.before(published)) {
+                        if (singlePost.getKind().equals("plus#activity") && dateOfLastPost.getTime().before(postPublished)) {
                             if (uploadedStr == null) {
-                                uploadedStr = singlePost.getPublished().toStringRfc3339();
+                                uploadedStr = formatter.format(published.getTime());
                             }
                             ExternalPost external = new ExternalPost();
                             String title = singlePost.getTitle();
@@ -405,20 +444,23 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                 longitude = Double.parseDouble(locArray[1]);
                             }
                             
-                            Date postUploaded = formatter.parse(uploadedStr);
-                            //System.out.print("    ---- uploadedStr del post: " + uploadedStr);
+                            Date postUploaded = published.getTime();
+//                            System.out.println("    ---- uploadedStr del post: " + postUploaded);
                             if (postUploaded.before(lastPostRetrieved) || postUploaded.equals(lastPostRetrieved)) {
                                 canGetMoreItems = false;
                             } else {
                                 //Annotation only exists for shared content
                                 String annotation = singlePost.getAnnotation();
+                                String actorName = singlePost.getActor().getDisplayName() != null
+                                        ? singlePost.getActor().getDisplayName()
+                                        : singlePost.getActor().getName().getGivenName();
                                 String verb = singlePost.getVerb();
                                 external.setPostId(singlePost.getId());
                                 external.setCreatorId(singlePost.getActor().getId());
-                                external.setCreatorName(singlePost.getActor().getDisplayName() != null
-                                        ? singlePost.getActor().getDisplayName() : "");
+                                external.setCreatorName(actorName);
                                 external.setUserUrl(singlePost.getActor().getUrl());
                                 external.setPostUrl(singlePost.getUrl());
+//                                System.out.println("Actor: " + actorName + " verbo: " + verb + " -- pub: " + formatter.format(published.getTime()));
                                 if (postUploaded.after(new Date())) {
                                     external.setCreationTime(new Date());
                                 } else {
@@ -509,10 +551,15 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                 //se incluye el post para procesamiento
                                 aListExternalPost.add(external);
                             }
+                        } else {
+                            breakFor = true;
+                            break;// los siguientes post tienen fecha menor al ultimo recuperado
                         }
                         count++;
                     }
                     //postsIds = resourceIds.toString();
+                } else if (searchResponse.isEmpty()) {
+                    System.out.println("Respuesta vacia!!!  ");
                 }
                 if (searchResponse.getNextPageToken() != null &&
                         !searchResponse.getNextPageToken().isEmpty()) {
@@ -547,6 +594,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 
             } catch (IOException ioe) {
                 if (ioe.getMessage().contains("error") && ioe.getMessage().contains("500")) {
+                    System.out.println("Error 500 en Servidor de Google");
                     //error interno del servidor (Google+)
                 } else {
                     Google.log.error("Error reading Google's response", ioe);
@@ -557,12 +605,17 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 break;
             }
             //startIndex = startIndex + (count - 1);
+//            System.out.println("iteración en for: " + startIndex);
         }
+//        System.out.println("Fecha de ultimo post en Stream: " + formatter.format(lastPostRetrieved));
         if (uploadedStr != null) {
-            //System.out.println("Ultima fecha de post recuperado: " + uploadedStr);
+//            System.out.println("Fecha a almacenar de post recuperado: " + uploadedStr);
             this.setLastPostDate(uploadedStr, stream);//uploadedStr
+        } else {
+//            System.out.println(":$ :$ :$ :$ :$ No se almacena fecha de ultimo post");
         }
-
+        Calendar systemDate = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
+        System.out.println("Elementos enviados al clasificador: " + count);
         if (aListExternalPost.size() > 0) {
             //System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
             new Classifier(aListExternalPost, stream, this, true);
@@ -621,12 +674,16 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             Date storedValue = new Date(0L);
             SocialNetStreamSearch socialStreamSerch = SocialNetStreamSearch
                     .getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
-            if (socialStreamSerch != null && socialStreamSerch.getNextDatetoSearch() != null) {
-                storedValue = formatter.parse(socialStreamSerch.getNextDatetoSearch());
+            if (socialStreamSerch != null) {
+                if (socialStreamSerch.getNextDatetoSearch() != null) {
+                    storedValue = formatter.parse(socialStreamSerch.getNextDatetoSearch());
+                } else {
+                    storedValue = this.getLastPostDate(stream);
+                }
                 if (dateOfPost != null) {
                     if (formatter.parse(dateOfPost).after(storedValue)) {
                         socialStreamSerch.setNextDatetoSearch(dateOfPost);
-                    } else {
+                    //} else {
                         //System.out.println("NO GUARDA NADA PORQUE EL VALOR ALMACENADO
                         //YA ES IGUAL O MAYOR AL ACTUAL");
                     }
@@ -643,7 +700,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
      * Crea una instancia de {@code com.google.api.services.plus.Plus} de manera estandar
      * @return la instancia creada o {@code null} si ocurre un problema durante la creacion de la misma
      */
-    private com.google.api.services.plus.Plus getApiPlusInstance() {
+    public com.google.api.services.plus.Plus getApiPlusInstance() {
         
         com.google.api.services.plus.Plus plus = null;
         try {
@@ -740,7 +797,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         } catch (NullPointerException npe) {}
         
         DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-        Calendar defaultDate = Calendar.getInstance();
+        Calendar defaultDate = new GregorianCalendar(TimeZone.getTimeZone("GMT-6"));
         try {
             if (socialStreamSerch != null && socialStreamSerch.getNextDatetoSearch() != null) {
                 lastPostDate = formatter.parse(socialStreamSerch.getNextDatetoSearch());
@@ -933,6 +990,66 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return response;
     }
     
+    /**
+     * Ejecuta una peticion a la url indicada cuyo queryString se compone de los 
+     * elementos recibidos en {@code params}
+     * @param params los parametros para formar el queryString de la peticion con sus correspondientes valores
+     * @param url ubicacion de Internet a la que se realiza la peticion
+     * @param method metodo HTTP solicitado para ejecutar la peticion
+     * @return un {@code String} con la respuesta obtenida por la ejecucion de la peticion
+     * @throws IOException en caso de algun problema con la ejecucion de la peticion
+     */
+    public String apiRequest(Map<String, String> params, String url, String method)
+            throws IOException {
+
+        CharSequence paramString = (null == params)
+                                   ? "" : delimit(params.entrySet(), "&", "=", true);
+        URL serverUrl = null;
+        String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95";
+        
+        if (params != null) {
+            serverUrl = new URL(url + "?" + paramString);
+        } else {
+            serverUrl = new URL(url);
+        }
+        HttpURLConnection conex = null;
+        InputStream in = null;
+        String response = null;
+
+        if (method == null) {
+            method = "POST";
+        }
+        try {
+            conex = (HttpURLConnection) serverUrl.openConnection();
+            conex.setRequestProperty("Host", "www.googleapis.com");
+            conex.setRequestProperty("user-agent", userAgent);
+            conex.setRequestProperty("Authorization", "Bearer " + this.getAccessToken());
+            conex.setConnectTimeout(30000);
+            conex.setReadTimeout(60000);
+            conex.setRequestMethod(method);
+            conex.setDoOutput(true);
+            conex.connect();
+            in = conex.getInputStream();
+            response = Google.getResponse(in);
+        } catch (java.io.IOException ioe) {
+            if (conex != null) {
+                Google.log.error("Ruta soliciatada: " + url + "?" + paramString +
+                        "\nERROR in getRequest:" +
+                        Google.getResponse(conex.getErrorStream()), ioe);
+            } else {
+                Google.log.error("ERROR in getRequest", ioe); 
+            }
+        } finally {
+            close(in);
+            if (conex != null) {
+                conex.disconnect();
+            }
+        }
+        if (response == null) {
+            response = "";
+        }
+        return response;
+    }
     /**
      * Realiza los intercambios de informacion entre la aplicacion y Google+ a fin de refrescar el token
      * de acceso necesario para realizar peticiones al API de Google+

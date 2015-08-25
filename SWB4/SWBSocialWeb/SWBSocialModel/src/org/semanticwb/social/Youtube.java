@@ -651,13 +651,19 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             
             Date storedValue = new Date(0L);
             SocialNetStreamSearch socialStreamSerch = SocialNetStreamSearch.getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
-            if (socialStreamSerch != null && socialStreamSerch.getNextDatetoSearch() != null) {
-                storedValue = formatter.parse(socialStreamSerch.getNextDatetoSearch());
+            if (socialStreamSerch != null) {
+                if (socialStreamSerch.getNextDatetoSearch() != null) {
+                    storedValue = formatter.parse(socialStreamSerch.getNextDatetoSearch());
+                } else {
+                    storedValue = this.getLastVideoID(stream);
+                }
             }
-            if (formatter.parse(dateVideo).after(storedValue)) {
-                socialStreamSerch.setNextDatetoSearch(dateVideo);
-            } else {
-                //System.out.println("NO ESTÁ GUARDANDO NADA PORQUE EL VALOR ALMACENADO YA ES IGUAL O MAYOR AL ACTUAL");
+            if (dateVideo != null) {
+                if (formatter.parse(dateVideo).after(storedValue)) {
+                    socialStreamSerch.setNextDatetoSearch(dateVideo);
+                } else {
+                    //System.out.println("NO ESTÁ GUARDANDO NADA PORQUE EL VALOR ALMACENADO YA ES IGUAL O MAYOR AL ACTUAL");
+                }
             }
         } catch (NumberFormatException nfe) {
             Youtube.log.error("Error in setLastVideoID():" + nfe);
