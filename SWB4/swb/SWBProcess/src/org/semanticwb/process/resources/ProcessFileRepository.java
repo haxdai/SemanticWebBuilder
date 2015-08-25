@@ -593,7 +593,6 @@ public class ProcessFileRepository extends GenericResource {
                 getResourceBase().setAttribute("showNavbar", snv);
                 getResourceBase().setAttribute("applyToChilds", aph);
                 getResourceBase().updateAttributesToDB();
-
             } catch (Exception e) {
                 log.error("Error al guardar configuración de niveles de usuario de ProcessFileRepository", e);
             }
@@ -614,6 +613,10 @@ public class ProcessFileRepository extends GenericResource {
                     newRepoDir.setDescription(dirDesc);
                     newRepoDir.setParent(parentDir);
                     
+                    //There should be only one resource in a repositoryDirectory
+                    Iterator<Resource> ress = parentDir.listResources();
+                    Resource rd = ress.next();
+                                        
                     Resource res = site.createResource();
                     res.setResourceType(rType);
                     res.setTitle("REP_"+dirTitle);
@@ -622,6 +625,35 @@ public class ProcessFileRepository extends GenericResource {
                     
                     newRepoDir.addResource(res);
                     newRepoDir.setActive(Boolean.TRUE);
+                    
+                    //EHSP25082015: Parche para herencia de atributos a subcarpetas
+                    if (null != rd) {
+                        String viewrole = rd.getAttribute(LVL_VIEW);
+                        String modifyrole = rd.getAttribute(LVL_MODIFY);
+                        String adminrole = rd.getAttribute(LVL_ADMIN);
+                        String validfiles = rd.getAttribute(VALID_FILES);
+                        String ipp = rd.getAttribute("itemsPerPage");
+                        String ssf = rd.getAttribute("hideSubFolders");
+                        String snv = rd.getAttribute("showNavbar");
+                        String aph = rd.getAttribute("applyToChilds","false");
+                        
+                        if ("true".equals(aph)) {
+                            res.setAttribute(LVL_VIEW, viewrole);
+                            res.setAttribute(LVL_MODIFY, modifyrole);
+                            res.setAttribute(LVL_ADMIN, adminrole);
+                            res.setAttribute(VALID_FILES, validfiles);
+                            res.setAttribute("itemsPerPage", ipp);
+                            res.setAttribute("hideSubFolders", ssf);
+                            res.setAttribute("showNavbar", snv);
+                            res.setAttribute("applyToChilds", aph);
+
+                            try {
+                                res.updateAttributesToDB();
+                            } catch (SWBException swbe) {
+                                log.error("Problem setting child properties", swbe);
+                            }
+                        }
+                    }//--EHSP25082015
                 }
             }
             response.setMode(SWBParamRequest.Mode_VIEW);
