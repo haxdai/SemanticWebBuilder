@@ -29,13 +29,17 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticTSObserver;
 
 
 public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase 
 {
+    private static Logger log = SWBUtils.getLogger(FriendlyURL.class);
+    
     /** The names. */
     private static ConcurrentHashMap<String,Object> urls = null;
     /** The names. */
@@ -59,27 +63,32 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                     Property p=stmt.getPredicate();
                     if(p.equals(swb_friendlyURL.getRDFProperty()))
                     {
+                        //System.out.println("swb_friendlyURL:"+action+" "+obj+" "+stmt);
                         if(action.equals(SemanticObject.ACT_REMOVE))
                         {
-                            //System.out.println("remove friendly...");
+                            //System.out.println("remove friendly..."+obj);
                             removeObject(obj);
                         }else
                         {
-                            //System.out.println("add friendly...");
+                            //System.out.println("add friendly..."+obj);
                             addFriendlyUrl((FriendlyURL)obj.createGenericInstance());                    
                         }
                     }else if(p.equals(swb_friendlySubPaths.getRDFProperty()))
                     {
+                        //System.out.println("swb_friendlySubPaths:"+action+" "+obj+" "+stmt);
                         if(action.equals(SemanticObject.ACT_REMOVE))
                         {
-                            //System.out.println("remove friendly...");
+                            //System.out.println("remove friendly..."+obj);
                             removeObject(obj);
                         }else
                         {
-                            //System.out.println("add friendly...");
+                            //System.out.println("add friendly..."+obj);
                             addFriendlyUrl((FriendlyURL)obj.createGenericInstance());                    
                         }
                     }
+                }else if(obj.instanceOf(FriendlyURL.sclass) && action.equals(SemanticObject.ACT_REMOVE))
+                {
+                    removeObject(obj);
                 }
             }            
         });
@@ -108,6 +117,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
 
     private static void removeObject(SemanticObject obj)
     {
+        //System.out.println("removeObject:"+obj);
         Iterator it=urls.values().iterator();
         while (it.hasNext())
         {
@@ -123,6 +133,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                 while (it2.hasNext())
                 {
                     FriendlyURL f=(FriendlyURL)it2.next();
+                    //System.out.println("removeObject 2:"+f+","+obj);
                     if(f.getURI().equals(obj.getURI()))it2.remove();
                 }
             }
@@ -164,12 +175,12 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
             {
                 ArrayList<FriendlyURL> arr=new ArrayList();
                 arr.add((FriendlyURL)obj);
-                arr.add(url);
+                if(!arr.contains(url))arr.add(url);
                 urls.put(url.getURL(), arr);
             }else if(obj instanceof ArrayList)
             {
                 ArrayList<FriendlyURL> arr=(ArrayList<FriendlyURL>)obj;
-                arr.add(url);
+                if(!arr.contains(url))arr.add(url);
             }
         }
         
@@ -184,12 +195,12 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
             {
                 ArrayList<FriendlyURL> arr=new ArrayList();
                 arr.add((FriendlyURL)obj);
-                arr.add(url);
+                if(!arr.contains(url))arr.add(url);
                 suburls.put(url.getURL(), arr);
             }else if(obj instanceof ArrayList)
             {
                 ArrayList<FriendlyURL> arr=(ArrayList<FriendlyURL>)obj;
-                arr.add(url);
+                if(!arr.contains(url))arr.add(url);
             }        
         }
     }
@@ -215,7 +226,7 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
             }
         }
     }
-
+    
     /**
      * Gets the FriendlyURL.
      *
@@ -237,13 +248,38 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
                     obj=suburls.get(subpath);
                     if(obj!=null)
                     {
+                        if(obj instanceof FriendlyURL)
+                        {
+                            WebPage wp=((FriendlyURL)obj).getWebPage();
+                            if(wp==null)
+                            {
+                                suburls.remove(subpath);
+                                obj=null;
+                            }
+                        }
                         break;
                     }
                 }
                 if(obj==null)return null;
             }else return null;
+        }else
+        {
+            if(obj instanceof FriendlyURL)
+            {
+                WebPage wp=((FriendlyURL)obj).getWebPage();
+                if(wp==null)
+                {
+                    urls.remove(path);
+                    return null;
+                }
+            }
         }
-        if(obj instanceof FriendlyURL)return (FriendlyURL)obj;
+        
+        if(obj instanceof FriendlyURL)
+        {
+            return (FriendlyURL)obj;
+        }
+        
         if(obj instanceof ArrayList)
         {
             Dns dns=Dns.getDns(host);
@@ -253,14 +289,22 @@ public class FriendlyURL extends org.semanticwb.model.base.FriendlyURLBase
             {
                 FriendlyURL friendlyURL = it.next();
                 //System.out.println("friendlyURL:"+friendlyURL+" page:"+friendlyURL.getWebPage()+" site:"+friendlyURL.getWebPage().isValid()+" "+friendlyURL.getWebPage().getWebSite().isValid());
-                WebSite site=friendlyURL.getWebPage().getWebSite();
-                
-                if((dns==null || !dns.getWebSite().equals(site)) && friendlyURL.getWebPage().isValid() && site.isValid())
+                WebPage wp=friendlyURL.getWebPage();
+                if(wp!=null)
                 {
-                    tmp=friendlyURL;
-                }else if(dns!=null && dns.getWebSite().equals(site))
+                    WebSite site=wp.getWebSite();
+
+                    if((dns==null || !dns.getWebSite().equals(site)) && friendlyURL.getWebPage().isValid() && site.isValid())
+                    {
+                        tmp=friendlyURL;
+                    }else if(dns!=null && dns.getWebSite().equals(site))
+                    {
+                        return friendlyURL;
+                    }
+                }else
                 {
-                    return friendlyURL;
+                    log.warn("Remove bad FrindlyURL:"+friendlyURL);
+                    it.remove();
                 }
             }
             return tmp;
