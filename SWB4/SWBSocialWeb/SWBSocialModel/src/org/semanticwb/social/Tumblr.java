@@ -266,7 +266,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
             log.error("Not authenticated network: " + getTitle() + "!!!");
             return;
         }
-        
+        //System.out.println("Listen tumblr");
         ArrayList<ExternalPost> externalPostArray = new ArrayList<ExternalPost>();
         ExternalPost exPostTemp;
         HashMap params; 
@@ -284,12 +284,13 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         //Determinar la fecha del ultimo post guardado
         SocialNetStreamSearch socialStreamSerch = SocialNetStreamSearch.getSocialNetStreamSearchbyStreamAndSocialNetwork(stream, this);
         if (socialStreamSerch != null) {
-            //System.out.println("Data: "+socialStreamSerch.getNextDatetoSearch());
             if(socialStreamSerch.getNextDatetoSearch() == null){
-                tumblrListenHelper = new TumblrListenHelper(incomingPhasesFromStream(stream));
-               //socialStreamSerch.setNextDatetoSearch( tumblrListenHelper.getFormatString());                
+                //System.out.println("Data new: "+socialStreamSerch.getNextDatetoSearch());
+                tumblrListenHelper = new TumblrListenHelper(incomingPhasesFromStream(stream));   
             }else{
                 tumblrListenHelper = new TumblrListenHelper(socialStreamSerch.getNextDatetoSearch());
+                //System.out.println("Data old: "+ tumblrListenHelper.getFormatString());
+                
             }        
         }
         //Configuro la fecha de inicio y de fin de la captura del stream
@@ -316,6 +317,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         }else{
             lastTimePost = new Date().getTime()/1000;
         }
+   
         //System.out.println("Termino de validar fechas");
           
         while(iteratorPhases.hasNext()){
@@ -323,22 +325,22 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
             params = new HashMap();
             String phase = iteratorPhases.next();
             TumblrListenHelper.TumblrTimeHelper timeHelper = tumblrListenHelper.getTimeHelper(phase);
+         
+            if (timeHelper.getReachInit() == 0 ){
+                timeHelper.setReachInit(firtsTimePost);
+            }
             //Se repite la consulta 50 veces, 20 post en cada consulta = 1000 post por phase en cada iteracion. 
-            for(int times=0;times<50;times++){
+            for(int times=0;times<25;times++){
+                boolean skip = false;
                 if(timeHelper.getEnd()==0){
                     params.put("before",lastTimePost);
                 }else{
-                  if(!timeHelper.isReachInit()){
-                      params.put("before",timeHelper.getInit());
-                  }else{
-                      params.put("before",lastTimePost);
-                      //timeHelper.setReachInit(false);
-                  }  
+                      params.put("before",timeHelper.getInit());  
                 }
-                ArrayList<Post> taggedItems =  (ArrayList<Post>) client.tagged(phase, params);
                 
+                ArrayList<Post> taggedItems =  (ArrayList<Post>) client.tagged(phase, params);
+                //System.out.println("Mensajes disponibles: "+taggedItems.size());
                 if(taggedItems.isEmpty()){
-                    timeHelper.setReachInit(true);
                     break;
                 }
 
@@ -346,29 +348,34 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
                 while(iteratorPost.hasNext()){
                     Post post = iteratorPost.next();
                     postTime  = post.getTimestamp();
-                    if(timeHelper.getEnd() < postTime){ 
-                       timeHelper.setEnd(postTime); // Almacena la fecha en segundos del post mas reciente.
+
+                    if(postTime <= timeHelper.getReachInit()){
+                        if(timeHelper.getEnd()!=0){
+                            timeHelper.setReachInit(timeHelper.getEnd());
+                            timeHelper.setInit(0);
+                            timeHelper.setEnd(0);
+                        }else{
+                            skip= true;
+                        }
+                        break;
                     }
-                    timeHelper.setInit(postTime);
                     
-                    if(timeHelper.isReachInit()){
-                       if(postTime <= timeHelper.getEnd()){
-                           break;
-                       } 
-                    }
                     if(postTime > firtsTimePost  && postTime < lastTimePost){
                         ExternalPost externalPostFromTumblrPost = getExternalPostFromTumblrPost(post,stream);
                         if(externalPostFromTumblrPost!= null){
                             externalPostArray.add(externalPostFromTumblrPost);
+                            
+                             if(timeHelper.getEnd() < postTime){ 
+                                timeHelper.setEnd(postTime); // Almacena la fecha en segundos del post mas reciente.
+                             }
+                             if(timeHelper.getInit()==0 || timeHelper.getInit() > postTime){
+                                 timeHelper.setInit(postTime);
+                             }
+                             
                         }
-                    }else{
-                        if(postTime < firtsTimePost){
-                            timeHelper.setReachInit(true);
-                            //firtsTimePost = timeHelper.getEnd();
-                        }
-                        break;
                     }
                 }
+                if(skip)break;
             } 
         }
         socialStreamSerch.setNextDatetoSearch(tumblrListenHelper.getFormatString());
@@ -389,7 +396,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         if(stream.getPhrase() != null && !stream.getPhrase().trim().isEmpty()){
             String orPhrases = "";
             orPhrases = stream.getPhrase();            
-            orPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(orPhrases);
+            //orPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(orPhrases);
             orPhrases = orPhrases.trim().replaceAll("\\s+", " "); 
             String words[] = orPhrases.split(" ");
             for(String word :words){
@@ -401,7 +408,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         if(stream.getStream_exactPhrase() != null && !stream.getStream_exactPhrase().trim().isEmpty()){
             String exactPhrases = "";
             exactPhrases = stream.getStream_exactPhrase();
-            exactPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(exactPhrases);
+            //exactPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(exactPhrases);
             exactPhrases = exactPhrases.trim().replaceAll("\\s+", " "); //replace multiple spaces beetwen words for one only one space
             phasesArray.add(exactPhrases);
         }
@@ -537,7 +544,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
     TumblrListenHelper(Iterator<String> iteratorPhases) {
         iterationInfo = new HashMap<String, TumblrTimeHelper>();
         while(iteratorPhases.hasNext()){
-           iterationInfo.put(iteratorPhases.next(), new TumblrTimeHelper(0, 0,false));
+           iterationInfo.put(iteratorPhases.next(), new TumblrTimeHelper(0, 0,0));
         }
         
     }
@@ -546,7 +553,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         String[] split = iteratorPhases.split("==");
         
         for(int i =  0; i< split.length; i+=4){
-            iterationInfo.put(split[i], new TumblrTimeHelper(Long.valueOf(split[i+1]),Long.valueOf( split[i+2]),Boolean.valueOf(split[i+3])));
+            iterationInfo.put(split[i], new TumblrTimeHelper(Long.valueOf(split[i+1]),Long.valueOf( split[i+2]),Long.valueOf(split[i+3])));
         }
     }
     
@@ -568,7 +575,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         Iterator<Map.Entry<String, TumblrTimeHelper>> iterator = iterationInfo.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry<String, TumblrTimeHelper> next = iterator.next();
-            formatString+=next.getKey()+"==" + next.getValue().getInit() +"=="+ next.getValue().getEnd() + "==" +next.getValue().isReachInit()+"==";
+            formatString+=next.getKey()+"==" + next.getValue().getInit() +"=="+ next.getValue().getEnd() + "==" +next.getValue().getReachInit()+"==";
         }
         return formatString;
     }
@@ -577,22 +584,23 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
     class TumblrTimeHelper{
         long init;
         long end;
-        boolean reachInit;
+        long reachInit;
 
-        public TumblrTimeHelper(long init, long end, boolean reachInit) {
+        public TumblrTimeHelper(long init, long end, long reachInit) {
             this.init = init;
             this.end = end;
             this.reachInit = reachInit;
         }
 
-        public boolean isReachInit() {
+        public long getReachInit() {
             return reachInit;
         }
 
-        public void setReachInit(boolean reachInit) {
+        public void setReachInit(long reachInit) {
             this.reachInit = reachInit;
         }
 
+      
       
         
         public long getInit() {
