@@ -334,7 +334,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             Google.log.event("Unable to update the access token inside listen Google!");
             this.validateToken();
         }
-        ArrayList<ExternalPost> aListExternalPost = new ArrayList(256);
+        ArrayList<ExternalPost> aListExternalPost = new ArrayList<ExternalPost>(256);
         String searchPhrases = this.formatsGooglePhrases(stream);
         if (searchPhrases == null || searchPhrases.isEmpty()) {
             Google.log.warn("\nNot a valid value to make a Google search:" + searchPhrases);
@@ -429,6 +429,10 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                             ExternalPost external = new ExternalPost();
                             String title = singlePost.getTitle();
                             String description = singlePost.getObject().getOriginalContent();
+                            //Annotation only exists for shared content
+                            String annotation = singlePost.getAnnotation();
+                            String message = annotation != null && !annotation.isEmpty()
+                                    ? annotation : description != null && !description.isEmpty() ? description : title;
                             if (description == null || description.equals("")) {
                                 description = title;
                             } else {
@@ -448,9 +452,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
 //                            System.out.println("    ---- uploadedStr del post: " + postUploaded);
                             if (postUploaded.before(lastPostRetrieved) || postUploaded.equals(lastPostRetrieved)) {
                                 canGetMoreItems = false;
-                            } else {
-                                //Annotation only exists for shared content
-                                String annotation = singlePost.getAnnotation();
+                            } else if (message != null && !message.isEmpty()) {
                                 String actorName = singlePost.getActor().getDisplayName() != null
                                         ? singlePost.getActor().getDisplayName()
                                         : singlePost.getActor().getName().getGivenName();
@@ -467,13 +469,13 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                     external.setCreationTime(postUploaded);
                                 }
                                 external.setUpdateTime(new Date(singlePost.getUpdated().getValue()));
-                                external.setMessage(annotation != null ? annotation : "" 
-                                        + singlePost.getObject().getContent());
+                                external.setMessage(message);
                                 external.setSocialNetwork(this);
                                 external.setCreatorPhotoUrl(singlePost.getActor().getImage().getUrl());
                                 external.setDescription(singlePost.getObject().getContent());
                                 external.setFollowers(singlePost.getObject().getPlusoners().size());
-                                
+//                                System.out.println("   ---->>>> Content vacio? " + singlePost.getObject().getContent() != null ? singlePost.getObject().getContent().isEmpty() : " Nulo" +
+//                                        "\n   ---->>>> Annotation vacio? " + annotation != null ? annotation.isEmpty() : " Nulo");
                                 if (singlePost.getObject().getAttachments() != null) {
                                     Attachments att = singlePost.getObject().getAttachments().size() > 0
                                             ? singlePost.getObject().getAttachments().get(0) : null;
@@ -539,7 +541,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                 }
                                 if (singlePost.getObject().getObjectType().equals("note")) {
                                     external.setPostType(SWBSocialUtil.MESSAGE);
-                                    external.setMessage(singlePost.getObject().getOriginalContent());
+                                    //external.setMessage(singlePost.getObject().getOriginalContent());
                                 }
                                 if (latitude != null && longitude != null) {
                                     external.setLatitude(latitude);
@@ -547,7 +549,9 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                     external.setPlace("(" + df.format(latitude) +
                                             "," + df.format(longitude) + ")");
                                 }
-                                //System.out.println("  --  " + external.getPostType());
+                                
+                                System.out.println("  --  EXTERNAL POSTTYPE: " + external.getPostType() + 
+                                        "  -- EXTERNAL MESSAGE: " + external.getMessage().length());
                                 //se incluye el post para procesamiento
                                 aListExternalPost.add(external);
                             }
@@ -571,8 +575,8 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 if (count > 0) {
                     //Classify the block of posts
                     if (aListExternalPost.size() >= blockOfPosts) {
-                        //System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
-                        new Classifier((ArrayList <ExternalPost>) aListExternalPost.clone(), stream, this, true);
+                        System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
+                        new Classifier((ArrayList<ExternalPost>) aListExternalPost.clone(), stream, this, true);
                         aListExternalPost.clear();
                     }
                     if (!stream.isActive()) {//If the stream has been disabled stop listening
@@ -615,9 +619,9 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
 //            System.out.println(":$ :$ :$ :$ :$ No se almacena fecha de ultimo post");
         }
         Calendar systemDate = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
-        System.out.println("Elementos enviados al clasificador: " + count);
+        //System.out.println("Elementos enviados al clasificador: " + count);
         if (aListExternalPost.size() > 0) {
-            //System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
+            System.out.println("Enviando a clasificar: " + aListExternalPost.size() + " elementos");
             new Classifier(aListExternalPost, stream, this, true);
         }
     }

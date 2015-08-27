@@ -5,15 +5,16 @@
 --%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="javax.print.attribute.standard.MediaSize.Other"%>
-<%@page import="org.semanticwb.social.Youtube"%>
+<%@page import="org.semanticwb.social.Google"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="java.io.Writer"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="java.util.HashMap"%>
+<%@page import="java.net.URLDecoder"%>
 <%@page import="org.json.JSONArray"%>
 <%@page import="org.json.JSONException"%>
 <%@page import="org.json.JSONObject"%>
-<%@page import="static org.semanticwb.social.admin.resources.YoutubeWall.*"%>
+<%@page import="org.semanticwb.social.admin.resources.GooglePlusWall"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%@page contentType="text/html" pageEncoding="x-iso-8859-11"%>
 <!DOCTYPE html>
@@ -30,8 +31,8 @@
     String subscribers = "";
     int friendsCount = 0;
     int mutualFriendsCount = 0;
-    String target = (String) request.getParameter("id");
-    if(target == null) {
+    String target = request.getParameter("id");
+    if (target == null) {
         return;
     }
     String objUri = (String) request.getParameter("suri");
@@ -39,14 +40,11 @@
     if (objUri == null || objUri.isEmpty()) {
         objUri = (String) request.getAttribute("suri");
     }
-    SemanticObject semanticObject = SemanticObject.createSemanticObject(objUri);
-    Youtube semanticYoutube = (Youtube) semanticObject.createGenericInstance();
+    Google semanticGoogle = (Google) SemanticObject.createSemanticObject(URLDecoder.decode(objUri, "UTF-8")).createGenericInstance();
     HashMap<String, String> params = new HashMap<String, String>(2);
-    params.put("part", "snippet,statistics");
-    params.put("id", target);
     String usrProfile = null;
     try {
-        usrProfile = semanticYoutube.getRequest(params, Youtube.API_URL + "/channels", Youtube.USER_AGENT, "GET");
+        usrProfile = semanticGoogle.apiRequest(null, "https://www.googleapis.com/plus/v1/people/" + target, "GET");
     } catch (Exception e) {
         e.printStackTrace();
     }
@@ -55,26 +53,26 @@
     if (usrProfile != null && !usrProfile.isEmpty()) {
         JSONObject information = null;
         JSONObject result = new JSONObject(usrProfile);
-        if (!result.has("error") && !result.isNull("items")) {
-            information = result.getJSONArray("items").getJSONObject(0);
+        if (!result.has("error")) {
+            information = result;
         }
         if (information != null) {
-            JSONObject snippet = information.getJSONObject("snippet");
-            if (!snippet.isNull("title") ){
-                name = snippet.getString("title");
+            if (information.has("displayName") && !information.isNull("displayName")) {
+                name = information.getString("displayName");
             }
-            if(!snippet.isNull("description")){
-                aboutMe = snippet.getString("description");
-            }
-            if (!snippet.isNull("thumbnails")) {
-                if (!snippet.getJSONObject("thumbnails").isNull("default")) {
-                    picture = snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url");
-                } else if (!snippet.getJSONObject("thumbnails").isNull("medium")) {
-                    picture = snippet.getJSONObject("thumbnails").getJSONObject("medium").getString("url");
+//            if (!snippet.isNull("description")){
+//                aboutMe = snippet.getString("description");
+//            }
+            if (information.has("image") && !information.isNull("image")) {
+                if (!information.getJSONObject("image").isNull("url")) {
+                    picture = information.getJSONObject("image").getString("url");
                 }
             }
-            if (!information.isNull("statistics") && !information.getJSONObject("statistics").isNull("subscriberCount")) {
-                subscribers = information.getJSONObject("statistics").getString("subscriberCount");
+            if (information.has("circledByCount") && !information.isNull("circledByCount")) {
+                subscribers = Long.toString(information.getLong("circledByCount"));
+            }
+            if (information.has("gender") && !information.isNull("gender")) {
+                sex = information.getString("gender");
             }
         }
     }
@@ -91,7 +89,7 @@
         <div align="center"><img src="<%=picture%>" height="150" width="150"/></div>
     </fieldset>
     <fieldset>
-        <div align="center"><a title="Ver en YouTube" target="_blank" href="https://www.youtube.com/channel/<%=target%>"><%=name%></a></div>
+        <div align="center"><a title="Ver en Google+" target="_blank" href="https://plus.google.com/<%=target%>"><%=name%></a></div>
     </fieldset>
 <%
     if (!aboutMe.isEmpty()) {
@@ -144,7 +142,7 @@
     if (!sex.isEmpty()) {
 %>
     <fieldset>
-         <legend>Gender:</legend>
+         <legend><%=paramRequest.getLocaleString("gender")%>:</legend>
          <div align="left"><%=sex%></div>
     </fieldset>
 <%
