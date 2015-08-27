@@ -543,6 +543,9 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                     external.setPostType(SWBSocialUtil.MESSAGE);
                                     //external.setMessage(singlePost.getObject().getOriginalContent());
                                 }
+                                if (external.getPostType() == null && external.getMessage() != null && !external.getMessage().isEmpty()) {
+                                    external.setPostType(SWBSocialUtil.MESSAGE);
+                                }
                                 if (latitude != null && longitude != null) {
                                     external.setLatitude(latitude);
                                     external.setLongitude(longitude);
@@ -550,8 +553,9 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                                             "," + df.format(longitude) + ")");
                                 }
                                 
-                                System.out.println("  --  EXTERNAL POSTTYPE: " + external.getPostType() + 
-                                        "  -- EXTERNAL MESSAGE: " + external.getMessage().length());
+//                                System.out.println("  --  EXTERNAL POSTTYPE: " + external.getPostType() + 
+//                                        "  -- EXTERNAL MESSAGE: " + external.getMessage().length() +
+//                                        (external.getMessage().length() < 9 ? "\n" + external.getMessage() : ""));
                                 //se incluye el post para procesamiento
                                 aListExternalPost.add(external);
                             }
@@ -563,7 +567,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                     }
                     //postsIds = resourceIds.toString();
                 } else if (searchResponse.isEmpty()) {
-                    System.out.println("Respuesta vacia!!!  ");
+//                    System.out.println("Respuesta vacia!!! En Google+ listener ");
                 }
                 if (searchResponse.getNextPageToken() != null &&
                         !searchResponse.getNextPageToken().isEmpty()) {
@@ -835,7 +839,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
 
         if (stream.getPhrase() != null && !stream.getPhrase().trim().isEmpty()) {//OR (Default)
             orPhrases = stream.getPhrase();
-            orPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(orPhrases);
+            //orPhrases = SWBSocialUtil.Strings.replaceSpecialCharacters(orPhrases);
             //replace multiple spaces beetwen words for one only one space
             orPhrases = orPhrases.trim().replaceAll("\\s+", " ");
             String words[] = orPhrases.split(" ");
