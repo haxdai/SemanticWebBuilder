@@ -642,26 +642,28 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         JSONObject userInfo = new JSONObject();
 
         try {
-            Plus.People.Get getPeople = apiPlus.people().get(userId);
-            getPeople.setOauthToken(this.getAccessToken());
-            Person user = getPeople.execute();
-            if (user != null) {
-                userInfo.put("third_party_id", userId);
-                userInfo.put("followers", user.getCircledByCount());
-                userInfo.put("gender", user.getGender() != null ? user.getGender() : "");
-                if (user.getRelationshipStatus() != null) {
-                    userInfo.put("relationship_status", user.getRelationshipStatus());
-                }
-                if (user.getCurrentLocation() != null) {
-                    userInfo.put("place_name", user.getCurrentLocation());
-                }
-                if (user.getBirthday() != null) {
-                    String date = user.getBirthday();
-                    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
-                    Date regresa = sdf.parse(date);
-                    sdf = new SimpleDateFormat("MM-dd-yyyy");
-                    date = sdf.format(regresa);
-                    userInfo.put("birthday", date.replace("-", "/"));
+            if (userId != null && !userId.isEmpty()) {
+                Plus.People.Get getPeople = apiPlus.people().get(userId);
+                getPeople.setOauthToken(this.getAccessToken());
+                Person user = getPeople.execute();
+                if (user != null) {
+                    userInfo.put("third_party_id", userId);
+                    userInfo.put("followers", user.getCircledByCount());
+                    userInfo.put("gender", user.getGender() != null ? user.getGender() : "");
+                    if (user.getRelationshipStatus() != null) {
+                        userInfo.put("relationship_status", user.getRelationshipStatus());
+                    }
+                    if (user.getCurrentLocation() != null) {
+                        userInfo.put("place_name", user.getCurrentLocation());
+                    }
+                    if (user.getBirthday() != null) {
+                        String date = user.getBirthday();
+                        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
+                        Date regresa = sdf.parse(date);
+                        sdf = new SimpleDateFormat("MM-dd-yyyy");
+                        date = sdf.format(regresa);
+                        userInfo.put("birthday", date.replace("-", "/"));
+                    }
                 }
             }
         } catch (Exception e) {
