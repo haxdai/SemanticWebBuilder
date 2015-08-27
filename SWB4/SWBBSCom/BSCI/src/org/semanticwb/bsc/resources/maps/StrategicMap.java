@@ -3,7 +3,6 @@ package org.semanticwb.bsc.resources.maps;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,6 @@ import static org.semanticwb.bsc.PDFExportable.Mode_StreamPNG;
 import org.semanticwb.bsc.Theme;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
-import org.semanticwb.bsc.utils.BSCUtils;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
@@ -403,7 +401,7 @@ public class StrategicMap extends GenericResource
 
         //header
         Element header = documentBSC.createElement("header");
-        header.setAttribute("id", HEADER_PREFIX + "DADT");
+        header.setAttribute("id", HEADER_PREFIX + scorecard.getId());//DADT
         header.setAttribute("width", Integer.toString(width));
         header.setAttribute("height", Integer.toString(HEADER_HEIGHT));
         header.setAttribute("x", Integer.toString(PADDING_LEFT));
@@ -465,12 +463,21 @@ public class StrategicMap extends GenericResource
                 final int nlDiffsCount = nlDiffs.getLength();
                 final boolean hasDifferentiators = nlDiffsCount > 0;
                 if (hasDifferentiators) {
+                    // Nodo para el título del grupo de diferenciadores. Inicio
+                    expression = "/bsc/perspective[@id='" + uri + "']/diffgroup[1]";
+                    Node nodedg = (Node)xPath.compile(expression).evaluate(documentBSC, XPathConstants.NODE);
+                    if(nodedg.getNodeType()==Node.ELEMENT_NODE) {
+                     Element t = (Element)nodedg;
+                     t.setAttribute("width", Integer.toString(pw-PADDING));
+                    }
+                    // Nodo para el título del grupo de diferenciadores. Fin
+                                       
                     final int dw = pw / nlDiffsCount;
                     for (int k = 0; k < nlDiffsCount; k++) {
                         Node noded = nlDiffs.item(k);
                         Element d = (Element) noded;
-                        d.setAttribute("width", Integer.toString(dw - BOX_SPACING_RIGHT));
-                        d.setAttribute("x", Integer.toString(px + k * dw + PADDING_RIGHT));
+                        d.setAttribute("width", Integer.toString(dw - PADDING));
+                        d.setAttribute("x", Integer.toString(px + k * dw));
                     }
                 }
 
@@ -487,7 +494,7 @@ public class StrategicMap extends GenericResource
                         if (nodet.getNodeType() == Node.ELEMENT_NODE) {
                             Element t = (Element) nodet;
                             uri = t.getAttribute("id");
-                            t.setAttribute("width", Integer.toString(tw - BOX_SPACING_RIGHT));
+                            t.setAttribute("width", Integer.toString(tw - PADDING));
                             tx = px + k * tw;
                             t.setAttribute("x", Integer.toString(tx));
                             href = t.getAttribute("href");
@@ -764,6 +771,7 @@ public class StrategicMap extends GenericResource
             node = nlPersp.item(j);
             if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
                 NamedNodeMap attrs = node.getAttributes();
+                //attrs = node.getAttributes();
                 String pid = attrs.getNamedItem("id").getNodeValue();
                 int pw = assertValue(attrs.getNamedItem("width").getNodeValue());
                 int px = assertValue(attrs.getNamedItem("x").getNodeValue());
@@ -783,7 +791,31 @@ public class StrategicMap extends GenericResource
                 NodeList nlDiffs = (NodeList) xPath.compile(expression).evaluate(map, XPathConstants.NODESET);
                 boolean hasDifferentiators = nlDiffs.getLength() > 0;
                 if (hasDifferentiators) {
-                    SVGjs.append(" x = "+BOX_SPACING+";").append("\n");
+                    // Recuadro del título del grupo de diferenciadores. Inicio
+                    expression = "/bsc/perspective[@id='" + pid + "']/diffgroup[1]";
+                    Node nodedg = (Node)xPath.compile(expression).evaluate(map, XPathConstants.NODE);
+                    if(nodedg.getNodeType()==Node.ELEMENT_NODE) {
+                    System.out.println("\nmanejo de diff group......");
+                        attrs = nodedg.getAttributes();
+                        title = attrs.getNamedItem("title").getNodeValue();
+                        id = attrs.getNamedItem("id").getNodeValue();
+                        w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
+                        x_ = px;    
+
+                        SVGjs.append(" y_ += " + BOX_SPACING_TOP + ";").append("\n");
+                        SVGjs.append(" txt = createText('" + title + "',"+ (x_+w_/2) +",y_," + HEADER_6 + ",'Verdana');").append("\n");
+                        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;');").append("\n");
+                        SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
+                        SVGjs.append(" g.appendChild(txt);").append("\n");
+                        SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
+                        SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
+                        SVGjs.append(" framingRect(rect,'" + id + "',"+w_+",rect.height.baseVal.value,"+x_+",y_);").append("\n");
+                        SVGjs.append(" rect.setAttributeNS(null,'style','stroke-width:0;fill:#bd5823;');").append("\n");
+                        SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
+                    }
+                    // Recuadro del título del grupo de diferenciadores. Fin
+                    
+                    SVGjs.append(" x = "+PADDING+";").append("\n");
                     SVGjs.append(" y_ += " + BOX_SPACING + ";").append("\n");
                     SVGjs.append(" var maxHeight=0;").append("\n");
                     for (int k = 0; k < nlDiffs.getLength(); k++) {
@@ -793,9 +825,10 @@ public class StrategicMap extends GenericResource
                             String did = attrs.getNamedItem("id").getNodeValue();
                             attrs = nodeD.getAttributes();
                             w_ = assertValue(attrs.getNamedItem("width").getNodeValue());
-                            x_ = assertValue(attrs.getNamedItem("x").getNodeValue());                            
-                            SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+x_+",y_," + HEADER_6 + ",'Verdana');").append("\n");
+                            x_ = assertValue(attrs.getNamedItem("x").getNodeValue());
+                            SVGjs.append(" txt = createText('" + nodeD.getFirstChild().getNodeValue() + "',"+(x_+w_/2)+",y_," + HEADER_6 + ",'Verdana');").append("\n");
                             SVGjs.append(" txt.setAttributeNS(null,'style','fill:#ffffff;font-weight:normal;');").append("\n");
+                            SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
                             SVGjs.append(" g.appendChild(txt);").append("\n");
                             SVGjs.append(" fixParagraphToWidth(txt," + w_ + "," + x_ + ");").append("\n");
                             SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
@@ -1301,8 +1334,8 @@ public class StrategicMap extends GenericResource
 
         SVGjs.append("function framingRect(rect,id,width, height, x, y) {").append("\n");
         SVGjs.append("  rect.setAttributeNS(null,'id',id);").append("\n");
-        SVGjs.append("  //rect.x.baseVal.value = x;").append("\n");
-        SVGjs.append("  //rect.y.baseVal.value = y;").append("\n");
+        SVGjs.append("  rect.x.baseVal.value = x;").append("\n");//
+        //SVGjs.append("  rect.y.baseVal.value = y;").append("\n");//
         SVGjs.append("  rect.width.baseVal.value = width;").append("\n");
         SVGjs.append("  //rect.height.baseVal.value = height;").append("\n");
         SVGjs.append("  rect.setAttributeNS(null,'fill','#f2f2f2');").append("\n");
