@@ -795,7 +795,6 @@ public class StrategicMap extends GenericResource
                     expression = "/bsc/perspective[@id='" + pid + "']/diffgroup[1]";
                     Node nodedg = (Node)xPath.compile(expression).evaluate(map, XPathConstants.NODE);
                     if(nodedg.getNodeType()==Node.ELEMENT_NODE) {
-                    System.out.println("\nmanejo de diff group......");
                         attrs = nodedg.getAttributes();
                         title = attrs.getNamedItem("title").getNodeValue();
                         id = attrs.getNamedItem("id").getNodeValue();
