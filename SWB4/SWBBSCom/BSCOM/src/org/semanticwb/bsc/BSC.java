@@ -586,6 +586,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                 if(!diffs.isEmpty()) {
                     Element ediffgroup = doc.createElement("diffgroup");
                     ediffgroup.setAttribute("id", diffgroup.getURI());
+                    ediffgroup.setAttribute("title", diffgroup.getDisplayTitle(lang).replaceAll("['\n]", ""));
                     ep.appendChild(ediffgroup);
                     Collections.sort(diffs);
                     for(Differentiator diff:diffs) {                        
