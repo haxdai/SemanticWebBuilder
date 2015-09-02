@@ -52,7 +52,7 @@ public class SWBIterAdmLog implements java.util.Iterator
     private boolean closed = false;
     
     /** The next. */
-    private boolean next = false;
+    private volatile boolean next = false;
     
     /** The checked. */
     private boolean checked = false;
@@ -93,6 +93,7 @@ public class SWBIterAdmLog implements java.util.Iterator
                 }
             } catch (Exception e)
             {
+                next=false;
                 log.error(SWBUtils.TEXT.getLocaleString("locale_core", "error_IterAdmLog_hasNext()_isAfter"), e);
             }
             if (!next) close();

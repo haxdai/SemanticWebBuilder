@@ -142,7 +142,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e) {
             log.error(e);
         }
@@ -175,8 +175,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -210,7 +209,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -250,7 +249,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -285,7 +284,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -319,7 +318,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -352,7 +351,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception e1) {
             log.error(e1);
         }
@@ -488,7 +487,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception ex) {
             log.error(ex);
         }
@@ -519,7 +518,7 @@ public class SWBDBAdmLog {
             } else {
                 //tira una exception
             }
-            con.close();
+            //con.close();
         } catch (Exception ex) {
             log.error(ex);
         }
