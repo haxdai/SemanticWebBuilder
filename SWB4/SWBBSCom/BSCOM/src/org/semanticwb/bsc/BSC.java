@@ -10,6 +10,7 @@ import org.semanticwb.bsc.accessory.Differentiator;
 import org.semanticwb.bsc.accessory.DifferentiatorGroup;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
+import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.element.Risk;
@@ -42,20 +43,6 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                                                                     });
         return validInitiative;
     }
-    
-//    private List<Period> sortPeriods() {
-//        return sortPeriods(true);
-//    }
-//    
-//    private List<Period> sortPeriods(boolean ascendent) {
-//        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
-//        if(ascendent) {
-//            Collections.sort(periods);
-//        }else {            
-//            Collections.sort(periods, Collections.reverseOrder());            
-//        }
-//        return periods;
-//    }
 
     @Override
     public Iterator<Period> listPeriods() {
@@ -73,10 +60,6 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         }
         return periods.iterator();
     }
-    
-//    private List<Period> sortPerspectives() {
-//        return sortPeriods(true);
-//    }
     
     private List<Perspective> sortPerspectives(boolean ascendent) {
         List<Perspective> perspectives = SWBUtils.Collections.copyIterator(super.listPerspectives());
