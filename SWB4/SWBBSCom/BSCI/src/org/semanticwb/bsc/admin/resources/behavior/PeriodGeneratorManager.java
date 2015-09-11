@@ -242,7 +242,10 @@ public class PeriodGeneratorManager extends GenericResource
                     freq = Calendar.MONTH;
                 }
                 
-                out.println("<table width=\"90%\">");
+                out.println("<table width=\"98%\">");
+                out.println("   <caption>");
+                out.println(paramRequest.getLocaleString("lblPreview"));
+                out.println("   </caption>");
                 out.println(" <thead>");
                 out.println("  <tr>");
                 out.println("   <th>" + paramRequest.getLocaleString("lblStart") + "</th>");
@@ -252,7 +255,7 @@ public class PeriodGeneratorManager extends GenericResource
                 
                 String lang = paramRequest.getUser().getLanguage();
                 SimpleDateFormat my = new SimpleDateFormat("MMM yyyy", new Locale(lang));
-                SimpleDateFormat dmmmy = new SimpleDateFormat("dd/MMMM/yyyy hh:mm", new Locale(lang));
+                SimpleDateFormat dmmmy = new SimpleDateFormat("dd/MMMM/yyyy", new Locale(lang));
                 GregorianCalendar ci,cf, sh, aux;
                 ci = new GregorianCalendar();
                 ci.setTime(start);
@@ -471,7 +474,7 @@ public class PeriodGeneratorManager extends GenericResource
         String suri = request.getParameter("suri");
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
         User user = paramRequest.getUser();
-        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, new Locale(user.getLanguage()));
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", new Locale(user.getLanguage()));
                 
         if (semObj != null) {
             GenericObject genericObject = semObj.getGenericInstance();
@@ -490,12 +493,11 @@ public class PeriodGeneratorManager extends GenericResource
             out.println("    <tr>");
             out.println("     <th>" + paramRequest.getLocaleString("lbl_index") + "</th>");
             out.println("     <th>" + paramRequest.getLocaleString("lbl_period") + "</th>");
-            out.println("     <th>" + paramRequest.getLocaleString("lbl_fromDate") + "</th>");            
-            out.println("     <th>" + paramRequest.getLocaleString("lbl_toDate") + "</th>");            
-            out.println("     <th>" + paramRequest.getLocaleString("lbl_former") + "</th>");            
-            out.println("     <th>" + paramRequest.getLocaleString("lbl_next") + "</th>");            
-            out.println("     <th>" + paramRequest.getLocaleString("lbl_active") + "</th>");            
-            //out.println("     <th>" + paramRequest.getLocaleString("lbl_relate") + "</th>");            
+            out.println("     <th>" + paramRequest.getLocaleString("lbl_fromDate") + "</th>");
+            out.println("     <th>" + paramRequest.getLocaleString("lbl_toDate") + "</th>");
+            out.println("     <th>" + paramRequest.getLocaleString("lbl_former") + "</th>");
+            out.println("     <th>" + paramRequest.getLocaleString("lbl_next") + "</th>");
+            out.println("     <th>" + paramRequest.getLocaleString("lbl_active") + "</th>");
             out.println("    </tr>");
             out.println("   </thead>");
             out.println("   <tbody>");
@@ -505,13 +507,6 @@ public class PeriodGeneratorManager extends GenericResource
             while(periods.hasNext())
             {
                 Period period = periods.next();
-                //if (  (period.isValid() && user.haveAccess(period)) || (!period.isActive() && seasonable.hasPeriod(period) && user.haveAccess(period))  )
-                //{
-                    /*urlAdd = paramRequest.getActionUrl();
-                    urlAdd.setParameter("suri", suri);
-                    urlAdd.setParameter("sval", period.getId());
-                    urlAdd.setAction(Action_UPDT_ACTIVE);*/
-
                     String title = period.getDisplayTitle(user.getLanguage());
                     String titleFormer;
                     String titleNext = null;
@@ -540,8 +535,8 @@ public class PeriodGeneratorManager extends GenericResource
                     out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp','" + title);
                     out.println("');return false;\" >" + title + "</a>");
                     out.println("     </td>");
-                    out.println("     <td>" + df.format(period.getStart()) + "</td>");
-                    out.println("     <td>" + df.format(period.getEnd()) + "</td>");            
+                    out.println("     <td>" + sdf.format(period.getStart()) + "</td>");
+                    out.println("     <td>" + sdf.format(period.getEnd()) + "</td>");            
                     out.println("     <td>");
                     if (hasFormer) {
                         out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getPrevius().getURI() + "','");
@@ -566,16 +561,7 @@ public class PeriodGeneratorManager extends GenericResource
                              ? paramRequest.getLocaleString("lbl_isActive")
                              : paramRequest.getLocaleString("lbl_isNotActive")) +
                             "</td>");
-
-                    /*out.println("     <td align=\"center\"><input name=\"period\""
-                            + disabled
-                            + " type=\"checkbox\" value=\"" + period.getId() + "\" "
-                            + " onchange=\"submitUrl('" + urlAdd + "',this.domNode)\" "
-                            + " dojoType=\"dijit.form.CheckBox\" " + (seasonable.hasPeriod(period)?"checked=\"checked\"":"") + "/></td>");*/
-                    
                     out.println("     </tr>");
-
-                //}
             }
             out.println("   </tbody>");
             out.println("  </table>");
