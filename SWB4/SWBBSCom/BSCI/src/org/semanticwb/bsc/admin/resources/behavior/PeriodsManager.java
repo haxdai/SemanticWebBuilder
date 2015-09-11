@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.semanticwb.bsc.admin.resources.behavior;
 
 import java.io.IOException;
@@ -89,7 +85,6 @@ public class PeriodsManager extends GenericResource {
             }
             
             boolean hasPeriods = itPeriods.hasNext();
-            final String data = semObj.getSemanticClass().getName() + semObj.getId();
 
             //Colocar encabezado del listado con las columnas del mismo
             out.println("<div class=\"swbform\">");
