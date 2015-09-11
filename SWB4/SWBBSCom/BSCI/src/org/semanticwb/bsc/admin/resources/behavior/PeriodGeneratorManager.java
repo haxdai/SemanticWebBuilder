@@ -51,7 +51,6 @@ public class PeriodGeneratorManager extends GenericResource
         PrintWriter out = response.getWriter();
         String suri = request.getParameter("suri");
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
-        //User user = paramRequest.getUser();
                 
         if (semObj != null) {
             final String id = "_"+semObj.getId();
@@ -99,22 +98,13 @@ public class PeriodGeneratorManager extends GenericResource
             out.println(" dijit.byId('dur"+id+"').set('value', '"+duration+"');");
             out.println(" dijit.byId('time"+id+"').set('value', '"+time+"');");
             out.println("});");
-
             out.println("</script>");
-            
-            Resource base = getResourceBase();
-//            SWBResourceURL urlAction = paramRequest.getActionUrl();
-//            urlAction.setAction(paramRequest.Action_EDIT);
             
             //Colocar encabezado del listado con las columnas del mismo
             out.println("<div class=\"swbform\">");
-            //out.println("<form id=\"perGenMgrRes_"+base.getId()+"\" action=\""+urlAction+"\" method=\"post\" >");
             out.println("<form id=\"perGenMgrRes"+id+"\" method=\"post\" >");
             out.println(" <fieldset>");
             out.println("  <ul class=\"swbform-ul\">");
-            //out.println("   <legend>");
-            //out.println(paramRequest.getLocaleString("msgPeriodGeneratorForm"));
-            //out.println("   </legend>");
             out.println("   <li class=\"swbform-li\">");
             out.println("    "+paramRequest.getLocaleString("lblPeriodize")+":");
             out.println("   </li>");
@@ -193,33 +183,19 @@ public class PeriodGeneratorManager extends GenericResource
             
             out.println("<fieldset>");
             out.println(" <div id=\"p_cntr"+id+"\">");
-            if(request.getParameter("statmsg") != null && !request.getParameter("statmsg").isEmpty())
-            {
-                renderPeriodsList(request, response, paramRequest);
-            }
+            renderPeriodsList(request, response, paramRequest);
             out.println(" </div>");
             out.println("</fieldset>");
-                
-//            out.println("<fieldset>");
-//            SWBResourceURL urlAction = paramRequest.getActionUrl();
-//            urlAction.setParameter("suri", suri);
-//            urlAction.setAction(paramRequest.Action_ADD);
-//            out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('"+urlAction+"&dur='+dijit.byId('dur').get('value')+'&time='+dijit.byId('time').get('value'),this.domNode); return false;\">" + paramRequest.getLocaleString("lblSubmit") + "</button>");
-//            out.println("</fieldset>");
-
             out.println("</div>");
                 
             if(request.getParameter("statmsg") != null && !request.getParameter("statmsg").isEmpty())
             {
                 out.println("<div dojoType=\"dojox.layout.ContentPane\">");
                 out.println("<script type=\"dojo/method\">");
-                //out.println("updateTreeNodeByURI('"+semObj.getURI()+"');");
-                out.println("reloadTreeNodeByURI('"+semObj.getURI()+"');");
-                out.println("showStatus('" + request.getParameter("statmsg") + "');\n");
+                out.println(" reloadTreeNodeByURI('"+semObj.getURI()+"');");
+                out.println(" showStatus('" + request.getParameter("statmsg") + "');\n");
                 out.println("</script>\n");
                 out.println("</div>");
-                
-                
             }
         }
     }
@@ -502,7 +478,14 @@ public class PeriodGeneratorManager extends GenericResource
             final PeriodGroup periodgroup = (PeriodGroup)genericObject;
             Iterator<Period> periods = periodgroup.listGroupedPeriods();
             
-            out.println("  <table width=\"98%\">"); 
+            out.println("  <table width=\"98%\">");
+            out.println("   <caption>");
+            if(request.getParameter("statmsg")==null) {
+                out.println(paramRequest.getLocaleString("lblCurrentPeriods"));
+            }else {
+                out.println(paramRequest.getLocaleString("lblPreview"));
+            }
+            out.println("   </caption>");
             out.println("   <thead>");
             out.println("    <tr>");
             out.println("     <th>" + paramRequest.getLocaleString("lbl_index") + "</th>");
