@@ -3,20 +3,16 @@ package org.semanticwb.bsc.admin.resources.behavior;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.bsc.BSC;
-import org.semanticwb.bsc.Seasonable;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.PeriodGroup;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.SWBContext;
-import org.semanticwb.model.Undeleteable;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
@@ -32,10 +28,9 @@ import org.semanticwb.portal.api.SWBResourceURL;
  */
 public class PeriodGroupManager extends GenericResource
 {
-    public static final String Action_UPDT_ACTIVE = "updactv";
     public static final String Action_ACTIVE_ALL = "actall";
-    public static final String Action_DEACTIVE_ALL = "deactall";    
-
+    public static final String Action_DEACTIVE_ALL = "offall";    
+    public static final String Action_REMOVE_ALL = "remall";
     /**
      * M&eacute;todo que se encarga de presentar la forma al usuario para que
      * elija un conjunto de periodos
@@ -51,6 +46,10 @@ public class PeriodGroupManager extends GenericResource
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) 
             throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
         PrintWriter out = response.getWriter();
         String suri = request.getParameter("suri");
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
@@ -103,8 +102,6 @@ public class PeriodGroupManager extends GenericResource
                 {
                     urlAdd = paramRequest.getActionUrl();
                     urlAdd.setParameter("suri", suri);
-                    urlAdd.setParameter("sval", period.getId());
-                    urlAdd.setAction(Action_UPDT_ACTIVE);
                     
                     String title = period.getDisplayTitle(user.getLanguage());
                     String titleFormer;
@@ -174,10 +171,13 @@ public class PeriodGroupManager extends GenericResource
                 urlAll.setParameter("suri", suri);
                 urlAll.setAction(Action_ACTIVE_ALL);
                 out.println("<fieldset>");
-                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlAll + "',this.domNode); return false;\">" + paramRequest.getLocaleString("lbl_markAll") + "</button>");
+                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlAll + "',this.domNode); return false;\">" + paramRequest.getLocaleString("lblActiveAll") + "</button>");
 
                 urlAll.setAction(Action_DEACTIVE_ALL);
-                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlAll + "',this.domNode); return false;\">" + paramRequest.getLocaleString("lbl_unMarkAll") + "</button>");
+                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlAll + "',this.domNode); return false;\">" + paramRequest.getLocaleString("lblOffAll") + "</button>");
+                
+                urlAll.setAction(Action_REMOVE_ALL);
+                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"if(confirm('"+paramRequest.getLocaleString("queryRemoveAll")+"')){submitUrl('"+urlAll+"',this.domNode);}return false;\">" + paramRequest.getLocaleString("lblRemoveAll") + "</button>");
                 out.println("</fieldset>");
             }
             out.println("</div>");
@@ -185,6 +185,8 @@ public class PeriodGroupManager extends GenericResource
             if (request.getParameter("statmsg") != null && !request.getParameter("statmsg").isEmpty()) {
                 out.println("<div dojoType=\"dojox.layout.ContentPane\">");
                 out.println("<script type=\"dojo/method\">");
+                //out.println("updateTreeNodeByURI('"+semObj.getURI()+"');");
+                out.println("reloadTreeNodeByURI('"+semObj.getURI()+"');");
                 out.println("showStatus('" + request.getParameter("statmsg") + "');\n");
                 out.println("</script>\n");
                 out.println("</div>");
@@ -203,7 +205,9 @@ public class PeriodGroupManager extends GenericResource
      * @throws IOException Excepti&oacute;n de IO
      */
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+    public void processAction(HttpServletRequest request, SWBActionResponse response)
+            throws SWBResourceException, IOException
+    {
         final String action = response.getAction();
         final String suri = request.getParameter("suri");
         
@@ -224,122 +228,53 @@ public class PeriodGroupManager extends GenericResource
             response.setRenderParameter("statmsg", response.getLocaleString("msgUnauthorizedUser"));
             return;
         }
-        BSC model = (BSC)semObj.getModel().getModelObject().getGenericInstance();
         
-        if(Action_UPDT_ACTIVE.equalsIgnoreCase(action))
+        if(Action_ACTIVE_ALL.equalsIgnoreCase(action))
         {
-            final String periodId = request.getParameter("sval");
-            if(periodId!=null)
-            {
-                if(Period.ClassMgr.hasPeriod(periodId, model)) {
-                    Seasonable seasonable = (Seasonable) semObj.getGenericInstance();
-                    Period period = Period.ClassMgr.getPeriod(periodId, model);
-                    if(seasonable.hasPeriod(period)) {
-                        seasonable.removePeriod(period);
-                        if(!period.listSeasonables().hasNext())
-                        {
-                            period.setUndeleteable(false);
-                            Iterator<Period> it = period.getBSC().listPeriods();
-                            boolean periodRelated = false;
-                            while(it.hasNext() && !periodRelated) {
-                                Period aux = it.next();
-                                periodRelated = periodRelated || aux.listSeasonables().hasNext();
-                                if(!periodRelated) {
-                                    aux.setUndeleteable(false);
-                                }
-                            }
-                            if(!periodRelated) {
-                                 period.setUndeleteable(false);
-                            }
-                        }
-                        response.setRenderParameter("statmsg", response.getLocaleString("msgDeallocatedPeriod"));
-                    }else {
-                        seasonable.addPeriod(period);
-                        period.setUndeleteable(true);
-                        response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedPeriod"));
-                    }
-                }else {
-                    response.setRenderParameter("statmsg", "Objeto semantico no ubicado");
-                }
-            }
-            else
-            {
-                response.setRenderParameter("statmsg", "Objeto semantico no ubicado.");
-            }
-        }
-        else if(Action_ACTIVE_ALL.equalsIgnoreCase(action))
-        {
-            Iterator<Period> it;
+            Iterator<Period> periods;
             GenericObject genericObject = semObj.getGenericInstance();
-            Seasonable seasonable = (Seasonable)genericObject;
-            it = seasonable.listAvailablePeriods();
-            List<Period> periods = SWBUtils.Collections.copyIterator(it);
-            //Tratamiento para los períodos asignados anteriormente
-            seasonable.removeAllPeriod();
-            for(Period period : periods) {
-                if(!period.listSeasonables().hasNext()) {
-                    period.setUndeleteable(false);
+            PeriodGroup periodgrp = (PeriodGroup)genericObject;
+            periods = periodgrp.listGroupedPeriods();
+            if(periods.hasNext()) {
+                while(periods.hasNext()) {
+                    periods.next().setActive(true);
                 }
-            }
-            //Tratamiento para los nuevos períodos a asignar
-            if(!periods.isEmpty()) {
-                for(Period period : periods) {
-                    seasonable.addPeriod(period);
-                    period.setUndeleteable(true);
-                }
-                response.setRenderParameter("statmsg", response.getLocaleString("msgAssignedAllPeriods"));
+                response.setRenderParameter("statmsg", response.getLocaleString("msgActivatedAllPeriods"));
             }
         }
         else if(Action_DEACTIVE_ALL.equalsIgnoreCase(action))
         {
-            Seasonable seasonable = (Seasonable) semObj.getGenericInstance();
-            seasonable.removeAllPeriod();
-            
-            BSC bsc;
-            bsc = seasonable.getBSC();
-//            GenericObject genericObject = semObj.getGenericInstance();
-//            if(genericObject instanceof Indicator) {
-//                bsc = ((Indicator)genericObject).getBSC();
-//            }else if(genericObject instanceof Objective) {
-//                bsc = ((Objective)genericObject).getBSC();
-//            }
-            if(bsc!=null) {
-                Iterator<Period> it = bsc.listPeriods();
-                if(!it.hasNext())
-                {
-                    boolean periodRelated;
-                    while(it.hasNext()) {
-                        Period aux = it.next();
-                        periodRelated = aux.listSeasonables().hasNext();
-                        if(!periodRelated) {
-                            aux.setUndeleteable(false);
-                        }
+            Period period;
+            Iterator<Period> periods;
+            GenericObject genericObject = semObj.getGenericInstance();
+            PeriodGroup periodgrp = (PeriodGroup)genericObject;
+            periods = periodgrp.listGroupedPeriods();
+            if(periods.hasNext()) {
+                while(periods.hasNext()) {
+                    period = periods.next();
+                    if(!period.isUndeleteable()) {
+                        period.setActive(false);
                     }
                 }
+                response.setRenderParameter("statmsg", response.getLocaleString("msgOffAllPeriods"));
             }
-            response.setRenderParameter("statmsg", response.getLocaleString("msgDeallocatedAllPeriods"));
         }
-    }
-
-    /**
-     * M&eacute;todo que se encarga de eliminar los periodos asociados a un
-     * objeto Sem&aacute;ntico
-     *
-     * @param semObj
-     */
-    private void removePeriodsInSemObj(SemanticObject semObj) {
-        Iterator<SemanticObject> itPeriods = (Iterator<SemanticObject>) semObj.listObjectProperties(Seasonable.bsc_hasPeriod);
-
-        if (itPeriods != null && itPeriods.hasNext()) {
-            while (itPeriods.hasNext()) {
-                SemanticObject period = itPeriods.next();
-
-                semObj.removeObjectProperty(Seasonable.bsc_hasPeriod, period);
-                Iterator<SemanticObject> itObjs = period.listRelatedObjects();
-                if(itObjs != null && itObjs.hasNext()){
-                    period.setBooleanProperty(Undeleteable.swb_undeleteable, false);
+        else if(Action_REMOVE_ALL.equalsIgnoreCase(action))
+        {
+            Period period;
+            Iterator<Period> periods;
+            GenericObject genericObject = semObj.getGenericInstance();
+            PeriodGroup periodgrp = (PeriodGroup)genericObject;
+            periods = periodgrp.listGroupedPeriods();
+            if(periods.hasNext()) {
+                while(periods.hasNext()) {
+                    period = periods.next();
+                    if(!period.isUndeleteable()) {
+                        period.remove();
+                    }
                 }
+                response.setRenderParameter("statmsg", response.getLocaleString("msgRemovedAllPeriods"));
             }
         }
-    }    
+    } 
 }
