@@ -2,12 +2,14 @@ package org.semanticwb.bsc.admin.resources.behavior;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,9 +17,9 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.Machinable;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.PeriodGroup;
-import static org.semanticwb.bsc.admin.resources.behavior.PeriodsManager.Action_UPDT_ACTIVE;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
@@ -55,14 +57,20 @@ public class PeriodGeneratorManager extends GenericResource
             final String id = "_"+semObj.getId();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             GregorianCalendar cal = new GregorianCalendar();
-            
-            
             String start;
             start = request.getParameter("start")==null ? sdf.format(cal.getTime()):request.getParameter("start");
-            try { sdf.parse(start);}catch(ParseException pe) { start = sdf.format(cal.getTime());}
+            try {
+                start = sdf.format(sdf.parse(start));
+            }catch(ParseException pe) {
+                start = sdf.format(cal.getTime());
+            }
             String end;
             end = request.getParameter("end")==null ? sdf.format(cal.getTime()):request.getParameter("end");
-            try { sdf.parse(end);}catch(ParseException pe) { end = sdf.format(cal.getTime());}
+            try {
+                end = sdf.format(sdf.parse(end));
+            }catch(ParseException pe) {
+                end = sdf.format(cal.getTime());
+            }
             String duration;
             duration = request.getParameter("dur")==null ?"1":request.getParameter("dur");
             try {
@@ -88,10 +96,8 @@ public class PeriodGeneratorManager extends GenericResource
             out.println("  dojo.require('dijit.form.Button');");
 
             out.println("dojo.addOnLoad(function() {");
-System.out.println("duration="+duration);
-System.out.println("time="+time);
-            out.println("dijit.byId('dur"+id+"').set('value', '"+duration+"');");
-            out.println("dijit.byId('time"+id+"').set('value', '"+time+"');");
+            out.println(" dijit.byId('dur"+id+"').set('value', '"+duration+"');");
+            out.println(" dijit.byId('time"+id+"').set('value', '"+time+"');");
             out.println("});");
 
             out.println("</script>");
@@ -109,6 +115,9 @@ System.out.println("time="+time);
             //out.println("   <legend>");
             //out.println(paramRequest.getLocaleString("msgPeriodGeneratorForm"));
             //out.println("   </legend>");
+            out.println("   <li class=\"swbform-li\">");
+            out.println("    "+paramRequest.getLocaleString("lblPeriodize")+":");
+            out.println("   </li>");
             
             out.println("   <li class=\"swbform-li\">");
             out.println("    <label for=\"start"+id+"\" class=\"swbform-label\">"+paramRequest.getLocaleString("lblStart")+"</label>");
@@ -169,7 +178,7 @@ System.out.println("time="+time);
             urlIndex.setParameter("suri", suri);
             urlIndex.setAction(paramRequest.Action_EDIT);
             out.println(" <button dojoType=\"dijit.form.Button\" type=\"button\" "
-                    + "onclick=\"postHtml('"+urlIndex+"&st='+dojo.date.locale.format(dijit.byId('start"+id+"').value, {datePattern:'yyyy-MM-dd', selector: 'date'})+'&ed='+dojo.date.locale.format(dijit.byId('end"+id+"').value, {datePattern:'yyyy-MM-dd', selector: 'date'})+'&dur='+dijit.byId('dur"+id+"').get('value')+'&time='+dijit.byId('time"+id+"').get('value'),'p_cntr"+id+"')\">"
+                    + "onclick=\"postHtml('"+urlIndex+"&st='+dojo.date.locale.format(dijit.byId('start"+id+"').value, {datePattern:'yyyy-MM-dd', selector: 'date'})+'&ed='+dojo.date.locale.format(dijit.byId('end"+id+"').value, {datePattern:'yyyy-MM-dd', selector: 'date'})+'&dur='+dijit.byId('dur"+id+"').get('value')+'&time='+dijit.byId('time"+id+"').get('value'),'p_cntr"+id+"');\">"
                     +paramRequest.getLocaleString("lblShow")+"</button>&nbsp;");
             urlIndex.setAction(paramRequest.Action_REMOVE);
             out.println(" <button dojoType=\"dijit.form.Button\" type=\"button\" onclick=\"postHtml('"+urlIndex+"','p_cntr"+id+"')\">"+paramRequest.getLocaleString("lblEraser")+"</button>");
@@ -216,7 +225,9 @@ System.out.println("time="+time);
     }
 
     @Override
-    public void doIndex(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+    public void doIndex(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest)
+            throws SWBResourceException, IOException
+    {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -228,6 +239,7 @@ System.out.println("time="+time);
         
         if (semObj != null) {
             final String action = paramRequest.getAction();
+            BSC bsc = (BSC)semObj.getModel().getModelObject().getGenericInstance();
 
             if(paramRequest.Action_EDIT.equals(action))
             {
@@ -261,7 +273,7 @@ System.out.println("time="+time);
                 out.println("   <th>" + paramRequest.getLocaleString("lblEnd") + "</th>");
                 out.println("  </tr>");
                 out.println(" </thead>");
-
+                
                 String lang = paramRequest.getUser().getLanguage();
                 SimpleDateFormat my = new SimpleDateFormat("MMM yyyy", new Locale(lang));
                 SimpleDateFormat dmmmy = new SimpleDateFormat("dd/MMMM/yyyy hh:mm", new Locale(lang));
@@ -272,27 +284,37 @@ System.out.println("time="+time);
                 cf = new GregorianCalendar();
                 cf.setTime(end);
                 
+                Date from, to;
+                boolean isLapseValid = true;
                 out.println(" <tbody>");
-                while(sh.compareTo(cf)<=0) {
-                    //p = Period.ClassMgr.createPeriod(getResourceBase().getWebSite());
-                    //p.setTitle(my.format(sh.getTime()));
-                    //p.setStart(sh.getTime());
-                    out.println("<tr>");
-                    out.println("<td>");
-                    out.println(dmmmy.format(sh.getTime()));
-                    out.println("</td>");
-
+                while(isLapseValid && sh.compareTo(cf)<=0) {
+                    from = sh.getTime();
                     sh.add(freq, resolution);
                     aux = (GregorianCalendar)sh.clone();
                     aux.add(Calendar.DAY_OF_MONTH, -1);
-                    out.println("<td>");
-                    out.println(dmmmy.format(aux.getTime()));
-                    out.println("</td>");
-                    //p.setEnd(sh.getTime());
-                    //periods.add(p);
-                    out.println("</tr>");
+                    to = aux.getTime();
+                    isLapseValid = isLapseValid(bsc, from, to);
+                    if(isLapseValid) {
+                        out.println("<tr>");
+                        out.println("<td>");
+                        out.println(dmmmy.format(from));
+                        out.println("</td>");
+                        out.println("<td>");
+                        out.println(dmmmy.format(to));
+                        out.println("</td>");
+                        out.println("</tr>");
+                    }
                 }
                 out.println(" </tbody>");
+                if(!isLapseValid) {
+                    out.println("<tfoot>");
+                    out.println("<tr>");
+                    out.println("<td colspan=\"2\">");
+                    out.println(paramRequest.getLocaleString("msgElapseInvalid"));
+                    out.println("</td>");
+                    out.println("</tr>");
+                    out.println("</tfoot>");
+                }
                 out.println("</table>");
             }
             else if(paramRequest.Action_REMOVE.equals(action))
@@ -303,14 +325,6 @@ System.out.println("time="+time);
         out.flush();
     }
     
-    private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
-        response.setRenderParameter("suri", request.getParameter("suri"));
-        response.setRenderParameter("st", request.getParameter("st"));
-        response.setRenderParameter("ed", request.getParameter("ed"));
-        response.setRenderParameter("dur", request.getParameter("dur"));
-        response.setRenderParameter("time", request.getParameter("time"));
-    }
-
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException
     {
@@ -344,7 +358,7 @@ System.out.println("time="+time);
             Period period;
             Date start, end;
             int resolution, freq;
-            Period p;
+            Period p, prev, next;
             GenericObject genericObject = semObj.getGenericInstance();
             PeriodGroup periodgrp = (PeriodGroup)genericObject;
             
@@ -370,7 +384,7 @@ System.out.println("time="+time);
                 end = sdf.parse(request.getParameter("ed"));
             }catch(ParseException pe) {
                 log.error(pe);
-                response.setRenderParameter("statmsg", response.getLocaleString("msgExistsUndeleteablePeriod"));
+                response.setRenderParameter("statmsg", response.getLocaleString("msgInvalidDateFormat"));
                 return;
             }
             try {
@@ -402,6 +416,7 @@ System.out.println("time="+time);
                     pattern = "EE dd-MM-yy";
             }
             
+            boolean isLapseValid = true;
             SimpleDateFormat my = new SimpleDateFormat(pattern, new Locale(lang));
             GregorianCalendar ci,cf, sh, aux;
             ci = new GregorianCalendar();
@@ -409,10 +424,9 @@ System.out.println("time="+time);
             sh = (GregorianCalendar)ci.clone();
             cf = new GregorianCalendar();
             cf.setTime(end);
+            Date from, to;
             while(sh.compareTo(cf)<=0) {
-                p = Period.ClassMgr.createPeriod(bsc);
-                p.setTitle(my.format(sh.getTime()));
-                p.setStart(sh.getTime());
+                from = sh.getTime();
                 sh.add(freq, resolution);
                 aux = (GregorianCalendar)sh.clone();
                 if(freq == Calendar.WEEK_OF_YEAR) {
@@ -420,12 +434,58 @@ System.out.println("time="+time);
                 }else {
                     aux.add(Calendar.DAY_OF_MONTH, -1);
                 }
-                p.setEnd(aux.getTime());
-                p.setActive(true);
-                periodgrp.addGroupedPeriod(p);
+                to = aux.getTime();
+                isLapseValid = isLapseValid && isLapseValid(bsc, from, to);
+                if(isLapseValid) {
+                    p = Period.ClassMgr.createPeriod(bsc);
+                    p.setTitle(my.format(from));
+                    p.setStart(from);
+                    p.setEnd(to);
+                    p.setActive(true);
+                    periodgrp.addGroupedPeriod(p);
+                }
             }
-            response.setRenderParameter("statmsg", response.getLocaleString("msgUpdateSuccessful"));
+            // Asignar previo y siguiente a cada período del grupo
+            Machinable m;
+            ListIterator<Period> ps = periodgrp.listGroupedPeriods(true).listIterator();
+            while(ps.hasNext()) {
+                m = ps.next();
+                ps.previous();
+                if(ps.hasPrevious()) {
+                    m.setPrevius(ps.previous());
+                    ps.next();
+                }
+                ps.next();
+                if(ps.hasNext()) {
+                    m.setNext(ps.next());
+                    ps.previous();
+                }
+            }
+            if(isLapseValid) {
+                response.setRenderParameter("statmsg", response.getLocaleString("msgUpdateSuccessful"));
+            }else {
+                response.setRenderParameter("statmsg", response.getLocaleString("msgElapseInvalid"));
+            }
         }
+    }
+    
+    public boolean isLapseValid(BSC bsc, Date start, Date end) {
+        Date from, to;
+        Iterator<Period> iperiods = Period.ClassMgr.listPeriods(bsc);
+        while(iperiods.hasNext()) {
+            Period p = iperiods.next();            
+            from = p.getStart();
+            to = p.getEnd();
+            if(from==null || to==null) {
+                continue;
+            }
+            if(  (from.getTime()<=start.getTime() && to.getTime()>=end.getTime()) 
+                 || (start.getTime()<=from.getTime() && end.getTime()>=from.getTime())
+                 || (start.getTime()<=to.getTime() && end.getTime()>=to.getTime()) ) {
+               return false;
+            }
+        }
+        return true;
     }
     
     private void renderPeriodsList(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) 
@@ -435,6 +495,7 @@ System.out.println("time="+time);
         String suri = request.getParameter("suri");
         SemanticObject semObj = SemanticObject.getSemanticObject(suri);
         User user = paramRequest.getUser();
+        DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, new Locale(user.getLanguage()));
                 
         if (semObj != null) {
             GenericObject genericObject = semObj.getGenericInstance();
@@ -496,8 +557,8 @@ System.out.println("time="+time);
                     out.print(SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp','" + title);
                     out.println("');return false;\" >" + title + "</a>");
                     out.println("     </td>");
-                    out.println("     <td>" + period.getStart() + "</td>");            
-                    out.println("     <td>" + period.getEnd() + "</td>");            
+                    out.println("     <td>" + df.format(period.getStart()) + "</td>");
+                    out.println("     <td>" + df.format(period.getEnd()) + "</td>");            
                     out.println("     <td>");
                     if (hasFormer) {
                         out.print("<a href=\"#\" onclick=\"addNewTab('" + period.getPrevius().getURI() + "','");
@@ -536,5 +597,13 @@ System.out.println("time="+time);
             out.println("   </tbody>");
             out.println("  </table>");
         }
+    }
+    
+    private void setRenderParameter(HttpServletRequest request, SWBActionResponse response) {
+        response.setRenderParameter("suri", request.getParameter("suri"));
+        response.setRenderParameter("start", request.getParameter("st"));
+        response.setRenderParameter("end", request.getParameter("ed"));
+        response.setRenderParameter("dur", request.getParameter("dur"));
+        response.setRenderParameter("time", request.getParameter("time"));
     }
 }
