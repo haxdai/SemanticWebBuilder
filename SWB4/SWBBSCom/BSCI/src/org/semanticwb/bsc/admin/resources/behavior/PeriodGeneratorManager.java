@@ -154,7 +154,7 @@ public class PeriodGeneratorManager extends GenericResource
             //out.println("     <option value=\""+Calendar.DAY_OF_MONTH+"\">"+paramRequest.getLocaleString("lblDayOfMonth")+"</option>");
             //out.println("     <option value=\""+Calendar.DAY_OF_WEEK+"\">"+paramRequest.getLocaleString("lblDayOfWeek")+"</option>");
             //out.println("     <option value=\""+Calendar.DAY_OF_YEAR+"\">"+paramRequest.getLocaleString("lblDayOfYear")+"</option>");
-            out.println("     <option value=\""+Calendar.WEEK_OF_MONTH+"\">"+paramRequest.getLocaleString("lblWeekOfMonth")+"</option>");
+            //out.println("     <option value=\""+Calendar.WEEK_OF_MONTH+"\">"+paramRequest.getLocaleString("lblWeekOfMonth")+"</option>");
             out.println("     <option value=\""+Calendar.WEEK_OF_YEAR+"\">"+paramRequest.getLocaleString("lblWeekOfYear")+"</option>");
             out.println("     <option value=\""+Calendar.MONTH+"\">"+paramRequest.getLocaleString("lblMonth")+"</option>");
             out.println("    </select>");
