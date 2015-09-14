@@ -2503,7 +2503,6 @@ var _GraphicalElement = function(obj) {
                     obj.move(ToolKit.getEventX(evt), ToolKit.getEventY(evt));
                     obj.snap2Grid();
                     obj.layer = ToolKit.layer;
-                    Modeler.fadeInObject(obj);
                     
                     var i, nodes = ToolKit.svg.childNodes || [],
                         length = nodes.length,
@@ -3589,55 +3588,6 @@ var _GraphicalElement = function(obj) {
             return obj;
         },
 /***********Utilerías para manipular la información de los procesos*************/
-    /**
-     * fadeInObject
-     * @param {type} obj
-     * @returns {undefined}
-     */
-        fadeInObject: function (obj) {
-            var animation = document.createElementNS(ToolKit.svgNS, 'animate');
-            animation.setAttributeNS(null, 'attributeName', 'fill-opacity');
-            animation.setAttributeNS(null, 'begin', "0s");
-            animation.setAttributeNS(null, 'from', "0");
-            animation.setAttributeNS(null, 'to', "1");
-            animation.setAttributeNS(null, 'dur', "0.2s");
-            animation.setAttributeNS(null, 'fill', "freeze");
-            obj.appendChild(animation);
-
-            var animation2 = document.createElementNS(ToolKit.svgNS, 'animate');
-            animation2.setAttributeNS(null, 'attributeName', 'stroke-opacity');
-            animation2.setAttributeNS(null, 'begin', "0s");
-            animation2.setAttributeNS(null, 'from', "0");
-            animation2.setAttributeNS(null, 'to', "1");
-            animation2.setAttributeNS(null, 'dur', "0.2s");
-            animation2.setAttributeNS(null, 'fill', "freeze");
-            obj.appendChild(animation2);
-            
-            animation2.beginElement();
-        },
-                
-        fadeoutObject: function(obj) {
-            var animation = document.createElementNS(ToolKit.svgNS, 'animate');
-            animation.setAttributeNS(null, 'attributeName', 'fill-opacity');
-            animation.setAttributeNS(null, 'begin', "0s");
-            animation.setAttributeNS(null, 'from', "1");
-            animation.setAttributeNS(null, 'to', "0");
-            animation.setAttributeNS(null, 'dur', "0.2s");
-            animation.setAttributeNS(null, 'fill', "freeze");
-            obj.appendChild(animation);
-
-            var animation2 = document.createElementNS(ToolKit.svgNS, 'animate');
-            animation2.setAttributeNS(null, 'attributeName', 'stroke-opacity');
-            animation2.setAttributeNS(null, 'begin', "0s");
-            animation2.setAttributeNS(null, 'from', "1");
-            animation2.setAttributeNS(null, 'to', "0");
-            animation2.setAttributeNS(null, 'dur', "0.2s");
-            animation2.setAttributeNS(null, 'fill', "freeze");
-            obj.appendChild(animation2);
-            
-            animation2.beginElement();
-        },
-
         getJSONObject: function(obj) {
             var ret = {};
             
