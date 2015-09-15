@@ -52,7 +52,6 @@ import java.util.Map;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.util.Pair;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -288,7 +287,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
                 //System.out.println("Data new: "+socialStreamSerch.getNextDatetoSearch());
                 tumblrListenHelper = new TumblrListenHelper(incomingPhasesFromStream(stream));   
             }else{
-                tumblrListenHelper = new TumblrListenHelper(socialStreamSerch.getNextDatetoSearch());
+                tumblrListenHelper = new TumblrListenHelper(socialStreamSerch.getNextDatetoSearch(),socialStreamSerch);
                 //System.out.println("Data old: "+ tumblrListenHelper.getFormatString());
                 
             }        
@@ -325,7 +324,7 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
             params = new HashMap();
             String phase = iteratorPhases.next();
             TumblrListenHelper.TumblrTimeHelper timeHelper = tumblrListenHelper.getTimeHelper(phase);
-         
+            if(timeHelper== null)break;
             if (timeHelper.getReachInit() == 0 ){
                 timeHelper.setReachInit(firtsTimePost);
             }
@@ -548,12 +547,23 @@ public class Tumblr extends org.semanticwb.social.base.TumblrBase {
         }
         
     }
-    TumblrListenHelper(String iteratorPhases) {
+    TumblrListenHelper(String iteratorPhases, SocialNetStreamSearch socialStreamSerch) {
         iterationInfo = new HashMap<String, TumblrTimeHelper>();
-        String[] split = iteratorPhases.split("==");
-        
+        String[] split = iteratorPhases.replace("|","==").split("==");
+        //System.out.println("Iterator:"+ iteratorPhases);
         for(int i =  0; i< split.length; i+=4){
-            iterationInfo.put(split[i], new TumblrTimeHelper(Long.valueOf(split[i+1]),Long.valueOf( split[i+2]),Long.valueOf(split[i+3])));
+            if(split.length -i >=4){
+                try{
+                   Long.valueOf(split[i+1]);Long.valueOf( split[i+2]);Long.valueOf(split[i+3]);
+                }catch(NumberFormatException ex){
+                    split[i+1] = "0";split[i+2] = "0";split[i+3] = "0";
+                }finally{ 
+                     iterationInfo.put(split[i], new TumblrTimeHelper(Long.valueOf(split[i+1]),Long.valueOf( split[i+2]),Long.valueOf(split[i+3])));
+                       
+                }   
+            }else{
+                socialStreamSerch.setNextDatetoSearch(null);
+            }
         }
     }
     
