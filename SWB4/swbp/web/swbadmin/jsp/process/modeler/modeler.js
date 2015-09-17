@@ -2755,7 +2755,7 @@ var _GraphicalElement = function(obj) {
                     var inConnections = obj.toObject.inConnections,
                         idx = inConnections.indexOf(obj);
                 
-                    inConnections.splice(idx);
+                    inConnections.splice(idx, 1);
                     obj.toObject = null;
                     Modeler.dragConnection = obj;
                     obj.pressed = false;
