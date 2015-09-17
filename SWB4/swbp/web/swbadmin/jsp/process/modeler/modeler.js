@@ -2201,7 +2201,7 @@ var _GraphicalElement = function(obj) {
         selectedPath:null,
         navPath:null,
         window:null,
-        version:"0.1.1",
+        version:"0.1.2",
                 
         init:function(svgid, options, callbackHandler)
         {
