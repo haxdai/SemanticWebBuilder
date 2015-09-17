@@ -32,7 +32,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import javax.servlet.http.HttpServletRequest;
@@ -751,7 +750,6 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             }
             
             Map<String, String> params = new HashMap<String, String>(4);
-            //System.out.println("Tiempo de vigencia de token (mseg): " + timeLeft);
             if (timeLeft < 1) {
                 String emailApp = this.getAppKey().substring(0, this.getAppKey().indexOf(".apps.googleusercontent.com")) +
                         "@developer.gserviceaccount.com";
@@ -761,7 +759,6 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 params.put("client_secret", this.getSecretKey());
                 params.put("grant_type", "refresh_token");
                 String res = this.postRequest(params, "https://accounts.google.com/o/oauth2/token", Google.USER_AGENT);
-                System.out.println("Respuesta a refrescado de token:\n" + res);
                 try {
                     if (res != null && !res.isEmpty()) {
                         JSONObject userData = new JSONObject(res);
@@ -948,16 +945,16 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         OutputStream out = null;
         InputStream in = null;
         String response = null;
-        StringBuilder toFile = new StringBuilder(128);
+//        StringBuilder toFile = new StringBuilder(128);
 
         try {
             CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
             URL serverUrl = new URL(url);
-            toFile.append("\nHACIENDO PETICION A:**** **** ****\n");
-            toFile.append(url);
-            toFile.append("\nparamString:\n");
-            toFile.append(paramString);
-            toFile.append("\n");
+//            toFile.append("\nHACIENDO PETICION A:**** **** ****\n");
+//            toFile.append(url);
+//            toFile.append("\nparamString:\n");
+//            toFile.append(paramString);
+//            toFile.append("\n");
             conex = (HttpURLConnection) serverUrl.openConnection();
             int hostIndex = url.indexOf(".com");
             hostIndex = url.indexOf("/", hostIndex);
@@ -996,7 +993,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         if (response == null) {
             response = "";
         }
-        System.out.println(toFile.toString());
+//        System.out.println(toFile.toString());
         return response;
     }
     
@@ -1027,7 +1024,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         String response = null;
 
         if (method == null) {
-            method = "POST";
+            method = "GET";
         }
         try {
             conex = (HttpURLConnection) serverUrl.openConnection();

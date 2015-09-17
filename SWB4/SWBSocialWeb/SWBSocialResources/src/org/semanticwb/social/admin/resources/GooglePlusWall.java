@@ -1,6 +1,5 @@
 package org.semanticwb.social.admin.resources;
 
-import com.google.api.services.plus.Plus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
@@ -29,7 +28,8 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.social.Google;
 
 /**
- *
+ * Genera el despliegue del muro de Google+ en la interface de SWBSocial, asi como
+ * la organizacion y las opciones disponibles para la informacion mostrada.
  * @author jose.jimenez
  */
 public class GooglePlusWall extends GenericResource {
@@ -119,6 +119,11 @@ public class GooglePlusWall extends GenericResource {
             response.setHeader("Cache-Control", "no-cache");
             response.setHeader("Pragma", "no-cache");
             doGetActivities(request, response, paramRequest);
+        } else if (mode.equals("getPeople")) {
+            response.setContentType("text/html; charset=ISO-8859-1");
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Pragma", "no-cache");
+            doGetPeople(request, response, paramRequest);
         } else if (mode.equals("showUserProfile")) {
             response.setContentType("text/html; charset=ISO-8859-1");
             response.setHeader("Cache-Control", "no-cache");
@@ -139,12 +144,14 @@ public class GooglePlusWall extends GenericResource {
     }
     
     /**
-     * Obtiene las 20 (por defecto) pubicaciones mas recientes en el perfil del usuario autenticado
-     * @param request
-     * @param response
-     * @param paramRequest
-     * @throws SWBResourceException
-     * @throws IOException 
+     * Obtiene las pubicaciones mas recientes en el perfil del usuario autenticado en bloques de 25
+     * @param request la peticion HTTP creada por el cliente
+     * @param response la respuesta HTTP generada para contestar la peticion
+     * @param paramRequest objeto que contiene datos adicionales de la petición 
+     *        del cliente correspondientes a la plataforma de SWB
+     * @throws SWBResourceException si ocurre un problema con los elementos de la plataforma de SWB
+     * @throws IOException si ocurre algun problema durante la lectura de la peticion del cliente
+     *         o la escritura de la respuesta correspondiente
      */
     public void doGetActivities(HttpServletRequest request, HttpServletResponse response,
             SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -152,7 +159,8 @@ public class GooglePlusWall extends GenericResource {
         String objUri = request.getParameter("suri");
         User user = paramRequest.getUser();
         Google semanticGoogle = (Google) SemanticObject.createSemanticObject(URLDecoder.decode(objUri, "UTF-8")).createGenericInstance();
-        //PrintWriter out = response.getWriter();
+        String paramNextPageToken = request.getParameter("nextPageToken");//para hacer la peticion a G+
+        boolean isFirstTime = paramNextPageToken == null || paramNextPageToken.isEmpty() ? true : false;
         String userAttributes = "http://www.semanticwebbuilder.org/swb4/social#SocialUserExtAttributes";
 
         if (!semanticGoogle.validateToken()) {//If was unable to refresh the token
@@ -177,8 +185,11 @@ public class GooglePlusWall extends GenericResource {
             request.setAttribute("userCanRespondMsg", userCanRespondMsg);
             request.setAttribute("userCanRemoveMsg", userCanRemoveMsg);
             
-            HashMap<String, String> params = new HashMap<String, String>(2);
-            params.put("maxResults", "30");
+            HashMap<String, String> params = new HashMap<>(2);
+            params.put("maxResults", "25");
+            if (paramNextPageToken != null && !paramNextPageToken.isEmpty()) {
+                params.put("pageToken", paramNextPageToken);
+            }
             String googleResponse = semanticGoogle.apiRequest(params,
                     "https://www.googleapis.com/plus/v1/people/me/activities/public", "GET");
             JSONArray activities = null;
@@ -195,6 +206,9 @@ public class GooglePlusWall extends GenericResource {
             request.setAttribute("activities", activities);
             request.setAttribute("nextPageToken", nextPageToken);
             request.setAttribute("paramRequest", paramRequest);
+            if (isFirstTime) {
+                request.setAttribute("initial", isFirstTime);
+            }
             String jspResponse = SWBPlatform.getContextPath() + "/work/models/" +
                                  paramRequest.getWebPage().getWebSiteId() +
                                  "/jsp/socialNetworks/googlePlusNovelties.jsp";
@@ -202,7 +216,71 @@ public class GooglePlusWall extends GenericResource {
             try {
                 dis.include(request, response);
             } catch (Exception e) {
-                GooglePlusWall.log.error("Error al enviar flujo a JSP" , e);
+                GooglePlusWall.log.error("Error al enviar flujo a googlePlusNovelties.jsp" , e);
+            }
+        }
+    }
+    
+    /**
+     * Obtiene las personas asociadas al perfil del usuario autenticado en bloques de 20 elementos.
+     * @param request la peticion HTTP creada por el cliente
+     * @param response la respuesta HTTP generada para contestar la peticion
+     * @param paramRequest objeto que contiene datos adicionales de la petición 
+     *        del cliente correspondientes a la plataforma de SWB
+     * @throws SWBResourceException si ocurre un problema con los elementos de la plataforma de SWB
+     * @throws IOException si ocurre algun problema durante la lectura de la peticion del cliente
+     *         o la escritura de la respuesta correspondiente
+     */
+    public void doGetPeople(HttpServletRequest request, HttpServletResponse response,
+            SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+        String objUri = request.getParameter("suri");
+//        User user = paramRequest.getUser();
+        Google semanticGoogle = (Google) SemanticObject.createSemanticObject(URLDecoder.decode(objUri, "UTF-8")).createGenericInstance();
+        String paramNextPageToken = request.getParameter("peopleNextPageToken");//para hacer la peticion a G+
+        boolean isFirstTime = paramNextPageToken == null || paramNextPageToken.isEmpty() ? true : false;
+        //PrintWriter out = response.getWriter();
+
+        if (!semanticGoogle.validateToken()) {//If was unable to refresh the token
+            request.setAttribute("problem", "Problem refreshing access token");
+        } else {
+            //Plus apiPlus = semanticGoogle.getApiPlusInstance();
+            request.setAttribute("tabTitle", semanticGoogle.getTitle());
+            
+            HashMap<String, String> params = new HashMap<>(2);
+            params.put("maxResults", "20");
+            if (paramNextPageToken != null && !paramNextPageToken.isEmpty()) {
+                params.put("pageToken", paramNextPageToken);
+            }
+            String googleResponse = semanticGoogle.apiRequest(params,
+                    "https://www.googleapis.com/plus/v1/people/me/people/visible", "GET");
+            JSONArray people = null;
+            String nextPageToken = null;
+            try {
+                JSONObject plusResponse = new JSONObject(googleResponse);
+                if (!plusResponse.has("error") && plusResponse.has("items")) {
+                    people = plusResponse.getJSONArray("items");
+                    nextPageToken = !plusResponse.isNull("nextPageToken")
+                                    ? plusResponse.getString("nextPageToken")
+                                    : ""; //para la interface del listado
+                }
+            } catch (JSONException jsone) {
+                GooglePlusWall.log.error("Al obtener contactos del Wall", jsone);
+            }
+            request.setAttribute("people", people);
+            request.setAttribute("peopleNextPageToken", nextPageToken);
+            request.setAttribute("paramRequest", paramRequest);
+            if (isFirstTime) {
+                request.setAttribute("initial", isFirstTime);
+            }
+            String jspResponse = SWBPlatform.getContextPath() + "/work/models/" +
+                                 paramRequest.getWebPage().getWebSiteId() +
+                                 "/jsp/socialNetworks/googlePlusCircles.jsp";
+            RequestDispatcher dis = request.getRequestDispatcher(jspResponse);
+            try {
+                dis.include(request, response);
+            } catch (Exception e) {
+                GooglePlusWall.log.error("Error al enviar flujo a googlePlusCircles.jsp" , e);
             }
         }
     }
