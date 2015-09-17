@@ -45,6 +45,7 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.io.SWBFile;
 import org.semanticwb.io.SWBFileInputStream;
+import org.semanticwb.model.GenericIterator;
 import org.semanticwb.model.Language;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
@@ -583,7 +584,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                             int cont = 0;
                             JSONObject dataOnBody = new JSONObject(phraseResp.getString("body"));
                             JSONArray postsData = dataOnBody.getJSONArray("data");
-                            ArrayList<ExternalPost> aListExternalPost = new ArrayList();
+                            ArrayList<ExternalPost> aListExternalPost = new ArrayList<>();
                             for (int k = 0; k < postsData.length(); k++) {
                                 cont++;
                                 //System.out.println("FaceListen:"+postsData.getJSONObject(k).toString());
@@ -629,7 +630,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                                 if (postsData.getJSONObject(k).has("picture")) {
 
                                     //external.setPicture(postsData.getJSONObject(k).getString("picture"));
-                                    ArrayList pictures = new ArrayList();
+                                    ArrayList<String> pictures = new ArrayList<>();
                                     pictures.add(postsData.getJSONObject(k).getString("picture"));
                                     external.setPictures(pictures);
                                 }
@@ -699,7 +700,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                                     } else if (postsData.getJSONObject(k).getString("type").equals("photo")) {//Photo
                                         if (postsData.getJSONObject(k).has("picture")) {
                                             //external.setPicture(postsData.getJSONObject(k).getString("picture"));
-                                            ArrayList pictures = new ArrayList();
+                                            ArrayList<String> pictures = new ArrayList<>();
                                             pictures.add(postsData.getJSONObject(k).getString("picture"));
                                             external.setPictures(pictures);
                                             external.setPostType(SWBSocialUtil.PHOTO);
@@ -1932,7 +1933,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
 
     @Override
     public HashMap<String, Long> monitorPostOutResponses(PostOut postOut) {
-        HashMap hMapPostOutNets = new HashMap();
+        HashMap<String, Long> hMapPostOutNets = new HashMap<>();
         Iterator<PostOutNet> itPostOutNets = PostOutNet.ClassMgr.listPostOutNetBySocialPost(postOut);
         while (itPostOutNets.hasNext()) {
             PostOutNet postOutNet = itPostOutNets.next();
@@ -2116,14 +2117,14 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
         boolean removed = false;
 
         try {
-            Iterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
+            GenericIterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
             while (ponets.hasNext()) {
                 PostOutNet postoutnet = ponets.next();
                 if (postoutnet.getSocialNetwork().equals(socialNet)) {//PostOut enviado de la red social
                     if (postoutnet.getStatus() == 1) {//publicado
                         //System.out.println("1va a borrar!");
                         if (postoutnet.getPo_socialNetMsgID() != null) {//Tiene id
-                            HashMap<String, String> params = new HashMap<String, String>(2);
+                            HashMap<String, String> params = new HashMap<>(2);
                             params.put("access_token", this.getAccessToken());
 
                             String fbResponse = "";
@@ -2138,7 +2139,7 @@ public class Facebook extends org.semanticwb.social.base.FacebookBase {
                 }
             }
         } catch (Exception e) {
-            log.error("Post Not removed!");
+            Facebook.log.error("Post Not removed!");
         }
         return removed;
     }

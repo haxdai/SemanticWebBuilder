@@ -15,27 +15,30 @@ page import="org.semanticwb.portal.api.SWBResourceURL"%><%@
 page import="org.semanticwb.*"%><%@
 page import="org.semanticwb.social.admin.resources.GooglePlusWall"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/><%
-String tabTitle = (String) request.getAttribute("tabTitle");
-JSONArray activities = (JSONArray) request.getAttribute("activities");
-boolean userCanRetopicMsg = (Boolean) request.getAttribute("userCanRetopicMsg");
-boolean userCanRespondMsg = (Boolean) request.getAttribute("userCanRespondMsg");
-boolean userCanRemoveMsg = (Boolean) request.getAttribute("userCanRemoveMsg");
-String nextPageToken = (String) request.getAttribute("nextPageToken");
+    String tabTitle = (String) request.getAttribute("tabTitle");
+    JSONArray activities = (JSONArray) request.getAttribute("activities");
+    boolean userCanRetopicMsg = (Boolean) request.getAttribute("userCanRetopicMsg");
+    boolean userCanRespondMsg = (Boolean) request.getAttribute("userCanRespondMsg");
+    //boolean userCanRemoveMsg = (Boolean) request.getAttribute("userCanRemoveMsg");
+    String nextPageToken = (String) request.getAttribute("nextPageToken");
+    String objUri = request.getParameter("suri");
+    boolean isFirstTime = request.getAttribute("initial") != null ? (Boolean) request.getAttribute("initial") : false;
+    if (isFirstTime) {
 %>
 <style type="text/css">
     span.inline { display:inline; }
 </style>
-<div class="timelineTab" style="padding:10px 5px 10px 5px; overflow-y: scroll; height: 400px;">
+<div id="<%=objUri%>/getMoreActivities" class="timelineTab" style="padding:10px 5px 10px 5px; overflow-y: scroll; height: 400px;">
     <div class="timelineTab-title" style="width: 620px !important;">
         <p style="width:620px">
-            <strong>Mis Novedades</strong><%=tabTitle%>
+            <strong><%=paramRequest.getLocaleString("noveltiesTitle")%></strong><%=tabTitle%>
         </p>
     </div>
 <%
+    }
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy hh:mm a", new Locale("es", "MX"));
     SimpleDateFormat parseDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", new Locale("es", "MX"));
     String startIndex = request.getParameter("startIndex"); //para peticiones de comentarios de cada actividad
-    String objUri = request.getParameter("suri");
     Google semanticGoogle = (Google) SemanticObject.createSemanticObject(
             URLDecoder.decode(objUri, "UTF-8")).createGenericInstance();
     SWBModel model = WebSite.ClassMgr.getWebSite(semanticGoogle.getSemanticObject().getModel().getName());
@@ -230,21 +233,24 @@ String nextPageToken = (String) request.getAttribute("nextPageToken");
         } catch (Exception e) {
             GooglePlusWall.log.error("Problema imprimiendo novedad", e);
         }
-    /*
+        
         if (nextPageToken != null && !nextPageToken.isEmpty()) {
-% >
-    <div id="<%=objUri% >/getMoreActivities" dojoType="dojox.layout.ContentPane">
+%>
+    <div dojoType="dojox.layout.ContentPane">
         <div align="center" style="margin-bottom: 10px;">
-            <label id="<%=objUri% >/moreActsLabel">
-                <a href="#" onclick="appendHtmlAt('<%=paramRequest.getRenderUrl().setMode("getMoreActs").
+            <label id="<%=objUri%>/moreActsLabel">
+                <a href="#" onclick="appendHtmlAt('<%=paramRequest.getRenderUrl().setMode("getActivities").
                         setParameter("nextPageToken", nextPageToken).
-                        setParameter("suri", objUri)% >', '<%=objUri% >/getMoreActivities', 'bottom');try{this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);}catch(noe){}; return false;">
+                        setParameter("suri", objUri)%>', '<%=objUri%>/getMoreActivities', 'bottom');try{this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);}catch(noe){}; return false;">
                     M&aacute;s Actividades
                 </a></label>
         </div>
     </div>
-< %
+<%
         }
-            */
+    if (isFirstTime) {
 %>
 </div>
+<%
+    }
+%>
