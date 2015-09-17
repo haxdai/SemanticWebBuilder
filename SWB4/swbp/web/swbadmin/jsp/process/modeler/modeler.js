@@ -2725,6 +2725,10 @@ var _GraphicalElement = function(obj) {
                 Modeler.selectedPath = obj;
                 if (evt.button === 2) {
                     obj.fixed = !obj.fixed;
+                    //Unselect path after transformation
+                    obj.pressed = false;
+                    obj.select(false);
+                    Modeler.selectedPath = null;
                 }
                 if (obj.fixed) {
                     ToolKit.createLineHandlers(obj);
