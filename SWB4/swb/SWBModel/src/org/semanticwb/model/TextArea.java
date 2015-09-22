@@ -130,7 +130,11 @@ public class TextArea extends TextAreaBase {
 
             //String path = SWBPlatform.getContextPath() + "/resources/jsp/forum/images/emotion/";
 
-            ret = "<textarea name=\"" + name + "\" dojoType_=\"dijit.Editor\"";
+            ret = "<textarea name=\"" + name + "\" ";
+            if(DOJO) {
+            ret += " dojoType=\"dijit.form.ValidationTextArea\"";
+            ret += " promptMessage=\""+pmsg+"\"";
+            }
 
             if (getRows() > 0) {
                 ret += " rows=\"" + getRows() + "\"";
