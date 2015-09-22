@@ -133,7 +133,7 @@ public class TextArea extends TextAreaBase {
             ret = "<textarea name=\"" + name + "\" ";
             if(DOJO) {
             ret += " dojoType=\"dijit.form.ValidationTextArea\"";
-            ret += " promptMessage=\""+pmsg+"\"";
+            ret += " promptMessage=\""+pmsg+"\" ";
             }
 
             if (getRows() > 0) {
