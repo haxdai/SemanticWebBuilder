@@ -1732,7 +1732,9 @@ function isValidEmail(email) {
      
      RETURNS: true if es válida, de lo contrario false.
      *************************************************/
-    var filter = /^([a-zA-Z0-9\_\.\-])+@(([a-zA-Z0-9\-\_])+.)+([a-zA-Z0-9]{2,4})+$/;
+    //var filter = /^([a-zA-Z0-9\_\.\-])+@(([a-zA-Z0-9\-\_])+.)+([a-zA-Z0-9]{2,4})+$/;
+    //var filter = /^([\w\.\-])+@(([\w\-])+\.)+(\w{2,4})+$/g;
+    var filter = new RegExp("^[a-z][\w\.\-]+@(([\w\-])+\.)+(\w{2,4})+$", "g");
     if (!filter.test(email)) {
         return false;
     }
