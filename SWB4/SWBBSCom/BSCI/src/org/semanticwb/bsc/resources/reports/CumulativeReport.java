@@ -130,15 +130,15 @@ html.append("});\n");
 
 html.append("  function showGraph() {\n");
 //html.append("    if(radioBtn.value == 1 && radioBtn.checked) {\n");
-//html.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
-//html.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
-//html.append("        .datum(long_short_data)\n");
-//html.append("        .call(chart);\n");
-//html.append("    }else if(radioBtn.value == 2 && radioBtn.checked) {\n");
 html.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
 html.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
 html.append("        .datum(long_short_data)\n");
-html.append("        .call(chart2);\n");
+html.append("        .call(chart);\n");
+//html.append("    }else if(radioBtn.value == 2 && radioBtn.checked) {\n");
+//html.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+//html.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
+//html.append("        .datum(long_short_data)\n");
+//html.append("        .call(chart2);\n");
 //html.append("    }\n");
 html.append("  }\n");
 
