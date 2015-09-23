@@ -128,18 +128,19 @@ html.append("  nv.utils.windowResize(chart2.update);\n");
 html.append("  return chart2;\n");
 html.append("});\n");
 
-html.append("  function showGraph() {\n");
-//html.append("    if(radioBtn.value == 1 && radioBtn.checked) {\n");
-html.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
-html.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
-html.append("        .datum(long_short_data)\n");
+html.append("  function showGraph(dato) {\n");
+//output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+//output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
+//output.append("        .datum(long_short_data)\n");
+//output.append("        .call(chart);\n");
+
+//html.append("d3.select('#"+SVG_ID+"').selectAll('*').remove();\n");
+html.append("    for(var i=0; i<dato.length; i++) {");
+html.append("      console.log('dato[',i,']=',dato[i]);\n");
+html.append("      d3.select('#"+SVG_ID+"').append('svg')\n");
+html.append("        .datum(dato[i])\n");
 html.append("        .call(chart);\n");
-//html.append("    }else if(radioBtn.value == 2 && radioBtn.checked) {\n");
-//html.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
-//html.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
-//html.append("        .datum(long_short_data)\n");
-//html.append("        .call(chart2);\n");
-//html.append("    }\n");
+html.append("    }");
 html.append("  }\n");
 
 html.append("  function getData(url) {\n");
@@ -148,8 +149,8 @@ html.append("      url: url,");
 html.append("      handleAs: 'json',\n");
 html.append("      preventCache: true,\n");
 html.append("      load: function(dato, ioargs) {\n");
-html.append("        long_short_data = dato;");
-html.append("        showGraph();");
+//html.append("        dojo.empty('"+SVG_ID+"');\n");
+html.append("          showGraph(dato);");
 html.append("      },\n");
 html.append("      error: function(error, ioargs) {\n");
 html.append("        alert('Uno o varios campos son incorrectos. Hace falta corregirlos e intentar de nuevo');\n");
@@ -455,7 +456,7 @@ html.append(" </div>\n");
         pfrId = request.getParameter("pfr");
         ptoId = request.getParameter("pto");
 
-StringBuilder output = new StringBuilder();
+        StringBuilder output = new StringBuilder();
 
         BSC bsc = (BSC)paramRequest.getWebPage().getWebSite();
         if(prspId.isEmpty() || (!prspId.isEmpty() && Perspective.ClassMgr.hasPerspective(prspId, bsc)) ) {
@@ -473,11 +474,14 @@ StringBuilder output = new StringBuilder();
                     if(Period.ClassMgr.hasPeriod(ptoId, bsc)) {
                         Period pto = Period.ClassMgr.getPeriod(ptoId, bsc);
                         if(pto.compareTo(pfr)>=0) {
-                            List<Indicator> indicators = obj.listValidIndicators();
-                            for(Indicator indicator:indicators) {
-                                
-System.out.println("indicador="+indicator.getTitle());
-
+                            //List<Indicator> indicators = obj.listValidIndicators();
+                            Indicator indicator;
+                            Iterator<Indicator> indicators = obj.listValidIndicators().iterator();
+                            output.append("[\n");
+                            while(indicators.hasNext()) {
+                            //for(Indicator indicator:indicators) {
+                                indicator = indicators.next();
+System.out.println("\n\n indicador="+indicator.getTitle());
 
 List<Series> seriesLst = indicator.listValidSerieses();
 Collections.sort(seriesLst);
@@ -485,7 +489,6 @@ Iterator<Series> serieses = seriesLst.iterator();
 if(serieses.hasNext())
 {
     int colorIndex = -1;
-    //output.append("<script type=\"text/javascript\">\n");
     output.append("[\n");
     while(serieses.hasNext()) 
     {
@@ -525,15 +528,14 @@ if(serieses.hasNext())
             output.append(" \"label\" : \"");
             output.append(aux.getDisplayTitle(lang));
             output.append("\", ");
-            output.append("\"value\" : ");
             try {
                 if( !Float.isNaN(measure.getValue()) ) {
                 //if (measure.getValue() != 0) {
+                    output.append("\"value\" : ");
                     output.append(measure.getValue());
                 }
             } catch (Exception e) {
-                //output.append("\"value\" : 0.0 ");
-                output.append("0.0");
+                output.append("\"value\" : 0.0 ");
             }
             output.append(" }");
             periodsCount++;
@@ -546,31 +548,21 @@ if(serieses.hasNext())
         output.append(serieses.hasNext()?",\n":"\n");
     }
     output.append("]");
-    //output.append("</script>\n");
+    if(indicators.hasNext()) {
+        output.append(",");
+    }
+    output.append("\n");
 }
-System.out.println("\n\njson:"+output);
-PrintWriter out = response.getWriter();
-out.write(output.toString());
-                            }
-                        }else {
-System.out.println("5");
-                            response.getWriter().write("periodo final es menor qe periodo inicial");
-                        }
-                    }else {
-System.out.println("4");
-                        response.getWriter().write("falta periodo final");
+                            } // while
+                            output.append("]");
+                            
+                            PrintWriter out = response.getWriter();
+                            System.out.println("..................\n"+output);
+                            out.write(output.toString());
+                        } // comparator
                     }
-                }else {
-System.out.println("3");
-                    response.getWriter().write("falta periodo inicial");
                 }
-            }else {
-System.out.println("2");
-                response.getWriter().write("falta objetivo");
             }
-        }else {
-System.out.println("1");
-            response.getWriter().write("falta perspectiva");
         }
         response.flushBuffer();
     }
