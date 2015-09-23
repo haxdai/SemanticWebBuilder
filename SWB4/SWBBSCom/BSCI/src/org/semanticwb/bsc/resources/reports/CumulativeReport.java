@@ -9,16 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.bsc.BSC;
-import org.semanticwb.bsc.ComponentExportable;
-import org.semanticwb.bsc.Perspective;
-import org.semanticwb.bsc.accessory.Period;
-import org.semanticwb.bsc.catalogs.Format;
-import org.semanticwb.bsc.element.Indicator;
-import org.semanticwb.bsc.element.Objective;
-import org.semanticwb.bsc.tracing.Measure;
-import org.semanticwb.bsc.tracing.Series;
-import static org.semanticwb.bsc.utils.BSCUtils.ColorPalette;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.User;
@@ -27,6 +17,15 @@ import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import static org.semanticwb.bsc.utils.BSCUtils.ColorPalette;
+import org.semanticwb.bsc.BSC;
+import org.semanticwb.bsc.ComponentExportable;
+import org.semanticwb.bsc.Perspective;
+import org.semanticwb.bsc.accessory.Period;
+import org.semanticwb.bsc.element.Indicator;
+import org.semanticwb.bsc.element.Objective;
+import org.semanticwb.bsc.tracing.Measure;
+import org.semanticwb.bsc.tracing.Series;
 
 /**
  *
@@ -67,32 +66,31 @@ public class CumulativeReport extends GenericResource implements ComponentExport
         html.append("require([\"dojo/parser\", \"dijit/form/Form\", \"dijit/form/ValidationTextBox\"\n"
                 +", \"dijit/form/FilteringSelect\", \"dijit/form/CheckBox\", \"dijit/form/Button\"]);\n");
 
-html.append("  var long_short_data;\n");
+//html.append("  var long_short_data;\n");
 html.append("  var chart;\n");
 html.append("  var chart2;\n");
+
 html.append("nv.addGraph(function() {\n");
 html.append("  chart = nv.models.multiBarHorizontalChart()\n");
 html.append("      .x(function(d) { return d.label })\n");
 html.append("      .y(function(d) { return d.value })\n");
-html.append("    .margin({top: 30");
-//html.append(marginTopH);
-html.append(", right: 20");
-//html.append(marginRightH);
-html.append(", bottom: 40");
-//html.append(marginBottomH);
-html.append(", left: 125");
-//html.append(marginLeftH);
-html.append(" })\n");
-html.append("    .transitionDuration(250)\n");
-html.append("    .showControls(false);\n");    /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
+html.append("    .margin({top:10, right:20, bottom:40, left:120})\n");
+html.append("    .transitionDuration(500)\n");
+html.append("    .stacked(true)\n");
+html.append("    .showControls(true);\n");   /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
+html.append("  chart.xAxis\n");
+//html.append("    .axisLabel('Períodos de mediciones')\n");
+html.append("    .axisLabelDistance(35)\n");
+html.append("    .showMaxMin(true);\n");
 html.append("  chart.yAxis\n");
-html.append("    .tickFormat(d3.format(',.2f'));\n");
-html.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
-html.append("    .datum(long_short_data)\n");
-html.append("    .call(chart);\n");
+//html.append("    .axisLabel('Pesos mexicanos')\n");
+//html.append("    .axisLabelDistance(20)\n");
+html.append("    .tickFormat(d3.format(',.2f'))\n");
+html.append("    .showMaxMin(true);\n");
 html.append("  nv.utils.windowResize(chart.update);\n");
 html.append("  return chart;\n");
 html.append("});\n");
+//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°//
 html.append("nv.addGraph(function() {\n");
 html.append("  chart2 = nv.models.multiBarChart()\n");
 html.append("    .x(function(d) { return d.label })\n");
@@ -112,18 +110,15 @@ html.append("    .rotateLabels(-80");
 //html.append(rotateLabels);
 html.append(")\n"); 
 //html.append("    .staggerLabels(true)\n");   /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
-html.append("    .showControls(false)\n");    /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
+html.append("    .showControls(true)\n");    /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
 html.append("    .groupSpacing(0.1);\n");    /*Distance between each group of bars.*/
 html.append("  chart2.xAxis\n");
-//html.append("      .axisLabel('ID of Furry Cat Households'')\n");
-//html.append("      .axisLabelDistance(35)\n");
-//html.append("      .showMaxMin(false)\n");
+html.append("      .axisLabel('Períodos de mediciones')\n");
+html.append("      .showMaxMin(false)\n");
+html.append("      .axisLabelDistance(35);\n");
+html.append("  chart2.yAxis\n");
+//html.append("    .axisLabel('Pesos mexicanos')\n");
 html.append("      .tickFormat(d3.format(',.2f'));\n");
-//html.append("  chart2.yAxis\n");
-//html.append("      .tickFormat(d3.format(',.2f'));\n");
-html.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
-html.append("    .datum(long_short_data)\n");
-html.append("    .call(chart2);\n");
 html.append("  nv.utils.windowResize(chart2.update);\n");
 html.append("  return chart2;\n");
 html.append("});\n");
@@ -134,10 +129,10 @@ html.append("  function showGraph(dato) {\n");
 //output.append("        .datum(long_short_data)\n");
 //output.append("        .call(chart);\n");
 
-//html.append("d3.select('#"+SVG_ID+"').selectAll('*').remove();\n");
+html.append("d3.select('#"+SVG_ID+"').selectAll(\"*\").remove();\n");
 html.append("    for(var i=0; i<dato.length; i++) {");
 html.append("      console.log('dato[',i,']=',dato[i]);\n");
-html.append("      d3.select('#"+SVG_ID+"').append('svg')\n");
+html.append("      d3.select('#"+SVG_ID+"').append('div').attr('class', 'col-md-6').append('svg').attr('id','"+SVG_ID+"_'+i).attr('height','350px')\n");
 html.append("        .datum(dato[i])\n");
 html.append("        .call(chart);\n");
 html.append("    }");
@@ -418,13 +413,15 @@ html.append("</div>\n");
 //html.append("</form>\n");
 
 //html.append("<div id=\"rep_cntr\">\n");
-html.append(" <div id=\"").append(SVG_ID).append("\" class=\"with-3d-shadow with-transitions\" style=\"float:left;\">\n");
+//html.append(" <div id=\"").append(SVG_ID).append("\" class=\"with-3d-shadow with-transitions\" style=\"float:left;width:100%;height:100%;\">\n");
+html.append("<div class=\"clearfix\"></div>");
+html.append(" <div id=\"").append(SVG_ID).append("\" class=\"row\" >\n");
 //html.append("  <div class=\"centerSvg\">\n");
-html.append("   <svg style=\"height: 300px");
+//html.append("   <svg style=\"height: 300px");
 //html.append(graphHeight);
-html.append("; width: 400px");
+//html.append("; width: 400px");
 //html.append(graphWidth);
-html.append(";\"></svg>\n");
+//html.append(";\"></svg>\n");
 //html.append("  </div>\n");
 html.append(" </div>\n");
 //html.append("</div>\n");
@@ -481,8 +478,6 @@ html.append(" </div>\n");
                             while(indicators.hasNext()) {
                             //for(Indicator indicator:indicators) {
                                 indicator = indicators.next();
-System.out.println("\n\n indicador="+indicator.getTitle());
-
 List<Series> seriesLst = indicator.listValidSerieses();
 Collections.sort(seriesLst);
 Iterator<Series> serieses = seriesLst.iterator();
@@ -493,21 +488,24 @@ if(serieses.hasNext())
     while(serieses.hasNext()) 
     {
         Series graphSeries = serieses.next();
-//System.out.println("series="+graphSeries.getTitle());        
-        Format seriesFormat = graphSeries.getFormat();
+        if(!graphSeries.getDisplayTitle(lang).toLowerCase().contains("acumula")) {
+            continue;
+        }
+        
+//        Format seriesFormat = graphSeries.getFormat();
         output.append("{");
         //Se coloca el identificador de cada serie
-        if(seriesFormat != null) {
+//        if(seriesFormat != null) {
+//            output.append("  key: \"");
+//            output.append(graphSeries.getDisplayTitle(lang));
+//            output.append(" en ");
+//            output.append(seriesFormat.getDisplayTitle(lang));
+//            output.append("\" ,\n");
+//        }else {
             output.append("  key: \"");
             output.append(graphSeries.getDisplayTitle(lang));
-            output.append(" en ");
-            output.append(seriesFormat.getDisplayTitle(lang));
             output.append("\" ,\n");
-        }else {
-            output.append("  key: \"");
-            output.append(graphSeries.getDisplayTitle(lang));
-            output.append("\" ,\n");
-        }
+//        }
         colorIndex = ++colorIndex % ColorPalette.length;
         output.append("  color: '");
         output.append(ColorPalette[colorIndex]);
@@ -519,7 +517,6 @@ if(serieses.hasNext())
         //Recorre los periodos y valores de la serie para graficarlos
         do {
         //for(Period period : periodsList) {
-//System.out.println("periodo="+aux.getTitle());
             Measure measure = graphSeries.getMeasure(aux);
             if (periodsCount > 0) {
                 output.append(",\n");
