@@ -136,7 +136,7 @@ html.append("      chart.showControls(true);\n");   /*Allow user to switch betwe
 html.append("      chart.yAxis.tickFormat(d3.format(',.2f'));\n");
 html.append("      chart.yAxis.showMaxMin(true);\n");
 
-html.append("      d3.select('#"+SVG_ID+"').append('div').attr('class', 'col-md-6').attr('style','height:350px;').append('svg').attr('id','"+SVG_ID+"_'+i).attr('height','100%')\n");
+html.append("      d3.select('#"+SVG_ID+"').append('div').attr('class', 'col-md-6').attr('style','height:350px;').append('svg').attr('id','"+SVG_ID+"_'+i).attr('width','100%').attr('height','100%')\n");
 html.append("          .datum(dato[i])\n");
 html.append("          .call(chart);\n");
 html.append("      nv.utils.windowResize(chart.update);\n");
