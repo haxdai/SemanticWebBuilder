@@ -77,6 +77,7 @@ html.append("      .y(function(d) { return d.value })\n");
 html.append("    .margin({top:10, right:20, bottom:40, left:120})\n");
 html.append("    .transitionDuration(500)\n");
 html.append("    .stacked(true)\n");
+html.append("    .showLegend(true)");
 html.append("    .showControls(true);\n");   /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
 html.append("  chart.xAxis\n");
 //html.append("    .axisLabel('Períodos de mediciones')\n");
