@@ -76,7 +76,7 @@ import org.semanticwb.process.xpdl.XPDLParser;
 /**
  * Modelador de procesos basado en SVG y Javascript.
  *
- * @author Hasdai Pacheco <ebenezer.sanchez@infotec.com.mx>
+ * @author Hasdai Pacheco <ebenezer.sanchez@infotec.mx>
  */
 public class SVGModeler extends GenericAdmResource {
 
@@ -258,6 +258,11 @@ public class SVGModeler extends GenericAdmResource {
         }
     }
 
+    /**
+     * Obtiene la cadena de error en base a los mensajes definidos.
+     * @param id ID del error
+     * @return Cadena de texto con el error especificado
+     */
     public String getError(int id) {
         String ret = "ERR:";
         if (id == 0) {
@@ -324,9 +329,9 @@ public class SVGModeler extends GenericAdmResource {
     }
 
     /**
-     * Utilizado para identificar que elementos del proceso que se han eliminado
-     * Aquí también se eliminan todos los elementos de coneccion existentes Este
-     * sólo se debe utilizar cuando se actualiza el modelo delproceso.
+     * Utilizado para identificar qué elementos del proceso que se han eliminado.
+     * Aquí también se eliminan todos los elementos de conexión existentes. Este
+     * sólo se debe utilizar cuando se actualiza el modelo del proceso.
      *
      * @param process, Modelo a cargar los elementos del proceso
      * @return Vector, con los uris de los elementos existentes.
@@ -358,6 +363,11 @@ public class SVGModeler extends GenericAdmResource {
         return hmori;
     }
 
+    /**
+     * Carga los elementos de un subproceso a partir del listado de elementos.
+     * @param subprocess Subproceso a construir.
+     * @param hmori Lista de elementos recuperados del modelo.
+     */
     public void loadSubProcessElements(org.semanticwb.process.model.Containerable subprocess, HashMap hmori) {
         try {
             Iterator<GraphicalElement> it_fo = subprocess.listContaineds();
@@ -382,7 +392,7 @@ public class SVGModeler extends GenericAdmResource {
     }
 
     /**
-     * Verifica que el JSON del moelo está bien formado.
+     * Verifica que el JSON del moelo esté bien formado.
      *
      * @param process Proceso.
      * @param request
