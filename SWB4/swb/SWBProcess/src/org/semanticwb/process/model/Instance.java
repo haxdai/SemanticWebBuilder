@@ -164,7 +164,9 @@ public class Instance extends org.semanticwb.process.model.base.InstanceBase
                 //removeItemAwareReference(itemAwareReference);
                 if(!itemAwareReference.isProcessObjectReused())
                 {
-                    obj.remove();
+                    if (null != obj) {
+                        obj.remove();
+                    }
                 }
                 itemAwareReference.remove();
             }
