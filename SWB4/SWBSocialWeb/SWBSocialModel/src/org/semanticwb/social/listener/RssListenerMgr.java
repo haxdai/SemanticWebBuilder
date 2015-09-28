@@ -201,7 +201,29 @@ public class RssListenerMgr {
                                 CommunityNews comNew=itNews.next();
                                 //System.out.println("Entra a RssListenerTask/run-7:"+comNew);
                                 Date pubDate=null;
-                                if(comNew.getPubDate()!=null && comNew.getPubDate().trim().length()>0) pubDate=new Date(comNew.getPubDate());
+                                //System.out.println("comNew.getPubDate():"+comNew.getPubDate());
+                                String newPubDate=comNew.getPubDate();
+                                if(newPubDate!=null && newPubDate.trim().length()>0) {
+                                    try{
+                                        pubDate=new Date(newPubDate);
+                                    }catch(Exception e) 
+                                    {//Hay ocaciones que la fecha no exista de esta forma: Fri, 11 Sep 2015 12:44:22 GMT, que sería la forma correcta, 
+                                        //en cambio luego biene de esta forma 17:15, que solo representa una hora (Esto sucede en www.eluniversal.com.mx, 
+                                        //por lo que para ese caso se le da el siguiente tratamiento.
+                                        int pos=newPubDate.indexOf(":");
+                                        if(pos>-1)
+                                        {
+                                            try{
+                                                String hour=newPubDate.substring(0,pos);
+                                                String minute=newPubDate.substring(pos+1);
+                                                Date newDate=new Date();
+                                                newDate.setHours(Integer.parseInt(hour)); 
+                                                newDate.setMinutes(Integer.parseInt(minute)); 
+                                                pubDate=new Date(newDate.toString());
+                                            }catch(Exception ignored){}
+                                        }
+                                    }
+                                }
                                 if(pubDate!=null && pubDate.after(rssLastUpdate))
                                 {
                                     if(maxdateTmp==null || pubDate.after(maxdateTmp)) maxdateTmp=pubDate;
@@ -349,11 +371,11 @@ public class RssListenerMgr {
         {
             //System.out.println("RssListenerMsg/time2Start Para empezar por primera vez:"+time2Start);
             Timer timer = new Timer();
-            //timer.schedule(new CheckStreamsMsgbyDays(), 0, 60 * 1000); //Cada minuto
+            timer.schedule(new RssListenerMgr.ListenerTask(rss), 0, 60 * 1000); //Cada minuto
             //Que empiece hoy a las streamRss.getDailyHour() y vuelve a iterar un dia despues y así se siga
             log.event("Initializing RssListenerMsg, starts in:"+time2Start+"ms, periodicity:"+period+",ms");
             //timer.schedule(new RssListenerMsg.CheckStreamsMsgbyDays(), time2Start, oneDay);
-            timer.schedule(new RssListenerMgr.ListenerTask(rss), time2Start,period);   
+            //-->Bueno--timer.schedule(new RssListenerMgr.ListenerTask(rss), time2Start,period);   
             htTimers.put(rss.getURI(), timer);
         }
      }
