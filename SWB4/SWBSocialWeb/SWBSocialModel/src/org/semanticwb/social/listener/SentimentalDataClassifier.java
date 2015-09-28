@@ -365,8 +365,9 @@ public class SentimentalDataClassifier {
             }
             int days = 0;
             if (socialNetUser != null) {
-                days = SWBSocialUtil.Util.Datediff(socialNetUser.getUpdated(), Calendar.getInstance().getTime());
-                if (days >= days2RefreshUserData) {
+                if(socialNetUser.getUpdated()!=null) days = SWBSocialUtil.Util.Datediff(socialNetUser.getUpdated(), Calendar.getInstance().getTime());
+                else System.out.println("TO CHECK:SENTIMENTALDATACLASSIFIER..LINE 369");
+                if (days >= days2RefreshUserData || socialNetUser.getUpdated()==null) {
                     upDateSocialUserNetworkData = true;
                 }
             }
