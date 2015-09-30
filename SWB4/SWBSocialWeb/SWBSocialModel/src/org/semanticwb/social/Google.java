@@ -639,29 +639,41 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
 
         Plus apiPlus = this.getApiPlusInstance();
         JSONObject userInfo = new JSONObject();
+        JSONObject user = null;
 
         try {
             if (userId != null && !userId.isEmpty()) {
-                Plus.People.Get getPeople = apiPlus.people().get(userId);
-                getPeople.setOauthToken(this.getAccessToken());
-                Person user = getPeople.execute();
-                if (user != null) {
+                try {
+                    String response = this.apiRequest(null, "https://www.googleapis.com/plus/v1/people/" + userId, "GET");
+                    user = new JSONObject(response);
+                } catch (JSONException jsone) {
+                    user = null;
+                }
+                if (user != null && !user.has("error")) {
                     userInfo.put("third_party_id", userId);
-                    userInfo.put("followers", user.getCircledByCount());
-                    userInfo.put("gender", user.getGender() != null ? user.getGender() : "");
-                    if (user.getRelationshipStatus() != null) {
-                        userInfo.put("relationship_status", user.getRelationshipStatus());
+                    if (user.has("circledByCount")) {
+                        userInfo.put("followers", Integer.toString(user.getInt("circledByCount")));
                     }
-                    if (user.getCurrentLocation() != null) {
-                        userInfo.put("place_name", user.getCurrentLocation());
+                    if (user.has("gender")) {
+                        userInfo.put("gender", user.getString("gender") != null ? user.getString("gender") : "");
                     }
-                    if (user.getBirthday() != null) {
-                        String date = user.getBirthday();
+                    if (user.has("relationshipStatus") && user.getString("relationshipStatus") != null) {
+                        userInfo.put("relationship_status", user.getString("relationshipStatus"));
+                    }
+                    if (user.has("currentLocation") && user.getString("currentLocation") != null) {
+                        userInfo.put("place_name", user.getString("currentLocation"));
+                    }
+                    if (user.has("birthday") && user.getString("birthday") != null) {
+                        String date = user.getString("birthday");
                         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD");
                         Date regresa = sdf.parse(date);
                         sdf = new SimpleDateFormat("MM-dd-yyyy");
                         date = sdf.format(regresa);
                         userInfo.put("birthday", date.replace("-", "/"));
+                    }
+                } else {
+                    if (user != null) {
+                        Google.log.debug(user.toString(2));
                     }
                 }
             }
@@ -1010,7 +1022,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
             throws IOException {
 
         CharSequence paramString = (null == params)
-                                   ? "" : delimit(params.entrySet(), "&", "=", true);
+                                   ? "" : this.delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = null;
         String userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95";
         
@@ -1047,7 +1059,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
                 Google.log.error("ERROR in getRequest", ioe); 
             }
         } finally {
-            close(in);
+            this.close(in);
             if (conex != null) {
                 conex.disconnect();
             }
@@ -1057,6 +1069,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         }
         return response;
     }
+    
     /**
      * Realiza los intercambios de informacion entre la aplicacion y Google+ a fin de refrescar el token
      * de acceso necesario para realizar peticiones al API de Google+
@@ -1080,6 +1093,12 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return "";
     }
     
+    /**
+     * Obtiene el contenido de un objeto {@code InputStream}
+     * @param data el objeto del cual se desea obtener el contenido
+     * @return una cadena que representa el contenido del objeto recibido
+     * @throws IOException en caso de ocurrir alg&uacute;n problema en la lectura del contenido del objeto recibido
+     */
     private static String getResponse(InputStream data) throws IOException {
 
         StringBuilder response = new StringBuilder(256);
@@ -1096,6 +1115,21 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return response.toString();
     }
     
+    /**
+     * Genera una secuencia de caracteres que representar&aacute; la parte del queryString de 
+     * una petici&oacute;n HTTP
+     * @param entries mapa que contiene los identificadores y los valores de los par&aacute;metros
+     * que formar&aacute;n el queryString. Si es {@literal null}, el valor devuelto es {@literal null}
+     * @param delimiter cadena que representa el delimitador utilizado para hacer la 
+     * separaci&oacute;n entre par&aacute;metros
+     * @param equals cadena que representa el asociador entre cada par&aacute;metro y su valor
+     * @param doEncode indica si los valores de los parametros deben ser codificados o no.
+     * Si su valor es {@code true}, los valores se codifican en base a UTF8.
+     * @return una secuencia de caracteres que representar&aacute; la parte del queryString de 
+     * una petici&oacute;n HTTP, o {@code null} si el valor de {@literal entries} es {@code null}
+     * @throws UnsupportedEncodingException en caso de que se indique la codificaci&oacute;n de 
+     * los valores de los par&aacute;metros y ocurra un problema al codificarlos
+     */
     private CharSequence delimit(Collection<Map.Entry<String, String>> entries,
             String delimiter, String equals, boolean doEncode)
             throws UnsupportedEncodingException {
@@ -1119,6 +1153,13 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return buffer;
     }
     
+    /**
+     * Codifica en base al c&oacute;digo de caracteres UTF8 la secuencia de caracteres contenida en {@code target}
+     * @param target la secuencia de caracteres a codificar. Si es {@literal null}, se devuelve una cadena vac&iacute;a.
+     * @return una cadena que representa el valor de {@code target} codificado en base al c&oacute;digo de caracteres UTF8.
+     * Si {@code target} es {@literal null}, se devuelve una cadena vac&iacute;a.
+     * @throws UnsupportedEncodingException en caso de que ocurra alg&uacute;n problema con la codificaci&oacute;n del valor de {@code target}.
+     */
     private String encode(CharSequence target) throws UnsupportedEncodingException {
 
         String result = "";
@@ -1129,6 +1170,10 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return result;
     }
     
+    /**
+     * Cierra el objeto representado por {@code c}, como en el caso de un objeto de tipo {@code InputStream}
+     * @param c el objeto que se desea cerrar a fin de dejar de utilizarlo
+     */
     private void close(Closeable c) {
         if (c != null) {
             try {
