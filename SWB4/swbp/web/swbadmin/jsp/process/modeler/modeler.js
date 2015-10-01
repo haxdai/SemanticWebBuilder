@@ -3656,6 +3656,10 @@ var _GraphicalElement = function(obj) {
             }
             ToolKit.setLayer(null);
             
+            //EHSP082015
+            jsonString = jsonString.replace(/(\r\n|\n|\r)/gm,"\\n");
+            //-EHSP082015
+            
             try {
                 var json = JSON.parse(jsonString),
                     jsarr = json.nodes,
