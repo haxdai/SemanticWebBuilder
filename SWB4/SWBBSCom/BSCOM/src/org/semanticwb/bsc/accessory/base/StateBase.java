@@ -4,7 +4,7 @@ package org.semanticwb.bsc.accessory.base;
    /**
    * Un estado define la situación de una medición  en un indicador respecto de las metas de su objetivo. 
    */
-public abstract class StateBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Iconable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Machinable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable
+public abstract class StateBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Undeleteable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Machinable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Iconable,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Sortable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.model.Referensable
 {
    /**
    * Define el color asociado al estado
@@ -146,29 +146,6 @@ public abstract class StateBase extends org.semanticwb.bsc.accessory.BSCAccessor
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.accessory.State with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.accessory.State
-       * @return Iterator with all the org.semanticwb.bsc.accessory.State
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.accessory.State with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.accessory.State
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.accessory.State with a determined StateGroup
        * @param value StateGroup of the type org.semanticwb.bsc.accessory.StateGroup
        * @param model Model of the org.semanticwb.bsc.accessory.State
@@ -238,26 +215,26 @@ public abstract class StateBase extends org.semanticwb.bsc.accessory.BSCAccessor
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.accessory.State with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.accessory.State with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.accessory.State
        * @return Iterator with all the org.semanticwb.bsc.accessory.State
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.accessory.State with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.accessory.State with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.accessory.State
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -281,6 +258,52 @@ public abstract class StateBase extends org.semanticwb.bsc.accessory.BSCAccessor
         public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByStatus(org.semanticwb.bsc.Status value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasStatusInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.State with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.accessory.State
+       * @return Iterator with all the org.semanticwb.bsc.accessory.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.State with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.accessory.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.State with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.accessory.State
+       * @return Iterator with all the org.semanticwb.bsc.accessory.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.State with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.accessory.State
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.State> listStateByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.State> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }
