@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
-import org.semanticwb.Logger;
-import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.accessory.base.PeriodBase;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.SWBModel;
@@ -62,11 +60,17 @@ public class Period extends PeriodBase implements Comparable<Period>
 
     @Override
     public int compareTo(Period anotherPeriod) {
-        int compare;
+        //int compare;
+        if(anotherPeriod==null || anotherPeriod.getStart()==null) {
+            return 1;
+        }
         Date d1 = getStart();
+        if(d1==null) {
+            return -1;
+        }
         Date d2 = anotherPeriod.getStart();
-        compare = d1.getTime() > d2.getTime() ? 1 : -1;
-        return compare;
+        //compare = d1.getTime() > d2.getTime() ? 1 : -1;
+        return d1.compareTo(d2);
     }
     
     public boolean isFuture() {
@@ -131,5 +135,16 @@ public class Period extends PeriodBase implements Comparable<Period>
             }
         }
         return index;
+    }
+
+    @Override
+    public Period getNext() {
+        return (Period)super.getNext();
+    }
+    
+    @Override
+    public Period getPrevius()
+    {
+        return (Period)super.getPrevius();
     }
 }
