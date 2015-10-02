@@ -3934,94 +3934,47 @@ var _GraphicalElement = function(obj) {
         },
                 
         createNavPath: function() {
-            Modeler.navPath && Modeler.navPath !== null && Modeler.navPath.bar.remove();
-            
-            var bar = ToolKit.createBaseObject(function() {
-                var obj = document.createElementNS(ToolKit.svgNS, "rect");
-                obj.setAttributeNS(null, "rx", "10");
-                obj.setAttributeNS(null, "ry", "10");
-                return obj;
-            }, null, null);
-            bar.setAttributeNS(null,"class","navPath");
-            bar.resize(500, 50);
-            bar.moveFirst();
-            bar.move((window.pageXOffset+window.innerWidth)-bar.getWidth()/2-ToolKit.svg.offsetLeft-18, 0);
-            
-            var g = document.createElementNS(ToolKit.svgNS, "g");
-            g.bar = bar;
-            g.appendChild(bar);
-            
-            Modeler.navPath = g;
+            var npath = Modeler.navPath = document.createElement("div");
+            npath.style.display="none";
+            npath.setAttribute("id","modelerNavPath");
+            npath.setAttribute("class","navPath");
+            document.body.appendChild(npath);
             
             Modeler.navPath.setNavigation = function(layer) {
-                var links = Modeler.getNavPath(layer);
+                var links = Modeler.getNavPath(layer),
+                    i, length = links && links.length,
+                    nPath = Modeler.navPath, pathContainer;
                 
-                if (Modeler.navPath.text && Modeler.navPath.text !== null) {
-                    Modeler.navPath.removeChild(Modeler.navPath.text);
-                    Modeler.navPath.text = null;
-                }
-                
-                if (links !== null) {
-                    links.reverse();
-                    var text = document.createElementNS(ToolKit.svgNS, "text");
-                    text.setAttributeNS(null, "x", bar.getX());
-                    text.setAttributeNS(null, "y", bar.getY());
-                    text.setAttributeNS(null, "style", "fill:black");
-                    text.setAttributeNS(null,"text-anchor","middle");
-                    text.setAttributeNS(null,"font-size","12");
-                    text.setAttributeNS(null,"font-family","Verdana, Geneva, sans-serif");
-                    
-                    var i, length = links.length;
-                    for (i = 0; i < length; i++) {
-                        var tspan = document.createElementNS(ToolKit.svgNS, "tspan"),
-                            tspanSeparator = null,
-                            link = links[i],
-                            l = link.label;
-                        
-                        tspan.appendChild(document.createTextNode(l));
-                        if (link.layer === layer.parent.id) {
-                            tspan.setAttributeNS(null,"font-weight","bold");
-                        } else {
-                            tspan.setAttributeNS(null,"onclick","if (Modeler.getGraphElementByURI(null,'"+link.layer+"') != null) {ToolKit.setLayer(Modeler.getGraphElementByURI(null,'"+link.layer+"').subLayer);} else {ToolKit.setLayer(null);}");
-                        }
-                        
-                        if (i+1 < length) {
-                            tspanSeparator = document.createElementNS(ToolKit.svgNS, "tspan");
-                            tspanSeparator.appendChild(document.createTextNode(" > "));
-                        }
-                        
-                        text.appendChild(tspan);
-                        
-                        if (tspanSeparator !== null) {
-                            text.appendChild(tspanSeparator);
-                        }
+                if (nPath) {
+                    while (nPath.lastChild) {
+                        nPath.removeChild(nPath.lastChild);
                     }
-                    Modeler.navPath.appendChild(text);
-                    Modeler.navPath.text=text;
-                    Modeler.navPath.bar.style.display="";
-                    Modeler.navPath.bar.resize(Modeler.navPath.text.getBBox().width+30, 30);
-                    Modeler.navPath.bar.move((window.pageXOffset+window.innerWidth)-Modeler.navPath.bar.getWidth()/2-ToolKit.svg.offsetLeft-18, window.pageYOffset+Modeler.navPath.bar.getHeight()/2);
+                    var list = document.createElement("ul");
+                    list.setAttribute("class", "navPathList");
+                    list.setAttribute("id", "modelerNavPathList");
+                    nPath.appendChild(list);
+                }
+                
+                pathContainer = document.createDocumentFragment();
+                if (links && links.length > 0) {
+                    links.reverse();
+                    for (i = 0; i < length; i++) {
+                        var item = document.createElement("li");
+                        if (links[i].layer === layer.parent.id) {
+                            item.innerHTML = '<a class="selected">'+links[i].label+'</a>';
+                        } else {
+                            item.innerHTML = '<a>'+links[i].label+'</a>';
+                            item.setAttribute("onclick","ToolKit.unSelectAll(); if (Modeler.getGraphElementByURI(null,'"+links[i].layer+"') != null) {ToolKit.setLayer(Modeler.getGraphElementByURI(null,'"+links[i].layer+"').subLayer);} else {ToolKit.setLayer(null);}");
+                        }
+                        pathContainer.appendChild(item);
+                    }
+                    var c = document.getElementById("modelerNavPathList");
+                    c && c.appendChild(pathContainer);
+                    nPath.style.display="";
                 } else {
-                    Modeler.navPath.bar.style.display="none";
+                    nPath.style.display="none";
                 }
             };
-            
-            var fMove = Modeler.navPath.bar.move;
-            Modeler.navPath.bar.move = function(x, y) {
-                fMove(x, y);
-                if (Modeler.navPath.text && Modeler.navPath.text !== null) {
-                    Modeler.navPath.text.setAttributeNS(null, "x", x);
-                    Modeler.navPath.text.setAttributeNS(null, "y", y+4);
-                }
-            };
-            Modeler.navPath.bar.style.display="none";
-            ToolKit.svg.appendChild(g);
-            //EHSP - Agregado if para evitar scroll en vista no editable, cuando la barra de navegación no es visible
-            if (Modeler.navPath && Modeler.navPath !== null && Modeler.navPath.bar.style.display !== "none") {
-                window.onscroll = function() {
-                    Modeler.navPath.bar.move((window.pageXOffset+window.innerWidth)-Modeler.navPath.bar.getWidth()/2-ToolKit.svg.offsetLeft-18, window.pageYOffset+Modeler.navPath.bar.getHeight()/2);
-                };
-            }
         },
 
         getGraphElementByURI:function(parent, uri) {
