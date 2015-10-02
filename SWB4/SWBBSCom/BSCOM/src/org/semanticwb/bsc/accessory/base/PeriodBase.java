@@ -4,8 +4,10 @@ package org.semanticwb.bsc.accessory.base;
    /**
    * Período de medición. 
    */
-public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Machinable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Sortable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.model.Traceable
+public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccessory implements org.semanticwb.model.Undeleteable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Machinable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Sortable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.model.Referensable
 {
+    public static final org.semanticwb.platform.SemanticClass bsc_PeriodGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#PeriodGroup");
+    public static final org.semanticwb.platform.SemanticProperty bsc_periodGroupInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#periodGroupInv");
    /**
    * Indica la fecha incial del periodo representado
    */
@@ -121,6 +123,29 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
             return it;
         }
        /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined PeriodGroup
+       * @param value PeriodGroup of the type org.semanticwb.bsc.accessory.PeriodGroup
+       * @param model Model of the org.semanticwb.bsc.accessory.Period
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByPeriodGroup(org.semanticwb.bsc.accessory.PeriodGroup value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_periodGroupInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined PeriodGroup
+       * @param value PeriodGroup of the type org.semanticwb.bsc.accessory.PeriodGroup
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByPeriodGroup(org.semanticwb.bsc.accessory.PeriodGroup value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_periodGroupInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.bsc.accessory.Period with a determined Previus
        * @param value Previus of the type org.semanticwb.bsc.Machinable
        * @param model Model of the org.semanticwb.bsc.accessory.Period
@@ -141,29 +166,6 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
         public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByPrevius(org.semanticwb.bsc.Machinable value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_previus,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.accessory.Period with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.accessory.Period
-       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.accessory.Period with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -213,26 +215,26 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.accessory.Period with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.accessory.Period
        * @return Iterator with all the org.semanticwb.bsc.accessory.Period
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.accessory.Period with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @return Iterator with all the org.semanticwb.bsc.accessory.Period
        */
 
-        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRole(org.semanticwb.model.Role value)
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRuleRef(org.semanticwb.model.RuleRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -258,6 +260,52 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasSeasonableInv,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.accessory.Period
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.accessory.Period
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.accessory.Period with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.accessory.Period
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.accessory.Period> listPeriodByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.accessory.Period> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static PeriodBase.ClassMgr getPeriodClassMgr()
@@ -272,6 +320,44 @@ public abstract class PeriodBase extends org.semanticwb.bsc.accessory.BSCAccesso
     public PeriodBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property PeriodGroup
+   * @param value PeriodGroup to set
+   */
+
+    public void setPeriodGroup(org.semanticwb.bsc.accessory.PeriodGroup value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_periodGroupInv, value.getSemanticObject());
+        }else
+        {
+            removePeriodGroup();
+        }
+    }
+   /**
+   * Remove the value for PeriodGroup property
+   */
+
+    public void removePeriodGroup()
+    {
+        getSemanticObject().removeProperty(bsc_periodGroupInv);
+    }
+
+   /**
+   * Gets the PeriodGroup
+   * @return a org.semanticwb.bsc.accessory.PeriodGroup
+   */
+    public org.semanticwb.bsc.accessory.PeriodGroup getPeriodGroup()
+    {
+         org.semanticwb.bsc.accessory.PeriodGroup ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_periodGroupInv);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.bsc.accessory.PeriodGroup)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
