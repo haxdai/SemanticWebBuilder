@@ -203,20 +203,6 @@
         .annotationArtifactRect_o {
             stroke:#2cff20;
         }
-
-        /*NavPath Styles*/
-        .navPath {
-            fill:#e7e7e7;
-            stroke:gray;
-            stroke-width:1;
-        }
-
-        .navPathHidden {
-            fill:#e7e7e7;
-            stroke:gray;
-            stroke-width:1;
-            display:none;
-        }
         ]]></style>
     <defs id="globalDef">
         <!--Definición de gradientes para las figuras-->
