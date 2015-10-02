@@ -15,10 +15,10 @@
                         <link href="css/fontawesome/font-awesome.css" rel="stylesheet" type="text/css"></link>
                         <link href="css/swbp.css" rel="stylesheet" type="text/css"></link>
                         <link href="css/modeler/modelerFrame.css" rel="stylesheet" type="text/css"></link>
-                        <script src="js/jquery/jquery.js"></script>
-                        <script src="js/modeler/toolkit.js"></script>
-                        <script src="js/modeler/modeler.js"></script>
-                        <script src="js/bootstrap/bootstrap.js"></script>
+                        <xsl:text disable-output-escaping="yes"><![CDATA[ <script src="js/jquery/jquery.js"></script>]]></xsl:text>
+                        <xsl:text disable-output-escaping="yes"><![CDATA[ <script src="js/modeler/toolkit.js"></script>]]></xsl:text>
+                        <xsl:text disable-output-escaping="yes"><![CDATA[ <script src="js/modeler/modeler.js"></script>]]></xsl:text>
+                        <xsl:text disable-output-escaping="yes"><![CDATA[ <script src="js/bootstrap/bootstrap.js"></script>]]></xsl:text>
                     </xsl:otherwise>
                 </xsl:choose>
                 <div class="row">
@@ -50,8 +50,8 @@
                                                     <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG" onclick="submit_download_form('svg');"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-code-o"></i>]]></xsl:text></a></li>
                                                 </xsl:when>
                                                 <xsl:otherwise>
-                                                    <li><a href="rep_files/{root/model/@id}.png" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG"><i class="fa fa-file-image-o"></i></a></li>
-                                                    <li><a href="rep_files/{root/model/@id}.svg" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG"><i class="fa fa-file-code-o"></i></a></li>
+                                                    <li><a href="rep_files/{root/model/@id}.png" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-image-o"></i>]]></xsl:text></a></li>
+                                                    <li><a href="rep_files/{root/model/@id}.svg" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-code-o"></i>]]></xsl:text></a></li>
                                                 </xsl:otherwise>
                                             </xsl:choose>
                                         </ul>
