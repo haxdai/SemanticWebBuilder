@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class MessageStartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Traceable,org.semanticwb.model.Sortable,org.semanticwb.process.model.CatchMessageable,org.semanticwb.model.Descriptiveable,org.semanticwb.process.model.ActionCodeable
+public abstract class MessageStartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.process.model.CatchMessageable,org.semanticwb.process.model.ActionCodeable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass swp_MessageStartEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#MessageStartEvent");
    /**
@@ -79,141 +79,26 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
             return (getMessageStartEvent(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @param model Model of the org.semanticwb.process.model.MessageStartEvent
        * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByNext(org.semanticwb.process.model.FlowNode value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ItemAwareMapping
-       * @param value ItemAwareMapping of the type org.semanticwb.process.model.ItemAwareMapping
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByItemAwareMapping(org.semanticwb.process.model.ItemAwareMapping value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareMapping, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ItemAwareMapping
-       * @param value ItemAwareMapping of the type org.semanticwb.process.model.ItemAwareMapping
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByItemAwareMapping(org.semanticwb.process.model.ItemAwareMapping value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareMapping,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -240,26 +125,72 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.MessageStartEvent
        * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ItemAwareMapping
+       * @param value ItemAwareMapping of the type org.semanticwb.process.model.ItemAwareMapping
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByItemAwareMapping(org.semanticwb.process.model.ItemAwareMapping value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareMapping, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ItemAwareMapping
+       * @param value ItemAwareMapping of the type org.semanticwb.process.model.ItemAwareMapping
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByItemAwareMapping(org.semanticwb.process.model.ItemAwareMapping value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareMapping,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -286,29 +217,6 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByNext(org.semanticwb.process.model.FlowNode value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.MessageStartEvent with a determined FlowObjectInstance
        * @param value FlowObjectInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @param model Model of the org.semanticwb.process.model.MessageStartEvent
@@ -331,6 +239,98 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstanceInv,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.MessageStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.MessageStartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.MessageStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.MessageStartEvent> listMessageStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.MessageStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static MessageStartEventBase.ClassMgr getMessageStartEventClassMgr()
@@ -345,6 +345,24 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
     public MessageStartEventBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+
+/**
+* Gets the ActionCode property
+* @return String with the ActionCode
+*/
+    public String getActionCode()
+    {
+        return getSemanticObject().getProperty(swp_actionCode);
+    }
+
+/**
+* Sets the ActionCode property
+* @param value long with the ActionCode
+*/
+    public void setActionCode(String value)
+    {
+        getSemanticObject().setProperty(swp_actionCode, value);
     }
    /**
    * Gets all the org.semanticwb.process.model.ItemAwareMapping
@@ -410,24 +428,6 @@ public abstract class MessageStartEventBase extends org.semanticwb.process.model
              ret=(org.semanticwb.process.model.ItemAwareMapping)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the ActionCode property
-* @return String with the ActionCode
-*/
-    public String getActionCode()
-    {
-        return getSemanticObject().getProperty(swp_actionCode);
-    }
-
-/**
-* Sets the ActionCode property
-* @param value long with the ActionCode
-*/
-    public void setActionCode(String value)
-    {
-        getSemanticObject().setProperty(swp_actionCode, value);
     }
 
    /**

@@ -2,20 +2,20 @@ package org.semanticwb.process.model.base;
 
 
    /**
-   * Stores a textual description of a process element 
+   * Objeto que almacena una descripción textual de un elemento de procesos 
    */
 public abstract class DocumentationBase extends org.semanticwb.process.model.BaseElement 
 {
    /**
-   * Mime-type del texto de la documentación
-   */
-    public static final org.semanticwb.platform.SemanticProperty swp_textFormat=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#textFormat");
-   /**
-   * Stores documentation text
+   * Almacena el texto de la documentación
    */
     public static final org.semanticwb.platform.SemanticProperty swp_text=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#text");
    /**
-   * Stores a textual description of a process element
+   * Mime-type for the text documentation
+   */
+    public static final org.semanticwb.platform.SemanticProperty swp_textFormat=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#textFormat");
+   /**
+   * Objeto que almacena una descripción textual de un elemento de procesos
    */
     public static final org.semanticwb.platform.SemanticClass swp_Documentation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#Documentation");
    /**
@@ -109,24 +109,6 @@ public abstract class DocumentationBase extends org.semanticwb.process.model.Bas
     }
 
 /**
-* Gets the TextFormat property
-* @return String with the TextFormat
-*/
-    public String getTextFormat()
-    {
-        return getSemanticObject().getProperty(swp_textFormat);
-    }
-
-/**
-* Sets the TextFormat property
-* @param value long with the TextFormat
-*/
-    public void setTextFormat(String value)
-    {
-        getSemanticObject().setProperty(swp_textFormat, value);
-    }
-
-/**
 * Gets the Text property
 * @return String with the Text
 */
@@ -142,5 +124,23 @@ public abstract class DocumentationBase extends org.semanticwb.process.model.Bas
     public void setText(String value)
     {
         getSemanticObject().setProperty(swp_text, value);
+    }
+
+/**
+* Gets the TextFormat property
+* @return String with the TextFormat
+*/
+    public String getTextFormat()
+    {
+        return getSemanticObject().getProperty(swp_textFormat);
+    }
+
+/**
+* Sets the TextFormat property
+* @param value long with the TextFormat
+*/
+    public void setTextFormat(String value)
+    {
+        getSemanticObject().setProperty(swp_textFormat, value);
     }
 }

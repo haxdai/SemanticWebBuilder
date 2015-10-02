@@ -161,6 +161,78 @@ public abstract class X509CertificateBase extends org.semanticwb.process.model.B
     {
         getSemanticObject().setProperty(swp_X509Subject, value);
     }
+
+/**
+* Gets the Name property
+* @return String with the Name
+*/
+    public String getName()
+    {
+        return getSemanticObject().getProperty(swp_X509Name);
+    }
+
+/**
+* Sets the Name property
+* @param value long with the Name
+*/
+    public void setName(String value)
+    {
+        getSemanticObject().setProperty(swp_X509Name, value);
+    }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Expiration property
+* @return java.util.Date with the Expiration
+*/
+    public java.util.Date getExpiration()
+    {
+        return getSemanticObject().getDateProperty(swb_expiration);
+    }
+
+/**
+* Sets the Expiration property
+* @param value long with the Expiration
+*/
+    public void setExpiration(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_expiration, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
    /**
    * Sets the value for the property ModifiedBy
    * @param value ModifiedBy to set
@@ -198,78 +270,6 @@ public abstract class X509CertificateBase extends org.semanticwb.process.model.B
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Name property
-* @return String with the Name
-*/
-    public String getName()
-    {
-        return getSemanticObject().getProperty(swp_X509Name);
-    }
-
-/**
-* Sets the Name property
-* @param value long with the Name
-*/
-    public void setName(String value)
-    {
-        getSemanticObject().setProperty(swp_X509Name, value);
-    }
-
-/**
-* Gets the Expiration property
-* @return java.util.Date with the Expiration
-*/
-    public java.util.Date getExpiration()
-    {
-        return getSemanticObject().getDateProperty(swb_expiration);
-    }
-
-/**
-* Sets the Expiration property
-* @param value long with the Expiration
-*/
-    public void setExpiration(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_expiration, value);
     }
    /**
    * Sets the value for the property Creator
