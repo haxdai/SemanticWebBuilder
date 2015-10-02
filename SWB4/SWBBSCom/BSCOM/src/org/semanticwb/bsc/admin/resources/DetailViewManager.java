@@ -36,7 +36,6 @@ import org.semanticwb.bsc.ComponentExportable;
 import org.semanticwb.bsc.Detailed;
 import org.semanticwb.bsc.FixedMeasurable;
 import org.semanticwb.bsc.PDFExportable;
-import static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF;
 import org.semanticwb.bsc.Perspective;
 import org.semanticwb.bsc.Seasonable;
 import org.semanticwb.bsc.Theme;
@@ -66,6 +65,7 @@ import org.semanticwb.portal.api.*;
 import org.semanticwb.portal.util.SWBPriorityComparator;
 import org.semanticwb.util.UploaderFileCacheUtils;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF;
 
 /**
  * Administra instancias disponibles de tipo {@code DetailView} cuya propiedad

@@ -69,10 +69,6 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
      * este recurso
      */
     private static final String TEMPLATE_FILENAME = "/templateContent.html";
-    /**
-     * Representa el nombre del modo que se encarga de exportar la vista a PDF
-     */
-//    private static final String Mode_PDF = "exportPDF";
 
     /**
      * Construye una instancia de tipo {@code SummaryViewManager}
@@ -1074,8 +1070,8 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("                </div>\n");
         output.append("                <div style=\"float:left;\">");
         output.append("                    <p>&nbsp;</p>");
-        output.append("                    <span dojoType='dijit.form.Button'>\n");
-//        output.append("                        ->");
+        output.append("                    <span dojoType=\"dijit.form.Button\" iconClass=\"dijitEditorIcon dijitEditorIconRedo\">Añadir\n");
+        //output.append("                        ->\n");
         output.append("                       <script type=\"dojo/method\" event='onClick' args='evt'>\n");
         output.append("                            var base = document.getElementById(\"baseList");
         output.append(this.getId());
@@ -1098,7 +1094,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
         output.append("                       </script>\n");
         output.append("                    </span>");
         output.append("                    <br>");
-        output.append("                    <span dojoType=\"dijit.form.Button\">\n");
+        output.append("                    <span dojoType=\"dijit.form.Button\" iconClass=\"dijitEditorIcon dijitEditorIconUndo\">Quitar\n");
 //        output.append("                        <-\n");
         output.append("                        <script type=\"dojo/method\" event=\"onClick\" args=\"evt\">\n");
         output.append("                            var base = document.getElementById(\"baseList");
@@ -1513,39 +1509,39 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 listCode.append(paramRequest.getLocaleString("msg_noActiveView"));
             }
             listCode.append("</div>");
-            listCode.append("    <form dojoType=\"dijit.form.Form\" name=\"listViewsForm");
+            listCode.append("<form dojoType=\"dijit.form.Form\" name=\"listViewsForm");
             listCode.append(this.getId());
             listCode.append("\" id=\"listViewsForm");
             listCode.append(this.getId());
             listCode.append("\" class=\"swbform\" method=\"post\">\n");
             listCode.append("<fieldset>\n");
-            listCode.append("    <legend>");
+            listCode.append(" <legend>");
             listCode.append(paramRequest.getLocaleString("lbl_listingCaption"));
-            listCode.append("</legend>\n");
-            listCode.append("    <div>");
+            listCode.append(" </legend>\n");
+            listCode.append("<div>");
             listCode.append(paramRequest.getLocaleString("lbl_objectsType") + workClassSC.getName());
             listCode.append("</div>\n");
             listCode.append("<table width=\"60%\" border=\"0\" align=\"left\" cellpadding=\"1\" cellspacing=\"1\">\n");
-            listCode.append("    <thead>\n");
-            listCode.append("        <tr>\n");
-            listCode.append("          <th>");
+            listCode.append(" <thead>\n");
+            listCode.append("  <tr>\n");
+            listCode.append("   <th>");
             listCode.append(paramRequest.getLocaleString("th_action"));
             listCode.append("</th>\n");
-            listCode.append("            <th scope=\"col\" align=\"center\">\n");
+            listCode.append("   <th scope=\"col\" align=\"center\">\n");
             listCode.append(paramRequest.getLocaleString("lbl_listingTitle1"));
             listCode.append("</th>\n");
-            listCode.append("          <th>");
+            listCode.append("   <th>");
             listCode.append(SummaryView.swb_modifiedBy.getDisplayName(lang));
             listCode.append("</th>\n");
-            listCode.append("          <th>");
+            listCode.append("   <th>");
             listCode.append(SummaryView.swb_updated.getDisplayName(lang));
             listCode.append("</th>\n");
-            listCode.append("            <th scope=\"col\" colspan=\"3\" align=\"center\">\n");
+            listCode.append("   <th scope=\"col\" colspan=\"3\" align=\"center\">\n");
             listCode.append(paramRequest.getLocaleString("lbl_listingOperations"));
             listCode.append("</th>\n");
-            listCode.append("        </tr>\n");
-            listCode.append("    </thead>\n");
-            listCode.append("    <tbody>\n");
+            listCode.append("  </tr>\n");
+            listCode.append(" </thead>\n");
+            listCode.append(" <tbody>\n");
 
             //Se agrega al listado cada vista creada
             while (listOfViews.hasNext()) {
@@ -1564,10 +1560,10 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 urlMakeActive.setAction("makeActive");
                 urlMakeActive.setParameter("svUri", view.getURI());
 
-                listCode.append("        <tr>");
+                listCode.append("  <tr>");
                 //HTML para las opciones de edicion y eliminacion
-                listCode.append("          <td>\n");
-                listCode.append("            <a href=\"void(0);\" title=\"");
+                listCode.append("   <td>\n");
+                listCode.append("    <a href=\"void(0);\" title=\"");
                 listCode.append(paramRequest.getLocaleString("lbl_lnkEdit"));
                 listCode.append("\" onclick=\"submitUrl('");
                 listCode.append(urlEdit);
@@ -1576,7 +1572,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 listCode.append("/swbadmin/icons/editar_1.gif\" border=\"0\" alt=\"");
                 listCode.append(paramRequest.getLocaleString("lbl_lnkEdit"));
                 listCode.append("\"></a>\n");
-                listCode.append("            <a href=\"void(0);\" title=\"");
+                listCode.append("    <a href=\"void(0);\" title=\"");
                 listCode.append(paramRequest.getLocaleString("lbl_lnkDelete"));
                 listCode.append("\" onclick=\"if (confirm('");
                 listCode.append(paramRequest.getLocaleString("msg_confirmRemove"));
@@ -1588,28 +1584,28 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                 listCode.append("/swbadmin/images/delete.gif\" border=\"0\" alt=\"");
                 listCode.append(paramRequest.getLocaleString("lbl_lnkDelete"));
                 listCode.append("\"></a>\n");
-                listCode.append("          </td>\n");
-                listCode.append("          <td>");
-                listCode.append("            <a href=\"void(0);\" title=\"");
+                listCode.append("   </td>\n");
+                listCode.append("   <td>");
+                listCode.append("    <a href=\"void(0);\" title=\"");
                 listCode.append(paramRequest.getLocaleString("lbl_lnkEdit"));
                 listCode.append("\" onclick=\"submitUrl('");
                 listCode.append(urlEdit);
                 listCode.append("', this);return false;\">");
                 listCode.append(view.getTitle() != null ? view.getTitle() : "xxx");
                 listCode.append("</a>\n");
-                listCode.append("          </td>\n");
-                listCode.append("          <td>");
+                listCode.append("   </td>\n");
+                listCode.append("   <td>");
                 listCode.append(view.getModifiedBy() != null ? view.getModifiedBy().getFullName() : "xxx");
-                listCode.append("          </td>\n");
-                listCode.append("          <td>");
+                listCode.append("   </td>\n");
+                listCode.append("   <td>");
                 listCode.append(view.getUpdated() != null ? view.getUpdated() : "xxx");
-                listCode.append("          </td>\n");
-                listCode.append("          <td align=\"center\">");
+                listCode.append("   </td>\n");
+                listCode.append("   <td align=\"center\">");
 
                 if (this.getActiveView() == null || (this.getActiveView() != null
                         && !this.getActiveView().getURI().equals(view.getURI()))) {
                     //Codigo HTML para asignacion como contenido
-                    listCode.append("          <input type=\"radio\" dojoType=\"dijit.form.RadioButton\" ");
+                    listCode.append("    <input type=\"radio\" dojoType=\"dijit.form.RadioButton\" ");
                     listCode.append("name=\"asContent\" id=\"asContent");
                     listCode.append(view.getId());
                     listCode.append("\" value=\"");
@@ -1619,7 +1615,7 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                     listCode.append("', this.domNode);return false;\">");
                 } else if (this.getActiveView() != null
                         && this.getActiveView().getURI().equals(view.getURI())) {
-                    listCode.append("          <input type=\"radio\" dojoType=\"dijit.form.RadioButton\" ");
+                    listCode.append("    <input type=\"radio\" dojoType=\"dijit.form.RadioButton\" ");
                     listCode.append("name=\"asContent\" id=\"asContent");
                     listCode.append(view.getId());
                     listCode.append("\" value=\"");
@@ -1628,20 +1624,20 @@ public class SummaryViewManager extends SummaryViewManagerBase implements PDFExp
                     listCode.append(urlMakeActive);
                     listCode.append("', this.domNode);return false;\">");
                 }
-                listCode.append("          </td>\n");
-                listCode.append("        </tr>");
+                listCode.append("   </td>\n");
+                listCode.append("  </tr>");
             }
-            listCode.append("    </tbody>");
+            listCode.append(" </tbody>");
             listCode.append("</table>");
             listCode.append("</fieldset>\n");
-            listCode.append("  <fieldset>\n");
-            listCode.append("    <button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
+            listCode.append("<fieldset>\n");
+            listCode.append(" <button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('");
             listCode.append(urlCreate);
             listCode.append("', this.domNode); return false;\">");
             listCode.append(paramRequest.getLocaleString("btn_add"));
             listCode.append("</button>\n");
-            listCode.append("  </fieldset>\n");
-            listCode.append("    </form>");
+            listCode.append("</fieldset>\n");
+            listCode.append("</form>");
             listCode.append("");
         }
 
