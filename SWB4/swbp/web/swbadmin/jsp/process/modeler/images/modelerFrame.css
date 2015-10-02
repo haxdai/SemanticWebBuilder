@@ -1,4 +1,4 @@
-s/* 
+/* 
     Document   : modelerFrame
     Created on : 15/03/2013, 01:39:38 PM
     Author     : hasdai
@@ -178,6 +178,91 @@ s/*
     border-top: 1px solid gray;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+/***************************** Modeler NavPath *********************************/
+
+.navPath {
+    position: fixed;
+    top: -15px;
+    right: 0;
+}
+
+.navPath li {
+    float:left;
+}
+
+.navPath li a {
+    font-family: Verdana, sans-serif;
+    font-size: 0.7em;
+    cursor: pointer;
+}
+
+.navPath li a, .navPath li a:hover {
+    text-decoration: none;
+    padding: 5px 0 5px 40px;
+    position: relative;
+    display: block;
+    float: left;
+}
+
+.navPath li a:after { 
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid #e7e7e7;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    left: 100%;
+    z-index: 2;
+}
+
+.navPath li {
+    background-color: #e7e7e7;
+}
+
+.navPath li a.selected {
+    font-weight: bold;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default !important;
+}
+
+.navPath li:last-child a:after { border: 0; }
+
+.navPath li a:before {
+    content: " ";
+    display: block;
+    width: 0;
+    height: 0;
+    border-top: 50px solid transparent;
+    border-bottom: 50px solid transparent;
+    border-left: 30px solid white;
+    position: absolute;
+    top: 50%;
+    margin-top: -50px;
+    margin-left: 1px;
+    left: 100%;
+    z-index: 1; 
+}
+
+.navPath li:first-child a {
+    padding-left: 10px;
+}
+
+.navPath li:last-child a {
+    padding-right: 10px;
+}
+
+.navPath .navPathList {
+    list-style: none;
+    overflow: hidden;
 }
 
 /*****************************  NAVBAR **********************************************/
