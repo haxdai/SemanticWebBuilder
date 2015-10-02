@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class ConditionalFlowBase extends org.semanticwb.process.model.SequenceFlow implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.process.model.ConnectionObjectEditable,org.semanticwb.process.model.ProcessRuleRefable
+public abstract class ConditionalFlowBase extends org.semanticwb.process.model.SequenceFlow implements org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.Descriptiveable,org.semanticwb.process.model.ProcessRuleRefable,org.semanticwb.process.model.ConnectionObjectEditable
 {
     public static final org.semanticwb.platform.SemanticClass swp_ConditionalFlow=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ConditionalFlow");
    /**
@@ -79,29 +79,6 @@ public abstract class ConditionalFlowBase extends org.semanticwb.process.model.S
             return (getConditionalFlow(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.ConditionalFlow
-       * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Documentation
        * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.ConditionalFlow
@@ -125,26 +102,26 @@ public abstract class ConditionalFlowBase extends org.semanticwb.process.model.S
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Source
+       * @param value Source of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.ConditionalFlow
        * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowBySource(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_source, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Source
+       * @param value Source of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowBySource(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_source,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -171,26 +148,49 @@ public abstract class ConditionalFlowBase extends org.semanticwb.process.model.S
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Source
-       * @param value Source of the type org.semanticwb.process.model.GraphicalElement
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.ConditionalFlow
        * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowBySource(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_source, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Source
-       * @param value Source of the type org.semanticwb.process.model.GraphicalElement
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowBySource(org.semanticwb.process.model.GraphicalElement value)
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_source,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.ConditionalFlow
+       * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ConditionalFlow with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.ConditionalFlow
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ConditionalFlow> listConditionalFlowByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ConditionalFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
        /**

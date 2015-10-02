@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class ProcessPeriodBase extends org.semanticwb.process.model.ProcessElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Activeable,org.semanticwb.model.XMLable
+public abstract class ProcessPeriodBase extends org.semanticwb.process.model.ProcessElement implements org.semanticwb.model.Traceable,org.semanticwb.model.XMLable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Activeable,org.semanticwb.model.FilterableClass
 {
     public static final org.semanticwb.platform.SemanticClass swp_ProcessPeriodRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ProcessPeriodRef");
     public static final org.semanticwb.platform.SemanticProperty swp_hasProcessPeriodRefInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasProcessPeriodRefInv");
@@ -81,29 +81,6 @@ public abstract class ProcessPeriodBase extends org.semanticwb.process.model.Pro
             return (getProcessPeriod(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessPeriod with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.ProcessPeriod
-       * @return Iterator with all the org.semanticwb.process.model.ProcessPeriod
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessPeriod> listProcessPeriodByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessPeriod> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessPeriod with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.ProcessPeriod
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessPeriod> listProcessPeriodByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessPeriod> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.ProcessPeriod with a determined Documentation
        * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.ProcessPeriod
@@ -147,6 +124,29 @@ public abstract class ProcessPeriodBase extends org.semanticwb.process.model.Pro
         public static java.util.Iterator<org.semanticwb.process.model.ProcessPeriod> listProcessPeriodByProcessPeriodRefInv(org.semanticwb.process.model.ProcessPeriodRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessPeriod> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasProcessPeriodRefInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessPeriod with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.ProcessPeriod
+       * @return Iterator with all the org.semanticwb.process.model.ProcessPeriod
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessPeriod> listProcessPeriodByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessPeriod> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessPeriod with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.ProcessPeriod
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessPeriod> listProcessPeriodByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessPeriod> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**

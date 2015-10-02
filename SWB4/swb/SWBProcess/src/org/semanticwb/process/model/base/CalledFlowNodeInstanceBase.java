@@ -79,49 +79,49 @@ public abstract class CalledFlowNodeInstanceBase extends org.semanticwb.process.
             return (getCalledFlowNodeInstance(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Endedby
-       * @param value Endedby of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined SourceInstance
+       * @param value SourceInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByEndedby(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceBySourceInstance(org.semanticwb.process.model.FlowNodeInstance value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_endedby, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_sourceInstance, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Endedby
-       * @param value Endedby of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined SourceInstance
+       * @param value SourceInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByEndedby(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceBySourceInstance(org.semanticwb.process.model.FlowNodeInstance value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_endedby,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_sourceInstance,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ItemAwareReference
+       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ItemAwareReference
+       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -148,72 +148,49 @@ public abstract class CalledFlowNodeInstanceBase extends org.semanticwb.process.
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Assignedto
-       * @param value Assignedto of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined FromConnection
+       * @param value FromConnection of the type org.semanticwb.process.model.ConnectionObject
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByAssignedto(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByFromConnection(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_fromConnection, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Assignedto
-       * @param value Assignedto of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined FromConnection
+       * @param value FromConnection of the type org.semanticwb.process.model.ConnectionObject
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByAssignedto(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByFromConnection(org.semanticwb.process.model.ConnectionObject value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_fromConnection,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ContainerInstance
-       * @param value ContainerInstance of the type org.semanticwb.process.model.ContainerInstanceable
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Endedby
+       * @param value Endedby of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByContainerInstance(org.semanticwb.process.model.ContainerInstanceable value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByEndedby(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_containerInstance, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_endedby, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ContainerInstance
-       * @param value ContainerInstance of the type org.semanticwb.process.model.ContainerInstanceable
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Endedby
+       * @param value Endedby of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByContainerInstance(org.semanticwb.process.model.ContainerInstanceable value)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByEndedby(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_containerInstance,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined SourceInstance
-       * @param value SourceInstance of the type org.semanticwb.process.model.FlowNodeInstance
-       * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
-       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceBySourceInstance(org.semanticwb.process.model.FlowNodeInstance value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_sourceInstance, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined SourceInstance
-       * @param value SourceInstance of the type org.semanticwb.process.model.FlowNodeInstance
-       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceBySourceInstance(org.semanticwb.process.model.FlowNodeInstance value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_sourceInstance,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_endedby,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -240,6 +217,52 @@ public abstract class CalledFlowNodeInstanceBase extends org.semanticwb.process.
             return it;
         }
        /**
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ContainerInstance
+       * @param value ContainerInstance of the type org.semanticwb.process.model.ContainerInstanceable
+       * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
+       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByContainerInstance(org.semanticwb.process.model.ContainerInstanceable value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_containerInstance, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ContainerInstance
+       * @param value ContainerInstance of the type org.semanticwb.process.model.ContainerInstanceable
+       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByContainerInstance(org.semanticwb.process.model.ContainerInstanceable value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_containerInstance,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
+       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
@@ -263,49 +286,26 @@ public abstract class CalledFlowNodeInstanceBase extends org.semanticwb.process.
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined FromConnection
-       * @param value FromConnection of the type org.semanticwb.process.model.ConnectionObject
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Assignedto
+       * @param value Assignedto of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByFromConnection(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByAssignedto(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_fromConnection, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined FromConnection
-       * @param value FromConnection of the type org.semanticwb.process.model.ConnectionObject
+       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined Assignedto
+       * @param value Assignedto of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByFromConnection(org.semanticwb.process.model.ConnectionObject value)
+        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByAssignedto(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_fromConnection,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ItemAwareReference
-       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
-       * @param model Model of the org.semanticwb.process.model.CalledFlowNodeInstance
-       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CalledFlowNodeInstance with a determined ItemAwareReference
-       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
-       * @return Iterator with all the org.semanticwb.process.model.CalledFlowNodeInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CalledFlowNodeInstance> listCalledFlowNodeInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CalledFlowNodeInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto,value.getSemanticObject(),sclass));
             return it;
         }
     }

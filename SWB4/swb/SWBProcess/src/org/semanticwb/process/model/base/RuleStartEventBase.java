@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class RuleStartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Referensable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable,org.semanticwb.model.Descriptiveable,org.semanticwb.process.model.ProcessRuleRefable
+public abstract class RuleStartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.Referensable,org.semanticwb.model.Descriptiveable,org.semanticwb.process.model.ProcessRuleRefable
 {
     public static final org.semanticwb.platform.SemanticClass swp_RuleStartEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#RuleStartEvent");
    /**
@@ -79,118 +79,26 @@ public abstract class RuleStartEventBase extends org.semanticwb.process.model.St
             return (getRuleStartEvent(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @param model Model of the org.semanticwb.process.model.RuleStartEvent
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByNext(org.semanticwb.process.model.FlowNode value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -217,72 +125,49 @@ public abstract class RuleStartEventBase extends org.semanticwb.process.model.St
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.RuleStartEvent
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined OutputConnectionObject
-       * @param value OutputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.RuleStartEvent
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByOutputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasOutputConnectionObjectInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined OutputConnectionObject
-       * @param value OutputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByOutputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasOutputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByNext(org.semanticwb.process.model.FlowNode value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -309,6 +194,29 @@ public abstract class RuleStartEventBase extends org.semanticwb.process.model.St
             return it;
         }
        /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined OutputConnectionObject
+       * @param value OutputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByOutputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasOutputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined OutputConnectionObject
+       * @param value OutputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByOutputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasOutputConnectionObjectInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.process.model.RuleStartEvent with a determined FlowObjectInstance
        * @param value FlowObjectInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @param model Model of the org.semanticwb.process.model.RuleStartEvent
@@ -329,6 +237,98 @@ public abstract class RuleStartEventBase extends org.semanticwb.process.model.St
         public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByFlowObjectInstance(org.semanticwb.process.model.FlowNodeInstance value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstanceInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.RuleStartEvent
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.RuleStartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.RuleStartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.RuleStartEvent> listRuleStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.RuleStartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
             return it;
         }
     }

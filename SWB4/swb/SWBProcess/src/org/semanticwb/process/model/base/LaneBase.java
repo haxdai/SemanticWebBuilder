@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class LaneBase extends org.semanticwb.process.model.GraphicalElement implements org.semanticwb.process.model.ResourceAssignmentable,org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable
+public abstract class LaneBase extends org.semanticwb.process.model.GraphicalElement implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.UserGroupRefable,org.semanticwb.process.model.ResourceAssignmentable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticProperty swp_lindex=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#lindex");
     public static final org.semanticwb.platform.SemanticClass swp_Lane=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#Lane");
@@ -80,95 +80,26 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
             return (getLane(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.Lane with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @param model Model of the org.semanticwb.process.model.Lane
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.Lane with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByContainer(org.semanticwb.process.model.Containerable value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.Lane
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.Lane
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.Lane
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.Lane
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -195,49 +126,49 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.Lane with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.Lane
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.Lane with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByContainer(org.semanticwb.process.model.Containerable value)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByDocumentation(org.semanticwb.process.model.Documentation value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.Lane with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @param model Model of the org.semanticwb.process.model.Lane
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.Lane with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByUserGroupRef(org.semanticwb.model.UserGroupRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -287,26 +218,95 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.Lane with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.Lane
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.Lane with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.Lane with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.Lane
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByChild(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.Lane
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.Lane
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.Lane
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.Lane with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.Lane
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.Lane> listLaneByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.Lane> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -347,77 +347,79 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.model.UserGroupRef
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
 
-/**
-* Gets the NotInheritRoleRef property
-* @return boolean with the NotInheritRoleRef
-*/
-    public boolean isNotInheritRoleRef()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listUserGroupRefs()
     {
-        return getSemanticObject().getBooleanProperty(swb_notInheritRoleRef);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listObjectProperties(swb_hasUserGroupRef));
     }
 
-/**
-* Sets the NotInheritRoleRef property
-* @param value long with the NotInheritRoleRef
-*/
-    public void setNotInheritRoleRef(boolean value)
+   /**
+   * Gets true if has a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to verify
+   * @return true if the org.semanticwb.model.UserGroupRef exists, false otherwise
+   */
+    public boolean hasUserGroupRef(org.semanticwb.model.UserGroupRef value)
     {
-        getSemanticObject().setBooleanProperty(swb_notInheritRoleRef, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+        }
+        return ret;
     }
 
-/**
-* Gets the NotInheritUserGroupRef property
-* @return boolean with the NotInheritUserGroupRef
-*/
-    public boolean isNotInheritUserGroupRef()
+   /**
+   * Gets all the UserGroupRefs inherits
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listInheritUserGroupRefs()
     {
-        return getSemanticObject().getBooleanProperty(swb_notInheritUserGroupRef);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listInheritProperties(swb_hasUserGroupRef));
+    }
+   /**
+   * Adds a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to add
+   */
+
+    public void addUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasUserGroupRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the UserGroupRef
+   */
+
+    public void removeAllUserGroupRef()
+    {
+        getSemanticObject().removeProperty(swb_hasUserGroupRef);
+    }
+   /**
+   * Removes a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to remove
+   */
+
+    public void removeUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
     }
 
-/**
-* Sets the NotInheritUserGroupRef property
-* @param value long with the NotInheritUserGroupRef
-*/
-    public void setNotInheritUserGroupRef(boolean value)
+   /**
+   * Gets the UserGroupRef
+   * @return a org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.UserGroupRef getUserGroupRef()
     {
-        getSemanticObject().setBooleanProperty(swb_notInheritUserGroupRef, value);
-    }
-
-/**
-* Gets the ResourceAssignationRule property
-* @return int with the ResourceAssignationRule
-*/
-    public int getResourceAssignationRule()
-    {
-        return getSemanticObject().getIntProperty(swp_resourceAssignationRule);
-    }
-
-/**
-* Sets the ResourceAssignationRule property
-* @param value long with the ResourceAssignationRule
-*/
-    public void setResourceAssignationRule(int value)
-    {
-        getSemanticObject().setIntProperty(swp_resourceAssignationRule, value);
-    }
-
-/**
-* Gets the NotInheritRuleRef property
-* @return boolean with the NotInheritRuleRef
-*/
-    public boolean isNotInheritRuleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_notInheritRuleRef);
-    }
-
-/**
-* Sets the NotInheritRuleRef property
-* @param value long with the NotInheritRuleRef
-*/
-    public void setNotInheritRuleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_notInheritRuleRef, value);
+         org.semanticwb.model.UserGroupRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroupRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.UserGroupRef)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.model.RuleRef
@@ -529,79 +531,113 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
     {
         getSemanticObject().setBooleanProperty(swb_andEvalUserGroupRef, value);
     }
-   /**
-   * Gets all the org.semanticwb.model.UserGroupRef
-   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
-   */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listUserGroupRefs()
+/**
+* Gets the NotInheritRuleRef property
+* @return boolean with the NotInheritRuleRef
+*/
+    public boolean isNotInheritRuleRef()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listObjectProperties(swb_hasUserGroupRef));
+        return getSemanticObject().getBooleanProperty(swb_notInheritRuleRef);
     }
 
-   /**
-   * Gets true if has a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to verify
-   * @return true if the org.semanticwb.model.UserGroupRef exists, false otherwise
-   */
-    public boolean hasUserGroupRef(org.semanticwb.model.UserGroupRef value)
+/**
+* Sets the NotInheritRuleRef property
+* @param value long with the NotInheritRuleRef
+*/
+    public void setNotInheritRuleRef(boolean value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
-        }
-        return ret;
+        getSemanticObject().setBooleanProperty(swb_notInheritRuleRef, value);
     }
 
-   /**
-   * Gets all the UserGroupRefs inherits
-   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
-   */
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listInheritUserGroupRefs()
+/**
+* Gets the NotInheritRoleRef property
+* @return boolean with the NotInheritRoleRef
+*/
+    public boolean isNotInheritRoleRef()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listInheritProperties(swb_hasUserGroupRef));
-    }
-   /**
-   * Adds a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to add
-   */
-
-    public void addUserGroupRef(org.semanticwb.model.UserGroupRef value)
-    {
-        getSemanticObject().addObjectProperty(swb_hasUserGroupRef, value.getSemanticObject());
-    }
-   /**
-   * Removes all the UserGroupRef
-   */
-
-    public void removeAllUserGroupRef()
-    {
-        getSemanticObject().removeProperty(swb_hasUserGroupRef);
-    }
-   /**
-   * Removes a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to remove
-   */
-
-    public void removeUserGroupRef(org.semanticwb.model.UserGroupRef value)
-    {
-        getSemanticObject().removeObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+        return getSemanticObject().getBooleanProperty(swb_notInheritRoleRef);
     }
 
-   /**
-   * Gets the UserGroupRef
-   * @return a org.semanticwb.model.UserGroupRef
-   */
-    public org.semanticwb.model.UserGroupRef getUserGroupRef()
+/**
+* Sets the NotInheritRoleRef property
+* @param value long with the NotInheritRoleRef
+*/
+    public void setNotInheritRoleRef(boolean value)
     {
-         org.semanticwb.model.UserGroupRef ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroupRef);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.UserGroupRef)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setBooleanProperty(swb_notInheritRoleRef, value);
+    }
+
+/**
+* Gets the AndEvalRuleRef property
+* @return boolean with the AndEvalRuleRef
+*/
+    public boolean isAndEvalRuleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRuleRef);
+    }
+
+/**
+* Sets the AndEvalRuleRef property
+* @param value long with the AndEvalRuleRef
+*/
+    public void setAndEvalRuleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRuleRef, value);
+    }
+
+/**
+* Gets the AndEvalRoleRef property
+* @return boolean with the AndEvalRoleRef
+*/
+    public boolean isAndEvalRoleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRoleRef);
+    }
+
+/**
+* Sets the AndEvalRoleRef property
+* @param value long with the AndEvalRoleRef
+*/
+    public void setAndEvalRoleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
+    }
+
+/**
+* Gets the ResourceAssignationRule property
+* @return int with the ResourceAssignationRule
+*/
+    public int getResourceAssignationRule()
+    {
+        return getSemanticObject().getIntProperty(swp_resourceAssignationRule);
+    }
+
+/**
+* Sets the ResourceAssignationRule property
+* @param value long with the ResourceAssignationRule
+*/
+    public void setResourceAssignationRule(int value)
+    {
+        getSemanticObject().setIntProperty(swp_resourceAssignationRule, value);
+    }
+
+/**
+* Gets the NotInheritUserGroupRef property
+* @return boolean with the NotInheritUserGroupRef
+*/
+    public boolean isNotInheritUserGroupRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_notInheritUserGroupRef);
+    }
+
+/**
+* Sets the NotInheritUserGroupRef property
+* @param value long with the NotInheritUserGroupRef
+*/
+    public void setNotInheritUserGroupRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_notInheritUserGroupRef, value);
     }
    /**
    * Gets all the org.semanticwb.model.RoleRef
@@ -676,42 +712,6 @@ public abstract class LaneBase extends org.semanticwb.process.model.GraphicalEle
              ret=(org.semanticwb.model.RoleRef)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the AndEvalRoleRef property
-* @return boolean with the AndEvalRoleRef
-*/
-    public boolean isAndEvalRoleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_andEvalRoleRef);
-    }
-
-/**
-* Sets the AndEvalRoleRef property
-* @param value long with the AndEvalRoleRef
-*/
-    public void setAndEvalRoleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
-    }
-
-/**
-* Gets the AndEvalRuleRef property
-* @return boolean with the AndEvalRuleRef
-*/
-    public boolean isAndEvalRuleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_andEvalRuleRef);
-    }
-
-/**
-* Sets the AndEvalRuleRef property
-* @param value long with the AndEvalRuleRef
-*/
-    public void setAndEvalRuleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_andEvalRuleRef, value);
     }
 
    /**

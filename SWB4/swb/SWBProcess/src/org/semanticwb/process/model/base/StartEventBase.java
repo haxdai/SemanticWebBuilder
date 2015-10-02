@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class StartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable
+public abstract class StartEventBase extends org.semanticwb.process.model.StartEventNode implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass swp_StartEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#StartEvent");
    /**
@@ -79,118 +79,26 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
             return (getStartEvent(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @param model Model of the org.semanticwb.process.model.StartEvent
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Next
+       * @param value Next of the type org.semanticwb.process.model.FlowNode
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByNext(org.semanticwb.process.model.FlowNode value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.StartEvent
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.StartEvent
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.StartEvent
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.StartEvent
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Parent
-       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -217,26 +125,72 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.StartEvent
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByParent(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_parent, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Parent
+       * @param value Parent of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByParent(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_parent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
+       * @param model Model of the org.semanticwb.process.model.StartEvent
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByDocumentation(org.semanticwb.process.model.Documentation value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.process.model.StartEvent
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -286,29 +240,6 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @param model Model of the org.semanticwb.process.model.StartEvent
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByNext(org.semanticwb.process.model.FlowNode value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined Next
-       * @param value Next of the type org.semanticwb.process.model.FlowNode
-       * @return Iterator with all the org.semanticwb.process.model.StartEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByNext(org.semanticwb.process.model.FlowNode value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_ie_next,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.StartEvent with a determined FlowObjectInstance
        * @param value FlowObjectInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @param model Model of the org.semanticwb.process.model.StartEvent
@@ -332,26 +263,95 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.StartEvent
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.StartEvent with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.StartEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByChild(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.StartEvent
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.StartEvent
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.StartEvent
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.StartEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.StartEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.StartEvent> listStartEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.StartEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -392,59 +392,79 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
     {
         super(base);
     }
+   /**
+   * Gets all the org.semanticwb.model.UserGroupRef
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
 
-/**
-* Gets the NotInheritRoleRef property
-* @return boolean with the NotInheritRoleRef
-*/
-    public boolean isNotInheritRoleRef()
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listUserGroupRefs()
     {
-        return getSemanticObject().getBooleanProperty(swb_notInheritRoleRef);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listObjectProperties(swb_hasUserGroupRef));
     }
 
-/**
-* Sets the NotInheritRoleRef property
-* @param value long with the NotInheritRoleRef
-*/
-    public void setNotInheritRoleRef(boolean value)
+   /**
+   * Gets true if has a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to verify
+   * @return true if the org.semanticwb.model.UserGroupRef exists, false otherwise
+   */
+    public boolean hasUserGroupRef(org.semanticwb.model.UserGroupRef value)
     {
-        getSemanticObject().setBooleanProperty(swb_notInheritRoleRef, value);
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+        }
+        return ret;
     }
 
-/**
-* Gets the NotInheritUserGroupRef property
-* @return boolean with the NotInheritUserGroupRef
-*/
-    public boolean isNotInheritUserGroupRef()
+   /**
+   * Gets all the UserGroupRefs inherits
+   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listInheritUserGroupRefs()
     {
-        return getSemanticObject().getBooleanProperty(swb_notInheritUserGroupRef);
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listInheritProperties(swb_hasUserGroupRef));
+    }
+   /**
+   * Adds a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to add
+   */
+
+    public void addUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().addObjectProperty(swb_hasUserGroupRef, value.getSemanticObject());
+    }
+   /**
+   * Removes all the UserGroupRef
+   */
+
+    public void removeAllUserGroupRef()
+    {
+        getSemanticObject().removeProperty(swb_hasUserGroupRef);
+    }
+   /**
+   * Removes a UserGroupRef
+   * @param value org.semanticwb.model.UserGroupRef to remove
+   */
+
+    public void removeUserGroupRef(org.semanticwb.model.UserGroupRef value)
+    {
+        getSemanticObject().removeObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
     }
 
-/**
-* Sets the NotInheritUserGroupRef property
-* @param value long with the NotInheritUserGroupRef
-*/
-    public void setNotInheritUserGroupRef(boolean value)
+   /**
+   * Gets the UserGroupRef
+   * @return a org.semanticwb.model.UserGroupRef
+   */
+    public org.semanticwb.model.UserGroupRef getUserGroupRef()
     {
-        getSemanticObject().setBooleanProperty(swb_notInheritUserGroupRef, value);
-    }
-
-/**
-* Gets the NotInheritRuleRef property
-* @return boolean with the NotInheritRuleRef
-*/
-    public boolean isNotInheritRuleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_notInheritRuleRef);
-    }
-
-/**
-* Sets the NotInheritRuleRef property
-* @param value long with the NotInheritRuleRef
-*/
-    public void setNotInheritRuleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_notInheritRuleRef, value);
+         org.semanticwb.model.UserGroupRef ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroupRef);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.UserGroupRef)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.model.RuleRef
@@ -538,79 +558,95 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
     {
         getSemanticObject().setBooleanProperty(swb_andEvalUserGroupRef, value);
     }
-   /**
-   * Gets all the org.semanticwb.model.UserGroupRef
-   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
-   */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listUserGroupRefs()
+/**
+* Gets the NotInheritRuleRef property
+* @return boolean with the NotInheritRuleRef
+*/
+    public boolean isNotInheritRuleRef()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listObjectProperties(swb_hasUserGroupRef));
+        return getSemanticObject().getBooleanProperty(swb_notInheritRuleRef);
     }
 
-   /**
-   * Gets true if has a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to verify
-   * @return true if the org.semanticwb.model.UserGroupRef exists, false otherwise
-   */
-    public boolean hasUserGroupRef(org.semanticwb.model.UserGroupRef value)
+/**
+* Sets the NotInheritRuleRef property
+* @param value long with the NotInheritRuleRef
+*/
+    public void setNotInheritRuleRef(boolean value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
-        }
-        return ret;
+        getSemanticObject().setBooleanProperty(swb_notInheritRuleRef, value);
     }
 
-   /**
-   * Gets all the UserGroupRefs inherits
-   * @return A GenericIterator with all the org.semanticwb.model.UserGroupRef
-   */
-    public org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef> listInheritUserGroupRefs()
+/**
+* Gets the NotInheritRoleRef property
+* @return boolean with the NotInheritRoleRef
+*/
+    public boolean isNotInheritRoleRef()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.model.UserGroupRef>(getSemanticObject().listInheritProperties(swb_hasUserGroupRef));
-    }
-   /**
-   * Adds a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to add
-   */
-
-    public void addUserGroupRef(org.semanticwb.model.UserGroupRef value)
-    {
-        getSemanticObject().addObjectProperty(swb_hasUserGroupRef, value.getSemanticObject());
-    }
-   /**
-   * Removes all the UserGroupRef
-   */
-
-    public void removeAllUserGroupRef()
-    {
-        getSemanticObject().removeProperty(swb_hasUserGroupRef);
-    }
-   /**
-   * Removes a UserGroupRef
-   * @param value org.semanticwb.model.UserGroupRef to remove
-   */
-
-    public void removeUserGroupRef(org.semanticwb.model.UserGroupRef value)
-    {
-        getSemanticObject().removeObjectProperty(swb_hasUserGroupRef,value.getSemanticObject());
+        return getSemanticObject().getBooleanProperty(swb_notInheritRoleRef);
     }
 
-   /**
-   * Gets the UserGroupRef
-   * @return a org.semanticwb.model.UserGroupRef
-   */
-    public org.semanticwb.model.UserGroupRef getUserGroupRef()
+/**
+* Sets the NotInheritRoleRef property
+* @param value long with the NotInheritRoleRef
+*/
+    public void setNotInheritRoleRef(boolean value)
     {
-         org.semanticwb.model.UserGroupRef ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_hasUserGroupRef);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.UserGroupRef)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setBooleanProperty(swb_notInheritRoleRef, value);
+    }
+
+/**
+* Gets the AndEvalRuleRef property
+* @return boolean with the AndEvalRuleRef
+*/
+    public boolean isAndEvalRuleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRuleRef);
+    }
+
+/**
+* Sets the AndEvalRuleRef property
+* @param value long with the AndEvalRuleRef
+*/
+    public void setAndEvalRuleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRuleRef, value);
+    }
+
+/**
+* Gets the AndEvalRoleRef property
+* @return boolean with the AndEvalRoleRef
+*/
+    public boolean isAndEvalRoleRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_andEvalRoleRef);
+    }
+
+/**
+* Sets the AndEvalRoleRef property
+* @param value long with the AndEvalRoleRef
+*/
+    public void setAndEvalRoleRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
+    }
+
+/**
+* Gets the NotInheritUserGroupRef property
+* @return boolean with the NotInheritUserGroupRef
+*/
+    public boolean isNotInheritUserGroupRef()
+    {
+        return getSemanticObject().getBooleanProperty(swb_notInheritUserGroupRef);
+    }
+
+/**
+* Sets the NotInheritUserGroupRef property
+* @param value long with the NotInheritUserGroupRef
+*/
+    public void setNotInheritUserGroupRef(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swb_notInheritUserGroupRef, value);
     }
    /**
    * Gets all the org.semanticwb.model.RoleRef
@@ -685,42 +721,6 @@ public abstract class StartEventBase extends org.semanticwb.process.model.StartE
              ret=(org.semanticwb.model.RoleRef)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the AndEvalRoleRef property
-* @return boolean with the AndEvalRoleRef
-*/
-    public boolean isAndEvalRoleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_andEvalRoleRef);
-    }
-
-/**
-* Sets the AndEvalRoleRef property
-* @param value long with the AndEvalRoleRef
-*/
-    public void setAndEvalRoleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
-    }
-
-/**
-* Gets the AndEvalRuleRef property
-* @return boolean with the AndEvalRuleRef
-*/
-    public boolean isAndEvalRuleRef()
-    {
-        return getSemanticObject().getBooleanProperty(swb_andEvalRuleRef);
-    }
-
-/**
-* Sets the AndEvalRuleRef property
-* @param value long with the AndEvalRuleRef
-*/
-    public void setAndEvalRuleRef(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_andEvalRuleRef, value);
     }
 
    /**

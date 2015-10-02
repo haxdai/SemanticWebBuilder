@@ -4,8 +4,8 @@ package org.semanticwb.process.model.base;
 public abstract class ItemAwareMappingBase extends org.semanticwb.process.model.BaseElement 
 {
     public static final org.semanticwb.platform.SemanticClass swp_ItemAware=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ItemAware");
-    public static final org.semanticwb.platform.SemanticProperty swp_remoteItemAware=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#remoteItemAware");
     public static final org.semanticwb.platform.SemanticProperty swp_localItemAware=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#localItemAware");
+    public static final org.semanticwb.platform.SemanticProperty swp_remoteItemAware=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#remoteItemAware");
     public static final org.semanticwb.platform.SemanticClass swp_ItemAwareMapping=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ItemAwareMapping");
    /**
    * The semantic class that represents the currentObject
@@ -82,29 +82,6 @@ public abstract class ItemAwareMappingBase extends org.semanticwb.process.model.
             return (getItemAwareMapping(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.ItemAwareMapping with a determined RemoteItemAware
-       * @param value RemoteItemAware of the type org.semanticwb.process.model.ItemAware
-       * @param model Model of the org.semanticwb.process.model.ItemAwareMapping
-       * @return Iterator with all the org.semanticwb.process.model.ItemAwareMapping
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ItemAwareMapping> listItemAwareMappingByRemoteItemAware(org.semanticwb.process.model.ItemAware value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ItemAwareMapping> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_remoteItemAware, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ItemAwareMapping with a determined RemoteItemAware
-       * @param value RemoteItemAware of the type org.semanticwb.process.model.ItemAware
-       * @return Iterator with all the org.semanticwb.process.model.ItemAwareMapping
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ItemAwareMapping> listItemAwareMappingByRemoteItemAware(org.semanticwb.process.model.ItemAware value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ItemAwareMapping> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_remoteItemAware,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.ItemAwareMapping with a determined LocalItemAware
        * @param value LocalItemAware of the type org.semanticwb.process.model.ItemAware
        * @param model Model of the org.semanticwb.process.model.ItemAwareMapping
@@ -127,6 +104,29 @@ public abstract class ItemAwareMappingBase extends org.semanticwb.process.model.
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ItemAwareMapping> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_localItemAware,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.process.model.ItemAwareMapping with a determined RemoteItemAware
+       * @param value RemoteItemAware of the type org.semanticwb.process.model.ItemAware
+       * @param model Model of the org.semanticwb.process.model.ItemAwareMapping
+       * @return Iterator with all the org.semanticwb.process.model.ItemAwareMapping
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ItemAwareMapping> listItemAwareMappingByRemoteItemAware(org.semanticwb.process.model.ItemAware value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ItemAwareMapping> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_remoteItemAware, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ItemAwareMapping with a determined RemoteItemAware
+       * @param value RemoteItemAware of the type org.semanticwb.process.model.ItemAware
+       * @return Iterator with all the org.semanticwb.process.model.ItemAwareMapping
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ItemAwareMapping> listItemAwareMappingByRemoteItemAware(org.semanticwb.process.model.ItemAware value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ItemAwareMapping> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_remoteItemAware,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static ItemAwareMappingBase.ClassMgr getItemAwareMappingClassMgr()
@@ -141,44 +141,6 @@ public abstract class ItemAwareMappingBase extends org.semanticwb.process.model.
     public ItemAwareMappingBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-   /**
-   * Sets the value for the property RemoteItemAware
-   * @param value RemoteItemAware to set
-   */
-
-    public void setRemoteItemAware(org.semanticwb.process.model.ItemAware value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swp_remoteItemAware, value.getSemanticObject());
-        }else
-        {
-            removeRemoteItemAware();
-        }
-    }
-   /**
-   * Remove the value for RemoteItemAware property
-   */
-
-    public void removeRemoteItemAware()
-    {
-        getSemanticObject().removeProperty(swp_remoteItemAware);
-    }
-
-   /**
-   * Gets the RemoteItemAware
-   * @return a org.semanticwb.process.model.ItemAware
-   */
-    public org.semanticwb.process.model.ItemAware getRemoteItemAware()
-    {
-         org.semanticwb.process.model.ItemAware ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_remoteItemAware);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.process.model.ItemAware)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property LocalItemAware
@@ -212,6 +174,44 @@ public abstract class ItemAwareMappingBase extends org.semanticwb.process.model.
     {
          org.semanticwb.process.model.ItemAware ret=null;
          org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_localItemAware);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.process.model.ItemAware)obj.createGenericInstance();
+         }
+         return ret;
+    }
+   /**
+   * Sets the value for the property RemoteItemAware
+   * @param value RemoteItemAware to set
+   */
+
+    public void setRemoteItemAware(org.semanticwb.process.model.ItemAware value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swp_remoteItemAware, value.getSemanticObject());
+        }else
+        {
+            removeRemoteItemAware();
+        }
+    }
+   /**
+   * Remove the value for RemoteItemAware property
+   */
+
+    public void removeRemoteItemAware()
+    {
+        getSemanticObject().removeProperty(swp_remoteItemAware);
+    }
+
+   /**
+   * Gets the RemoteItemAware
+   * @return a org.semanticwb.process.model.ItemAware
+   */
+    public org.semanticwb.process.model.ItemAware getRemoteItemAware()
+    {
+         org.semanticwb.process.model.ItemAware ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_remoteItemAware);
          if(obj!=null)
          {
              ret=(org.semanticwb.process.model.ItemAware)obj.createGenericInstance();

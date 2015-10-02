@@ -3,9 +3,9 @@ package org.semanticwb.process.schema.base;
 
 public abstract class FileCollectionBase extends org.semanticwb.process.model.DataTypes 
 {
-    public static final org.semanticwb.platform.SemanticProperty swp_hasFileValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasFileValue");
     public static final org.semanticwb.platform.SemanticClass swp_RepositoryFile=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#RepositoryFile");
     public static final org.semanticwb.platform.SemanticProperty swp_hasRepositoryFileRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasRepositoryFileRef");
+    public static final org.semanticwb.platform.SemanticProperty swp_hasFileValue=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasFileValue");
     public static final org.semanticwb.platform.SemanticClass swps_FileCollection=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process/schema#FileCollection");
    /**
    * The semantic class that represents the currentObject
@@ -113,33 +113,6 @@ public abstract class FileCollectionBase extends org.semanticwb.process.model.Da
     {
         super(base);
     }
-
-    public java.util.Iterator<String> listValues()
-    {
-        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
-        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(swp_hasFileValue);
-        while(it.hasNext())
-        {
-                org.semanticwb.platform.SemanticLiteral literal=it.next();
-                values.add(literal.getString());
-        }
-        return values.iterator();
-    }
-
-    public void addValue(String value)
-    {
-        getSemanticObject().addLiteralProperty(swp_hasFileValue, new org.semanticwb.platform.SemanticLiteral(value));
-    }
-
-    public void removeAllValue()
-    {
-        getSemanticObject().removeProperty(swp_hasFileValue);
-    }
-
-    public void removeValue(String value)
-    {
-        getSemanticObject().removeLiteralProperty(swp_hasFileValue,new org.semanticwb.platform.SemanticLiteral(value));
-    }
    /**
    * Gets all the org.semanticwb.process.model.RepositoryFile
    * @return A GenericIterator with all the org.semanticwb.process.model.RepositoryFile
@@ -204,5 +177,32 @@ public abstract class FileCollectionBase extends org.semanticwb.process.model.Da
              ret=(org.semanticwb.process.model.RepositoryFile)obj.createGenericInstance();
          }
          return ret;
+    }
+
+    public java.util.Iterator<String> listValues()
+    {
+        java.util.ArrayList<String> values=new java.util.ArrayList<String>();
+        java.util.Iterator<org.semanticwb.platform.SemanticLiteral> it=getSemanticObject().listLiteralProperties(swp_hasFileValue);
+        while(it.hasNext())
+        {
+                org.semanticwb.platform.SemanticLiteral literal=it.next();
+                values.add(literal.getString());
+        }
+        return values.iterator();
+    }
+
+    public void addValue(String value)
+    {
+        getSemanticObject().addLiteralProperty(swp_hasFileValue, new org.semanticwb.platform.SemanticLiteral(value));
+    }
+
+    public void removeAllValue()
+    {
+        getSemanticObject().removeProperty(swp_hasFileValue);
+    }
+
+    public void removeValue(String value)
+    {
+        getSemanticObject().removeLiteralProperty(swp_hasFileValue,new org.semanticwb.platform.SemanticLiteral(value));
     }
 }

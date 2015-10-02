@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class TerminationEndEventBase extends org.semanticwb.process.model.EndEventNode implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable
+public abstract class TerminationEndEventBase extends org.semanticwb.process.model.EndEventNode implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass swp_TerminationEndEvent=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#TerminationEndEvent");
    /**
@@ -79,95 +79,26 @@ public abstract class TerminationEndEventBase extends org.semanticwb.process.mod
             return (getTerminationEndEvent(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
        * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByContainer(org.semanticwb.process.model.Containerable value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -194,49 +125,26 @@ public abstract class TerminationEndEventBase extends org.semanticwb.process.mod
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
        * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByContainer(org.semanticwb.process.model.Containerable value)
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByDocumentation(org.semanticwb.process.model.Documentation value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -283,6 +191,98 @@ public abstract class TerminationEndEventBase extends org.semanticwb.process.mod
         public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByFlowObjectInstance(org.semanticwb.process.model.FlowNodeInstance value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstanceInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByChild(org.semanticwb.process.model.GraphicalElement value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.TerminationEndEvent
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.TerminationEndEvent with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.TerminationEndEvent
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.TerminationEndEvent> listTerminationEndEventByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.TerminationEndEvent> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
             return it;
         }
     }

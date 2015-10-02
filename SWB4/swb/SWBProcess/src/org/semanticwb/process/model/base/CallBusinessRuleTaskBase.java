@@ -1,7 +1,7 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.model.CallTask implements org.semanticwb.process.model.ResourceAssignmentable,org.semanticwb.model.Referensable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Sortable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable
+public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.model.CallTask implements org.semanticwb.model.Sortable,org.semanticwb.model.Traceable,org.semanticwb.process.model.BPMNSerializable,org.semanticwb.model.UserGroupRefable,org.semanticwb.process.model.ResourceAssignmentable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass swp_CallBusinessRuleTask=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#CallBusinessRuleTask");
    /**
@@ -79,118 +79,26 @@ public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.mo
             return (getCallBusinessRuleTask(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined CalledElement
-       * @param value CalledElement of the type org.semanticwb.process.model.Callable
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCalledElement(org.semanticwb.process.model.Callable value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_calledElement, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined CalledElement
-       * @param value CalledElement of the type org.semanticwb.process.model.Callable
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Container
+       * @param value Container of the type org.semanticwb.process.model.Containerable
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCalledElement(org.semanticwb.process.model.Callable value)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByContainer(org.semanticwb.process.model.Containerable value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_calledElement,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined InputConnectionObject
-       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Child
-       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByChild(org.semanticwb.process.model.GraphicalElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Documentation
-       * @param value Documentation of the type org.semanticwb.process.model.Documentation
-       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByDocumentation(org.semanticwb.process.model.Documentation value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -217,49 +125,49 @@ public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.mo
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByContainer(org.semanticwb.process.model.Containerable value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByDocumentation(org.semanticwb.process.model.Documentation value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_container, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Container
-       * @param value Container of the type org.semanticwb.process.model.Containerable
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Documentation
+       * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByContainer(org.semanticwb.process.model.Containerable value)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByDocumentation(org.semanticwb.process.model.Documentation value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_container,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasDocumentation,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByUserGroupRef(org.semanticwb.model.UserGroupRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -309,6 +217,29 @@ public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.mo
             return it;
         }
        /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined CalledElement
+       * @param value CalledElement of the type org.semanticwb.process.model.Callable
+       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCalledElement(org.semanticwb.process.model.Callable value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_calledElement, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined CalledElement
+       * @param value CalledElement of the type org.semanticwb.process.model.Callable
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCalledElement(org.semanticwb.process.model.Callable value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_calledElement,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined FlowObjectInstance
        * @param value FlowObjectInstance of the type org.semanticwb.process.model.FlowNodeInstance
        * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
@@ -332,26 +263,95 @@ public abstract class CallBusinessRuleTaskBase extends org.semanticwb.process.mo
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByChild(org.semanticwb.process.model.GraphicalElement value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Child
+       * @param value Child of the type org.semanticwb.process.model.GraphicalElement
        * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByChild(org.semanticwb.process.model.GraphicalElement value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasChildInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @param model Model of the org.semanticwb.process.model.CallBusinessRuleTask
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.CallBusinessRuleTask with a determined InputConnectionObject
+       * @param value InputConnectionObject of the type org.semanticwb.process.model.ConnectionObject
+       * @return Iterator with all the org.semanticwb.process.model.CallBusinessRuleTask
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.CallBusinessRuleTask> listCallBusinessRuleTaskByInputConnectionObject(org.semanticwb.process.model.ConnectionObject value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.CallBusinessRuleTask> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasInputConnectionObjectInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**

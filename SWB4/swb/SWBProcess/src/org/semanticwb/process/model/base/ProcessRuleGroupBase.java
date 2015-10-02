@@ -4,7 +4,7 @@ package org.semanticwb.process.model.base;
    /**
    * Objeto que define un Grupo de reglas de negocio 
    */
-public abstract class ProcessRuleGroupBase extends org.semanticwb.process.model.ProcessElement implements org.semanticwb.model.Descriptiveable,org.semanticwb.model.Traceable
+public abstract class ProcessRuleGroupBase extends org.semanticwb.process.model.ProcessElement implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
     public static final org.semanticwb.platform.SemanticClass swp_ProcessRule=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ProcessRule");
     public static final org.semanticwb.platform.SemanticProperty swp_hasProcessRuleInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasProcessRuleInv");
@@ -87,29 +87,6 @@ public abstract class ProcessRuleGroupBase extends org.semanticwb.process.model.
             return (getProcessRuleGroup(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.ProcessRuleGroup
-       * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined Documentation
        * @param value Documentation of the type org.semanticwb.process.model.Documentation
        * @param model Model of the org.semanticwb.process.model.ProcessRuleGroup
@@ -133,26 +110,26 @@ public abstract class ProcessRuleGroupBase extends org.semanticwb.process.model.
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ProcessRule
-       * @param value ProcessRule of the type org.semanticwb.process.model.ProcessRule
+       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.ProcessRuleGroup
        * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByProcessRule(org.semanticwb.process.model.ProcessRule value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasProcessRuleInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ProcessRule
-       * @param value ProcessRule of the type org.semanticwb.process.model.ProcessRule
+       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByProcessRule(org.semanticwb.process.model.ProcessRule value)
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasProcessRuleInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -176,6 +153,29 @@ public abstract class ProcessRuleGroupBase extends org.semanticwb.process.model.
         public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ProcessRule
+       * @param value ProcessRule of the type org.semanticwb.process.model.ProcessRule
+       * @param model Model of the org.semanticwb.process.model.ProcessRuleGroup
+       * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByProcessRule(org.semanticwb.process.model.ProcessRule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasProcessRuleInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessRuleGroup with a determined ProcessRule
+       * @param value ProcessRule of the type org.semanticwb.process.model.ProcessRule
+       * @return Iterator with all the org.semanticwb.process.model.ProcessRuleGroup
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessRuleGroup> listProcessRuleGroupByProcessRule(org.semanticwb.process.model.ProcessRule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessRuleGroup> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasProcessRuleInv,value.getSemanticObject(),sclass));
             return it;
         }
     }

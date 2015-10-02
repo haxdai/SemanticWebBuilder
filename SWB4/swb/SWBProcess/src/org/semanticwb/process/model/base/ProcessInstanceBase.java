@@ -1,17 +1,17 @@
 package org.semanticwb.process.model.base;
 
 
-public abstract class ProcessInstanceBase extends org.semanticwb.process.model.Instance implements org.semanticwb.process.model.ContainerInstanceable,org.semanticwb.model.Traceable,org.semanticwb.process.model.ProcessTraceable
+public abstract class ProcessInstanceBase extends org.semanticwb.process.model.Instance implements org.semanticwb.model.Traceable,org.semanticwb.process.model.ContainerInstanceable,org.semanticwb.process.model.ProcessTraceable
 {
     public static final org.semanticwb.platform.SemanticProperty swp_processStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processStatus");
-    public static final org.semanticwb.platform.SemanticClass swp_Process=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#Process");
-    public static final org.semanticwb.platform.SemanticProperty swp_processType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processType");
-    public static final org.semanticwb.platform.SemanticProperty swp_processPriority=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processPriority");
    /**
    * Objeto que define un grupo de usuarios dentro de un repositorio de usuarios para filtrar componente, seccion, plantillas, etc.
    */
     public static final org.semanticwb.platform.SemanticClass swb_UserGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#UserGroup");
     public static final org.semanticwb.platform.SemanticProperty swp_processOwnerUserGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processOwnerUserGroup");
+    public static final org.semanticwb.platform.SemanticProperty swp_processPriority=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processPriority");
+    public static final org.semanticwb.platform.SemanticClass swp_Process=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#Process");
+    public static final org.semanticwb.platform.SemanticProperty swp_processType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processType");
     public static final org.semanticwb.platform.SemanticClass swp_ProcessInstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ProcessInstance");
    /**
    * The semantic class that represents the currentObject
@@ -88,6 +88,75 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
             return (getProcessInstance(id, model)!=null);
         }
        /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined ItemAwareReference
+       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
+       * @param model Model of the org.semanticwb.process.model.ProcessInstance
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined ItemAwareReference
+       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined OwnerUserGroup
+       * @param value OwnerUserGroup of the type org.semanticwb.model.UserGroup
+       * @param model Model of the org.semanticwb.process.model.ProcessInstance
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByOwnerUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_processOwnerUserGroup, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined OwnerUserGroup
+       * @param value OwnerUserGroup of the type org.semanticwb.model.UserGroup
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByOwnerUserGroup(org.semanticwb.model.UserGroup value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_processOwnerUserGroup,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined FlowNodeInstance
+       * @param value FlowNodeInstance of the type org.semanticwb.process.model.FlowNodeInstance
+       * @param model Model of the org.semanticwb.process.model.ProcessInstance
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByFlowNodeInstance(org.semanticwb.process.model.FlowNodeInstance value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstancesInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined FlowNodeInstance
+       * @param value FlowNodeInstance of the type org.semanticwb.process.model.FlowNodeInstance
+       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
+       */
+
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByFlowNodeInstance(org.semanticwb.process.model.FlowNodeInstance value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstancesInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.process.model.ProcessInstance with a determined Endedby
        * @param value Endedby of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.ProcessInstance
@@ -134,29 +203,6 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined Assignedto
-       * @param value Assignedto of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.process.model.ProcessInstance
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByAssignedto(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined Assignedto
-       * @param value Assignedto of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByAssignedto(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.process.model.ProcessInstance with a determined ProcessType
        * @param value ProcessType of the type org.semanticwb.process.model.Process
        * @param model Model of the org.semanticwb.process.model.ProcessInstance
@@ -177,29 +223,6 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
         public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByProcessType(org.semanticwb.process.model.Process value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_processType,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined FlowNodeInstance
-       * @param value FlowNodeInstance of the type org.semanticwb.process.model.FlowNodeInstance
-       * @param model Model of the org.semanticwb.process.model.ProcessInstance
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByFlowNodeInstance(org.semanticwb.process.model.FlowNodeInstance value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstancesInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined FlowNodeInstance
-       * @param value FlowNodeInstance of the type org.semanticwb.process.model.FlowNodeInstance
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByFlowNodeInstance(org.semanticwb.process.model.FlowNodeInstance value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasFlowNodeInstancesInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -226,49 +249,26 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined ItemAwareReference
-       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined Assignedto
+       * @param value Assignedto of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.process.model.ProcessInstance
        * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByAssignedto(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined ItemAwareReference
-       * @param value ItemAwareReference of the type org.semanticwb.process.model.ItemAwareReference
+       * Gets all org.semanticwb.process.model.ProcessInstance with a determined Assignedto
+       * @param value Assignedto of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
        */
 
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByItemAwareReference(org.semanticwb.process.model.ItemAwareReference value)
+        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByAssignedto(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_hasItemAwareReference,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined OwnerUserGroup
-       * @param value OwnerUserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.process.model.ProcessInstance
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByOwnerUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swp_processOwnerUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.process.model.ProcessInstance with a determined OwnerUserGroup
-       * @param value OwnerUserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.process.model.ProcessInstance
-       */
-
-        public static java.util.Iterator<org.semanticwb.process.model.ProcessInstance> listProcessInstanceByOwnerUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_processOwnerUserGroup,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.process.model.ProcessInstance> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swp_assignedto,value.getSemanticObject(),sclass));
             return it;
         }
     }
@@ -305,40 +305,40 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
         getSemanticObject().setIntProperty(swp_processStatus, value);
     }
    /**
-   * Sets the value for the property ProcessType
-   * @param value ProcessType to set
+   * Sets the value for the property OwnerUserGroup
+   * @param value OwnerUserGroup to set
    */
 
-    public void setProcessType(org.semanticwb.process.model.Process value)
+    public void setOwnerUserGroup(org.semanticwb.model.UserGroup value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swp_processType, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(swp_processOwnerUserGroup, value.getSemanticObject());
         }else
         {
-            removeProcessType();
+            removeOwnerUserGroup();
         }
     }
    /**
-   * Remove the value for ProcessType property
+   * Remove the value for OwnerUserGroup property
    */
 
-    public void removeProcessType()
+    public void removeOwnerUserGroup()
     {
-        getSemanticObject().removeProperty(swp_processType);
+        getSemanticObject().removeProperty(swp_processOwnerUserGroup);
     }
 
    /**
-   * Gets the ProcessType
-   * @return a org.semanticwb.process.model.Process
+   * Gets the OwnerUserGroup
+   * @return a org.semanticwb.model.UserGroup
    */
-    public org.semanticwb.process.model.Process getProcessType()
+    public org.semanticwb.model.UserGroup getOwnerUserGroup()
     {
-         org.semanticwb.process.model.Process ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_processType);
+         org.semanticwb.model.UserGroup ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_processOwnerUserGroup);
          if(obj!=null)
          {
-             ret=(org.semanticwb.process.model.Process)obj.createGenericInstance();
+             ret=(org.semanticwb.model.UserGroup)obj.createGenericInstance();
          }
          return ret;
     }
@@ -400,40 +400,40 @@ public abstract class ProcessInstanceBase extends org.semanticwb.process.model.I
         getSemanticObject().setIntProperty(swp_processPriority, value);
     }
    /**
-   * Sets the value for the property OwnerUserGroup
-   * @param value OwnerUserGroup to set
+   * Sets the value for the property ProcessType
+   * @param value ProcessType to set
    */
 
-    public void setOwnerUserGroup(org.semanticwb.model.UserGroup value)
+    public void setProcessType(org.semanticwb.process.model.Process value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swp_processOwnerUserGroup, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(swp_processType, value.getSemanticObject());
         }else
         {
-            removeOwnerUserGroup();
+            removeProcessType();
         }
     }
    /**
-   * Remove the value for OwnerUserGroup property
+   * Remove the value for ProcessType property
    */
 
-    public void removeOwnerUserGroup()
+    public void removeProcessType()
     {
-        getSemanticObject().removeProperty(swp_processOwnerUserGroup);
+        getSemanticObject().removeProperty(swp_processType);
     }
 
    /**
-   * Gets the OwnerUserGroup
-   * @return a org.semanticwb.model.UserGroup
+   * Gets the ProcessType
+   * @return a org.semanticwb.process.model.Process
    */
-    public org.semanticwb.model.UserGroup getOwnerUserGroup()
+    public org.semanticwb.process.model.Process getProcessType()
     {
-         org.semanticwb.model.UserGroup ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_processOwnerUserGroup);
+         org.semanticwb.process.model.Process ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swp_processType);
          if(obj!=null)
          {
-             ret=(org.semanticwb.model.UserGroup)obj.createGenericInstance();
+             ret=(org.semanticwb.process.model.Process)obj.createGenericInstance();
          }
          return ret;
     }
