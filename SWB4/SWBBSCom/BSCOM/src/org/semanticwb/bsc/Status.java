@@ -3,6 +3,9 @@ package org.semanticwb.bsc;
 import java.util.List;
 import org.semanticwb.bsc.accessory.State;
 
+   /**
+   * Interfaz que define un elemento que maneja estados de semáforo 
+   */
 public interface Status extends org.semanticwb.bsc.base.StatusBase
 {
     public State getMinimumState();

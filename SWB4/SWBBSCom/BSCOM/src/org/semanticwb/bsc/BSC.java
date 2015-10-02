@@ -10,7 +10,6 @@ import org.semanticwb.bsc.accessory.Differentiator;
 import org.semanticwb.bsc.accessory.DifferentiatorGroup;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
-import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.element.Risk;
@@ -21,7 +20,9 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-
+   /**
+   * Define un balanced scorecard 
+   */
 public class BSC extends org.semanticwb.bsc.base.BSCBase 
 {
     public BSC(org.semanticwb.platform.SemanticObject base)
@@ -46,13 +47,12 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
 
     @Override
     public Iterator<Period> listPeriods() {
-        //return sortPeriods().iterator();
-        return listPeriods(true);
+        return Period.ClassMgr.listPeriods(this);
     }
     
     public Iterator<Period> listPeriods(boolean ascendent) {
         //return sortPeriods(ascendent).iterator();
-        List<Period> periods = SWBUtils.Collections.copyIterator(super.listPeriods());
+        List<Period> periods = SWBUtils.Collections.copyIterator(listPeriods());
         if(ascendent) {
             Collections.sort(periods);
         }else {            
@@ -71,19 +71,19 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         return perspectives;
     }
 
-    public List<Period> listValidPeriods() {
-        List<Period> validPeriods = SWBUtils.Collections.filterIterator(super.listPeriods(), new GenericFilterRule<Period>() {
+    public List<Period> listValidPeriods() {    
+        List<Period> validPeriods = SWBUtils.Collections.filterIterator(listPeriods(), new GenericFilterRule<Period>() {
                                                                         @Override
                                                                         public boolean filter(Period p) {
                                                                             if(p==null) {
                                                                                 return true;
                                                                             }
-                                                                            /*User user = SWBContext.getSessionUser(getUserRepository().getId());
+                                                                            User user = SWBContext.getSessionUser(getUserRepository().getId());
                                                                             if(user==null) {
                                                                                 user = SWBContext.getAdminUser();
                                                                             }
-                                                                            return !p.isValid() || !user.haveAccess(p);*/
-                                                                            return !p.isValid();
+                                                                            return !p.isValid() || !user.haveAccess(p);
+                                                                            //return !p.isValid();
                                                                         }            
                                                                     });
         return validPeriods;

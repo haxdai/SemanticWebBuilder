@@ -9,6 +9,9 @@ import org.semanticwb.bsc.utils.InappropriateFrequencyException;
 import org.semanticwb.bsc.utils.UndefinedFrequencyException;
 import org.semanticwb.platform.SemanticObject;
 
+   /**
+   * Interface que define un elemento que maneja Serieses 
+   */
 public interface SM extends org.semanticwb.bsc.base.SMBase
 {
     public List<Series> listValidSerieses();
