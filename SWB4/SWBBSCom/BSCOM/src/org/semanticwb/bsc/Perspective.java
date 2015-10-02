@@ -15,7 +15,9 @@ import org.semanticwb.model.SWBModel;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
-
+   /**
+   * Define una perspectiva del balanced scorecard 
+   */
 public class Perspective extends org.semanticwb.bsc.base.PerspectiveBase implements Comparable<Perspective>
 {
     public Perspective(org.semanticwb.platform.SemanticObject base)
