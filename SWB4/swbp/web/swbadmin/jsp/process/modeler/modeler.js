@@ -2175,7 +2175,7 @@ var _GraphicalElement = function(obj) {
 
             if(obj)
             {
-                ele.style.top=obj.offsetTop-obj.offsetParent.scrollTop+"px";
+                ele.style.top=obj.offsetTop-obj.offsetParent.scrollTop+15+"px";
                 ele.style.left=(obj.offsetLeft+47)+"px";
             }
         },
@@ -3934,12 +3934,17 @@ var _GraphicalElement = function(obj) {
         },
                 
         createNavPath: function() {
-            var npath = Modeler.navPath = document.createElement("div");
+            var npath = Modeler.navPath = document.createElement("div"),
+                contNode = ToolKit.svg.parentNode;
+            
             npath.style.display="none";
             npath.setAttribute("id","modelerNavPath");
-            npath.setAttribute("class","navPath");
-            document.body.appendChild(npath);
-            
+            if (Modeler.options.mode === "view") {
+                npath.setAttribute("class","navPath viewOnly");
+            } else {
+                npath.setAttribute("class","navPath");
+            }
+            contNode.insertBefore(npath, ToolKit.svg);
             Modeler.navPath.setNavigation = function(layer) {
                 var links = Modeler.getNavPath(layer),
                     i, length = links && links.length,
