@@ -182,11 +182,10 @@
 
 /***************************** Modeler NavPath *********************************/
 
-.navPath {
-    position: fixed;
-    top: -15px;
-    right: 0;
-}
+/*.navPath {
+    position: relative;
+    left:14px;
+}*/
 
 .navPath li {
     float:left;
@@ -206,7 +205,7 @@
     float: left;
 }
 
-.navPath li a:after { 
+.navPath li a:after {
     content: " ";
     display: block;
     width: 0;
@@ -263,6 +262,13 @@
 .navPath .navPathList {
     list-style: none;
     overflow: hidden;
+    margin:0;
+    padding-left:0;
+}
+
+.navPath.viewOnly {
+    position:relative;
+    left:50px;
 }
 
 /*****************************  NAVBAR **********************************************/
@@ -272,14 +278,14 @@
     position: fixed;
 }
 
-ul.breadcrumbs{
+ul.breadcrumbs {
     margin:10px 0;
     padding:0;
     line-height:0%;
     font-size:0;
 }
 
-ul.breadcrumbs li{
+ul.breadcrumbs li {
     list-style-type:none;
     margin:0;
     padding:0;
@@ -291,7 +297,7 @@ ul.breadcrumbs li{
     font-size:14px; /* 0.8em default to override font-size:0; on parent*/
 }
 
-ul.breadcrumbs li a{
+ul.breadcrumbs li a {
     display:inline-block;
     /*display:inline; /* IE ONLY*/
     position:relative;
@@ -302,24 +308,24 @@ ul.breadcrumbs li a{
     background:url(icon-arrow-right.png) no-repeat right center;
 }
 
-ul.breadcrumbs li.last a{
+ul.breadcrumbs li.last a {
     color:#333;
     cursor: default;
     text-decoration:none;
     background:none;
 }
 
-ul.breadcrumbs li.last a:hover{
+ul.breadcrumbs li.last a:hover {
     text-decoration:none;
 }
 
 /* Alternative Style */
-ul.breadcrumbs.alt1{
+ul.breadcrumbs.alt1 {
     border:1px solid transparent;
     font-size:0;
 }
 
-ul.breadcrumbs.alt1 li a{
+ul.breadcrumbs.alt1 li a {
     padding:10px 25px 10px 15px;
     background:url(breadcrumbs-bg.gif) no-repeat right center;
     text-decoration:none;
@@ -328,11 +334,11 @@ ul.breadcrumbs.alt1 li a{
     font-size:12px;
 }
 
-ul.breadcrumbs.alt1 a:hover{
+ul.breadcrumbs.alt1 a:hover {
     text-decoration:underline;
 }
 
-ul.breadcrumbs.alt1 li.first a{
+ul.breadcrumbs.alt1 li.first a {
     border-left:1px solid #efefef;
 }
 
@@ -346,6 +352,8 @@ ul.breadcrumbs.alt1 li.last a{
 .toolbarContainer {
     position: fixed;
     overflow-y: scroll;
+    top:23px;
+    left:0;
     height: 100%;    
 }
 
