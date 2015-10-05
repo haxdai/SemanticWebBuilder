@@ -4,7 +4,7 @@ package org.semanticwb.bsc.base;
    /**
    * Modelo que define un Scorecard de la metodologia BalancedScorecard de Norton y Kaplan 
    */
-public abstract class BSCBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Countryable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Localeable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Undeleteable,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Indexable
+public abstract class BSCBase extends org.semanticwb.model.WebSite implements org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.model.Indexable
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_values=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#values");
    /**
@@ -72,6 +72,7 @@ public abstract class BSCBase extends org.semanticwb.model.WebSite implements or
    * Gestiona la información de un control en un Riesgo.
    */
     public static final org.semanticwb.platform.SemanticClass bsc_Control=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Control");
+    public static final org.semanticwb.platform.SemanticClass bsc_PeriodGroup=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#PeriodGroup");
    /**
    * Las frecuencias de medición, definen bloques de períodos para determinar cuándo se requiere la captura de información. Frecuencia de medición.
    */
@@ -1088,6 +1089,36 @@ public abstract class BSCBase extends org.semanticwb.model.WebSite implements or
     public boolean hasControl(String id)
     {
         return org.semanticwb.bsc.tracing.Control.ClassMgr.hasControl(id, this);
+    }
+
+    public org.semanticwb.bsc.accessory.PeriodGroup getPeriodGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.getPeriodGroup(id, this);
+    }
+
+    public java.util.Iterator<org.semanticwb.bsc.accessory.PeriodGroup> listPeriodGroups()
+    {
+        return org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.listPeriodGroups(this);
+    }
+
+    public org.semanticwb.bsc.accessory.PeriodGroup createPeriodGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.createPeriodGroup(id,this);
+    }
+
+    public org.semanticwb.bsc.accessory.PeriodGroup createPeriodGroup()
+    {
+        long id=getSemanticObject().getModel().getCounter(bsc_PeriodGroup);
+        return org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.createPeriodGroup(String.valueOf(id),this);
+    } 
+
+    public void removePeriodGroup(String id)
+    {
+        org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.removePeriodGroup(id, this);
+    }
+    public boolean hasPeriodGroup(String id)
+    {
+        return org.semanticwb.bsc.accessory.PeriodGroup.ClassMgr.hasPeriodGroup(id, this);
     }
 
     public org.semanticwb.bsc.tracing.MeasurementFrequency getMeasurementFrequency(String id)
