@@ -230,9 +230,7 @@
         <%
     }
     %>
-    <div style="margin-left:66px;">
-        <jsp:include page="modelerSVG.jsp" flush="true"/>
-    </div>
+    <jsp:include page="modelerSVG.jsp" flush="true"/>
     <form id="svgform" accept-charset="utf-8" method="post" action="<%=exportUrl%>">
         <input type="hidden" id="output_format" name="output_format" value="">
         <input type="hidden" name="suri" value="<%=suri%>">
