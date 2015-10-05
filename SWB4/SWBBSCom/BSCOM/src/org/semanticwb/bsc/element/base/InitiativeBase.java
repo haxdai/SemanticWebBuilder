@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de una Iniciativa 
    */
-public abstract class InitiativeBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.bsc.Seasonable,org.semanticwb.model.Searchable,org.semanticwb.bsc.Summarized,org.semanticwb.model.UserGroupable,org.semanticwb.model.Activeable,org.semanticwb.bsc.Schedule,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.PeriodStatusAssignable,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Status,org.semanticwb.model.Referensable,org.semanticwb.bsc.Updateable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.FilterableClass
+public abstract class InitiativeBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Filterable,org.semanticwb.bsc.PeriodStatusAssignable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Updateable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Referensable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.bsc.Schedule,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Status
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_totalInvestment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#totalInvestment");
     public static final org.semanticwb.platform.SemanticProperty bsc_businessCase=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#businessCase");
@@ -158,52 +158,6 @@ public abstract class InitiativeBase extends org.semanticwb.bsc.element.BSCEleme
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Initiative with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.element.Initiative
-       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Initiative with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Initiative with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
-       * @param model Model of the org.semanticwb.bsc.element.Initiative
-       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Initiative with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
-       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByRole(org.semanticwb.model.Role value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Initiative with a determined RuleRef
        * @param value RuleRef of the type org.semanticwb.model.RuleRef
        * @param model Model of the org.semanticwb.bsc.element.Initiative
@@ -224,6 +178,29 @@ public abstract class InitiativeBase extends org.semanticwb.bsc.element.BSCEleme
         public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByRuleRef(org.semanticwb.model.RuleRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Initiative with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.element.Initiative
+       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Initiative with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -362,6 +339,29 @@ public abstract class InitiativeBase extends org.semanticwb.bsc.element.BSCEleme
         public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByCreator(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Initiative with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.element.Initiative
+       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Initiative with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Initiative
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Initiative> listInitiativeByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Initiative> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**

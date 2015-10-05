@@ -4,18 +4,8 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de un Acuerdo. 
    */
-public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Summarized,org.semanticwb.model.Activeable,org.semanticwb.model.UserGroupable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.Help,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Roleable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Traceable,org.semanticwb.model.FilterableClass
+public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Detailed,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.bsc.Summarized,org.semanticwb.model.Referensable,org.semanticwb.bsc.Attachmentable
 {
-    public static final org.semanticwb.platform.SemanticProperty bsc_agreementProgressDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementProgressDescription");
-   /**
-   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
-   */
-    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
-    public static final org.semanticwb.platform.SemanticProperty bsc_agreementResponsible=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementResponsible");
-   /**
-   * Fecha compromiso de un acuerdo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_commitmentDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#commitmentDate");
    /**
    * Superclase de todos los objetos con persistencia en SemanticWebBuilder
    */
@@ -33,9 +23,23 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_agreementStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementStatus");
    /**
+   * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
+   */
+    public static final org.semanticwb.platform.SemanticClass swb_User=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/ontology#User");
+   /**
    * Define un dueño para el acuerdo
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_agreementSponsor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementSponsor");
+   /**
+   * Persiste información de los temas a los que se asocia un acuerdo
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_theme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#theme");
+    public static final org.semanticwb.platform.SemanticProperty bsc_agreementProgressDescription=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementProgressDescription");
+    public static final org.semanticwb.platform.SemanticProperty bsc_agreementResponsible=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#agreementResponsible");
+   /**
+   * Fecha compromiso de un acuerdo
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_commitmentDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#commitmentDate");
    /**
    * Persiste la información de una Sesión. Existen  dos tipos de sesiones: RAE y NOA
    */
@@ -44,10 +48,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
    * Indica el objeto Meeting relacionado al objeto Agreement en consulta
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_hasAgreementInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#hasAgreementInv");
-   /**
-   * Persiste información de los temas a los que se asocia un acuerdo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_theme=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#theme");
    /**
    * Define las características de un Comentario.
    */
@@ -158,6 +158,121 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementVisibility
+       * @param value AgreementVisibility of the type org.semanticwb.model.SWBClass
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementVisibility(org.semanticwb.model.SWBClass value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementVisibility, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementVisibility
+       * @param value AgreementVisibility of the type org.semanticwb.model.SWBClass
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementVisibility(org.semanticwb.model.SWBClass value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementVisibility,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementStatus
+       * @param value AgreementStatus of the type org.semanticwb.bsc.accessory.State
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementStatus(org.semanticwb.bsc.accessory.State value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementStatus, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementStatus
+       * @param value AgreementStatus of the type org.semanticwb.bsc.accessory.State
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementStatus(org.semanticwb.bsc.accessory.State value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementStatus,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementSponsor
+       * @param value AgreementSponsor of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementSponsor(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementSponsor, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementSponsor
+       * @param value AgreementSponsor of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementSponsor(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementSponsor,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementResponsible
        * @param value AgreementResponsible of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.element.Agreement
@@ -204,52 +319,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined UserGroup
-       * @param value UserGroup of the type org.semanticwb.model.UserGroup
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByUserGroup(org.semanticwb.model.UserGroup value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroup,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementVisibility
-       * @param value AgreementVisibility of the type org.semanticwb.model.SWBClass
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementVisibility(org.semanticwb.model.SWBClass value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementVisibility, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementVisibility
-       * @param value AgreementVisibility of the type org.semanticwb.model.SWBClass
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementVisibility(org.semanticwb.model.SWBClass value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementVisibility,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Agreement with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.bsc.element.Agreement
@@ -273,98 +342,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
             return it;
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRole(org.semanticwb.model.Role value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined Role
-       * @param value Role of the type org.semanticwb.model.Role
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRole(org.semanticwb.model.Role value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRole,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRuleRef(org.semanticwb.model.RuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementStatus
-       * @param value AgreementStatus of the type org.semanticwb.bsc.accessory.State
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementStatus(org.semanticwb.bsc.accessory.State value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementStatus, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementStatus
-       * @param value AgreementStatus of the type org.semanticwb.bsc.accessory.State
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementStatus(org.semanticwb.bsc.accessory.State value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementStatus,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementSponsor
-       * @param value AgreementSponsor of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Agreement
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementSponsor(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementSponsor, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Agreement with a determined AgreementSponsor
-       * @param value AgreementSponsor of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByAgreementSponsor(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_agreementSponsor,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Agreement with a determined Meeting
        * @param value Meeting of the type org.semanticwb.bsc.tracing.Meeting
        * @param model Model of the org.semanticwb.bsc.element.Agreement
@@ -385,6 +362,29 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
         public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByMeeting(org.semanticwb.bsc.tracing.Meeting value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAgreementInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.bsc.element.Agreement
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Agreement with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Agreement
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Agreement> listAgreementByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Agreement> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -424,80 +424,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
     public AgreementBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the AgreementProgressDescription property
-* @return String with the AgreementProgressDescription
-*/
-    public String getAgreementProgressDescription()
-    {
-        return getSemanticObject().getProperty(bsc_agreementProgressDescription);
-    }
-
-/**
-* Sets the AgreementProgressDescription property
-* @param value long with the AgreementProgressDescription
-*/
-    public void setAgreementProgressDescription(String value)
-    {
-        getSemanticObject().setProperty(bsc_agreementProgressDescription, value);
-    }
-   /**
-   * Sets the value for the property AgreementResponsible
-   * @param value AgreementResponsible to set
-   */
-
-    public void setAgreementResponsible(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(bsc_agreementResponsible, value.getSemanticObject());
-        }else
-        {
-            removeAgreementResponsible();
-        }
-    }
-   /**
-   * Remove the value for AgreementResponsible property
-   */
-
-    public void removeAgreementResponsible()
-    {
-        getSemanticObject().removeProperty(bsc_agreementResponsible);
-    }
-
-   /**
-   * Gets the AgreementResponsible
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getAgreementResponsible()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_agreementResponsible);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the CommitmentDate property
-* @return java.util.Date with the CommitmentDate
-*/
-    public java.util.Date getCommitmentDate()
-    {
-        return getSemanticObject().getDateProperty(bsc_commitmentDate);
-    }
-
-/**
-* Sets the CommitmentDate property
-* @param value long with the CommitmentDate
-*/
-    public void setCommitmentDate(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(bsc_commitmentDate, value);
     }
 
 /**
@@ -633,6 +559,98 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
          }
          return ret;
     }
+
+/**
+* Gets the Theme property
+* @return String with the Theme
+*/
+    public String getTheme()
+    {
+        return getSemanticObject().getProperty(bsc_theme);
+    }
+
+/**
+* Sets the Theme property
+* @param value long with the Theme
+*/
+    public void setTheme(String value)
+    {
+        getSemanticObject().setProperty(bsc_theme, value);
+    }
+
+/**
+* Gets the AgreementProgressDescription property
+* @return String with the AgreementProgressDescription
+*/
+    public String getAgreementProgressDescription()
+    {
+        return getSemanticObject().getProperty(bsc_agreementProgressDescription);
+    }
+
+/**
+* Sets the AgreementProgressDescription property
+* @param value long with the AgreementProgressDescription
+*/
+    public void setAgreementProgressDescription(String value)
+    {
+        getSemanticObject().setProperty(bsc_agreementProgressDescription, value);
+    }
+   /**
+   * Sets the value for the property AgreementResponsible
+   * @param value AgreementResponsible to set
+   */
+
+    public void setAgreementResponsible(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(bsc_agreementResponsible, value.getSemanticObject());
+        }else
+        {
+            removeAgreementResponsible();
+        }
+    }
+   /**
+   * Remove the value for AgreementResponsible property
+   */
+
+    public void removeAgreementResponsible()
+    {
+        getSemanticObject().removeProperty(bsc_agreementResponsible);
+    }
+
+   /**
+   * Gets the AgreementResponsible
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getAgreementResponsible()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_agreementResponsible);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the CommitmentDate property
+* @return java.util.Date with the CommitmentDate
+*/
+    public java.util.Date getCommitmentDate()
+    {
+        return getSemanticObject().getDateProperty(bsc_commitmentDate);
+    }
+
+/**
+* Sets the CommitmentDate property
+* @param value long with the CommitmentDate
+*/
+    public void setCommitmentDate(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(bsc_commitmentDate, value);
+    }
    /**
    * Sets the value for the property Meeting
    * @param value Meeting to set
@@ -670,24 +688,6 @@ public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElemen
              ret=(org.semanticwb.bsc.tracing.Meeting)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the Theme property
-* @return String with the Theme
-*/
-    public String getTheme()
-    {
-        return getSemanticObject().getProperty(bsc_theme);
-    }
-
-/**
-* Sets the Theme property
-* @param value long with the Theme
-*/
-    public void setTheme(String value)
-    {
-        getSemanticObject().setProperty(bsc_theme, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.catalogs.Comment
