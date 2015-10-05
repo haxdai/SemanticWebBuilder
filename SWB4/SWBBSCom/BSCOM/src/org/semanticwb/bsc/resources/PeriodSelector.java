@@ -2,14 +2,9 @@ package org.semanticwb.bsc.resources;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.SortedSet;
-import java.util.TimeZone;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +13,7 @@ import org.semanticwb.base.util.GenericFilterRule;
 import org.semanticwb.base.util.URLEncoder;
 import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.accessory.Period;
+import org.semanticwb.bsc.utils.BSCUtils;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
@@ -35,7 +31,8 @@ public class PeriodSelector extends GenericResource {
     
     public static final String Action_CHANGE_PERIOD = "changep";
     
-    private Period getNearestPeriod(final List<Period> periods) {
+    /*public Period getNearestPeriod(final List<Period> periods)
+    {
         final User user = SWBContext.getSessionUser(getResourceBase().getWebSite().getUserRepository().getId());
         
         GregorianCalendar left;
@@ -65,7 +62,7 @@ public class PeriodSelector extends GenericResource {
         }catch(NoSuchElementException nse) {
         }
         return null;
-    }
+    }*/
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response,
@@ -94,8 +91,6 @@ public class PeriodSelector extends GenericResource {
                     return !s.isValid() || !user.haveAccess(s);
                 }
             });
-        SortedSet<Period> periodsO = new TreeSet<Period>();
-        periodsO.addAll(periods);
         
         Period nearestPeriod = null;
         //Obtener el Periodo actual
@@ -104,12 +99,10 @@ public class PeriodSelector extends GenericResource {
         if(Period.ClassMgr.hasPeriod(periodId, currentBsc)) {
             nearestPeriod = Period.ClassMgr.getPeriod(periodId, currentBsc);
         }else {
-            nearestPeriod = getNearestPeriod(periods);
+            nearestPeriod = BSCUtils.getNearestPeriod(currentBsc);
             if(nearestPeriod != null) {
                 periodId = nearestPeriod.getId();
                 request.getSession(true).setAttribute(currentBsc.getId(), periodId);
-            }else {
-                return;
             }
         }        
         SWBResourceURL actionUrl = paramRequest.getActionUrl().setAction(Action_CHANGE_PERIOD);
@@ -130,6 +123,9 @@ public class PeriodSelector extends GenericResource {
             String title;
             output.append("    <ul class=\"dropdown-menu\" role=\"menu\">\n");
             Period nextPeriod;
+            
+            SortedSet<Period> periodsO = new TreeSet<Period>();
+            periodsO.addAll(periods);
             allPeriods = periodsO.iterator();
             while(allPeriods.hasNext()) {
                 nextPeriod = allPeriods.next();
@@ -143,7 +139,7 @@ public class PeriodSelector extends GenericResource {
                 }else {
                     actionUrl.setParameter("periodId", nextPeriod.getId());
                     output.append("      <li role=\"presentation\">");
-                    output.append("<a href=\"#\" onclick=\"location.href='"+actionUrl.toString()+"'\">");
+                    output.append("<a href=\"#\" onclick=\"location.href='").append(actionUrl.toString()).append("'\">");
                     output.append(title);
                     output.append("</a></li>\n");
                 }
