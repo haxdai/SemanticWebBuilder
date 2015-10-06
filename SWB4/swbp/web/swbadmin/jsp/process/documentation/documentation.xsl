@@ -636,7 +636,7 @@
                     <xsl:value-of select="root/colorTask" disable-output-escaping="yes"/>
                 </div>
                 <script>
-                    <xsl:text disable-output-escaping="yes"><![CDATA[var strJSON=']]></xsl:text><xsl:value-of select="root/model" disable-output-escaping="yes" /><xsl:text disable-output-escaping="yes"><![CDATA[';]]></xsl:text>
+                    <xsl:text disable-output-escaping="yes"><![CDATA[var strJSON=]]></xsl:text><xsl:value-of select="root/model" disable-output-escaping="yes" /><xsl:text disable-output-escaping="yes"><![CDATA[;]]></xsl:text>
                     <xsl:text disable-output-escaping="yes">
                         <![CDATA[
                         var zoomFactor = 1.1,
