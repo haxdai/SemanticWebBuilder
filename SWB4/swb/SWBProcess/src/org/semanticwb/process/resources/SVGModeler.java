@@ -189,6 +189,7 @@ public class SVGModeler extends GenericAdmResource {
                     } else {
                         json = ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgJSONPError"));
                     }
+                    response.setContentType("application/json");
                     outs.write(json.getBytes("UTF-8"));
                 } else {
                     log.error("Error to create JSON: Process not found");
