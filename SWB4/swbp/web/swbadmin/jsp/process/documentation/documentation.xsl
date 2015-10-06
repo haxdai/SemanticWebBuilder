@@ -647,7 +647,7 @@
                         function callbackHandler() {
                             Modeler.loadProcess(strJSON);
                             Modeler._svgSize = getDiagramSize();
-                            resetZoom();
+                            fitToScreen();
                         }
                         
                         function zoomin() {
