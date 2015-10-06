@@ -779,12 +779,12 @@
             {
                 var segments = obj.pathSegList,
                     i;
-                for (i = 0; i < segments.numberOfItems; i++) 
+                for (i = 1; i < segments.numberOfItems-1; i++)
                 {
                     var segment=segments.getItem(i);
                     segment.x=segment.x+x;
                     segment.y=segment.y+y;
-                }                
+                }
             };
             
             obj.remove=function()
@@ -1058,7 +1058,7 @@
                     if(y - objH / 2 < 0)
                     {
                         y=objH / 2;
-                    }                    
+                    }
                 }
                 
                 var offx=x-obj.getX();
@@ -1068,15 +1068,15 @@
                 obj.setY(y);
 
                 //Move Childs
-                for (i = contents.length; i--;) 
+                for (i = contents.length; i--;)
                 {
                     if(!contents[i].selected)
                     {
                         contents[i].traslate(offx,offy);
                     }
-                }  
+                }
                 //Move Icons
-                for (i = icons.length; i--;) 
+                for (i = icons.length; i--;)
                 {
                     icons[i].obj.traslate(offx,offy);
                 }
@@ -1097,16 +1097,31 @@
                     }
                 }
                 
+                var segments, segment, l = inConnections.length;
                 //Recalculate endPoint of inconnections
-                for(i = inConnections.length; i--;) {
+                for(i = l; i--;) {
+                    segments = inConnections[i].pathSegList;
+                    if (inConnections[i].fixed && segments.length===4) { //Modeler fixed connections have always 4 points
+                        segment=segments.getItem(2);
+                        segment.x=segment.x+offx;
+                        segment.y=segment.y+offy;
+                    }
                     inConnections[i].setEndPoint(x,y);
                 }
                 
                 //Recalculate endPoint of outConnections and translate points acoordingly
-                for(i = outConnections.length; i--;) {
+                l = outConnections.length;
+                for(i = l; i--;) {
+                    segments = inConnections[i].pathSegList;
+                    if (outConnections[i].fixed && segments.length===4) { //Modeler fixed connections have always 4 points
+                        segments = outConnections[i].pathSegList;
+                        segment=segments.getItem(1);
+                        segment.x=segment.x+offx;
+                        segment.y=segment.y+offy;
+                    }
                     outConnections[i].setStartPoint(x,y);
                 }
-            };    
+            };
 
             obj.remove = function(all) {
                 if(!all)
