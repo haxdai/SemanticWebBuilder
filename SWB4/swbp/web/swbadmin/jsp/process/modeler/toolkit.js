@@ -35,6 +35,7 @@
         loaded:false,
         tmHandler:null,
         lineHandlers:[],
+        version: "0.1.2",
 
         setLayer:function(layer)
         {
