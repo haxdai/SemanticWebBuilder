@@ -642,7 +642,7 @@
                         var zoomFactor = 1.1,
                             panRate = 50;
                             
-                        Modeler.init('modeler', {mode: 'view', layerNavigation: false}, callbackHandler);
+                        Modeler.init('modeler', {mode: 'view', disableKeyEvents: true, layerNavigation: false}, callbackHandler);
                         
                         function callbackHandler() {
                             Modeler.loadProcess(strJSON);
