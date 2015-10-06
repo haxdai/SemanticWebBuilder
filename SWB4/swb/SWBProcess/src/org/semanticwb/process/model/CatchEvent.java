@@ -34,4 +34,9 @@ public class CatchEvent extends org.semanticwb.process.model.base.CatchEventBase
     {
         //Implementar
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

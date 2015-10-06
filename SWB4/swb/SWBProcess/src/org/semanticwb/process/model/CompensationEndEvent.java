@@ -29,4 +29,9 @@ public class CompensationEndEvent extends org.semanticwb.process.model.base.Comp
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

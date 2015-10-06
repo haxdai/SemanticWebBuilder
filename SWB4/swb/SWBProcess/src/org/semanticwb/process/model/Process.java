@@ -210,4 +210,9 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
         }
         return hasStart && ret;
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

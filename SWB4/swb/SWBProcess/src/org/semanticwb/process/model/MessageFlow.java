@@ -29,4 +29,9 @@ public class MessageFlow extends org.semanticwb.process.model.base.MessageFlowBa
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

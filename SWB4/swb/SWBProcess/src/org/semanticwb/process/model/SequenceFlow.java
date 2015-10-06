@@ -43,4 +43,9 @@ public class SequenceFlow extends org.semanticwb.process.model.base.SequenceFlow
         }
 
     }    
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

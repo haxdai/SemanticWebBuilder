@@ -35,4 +35,9 @@ public class CancelationIntermediateCatchEvent extends org.semanticwb.process.mo
     {
         instance.close(from.getCreator(),from.getSourceInstance().getAction());
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

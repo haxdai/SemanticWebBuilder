@@ -70,4 +70,9 @@ public class CancelationEndEvent extends org.semanticwb.process.model.base.Cance
             instance.getParentInstance().close(user);
         }
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

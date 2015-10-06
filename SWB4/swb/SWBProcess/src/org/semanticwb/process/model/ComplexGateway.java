@@ -68,6 +68,8 @@ public class ComplexGateway extends org.semanticwb.process.model.base.ComplexGat
         //SI LA COMPUERTA ES DIVERGENTE, HABILITAR TODOS LOS FLUJOS
     }
 
-    
-
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

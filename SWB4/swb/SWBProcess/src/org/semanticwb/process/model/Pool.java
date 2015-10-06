@@ -29,4 +29,9 @@ public class Pool extends org.semanticwb.process.model.base.PoolBase
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
