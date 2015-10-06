@@ -1112,7 +1112,7 @@
                 //Recalculate endPoint of outConnections and translate points acoordingly
                 l = outConnections.length;
                 for(i = l; i--;) {
-                    segments = inConnections[i].pathSegList;
+                    segments = outConnections[i].pathSegList;
                     if (outConnections[i].fixed && segments.length===4) { //Modeler fixed connections have always 4 points
                         segments = outConnections[i].pathSegList;
                         segment=segments.getItem(1);
