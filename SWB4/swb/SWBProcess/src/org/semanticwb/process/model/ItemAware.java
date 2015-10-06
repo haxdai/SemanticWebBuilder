@@ -45,5 +45,10 @@ public class ItemAware extends org.semanticwb.process.model.base.ItemAwareBase
         }
         return scls;
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

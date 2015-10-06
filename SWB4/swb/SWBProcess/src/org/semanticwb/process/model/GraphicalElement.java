@@ -51,5 +51,9 @@ public class GraphicalElement extends org.semanticwb.process.model.base.Graphica
         }
         return ret;
     }
-    
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

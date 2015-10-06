@@ -29,4 +29,9 @@ public class Lane extends org.semanticwb.process.model.base.LaneBase
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

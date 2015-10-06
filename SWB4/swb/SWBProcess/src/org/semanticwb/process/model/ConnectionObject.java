@@ -186,4 +186,9 @@ public class ConnectionObject extends org.semanticwb.process.model.base.Connecti
         }
         return ret;
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

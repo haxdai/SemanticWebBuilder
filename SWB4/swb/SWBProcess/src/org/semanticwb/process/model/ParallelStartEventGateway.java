@@ -29,4 +29,9 @@ public class ParallelStartEventGateway extends org.semanticwb.process.model.base
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

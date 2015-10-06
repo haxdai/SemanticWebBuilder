@@ -29,4 +29,9 @@ public class Artifact extends org.semanticwb.process.model.base.ArtifactBase
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

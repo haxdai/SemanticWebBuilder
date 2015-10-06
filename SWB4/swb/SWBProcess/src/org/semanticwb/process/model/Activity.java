@@ -28,7 +28,6 @@ import org.semanticwb.model.User;
 
 public class Activity extends org.semanticwb.process.model.base.ActivityBase 
 {
-
     public Activity(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
@@ -47,5 +46,10 @@ public class Activity extends org.semanticwb.process.model.base.ActivityBase
                 instance.executeRelatedFlowNodeInstance((IntermediateCatchEvent)graphicalElement, null, user);
             }
         }
+    }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

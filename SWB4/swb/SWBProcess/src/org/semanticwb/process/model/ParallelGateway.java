@@ -66,5 +66,8 @@ public class ParallelGateway extends org.semanticwb.process.model.base.ParallelG
         //SI LA COMPUERTA ES DIVERGENTE, HABILITAR TODOS LOS FLUJOS
     }
 
-
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

@@ -80,4 +80,9 @@ public class InclusiveGateway extends org.semanticwb.process.model.base.Inclusiv
         }
     }
 
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 }

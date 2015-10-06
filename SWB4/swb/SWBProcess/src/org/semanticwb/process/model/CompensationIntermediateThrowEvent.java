@@ -29,4 +29,9 @@ public class CompensationIntermediateThrowEvent extends org.semanticwb.process.m
     {
         super(base);
     }
+
+    @Override
+    public String serialize(String format) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
