@@ -3649,269 +3649,274 @@ var _GraphicalElement = function(obj) {
             return ret;
         },
 
-        loadProcess: function(jsonString) {
-            if (jsonString === null || jsonString ==="") {
-                ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo. Archivo mal formado.", 200, "Error");
+        loadProcess: function(modelJSON) {
+            var json;
+            
+            if (typeof modelJSON === "string") {
+                try {
+                    json = JSON.parse(modelJSON);
+                } catch (err) {
+                    ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo. Archivo mal formado."+err, 200, "Error");
+                    json = {};
+                    return;
+                }
+            } else {
+                json = modelJSON || {};
+            }
+            
+            if (Object.keys(json).length === 0) {
+                ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo. Modelo vacío.", 200, "Error");
                 return;
             }
+            
             ToolKit.setLayer(null);
             
-            //EHSP082015
-            jsonString = jsonString.replace(/(\r\n|\n|\r)/gm,"\\n");
-            //-EHSP082015
-            
-            try {
-                var json = JSON.parse(jsonString),
-                    jsarr = json.nodes,
-                    i = 0,
-                    pools = [],
-                    lanes = [],
-                    connObjects = [],
-                    flowNodes = [];
+            var jsarr = json.nodes,
+                i = 0,
+                pools = [],
+                lanes = [],
+                connObjects = [],
+                flowNodes = [];
 
-                Modeler.clearCanvas();
-                while(i < jsarr.length) {
-                    var tmp = jsarr[i],
-                        cls = tmp.class;
-                    
-                    switch(cls) {
-                        case "Lane":
-                            lanes.push(tmp);
-                            break;
-                        case "Pool":
-                            pools.push(tmp);
-                            break;
-                        case "SequenceFlow":
-                        case "ConditionalFlow":
-                        case "DefaultFlow":
-                        case "AssociationFlow":
-                        case "DirectionalAssociation":
-                        case "MessageFlow":
-                            connObjects.push(tmp);
-                            break;
-                        default:
-                            flowNodes.push(tmp);
-                            break;
-                    }
-                    i++;
+            Modeler.clearCanvas();
+            while(i < jsarr.length) {
+                var tmp = jsarr[i],
+                    cls = tmp.class;
+
+                switch(cls) {
+                    case "Lane":
+                        lanes.push(tmp);
+                        break;
+                    case "Pool":
+                        pools.push(tmp);
+                        break;
+                    case "SequenceFlow":
+                    case "ConditionalFlow":
+                    case "DefaultFlow":
+                    case "AssociationFlow":
+                    case "DirectionalAssociation":
+                    case "MessageFlow":
+                        connObjects.push(tmp);
+                        break;
+                    default:
+                        flowNodes.push(tmp);
+                        break;
                 }
-
-                //Construir pools
-                var length = pools.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = pools[i],
-                        obj = Modeler.mapObject("Pool");
-                
-                    obj.setURI(tmp.uri);
-
-                    if (tmp.title && tmp.title !== null) {
-                        obj.setText(tmp.title);
-                    }
-                    obj.layer = null;
-                    obj.resize(tmp.w, tmp.h);
-                    obj.move(tmp.x, tmp.y);
-                    obj.snap2Grid();
-
-                    //Evitar edición de texto
-                    if (Modeler.options.mode === "view") {
-                        if (obj.text && obj.text !== null) {
-                            obj.text.ondblclick = function(evt) {
-                                return false;
-                            };
-                        }
-                    }
-                }
-
-                //Construir lanes
-                length = lanes.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = lanes[i],
-                        obj = Modeler.mapObject("Lane");
-                
-                    obj.setURI(tmp.uri);
-                    if (tmp.title && tmp.title !== null) {
-                        obj.setText(tmp.title);
-                    }
-                    if (tmp.lindex && tmp.lindex !== null) {
-                        obj.setIndex(tmp.lindex);
-                    }
-                    obj.resize(tmp.w, tmp.h);
-                    var par = Modeler.getGraphElementByURI(null, tmp.parent);
-                    par.addLane(obj);
-                    obj.setParent(par);
-                    obj.layer = null;
-                    par.move(par.getX(), par.getY());
-
-                    //Evitar edición de texto
-                    if (Modeler.options.mode === "view") {
-                        if (obj.text && obj.text !== null) {
-                            obj.text.ondblclick = function(evt) {
-                                return false;
-                            };
-                        }
-                    }
-                }
-
-                //Construir flowNodes
-                length = flowNodes.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = flowNodes[i],
-                        obj = Modeler.mapObject(tmp.class);
-                
-                    if (obj === null || !obj.typeOf("GraphicalElement")) {
-                        continue;
-                    }
-
-                    if (isNaN(tmp.x) || isNaN(tmp.y)) {
-                        obj.remove();
-                        continue;
-                    }
-                        
-                    obj.setURI(tmp.uri);
-                    if (tmp.title && tmp.title !== null) {
-                        obj.setText(tmp.title);
-                    }
-                    if (obj.resizeable && obj.resizeable !== null) {
-                        obj.resize(tmp.w, tmp.h);
-                    }
-
-                    if (tmp.index !== null && tmp.index) {
-                        obj.index = tmp.index;
-                    }
-
-                    if (obj.typeOf("IntermediateCatchEvent") && tmp.isInterrupting && tmp.isInterrupting !== null) {
-                        var par = Modeler.getGraphElementByURI(null, tmp.parent);
-                        if (par && par!==null && par.typeOf("Activity") && !tmp.isInterrupting) {
-                            obj.setInterruptor(false);
-                        }
-                    }
-
-                    obj.move(tmp.x, tmp.y);
-                    if (obj.typeOf("IntermediateCatchEvent") && tmp.parent === "") {
-                        obj.snap2Grid();
-                    }
-
-                    //Evitar edición de texto
-                    if (Modeler.options.mode === "view") {
-                        if (obj.text && obj.text !== null) {
-                            obj.text.ondblclick = function(evt) {
-                                return false;
-                            };
-                        }
-                    }
-                }
-
-                //Crear objetos de conexión
-                length = connObjects.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = connObjects[i],
-                        start = Modeler.getGraphElementByURI(null, tmp.start) || null,
-                        end = Modeler.getGraphElementByURI(null, tmp.end) || null,
-                        obj, etype;
-                    
-                    if (start !== null && end !== null) {
-                        obj = Modeler.mapObject(tmp.class);
-                        etype = obj.elementType;
-                        obj.setURI(tmp.uri);
-                    
-                        if (tmp.connectionPoints && tmp.connectionPoints.length) {
-                            try {
-                                if(tmp.connectionPoints.charAt(tmp.connectionPoints.length-1) === "|") {
-                                    obj.connectionPoints = tmp.connectionPoints.substring(0,tmp.connectionPoints.length-1);
-                                } else {
-                                    obj.connectionPoints = tmp.connectionPoints;
-                                }
-
-                                var _points = obj.connectionPoints.split("|").map(function(item){
-                                    return {
-                                        x: item.split(",")[0],
-                                        y: item.split(",")[1]
-                                    };
-                                });
-                                
-                                if (_points.length >= 4) { //Modeler requiere al menos 4 puntos
-                                    obj.fixed = true;
-                                    obj.pathSegList.clear();
-                                    obj.pathSegList.appendItem(obj.createSVGPathSegMovetoAbs(start.getX(), start.getY()));
-                                    for (var m = 1; m < _points.length - 1; m++) {
-                                        obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(_points[m].x, _points[m].y));
-                                    }
-                                    obj.xe = obj.xe || end.getX();
-                                    obj.ye = obj.ye || end.getY();
-                                    obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(obj.xe, obj.ye));
-                                    obj.snap2Grid();
-                                    obj.updateSubLine();
-                                }
-                            } catch (error) {
-                                console.log(error);
-                                obj.remove();
-                                obj = Modeler.mapObject(tmp.class);
-                                etype = obj.elementType;
-                                obj.setURI(tmp.uri);
-                            }
-                        }
-                    
-                        if (etype === "ConditionalFlow" && start.typeOf("Gateway")) {
-                            obj.removeAttribute("marker-start");
-                            obj.soff = 0;
-                        }
-                        
-                        start.addOutConnection(obj);
-                        end.addInConnection(obj);
-                        
-                        if (etype === "ConditionalFlow" || etype === "DefaultFlow") {
-                            if (obj.setLabel && typeof obj.setLabel === "function") {
-                                obj.setLabel(tmp.title);
-                            }
-                        }
-                    }
-                }
-
-                //Asignar contenedores de los flowNodes y lineas
-                length = flowNodes.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = flowNodes[i],
-                        obj = Modeler.getGraphElementByURI(null, tmp.uri);
-                
-                    if (tmp.container && tmp.container !== null) {
-                        var cont = Modeler.getGraphElementByURI(null, tmp.container);
-                        if (cont !== null && obj !== null) {
-                            obj.layer = cont.typeOf("SubProcess") ? cont.subLayer : null;
-                        }
-                    }
-                }
-
-                 //Asignar padres de los flowNodes
-                length = flowNodes.length;
-                for (i = 0; i < length; i++) {
-                    var tmp = flowNodes[i],
-                        obj = Modeler.getGraphElementByURI(null, tmp.uri),
-                        cont = Modeler.getGraphElementByURI(null, tmp.container);
-                
-                    if (tmp.parent && tmp.parent !== null) {
-                        var par = Modeler.getGraphElementByURI(null, tmp.parent);
-                        if (par !== null && obj !== null) {
-                            if (cont !== null && (par.elementType === "Lane" || par.elementType === "Pool")) {
-                                obj.setParent(null);
-                            } else {
-                                obj.setParent(par);
-                                if (obj.typeOf("IntermediateCatchEvent") && obj.parent.typeOf("Task")) {
-                                    obj.moveFirst();
-                                }
-                            }
-                        }
-                    } else if (obj !== null && cont === null) {
-                        ToolKit.svg.dragObject = obj;
-                        ToolKit.selectObj(obj, false);
-                        ToolKit.svg.onmouseup();
-                    }
-                }
-                ToolKit.unSelectAll();
-                ToolKit.setLayer(null);
-            } catch (err) {
-                console.log(err);
-                ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo."+err, 200, "Error");
+                i++;
             }
+
+            //Construir pools
+            var length = pools.length;
+            for (i = 0; i < length; i++) {
+                var tmp = pools[i],
+                    obj = Modeler.mapObject("Pool");
+
+                obj.setURI(tmp.uri);
+
+                if (tmp.title && tmp.title !== null) {
+                    obj.setText(tmp.title);
+                }
+                obj.layer = null;
+                obj.resize(tmp.w, tmp.h);
+                obj.move(tmp.x, tmp.y);
+                obj.snap2Grid();
+
+                //Evitar edición de texto
+                if (Modeler.options.mode === "view") {
+                    if (obj.text && obj.text !== null) {
+                        obj.text.ondblclick = function(evt) {
+                            return false;
+                        };
+                    }
+                }
+            }
+
+            //Construir lanes
+            length = lanes.length;
+            for (i = 0; i < length; i++) {
+                var tmp = lanes[i],
+                    obj = Modeler.mapObject("Lane");
+
+                obj.setURI(tmp.uri);
+                if (tmp.title && tmp.title !== null) {
+                    obj.setText(tmp.title);
+                }
+                if (tmp.lindex && tmp.lindex !== null) {
+                    obj.setIndex(tmp.lindex);
+                }
+                obj.resize(tmp.w, tmp.h);
+                var par = Modeler.getGraphElementByURI(null, tmp.parent);
+                par.addLane(obj);
+                obj.setParent(par);
+                obj.layer = null;
+                par.move(par.getX(), par.getY());
+
+                //Evitar edición de texto
+                if (Modeler.options.mode === "view") {
+                    if (obj.text && obj.text !== null) {
+                        obj.text.ondblclick = function(evt) {
+                            return false;
+                        };
+                    }
+                }
+            }
+
+            //Construir flowNodes
+            length = flowNodes.length;
+            for (i = 0; i < length; i++) {
+                var tmp = flowNodes[i],
+                    obj = Modeler.mapObject(tmp.class);
+
+                if (obj === null || !obj.typeOf("GraphicalElement")) {
+                    continue;
+                }
+
+                if (isNaN(tmp.x) || isNaN(tmp.y)) {
+                    obj.remove();
+                    continue;
+                }
+
+                obj.setURI(tmp.uri);
+                if (tmp.title && tmp.title !== null) {
+                    obj.setText(tmp.title);
+                }
+                if (obj.resizeable && obj.resizeable !== null) {
+                    obj.resize(tmp.w, tmp.h);
+                }
+
+                if (tmp.index !== null && tmp.index) {
+                    obj.index = tmp.index;
+                }
+
+                if (obj.typeOf("IntermediateCatchEvent") && tmp.isInterrupting && tmp.isInterrupting !== null) {
+                    var par = Modeler.getGraphElementByURI(null, tmp.parent);
+                    if (par && par!==null && par.typeOf("Activity") && !tmp.isInterrupting) {
+                        obj.setInterruptor(false);
+                    }
+                }
+
+                obj.move(tmp.x, tmp.y);
+                if (obj.typeOf("IntermediateCatchEvent") && tmp.parent === "") {
+                    obj.snap2Grid();
+                }
+
+                //Evitar edición de texto
+                if (Modeler.options.mode === "view") {
+                    if (obj.text && obj.text !== null) {
+                        obj.text.ondblclick = function(evt) {
+                            return false;
+                        };
+                    }
+                }
+            }
+
+            //Crear objetos de conexión
+            length = connObjects.length;
+            for (i = 0; i < length; i++) {
+                var tmp = connObjects[i],
+                    start = Modeler.getGraphElementByURI(null, tmp.start) || null,
+                    end = Modeler.getGraphElementByURI(null, tmp.end) || null,
+                    obj, etype;
+
+                if (start !== null && end !== null) {
+                    obj = Modeler.mapObject(tmp.class);
+                    etype = obj.elementType;
+                    obj.setURI(tmp.uri);
+
+                    if (tmp.connectionPoints && tmp.connectionPoints.length) {
+                        try {
+                            if(tmp.connectionPoints.charAt(tmp.connectionPoints.length-1) === "|") {
+                                obj.connectionPoints = tmp.connectionPoints.substring(0,tmp.connectionPoints.length-1);
+                            } else {
+                                obj.connectionPoints = tmp.connectionPoints;
+                            }
+
+                            var _points = obj.connectionPoints.split("|").map(function(item){
+                                return {
+                                    x: item.split(",")[0],
+                                    y: item.split(",")[1]
+                                };
+                            });
+
+                            if (_points.length >= 4) { //Modeler requiere al menos 4 puntos
+                                obj.fixed = true;
+                                obj.pathSegList.clear();
+                                obj.pathSegList.appendItem(obj.createSVGPathSegMovetoAbs(start.getX(), start.getY()));
+                                for (var m = 1; m < _points.length - 1; m++) {
+                                    obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(_points[m].x, _points[m].y));
+                                }
+                                obj.xe = obj.xe || end.getX();
+                                obj.ye = obj.ye || end.getY();
+                                obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(obj.xe, obj.ye));
+                                obj.snap2Grid();
+                                obj.updateSubLine();
+                            }
+                        } catch (error) {
+                            //console.log(error);
+                            obj.remove();
+                            obj = Modeler.mapObject(tmp.class);
+                            etype = obj.elementType;
+                            obj.setURI(tmp.uri);
+                        }
+                    }
+
+                    if (etype === "ConditionalFlow" && start.typeOf("Gateway")) {
+                        obj.removeAttribute("marker-start");
+                        obj.soff = 0;
+                    }
+
+                    start.addOutConnection(obj);
+                    end.addInConnection(obj);
+
+                    if (etype === "ConditionalFlow" || etype === "DefaultFlow") {
+                        if (obj.setLabel && typeof obj.setLabel === "function") {
+                            obj.setLabel(tmp.title);
+                        }
+                    }
+                }
+            }
+
+            //Asignar contenedores de los flowNodes y lineas
+            length = flowNodes.length;
+            for (i = 0; i < length; i++) {
+                var tmp = flowNodes[i],
+                    obj = Modeler.getGraphElementByURI(null, tmp.uri);
+
+                if (tmp.container && tmp.container !== null) {
+                    var cont = Modeler.getGraphElementByURI(null, tmp.container);
+                    if (cont !== null && obj !== null) {
+                        obj.layer = cont.typeOf("SubProcess") ? cont.subLayer : null;
+                    }
+                }
+            }
+
+             //Asignar padres de los flowNodes
+            length = flowNodes.length;
+            for (i = 0; i < length; i++) {
+                var tmp = flowNodes[i],
+                    obj = Modeler.getGraphElementByURI(null, tmp.uri),
+                    cont = Modeler.getGraphElementByURI(null, tmp.container);
+
+                if (tmp.parent && tmp.parent !== null) {
+                    var par = Modeler.getGraphElementByURI(null, tmp.parent);
+                    if (par !== null && obj !== null) {
+                        if (cont !== null && (par.elementType === "Lane" || par.elementType === "Pool")) {
+                            obj.setParent(null);
+                        } else {
+                            obj.setParent(par);
+                            if (obj.typeOf("IntermediateCatchEvent") && obj.parent.typeOf("Task")) {
+                                obj.moveFirst();
+                            }
+                        }
+                    }
+                } else if (obj !== null && cont === null) {
+                    ToolKit.svg.dragObject = obj;
+                    ToolKit.selectObj(obj, false);
+                    ToolKit.svg.onmouseup();
+                }
+            }
+            ToolKit.unSelectAll();
+            ToolKit.setLayer(null);
         },
                 
         getNavPath: function(layer) {
