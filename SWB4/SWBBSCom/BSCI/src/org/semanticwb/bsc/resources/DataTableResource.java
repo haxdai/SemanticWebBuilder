@@ -76,7 +76,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             response.flushBuffer();
             return;
         }        
-        final String lang = user.getLanguage();        
+        final String lang = user.getLanguage();
         
         Series star = sm.getStar();
         if(star == null) {
