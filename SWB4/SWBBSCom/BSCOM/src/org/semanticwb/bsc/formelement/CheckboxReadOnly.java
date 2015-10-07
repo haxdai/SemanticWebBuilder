@@ -209,8 +209,6 @@ public class CheckboxReadOnly extends org.semanticwb.bsc.formelement.base.Checkb
                 }
             }
         }
-
-        // System.out.println("ret:"+ret);
         return ret.toString();
     }
     

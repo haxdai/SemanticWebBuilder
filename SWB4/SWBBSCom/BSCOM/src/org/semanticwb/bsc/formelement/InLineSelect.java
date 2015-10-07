@@ -190,7 +190,6 @@ public class InLineSelect extends org.semanticwb.bsc.formelement.base.InLineSele
                         }
 
                         if (!deleted) {
-                            // System.out.println("display:"+sob.getDisplayName(lang));
                             if (sob.getURI() != null) {
                                 ret.append("<option value=\"");
                                 ret.append(sob.getURI());
