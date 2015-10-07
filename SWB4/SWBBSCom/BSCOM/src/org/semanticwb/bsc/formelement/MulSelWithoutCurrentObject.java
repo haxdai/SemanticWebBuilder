@@ -115,12 +115,8 @@ public class MulSelWithoutCurrentObject extends org.semanticwb.bsc.formelement.b
 
             while (it2.hasNext()) {
                 SemanticObject semanticObject = it2.next();
-
-                // System.out.println("semanticObject:"+semanticObject+" vals:"+vals);
                 vals.add(semanticObject.getURI());
             }
-
-            String value = obj.getDisplayName(lang);
 
             if (mode.equals("edit") || mode.equals("create")) {
                 ret.append("<select name=\"" + name + "\" multiple=\"true\"");
@@ -129,10 +125,7 @@ public class MulSelWithoutCurrentObject extends org.semanticwb.bsc.formelement.b
                 if (DOJO) {
                     //ret.append(" dojoType=\"dijit.form.MultiSelect\" invalidMessage=\"" + imsg + "\"");
                 }
-
-                ret.append(" " + ext + ">");
-
-                // onChange="dojo.byId('oc1').value=arguments[0]"
+                ret.append(" ").append(ext).append(">");
                 SemanticClass cls = prop.getRangeClass();
                 Iterator<SemanticObject> it = null;
 
@@ -180,8 +173,6 @@ public class MulSelWithoutCurrentObject extends org.semanticwb.bsc.formelement.b
                 }
 
                 ret.append(" disabled=\"disabled\">");
-
-                // onChange="dojo.byId('oc1').value=arguments[0]"
                 SemanticClass cls = prop.getRangeClass();
                 Iterator<SemanticObject> it = null;
 

@@ -696,8 +696,6 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("', '");
                 toReturn.append(Attachment.sclass.getDisplayName(lang));
                 toReturn.append("');\">");
-
-                //toReturn.append("<i class=\"fa fa-pencil fa-lg swb-boton-accion\" title=\"Editar\"></i>");
                 toReturn.append("<span class=\"glyphicon glyphicon-pencil\"></span>");
                 toReturn.append("\n</a>");
                 toReturn.append("\n<a href=\"#\" onclick=\"if(confirm(\'");
@@ -712,7 +710,6 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("} else { return false;}");
                 toReturn.append("\">");
                 toReturn.append("<span class=\"glyphicon glyphicon-trash\"></span>");
-//                toReturn.append("<i class=\"fa fa-trash-o fa-lg swb-boton-accion\" title=\"Eliminar\"></i>");
                 toReturn.append("\n</a>");
                 toReturn.append("\n</td>");
 
@@ -744,55 +741,38 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
      */
     public String renderModeView(HttpServletRequest request, SemanticObject obj,
             SemanticProperty prop, String propName, String type, String mode, String lang) {
-        StringBuilder toReturn = new StringBuilder();
-        String suri = (String) request.getParameter("suri");
-        if (suri == null) {
-            suri = (String) request.getAttribute("suri");
-        }
-        if (suri != null) {
-            SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
-            Attachmentable element = null;
-            if (semObj != null && semObj.createGenericInstance() instanceof Attachmentable) {
-                element = (Attachmentable) semObj.createGenericInstance();
-                Iterator<Attachment> itAttachments = element.listAttachmentses();
-                toReturn.append("\n<table width=\"98%\">");
-                itAttachments = SWBComparator.sortByCreated(itAttachments, false);
-
-                while (itAttachments.hasNext()) {
-                    Attachment attachment = itAttachments.next();
-                    toReturn.append("\n<tr>");
-                    toReturn.append("\n<td>");
-                    toReturn.append("\n<div>");
-                    toReturn.append(attachment.getTitle() == null ? "" : attachment.getTitle());
-                    toReturn.append("\n</div>");
-                    toReturn.append("\n</td>");
-
-                    toReturn.append("\n<td>");
-                    toReturn.append(attachment.getCreated() == null ? ""
-                            : SWBUtils.TEXT.getStrDate(attachment.getCreated(), "es", "dd/mm/yyyy"));
-                    toReturn.append("\n</td>");
-                    /*if ("true".equals(usrWithGrants)) {
-                     toReturn.append("\n<td>");
-                     toReturn.append("\n<img src=\"");
-                     toReturn.append(SWBPlatform.getContextPath());
-                     toReturn.append("/swbadmin/icons/editar_1.gif\" alt=\"");
-                     toReturn.append(getLocaleString("edit", lang));
-                     toReturn.append("\"/>");
-                     toReturn.append("\n</td>");
-
-                     toReturn.append("\n<td>");
-                     toReturn.append("\n<img src=\"");
-                     toReturn.append(SWBPlatform.getContextPath());
-                     toReturn.append("/swbadmin/icons/iconelim.png\" alt=\"");
-                     toReturn.append(getLocaleString("delete", lang));
-                     toReturn.append("\"/>");
-                     toReturn.append("\n</td>");
-                     }*/
-                    toReturn.append("</tr>");
-                }
-                toReturn.append("\n</table>");
+        StringBuilder html = new StringBuilder();
+        Attachmentable element;
+        if(obj.getGenericInstance() instanceof Attachmentable)
+        {
+            element = (Attachmentable) obj.getGenericInstance();
+            Iterator<Attachment> itAttachments = element.listAttachmentses();
+            html.append("<div class=\"table-responsive\">").append("\n");
+            html.append("<table class=\"table table-striped table-condensed table-bordered\">").append("\n");
+            html.append(" <thead>");
+            html.append("  <tr>");
+            html.append("   <th>").append(Attachment.swb_title.getDisplayName(lang)).append("</th>");
+            html.append("   <th>").append(Attachment.swb_created.getDisplayName(lang)).append("</th>");
+            html.append("  </tr>");
+            html.append(" </thead>").append("\n");
+            html.append(" <tbody>").append("\n");
+            itAttachments = SWBComparator.sortByCreated(itAttachments, false);
+            while (itAttachments.hasNext()) {
+                Attachment attachment = itAttachments.next();
+                html.append("<tr>");
+                html.append("<td scope=\"row\">");
+                html.append(attachment.getDisplayTitle(lang));
+                html.append("</td>");
+                html.append("<td>");
+                html.append(attachment.getCreated() == null ? ""
+                        : SWBUtils.TEXT.getStrDate(attachment.getCreated(), "es", "dd/mm/yyyy"));
+                html.append("</td>");
+                html.append("</tr>").append("\n");
             }
+            html.append(" </tbody>").append("\n");
+            html.append("</table>");
+            html.append("</div>");
         }
-        return toReturn.toString();
+        return html.toString();
     }
 }

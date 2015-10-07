@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBRuntimeException;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.FormValidateException;
 import org.semanticwb.platform.SemanticLiteral;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
