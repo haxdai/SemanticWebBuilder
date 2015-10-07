@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.model.DisplayProperty;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
 import org.semanticwb.platform.SemanticObject;
