@@ -8,12 +8,10 @@ import org.semanticwb.model.DisplayProperty;
 import org.semanticwb.model.FormElementURL;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.SWBComparator;
-import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.Trashable;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserGroup;
-import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticModel;
@@ -66,12 +64,6 @@ public class SelectUserGroup extends org.semanticwb.bsc.formelement.base.SelectU
             selectValues = dobj.getDisplaySelectValues(lang);
             disabled = dobj.isDisabled();
         }
-
-        /*
-         System.out.println("prop:"+prop);
-         System.out.println("sobj:"+sobj);
-         System.out.println("selectValues:"+selectValues);
-         */
         if (DOJO) {
             if (imsg == null) {
                 if (required) {
@@ -199,7 +191,6 @@ public class SelectUserGroup extends org.semanticwb.bsc.formelement.base.SelectU
                         }
 
                         if (!deleted) {
-                            // System.out.println("display:"+sob.getDisplayName(lang));
                             if (sob.getURI() != null) {
                                 ret.append("<option value=\"" + sob.getURI() + "\" ");
 
