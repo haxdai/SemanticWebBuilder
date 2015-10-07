@@ -281,7 +281,7 @@ public class StrategicMap extends GenericResource
             
             htm.append("        <li class=\"swbform-li\">\n");
             htm.append("          <label for=\"parentId\" class=\"swbform-label\">Identificador de la etiqueta padre </label>\n");
-            htm.append("          <input type=\"text\" id=\"parentId\" name=\"parentId\" dojoType=\"dijit.form.TextBox\" value=\""+base.getAttribute("parentId","")+"\" />\n");
+            htm.append("          <input type=\"text\" id=\"parentId\" name=\"parentId\" dojoType=\"dijit.form.TextBox\" value=\""+base.getAttribute("parentId","map_svg")+"\" />\n");
             htm.append("        </li>\n");
             
             htm.append("</ul>\n");
