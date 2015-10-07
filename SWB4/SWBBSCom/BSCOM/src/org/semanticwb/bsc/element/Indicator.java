@@ -1,12 +1,16 @@
 package org.semanticwb.bsc.element;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
+import org.semanticwb.bsc.BSC;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.parser.IndicatorParser;
@@ -302,15 +306,45 @@ public class Indicator extends org.semanticwb.bsc.element.base.IndicatorBase {
     }
 
     /**
-     * Recupera el período más próximo de medición en base a la fecha actual. La
-     * diferencia con nextMeasurementPeriod() es que si actualmente es tiempo de
-     * medición, nextMeasurementPeriod() devolverá no este período sino el
-     * siguiente. Siempre devuelve el siguiente.
+     * Recupera el período más próximo de medición en base a la fecha actual.
      *
      * @return El período más próximo de medición en base a la fecha actual.
+     * @throws org.semanticwb.bsc.utils.UndefinedFrequencyException
+     * @throws org.semanticwb.bsc.utils.InappropriateFrequencyException
      */
-    public Period currentMeasurementPeriod() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Period nearestMeasurementPeriod() 
+            throws UndefinedFrequencyException, InappropriateFrequencyException
+    {
+        //List<Period> periods = listValidPeriods();
+        //Collections.sort(periods);
+        
+        Iterator<Period> periods = listMeasurablesPeriods(false);
+        
+        Period period;
+        GregorianCalendar left;
+        GregorianCalendar right;        
+        GregorianCalendar current = new GregorianCalendar();
+        //for (Period period : periods) {
+        while(periods.hasNext()) {
+            period = periods.next();
+            
+            left = new GregorianCalendar();
+            left.setTime(period.getStart());
+            left.set(Calendar.HOUR, 0);
+            left.set(Calendar.MINUTE, 0);
+            left.set(Calendar.SECOND, 0);
+            
+            right = new GregorianCalendar();
+            right.setTime(period.getEnd());
+            right.set(Calendar.HOUR, 23);
+            right.set(Calendar.MINUTE, 59);
+            right.set(Calendar.SECOND, 59);
+            
+            if (current.compareTo(left) >= 0 && current.compareTo(right) <= 0) {
+                return period;
+            }
+        }
+        return null;
     }
     
     @Override
