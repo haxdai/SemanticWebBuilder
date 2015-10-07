@@ -55,7 +55,6 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
 //                    if (baseUrl != null) {
 //                        viewString.append(baseUrl);
 //                    }
-System.out.println("\nurl="+request.getRequestURI().substring(0,request.getRequestURI().indexOf(websiteId) + websiteId.length() + 1));
                     viewString.append(request.getScheme()).append("://")
                             .append(request.getServerName()).append(":")
                             .append(request.getServerPort())
