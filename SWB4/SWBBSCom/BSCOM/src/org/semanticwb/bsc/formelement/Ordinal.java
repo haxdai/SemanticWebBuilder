@@ -1,6 +1,5 @@
 package org.semanticwb.bsc.formelement;
 
-import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -8,7 +7,6 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.Sortable;
 import org.semanticwb.model.DisplayProperty;
 import org.semanticwb.model.FormValidateException;
-import org.semanticwb.model.SWBModel;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
