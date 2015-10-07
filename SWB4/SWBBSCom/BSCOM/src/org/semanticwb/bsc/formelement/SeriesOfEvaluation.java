@@ -3,7 +3,6 @@ package org.semanticwb.bsc.formelement;
 import java.util.Iterator;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.bsc.SM;
-import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.tracing.Series;
 import org.semanticwb.model.DisplayProperty;
 import org.semanticwb.model.SWBClass;
