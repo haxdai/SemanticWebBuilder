@@ -42,8 +42,7 @@ public class Periodicity extends org.semanticwb.bsc.formelement.base.Periodicity
      * Crea una instancia de esta clase
      * @param base 
      */
-    public Periodicity(org.semanticwb.platform.SemanticObject base) {
-        
+    public Periodicity(org.semanticwb.platform.SemanticObject base) { 
         super(base);
     }
     
@@ -195,7 +194,6 @@ public class Periodicity extends org.semanticwb.bsc.formelement.base.Periodicity
             Date fromDate = p.getStart();
             Date toDate = p.getEnd();
             if(fromDate==null || toDate==null) {
-                p.setActive(Boolean.FALSE);
                 continue;
             }
             if(  fromDate.getTime()<=date.getTime() && toDate.getTime()>=date.getTime()  ) {
