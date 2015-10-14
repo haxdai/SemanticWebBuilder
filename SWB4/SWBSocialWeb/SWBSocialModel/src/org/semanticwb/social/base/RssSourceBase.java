@@ -4,13 +4,13 @@ package org.semanticwb.social.base;
    /**
    * Fuente de Rss 
    */
-public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable
+public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.Descriptiveable
 {
-    public static final org.semanticwb.platform.SemanticProperty social_rssPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssPhoto");
    /**
    * Url del rss
    */
     public static final org.semanticwb.platform.SemanticProperty social_rss_URL=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rss_URL");
+    public static final org.semanticwb.platform.SemanticProperty social_rssPhoto=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssPhoto");
    /**
    * Fuente de Rss
    */
@@ -150,23 +150,43 @@ public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implem
     {
         super(base);
     }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
 
-/**
-* Gets the RssPhoto property
-* @return String with the RssPhoto
-*/
-    public String getRssPhoto()
+    public void setModifiedBy(org.semanticwb.model.User value)
     {
-        return getSemanticObject().getProperty(social_rssPhoto);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
     }
 
-/**
-* Sets the RssPhoto property
-* @param value long with the RssPhoto
-*/
-    public void setRssPhoto(String value)
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
     {
-        getSemanticObject().setProperty(social_rssPhoto, value);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -185,42 +205,6 @@ public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implem
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Rss_URL property
-* @return String with the Rss_URL
-*/
-    public String getRss_URL()
-    {
-        return getSemanticObject().getProperty(social_rss_URL);
-    }
-
-/**
-* Sets the Rss_URL property
-* @param value long with the Rss_URL
-*/
-    public void setRss_URL(String value)
-    {
-        getSemanticObject().setProperty(social_rss_URL, value);
-    }
-
-/**
-* Gets the Active property
-* @return boolean with the Active
-*/
-    public boolean isActive()
-    {
-        return getSemanticObject().getBooleanProperty(swb_active);
-    }
-
-/**
-* Sets the Active property
-* @param value long with the Active
-*/
-    public void setActive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_active, value);
     }
 
 /**
@@ -275,74 +259,21 @@ public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implem
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
+* Gets the Active property
+* @return boolean with the Active
 */
-    public String getTitle()
+    public boolean isActive()
     {
-        return getSemanticObject().getProperty(swb_title);
+        return getSemanticObject().getBooleanProperty(swb_active);
     }
 
 /**
-* Sets the Title property
-* @param value long with the Title
+* Sets the Active property
+* @param value long with the Active
 */
-    public void setTitle(String value)
+    public void setActive(boolean value)
     {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setBooleanProperty(swb_active, value);
     }
    /**
    * Sets the value for the property Creator
@@ -381,5 +312,74 @@ public abstract class RssSourceBase extends org.semanticwb.model.SWBClass implem
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Rss_URL property
+* @return String with the Rss_URL
+*/
+    public String getRss_URL()
+    {
+        return getSemanticObject().getProperty(social_rss_URL);
+    }
+
+/**
+* Sets the Rss_URL property
+* @param value long with the Rss_URL
+*/
+    public void setRss_URL(String value)
+    {
+        getSemanticObject().setProperty(social_rss_URL, value);
+    }
+
+/**
+* Gets the RssPhoto property
+* @return String with the RssPhoto
+*/
+    public String getRssPhoto()
+    {
+        return getSemanticObject().getProperty(social_rssPhoto);
+    }
+
+/**
+* Sets the RssPhoto property
+* @param value long with the RssPhoto
+*/
+    public void setRssPhoto(String value)
+    {
+        getSemanticObject().setProperty(social_rssPhoto, value);
     }
 }

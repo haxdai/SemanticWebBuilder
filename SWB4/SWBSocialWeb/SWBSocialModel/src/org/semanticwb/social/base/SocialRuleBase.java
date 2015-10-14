@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase principal para manejo de reglas en swbSocial 
    */
-public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.XMLable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableNode
+public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableClass,org.semanticwb.model.XMLable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable
 {
    /**
    * Clase padre de todas las acciones posibles en swbsocial
@@ -98,52 +98,6 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
             return (getSocialRule(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.SocialRule with a determined Action
-       * @param value Action of the type org.semanticwb.social.Action
-       * @param model Model of the org.semanticwb.social.SocialRule
-       * @return Iterator with all the org.semanticwb.social.SocialRule
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleByAction(org.semanticwb.social.Action value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasAction, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialRule with a determined Action
-       * @param value Action of the type org.semanticwb.social.Action
-       * @return Iterator with all the org.semanticwb.social.SocialRule
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleByAction(org.semanticwb.social.Action value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasAction,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialRule with a determined SocialRuleRefInv
-       * @param value SocialRuleRefInv of the type org.semanticwb.social.SocialRuleRef
-       * @param model Model of the org.semanticwb.social.SocialRule
-       * @return Iterator with all the org.semanticwb.social.SocialRule
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleBySocialRuleRefInv(org.semanticwb.social.SocialRuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialRuleRefInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialRule with a determined SocialRuleRefInv
-       * @param value SocialRuleRefInv of the type org.semanticwb.social.SocialRuleRef
-       * @return Iterator with all the org.semanticwb.social.SocialRule
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleBySocialRuleRefInv(org.semanticwb.social.SocialRuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialRuleRefInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.SocialRule with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialRule
@@ -164,6 +118,29 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
         public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialRule with a determined Action
+       * @param value Action of the type org.semanticwb.social.Action
+       * @param model Model of the org.semanticwb.social.SocialRule
+       * @return Iterator with all the org.semanticwb.social.SocialRule
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleByAction(org.semanticwb.social.Action value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasAction, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialRule with a determined Action
+       * @param value Action of the type org.semanticwb.social.Action
+       * @return Iterator with all the org.semanticwb.social.SocialRule
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleByAction(org.semanticwb.social.Action value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasAction,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -189,6 +166,29 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.social.SocialRule with a determined SocialRuleRefInv
+       * @param value SocialRuleRefInv of the type org.semanticwb.social.SocialRuleRef
+       * @param model Model of the org.semanticwb.social.SocialRule
+       * @return Iterator with all the org.semanticwb.social.SocialRule
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleBySocialRuleRefInv(org.semanticwb.social.SocialRuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialRuleRefInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialRule with a determined SocialRuleRefInv
+       * @param value SocialRuleRefInv of the type org.semanticwb.social.SocialRuleRef
+       * @return Iterator with all the org.semanticwb.social.SocialRule
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialRule> listSocialRuleBySocialRuleRefInv(org.semanticwb.social.SocialRuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialRule> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialRuleRefInv,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static SocialRuleBase.ClassMgr getSocialRuleClassMgr()
@@ -204,23 +204,43 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
     {
         super(base);
     }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
 
-/**
-* Gets the Xml property
-* @return String with the Xml
-*/
-    public String getXml()
+    public void setModifiedBy(org.semanticwb.model.User value)
     {
-        return getSemanticObject().getProperty(swb_xml);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
     }
 
-/**
-* Sets the Xml property
-* @param value long with the Xml
-*/
-    public void setXml(String value)
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
     {
-        getSemanticObject().setProperty(swb_xml, value);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -293,36 +313,21 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
     }
 
 /**
-* Gets the Title property
-* @return String with the Title
+* Gets the Xml property
+* @return String with the Xml
 */
-    public String getTitle()
+    public String getXml()
     {
-        return getSemanticObject().getProperty(swb_title);
+        return getSemanticObject().getProperty(swb_xml);
     }
 
 /**
-* Sets the Title property
-* @param value long with the Title
+* Sets the Xml property
+* @param value long with the Xml
 */
-    public void setTitle(String value)
+    public void setXml(String value)
     {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
+        getSemanticObject().setProperty(swb_xml, value);
     }
    /**
    * Gets all the org.semanticwb.social.Action
@@ -390,6 +395,77 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
          return ret;
     }
    /**
+   * Sets the value for the property Creator
+   * @param value Creator to set
+   */
+
+    public void setCreator(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
+        }else
+        {
+            removeCreator();
+        }
+    }
+   /**
+   * Remove the value for Creator property
+   */
+
+    public void removeCreator()
+    {
+        getSemanticObject().removeProperty(swb_creator);
+    }
+
+   /**
+   * Gets the Creator
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getCreator()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+   /**
    * Gets all the org.semanticwb.social.SocialRuleRef
    * @return A GenericIterator with all the org.semanticwb.social.SocialRuleRef
    */
@@ -425,82 +501,6 @@ public abstract class SocialRuleBase extends org.semanticwb.model.SWBClass imple
          if(obj!=null)
          {
              ret=(org.semanticwb.social.SocialRuleRef)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
-    }
-   /**
-   * Sets the value for the property Creator
-   * @param value Creator to set
-   */
-
-    public void setCreator(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_creator, value.getSemanticObject());
-        }else
-        {
-            removeCreator();
-        }
-    }
-   /**
-   * Remove the value for Creator property
-   */
-
-    public void removeCreator()
-    {
-        getSemanticObject().removeProperty(swb_creator);
-    }
-
-   /**
-   * Gets the Creator
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getCreator()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_creator);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
     }

@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Clase manejadora de una cuenta de Facebook para controlar páginas sociales. 
    */
-public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage implements org.semanticwb.model.Expirable,org.semanticwb.model.Searchable,org.semanticwb.model.Rankable,org.semanticwb.model.Resourceable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.RoleRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Viewable,org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Trashable,org.semanticwb.model.Tagable,org.semanticwb.model.TemplateRefable,org.semanticwb.model.Localeable,org.semanticwb.model.Referensable,org.semanticwb.model.Undeleteable,org.semanticwb.model.RuleRefable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Hiddenable,org.semanticwb.model.Filterable
+public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage implements org.semanticwb.model.TemplateRefable,org.semanticwb.model.Tagable,org.semanticwb.model.Trashable,org.semanticwb.model.Rankable,org.semanticwb.model.Countryable,org.semanticwb.model.Viewable,org.semanticwb.model.Expirable,org.semanticwb.model.Resourceable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Localeable,org.semanticwb.model.CalendarRefable,org.semanticwb.model.MetaTagable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Searchable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Filterable,org.semanticwb.model.RoleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Hiddenable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Indexable,org.semanticwb.model.PFlowRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable
 {
    /**
    * Facebook PageID to manage
@@ -87,49 +87,26 @@ public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage 
             return (getFacebookFanPage(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Sn_socialNet
+       * @param value Sn_socialNet of the type org.semanticwb.social.SocialNetwork
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageBySn_socialNet(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_sn_socialNet, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined UserGroupRef
-       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Sn_socialNet
+       * @param value Sn_socialNet of the type org.semanticwb.social.SocialNetwork
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByUserGroupRef(org.semanticwb.model.UserGroupRef value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageBySn_socialNet(org.semanticwb.social.SocialNetwork value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined MetaTagsValue
-       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined MetaTagsValue
-       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_sn_socialNet,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -156,187 +133,49 @@ public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined AssMember
-       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined ThisTypeAssociation
+       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByAssMember(org.semanticwb.model.AssMember value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByThisTypeAssociation(org.semanticwb.model.Association value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined TemplateRef
+       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCreator(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByTemplateRef(org.semanticwb.model.TemplateRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Parent
-       * @param value Parent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined CalendarRef
-       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCalendarRef(org.semanticwb.model.CalendarRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined RoleRef
-       * @param value RoleRef of the type org.semanticwb.model.RoleRef
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByRoleRef(org.semanticwb.model.RoleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Sn_socialNet
-       * @param value Sn_socialNet of the type org.semanticwb.social.SocialNetwork
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageBySn_socialNet(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_sn_socialNet, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Sn_socialNet
-       * @param value Sn_socialNet of the type org.semanticwb.social.SocialNetwork
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageBySn_socialNet(org.semanticwb.social.SocialNetwork value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_sn_socialNet,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCountry(org.semanticwb.model.Country value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined VirtualParent
-       * @param value VirtualParent of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByVirtualParent(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -386,72 +225,26 @@ public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined FriendlyURL
-       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined WebPageVirtualChild
+       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByFriendlyURL(org.semanticwb.model.FriendlyURL value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByWebPageVirtualChild(org.semanticwb.model.WebPage value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByThisTypeAssociation(org.semanticwb.model.Association value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined ThisTypeAssociation
-       * @param value ThisTypeAssociation of the type org.semanticwb.model.Association
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByThisTypeAssociation(org.semanticwb.model.Association value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisTypeAssociationInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.FacebookFanPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Child
-       * @param value Child of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByChild(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -478,72 +271,95 @@ public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Resource
-       * @param value Resource of the type org.semanticwb.model.Resource
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByUserGroupRef(org.semanticwb.model.UserGroupRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined Resource
-       * @param value Resource of the type org.semanticwb.model.Resource
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined UserGroupRef
+       * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByResource(org.semanticwb.model.Resource value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByUserGroupRef(org.semanticwb.model.UserGroupRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByTemplateRef(org.semanticwb.model.TemplateRef value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCalendarRef(org.semanticwb.model.CalendarRef value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined TemplateRef
-       * @param value TemplateRef of the type org.semanticwb.model.TemplateRef
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined CalendarRef
+       * @param value CalendarRef of the type org.semanticwb.model.CalendarRef
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByTemplateRef(org.semanticwb.model.TemplateRef value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCalendarRef(org.semanticwb.model.CalendarRef value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasTemplateRef,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasCalendarRef,value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
        * @param model Model of the org.semanticwb.social.FacebookFanPage
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByWebPageVirtualChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByFriendlyURL(org.semanticwb.model.FriendlyURL value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.FacebookFanPage with a determined WebPageVirtualChild
-       * @param value WebPageVirtualChild of the type org.semanticwb.model.WebPage
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined FriendlyURL
+       * @param value FriendlyURL of the type org.semanticwb.model.FriendlyURL
        * @return Iterator with all the org.semanticwb.social.FacebookFanPage
        */
 
-        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByWebPageVirtualChild(org.semanticwb.model.WebPage value)
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByFriendlyURL(org.semanticwb.model.FriendlyURL value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualChild,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasFriendlyURL,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByAssMember(org.semanticwb.model.AssMember value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined AssMember
+       * @param value AssMember of the type org.semanticwb.model.AssMember
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByAssMember(org.semanticwb.model.AssMember value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasAssMemberInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -567,6 +383,190 @@ public abstract class FacebookFanPageBase extends org.semanticwb.social.FanPage 
         public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByThisRoleAssMember(org.semanticwb.model.AssMember value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasThisRoleAssMemberInv,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByChild(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Child
+       * @param value Child of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByChild(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageChild,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined MetaTagsValue
+       * @param value MetaTagsValue of the type org.semanticwb.model.MetaTagValue
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByMetaTagsValue(org.semanticwb.model.MetaTagValue value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasMetaTagsValue,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Parent
+       * @param value Parent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_webPageParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByResource(org.semanticwb.model.Resource value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined Resource
+       * @param value Resource of the type org.semanticwb.model.Resource
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByResource(org.semanticwb.model.Resource value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasResource,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByVirtualParent(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined VirtualParent
+       * @param value VirtualParent of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByVirtualParent(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasWebPageVirtualParent,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @param model Model of the org.semanticwb.social.FacebookFanPage
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByRoleRef(org.semanticwb.model.RoleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.FacebookFanPage with a determined RoleRef
+       * @param value RoleRef of the type org.semanticwb.model.RoleRef
+       * @return Iterator with all the org.semanticwb.social.FacebookFanPage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.FacebookFanPage> listFacebookFanPageByRoleRef(org.semanticwb.model.RoleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.FacebookFanPage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
     }

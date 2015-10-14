@@ -7,14 +7,6 @@ package org.semanticwb.social.base;
 public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable
 {
    /**
-   * Clase en la que se agregan instancias de tipo SocialNetwork, para que alguna  sea asignada a un tipo de privacidad (Privacy) por parte de un administrador
-   */
-    public static final org.semanticwb.platform.SemanticClass social_NetworkType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#NetworkType");
-   /**
-   * Redes Sociales a las que aplica
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_hasNetworkType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasNetworkType");
-   /**
    * Relación de Privacidad entre PostOut y las redes sociales a las cuales se envía.
    */
     public static final org.semanticwb.platform.SemanticClass social_PostOutPrivacyRelation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOutPrivacyRelation");
@@ -22,6 +14,14 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
    * Propiedad que lista todas las instancias de PostOutPrivacyRelation que tengan asociada un tipo de privacidad. Si se elimina un tipo de privacidad (Una instancia) se eliminarían todas las instancias de PostOutPrivacyRelation que tengan relacionada ese tipo de Privacidad.
    */
     public static final org.semanticwb.platform.SemanticProperty social_haspopr_privacy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#haspopr_privacy");
+   /**
+   * Clase en la que se agregan instancias de tipo SocialNetwork, para que alguna  sea asignada a un tipo de privacidad (Privacy) por parte de un administrador
+   */
+    public static final org.semanticwb.platform.SemanticClass social_NetworkType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#NetworkType");
+   /**
+   * Redes Sociales a las que aplica
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_hasNetworkType=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasNetworkType");
    /**
    * Clase de tipo catálogo que define las privacidades para los Post
    */
@@ -118,29 +118,6 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.PostOutPrivacy with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.PostOutPrivacy
-       * @return Iterator with all the org.semanticwb.social.PostOutPrivacy
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacy> listPostOutPrivacyByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacy> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.PostOutPrivacy with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.PostOutPrivacy
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacy> listPostOutPrivacyByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacy> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.PostOutPrivacy with a determined Popr_privacy
        * @param value Popr_privacy of the type org.semanticwb.social.PostOutPrivacyRelation
        * @param model Model of the org.semanticwb.social.PostOutPrivacy
@@ -163,6 +140,29 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
             org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacy> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspopr_privacy,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.social.PostOutPrivacy with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.social.PostOutPrivacy
+       * @return Iterator with all the org.semanticwb.social.PostOutPrivacy
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacy> listPostOutPrivacyByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacy> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.PostOutPrivacy with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.social.PostOutPrivacy
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.PostOutPrivacy> listPostOutPrivacyByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacy> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static PostOutPrivacyBase.ClassMgr getPostOutPrivacyClassMgr()
@@ -177,6 +177,44 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
     public PostOutPrivacyBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
@@ -215,38 +253,6 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
         getSemanticObject().setDateProperty(swb_updated, value);
     }
 
-    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listNetworkTypes()
-    {
-        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(social_hasNetworkType.getRDFProperty());
-        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
-    }
-
-    public void addNetworkType(org.semanticwb.platform.SemanticObject value)
-    {
-        getSemanticObject().addObjectProperty(social_hasNetworkType, value);
-    }
-
-    public void removeAllNetworkType()
-    {
-        getSemanticObject().removeProperty(social_hasNetworkType);
-    }
-
-    public void removeNetworkType(org.semanticwb.platform.SemanticObject value)
-    {
-        getSemanticObject().removeObjectProperty(social_hasNetworkType,value);
-    }
-
-/**
-* Gets the NetworkType property
-* @return the value for the property as org.semanticwb.platform.SemanticObject
-*/
-    public org.semanticwb.platform.SemanticObject getNetworkType()
-    {
-         org.semanticwb.platform.SemanticObject ret=null;
-         ret=getSemanticObject().getObjectProperty(social_hasNetworkType);
-         return ret;
-    }
-
 /**
 * Gets the Description property
 * @return String with the Description
@@ -279,74 +285,42 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
     {
         getSemanticObject().setProperty(swb_description, description, lang);
     }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
    /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
+   * Gets all the org.semanticwb.social.PostOutPrivacyRelation
+   * @return A GenericIterator with all the org.semanticwb.social.PostOutPrivacyRelation
    */
 
-    public void setModifiedBy(org.semanticwb.model.User value)
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> listpopr_privacies()
     {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation>(getSemanticObject().listObjectProperties(social_haspopr_privacy));
+    }
+
+   /**
+   * Gets true if has a popr_privacy
+   * @param value org.semanticwb.social.PostOutPrivacyRelation to verify
+   * @return true if the org.semanticwb.social.PostOutPrivacyRelation exists, false otherwise
+   */
+    public boolean haspopr_privacy(org.semanticwb.social.PostOutPrivacyRelation value)
+    {
+        boolean ret=false;
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
+           ret=getSemanticObject().hasObjectProperty(social_haspopr_privacy,value.getSemanticObject());
         }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
+        return ret;
     }
 
    /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
+   * Gets the popr_privacy
+   * @return a org.semanticwb.social.PostOutPrivacyRelation
    */
-    public org.semanticwb.model.User getModifiedBy()
+    public org.semanticwb.social.PostOutPrivacyRelation getpopr_privacy()
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         org.semanticwb.social.PostOutPrivacyRelation ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_haspopr_privacy);
          if(obj!=null)
          {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+             ret=(org.semanticwb.social.PostOutPrivacyRelation)obj.createGenericInstance();
          }
          return ret;
     }
@@ -388,43 +362,69 @@ public abstract class PostOutPrivacyBase extends org.semanticwb.model.SWBClass i
          }
          return ret;
     }
-   /**
-   * Gets all the org.semanticwb.social.PostOutPrivacyRelation
-   * @return A GenericIterator with all the org.semanticwb.social.PostOutPrivacyRelation
-   */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation> listpopr_privacies()
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.PostOutPrivacyRelation>(getSemanticObject().listObjectProperties(social_haspopr_privacy));
+        return getSemanticObject().getProperty(swb_title);
     }
 
-   /**
-   * Gets true if has a popr_privacy
-   * @param value org.semanticwb.social.PostOutPrivacyRelation to verify
-   * @return true if the org.semanticwb.social.PostOutPrivacyRelation exists, false otherwise
-   */
-    public boolean haspopr_privacy(org.semanticwb.social.PostOutPrivacyRelation value)
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
     {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(social_haspopr_privacy,value.getSemanticObject());
-        }
-        return ret;
+        getSemanticObject().setProperty(swb_title, value);
     }
 
-   /**
-   * Gets the popr_privacy
-   * @return a org.semanticwb.social.PostOutPrivacyRelation
-   */
-    public org.semanticwb.social.PostOutPrivacyRelation getpopr_privacy()
+    public String getTitle(String lang)
     {
-         org.semanticwb.social.PostOutPrivacyRelation ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_haspopr_privacy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.PostOutPrivacyRelation)obj.createGenericInstance();
-         }
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+    public org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject> listNetworkTypes()
+    {
+        com.hp.hpl.jena.rdf.model.StmtIterator stit=getSemanticObject().getRDFResource().listProperties(social_hasNetworkType.getRDFProperty());
+        return new org.semanticwb.platform.SemanticIterator<org.semanticwb.platform.SemanticObject>(stit);
+    }
+
+    public void addNetworkType(org.semanticwb.platform.SemanticObject value)
+    {
+        getSemanticObject().addObjectProperty(social_hasNetworkType, value);
+    }
+
+    public void removeAllNetworkType()
+    {
+        getSemanticObject().removeProperty(social_hasNetworkType);
+    }
+
+    public void removeNetworkType(org.semanticwb.platform.SemanticObject value)
+    {
+        getSemanticObject().removeObjectProperty(social_hasNetworkType,value);
+    }
+
+/**
+* Gets the NetworkType property
+* @return the value for the property as org.semanticwb.platform.SemanticObject
+*/
+    public org.semanticwb.platform.SemanticObject getNetworkType()
+    {
+         org.semanticwb.platform.SemanticObject ret=null;
+         ret=getSemanticObject().getObjectProperty(social_hasNetworkType);
          return ret;
     }
 }

@@ -4,9 +4,14 @@ package org.semanticwb.social.base;
    /**
    * Manejo de Rss en una marca 
    */
-public abstract class RssBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Tagable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable
+public abstract class RssBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.model.Tagable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
 {
     public static final org.semanticwb.platform.SemanticProperty social_dailyHour=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#dailyHour");
+   /**
+   * Instancias de Noticias escuchadas por el Listener de Rss
+   */
+    public static final org.semanticwb.platform.SemanticClass social_RssNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#RssNew");
+    public static final org.semanticwb.platform.SemanticProperty social_hasRssNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasRssNew");
    /**
    * Fuente de Rss
    */
@@ -16,11 +21,6 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
    * La fecha del RssNew mas actual guardado en la iteración anterior.
    */
     public static final org.semanticwb.platform.SemanticProperty social_rssLastPubDate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#rssLastPubDate");
-   /**
-   * Instancias de Noticias escuchadas por el Listener de Rss
-   */
-    public static final org.semanticwb.platform.SemanticClass social_RssNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#RssNew");
-    public static final org.semanticwb.platform.SemanticProperty social_hasRssNew=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasRssNew");
     public static final org.semanticwb.platform.SemanticProperty social_listenbyPeriodTime=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#listenbyPeriodTime");
    /**
    * Manejo de Rss en una marca
@@ -101,26 +101,26 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
             return (getRss(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Rss with a determined RssSources
-       * @param value RssSources of the type org.semanticwb.social.RssSource
+       * Gets all org.semanticwb.social.Rss with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Rss
        * @return Iterator with all the org.semanticwb.social.Rss
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByRssSources(org.semanticwb.social.RssSource value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasRssSources, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Rss with a determined RssSources
-       * @param value RssSources of the type org.semanticwb.social.RssSource
+       * Gets all org.semanticwb.social.Rss with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.Rss
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByRssSources(org.semanticwb.social.RssSource value)
+        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasRssSources,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -147,26 +147,26 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Rss with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Rss with a determined RssSources
+       * @param value RssSources of the type org.semanticwb.social.RssSource
        * @param model Model of the org.semanticwb.social.Rss
        * @return Iterator with all the org.semanticwb.social.Rss
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByRssSources(org.semanticwb.social.RssSource value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasRssSources, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.Rss with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * Gets all org.semanticwb.social.Rss with a determined RssSources
+       * @param value RssSources of the type org.semanticwb.social.RssSource
        * @return Iterator with all the org.semanticwb.social.Rss
        */
 
-        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByModifiedBy(org.semanticwb.model.User value)
+        public static java.util.Iterator<org.semanticwb.social.Rss> listRssByRssSources(org.semanticwb.social.RssSource value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Rss> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasRssSources,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -207,6 +207,44 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     {
         super(base);
     }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the DailyHour property
@@ -242,6 +280,96 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+   /**
+   * Gets all the org.semanticwb.social.RssNew
+   * @return A GenericIterator with all the org.semanticwb.social.RssNew
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> listRssNews()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew>(getSemanticObject().listObjectProperties(social_hasRssNew));
+    }
+
+   /**
+   * Gets true if has a RssNew
+   * @param value org.semanticwb.social.RssNew to verify
+   * @return true if the org.semanticwb.social.RssNew exists, false otherwise
+   */
+    public boolean hasRssNew(org.semanticwb.social.RssNew value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(social_hasRssNew,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the RssNew
+   * @return a org.semanticwb.social.RssNew
+   */
+    public org.semanticwb.social.RssNew getRssNew()
+    {
+         org.semanticwb.social.RssNew ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasRssNew);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.RssNew)obj.createGenericInstance();
+         }
+         return ret;
     }
    /**
    * Gets all the org.semanticwb.social.RssSource
@@ -310,21 +438,21 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     }
 
 /**
-* Gets the RssLastPubDate property
-* @return java.util.Date with the RssLastPubDate
+* Gets the Deleted property
+* @return boolean with the Deleted
 */
-    public java.util.Date getRssLastPubDate()
+    public boolean isDeleted()
     {
-        return getSemanticObject().getDateProperty(social_rssLastPubDate);
+        return getSemanticObject().getBooleanProperty(swb_deleted);
     }
 
 /**
-* Sets the RssLastPubDate property
-* @param value long with the RssLastPubDate
+* Sets the Deleted property
+* @param value long with the Deleted
 */
-    public void setRssLastPubDate(java.util.Date value)
+    public void setDeleted(boolean value)
     {
-        getSemanticObject().setDateProperty(social_rssLastPubDate, value);
+        getSemanticObject().setBooleanProperty(swb_deleted, value);
     }
 
 /**
@@ -343,200 +471,6 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     public void setActive(boolean value)
     {
         getSemanticObject().setBooleanProperty(swb_active, value);
-    }
-   /**
-   * Gets all the org.semanticwb.social.RssNew
-   * @return A GenericIterator with all the org.semanticwb.social.RssNew
-   */
-
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew> listRssNews()
-    {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.RssNew>(getSemanticObject().listObjectProperties(social_hasRssNew));
-    }
-
-   /**
-   * Gets true if has a RssNew
-   * @param value org.semanticwb.social.RssNew to verify
-   * @return true if the org.semanticwb.social.RssNew exists, false otherwise
-   */
-    public boolean hasRssNew(org.semanticwb.social.RssNew value)
-    {
-        boolean ret=false;
-        if(value!=null)
-        {
-           ret=getSemanticObject().hasObjectProperty(social_hasRssNew,value.getSemanticObject());
-        }
-        return ret;
-    }
-
-   /**
-   * Gets the RssNew
-   * @return a org.semanticwb.social.RssNew
-   */
-    public org.semanticwb.social.RssNew getRssNew()
-    {
-         org.semanticwb.social.RssNew ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasRssNew);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.RssNew)obj.createGenericInstance();
-         }
-         return ret;
-    }
-
-/**
-* Gets the Tags property
-* @return String with the Tags
-*/
-    public String getTags()
-    {
-        return getSemanticObject().getProperty(swb_tags);
-    }
-
-/**
-* Sets the Tags property
-* @param value long with the Tags
-*/
-    public void setTags(String value)
-    {
-        getSemanticObject().setProperty(swb_tags, value);
-    }
-
-    public String getTags(String lang)
-    {
-        return getSemanticObject().getProperty(swb_tags, null, lang);
-    }
-
-    public String getDisplayTags(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_tags, lang);
-    }
-
-    public void setTags(String tags, String lang)
-    {
-        getSemanticObject().setProperty(swb_tags, tags, lang);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
     }
    /**
    * Sets the value for the property Creator
@@ -578,6 +512,24 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     }
 
 /**
+* Gets the RssLastPubDate property
+* @return java.util.Date with the RssLastPubDate
+*/
+    public java.util.Date getRssLastPubDate()
+    {
+        return getSemanticObject().getDateProperty(social_rssLastPubDate);
+    }
+
+/**
+* Sets the RssLastPubDate property
+* @param value long with the RssLastPubDate
+*/
+    public void setRssLastPubDate(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(social_rssLastPubDate, value);
+    }
+
+/**
 * Gets the ListenbyPeriodTime property
 * @return int with the ListenbyPeriodTime
 */
@@ -596,21 +548,69 @@ public abstract class RssBase extends org.semanticwb.model.SWBClass implements o
     }
 
 /**
-* Gets the Deleted property
-* @return boolean with the Deleted
+* Gets the Title property
+* @return String with the Title
 */
-    public boolean isDeleted()
+    public String getTitle()
     {
-        return getSemanticObject().getBooleanProperty(swb_deleted);
+        return getSemanticObject().getProperty(swb_title);
     }
 
 /**
-* Sets the Deleted property
-* @param value long with the Deleted
+* Sets the Title property
+* @param value long with the Title
 */
-    public void setDeleted(boolean value)
+    public void setTitle(String value)
     {
-        getSemanticObject().setBooleanProperty(swb_deleted, value);
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
+    }
+
+/**
+* Gets the Tags property
+* @return String with the Tags
+*/
+    public String getTags()
+    {
+        return getSemanticObject().getProperty(swb_tags);
+    }
+
+/**
+* Sets the Tags property
+* @param value long with the Tags
+*/
+    public void setTags(String value)
+    {
+        getSemanticObject().setProperty(swb_tags, value);
+    }
+
+    public String getTags(String lang)
+    {
+        return getSemanticObject().getProperty(swb_tags, null, lang);
+    }
+
+    public String getDisplayTags(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_tags, lang);
+    }
+
+    public void setTags(String tags, String lang)
+    {
+        getSemanticObject().setProperty(swb_tags, tags, lang);
     }
 
    /**

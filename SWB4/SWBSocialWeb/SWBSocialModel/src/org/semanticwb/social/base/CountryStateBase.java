@@ -143,6 +143,57 @@ public abstract class CountryStateBase extends org.semanticwb.social.GeoCatalog 
     {
         super(base);
     }
+
+/**
+* Gets the CapitalLatitude property
+* @return float with the CapitalLatitude
+*/
+    public float getCapitalLatitude()
+    {
+        return getSemanticObject().getFloatProperty(social_capitalLatitude);
+    }
+
+/**
+* Sets the CapitalLatitude property
+* @param value long with the CapitalLatitude
+*/
+    public void setCapitalLatitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_capitalLatitude, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
    /**
    * Sets the value for the property Country
    * @param value Country to set
@@ -180,78 +231,6 @@ public abstract class CountryStateBase extends org.semanticwb.social.GeoCatalog 
              ret=(org.semanticwb.social.Country)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the CapitalLatitude property
-* @return float with the CapitalLatitude
-*/
-    public float getCapitalLatitude()
-    {
-        return getSemanticObject().getFloatProperty(social_capitalLatitude);
-    }
-
-/**
-* Sets the CapitalLatitude property
-* @param value long with the CapitalLatitude
-*/
-    public void setCapitalLatitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_capitalLatitude, value);
-    }
-
-/**
-* Gets the West property
-* @return float with the West
-*/
-    public float getWest()
-    {
-        return getSemanticObject().getFloatProperty(social_west);
-    }
-
-/**
-* Sets the West property
-* @param value long with the West
-*/
-    public void setWest(float value)
-    {
-        getSemanticObject().setFloatProperty(social_west, value);
-    }
-
-/**
-* Gets the CapitalLongitude property
-* @return float with the CapitalLongitude
-*/
-    public float getCapitalLongitude()
-    {
-        return getSemanticObject().getFloatProperty(social_capitalLongitude);
-    }
-
-/**
-* Sets the CapitalLongitude property
-* @param value long with the CapitalLongitude
-*/
-    public void setCapitalLongitude(float value)
-    {
-        getSemanticObject().setFloatProperty(social_capitalLongitude, value);
-    }
-
-/**
-* Gets the South property
-* @return float with the South
-*/
-    public float getSouth()
-    {
-        return getSemanticObject().getFloatProperty(social_south);
-    }
-
-/**
-* Sets the South property
-* @param value long with the South
-*/
-    public void setSouth(float value)
-    {
-        getSemanticObject().setFloatProperty(social_south, value);
     }
    /**
    * Gets all the org.semanticwb.social.Post
@@ -294,6 +273,24 @@ public abstract class CountryStateBase extends org.semanticwb.social.GeoCatalog 
     }
 
 /**
+* Gets the West property
+* @return float with the West
+*/
+    public float getWest()
+    {
+        return getSemanticObject().getFloatProperty(social_west);
+    }
+
+/**
+* Sets the West property
+* @param value long with the West
+*/
+    public void setWest(float value)
+    {
+        getSemanticObject().setFloatProperty(social_west, value);
+    }
+
+/**
 * Gets the North property
 * @return float with the North
 */
@@ -309,39 +306,6 @@ public abstract class CountryStateBase extends org.semanticwb.social.GeoCatalog 
     public void setNorth(float value)
     {
         getSemanticObject().setFloatProperty(social_north, value);
-    }
-
-/**
-* Gets the Description property
-* @return String with the Description
-*/
-    public String getDescription()
-    {
-        return getSemanticObject().getProperty(swb_description);
-    }
-
-/**
-* Sets the Description property
-* @param value long with the Description
-*/
-    public void setDescription(String value)
-    {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
     }
 
 /**
@@ -393,5 +357,41 @@ public abstract class CountryStateBase extends org.semanticwb.social.GeoCatalog 
     public void setEast(float value)
     {
         getSemanticObject().setFloatProperty(social_east, value);
+    }
+
+/**
+* Gets the CapitalLongitude property
+* @return float with the CapitalLongitude
+*/
+    public float getCapitalLongitude()
+    {
+        return getSemanticObject().getFloatProperty(social_capitalLongitude);
+    }
+
+/**
+* Sets the CapitalLongitude property
+* @param value long with the CapitalLongitude
+*/
+    public void setCapitalLongitude(float value)
+    {
+        getSemanticObject().setFloatProperty(social_capitalLongitude, value);
+    }
+
+/**
+* Gets the South property
+* @return float with the South
+*/
+    public float getSouth()
+    {
+        return getSemanticObject().getFloatProperty(social_south);
+    }
+
+/**
+* Sets the South property
+* @param value long with the South
+*/
+    public void setSouth(float value)
+    {
+        getSemanticObject().setFloatProperty(social_south, value);
     }
 }

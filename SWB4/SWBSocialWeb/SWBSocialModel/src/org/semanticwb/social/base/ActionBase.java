@@ -90,29 +90,6 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
             return (getAction(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.Action with a determined ActionRuleInv
-       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
-       * @param model Model of the org.semanticwb.social.Action
-       * @return Iterator with all the org.semanticwb.social.Action
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Action> listActionByActionRuleInv(org.semanticwb.social.SocialRule value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Action> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.Action with a determined ActionRuleInv
-       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
-       * @return Iterator with all the org.semanticwb.social.Action
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.Action> listActionByActionRuleInv(org.semanticwb.social.SocialRule value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.Action> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.Action with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.Action
@@ -133,6 +110,29 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
         public static java.util.Iterator<org.semanticwb.social.Action> listActionByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.Action> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Action with a determined ActionRuleInv
+       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
+       * @param model Model of the org.semanticwb.social.Action
+       * @return Iterator with all the org.semanticwb.social.Action
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Action> listActionByActionRuleInv(org.semanticwb.social.SocialRule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Action> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.Action with a determined ActionRuleInv
+       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
+       * @return Iterator with all the org.semanticwb.social.Action
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.Action> listActionByActionRuleInv(org.semanticwb.social.SocialRule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.Action> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -173,6 +173,44 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
     {
         super(base);
     }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
+
+    public void setModifiedBy(org.semanticwb.model.User value)
+    {
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
+    }
 
 /**
 * Gets the Created property
@@ -190,44 +228,6 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
     public void setCreated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_created, value);
-    }
-   /**
-   * Sets the value for the property ActionRuleInv
-   * @param value ActionRuleInv to set
-   */
-
-    public void setActionRuleInv(org.semanticwb.social.SocialRule value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(social_actionRuleInv, value.getSemanticObject());
-        }else
-        {
-            removeActionRuleInv();
-        }
-    }
-   /**
-   * Remove the value for ActionRuleInv property
-   */
-
-    public void removeActionRuleInv()
-    {
-        getSemanticObject().removeProperty(social_actionRuleInv);
-    }
-
-   /**
-   * Gets the ActionRuleInv
-   * @return a org.semanticwb.social.SocialRule
-   */
-    public org.semanticwb.social.SocialRule getActionRuleInv()
-    {
-         org.semanticwb.social.SocialRule ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_actionRuleInv);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.social.SocialRule)obj.createGenericInstance();
-         }
-         return ret;
     }
 
 /**
@@ -280,74 +280,41 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
     {
         getSemanticObject().setProperty(swb_description, description, lang);
     }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
    /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
+   * Sets the value for the property ActionRuleInv
+   * @param value ActionRuleInv to set
    */
 
-    public void setModifiedBy(org.semanticwb.model.User value)
+    public void setActionRuleInv(org.semanticwb.social.SocialRule value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(social_actionRuleInv, value.getSemanticObject());
         }else
         {
-            removeModifiedBy();
+            removeActionRuleInv();
         }
     }
    /**
-   * Remove the value for ModifiedBy property
+   * Remove the value for ActionRuleInv property
    */
 
-    public void removeModifiedBy()
+    public void removeActionRuleInv()
     {
-        getSemanticObject().removeProperty(swb_modifiedBy);
+        getSemanticObject().removeProperty(social_actionRuleInv);
     }
 
    /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
+   * Gets the ActionRuleInv
+   * @return a org.semanticwb.social.SocialRule
    */
-    public org.semanticwb.model.User getModifiedBy()
+    public org.semanticwb.social.SocialRule getActionRuleInv()
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         org.semanticwb.social.SocialRule ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_actionRuleInv);
          if(obj!=null)
          {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+             ret=(org.semanticwb.social.SocialRule)obj.createGenericInstance();
          }
          return ret;
     }
@@ -388,5 +355,38 @@ public abstract class ActionBase extends org.semanticwb.model.SWBClass implement
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 }
