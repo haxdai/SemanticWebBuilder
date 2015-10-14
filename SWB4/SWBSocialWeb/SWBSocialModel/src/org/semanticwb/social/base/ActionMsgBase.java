@@ -89,29 +89,6 @@ public abstract class ActionMsgBase extends org.semanticwb.social.Action impleme
             return (getActionMsg(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.ActionMsg with a determined ActionRuleInv
-       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
-       * @param model Model of the org.semanticwb.social.ActionMsg
-       * @return Iterator with all the org.semanticwb.social.ActionMsg
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.ActionMsg> listActionMsgByActionRuleInv(org.semanticwb.social.SocialRule value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.ActionMsg> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.ActionMsg with a determined ActionRuleInv
-       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
-       * @return Iterator with all the org.semanticwb.social.ActionMsg
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.ActionMsg> listActionMsgByActionRuleInv(org.semanticwb.social.SocialRule value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.ActionMsg> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.ActionMsg with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.ActionMsg
@@ -132,6 +109,29 @@ public abstract class ActionMsgBase extends org.semanticwb.social.Action impleme
         public static java.util.Iterator<org.semanticwb.social.ActionMsg> listActionMsgByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.ActionMsg> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.ActionMsg with a determined ActionRuleInv
+       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
+       * @param model Model of the org.semanticwb.social.ActionMsg
+       * @return Iterator with all the org.semanticwb.social.ActionMsg
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.ActionMsg> listActionMsgByActionRuleInv(org.semanticwb.social.SocialRule value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.ActionMsg> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.ActionMsg with a determined ActionRuleInv
+       * @param value ActionRuleInv of the type org.semanticwb.social.SocialRule
+       * @return Iterator with all the org.semanticwb.social.ActionMsg
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.ActionMsg> listActionMsgByActionRuleInv(org.semanticwb.social.SocialRule value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.ActionMsg> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_actionRuleInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**

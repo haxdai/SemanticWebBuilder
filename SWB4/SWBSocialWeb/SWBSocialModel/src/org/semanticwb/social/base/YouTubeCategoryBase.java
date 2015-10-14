@@ -99,24 +99,6 @@ public abstract class YouTubeCategoryBase extends org.semanticwb.model.SWBClass 
     }
 
 /**
-* Gets the Id property
-* @return String with the Id
-*/
-    public String getId()
-    {
-        return getSemanticObject().getProperty(social_id);
-    }
-
-/**
-* Sets the Id property
-* @param value long with the Id
-*/
-    public void setId(String value)
-    {
-        getSemanticObject().setProperty(social_id, value);
-    }
-
-/**
 * Gets the Description property
 * @return String with the Description
 */
@@ -147,6 +129,24 @@ public abstract class YouTubeCategoryBase extends org.semanticwb.model.SWBClass 
     public void setDescription(String description, String lang)
     {
         getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Id property
+* @return String with the Id
+*/
+    public String getId()
+    {
+        return getSemanticObject().getProperty(social_id);
+    }
+
+/**
+* Sets the Id property
+* @param value long with the Id
+*/
+    public void setId(String value)
+    {
+        getSemanticObject().setProperty(social_id, value);
     }
 
 /**

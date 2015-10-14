@@ -4,18 +4,18 @@ package org.semanticwb.social.base;
    /**
    * Un Flujo de Publicación es una serie de autorizaciones por las que pasa un contenido antes de publicarse en un Sitio Web 
    */
-public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.XMLable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableNode
+public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass implements org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.social.Relationable,org.semanticwb.model.FilterableClass,org.semanticwb.model.XMLable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Descriptiveable
 {
-   /**
-   * Instancia de un recurso asociado a un flujo de publicación.
-   */
-    public static final org.semanticwb.platform.SemanticClass social_SocialPFlowInstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialPFlowInstance");
-    public static final org.semanticwb.platform.SemanticProperty social_hasSocialPFlowinstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialPFlowinstance");
    /**
    * Referencia a un objeto de tipo SocialPFlow
    */
     public static final org.semanticwb.platform.SemanticClass social_SocialPFlowRef=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialPFlowRef");
     public static final org.semanticwb.platform.SemanticProperty social_hasSocialPFlowRefInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialPFlowRefInv");
+   /**
+   * Instancia de un recurso asociado a un flujo de publicación.
+   */
+    public static final org.semanticwb.platform.SemanticClass social_SocialPFlowInstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialPFlowInstance");
+    public static final org.semanticwb.platform.SemanticProperty social_hasSocialPFlowinstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasSocialPFlowinstance");
    /**
    * Un Flujo de Publicación es una serie de autorizaciones por las que pasa un contenido antes de publicarse en un Sitio Web
    */
@@ -95,26 +95,26 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
             return (getSocialPFlow(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.SocialPFlow with a determined SocialPFlowinstance
-       * @param value SocialPFlowinstance of the type org.semanticwb.social.SocialPFlowInstance
+       * Gets all org.semanticwb.social.SocialPFlow with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialPFlow
        * @return Iterator with all the org.semanticwb.social.SocialPFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowBySocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPFlowinstance, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialPFlow with a determined SocialPFlowinstance
-       * @param value SocialPFlowinstance of the type org.semanticwb.social.SocialPFlowInstance
+       * Gets all org.semanticwb.social.SocialPFlow with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.SocialPFlow
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowBySocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value)
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPFlowinstance,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -141,29 +141,6 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialPFlow with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.SocialPFlow
-       * @return Iterator with all the org.semanticwb.social.SocialPFlow
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialPFlow with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.SocialPFlow
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.SocialPFlow with a determined Creator
        * @param value Creator of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialPFlow
@@ -186,6 +163,29 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.social.SocialPFlow with a determined SocialPFlowinstance
+       * @param value SocialPFlowinstance of the type org.semanticwb.social.SocialPFlowInstance
+       * @param model Model of the org.semanticwb.social.SocialPFlow
+       * @return Iterator with all the org.semanticwb.social.SocialPFlow
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowBySocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPFlowinstance, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialPFlow with a determined SocialPFlowinstance
+       * @param value SocialPFlowinstance of the type org.semanticwb.social.SocialPFlowInstance
+       * @return Iterator with all the org.semanticwb.social.SocialPFlow
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialPFlow> listSocialPFlowBySocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlow> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasSocialPFlowinstance,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static SocialPFlowBase.ClassMgr getSocialPFlowClassMgr()
@@ -201,60 +201,41 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
     {
         super(base);
     }
-
-/**
-* Gets the Xml property
-* @return String with the Xml
-*/
-    public String getXml()
-    {
-        return getSemanticObject().getProperty(swb_xml);
-    }
-
-/**
-* Sets the Xml property
-* @param value long with the Xml
-*/
-    public void setXml(String value)
-    {
-        getSemanticObject().setProperty(swb_xml, value);
-    }
    /**
-   * Gets all the org.semanticwb.social.SocialPFlowInstance
-   * @return A GenericIterator with all the org.semanticwb.social.SocialPFlowInstance
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowinstances()
+    public void setModifiedBy(org.semanticwb.model.User value)
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance>(getSemanticObject().listObjectProperties(social_hasSocialPFlowinstance));
-    }
-
-   /**
-   * Gets true if has a SocialPFlowinstance
-   * @param value org.semanticwb.social.SocialPFlowInstance to verify
-   * @return true if the org.semanticwb.social.SocialPFlowInstance exists, false otherwise
-   */
-    public boolean hasSocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value)
-    {
-        boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(social_hasSocialPFlowinstance,value.getSemanticObject());
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
         }
-        return ret;
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
     }
 
    /**
-   * Gets the SocialPFlowinstance
-   * @return a org.semanticwb.social.SocialPFlowInstance
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
    */
-    public org.semanticwb.social.SocialPFlowInstance getSocialPFlowinstance()
+    public org.semanticwb.model.User getModifiedBy()
     {
-         org.semanticwb.social.SocialPFlowInstance ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialPFlowinstance);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
          if(obj!=null)
          {
-             ret=(org.semanticwb.social.SocialPFlowInstance)obj.createGenericInstance();
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
     }
@@ -278,24 +259,6 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
     }
 
 /**
-* Gets the Active property
-* @return boolean with the Active
-*/
-    public boolean isActive()
-    {
-        return getSemanticObject().getBooleanProperty(swb_active);
-    }
-
-/**
-* Sets the Active property
-* @param value long with the Active
-*/
-    public void setActive(boolean value)
-    {
-        getSemanticObject().setBooleanProperty(swb_active, value);
-    }
-
-/**
 * Gets the Updated property
 * @return java.util.Date with the Updated
 */
@@ -311,6 +274,57 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
     public void setUpdated(java.util.Date value)
     {
         getSemanticObject().setDateProperty(swb_updated, value);
+    }
+
+/**
+* Gets the Description property
+* @return String with the Description
+*/
+    public String getDescription()
+    {
+        return getSemanticObject().getProperty(swb_description);
+    }
+
+/**
+* Sets the Description property
+* @param value long with the Description
+*/
+    public void setDescription(String value)
+    {
+        getSemanticObject().setProperty(swb_description, value);
+    }
+
+    public String getDescription(String lang)
+    {
+        return getSemanticObject().getProperty(swb_description, null, lang);
+    }
+
+    public String getDisplayDescription(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_description, lang);
+    }
+
+    public void setDescription(String description, String lang)
+    {
+        getSemanticObject().setProperty(swb_description, description, lang);
+    }
+
+/**
+* Gets the Xml property
+* @return String with the Xml
+*/
+    public String getXml()
+    {
+        return getSemanticObject().getProperty(swb_xml);
+    }
+
+/**
+* Sets the Xml property
+* @param value long with the Xml
+*/
+    public void setXml(String value)
+    {
+        getSemanticObject().setProperty(swb_xml, value);
     }
    /**
    * Gets all the org.semanticwb.social.SocialPFlowRef
@@ -353,107 +367,21 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
     }
 
 /**
-* Gets the Description property
-* @return String with the Description
+* Gets the Active property
+* @return boolean with the Active
 */
-    public String getDescription()
+    public boolean isActive()
     {
-        return getSemanticObject().getProperty(swb_description);
+        return getSemanticObject().getBooleanProperty(swb_active);
     }
 
 /**
-* Sets the Description property
-* @param value long with the Description
+* Sets the Active property
+* @param value long with the Active
 */
-    public void setDescription(String value)
+    public void setActive(boolean value)
     {
-        getSemanticObject().setProperty(swb_description, value);
-    }
-
-    public String getDescription(String lang)
-    {
-        return getSemanticObject().getProperty(swb_description, null, lang);
-    }
-
-    public String getDisplayDescription(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_description, lang);
-    }
-
-    public void setDescription(String description, String lang)
-    {
-        getSemanticObject().setProperty(swb_description, description, lang);
-    }
-
-/**
-* Gets the Title property
-* @return String with the Title
-*/
-    public String getTitle()
-    {
-        return getSemanticObject().getProperty(swb_title);
-    }
-
-/**
-* Sets the Title property
-* @param value long with the Title
-*/
-    public void setTitle(String value)
-    {
-        getSemanticObject().setProperty(swb_title, value);
-    }
-
-    public String getTitle(String lang)
-    {
-        return getSemanticObject().getProperty(swb_title, null, lang);
-    }
-
-    public String getDisplayTitle(String lang)
-    {
-        return getSemanticObject().getLocaleProperty(swb_title, lang);
-    }
-
-    public void setTitle(String title, String lang)
-    {
-        getSemanticObject().setProperty(swb_title, title, lang);
-    }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
-
-    public void setModifiedBy(org.semanticwb.model.User value)
-    {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
-    }
-
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
-    {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setBooleanProperty(swb_active, value);
     }
    /**
    * Sets the value for the property Creator
@@ -492,6 +420,78 @@ public abstract class SocialPFlowBase extends org.semanticwb.model.SWBClass impl
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+   /**
+   * Gets all the org.semanticwb.social.SocialPFlowInstance
+   * @return A GenericIterator with all the org.semanticwb.social.SocialPFlowInstance
+   */
+
+    public org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance> listSocialPFlowinstances()
+    {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialPFlowInstance>(getSemanticObject().listObjectProperties(social_hasSocialPFlowinstance));
+    }
+
+   /**
+   * Gets true if has a SocialPFlowinstance
+   * @param value org.semanticwb.social.SocialPFlowInstance to verify
+   * @return true if the org.semanticwb.social.SocialPFlowInstance exists, false otherwise
+   */
+    public boolean hasSocialPFlowinstance(org.semanticwb.social.SocialPFlowInstance value)
+    {
+        boolean ret=false;
+        if(value!=null)
+        {
+           ret=getSemanticObject().hasObjectProperty(social_hasSocialPFlowinstance,value.getSemanticObject());
+        }
+        return ret;
+    }
+
+   /**
+   * Gets the SocialPFlowinstance
+   * @return a org.semanticwb.social.SocialPFlowInstance
+   */
+    public org.semanticwb.social.SocialPFlowInstance getSocialPFlowinstance()
+    {
+         org.semanticwb.social.SocialPFlowInstance ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(social_hasSocialPFlowinstance);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.social.SocialPFlowInstance)obj.createGenericInstance();
+         }
+         return ret;
+    }
+
+/**
+* Gets the Title property
+* @return String with the Title
+*/
+    public String getTitle()
+    {
+        return getSemanticObject().getProperty(swb_title);
+    }
+
+/**
+* Sets the Title property
+* @param value long with the Title
+*/
+    public void setTitle(String value)
+    {
+        getSemanticObject().setProperty(swb_title, value);
+    }
+
+    public String getTitle(String lang)
+    {
+        return getSemanticObject().getProperty(swb_title, null, lang);
+    }
+
+    public String getDisplayTitle(String lang)
+    {
+        return getSemanticObject().getLocaleProperty(swb_title, lang);
+    }
+
+    public void setTitle(String title, String lang)
+    {
+        getSemanticObject().setProperty(swb_title, title, lang);
     }
 
    /**

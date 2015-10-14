@@ -149,60 +149,6 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
     {
         super(base);
     }
-
-/**
-* Gets the UserIP property
-* @return String with the UserIP
-*/
-    public String getUserIP()
-    {
-        return getSemanticObject().getProperty(social_userIP);
-    }
-
-/**
-* Sets the UserIP property
-* @param value long with the UserIP
-*/
-    public void setUserIP(String value)
-    {
-        getSemanticObject().setProperty(social_userIP, value);
-    }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
    /**
    * Sets the value for the property ModifiedBy
    * @param value ModifiedBy to set
@@ -241,6 +187,42 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
          }
          return ret;
     }
+
+/**
+* Gets the Created property
+* @return java.util.Date with the Created
+*/
+    public java.util.Date getCreated()
+    {
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
+    }
    /**
    * Sets the value for the property Creator
    * @param value Creator to set
@@ -278,5 +260,23 @@ public abstract class PostOutLinksHitsIpBase extends org.semanticwb.model.SWBCla
              ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the UserIP property
+* @return String with the UserIP
+*/
+    public String getUserIP()
+    {
+        return getSemanticObject().getProperty(social_userIP);
+    }
+
+/**
+* Sets the UserIP property
+* @param value long with the UserIP
+*/
+    public void setUserIP(String value)
+    {
+        getSemanticObject().setProperty(social_userIP, value);
     }
 }

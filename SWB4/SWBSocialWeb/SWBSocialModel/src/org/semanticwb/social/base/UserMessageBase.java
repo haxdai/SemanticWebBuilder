@@ -11,7 +11,6 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
    * Usuario autor del mensaje
    */
     public static final org.semanticwb.platform.SemanticProperty social_fromUser=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#fromUser");
-    public static final org.semanticwb.platform.SemanticProperty social_userPriority=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#userPriority");
    /**
    * Para que usuarios esta dirigido el mensaje
    */
@@ -20,6 +19,7 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
    * Mensaje a dejar a uno o varios usuarios
    */
     public static final org.semanticwb.platform.SemanticProperty social_usrMsg=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#usrMsg");
+    public static final org.semanticwb.platform.SemanticProperty social_userPriority=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#userPriority");
     public static final org.semanticwb.platform.SemanticClass social_UserMessage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#UserMessage");
    /**
    * The semantic class that represents the currentObject
@@ -119,29 +119,6 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.UserMessage with a determined Users
-       * @param value Users of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.UserMessage
-       * @return Iterator with all the org.semanticwb.social.UserMessage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.UserMessage> listUserMessageByUsers(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.UserMessage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasUsers, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.UserMessage with a determined Users
-       * @param value Users of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.UserMessage
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.UserMessage> listUserMessageByUsers(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.UserMessage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasUsers,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.social.UserMessage with a determined ModifiedBy
        * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.UserMessage
@@ -162,6 +139,29 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
         public static java.util.Iterator<org.semanticwb.social.UserMessage> listUserMessageByModifiedBy(org.semanticwb.model.User value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.UserMessage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.UserMessage with a determined Users
+       * @param value Users of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.social.UserMessage
+       * @return Iterator with all the org.semanticwb.social.UserMessage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.UserMessage> listUserMessageByUsers(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.UserMessage> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_hasUsers, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.UserMessage with a determined Users
+       * @param value Users of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.social.UserMessage
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.UserMessage> listUserMessageByUsers(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.UserMessage> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_hasUsers,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -202,42 +202,6 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
     {
         super(base);
     }
-
-/**
-* Gets the Created property
-* @return java.util.Date with the Created
-*/
-    public java.util.Date getCreated()
-    {
-        return getSemanticObject().getDateProperty(swb_created);
-    }
-
-/**
-* Sets the Created property
-* @param value long with the Created
-*/
-    public void setCreated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_created, value);
-    }
-
-/**
-* Gets the Updated property
-* @return java.util.Date with the Updated
-*/
-    public java.util.Date getUpdated()
-    {
-        return getSemanticObject().getDateProperty(swb_updated);
-    }
-
-/**
-* Sets the Updated property
-* @param value long with the Updated
-*/
-    public void setUpdated(java.util.Date value)
-    {
-        getSemanticObject().setDateProperty(swb_updated, value);
-    }
    /**
    * Sets the value for the property FromUser
    * @param value FromUser to set
@@ -276,23 +240,79 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
          }
          return ret;
     }
+   /**
+   * Sets the value for the property ModifiedBy
+   * @param value ModifiedBy to set
+   */
 
-/**
-* Gets the UserPriority property
-* @return boolean with the UserPriority
-*/
-    public boolean isUserPriority()
+    public void setModifiedBy(org.semanticwb.model.User value)
     {
-        return getSemanticObject().getBooleanProperty(social_userPriority);
+        if(value!=null)
+        {
+            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
+        }else
+        {
+            removeModifiedBy();
+        }
+    }
+   /**
+   * Remove the value for ModifiedBy property
+   */
+
+    public void removeModifiedBy()
+    {
+        getSemanticObject().removeProperty(swb_modifiedBy);
+    }
+
+   /**
+   * Gets the ModifiedBy
+   * @return a org.semanticwb.model.User
+   */
+    public org.semanticwb.model.User getModifiedBy()
+    {
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
+         if(obj!=null)
+         {
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+         }
+         return ret;
     }
 
 /**
-* Sets the UserPriority property
-* @param value long with the UserPriority
+* Gets the Created property
+* @return java.util.Date with the Created
 */
-    public void setUserPriority(boolean value)
+    public java.util.Date getCreated()
     {
-        getSemanticObject().setBooleanProperty(social_userPriority, value);
+        return getSemanticObject().getDateProperty(swb_created);
+    }
+
+/**
+* Sets the Created property
+* @param value long with the Created
+*/
+    public void setCreated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_created, value);
+    }
+
+/**
+* Gets the Updated property
+* @return java.util.Date with the Updated
+*/
+    public java.util.Date getUpdated()
+    {
+        return getSemanticObject().getDateProperty(swb_updated);
+    }
+
+/**
+* Sets the Updated property
+* @param value long with the Updated
+*/
+    public void setUpdated(java.util.Date value)
+    {
+        getSemanticObject().setDateProperty(swb_updated, value);
     }
    /**
    * Gets all the org.semanticwb.model.User
@@ -359,43 +379,23 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
          }
          return ret;
     }
-   /**
-   * Sets the value for the property ModifiedBy
-   * @param value ModifiedBy to set
-   */
 
-    public void setModifiedBy(org.semanticwb.model.User value)
+/**
+* Gets the UsrMsg property
+* @return String with the UsrMsg
+*/
+    public String getUsrMsg()
     {
-        if(value!=null)
-        {
-            getSemanticObject().setObjectProperty(swb_modifiedBy, value.getSemanticObject());
-        }else
-        {
-            removeModifiedBy();
-        }
-    }
-   /**
-   * Remove the value for ModifiedBy property
-   */
-
-    public void removeModifiedBy()
-    {
-        getSemanticObject().removeProperty(swb_modifiedBy);
+        return getSemanticObject().getProperty(social_usrMsg);
     }
 
-   /**
-   * Gets the ModifiedBy
-   * @return a org.semanticwb.model.User
-   */
-    public org.semanticwb.model.User getModifiedBy()
+/**
+* Sets the UsrMsg property
+* @param value long with the UsrMsg
+*/
+    public void setUsrMsg(String value)
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(swb_modifiedBy);
-         if(obj!=null)
-         {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
-         }
-         return ret;
+        getSemanticObject().setProperty(social_usrMsg, value);
     }
    /**
    * Sets the value for the property Creator
@@ -437,20 +437,20 @@ public abstract class UserMessageBase extends org.semanticwb.social.Colaboration
     }
 
 /**
-* Gets the UsrMsg property
-* @return String with the UsrMsg
+* Gets the UserPriority property
+* @return boolean with the UserPriority
 */
-    public String getUsrMsg()
+    public boolean isUserPriority()
     {
-        return getSemanticObject().getProperty(social_usrMsg);
+        return getSemanticObject().getBooleanProperty(social_userPriority);
     }
 
 /**
-* Sets the UsrMsg property
-* @param value long with the UsrMsg
+* Sets the UserPriority property
+* @param value long with the UserPriority
 */
-    public void setUsrMsg(String value)
+    public void setUserPriority(boolean value)
     {
-        getSemanticObject().setProperty(social_usrMsg, value);
+        getSemanticObject().setBooleanProperty(social_userPriority, value);
     }
 }

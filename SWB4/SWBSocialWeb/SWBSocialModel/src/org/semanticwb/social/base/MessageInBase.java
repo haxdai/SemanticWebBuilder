@@ -85,26 +85,26 @@ public abstract class MessageInBase extends org.semanticwb.social.PostIn impleme
             return (getMessageIn(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInDevicePlatform
+       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
        * @param model Model of the org.semanticwb.social.MessageIn
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined SocialTopic
-       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInDevicePlatform
+       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInBySocialTopic(org.semanticwb.social.SocialTopic value)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -131,118 +131,26 @@ public abstract class MessageInBase extends org.semanticwb.social.PostIn impleme
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetwork
-       * @param value PostInSocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * Gets all org.semanticwb.social.MessageIn with a determined Msg_lang
+       * @param value Msg_lang of the type org.semanticwb.model.Language
        * @param model Model of the org.semanticwb.social.MessageIn
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetwork(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByMsg_lang(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetwork, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetwork
-       * @param value PostInSocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * Gets all org.semanticwb.social.MessageIn with a determined Msg_lang
+       * @param value Msg_lang of the type org.semanticwb.model.Language
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetwork(org.semanticwb.social.SocialNetwork value)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByMsg_lang(org.semanticwb.model.Language value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetwork,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostOutResponseInv
-       * @param value PostOutResponseInv of the type org.semanticwb.social.PostOut
-       * @param model Model of the org.semanticwb.social.MessageIn
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostOutResponseInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspostOutResponseInv, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostOutResponseInv
-       * @param value PostOutResponseInv of the type org.semanticwb.social.PostOut
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostOutResponseInv(org.semanticwb.social.PostOut value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspostOutResponseInv,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
-       * @param model Model of the org.semanticwb.social.MessageIn
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined GeoStateMap
-       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByGeoStateMap(org.semanticwb.social.CountryState value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInDevicePlatform
-       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
-       * @param model Model of the org.semanticwb.social.MessageIn
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInDevicePlatform
-       * @param value PostInDevicePlatform of the type org.semanticwb.social.DevicePlatform
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInDevicePlatform(org.semanticwb.social.DevicePlatform value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInDevicePlatform,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetworkUser
-       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
-       * @param model Model of the org.semanticwb.social.MessageIn
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetworkUser
-       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
-       * @return Iterator with all the org.semanticwb.social.MessageIn
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -269,26 +177,95 @@ public abstract class MessageInBase extends org.semanticwb.social.PostIn impleme
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined Msg_lang
-       * @param value Msg_lang of the type org.semanticwb.model.Language
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetworkUser
+       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
        * @param model Model of the org.semanticwb.social.MessageIn
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByMsg_lang(org.semanticwb.model.Language value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.MessageIn with a determined Msg_lang
-       * @param value Msg_lang of the type org.semanticwb.model.Language
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetworkUser
+       * @param value PostInSocialNetworkUser of the type org.semanticwb.social.SocialNetworkUser
        * @return Iterator with all the org.semanticwb.social.MessageIn
        */
 
-        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByMsg_lang(org.semanticwb.model.Language value)
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetworkUser(org.semanticwb.social.SocialNetworkUser value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_msg_lang,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetworkUser,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetwork
+       * @param value PostInSocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * @param model Model of the org.semanticwb.social.MessageIn
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetwork(org.semanticwb.social.SocialNetwork value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetwork, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined PostInSocialNetwork
+       * @param value PostInSocialNetwork of the type org.semanticwb.social.SocialNetwork
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInSocialNetwork(org.semanticwb.social.SocialNetwork value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInSocialNetwork,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * @param model Model of the org.semanticwb.social.MessageIn
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByGeoStateMap(org.semanticwb.social.CountryState value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined GeoStateMap
+       * @param value GeoStateMap of the type org.semanticwb.social.CountryState
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByGeoStateMap(org.semanticwb.social.CountryState value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_geoStateMap,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined PostOutResponseInv
+       * @param value PostOutResponseInv of the type org.semanticwb.social.PostOut
+       * @param model Model of the org.semanticwb.social.MessageIn
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostOutResponseInv(org.semanticwb.social.PostOut value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_haspostOutResponseInv, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined PostOutResponseInv
+       * @param value PostOutResponseInv of the type org.semanticwb.social.PostOut
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostOutResponseInv(org.semanticwb.social.PostOut value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_haspostOutResponseInv,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -312,6 +289,29 @@ public abstract class MessageInBase extends org.semanticwb.social.PostIn impleme
         public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInByPostInStream(org.semanticwb.social.Stream value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_postInStream,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * @param model Model of the org.semanticwb.social.MessageIn
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInBySocialTopic(org.semanticwb.social.SocialTopic value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.MessageIn with a determined SocialTopic
+       * @param value SocialTopic of the type org.semanticwb.social.SocialTopic
+       * @return Iterator with all the org.semanticwb.social.MessageIn
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.MessageIn> listMessageInBySocialTopic(org.semanticwb.social.SocialTopic value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.MessageIn> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(social_socialTopic,value.getSemanticObject(),sclass));
             return it;
         }
     }

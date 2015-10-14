@@ -7,30 +7,18 @@ package org.semanticwb.social.base;
 public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass 
 {
    /**
-   * Fecha de cración de este elemento, este nos sirve para que si pasa mas de 1 día de creado el elemento (Ese tiempo fue el que consideré), y si esta siendo monitoreado, se quite del MonitorMgr, esto para que no se monitoree elementos que una red social no responda que ya este publicado o no.
+   * Identificador del mensaje en la red social
    */
-    public static final org.semanticwb.platform.SemanticProperty social_po_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_created");
+    public static final org.semanticwb.platform.SemanticProperty social_po_socialNetMsgID=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_socialNetMsgID");
     public static final org.semanticwb.platform.SemanticClass social_PostMonitor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostMonitor");
    /**
    * Si se elimina un PostOutNet que se elimine su PostMonitor asociado (En caso de que exista alguno).
    */
     public static final org.semanticwb.platform.SemanticProperty social_postMonitorInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#postMonitorInv");
    /**
-   * Número de respuestas con las que cuenta el PostOutNet.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_po_numResponses=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_numResponses");
-   /**
-   * Estatus del PostOut en una instancia de red social específica. 0=No publicado; 1=Publicado;
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_status=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#status");
-   /**
    * Cantidad de hits(click) que tiene el PostOut. Estas vistas son contabilizadas cada vez que en una red social se da click a un mensaje que haya salido desde la herramienta y que se quiera visualizar archivos anexos al mismo en la instancia de SWBSocial desde donde haya salido. Es decir, se contabilizan el el archivo jsp/review/PostViewFiles.jsp
    */
     public static final org.semanticwb.platform.SemanticProperty social_hitsAttach=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hitsAttach");
-   /**
-   * Error en la publicación del PostOut en una determimada red social., Este error podría desplegarse para que vieran los usuarios del sistema cual fué la causa de porque no se publicó el mensaje (PostOut).
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_error=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#error");
    /**
    * Clase de tipo catálogo que define las privacidades para los Post
    */
@@ -40,6 +28,18 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty social_po_privacy=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_privacy");
    /**
+   * Propiedad que se colocara con valor "true", cuando la red social nos envíe un error que nos indique que ya no debemos mandar solicitar nuevamente el estatus de comentarios de ese PostOutNet a la red social que lo contenga. Esto podría suceder por ejemplo cuando se borró directamente en la red social el mensaje (PostOut) enviado desde SWBSocial, por lo cual la red social enviaría un error 400 que no lo encuentra el id del postOutNet, por lo cual, siempre se estaria enviando este error y no se tendría ningún motivo por el cual seguirlo monitoreando, solo gastaría procesamiento y ancho de banda en la herramienta SWBSocial.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_pon_dontMonitor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pon_dontMonitor");
+   /**
+   * Número de respuestas con las que cuenta el PostOutNet.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_po_numResponses=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_numResponses");
+   /**
+   * Estatus del PostOut en una instancia de red social específica. 0=No publicado; 1=Publicado;
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_status=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#status");
+   /**
    * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
    */
     public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
@@ -48,13 +48,9 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty social_socialPost=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#socialPost");
    /**
-   * Propiedad que se colocara con valor "true", cuando la red social nos envíe un error que nos indique que ya no debemos mandar solicitar nuevamente el estatus de comentarios de ese PostOutNet a la red social que lo contenga. Esto podría suceder por ejemplo cuando se borró directamente en la red social el mensaje (PostOut) enviado desde SWBSocial, por lo cual la red social enviaría un error 400 que no lo encuentra el id del postOutNet, por lo cual, siempre se estaria enviando este error y no se tendría ningún motivo por el cual seguirlo monitoreando, solo gastaría procesamiento y ancho de banda en la herramienta SWBSocial.
+   * Fecha de cración de este elemento, este nos sirve para que si pasa mas de 1 día de creado el elemento (Ese tiempo fue el que consideré), y si esta siendo monitoreado, se quite del MonitorMgr, esto para que no se monitoree elementos que una red social no responda que ya este publicado o no.
    */
-    public static final org.semanticwb.platform.SemanticProperty social_pon_dontMonitor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pon_dontMonitor");
-   /**
-   * Identificador del mensaje en la red social
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_po_socialNetMsgID=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_socialNetMsgID");
+    public static final org.semanticwb.platform.SemanticProperty social_po_created=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#po_created");
    /**
    * Clase que engloba a las diferentes clases que representan cada una de las redes sociales.
    */
@@ -63,6 +59,10 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
    * Objeto Red Social a la cual se hace referencia.
    */
     public static final org.semanticwb.platform.SemanticProperty social_socialNetwork=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#socialNetwork");
+   /**
+   * Error en la publicación del PostOut en una determimada red social., Este error podría desplegarse para que vieran los usuarios del sistema cual fué la causa de porque no se publicó el mensaje (PostOut).
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_error=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#error");
    /**
    * En este objeto se guardara el identificador que es asignado para cada post en cada una de las redes sociales, es decir, si un mismo post se envía hacia mas de una red social, cada una de esas redes sociales daran un identificador unico para ese post en esa red social, este lo tenemos que guardar nosotros en este objeto para fines de monitoreo de estatus del post en esa red social (En Proceso, Revisado, Publicado, etc), como nosotros para un post, independientemente de a cuantas redes sociales se envíe, solo creamos un objeto PostOut (Message, Photo, Video), tuvimos que crear esta clase para guardar el identificador de ese postOut para c/red social.
    */
@@ -250,21 +250,21 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the Po_created property
-* @return java.util.Date with the Po_created
+* Gets the Po_socialNetMsgID property
+* @return String with the Po_socialNetMsgID
 */
-    public java.util.Date getPo_created()
+    public String getPo_socialNetMsgID()
     {
-        return getSemanticObject().getDateProperty(social_po_created);
+        return getSemanticObject().getProperty(social_po_socialNetMsgID);
     }
 
 /**
-* Sets the Po_created property
-* @param value long with the Po_created
+* Sets the Po_socialNetMsgID property
+* @param value long with the Po_socialNetMsgID
 */
-    public void setPo_created(java.util.Date value)
+    public void setPo_socialNetMsgID(String value)
     {
-        getSemanticObject().setDateProperty(social_po_created, value);
+        getSemanticObject().setProperty(social_po_socialNetMsgID, value);
     }
    /**
    * Sets the value for the property PostMonitorInv
@@ -306,42 +306,6 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the Po_numResponses property
-* @return int with the Po_numResponses
-*/
-    public int getPo_numResponses()
-    {
-        return getSemanticObject().getIntProperty(social_po_numResponses);
-    }
-
-/**
-* Sets the Po_numResponses property
-* @param value long with the Po_numResponses
-*/
-    public void setPo_numResponses(int value)
-    {
-        getSemanticObject().setIntProperty(social_po_numResponses, value);
-    }
-
-/**
-* Gets the Status property
-* @return int with the Status
-*/
-    public int getStatus()
-    {
-        return getSemanticObject().getIntProperty(social_status);
-    }
-
-/**
-* Sets the Status property
-* @param value long with the Status
-*/
-    public void setStatus(int value)
-    {
-        getSemanticObject().setIntProperty(social_status, value);
-    }
-
-/**
 * Gets the HitsAttach property
 * @return int with the HitsAttach
 */
@@ -357,24 +321,6 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
     public void setHitsAttach(int value)
     {
         getSemanticObject().setIntProperty(social_hitsAttach, value);
-    }
-
-/**
-* Gets the Error property
-* @return String with the Error
-*/
-    public String getError()
-    {
-        return getSemanticObject().getProperty(social_error);
-    }
-
-/**
-* Sets the Error property
-* @param value long with the Error
-*/
-    public void setError(String value)
-    {
-        getSemanticObject().setProperty(social_error, value);
     }
    /**
    * Sets the value for the property Po_privacy
@@ -413,6 +359,60 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.social.PostOutPrivacy)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Pon_dontMonitor property
+* @return boolean with the Pon_dontMonitor
+*/
+    public boolean isPon_dontMonitor()
+    {
+        return getSemanticObject().getBooleanProperty(social_pon_dontMonitor);
+    }
+
+/**
+* Sets the Pon_dontMonitor property
+* @param value long with the Pon_dontMonitor
+*/
+    public void setPon_dontMonitor(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(social_pon_dontMonitor, value);
+    }
+
+/**
+* Gets the Po_numResponses property
+* @return int with the Po_numResponses
+*/
+    public int getPo_numResponses()
+    {
+        return getSemanticObject().getIntProperty(social_po_numResponses);
+    }
+
+/**
+* Sets the Po_numResponses property
+* @param value long with the Po_numResponses
+*/
+    public void setPo_numResponses(int value)
+    {
+        getSemanticObject().setIntProperty(social_po_numResponses, value);
+    }
+
+/**
+* Gets the Status property
+* @return int with the Status
+*/
+    public int getStatus()
+    {
+        return getSemanticObject().getIntProperty(social_status);
+    }
+
+/**
+* Sets the Status property
+* @param value long with the Status
+*/
+    public void setStatus(int value)
+    {
+        getSemanticObject().setIntProperty(social_status, value);
     }
    /**
    * Sets the value for the property SocialPost
@@ -454,39 +454,21 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
     }
 
 /**
-* Gets the Pon_dontMonitor property
-* @return boolean with the Pon_dontMonitor
+* Gets the Po_created property
+* @return java.util.Date with the Po_created
 */
-    public boolean isPon_dontMonitor()
+    public java.util.Date getPo_created()
     {
-        return getSemanticObject().getBooleanProperty(social_pon_dontMonitor);
+        return getSemanticObject().getDateProperty(social_po_created);
     }
 
 /**
-* Sets the Pon_dontMonitor property
-* @param value long with the Pon_dontMonitor
+* Sets the Po_created property
+* @param value long with the Po_created
 */
-    public void setPon_dontMonitor(boolean value)
+    public void setPo_created(java.util.Date value)
     {
-        getSemanticObject().setBooleanProperty(social_pon_dontMonitor, value);
-    }
-
-/**
-* Gets the Po_socialNetMsgID property
-* @return String with the Po_socialNetMsgID
-*/
-    public String getPo_socialNetMsgID()
-    {
-        return getSemanticObject().getProperty(social_po_socialNetMsgID);
-    }
-
-/**
-* Sets the Po_socialNetMsgID property
-* @param value long with the Po_socialNetMsgID
-*/
-    public void setPo_socialNetMsgID(String value)
-    {
-        getSemanticObject().setProperty(social_po_socialNetMsgID, value);
+        getSemanticObject().setDateProperty(social_po_created, value);
     }
    /**
    * Sets the value for the property SocialNetwork
@@ -525,5 +507,23 @@ public abstract class PostOutNetBase extends org.semanticwb.model.SWBClass
              ret=(org.semanticwb.social.SocialNetwork)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Error property
+* @return String with the Error
+*/
+    public String getError()
+    {
+        return getSemanticObject().getProperty(social_error);
+    }
+
+/**
+* Sets the Error property
+* @param value long with the Error
+*/
+    public void setError(String value)
+    {
+        getSemanticObject().setProperty(social_error, value);
     }
 }

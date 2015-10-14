@@ -19,6 +19,10 @@ public abstract class PostOutLinksHitsBase extends org.semanticwb.model.SWBClass
    */
     public static final org.semanticwb.platform.SemanticProperty social_hasUserIp=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#hasUserIp");
    /**
+   * Url a la cual se va a redirigir a los usuarios que den click en la liga corta generada para la red social definida en cada instancia de esta clase.
+   */
+    public static final org.semanticwb.platform.SemanticProperty social_targetUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#targetUrl");
+   /**
    * Clase que comprende todos los tipos de Post de Salida que pueden ir siendo creados en la herramienta y que seran publicados a partir de esto en las diferentes redes sociales. Esta clase no se relaciona con una red social (con la clase SocialNetwork) porque un post de salida (desde la herramienta) podría ser enviado a diferentes redes sociales, sin embargo, es el mismo post de salida. Donde esta a que red social se envía esta en las instancias de la clase PostContainer.
    */
     public static final org.semanticwb.platform.SemanticClass social_PostOut=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#PostOut");
@@ -38,10 +42,6 @@ public abstract class PostOutLinksHitsBase extends org.semanticwb.model.SWBClass
    * Número de hits (Clicks) que tiene un link en un PostOut y en una cuenta de red social dados.
    */
     public static final org.semanticwb.platform.SemanticProperty social_pol_hits=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#pol_hits");
-   /**
-   * Url a la cual se va a redirigir a los usuarios que den click en la liga corta generada para la red social definida en cada instancia de esta clase.
-   */
-    public static final org.semanticwb.platform.SemanticProperty social_targetUrl=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/social#targetUrl");
    /**
    * Clase que guarda la relación de los links que se encuentran en el texto de un PostOuts y los hits (clicks) que tienen por parte de los usuarios en las redes sociales a las cuales se envío (dicho PostOut).
    */
@@ -287,6 +287,24 @@ public abstract class PostOutLinksHitsBase extends org.semanticwb.model.SWBClass
          }
          return ret;
     }
+
+/**
+* Gets the TargetUrl property
+* @return String with the TargetUrl
+*/
+    public String getTargetUrl()
+    {
+        return getSemanticObject().getProperty(social_targetUrl);
+    }
+
+/**
+* Sets the TargetUrl property
+* @param value long with the TargetUrl
+*/
+    public void setTargetUrl(String value)
+    {
+        getSemanticObject().setProperty(social_targetUrl, value);
+    }
    /**
    * Sets the value for the property PostOut
    * @param value PostOut to set
@@ -380,23 +398,5 @@ public abstract class PostOutLinksHitsBase extends org.semanticwb.model.SWBClass
     public void setPol_hits(int value)
     {
         getSemanticObject().setIntProperty(social_pol_hits, value);
-    }
-
-/**
-* Gets the TargetUrl property
-* @return String with the TargetUrl
-*/
-    public String getTargetUrl()
-    {
-        return getSemanticObject().getProperty(social_targetUrl);
-    }
-
-/**
-* Sets the TargetUrl property
-* @param value long with the TargetUrl
-*/
-    public void setTargetUrl(String value)
-    {
-        getSemanticObject().setProperty(social_targetUrl, value);
     }
 }

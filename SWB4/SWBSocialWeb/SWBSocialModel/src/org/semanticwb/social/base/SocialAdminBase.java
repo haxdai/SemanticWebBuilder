@@ -4,7 +4,7 @@ package org.semanticwb.social.base;
    /**
    * Objeto que define un Sitio Web de Administración de SWBSocial 
    */
-public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite implements org.semanticwb.model.OntologyDepable,org.semanticwb.model.Indexable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Traceable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.FilterableClass,org.semanticwb.model.Countryable,org.semanticwb.model.Filterable
+public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite implements org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.FilterableClass,org.semanticwb.model.OntologyDepable,org.semanticwb.model.Countryable,org.semanticwb.model.Indexable,org.semanticwb.model.Localeable,org.semanticwb.model.Undeleteable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode
 {
    /**
    * Es una pagina web utilizada para mostrar opciones del menu dentro de la administración de SWB
@@ -108,26 +108,49 @@ public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite 
             return (getSocialAdmin(id)!=null);
         }
        /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
+       * Gets all org.semanticwb.social.SocialAdmin with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @param model Model of the org.semanticwb.social.SocialAdmin
        * @return Iterator with all the org.semanticwb.social.SocialAdmin
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined Country
-       * @param value Country of the type org.semanticwb.model.Country
+       * Gets all org.semanticwb.social.SocialAdmin with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
        * @return Iterator with all the org.semanticwb.social.SocialAdmin
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByCountry(org.semanticwb.model.Country value)
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByModifiedBy(org.semanticwb.model.User value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @param model Model of the org.semanticwb.social.SocialAdmin
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined SubModel
+       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminBySubModel(org.semanticwb.model.SWBModel value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -154,6 +177,29 @@ public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite 
             return it;
         }
        /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @param model Model of the org.semanticwb.social.SocialAdmin
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByCountry(org.semanticwb.model.Country value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_country, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined Country
+       * @param value Country of the type org.semanticwb.model.Country
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByCountry(org.semanticwb.model.Country value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_country,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.social.SocialAdmin with a determined Language
        * @param value Language of the type org.semanticwb.model.Language
        * @param model Model of the org.semanticwb.social.SocialAdmin
@@ -174,121 +220,6 @@ public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite 
         public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByLanguage(org.semanticwb.model.Language value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_language,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined HomePage
-       * @param value HomePage of the type org.semanticwb.model.WebPage
-       * @param model Model of the org.semanticwb.social.SocialAdmin
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined HomePage
-       * @param value HomePage of the type org.semanticwb.model.WebPage
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByHomePage(org.semanticwb.model.WebPage value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @param model Model of the org.semanticwb.social.SocialAdmin
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined Ontology
-       * @param value Ontology of the type org.semanticwb.model.Ontology
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByOntology(org.semanticwb.model.Ontology value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined ParentWebSite
-       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
-       * @param model Model of the org.semanticwb.social.SocialAdmin
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined ParentWebSite
-       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByParentWebSite(org.semanticwb.model.WebSite value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @param model Model of the org.semanticwb.social.SocialAdmin
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined UserRepository
-       * @param value UserRepository of the type org.semanticwb.model.UserRepository
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByUserRepository(org.semanticwb.model.UserRepository value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.social.SocialAdmin
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.social.SocialAdmin
-       */
-
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -315,26 +246,95 @@ public abstract class SocialAdminBase extends org.semanticwb.model.AdminWebSite 
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined SubModel
-       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * Gets all org.semanticwb.social.SocialAdmin with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
        * @param model Model of the org.semanticwb.social.SocialAdmin
        * @return Iterator with all the org.semanticwb.social.SocialAdmin
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminBySubModel(org.semanticwb.model.SWBModel value,org.semanticwb.model.SWBModel model)
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByOntology(org.semanticwb.model.Ontology value,org.semanticwb.model.SWBModel model)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel, value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology, value.getSemanticObject(),sclass));
             return it;
         }
        /**
-       * Gets all org.semanticwb.social.SocialAdmin with a determined SubModel
-       * @param value SubModel of the type org.semanticwb.model.SWBModel
+       * Gets all org.semanticwb.social.SocialAdmin with a determined Ontology
+       * @param value Ontology of the type org.semanticwb.model.Ontology
        * @return Iterator with all the org.semanticwb.social.SocialAdmin
        */
 
-        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminBySubModel(org.semanticwb.model.SWBModel value)
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByOntology(org.semanticwb.model.Ontology value)
         {
-            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasSubModel,value.getSemanticObject(),sclass));
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasOntology,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @param model Model of the org.semanticwb.social.SocialAdmin
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByHomePage(org.semanticwb.model.WebPage value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_homePage, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined HomePage
+       * @param value HomePage of the type org.semanticwb.model.WebPage
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByHomePage(org.semanticwb.model.WebPage value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_homePage,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @param model Model of the org.semanticwb.social.SocialAdmin
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByUserRepository(org.semanticwb.model.UserRepository value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined UserRepository
+       * @param value UserRepository of the type org.semanticwb.model.UserRepository
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByUserRepository(org.semanticwb.model.UserRepository value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_userRepository,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @param model Model of the org.semanticwb.social.SocialAdmin
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByParentWebSite(org.semanticwb.model.WebSite value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.social.SocialAdmin with a determined ParentWebSite
+       * @param value ParentWebSite of the type org.semanticwb.model.WebSite
+       * @return Iterator with all the org.semanticwb.social.SocialAdmin
+       */
+
+        public static java.util.Iterator<org.semanticwb.social.SocialAdmin> listSocialAdminByParentWebSite(org.semanticwb.model.WebSite value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.social.SocialAdmin> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_parentWebSite,value.getSemanticObject(),sclass));
             return it;
         }
        /**
