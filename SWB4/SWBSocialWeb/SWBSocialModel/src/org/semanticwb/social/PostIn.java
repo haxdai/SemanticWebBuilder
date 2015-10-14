@@ -74,11 +74,13 @@ public class PostIn extends org.semanticwb.social.base.PostInBase
                     //Cada que un PostIn se elimine, se ejecutara este código, revisa si el usuario(SocialNetworkUser) asociado al PostIn,
                     //tiene mas PostIn asociados, de no ser así, elimina dicho usuario (SocialNetworkUser).
                     
-                    //System.out.println("*********************postIn/Observer/action:"+action+", postIn:"+postIn);
+                    System.out.println("*********************postIn/Observer/action:"+action+", postIn:"+postIn+"_aver Jorge1");
+                    
                     
                     //TODO:Probar este código.
                     if(action.equals("REMOVE") && prop==null) //Si la acción es eliminar el SocialTopic
                     {
+                        System.out.println("*********************postIn/Observer/action:"+action+", postIn:"+postIn+"_aver Jorge2");
                         SocialNetworkUser socialNetworkUser=postIn.getPostInSocialNetworkUser();
                         if(socialNetworkUser!=null)
                         {
@@ -101,9 +103,9 @@ public class PostIn extends org.semanticwb.social.base.PostInBase
                             
                             if(i<=1)
                             {
-                                //System.out.println("MessageIn Observador-J3:"+socialNetworkUser+", FUE ELIMINADO...");
+                                System.out.println("MessageIn Observador-J3:"+socialNetworkUser+", FUE ELIMINADO...");
                                 socialNetworkUser.remove();
-                                //System.out.println("PostIn Observador-J3.1:"+socialNetworkUser+", FUE ELIMINADO...");
+                                System.out.println("PostIn Observador-J3.1:"+socialNetworkUser+", FUE ELIMINADO...");
                             }/*else{
                                 System.out.println("Por PostIn, no encontro ni maiz k");
                             }*/
