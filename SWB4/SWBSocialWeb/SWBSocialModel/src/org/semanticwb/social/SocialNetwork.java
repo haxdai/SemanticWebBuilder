@@ -199,12 +199,12 @@ public class SocialNetwork extends org.semanticwb.social.base.SocialNetworkBase
      * Metodo que las clases que extiendan de esta deberan implementar para
      * escuchar una determinada red social por petición(Request)
      */
-    @Override
+    //@Override
     public void listen(Stream stream) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    @Override
+    //@Override
     public void stopListen(Stream stream) {
         //throw new UnsupportedOperationException("Not supported yet."
     }
@@ -225,12 +225,12 @@ public class SocialNetwork extends org.semanticwb.social.base.SocialNetworkBase
         System.out.println("SocialNetwork.authenticate(request,response,paramRequest)");
     }
 
-    @Override
+    //@Override
     public JSONObject getUserInfobyId(String userId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
+    //@Override
     public boolean removePostOutfromSocialNet(PostOut postOut, SocialNetwork socialNet) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
