@@ -172,7 +172,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
      * Publica un comentario en Google+
      * @param message el {@code Message} que contiene el texto a publicar
      */
-    @Override
+    //@Override
     public void postMsg(Message message) {
     }
     
@@ -205,7 +205,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return msgText;
     }
 
-    @Override
+    //@Override
     public void postVideo(Video video) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -288,7 +288,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return answer;
     }
     
-    @Override
+    //@Override
     public void postPhoto(Photo photo) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -936,7 +936,7 @@ public class Google extends org.semanticwb.social.base.GoogleBase {
         return parsedPhrases;
     }
     
-    @Override
+    //@Override
     public HashMap<String, Long> monitorPostOutResponses(PostOut postOut) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
