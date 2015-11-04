@@ -4,6 +4,7 @@ package org.semanticwb.bsc.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.Logger;
@@ -84,7 +86,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             return;
         }
         
-        final String prx = getResourceBase().getWebSite().getId() + "_"; 
+        final String prx = paramRequest.getWebPage().getId() + "_"; 
         PrintWriter out = response.getWriter();
         
         Iterator<Period> periods;
@@ -134,7 +136,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
 //out.println("<td>"+sm.getSemanticObject().getDisplayName(lang)+"</td>");
             // 3.- Período
             out.println("<td>");
-            out.println(period.getTitle());            
+            out.println(period.getDisplayTitle(lang));            
             out.println("</td>");
             // 4.- Semáforo (título)
             out.println("<td>");
@@ -152,8 +154,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
                 if(state==null) {
                     out.println("<span class=\"swbstrgy-semaphore swbstrgy-unknown\"></span>");
                 }else {
-                    String title = state.getTitle(lang)==null?state.getTitle():state.getTitle(lang);
-                    out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+title+"</span>");
+                    out.println("<span class=\"swbstrgy-semaphore "+(state.getIconClass()==null?"swbstrgy-unknown":state.getIconClass())+"\">"+state.getDisplayTitle(lang)+"</span>");
                 }
             }else {
                 out.println("-");
@@ -280,7 +281,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         out.println("   <li class=\"swbform-li\">");
         out.println("       <label for=\"time\" class=\"swbform-label\">"+paramRequest.getLocaleString("lbl_Admin_UnitOfTime")+"</label>");
         out.println("       <select name=\"time\" dojoType=\"dijit.form.FilteringSelect\">");
-        out.println("         <option "+(base.getAttribute("time",Integer.toString(Calendar.DATE)).equals(Integer.toString(Calendar.DATE))?"selected=\"selectted\"":"")+" value=\""+Calendar.DATE+"\">"+paramRequest.getLocaleString("lbl_Admin_Date") +"</option>");
+        out.println("         <option "+(base.getAttribute("time",Integer.toString(Calendar.DAY_OF_YEAR)).equals(Integer.toString(Calendar.DAY_OF_YEAR))?"selected=\"selectted\"":"")+" value=\""+Calendar.DAY_OF_YEAR+"\">"+paramRequest.getLocaleString("lbl_Admin_Date") +"</option>");
         out.println("         <option "+(base.getAttribute("time","").equals(Integer.toString(Calendar.WEEK_OF_MONTH))?"selected=\"selectted\"":"")+" value=\""+Calendar.WEEK_OF_MONTH+"\">"+paramRequest.getLocaleString("lbl_Admin_WeekOfMonth") +"</option>");
         out.println("         <option "+(base.getAttribute("time","").equals(Integer.toString(Calendar.WEEK_OF_YEAR))?"selected=\"selectted\"":"")+" value=\""+Calendar.WEEK_OF_YEAR+"\">"+paramRequest.getLocaleString("lbl_Admin_WeekOfYear") +"</option>");
         out.println("         <option "+(base.getAttribute("time","").equals(Integer.toString(Calendar.MONTH))?"selected=\"selectted\"":"")+" value=\""+Calendar.MONTH+"\">"+paramRequest.getLocaleString("lbl_Admin_Month") +"</option>");
@@ -405,13 +406,11 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             tright = 0;
         }
         
-        
         try {
             type = Integer.parseInt(base.getAttribute("time",Integer.toString(Calendar.DATE)));
         }catch(NumberFormatException nfe) {
             type = Calendar.DATE;
         }
-        
         GregorianCalendar current = new GregorianCalendar();
         Date end = period.getEnd();
         if(end==null) {
@@ -469,7 +468,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         
         script.append("<span id=\"eb_").append(id).append("\" class=\"").append(cssClass).append("\">").append(data).append("</span>\n");
         script.append("<script type=\"text/javascript\">\n");
-        script.append("<!--\n");
+        //script.append("<!--\n");
         script.append("var iledit_").append(id).append(";");
         script.append("dojo.addOnLoad( function() {");
         script.append("    iledit_").append(id).append(" = new dijit.InlineEditBox({");
@@ -485,7 +484,7 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         script.append("    }, 'eb_").append(id).append("');");
         script.append("  }");
         script.append("); iledit_").append(id).append(".startup();\n");
-        script.append("-->\n");
+        //script.append("-->\n");
         script.append("</script>\n");
         return script.toString();
     }
