@@ -22,7 +22,6 @@
  */
 package org.semanticwb.portal.resources.sem;
 
-
 import com.arthurdo.parser.HtmlStreamTokenizer;
 import com.arthurdo.parser.HtmlTag;
 import java.io.BufferedReader;
@@ -30,17 +29,26 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.Enumeration;
-import javax.servlet.http.HttpSession;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.model.VersionInfo;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
@@ -50,21 +58,21 @@ import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.Versionable;
 import org.semanticwb.model.WebPage;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.portal.api.SWBResource;
 import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.util.ContentUtils;
 import org.semanticwb.portal.util.WBFileUpload;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class HTMLContent.
+ * Componente que permite editar un contenido en HTML utilizando CKEditor.
  */
 public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLContentBase 
 {
-
     /** Objeto utilizado para generacion de mensajes en el log. */
     private static Logger log = SWBUtils.getLogger(HTMLContent.class);
 
@@ -85,29 +93,109 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
     
     /** The position. */
     protected int position = 1;
-
+    
+    public static String []swfType = {"swf"};
+    public static String []imgTypes = {"tiff", "tif", "gif", "jpeg", "jpg", "jif", "jfif", "jp2", "jpx", "j2k", "j2c", "fpx", "pcd", "png", "svg", "bmp"};
+    public static String []docTypes = {"pdf", "doc", "dot", "docx", "docm", "dotx", "dotm", "xls", "xlt", 
+            "xlm", "xlsx", "xlsm", "xltx", "xltm", "ppt", "pot", "pps", "pptx", "pptm", "potx", 
+            "potm", "ppsx", "ppsm", "pub", "xml", "rtf", "txt", "csv", "odt", "ods", "odp", 
+            "odg", "pdf", "eps"};
+    public static String []zipTypes = {"a", "ar", "tar", "bz2", "gz", "7z", "rar", "zip", "zipx"};
+    
+    public static final String ACT_UPLOADFILE = "uploadFile";
+    public static final String MOD_UPLOADFILE = "mUploadFile";
+    public static final String TYPE_FLASH = "flash";
+    public static final String TYPE_DOCS = "document";
+    public static final String TYPE_IMAGES = "image";
+    public static final String TYPE_ALL = "all";
+    public static final String TYPE_ZIP = "zip";
+    public static final String ATTR_FILES = "filesMap";
 
     /**
      * Instantiates a new hTML content.
      */
-    public HTMLContent()
-    {
-    }
+    public HTMLContent(){}
 
     /**
      * Instantiates a new hTML content.
      * 
      * @param base the base
      */
-    public HTMLContent(org.semanticwb.platform.SemanticObject base)
-    {
-        super(base);
+    public HTMLContent(org.semanticwb.platform.SemanticObject base) { super(base); }
+    
+    /**
+     * Procesa las peticiones de carga de archivos en el componente.
+     * @param request the HttpServletRequest object
+     * @param response the HttpServletResponse
+     * @param paramRequest the SWBParamRequest object
+     * @throws SWBResourceException
+     * @throws IOException 
+     */
+    public void doUploadFiles(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        boolean success = false;
+        String action = paramRequest.getAction();
+        String version = request.getParameter("numversion");
+        String type = request.getParameter("type");
+        String CKEditorFuncNum = request.getParameter("CKEditorFuncNum");
+        String CKEditor = request.getParameter("CKEditor");
+        String pathToFile = "";
+        String msg = "";
+        
+        if (null == version || version.isEmpty()) version = "1";
+        
+        String actualcontext = (!"".equals(SWBPlatform.getContextPath()) ? SWBPlatform.getContextPath() : "");
+        String workPath = actualcontext+SWBPortal.getWorkPath()+getResourceBase().getWorkPath()+"/"+version+"/images/";
+        String webWorkPath = actualcontext+SWBPortal.getWebWorkPath()+getResourceBase().getWorkPath()+"/"+version+"/images/";
+        
+        ArrayList<String> extensions = HTMLContentUtils.getFileTypes(type);
+        
+        File wp = new File(workPath);
+        if (!wp.exists()) wp.mkdirs();
+        
+        if (HTMLContentUtils.isEnabledForFileUpload(request) && ACT_UPLOADFILE.equals(action) && ServletFileUpload.isMultipartContent(request)) {
+            DiskFileItemFactory factory = new DiskFileItemFactory();
+            ServletFileUpload sfu = new ServletFileUpload(factory);
+
+            try {
+                List<FileItem> items = sfu.parseRequest(request);
+                Iterator<FileItem> iter = items.iterator();
+                while (iter.hasNext()) {
+                    FileItem item = iter.next();
+                    if (!item.isFormField()) {
+                        String itemName = item.getName();
+                        if (HTMLContentUtils.isValidFileType(itemName, extensions)) {
+                            String fileName = HTMLContentUtils.sanitizeFileName(itemName);
+                            item.write(new File(workPath+fileName));
+                            pathToFile = webWorkPath+fileName;
+                            break;
+                        }
+                    }
+                }
+                success = true;
+            } catch (FileUploadException fue) {
+                msg = paramRequest.getLocaleString("msgFileUploadError");
+                log.error(msg, fue);
+            } catch (Exception ex) {
+                msg = paramRequest.getLocaleString("msgFileStorageError");;
+                log.error(msg, ex);
+            }
+        }
+        
+        PrintWriter out = response.getWriter();
+        if (null == CKEditor) { //Para el caso de llamada directa, mediante el fileBrowser
+            out.write("<!DOCTYPE HTML><html><head><meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"></head><body><textarea name=\"uploadStatus\">"+(success?"SUCCESS":"FAIL")+"</textarea></body></html>");
+        } else if (!CKEditor.isEmpty()) {
+            //Escribir el resultado para CKEditor
+            out.write("<!DOCTYPE HTML><html><head><meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\"></head><body><script type='text/javascript'>window.parent.CKEDITOR.tools.callFunction("+CKEditorFuncNum+", '"+pathToFile+"', '"+msg+"');</script>");
+        }
+        out.flush();
+        out.close();
     }
 
     /**
      * Limpia estilos en el documento
-     * @param datos HTML
-     * @param deletesytyles Si borra estilos
+     * @param datos código HTML
+     * @param deletesytyles Indica si se eliminarán los estilos
      * @return HTML limpio
      */
     public static String cleanHTML(String datos, boolean deletesytyles)
@@ -419,7 +507,6 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             throws SWBResourceException, IOException {
 
         Resource resource = paramRequest.getResourceBase();
-        HttpSession session = request.getSession();
         int versionNumber = Integer.parseInt(request.getParameter("numversion"));
         String fileName = null;
         String action = paramRequest.getAction();
@@ -429,25 +516,23 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
         String content = "";
         //Para mostrar el contenido de una versión temporal
         String tmpPath = request.getParameter("tmpPath");
-        VersionInfo vio = null;
-
-        vio = findVersion(versionNumber);
+        VersionInfo vio = findVersion(versionNumber);
         fileName = vio.getVersionFile();
 
-        pathToRead.append(resource.getWorkPath() + "/");
+        pathToRead.append(resource.getWorkPath()).append("/");
         //siguiente linea tenía "work/" en lugar de "SWBPortal.getWebWorkPath()"
         String webWorkpath = SWBPortal.getWebWorkPath();
-        pathToWrite.append(webWorkpath + resource.getWorkPath() + "/");
+        pathToWrite.append(webWorkpath).append(resource.getWorkPath()).append("/");
 
         if (action.equalsIgnoreCase(SWBParamRequest.Action_EDIT)
                 && versionNumber == 0 && tmpPath == null) {
             action = SWBParamRequest.Action_ADD;
         }
 
-        pathToRead.append(versionNumber + "/");
+        pathToRead.append(versionNumber).append("/");
         pathToRead.append(fileName);
         //comentar siguientes 2 lineas
-        pathToWrite.append("" + (versionNumber) + "/");
+        pathToWrite.append(String.valueOf(versionNumber)).append("/");
         request.setAttribute("directory", pathToWrite.toString());
 
         if (action.equals(SWBParamRequest.Action_EDIT)) {
@@ -465,7 +550,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
                             SWBPortal.getFileFromWorkPath(tmpPath + "index.html"));
                 }
             } catch (Exception e) {
-                content = "Error al leer el archivo";
+                content = paramRequest.getLocaleString("msgFileReadError");
                 log.error("Error al leer el archivo del HTMLContent - Id: " + resource.getId(), e);
             }
         }
@@ -475,11 +560,9 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             request.setAttribute("fileContent", content);
             request.setAttribute("paramRequest", paramRequest);
             request.setAttribute("numversion", versionNumber);
-            RequestDispatcher rd = request.getRequestDispatcher(
-                    "/swbadmin/jsp/HtmlContentSemAdmin.jsp");
+            RequestDispatcher rd = request.getRequestDispatcher("/swbadmin/jsp/HtmlContentSemAdmin.jsp");
             rd.include(request, response);
         } catch (Exception e) {
-            e.printStackTrace();
             log.debug(e);
         }
     }
@@ -504,6 +587,8 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             uploadNewVersion(request, response, paramRequest);
         } else if (paramRequest.getMode().equals("selectFileInterface")) {
             selectFileInterface(request, response, paramRequest);
+        } else if (MOD_UPLOADFILE.equals(paramRequest.getMode())) {
+            doUploadFiles(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -530,14 +615,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
         String contentPath = resource.getWorkPath() + "/";
         String textToSave = request.getParameter("EditorDefault");
         boolean deleteTmp = (request.getParameter("operation") != null
-                             && !"".equals(request.getParameter("operation")))
-                            ? true : false;
-        
-//        System.out.println("suri:"+request.getParameter("suri"));
-//        System.out.println("resource:"+resource);
-//        System.out.println("textToSave:"+textToSave);
-//        System.out.println("deleteTmp:"+deleteTmp);
-        
+                && !"".equals(request.getParameter("operation")));
         String filename = null;
         boolean textSaved = false;
         int versionNumber = Integer.parseInt(request.getParameter("numversion"));
@@ -604,7 +682,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
                             fileName = fileName.substring(ls + 1);
                         }
                         //Solo copia archivos de versiones anteriores
-                        if (s.indexOf(resource.getWorkPath() + "/" + versionNumber) == -1) {
+                        if (!s.contains(resource.getWorkPath() + "/" + versionNumber)) {
                             SWBUtils.IO.copy(s, directoryToCreate + "/" + fileName, false, "", "");
                         }
                     } catch (Exception e) {
@@ -645,9 +723,9 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
         SWBPortal.getServiceMgr().updateTraceable(resource.getSemanticObject(), paramRequest.getUser());
         
         if (textSaved) {
-            message = "El contenido ha sido guardado exit&oacute;samente";
+            message = paramRequest.getLocaleString("msgContentSaved");
         } else {
-            message = "Se produjo un error al almacenar la información, intente de nuevo.";
+            message = paramRequest.getLocaleString("msgContentSaveFailed");
         }
         request.setAttribute("message", message);
         request.setAttribute("numversion", versionNumber);
@@ -673,7 +751,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
         WBFileUpload fUpload = new WBFileUpload();
         fUpload.getFiles(request);
         SWBResourceURL url = paramRequest.getRenderUrl();
-        url.setCallMethod(url.Call_DIRECT);
+        url.setCallMethod(SWBResourceURL.Call_DIRECT);
         url.setMode("edit");
         Resource resource = paramRequest.getResourceBase();
         //String fileContent = null;
@@ -722,7 +800,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             filename = filename.substring(i + 1);
         }
         //Obtiene la extension del archivo cargado
-        if (filename.indexOf(".") != -1) {
+        if (filename.contains(".")) {
             extension = filename.substring(filename.lastIndexOf("."));
         }
 
@@ -732,10 +810,10 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             String[] filesAttached = strAttaches.split(";");
 
             //Almacena la ruta relativa (de la máquina cliente) de los archivos relacionados al html.
-            if (filesAttached.length > 0 && filesAttached[0].indexOf("/") != -1) {
+            if (filesAttached.length > 0 && filesAttached[0].contains("/")) {
                 localRelativePath = filesAttached[0].substring(0,
                         filesAttached[0].lastIndexOf("/"));
-            } else if (filesAttached.length > 0 && filesAttached[0].indexOf("/") == -1) {
+            } else if (filesAttached.length > 0 && !filesAttached[0].contains("/")) {
                 localRelativePath = "";
             }
             file = new File(portletWorkPath + HTMLContent.FOLDER);
@@ -774,7 +852,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             bs.append("\n      for (var i = 0; i < top.frames.length; i++) {");
             bs.append("\n          var forma = top.frames[i].document.getElementById('newFileForm'); ");
             bs.append("\n          if (forma != undefined) {");
-            bs.append("\n              top.frames[i].closeAndReload(window.parent,\"" + localRelativePath + "\");");
+            bs.append("\n              top.frames[i].closeAndReload(window.parent,\"").append(localRelativePath).append("\");");
             bs.append("\n          }");
             bs.append("\n      }");
             bs.append("\n  }");
@@ -792,17 +870,17 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             bs.append("\n</head>");
             bs.append("\n");
             bs.append("\n<body>");
-            bs.append("\n  <APPLET WIDTH=\"100%\" HEIGHT=\"100%\" CODE=\"applets.dragdrop.DragDrop.class\" codebase=\""
-                    + SWBPlatform.getContextPath()
-                    + "/\" archive=\"swbadmin/lib/SWBAplDragDrop.jar, swbadmin/lib/SWBAplCommons.jar\" border=\"0\">");
-            bs.append("\n  <PARAM NAME=\"webpath\" VALUE=\"" + SWBPlatform.getContextPath() + "/\">");
+            bs.append("\n  <APPLET WIDTH=\"100%\" HEIGHT=\"100%\" CODE=\"applets.dragdrop.DragDrop.class\" codebase=\"")
+                    .append(SWBPlatform.getContextPath())
+                    .append("/\" archive=\"swbadmin/lib/SWBAplDragDrop.jar, swbadmin/lib/SWBAplCommons.jar\" border=\"0\">");
+            bs.append("\n  <PARAM NAME=\"webpath\" VALUE=\"").append(SWBPlatform.getContextPath()).append("/\">");
             bs.append("\n  <PARAM NAME=\"foreground\" VALUE=\"000000\">");
             bs.append("\n  <PARAM NAME=\"background\" VALUE=\"979FC3\">");
             bs.append("\n  <PARAM NAME=\"foregroundSelection\" VALUE=\"ffffff\">");
             bs.append("\n  <PARAM NAME=\"backgroundSelection\" VALUE=\"666699\">");
-            bs.append("\n  <PARAM NAME=\"path\" value=\"" + portletWorkPath + HTMLContent.FOLDER + "/" + "\">");
-            bs.append("\n  <PARAM NAME=\"clientpath\" value=\"" + clientFilePath + "\">");
-            bs.append("\n  <PARAM NAME=\"files\" value=\"" + strAttaches + "\">");
+            bs.append("\n  <PARAM NAME=\"path\" value=\"").append(portletWorkPath).append(HTMLContent.FOLDER).append("/").append("\">");
+            bs.append("\n  <PARAM NAME=\"clientpath\" value=\"").append(clientFilePath).append("\">");
+            bs.append("\n  <PARAM NAME=\"files\" value=\"").append(strAttaches).append("\">");
             bs.append("\n  </APPLET>");
             bs.append("\n</body>");
             bs.append("\n</html>");
@@ -891,7 +969,9 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             //Se escribe el nuevo contenido del archivo index.html en la carpeta tmp
             try {
                 PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(filePath)));
-                out.print(contentRead.toString());
+                if (null != contentRead) {
+                    out.print(contentRead.toString());
+                }
                 out.flush();
                 out.close();
                 out = null;
@@ -902,182 +982,31 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
     }
 
     /**
-     * Muestra la interfaz para que el usuario seleccione un archivo de la m&aacute;quina
-     * cliente y lo env&iacute;e al servidor.
+     * Muestra un explorador de archivosal insertar elementos mediante el editor HTML.
      * 
      * @param request the request
      * @param response the response
      * @param paramRequest the param request
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    private void selectFileInterface(HttpServletRequest request,
-            HttpServletResponse response, SWBParamRequest paramRequest)
-            throws IOException {
-
-        response.setContentType("text/html;charset=ISO-8859-1");
-        StringBuilder output = new StringBuilder(512);
-        SWBResourceURL url = paramRequest.getRenderUrl();
-        url.setCallMethod(url.Call_DIRECT);
-        url.setMode("uploadNewVersion");
-        String actualcontext = (!"".equals(SWBPlatform.getContextPath())
-                               ? SWBPlatform.getContextPath()
-                               : "");
-        int numversion = 0;
+    private void selectFileInterface(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws IOException {
+        String actualcontext = (!"".equals(SWBPlatform.getContextPath()) ? SWBPlatform.getContextPath() : "");
+        String version = (request.getParameter("numversion") != null && !"".equals(request.getParameter("numversion"))) ? request.getParameter("numversion") : "1";
+        String jsp = actualcontext + "/swbadmin/jsp/HTMLContentUploadDialog.jsp";
+        String fileType = request.getParameter("type");
+        if (null == fileType) fileType = "";
+        
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        ArrayList types = HTMLContentUtils.getFileTypes(fileType);
+        
         try {
-            numversion = Integer.parseInt(request.getParameter("numversion"));
-        } catch (NumberFormatException nfe) {
-            log.debug("Se recibio parametro no numerico", nfe);
+            response.setContentType("text/html;charset=ISO-8859-1");//Forced because of encoding problems
+            request.setAttribute("paramRequest", paramRequest);
+            request.setAttribute(ATTR_FILES, getFileList(request, version, types));
+            rd.include(request, response);
+        } catch (Exception ex) {
+            log.error(ex);
         }
-
-        output.append("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">");
-        output.append("\n<html xmlns=\"http://www.w3.org/1999/xhtml\">");
-        output.append("\n<head>");
-        output.append("\n	<title>Upload Main File</title>");
-        output.append("\n	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />");
-        output.append("\n       <META HTTP-EQUIV=\"X-UA-Compatible\" CONTENT=\"IE=EmulateIE7\" />");
-        output.append("\n	<meta name=\"robots\" content=\"noindex, nofollow\" />");
-        output.append("\n	<script src=\"" + actualcontext
-                + "/swbadmin/js/fckeditor/editor/dialog/common/fck_dialog_common.js\" type=\"text/javascript\"></script>");
-        output.append("\n	<script type=\"text/javascript\">");
-        output.append("\n	  var dialog = window.parent ;");
-        output.append("\n	  var oEditor = dialog.InnerDialogLoaded() ;");
-        output.append("\n	  var FCK = oEditor.FCK ;");
-        output.append("\n	  var FCKBrowserInfo = oEditor.FCKBrowserInfo ;");
-        output.append("\n	  var FCKTools = oEditor.FCKTools ;");
-        output.append("\n	  var FCKRegexLib = oEditor.FCKRegexLib ;");
-        output.append("\n	  var FCKLang = oEditor.FCKLang ;");
-        output.append("\n	  var FCKConfig = oEditor.FCKConfig ;");
-        output.append("\n	  var FCKDebug = oEditor.FCKDebug ;");
-        output.append("\n	  var oDOM = FCK.EditorDocument ;");
-        output.append("\n	  document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;");
-        output.append("\n	  //#### Regular Expressions library.");
-        output.append("\n	  var oRegex = new Object() ;");
-        output.append("\n	  oRegex.UriProtocol = /^(((http|https|ftp|news):\\/\\/)|mailto:)/gi ;");
-        output.append("\n	  oRegex.UrlOnChangeProtocol = /^(http|https|ftp|news):\\/\\/(?=.)/gi ;");
-        output.append("\n	  oRegex.UrlOnChangeTestOther = /^((javascript:)|[#\\/\\.])/gi ;");
-        output.append("\n	  oRegex.ReserveTarget = /^_(blank|self|top|parent)$/i ;");
-        output.append("\n	  var oParser = new Object() ;");
-        output.append("\n// This method simply returns the two inputs in numerical order. You can even");
-        output.append("\n// provide strings, as the method would parseInt() the values.");
-        output.append("\n	  oParser.SortNumerical = function(a, b) {");
-        output.append("\n	    return parseInt( a, 10 ) - parseInt( b, 10 ) ;");
-        output.append("\n	  }");
-        output.append("\n	window.onload = function() {");
-        output.append("\n	// First of all, translate the dialog box texts");
-        output.append("\n	oEditor.FCKLanguageManager.TranslatePage(document) ;");
-        output.append("\n	// Show/Hide the \"Browse Server\" button.");
-        output.append("\n	//GetE('divBrowseServer').style.display = FCKConfig.LinkBrowser ? '' : 'none' ;");
-        output.append("\n	// Show the initial dialog content.");
-        output.append("\n	GetE('divUpload').style.display = '' ;");
-        output.append("\n	// Activate the \"OK\" button.");
-        output.append("\n	dialog.SetOkButton( true ) ;");
-        output.append("\n       window.parent.SetAutoSize( true ) ;");
-        output.append("\n}");
-        output.append("\n//#### The OK button was hit.");
-        output.append("\nfunction Ok() {");
-        output.append("\n	sUri = GetE('txtUploadFile').value ;");
-        output.append("\n	if ( sUri.length == 0 ) {");
-        output.append("\n	    alert( FCKLang.DlnLnkMsgNoUrl ) ;");
-        output.append("\n	    return false ;");
-        output.append("\n	}");
-        output.append("\n       return true;");
-        output.append("\n}");
-        output.append("\nfunction BrowseServer() {");
-        output.append("\n	OpenFileBrowser( FCKConfig.LinkBrowserURL, FCKConfig.LinkBrowserWindowWidth, FCKConfig.LinkBrowserWindowHeight ) ;");
-        output.append("\n}");
-        output.append("\nfunction OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg ) {");
-        output.append("\n	// Remove animation");
-        output.append("\n	window.parent.Throbber.Hide() ;");
-        output.append("\n	GetE( 'divUpload' ).style.display  = '' ;");
-        output.append("\n	switch ( errorNumber ) {");
-        output.append("\n		case 0 :	// No errors");
-        output.append("\n			alert( 'Your file has been successfully uploaded' ) ;");
-        output.append("\n			break ;");
-        output.append("\n		case 1 :	// Custom error");
-        output.append("\n			alert( customMsg ) ;");
-        output.append("\n			return ;");
-        output.append("\n		case 101 :	// Custom warning");
-        output.append("\n			alert( customMsg ) ;");
-        output.append("\n			break ;");
-        output.append("\n		case 201 :");
-        output.append("\n			alert( 'A file with the same name is already available. The uploaded file has been renamed to \"' + fileName + '\"' ) ;");
-        output.append("\n			break ;");
-        output.append("\n		case 202 :");
-        output.append("\n			alert( 'Invalid file type' ) ;");
-        output.append("\n			return ;");
-        output.append("\n		case 203 :");
-        output.append("\n			alert( \"Security error. You probably don't have enough permissions to upload. Please check your server.\" ) ;");
-        output.append("\n			return ;");
-        output.append("\n		case 500 :");
-        output.append("\n			alert( 'The connector is disabled' ) ;");
-        output.append("\n			break ;");
-        output.append("\n		default :");
-        output.append("\n			alert( 'Error on file upload. Error number: ' + errorNumber ) ;");
-        output.append("\n			return ;");
-        output.append("\n	}");
-        output.append("\n	GetE('frmUpload').reset() ;");
-        output.append("\n}");
-        output.append("\nvar oUploadAllowedExtRegex	= new RegExp( FCKConfig.LinkUploadAllowedExtensions, 'i' ) ;");
-        output.append("\nvar oUploadDeniedExtRegex	= new RegExp( FCKConfig.LinkUploadDeniedExtensions, 'i' ) ;");
-        output.append("\nfunction CheckUpload() {");
-        output.append("\n	var sFile = GetE('txtUploadFile').value ;");
-        output.append("\n	if ( sFile.length == 0 ) {");
-        output.append("\n		alert( 'Please select a file to upload' ) ;");
-        output.append("\n		return false ;");
-        output.append("\n	}");
-        output.append("\n	if ( ( FCKConfig.LinkUploadAllowedExtensions.length > 0 && !oUploadAllowedExtRegex.test( sFile ) ) ||");
-        output.append("\n		( FCKConfig.LinkUploadDeniedExtensions.length > 0 && oUploadDeniedExtRegex.test( sFile ) ) ) {");
-        output.append("\n                Cancel();");
-        output.append("\n		return false ;");
-        output.append("\n	}");
-        output.append("\n	// Show animation");
-        output.append("\n	window.parent.Throbber.Show( 100 ) ;");
-        output.append("\n	GetE( 'divUpload' ).style.display  = 'none' ;");
-        output.append("\n	return true ;");
-        output.append("\n}");
-        output.append("\n        function fillHiddenPath(sibling) { ");
-        output.append("\n          var localName = document.frmUpload.NewFile.value; ");
-        output.append("\n          if (localName.indexOf('fakepath') > 1) { ");
-        output.append("\n              localName = sibling.previousSibling.value; ");
-        output.append("\n          } ");
-//        output.append("\n          alert('Archivo seleccionado: ' + localName + ' por Id: ' + document.getElementById('txtUploadFile').value);  ");
-        output.append("\n          document.frmUpload.hiddenPath.value = localName.substring(0, localName.lastIndexOf(\"\\\\\") + 1);");
-//        output.append("\n          alert('Ruta local: ' + document.frmUpload.hiddenPath.value);  ");
-        output.append("\n        } ");
-        output.append("\n    function isOk() {");
-        output.append("\n	     if  (Ok()) {");
-        output.append("\n	         var ext = document.frmUpload.NewFile.value.substring(document.frmUpload.NewFile.value.lastIndexOf('.'), document.frmUpload.NewFile.value.length);");
-        output.append("\n	         if (ext == '.htm' || ext == '.html') {");
-        output.append("\n	             document.frmUpload.submit();");
-        output.append("\n	         } else { ");
-        output.append("\n	             alert('¡Solo puede seleccionar archivos con extensión .htm o .html!');");
-        output.append("\n	         }");
-        output.append("\n	     }");
-        output.append("\n    }");
-        output.append("\n	</script>");
-        output.append("\n</head>");
-        output.append("\n<body scroll=\"no\" style=\"overflow: hidden\">");
-        output.append("\n    <div id=\"divUpload\" style=\"display: none\">");
-        output.append("\n        <form id=\"frmUpload\" name=\"frmUpload\" method=\"post\" enctype=\"multipart/form-data\" onsubmit=\"Ok();\" ");
-        output.append("\n            action=\"" + url.toString() + "\">");
-        output.append("\n            <span fcklang=\"DlgLnkUpload\">Upload</span><br />");
-        output.append("\n            <input id=\"txtUploadFile\" style=\"width: 100%\" type=\"file\" size=\"40\" name=\"NewFile\" onchange=\"fillHiddenPath(this.nextSibling);\" /><br />");
-        output.append("\n            <input id=\"hiddenPath\" type=\"hidden\" name=\"hiddenPath\" />");
-        output.append("\n            <input id=\"hiddennumversion\" type=\"hidden\" name=\"numversion\" value=\"" + numversion + "\" />");
-        output.append("\n            <br />");
-        output.append("\n            <input id=\"btnUpload\" type=\"button\" value=\"Send it to the Server\" fcklang=\"DlgLnkBtnUpload\" onclick=\"isOk();\"/>");
-        output.append("\n        </form>");
-        output.append("\n    </div>");
-        output.append("\n    <div>");
-        output.append("\n        Se recomienda que todos los archivos asociados al que se va a cargar, se encuentren almacenados en la misma carpeta.");
-        output.append("\n        Adem&aacute;s de que los nombres y rutas de todos los archivos no contengan espacios en blanco.");
-        output.append("\n    </div>");
-        output.append("\n</body>");
-        output.append("\n</html>");
-        output.append("\n");
-
-        response.getWriter().println(output.toString());
-
     }
 
     /**
@@ -1113,7 +1042,7 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
             boolean add=true;
             if(role!=null && !user.hasRole(user.getUserRepository().getRole(role)))add=false;
             if(usergroup!=null && !user.hasRole(user.getUserRepository().getRole(role)))add=false;
-            if(add)return new String[]{paramRequest.Mode_VIEW,paramRequest.Mode_EDIT};
+            if(add)return new String[]{SWBParamRequest.Mode_VIEW,SWBParamRequest.Mode_EDIT};
         }
         return super.getModes(request, paramRequest);
     }
@@ -1137,5 +1066,179 @@ public class HTMLContent extends org.semanticwb.portal.resources.sem.base.HTMLCo
         }
         return super.windowSupport(request, paramRequest);
     }
+    
+    /**
+     * Obtiene la lista de archivos relacionados a una versión del contenido.
+     * @param hsr The HttpServletRequest object
+     * @param version Cadena de versión del contenido.
+     * @param allowedTypes Arreglo de cadenas con las extensiones a considerar en el listado.
+     * @return Mapa con la lista de archivos de la versión del contenido y su tamaño.
+     */
+    public Map<String, Long> getFileList(HttpServletRequest hsr, String version, ArrayList<String> allowedTypes) {
+        Map<String, Long> files = new TreeMap<String, Long>();
+        Resource base = getResourceBase();
+        String resPath = SWBPlatform.getContextPath()+SWBPortal.getWorkPath()+base.getWorkPath()+"/"+version+"/images/";
+        
+        if (HTMLContentUtils.isEnabledForFileBrowsing(hsr)) {
+            final File resourcePath = new File(resPath);
+            if (resourcePath.exists() && resourcePath.isDirectory()) {
+                for (final File fileEntry : resourcePath.listFiles(new ExtFilter(allowedTypes))) {
+                    files.put(fileEntry.getName(), fileEntry.length());
+                }
+            }
+        }
+        return files;
+    }
+    
+    /**
+     * Filtro para el listado de archivos en la vista de navegación.
+     * Por defecto omite subdirectorios pues no es necesario listarlos en el contexto del componente.
+     */
+    private class ExtFilter implements FileFilter {
+        private ArrayList<String> types = new ArrayList<String>();
+        private boolean showHidden = false;
+        
+        /**
+         * Constructor por defecto. 
+         * Crea una instancia de {@code ExtFileFilter}.
+         * No debe ser usado pues no listará ningún archivo.
+         */
+        public ExtFilter () {}
+        
+        /**
+         * Constructor.
+         * Crea una instancia de {@code ExtFileFilter} con la lista de extensiones válidas en el listado.
+         * @param allowedTypes ArrayList con las extensiones a considerar en el listado.
+         */
+        public ExtFilter(ArrayList<String> allowedTypes) {
+            types = allowedTypes;
+        }
+        
+        /**
+         * Constructor.
+         * Crea una instancia de {@code ExtFileFilter} con la lista de extensiones válidas en el listado.
+         * @param allowedTypes ArrayList con las extensiones a considerar en el listado.
+         * @param showHiddenFiles Indica si se deben mostrar los archivos marcados como ocultos.
+         */
+        public ExtFilter(ArrayList<String> allowedTypes, boolean showHiddenFiles) {
+            showHidden = showHiddenFiles;
+            types = allowedTypes;
+        }
+        
+        @Override
+        public boolean accept(File pathname) {
+            if (pathname.isDirectory()) return false;
+            if (!showHidden && pathname.isHidden()) return false;
+            
+            String path = pathname.getAbsolutePath().toLowerCase();
+            for (int i = 0, n = types.size(); i < n; i++) {
+              String extension = types.get(i);
+              if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
+                return true;
+              }
+            }
+            return false;
+        }
+        
+        /**
+         * Establece las extensiones válidas para el listado.
+         * @param allowedTypes Array de cadenas con las extensiones válidas.
+         */
+        public void setAllowedTypes(String []allowedTypes) {
+            if (null != allowedTypes && allowedTypes.length > 0) {
+                types.addAll(Arrays.asList(allowedTypes));
+            }
+        }
+        
+        /**
+         * Obtiene la lista de extensiones válidas para el listado.
+         * @return Arreglo con las extensiones válidas.
+         */
+        public String[] getAllowedTypes () {
+            return types.toArray(new String[types.size()]);
+        }
+    }
+    
+    public static class HTMLContentUtils {
+        /**
+         * Valida si el usuario en sesión tiene permisos suficientes para subir archivos mediante el explorador del widget.
+         * @param hsr The request.
+         * @return true si el usuario tiene permisos para subir archivos, false en otro caso.
+         */
+        public static boolean isEnabledForFileUpload(HttpServletRequest hsr) {
+            WebSite site = SWBContext.getAdminWebSite();
+            User user = SWBPortal.getUserMgr().getUser(hsr, site);
+            SWBContext.setSessionUser(user);
+            return user.haveAccess(site.getHomePage());
+        }
 
+        /**
+         * Valida si el usuario en sesión tiene permisos suficientes para navegar por la estructura de archivos mediante el explorador del widget.
+         * @param hsr The request.
+         * @return true si el usuario tiene permisos para navegar por la estructura de archivos, false en otro caso.
+         */
+        public static boolean isEnabledForFileBrowsing(HttpServletRequest hsr) {
+            WebSite site = SWBContext.getAdminWebSite();
+            User user = SWBPortal.getUserMgr().getUser(hsr, site);
+            SWBContext.setSessionUser(user);
+            return user.haveAccess(site.getHomePage());
+        }
+        
+        /**
+         * Elimina caracteres especiales del nombre del archivo para evitar conflicto con rutas directas.
+         * @param fileName Nombre original del archivo.
+         * @return Nombre de archivo sanitizado, sin caracteres especiales.
+         */
+        public static String sanitizeFileName(String fileName) {
+            String ret = fileName;
+            
+            if (ret.lastIndexOf(".") > -1) {
+                String tfname = ret.substring(0, ret.lastIndexOf("."));
+                String tfext = ret.substring(ret.lastIndexOf("."), ret.length());
+                ret = SWBUtils.TEXT.replaceSpecialCharactersForFile(tfname, ' ', true) + tfext;
+            } else {
+                ret = SWBUtils.TEXT.replaceSpecialCharactersForFile(ret, ' ', true);
+            }
+            return ret;
+        }
+        
+        /**
+         * Verifica si un archivo cuenta con la extensión determinada en una lista de exensiones válidas.
+         * @param fileName Nombre de archivo a comprobar.
+         * @param types Lista de extensiones permitidas.
+         * @return true si el archivo contiene alguna de las extensiones permitidas, false en otro caso.
+         */
+        public static boolean isValidFileType(String fileName, ArrayList<String> types) {
+            String path = fileName.toLowerCase();
+            for (int i = 0, n = types.size(); i < n; i++) {
+                String extension = types.get(i);
+                if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        
+        /**
+         * Obtiene la lista de extensiones dependiendo del filtro seleccionado.
+         * @param typeFilter Alguno entre image|document|flash|zip|all 
+         * @return Lista de extensiones filtradas por tipo.
+         */
+        public static ArrayList<String> getFileTypes(String typeFilter) {
+            ArrayList types = new ArrayList<String>();
+            if (TYPE_ALL.equals(typeFilter) || TYPE_FLASH.equals(typeFilter)) {
+                types.addAll(Arrays.asList(swfType));
+            }
+            if (TYPE_ALL.equals(typeFilter) || TYPE_DOCS.equals(typeFilter)) {
+                types.addAll(Arrays.asList(docTypes));
+            }
+            if (TYPE_ALL.equals(typeFilter) || TYPE_IMAGES.equals(typeFilter)) {
+                types.addAll(Arrays.asList(imgTypes));
+            }
+            if (TYPE_ALL.equals(typeFilter) || TYPE_ZIP.equals(typeFilter)) {
+                types.addAll(Arrays.asList(zipTypes));
+            }
+            return types;
+        }
+    }
 }
