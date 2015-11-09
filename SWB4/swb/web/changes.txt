@@ -1,4 +1,6 @@
   4.5.10.x 
+    - Validacion en cierre de coneciones en iterador de ADMLOGS
+    - Validación de borrado de friendly URL en cache (Jei)
     - Actualizado componente HTMLContent para usar nueva versión de CKEditor y mejorar soporte en navegadores (Ebe)
   4.5.10.1 01/06/15
     - Soporte de filtros de administraci-on para categorias de collecciones de recursos
