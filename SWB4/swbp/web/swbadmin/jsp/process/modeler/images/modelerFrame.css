@@ -1423,7 +1423,7 @@ ul.breadcrumbs.alt1 li.last a{
     background: url(doc_anota2.png) top center no-repeat;
 }
 
-.group {
+._group {
     background: url(doc_grupo1.png) top center no-repeat;
     position: relative;
     float: left;
@@ -1431,7 +1431,7 @@ ul.breadcrumbs.alt1 li.last a{
     width:37px;
 }
 
-.group:hover {
+._group:hover {
     background: url(doc_grupo2.png) top center no-repeat;
 }
 
