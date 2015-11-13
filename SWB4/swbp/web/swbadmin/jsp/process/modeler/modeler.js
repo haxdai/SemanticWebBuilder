@@ -3476,7 +3476,7 @@ var _GraphicalElement = function(obj) {
             };
             
             obj.remove=function(all) {
-                ToolKit.svg.removeChild(obj.subLine);
+                obj.subLine && ToolKit.svg.removeChild(obj.subLine);
                 fRemove(all);
                 obj.subLine=null;
             };
