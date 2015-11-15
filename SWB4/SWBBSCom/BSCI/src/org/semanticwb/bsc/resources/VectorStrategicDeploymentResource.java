@@ -27,6 +27,7 @@ import org.semanticwb.bsc.Detailed;
 import org.semanticwb.bsc.Theme;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.element.Objective;
+import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
@@ -102,7 +103,7 @@ public class VectorStrategicDeploymentResource extends GenericResource {
                 out.println(" title=\""+paramRequest.getLocaleString("msgViewDetails")+"\"");
                 out.println(" class=\"list-group-item\">");
                 out.println("<h4 class=\"list-group-item-heading\">");
-                out.println("<span class=\""+content.getIcon()+"\"></span>");
+                out.println("<span class=\""+content.getIcon()+"\">&nbsp;&nbsp;&nbsp;&nbsp;</span>");
                 out.println("<span class=\"small\">"+content.getStatus()+".</span>&nbsp;");
                 out.println(content.getPrefix()+" - "+content.getTitle());
                 out.println("</h4>");
@@ -125,6 +126,7 @@ public class VectorStrategicDeploymentResource extends GenericResource {
         NamedNodeMap attrs;
         SemanticOntology ont;
         SemanticObject semObj;
+        GenericObject genObj;
         String expression, url;
         Content content;
         
@@ -137,7 +139,11 @@ public class VectorStrategicDeploymentResource extends GenericResource {
                 attrs = node.getAttributes();
                 url = urlObjectivePage+"?suri="+attrs.getNamedItem("href").getNodeValue();
                 semObj = ont.getSemanticObject(attrs.getNamedItem("id").getNodeValue());
-                obj = (Objective)semObj.getGenericInstance();
+                genObj = semObj.getGenericInstance();
+                if(!(genObj instanceof Objective)) {
+                    continue;
+                }
+                obj = (Objective)genObj;
                 if(!obj.hasPeriod(period)) {
                     continue;
                 }
