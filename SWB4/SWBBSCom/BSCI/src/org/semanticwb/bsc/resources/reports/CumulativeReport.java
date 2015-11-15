@@ -2,11 +2,16 @@ package org.semanticwb.bsc.resources.reports;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.Resource;
@@ -59,96 +64,69 @@ public class CumulativeReport extends GenericResource implements ComponentExport
         BSC bsc = (BSC)getResourceBase().getWebSite();
         final String lang;
         lang = paramRequest.getUser().getLanguage();
-        StringBuilder html;
-        html = new StringBuilder();
+        final Locale locale;
+        locale = new Locale(lang);
         
+        StringBuilder html;
+        html = new StringBuilder();        
         html.append("<script>\n");
         html.append("require([\"dojo/parser\", \"dijit/form/Form\", \"dijit/form/ValidationTextBox\"\n"
                 +", \"dijit/form/FilteringSelect\", \"dijit/form/CheckBox\", \"dijit/form/Button\"]);\n");
-
-
-//html.append("  var chart;\n");
-//html.append("nv.addGraph(function() {\n");
-//html.append("  chart = nv.models.multiBarHorizontalChart();\n");
-//html.append("  chart.x(function(d) { return d.label });\n");
-//html.append("  chart.y(function(d) { return d.value });\n");
-//html.append("  chart.margin({top:10, right:20, bottom:40, left:120});\n");
-//html.append("  chart.transitionDuration(500);\n");
-//html.append("  chart.stacked(true);\n");
-//html.append("  chart.showLegend(true);");
-//html.append("  chart.showControls(true);\n");   /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
-//html.append("  chart.xAxis");
-////html.append("    .axisLabel('Períodos de mediciones')");
-//html.append("    .axisLabelDistance(35)");
-//html.append("    .showMaxMin(true);\n");
-//html.append("  chart.yAxis");
-////html.append("    .axisLabel('Pesos mexicanos')");
-////html.append("    .axisLabelDistance(20)");
-//html.append("    .tickFormat(d3.format(',.2f'))");
-//html.append("    .showMaxMin(true);\n");
-//html.append("  nv.utils.windowResize(chart.update);\n");
-//html.append("  return chart;\n");
-//html.append("});\n");
-//°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°°//
-//html.append("  var chart2;\n");
-//html.append("nv.addGraph(function() {\n");
-//html.append("  chart2 = nv.models.multiBarChart()\n");
-//html.append("    .x(function(d) { return d.label })\n");
-//html.append("    .y(function(d) { return d.value })\n");
-//html.append("    .margin({top: 10");
-//html.append(", right: 20");
-//html.append(", bottom: 110");
-//html.append(", left: 125");
-//html.append(" })\n");
-//html.append("    .transitionDuration(350)\n");
-//html.append("    .reduceXTicks(false)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
-//html.append("    .rotateLabels(-80)\n");
-////html.append("    .staggerLabels(true)\n"); /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
-//html.append("    .showControls(true)\n");    /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
-//html.append("    .groupSpacing(0.1);\n");    /*Distance between each group of bars.*/
-//html.append("  chart2.xAxis\n");
-////html.append("      .axisLabel('Períodos de mediciones')\n");
-//html.append("      .showMaxMin(false)\n");
-//html.append("      .axisLabelDistance(35);\n");
-//html.append("  chart2.yAxis\n");
-////html.append("    .axisLabel('Pesos mexicanos')\n");
-//html.append("      .tickFormat(d3.format(',.2f'));\n");
-//html.append("  nv.utils.windowResize(chart2.update);\n");
-//html.append("  return chart2;\n");
-//html.append("});\n");
         
         html.append("  function showGraph(dato) {\n");
         html.append("    d3.select('#"+SVG_ID+"').selectAll(\"*\").remove();\n");
-        html.append("    for(var i=0; i<dato.length; i++) {");
+//html.append("    alert('json.'+JSON.stringify(dato));\n");
+        html.append("    \n");
+        html.append("    \n");
+        html.append("    for(var i=0; i<dato.indicators.length; i++) {");
         html.append("      var chart = nv.models.multiBarChart();\n");
-html.append("      chart.height(400);\n");
         html.append("      chart.x(function(d) { return d.label });\n");
         html.append("      chart.y(function(d) { return d.value });\n");
         //html.append("      chart.width(500);\n");
         //html.append("      chart.height(500);\n");
-        html.append("      chart.margin({top:5, right:60, bottom:170, left:150});\n");
-        html.append("      chart.transitionDuration(500);\n");
+        html.append("      chart.margin({top:5, right:60, bottom:170, left:110});\n");
         html.append("      chart.rotateLabels(45);\n");
+        html.append("      chart.showControls(true);\n");
         html.append("      chart.groupSpacing(0.1);\n");
+        html.append("      chart.transitionDuration(500);\n");
         html.append("      chart.reduceXTicks(false);\n");
         html.append("      chart.staggerLabels(true);\n");
         html.append("      chart.stacked(true);\n");
         html.append("      chart.showLegend(true);\n");
         html.append("      chart.tooltips(true);\n");
-        html.append("      chart.showControls(true);\n");
-html.append("      chart.showLegend(true);\n");
-        //html.append("  chart.xAxis.axisLabel('Períodos de mediciones');\n");
-        //html.append("  chart.xAxis.axisLabelDistance(35);\n");
-        //html.append("  chart.xAxis.showMaxMin(true);\n");
-        //html.append("  chart.yAxis.axisLabel('Pesos mexicanos')\n");
-        //html.append("  chart.yAxis.axisLabelDistance(20)\n");
+        
+        html.append("      chart.tooltipContent(function (key, y, e, graph) {\n");
+        html.append("            var content = '<p style=\"text-align: center; font-size: 1.2em;"
+                + " font-weight: bolder;\">';\n");
+        html.append("            content += key + '</p><p style=\"text-align: center;"
+                + " font-size: 1.2em; font-weight: normal;\">' + e + \" "+paramRequest.getLocaleString("lblIn")
+                +" \" + y + '</p>';\n");
+        html.append("            return content;\n");
+        html.append("      });\n");
+//        html.append("      chart.controlLabels({ \"stacked\": \"")
+//                .append(paramRequest.getLocaleString("lblStackedControlLabel"))
+//                .append("\",\"grouped\": \"")
+//                .append(paramRequest.getLocaleString("lblGroupedControlLabel"))
+//                .append("\" });\n");
+        html.append("      chart.showLegend(true);\n");
+//        html.append("  chart.xAxis.axisLabel('Períodos de mediciones');\n");
+//        html.append("  chart.xAxis.axisLabelDistance(35);\n");
+//        html.append("  chart.xAxis.showMaxMin(true);\n");
+//        html.append("  chart.yAxis.axisLabel('Valores')\n");
+//        html.append("  chart.yAxis.axisLabelDistance(20)\n");
         html.append("      chart.yAxis.tickFormat(d3.format(',.2f'));\n");
-        html.append("      chart.yAxis.showMaxMin(true);\n");
+//        html.append("      chart.yAxis.showMaxMin(true);\n");
 
-        html.append("      d3.select('#"+SVG_ID+"').append('div').attr('class', '__col-md-6')"
-                + ".attr('style','height:350px;').append('svg').attr('id','"+SVG_ID+"_'+i)"
+        //html.append("      d3.select('#"+SVG_ID+"').append('div').attr('class', '__col-md-6')"
+        html.append("      d3.select('#"+SVG_ID+"').append('div').attr('id','"+SVG_ID+"_cntnr_'+i)"
+                + ".attr('style','height:300px;');\n");
+        html.append("      d3.select('#"+SVG_ID+"_cntnr_'+i).append('h5').text('"
+                +paramRequest.getLocaleString("lblKPI")
+                +": '+dato.indicators[i].title+' ('+dato.indicators[i].format+')');\n");
+        html.append("      d3.select('#"+SVG_ID+"_cntnr_'+i)"
+                + ".append('svg').attr('id','"+SVG_ID+"_'+i)"
                 + ".attr('width','100%').attr('height','100%')\n");
-        html.append("          .datum(dato[i])\n");
+        html.append("          .datum(dato.indicators[i].data)\n");
         html.append("          .call(chart);\n");
         html.append("      nv.utils.windowResize(chart.update);\n");
         html.append("    }\n"); // for
@@ -226,7 +204,9 @@ html.append("      chart.showLegend(true);\n");
             html.append("\", prspid: \"");
             html.append(obj.getTheme().getPerspective().getId());
             html.append("\", usrid: \"");
-            html.append(obj.getSponsor().getId());
+            html.append(obj.getSponsor()==null
+                    ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                    : obj.getSponsor().getId());
             html.append("\"");
             html.append("}");
             html.append( objs.hasNext()?",\n":"\n" );
@@ -307,8 +287,8 @@ html.append("      chart.showLegend(true);\n");
         html.append("        class: 'form-control',\n");
         html.append("        required: true,\n");
         html.append("        promptMessage: 'Perspectiva de consulta',\n");
-        html.append("        invalidMessage: 'Perspectiva no reconocido',\n");
-        html.append("        missingMessage: 'Perspectiva es requerida',\n");
+        html.append("        invalidMessage: 'Perspectiva de consulta no reconocido',\n");
+        html.append("        missingMessage: 'Perspectiva de consulta es requerida',\n");
         html.append("        tooltipPosition:['after','above'],\n");
         html.append("        onChange: function(state) {\n");
         html.append("          dijit.byId('spr').set('value',null);");
@@ -327,8 +307,8 @@ html.append("      chart.showLegend(true);\n");
         html.append("        class: 'form-control',\n");
         html.append("        required: true,\n");
         html.append("        promptMessage: 'Período inicial de consulta',\n");
-        html.append("        invalidMessage: 'Período no reconocido',\n");
-        html.append("        missingMessage: 'Período es requerida',\n");
+        html.append("        invalidMessage: 'Período inicial de consulta no reconocido',\n");
+        html.append("        missingMessage: 'Período inicial de consulta es requerido',\n");
         html.append("        tooltipPosition:['after','above'],\n");
         html.append("        onChange: function(state) {\n");
         html.append("          dijit.byId('pfr').query.pid <= this.item.pid;");
@@ -345,8 +325,8 @@ html.append("      chart.showLegend(true);\n");
         html.append("        class: 'form-control',\n");
         html.append("        required: true,\n");
         html.append("        promptMessage: 'Período terminal de consulta',\n");
-        html.append("        invalidMessage: 'Período no reconocido',\n");
-        html.append("        missingMessage: 'Período es requerida',\n");
+        html.append("        invalidMessage: 'Período terminal de consulta no reconocido',\n");
+        html.append("        missingMessage: 'Período terminal de consulta es requerido',\n");
         html.append("        tooltipPosition:['after','above'],\n");
         html.append("        onChange: function(state) {\n");
         //html.append("          dijit.byId('pto').store.query(function(object){return object.pid > state; });");
@@ -461,7 +441,7 @@ html.append("      chart.showLegend(true);\n");
         pfrId = request.getParameter("pfr");
         ptoId = request.getParameter("pto");
 
-        StringBuilder output = new StringBuilder();
+        //StringBuilder output = new StringBuilder();
 
         BSC bsc = (BSC)paramRequest.getWebPage().getWebSite();
         if(prspId.isEmpty() || (!prspId.isEmpty() && Perspective.ClassMgr.hasPerspective(prspId, bsc)) ) {
@@ -479,99 +459,126 @@ html.append("      chart.showLegend(true);\n");
                     if(Period.ClassMgr.hasPeriod(ptoId, bsc)) {
                         Period pto = Period.ClassMgr.getPeriod(ptoId, bsc);
                         if(pto.compareTo(pfr)>=0) {
-                            //List<Indicator> indicators = obj.listValidIndicators();
+                            JSONObject objectiveData, indicatorData, seriesData, value;
+                            JSONArray indicators, serieses, values;
+                            
+                            DecimalFormat df = new DecimalFormat("#.##");
+                            
+                            objectiveData = new JSONObject();
+                            indicators = new JSONArray();
+                            try {
+                                objectiveData.put("title", obj.getDisplayTitle(lang));
+                            }catch(JSONException jsone) {
+
+                            }
+                            
                             Indicator indicator;
-                            Iterator<Indicator> indicators = obj.listValidIndicators().iterator();
-                            output.append("[\n");
-                            while(indicators.hasNext()) {
-                            //for(Indicator indicator:indicators) {
-                                indicator = indicators.next();
-List<Series> seriesLst = indicator.listValidSerieses();
-Collections.sort(seriesLst);
-Iterator<Series> serieses = seriesLst.iterator();
-if(serieses.hasNext())
-{
-    int colorIndex = -1;
-    output.append("[\n");
-    while(serieses.hasNext()) 
-    {
-        Series graphSeries = serieses.next();
-        //if(!graphSeries.getDisplayTitle(lang).toLowerCase().contains("acumula")) {
-        //    continue;
-        //}
-        
-//        Format seriesFormat = graphSeries.getFormat();
-        output.append("{");
-        //Se coloca el identificador de cada serie
-//        if(seriesFormat != null) {
-//            output.append("  key: \"");
-//            output.append(graphSeries.getDisplayTitle(lang));
-//            output.append(" en ");
-//            output.append(seriesFormat.getDisplayTitle(lang));
-//            output.append("\" ,\n");
-//        }else {
-            output.append("  key: \"");
-            output.append(graphSeries.getDisplayTitle(lang));
-            output.append("\" ,\n");
-//        }
-        colorIndex = ++colorIndex % ColorPalette.length;
-        output.append("  color: '");
-        output.append(ColorPalette[colorIndex]);
-        output.append("',\n");
-        output.append("  values: [\n");
-        
-        //Recorre los periodos y valores de la serie para graficarlos
-        Period aux;
-        List<Period> vperiods = bsc.listValidPeriods();
-        Collections.sort(vperiods);
-        try {
-            vperiods = vperiods.subList(vperiods.indexOf(pfr), vperiods.indexOf(pto));
-        }catch(Exception e) {
-        }finally{
-            vperiods.add(pto);
-        }
-        Iterator<Period> periods = vperiods.iterator();
-        while(periods.hasNext()) {
-            aux = periods.next();
-            Measure measure = graphSeries.getMeasure(aux);
-            output.append("    {");
-            output.append(" \"label\": \"");
-            output.append(aux.getDisplayTitle(lang));
-            output.append("\", ");
-            try {
-                if( !Float.isNaN(measure.getValue()) ) {
-                    output.append("\"value\": ");
-                    output.append(measure.getValue());
-                }else {
-                    output.append("\"value\": 0.0 ");
-                }
-            } catch (Exception e) {
-                output.append("\"value\": 0.0 ");
-            }
-            output.append(" }");
-            
-            if(periods.hasNext()) {
-                output.append(",");
-            }
-            output.append("\n");
-        }
-        
-        output.append("  ]\n");
-        output.append("}");
-        output.append(serieses.hasNext()?",\n":"\n");
-    }
-    output.append("]");
-    if(indicators.hasNext()) {
-        output.append(",");
-    }
-    output.append("\n");
-}
+                            Iterator<Indicator> indicatorItr = obj.listValidIndicators().iterator();
+                            while(indicatorItr.hasNext()) {
+                                indicator = indicatorItr.next();
+                                indicatorData = new JSONObject();
+                                
+                                if(indicator.getStar()==null || indicator.getStar().getFormat()==null) {
+                                    try {
+                                        indicatorData.put("format", paramRequest.getLocaleString("lblIndex"));
+                                    }catch(JSONException jsone) {
+                                    }
+                                }else {
+                                    try {
+                                        indicatorData.put("format", indicator.getStar().getFormat().getDisplayTitle(lang));
+                                    }catch(JSONException jsone) {
+                                    }
+                                }
+                                
+                                try {
+                                    indicatorData.put("title", indicator.getDisplayTitle(lang));
+                                }catch(JSONException jsone) {
+                                    continue;
+                                }
+                                
+                                List<Series> seriesLst = indicator.listValidSerieses();
+                                Collections.sort(seriesLst);
+                                Iterator<Series> seriesesItr = seriesLst.iterator();
+                                if(seriesesItr.hasNext())
+                                {
+                                    serieses = new JSONArray();
+                                    //values = new JSONArray();
+                                    int colorIndex = -1;
+                                    while(seriesesItr.hasNext()) 
+                                    {
+                                        Series graphSeries = seriesesItr.next();
+                                        seriesData = new JSONObject();
+                                        try {
+                                            seriesData.put("key", graphSeries.getDisplayTitle(lang));
+                                        }catch(JSONException jsone) {
+                                        }
+                                        
+                                        colorIndex = ++colorIndex % ColorPalette.length;
+                                        try {
+                                            seriesData.put("color", ColorPalette[colorIndex]);
+                                        }catch(JSONException jsone) {
+                                        }
+                                        
+                                        //Recorre los periodos y valores de la serie para graficarlos
+                                        Period aux;
+                                        List<Period> vperiods = bsc.listValidPeriods();
+                                        Collections.sort(vperiods);
+                                        try {
+                                            vperiods = vperiods.subList(vperiods.indexOf(pfr), vperiods.indexOf(pto));
+                                        }catch(Exception e) {
+                                        }finally{
+                                            vperiods.add(pto);
+                                        }
+                                        values = new JSONArray();
+                                        Iterator<Period> periods = vperiods.iterator();
+                                        while(periods.hasNext())
+                                        {
+                                            aux = periods.next();
+                                            Measure measure = graphSeries.getMeasure(aux);
+                                            
+                                            value = new JSONObject();
+                                            try {    
+                                                value.put("label", aux.getDisplayTitle(lang));
+                                            }catch(JSONException jsone) {
+                                            }
+                                            try
+                                            {
+                                                if( !Float.isNaN(measure.getValue()) ) {
+                                                    value.put("value", measure.getValue());
+                                                }else {
+                                                    value.put("value", 0.0);
+                                                }
+                                            }catch(JSONException jsone) {
+                                            }catch (Exception e) {
+                                                try {
+                                                    value.put("value", 0.0);
+                                                }catch(JSONException jsone) {
+                                                }
+                                            }
+                                            values.put(value);
+                                        }
+                                        try {
+                                            seriesData.put("values", values);
+                                        }catch(JSONException jsone) {
+                                            continue;
+                                        }
+                                        serieses.put(seriesData);
+                                    }
+                                    try {
+                                        indicatorData.put("data", serieses);
+                                    }catch(JSONException jsone) {
+                                        continue;
+                                    }
+                                }
+                                indicators.put(indicatorData);
                             } // while
-                            output.append("]");
+                            try {
+                                objectiveData.put("indicators", indicators);
+                            }catch(JSONException jsone) {
+                            }
                             
                             PrintWriter out = response.getWriter();
-                            System.out.println("..................\n"+output);
-                            out.write(output.toString());
+                            out.write(objectiveData.toString());
                         } // comparator
                     }
                 }
