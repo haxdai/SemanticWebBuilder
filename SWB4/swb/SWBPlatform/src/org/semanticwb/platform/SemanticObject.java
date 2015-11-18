@@ -3501,7 +3501,13 @@ public class SemanticObject
             while(it2.hasNext())
             {
                 SemanticObject ch=it2.next();
-                if(!ch.equals(this))list.add(ch);
+                if(ch!=null)
+                {
+                    if(!ch.equals(this))list.add(ch);
+                }else
+                {
+                    log.error("Error listHerarquicalParents from:"+this+" prop:"+prop);
+                }
             }
         }
         return list.iterator();
