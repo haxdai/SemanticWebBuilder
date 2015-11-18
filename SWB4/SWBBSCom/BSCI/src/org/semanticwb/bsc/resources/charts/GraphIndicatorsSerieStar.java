@@ -11,8 +11,8 @@ import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.bsc.SM;
 import org.semanticwb.bsc.accessory.Period;
-import org.semanticwb.bsc.catalogs.Format;
 import org.semanticwb.bsc.element.Indicator;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.tracing.Measure;
@@ -56,8 +56,13 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
             return;
         }
         SemanticObject semanticObj = SemanticObject.getSemanticObject(suri);
+        if(semanticObj==null || !(semanticObj.getGenericInstance() instanceof SM)) {
+            response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgNoSuchSemanticElement")+"</div>");
+            return;
+        }
+        GenericObject genericObj = semanticObj.createGenericInstance();
         final User user = paramRequest.getUser();
-        if(!user.isSigned() || !user.haveAccess(semanticObj.getGenericInstance()))     {
+        if(!user.isSigned() || !user.haveAccess(genericObj))     {
             response.getWriter().println("<div class=\"alert alert-warning\" role=\"alert\">"+paramRequest.getLocaleString("msgUserHasNotPermissions")+"</div>");
             response.flushBuffer();
             return;
@@ -83,8 +88,7 @@ public class GraphIndicatorsSerieStar extends GenericAdmResource {
         final String marginBottomV = base.getAttribute("marginBottomVt", "110");
         final String rotateLabels = base.getAttribute("rotateLabelV", "-80");
         
-        GenericObject genericObj = semanticObj.createGenericInstance();
-        if (genericObj instanceof Objective) {
+        if(genericObj instanceof Objective) {
             Objective objective = (Objective)genericObj;
             firstOutput.append("<div class=\"panel panel-default panel-detalle\">\n");
             firstOutput.append(" <div id=\"").append(SVG_ID).append("\" class=\'with-3d-shadow with-transitions\'>\n");
