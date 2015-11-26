@@ -80,6 +80,8 @@
                 if ( ev.data.name === 'link' || ev.data.name === 'image')
                     ev.data.definition.width = 550;
             });
+            //Override to allow all properties and all tags
+            CKEDITOR.config.allowedContent = true;
         </script>
     </body>
 </html>
