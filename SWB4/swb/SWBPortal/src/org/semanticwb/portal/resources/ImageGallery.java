@@ -256,9 +256,9 @@ public class ImageGallery extends GenericResource
             {
                 imgpath.add(webWorkPath + attval);
                 String descripiton="";
-                if(base.getAttribute("desc_"+attname)!=null)
+                if(base.getAttribute("desc_"+attname.substring(11))!=null)
                 {
-                    descripiton=base.getAttribute("desc_"+attname);
+                    descripiton=base.getAttribute("desc_"+attname.substring(11));
                 }
                 descriptions.add(descripiton);
             }
@@ -563,7 +563,7 @@ public class ImageGallery extends GenericResource
                 {
                     for (FileItem item : formItems)
                     {
-                        if (item.getFieldName().startsWith("desc_" + prefix))
+                        if (item.getFieldName().startsWith("desc_"))
                         {
                             base.setAttribute(item.getFieldName(), getValue(item.getFieldName(), formItems));
                         }
@@ -929,21 +929,23 @@ public class ImageGallery extends GenericResource
         htm.append("\n<script type=\"text/javascript\"> ");
 
         htm.append("\nfunction generateUUID(){");
-        htm.append("\nvar d = new Date().getTime();");
-        htm.append("\nvar uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {");
-        htm.append("\nvar r = (d + Math.random()*16)%16 | 0;");
-        htm.append("\nd = Math.floor(d/16);");
-        htm.append("\nreturn (c=='x' ? r : (r&0x7|0x8)).toString(16);");
-        htm.append("\n});");
-        htm.append("\nreturn uuid;");
+        htm.append("\n  var d = new Date().getTime();");
+        htm.append("\n  var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {");
+        htm.append("\n  var r = (d + Math.random()*16)%16 | 0;");
+        htm.append("\n  d = Math.floor(d/16);");
+        htm.append("\n  return (c=='x' ? r : (r&0x7|0x8)).toString(16);");
+        htm.append("\n  });");
+        htm.append("\n  uuid = '"+base.getId()+"_' + uuid;");
+        htm.append("\n  return uuid;");
         htm.append("\n};");
 
         htm.append("\nfunction addRowToTable(tblId, filename, img, cellSufix,desc) { ");
         htm.append("\n    if(!desc){desc='';} ");
+        htm.append("\n    if(!cellSufix){cellSufix=generateUUID();}");
         htm.append("\n    var tbl = document.getElementById(tblId); ");
         htm.append("\n    var lastRow = tbl.rows.length; ");
         htm.append("\n    var icolDisplay = lastRow-1; // descontar el renglon de titulo ");
-        htm.append("\n    var iteration = generateUUID();");
+//        htm.append("\n    var iteration = generateUUID();");
         htm.append("\n    var row = tbl.insertRow(lastRow); ");
         htm.append("\n    row.style.backgroundColor = '#F4F4DD'; ");
         htm.append("\n ");
@@ -958,13 +960,13 @@ public class ImageGallery extends GenericResource
         htm.append("\n    editCheckCell.style.textAlign = 'center'; ");
         htm.append("\n    var editCheckInput = document.createElement('input'); ");
         htm.append("\n    editCheckInput.type = 'checkbox'; ");
-        htm.append("\n    if(cellSufix) { ");
+//        htm.append("\n    if(cellSufix) { ");
         htm.append("\n        editCheckInput.name = 'edit_'+cellSufix; ");
         htm.append("\n        editCheckInput.id = 'edit_'+cellSufix; ");
-        htm.append("\n    }else { ");
-        htm.append("\n        editCheckInput.name = 'edit_" + base.getId() + "_'+iteration; ");
-        htm.append("\n        editCheckInput.id = 'edit_" + base.getId() + "_'+iteration; ");
-        htm.append("\n    }");
+//        htm.append("\n    }else { ");
+//        htm.append("\n        editCheckInput.name = 'edit_" + base.getId() + "_'+iteration; ");
+//        htm.append("\n        editCheckInput.id = 'edit_" + base.getId() + "_'+iteration; ");
+//        htm.append("\n    }");
         htm.append("\n    editCheckInput.alt = '" + paramRequest.getLocaleString("usrmsg_ImageGallery_doAdmin_altEdit") + "'; ");
         htm.append("\n    editCheckInput.disabled = true; ");
         
@@ -1004,13 +1006,13 @@ public class ImageGallery extends GenericResource
         htm.append("\n    removeCheckCell.style.textAlign = 'center'; ");
         htm.append("\n    var removeCheckInput = document.createElement('input'); ");
         htm.append("\n    removeCheckInput.type = 'checkbox'; ");
-        htm.append("\n    if(cellSufix) { ");
+//        htm.append("\n    if(cellSufix) { ");
         htm.append("\n        removeCheckInput.name = 'remove_'+cellSufix; ");
         htm.append("\n        removeCheckInput.id = 'remove_'+cellSufix; ");
-        htm.append("\n    }else { ");
-        htm.append("\n        removeCheckInput.name = 'remove_" + base.getId() + "_'+iteration; ");
-        htm.append("\n        removeCheckInput.id = 'remove_" + base.getId() + "_'+iteration; ");
-        htm.append("\n    }");
+//        htm.append("\n    }else { ");
+//        htm.append("\n        removeCheckInput.name = 'remove_" + base.getId() + "_'+iteration; ");
+//        htm.append("\n        removeCheckInput.id = 'remove_" + base.getId() + "_'+iteration; ");
+//        htm.append("\n    }");
         htm.append("\n    removeCheckInput.alt = '" + paramRequest.getLocaleString("usrmsg_ImageGallery_doAdmin_altRemove") + "'; ");
         htm.append("\n    if(filename && img) { ");
         htm.append("\n        removeCheckInput.disabled = false; ");
@@ -1041,8 +1043,8 @@ public class ImageGallery extends GenericResource
         htm.append("\n        } ");
         htm.append("\n        var descriptionInput = document.createElement('input'); ");
         htm.append("\n        descriptionInput.type = 'text'; ");
-        htm.append("\n        descriptionInput.name = 'desc_'+idEditImg; ");
-        htm.append("\n        descriptionInput.id = 'desc_'+idEditImg; ");
+        htm.append("\n        descriptionInput.name = 'desc_'+cellSufix; ");
+        htm.append("\n        descriptionInput.id = 'desc_'+cellSufix; ");
         htm.append("\n        descriptionInput.style.width='95%';");
         htm.append("\n        descriptionInput.value = unescape(desc); ");
         htm.append("\n        descriptionCell.appendChild(descriptionInput); ");
@@ -1060,8 +1062,8 @@ public class ImageGallery extends GenericResource
         htm.append("\n        imgCell.style.textAlign = 'right'; ");
         htm.append("\n        var fileInput = document.createElement('input'); ");
         htm.append("\n        fileInput.type = 'file'; ");
-        htm.append("\n        fileInput.name = 'imggallery_" + base.getId() + "_'+iteration; ");
-        htm.append("\n        fileInput.id = 'imggallery_" + base.getId() + "_'+iteration; ");
+        htm.append("\n        fileInput.name = 'imggallery_'+cellSufix; ");
+        htm.append("\n        fileInput.id = 'imggallery_'+cellSufix; ");
         htm.append("\n        fileInput.size = 40; ");
         htm.append("\n        imgCell.appendChild(fileInput); ");
         htm.append("\n    } ");
@@ -1085,17 +1087,11 @@ public class ImageGallery extends GenericResource
             {
                 long value = new Date().getTime();
                 String desc = "";
-                String keyDesc = "desc_" + attname;
-                if (base.getAttribute(keyDesc) != null)
-                {
+                String keyDesc = "desc_" + attname.substring(11);
+                if (base.getAttribute(keyDesc) != null) {
                     desc = base.getAttribute(keyDesc);
                 }
-                desc=desc.replaceAll(">", "%3E");
-                desc=desc.replaceAll(">", "%3C");
-                desc=desc.replaceAll("'", "%27");
-                desc=desc.replaceAll("\"", "%22");
-                //desc=SWBUtils.TEXT.encodeExtendedCharacters(desc);
-                //String img = "<img src=\""+webWorkPath+_thumbnail+attval+"\" width=\""+width+"\" height=\""+height+"\" alt=\""+attname+"\" border=\"0\" />";
+                desc=desc.replaceAll(">", "%3E").replaceAll(">", "%3C").replaceAll("'", "%27").replaceAll("\"", "%22");
                 String img = "<img id=\"" + attname + "\" src=\"" + webWorkPath + _thumbnail + attval + "?date=" + value + "\" alt=\"" + attname + "\" border=\"0\" />";
                 htm.append("\naddRowToTable('igtbl_" + base.getId() + "', '" + base.getAttribute(attname) + "', '" + img + "', '" + attname.substring(11) + "','" + desc + "'); ");
             }
