@@ -44,11 +44,15 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
+import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.ResourceType;
+import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.Sortable;
+import org.semanticwb.model.User;
+import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticModel;
 import org.semanticwb.platform.SemanticObject;
@@ -141,7 +145,13 @@ public class SVGModeler extends GenericAdmResource {
         urlapp.setMode("modeler");
         urlapp.setCallMethod(SWBResourceURL.Call_DIRECT);
         urlapp.setParameter("suri", request.getParameter("suri"));
-        out.println("<iframe dojoType_=\"dijit.layout.ContentPane\" src=\"" + urlapp + "\" width=\"100%\" height=\"100%\" frameborder=\"0\" scrolling=\"yes\"></iframe>");
+        
+        WebSite adminsite = SWBContext.getAdminWebSite();
+        if (adminsite.getURI().equals(paramRequest.getWebPage().getWebSite().getURI())) {
+            out.println("<iframe dojoType_=\"dijit.layout.ContentPane\" src=\"" + urlapp + "\" width=\"100%\" height=\"100%\" frameborder=\"0\" scrolling=\"yes\"></iframe>");
+        } else {
+            doModeler(request, response, paramRequest);
+        }
     }
 
     public void doModeler(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
