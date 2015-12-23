@@ -230,7 +230,19 @@
         <%
     }
     %>
-    <jsp:include page="modelerSVG.jsp" flush="true"/>
+    <%
+    if (isViewMode) {
+        %>
+        <div style="overflow: scroll;">
+            <jsp:include page="modelerSVG.jsp" flush="true"/>
+        </div>
+        <%
+    } else {
+        %>
+        <jsp:include page="modelerSVG.jsp" flush="true"/>
+        <%
+    }
+    %>
     <form id="svgform" accept-charset="utf-8" method="post" action="<%=exportUrl%>">
         <input type="hidden" id="output_format" name="output_format" value="">
         <input type="hidden" name="suri" value="<%=suri%>">
