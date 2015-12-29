@@ -259,15 +259,6 @@ public class ProcessFileRepository extends GenericResource {
         if (accion == null) {
             accion = "";
         }
-        
-        if (getResourceBase().getAttribute("showNavbar", "").equals("")) {
-            getResourceBase().setAttribute("showNavbar", "true");
-            try {
-                getResourceBase().updateAttributesToDB();
-            } catch (SWBException ex) {
-                log.error("Error al establecer las propiedades del recurso "+ex.getLocalizedMessage());
-            }
-        }
 
         WebSite wsite = getResourceBase().getWebSite(); //wpage.getWebSite();
 
@@ -293,7 +284,6 @@ public class ProcessFileRepository extends GenericResource {
             String validFiles = getResourceBase().getAttribute(VALID_FILES, "");
             String ipp = getResourceBase().getAttribute("itemsPerPage", "");
             String ssf = getResourceBase().getAttribute("hideSubFolders", "").equals("true")?"checked":"";
-            String snv = getResourceBase().getAttribute("showNavbar", "").equals("true")?"checked":"";
             String aph = getResourceBase().getAttribute("applyToChilds", "").equals("true")?"checked":"";
 
             out.println("<tr><td colspan=\"2\"><B>" + paramRequest.getLocaleString("msgRolesDefinitionLevel") + "</B></td></tr>");
@@ -310,8 +300,6 @@ public class ProcessFileRepository extends GenericResource {
             out.println("<td><input type=\"text\" name=\"itemsPerPage\"  value=\"" + ipp + "\"></td></tr>");
             out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("hideSubFolders") + ":</td>");
             out.println("<td><input type=\"checkbox\" name=\"hideSubFolders\"" + ssf + "></td></tr>");
-            out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("showNavBar") + ":</td>");
-            out.println("<td><input type=\"checkbox\" name=\"showNavbar\"" + snv + "></td></tr>");
             out.println("<tr><td align=\"right\"  width=150>" + paramRequest.getLocaleString("applyToChilds") + ":</td>");
             out.println("<td><input type=\"checkbox\" name=\"applyToChilds\"" + aph + "></td></tr>");
 
@@ -580,7 +568,6 @@ public class ProcessFileRepository extends GenericResource {
             String validfiles = request.getParameter("validfiles");
             String ipp = request.getParameter("itemsPerPage");
             String ssf = request.getParameter("hideSubFolders")!=null?"true":"false";
-            String snv = request.getParameter("showNavbar")!=null?"true":"false";
             String aph = request.getParameter("applyToChilds")!=null?"true":"false";
 
             try {
@@ -590,7 +577,6 @@ public class ProcessFileRepository extends GenericResource {
                 getResourceBase().setAttribute(VALID_FILES, validfiles);
                 getResourceBase().setAttribute("itemsPerPage", ipp);
                 getResourceBase().setAttribute("hideSubFolders", ssf);
-                getResourceBase().setAttribute("showNavbar", snv);
                 getResourceBase().setAttribute("applyToChilds", aph);
                 getResourceBase().updateAttributesToDB();
             } catch (Exception e) {
@@ -634,7 +620,6 @@ public class ProcessFileRepository extends GenericResource {
                         String validfiles = rd.getAttribute(VALID_FILES);
                         String ipp = rd.getAttribute("itemsPerPage");
                         String ssf = rd.getAttribute("hideSubFolders");
-                        String snv = rd.getAttribute("showNavbar");
                         String aph = rd.getAttribute("applyToChilds","false");
                         
                         if ("true".equals(aph)) {
@@ -644,7 +629,6 @@ public class ProcessFileRepository extends GenericResource {
                             res.setAttribute(VALID_FILES, validfiles);
                             res.setAttribute("itemsPerPage", ipp);
                             res.setAttribute("hideSubFolders", ssf);
-                            res.setAttribute("showNavbar", snv);
                             res.setAttribute("applyToChilds", aph);
 
                             try {
