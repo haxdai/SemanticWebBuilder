@@ -22,11 +22,35 @@
  */
 package org.semanticwb.process.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.semanticwb.model.VersionInfo;
+
 
 public class RepositoryElement extends org.semanticwb.process.model.base.RepositoryElementBase 
 {
     public RepositoryElement(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
+    }
+    
+    /**
+     * Obtiene el listado de versiones del elemento.
+     * @return Lista de versiones del elemento.
+     */
+    public List<VersionInfo> listVersions() {
+        ArrayList<VersionInfo> ret = new ArrayList<VersionInfo>();
+        VersionInfo ver = getLastVersion();
+        
+        if (null != ver) {
+            ret.add(ver);
+            while (ver.getPreviousVersion() != null) {
+                ver = ver.getPreviousVersion();
+                ret.add(ver);
+            }
+        }
+        Collections.reverse(ret);
+        return ret;
     }
 }
