@@ -653,7 +653,7 @@
                         function zoomin() {
                             var viewBox = document.getElementById("modeler").getAttribute('viewBox'),
                                 viewBoxValues = viewBox.split(' ');
-                            
+
                             viewBoxValues[2] = parseFloat(viewBoxValues[2]);
                             viewBoxValues[3] = parseFloat(viewBoxValues[3]);
                             viewBoxValues[2] /= zoomFactor;
@@ -704,26 +704,40 @@
                         }
                         
                         function getDiagramSize() {
-                            var cw = 0, ch = 0, fx = null, fy = null;
+                            var cw = 0;
+                            var ch = 0;
+                            var fx = null;
+                            var fy = null;
                             for (var i = 0; i < ToolKit.contents.length; i++) {
                                 var obj = ToolKit.contents[i];
                                 if (obj.typeOf && (obj.typeOf("GraphicalElement") || obj.typeOf("Pool"))) {
+                                    //console.log(obj.id+" - "+obj.elementType);
                                     if (obj.layer === ToolKit.layer) {
-                                        if (obj.getX() > cw) {
-                                            cw = obj.getX();
+                                        var lastX = obj.getX() + obj.getWidth() / 2;
+                                        var lastY = obj.getY() + obj.getHeight() / 2;
+
+                                        if (lastX > cw) {
+                                            cw = lastX;
                                             fx = obj;
                                         }
-                                        
-                                        if (obj.getY() > ch) {
-                                            ch = obj.getY();
+
+                                        if (lastY > ch) {
+                                            ch = lastY;
                                             fy = obj;
                                         }
                                     }
                                 }
                             }
-                            cw = cw + fx.getBBox().width;
-                            ch = ch + fy.getBBox().height;
-                            return {w: cw, h: ch};
+                            if (fx && fy) {
+                                cw = fx.getX()+fx.getWidth()/2;
+                                ch = fy.getY()+fy.getHeight()/2;
+                            } else {
+                                cw = 1200;
+                                ch = 900;
+                            }
+
+                            var ret = {w: cw, h: ch};
+                            return ret;
                         }
                         
                         function fitToScreen() {
@@ -792,7 +806,7 @@
                                             
                                             <div class="row">
                                                 <div class="col-lg-11">
-                                                    <xsl:value-of select="property" disable-output-escaping="yes"/>
+                                                    <xsl:value-of select="propertyd" disable-output-escaping="yes"/>
                                                 </div>
                                                 <xsl:if test="@related = 'true'">
                                                     <div class="col-lg-1">
