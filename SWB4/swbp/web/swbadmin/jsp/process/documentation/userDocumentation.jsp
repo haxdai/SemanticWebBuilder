@@ -117,7 +117,7 @@ if (!list.isEmpty()) {
                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-12 swbp-list-action">
                     <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" href="<%= urlDoc.setParameter("idp", idp).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>"  role="button">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-eye"></div>
-                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">VER</div>
+                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Ver</div>
                     </a>
                     <%
                     if (isDocumenter) { 
@@ -132,11 +132,11 @@ if (!list.isEmpty()) {
                     }
                     %>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-pencil"></div>
-                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">EDITAR</div>
+                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Editar</div>
                     </a>
                     <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" href="#" role="button">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-trash-o"></div>
-                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">ELIMINAR</div>
+                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Eliminar</div>
                     </a>
                 </div>
                 <%
