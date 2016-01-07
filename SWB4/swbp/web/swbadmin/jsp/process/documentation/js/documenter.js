@@ -36,25 +36,6 @@ $(document).ready(function() {
     $('#imgwidth').on('input', function() {
         $('#imgUpload').attr('width', $('#imgwidth').val());
     });
-    //Color Picker
-    $('.swbp-colorpicker-color').colorpicker({color: '#ffffff', horizontal: true}).on('changeColor', function(ev) {//ffffff
-        $('#btnAdmTemplates').css('color', ev.color.toHex());
-    }).on('create', function() {
-        $(this).children('input').val('#ffffff');
-        $('#btnAdmTemplates').css('color', '#ffffff');
-    });
-    $('.swbp-colorpicker-background').colorpicker({color: '#91b11f', horizontal: true}).on('changeColor', function(ev) {//91b11f
-        $('#btnAdmTemplates').css('background-color', ev.color.toHex());
-    }).on('create', function() {
-        $(this).children('input').val('#91b11f');
-        $('#btnAdmTemplates').css('background-color', '#91b11f');
-    });
-    $('.swbp-colorpicker-border').colorpicker({color: '#cccccc', horizontal: true}).on('changeColor', function(ev) {//cccccc
-        $('#btnAdmTemplates').css('border-color', ev.color.toHex());
-    }).on('create', function() {
-        $(this).children('input').val('#cccccc');
-        $('#btnAdmTemplates').css('border-color', '#cccccc');
-    });
 });
 function clearDataImage() { //Begin delete image
     $('#previewLogo').empty();
