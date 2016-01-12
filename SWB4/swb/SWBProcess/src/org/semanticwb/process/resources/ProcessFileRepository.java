@@ -645,9 +645,10 @@ public class ProcessFileRepository extends GenericResource {
         else if(ACT_EDITFOLDER.equals(action)){
             String fid = request.getParameter("fid");
             String newTitle = request.getParameter("titleRep");
-            RepositoryDirectory rd = null;
-            rd = RepositoryDirectory.ClassMgr.getRepositoryDirectory(fid, site);
-            rd.setTitle(newTitle);
+            RepositoryDirectory rd = RepositoryDirectory.ClassMgr.getRepositoryDirectory(fid, site);
+            if (null != rd && null != newTitle && !newTitle.isEmpty()) {
+                rd.setTitle(newTitle);
+            }
             response.setMode(SWBParamRequest.Mode_VIEW);      
             
         }else {
