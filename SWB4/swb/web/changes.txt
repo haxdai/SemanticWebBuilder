@@ -1,5 +1,7 @@
-  4.5.11.1 
-    - Validacion en cierre de coneciones en iterador de ADMLOGS
+  4.5.11.2 21/01/2016
+    - Validación de DNS apuntados a sitios en modo ataque (JEI)
+  4.5.11.1 18/10/15
+    - Validación en cierre de coneciones en iterador de ADMLOGS
     - Validación de borrado de friendly URL en cache (Jei)
     - Actualizado componente HTMLContent para usar nueva versión de CKEditor y mejorar soporte en navegadores (Ebe)
   4.5.10.1 01/06/15
