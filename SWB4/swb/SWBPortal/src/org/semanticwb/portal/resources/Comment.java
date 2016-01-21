@@ -1635,6 +1635,7 @@ public class Comment extends GenericResource {
         ret.append("        img.src = '"+SWBPlatform.getContextPath()+"/swbadmin/jsp/securecode.jsp?nc='+rn; \n");
         ret.append("    } \n");
         ret.append("} \n");
+        ret.append("\n--> \n");
         ret.append("</script> \n");
         return ret.toString();
     }
