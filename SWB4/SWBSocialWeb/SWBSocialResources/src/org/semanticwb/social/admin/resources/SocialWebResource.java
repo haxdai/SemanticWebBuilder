@@ -144,7 +144,6 @@ public class SocialWebResource extends GenericAdmResource
                         SWBPortal.getEnv("swbsocial/googleSecretKey"));
                 isGoogleNet = true;
             }else if(socialNetwork instanceof Tumblr ){//for Tumblr nets
-                System.out.println("Tumblr");
                 validConfiguration = isValidConfiguration(socialNetwork, SWBPortal.getEnv("swbsocial/tumblrAppKey"), SWBPortal.getEnv("swbsocial/tumblrSecretKey"));
             }
 

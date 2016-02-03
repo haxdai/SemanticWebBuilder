@@ -278,15 +278,15 @@ public class PieCharts extends GenericResource {
         
         String lang = paramRequest.getUser().getLanguage();
         Iterator<PostIn> setso = null;
-        if (type.equals("gender")) {
+        if ("gender".equals(type)) {
             setso = getListGender(suri, lang, filter, filterGeneral);
-        } else if (type.equals("education")) {
+        } else if ("education".equals(type)) {
             setso = getListEducation(suri, lang, filter, filterGeneral);
-        } else if (type.equals("relation")) {
+        } else if ("relation".equals(type)) {
             setso = getRelationShip(suri, lang, filter, filterGeneral);
-        } else if (type.equals("lifeStage")) {
+        } else if ("lifeStage".equals(type)) {
             setso = getLifeStage(suri, lang, filter, filterGeneral);
-        } else if (type.equals("geoLocation")) { //mexico
+        } else if ("geoLocation".equals(type)) { //mexico
             HashMap map = new HashMap();
             WebSite ss = SWBSocialUtil.getConfigWebSite();
             Iterator i = null;
@@ -349,7 +349,7 @@ public class PieCharts extends GenericResource {
                 }
                 setso = lista.iterator();
             }
-        } else if (type.equals("geolocationCountry")) { //colecciones dadas de alta en countrys
+        } else if ("geolocationCountry".equals(type)) { //colecciones dadas de alta en countrys
             // setso = getGeoLocation(suri, lang, filter, filterGeneral);
             HashMap map = new HashMap();
             WebSite ss = SWBSocialUtil.getConfigWebSite();
@@ -414,7 +414,7 @@ public class PieCharts extends GenericResource {
                 }
                 setso = lista.iterator();
             }
-        } else if (type.equals("languages")) { //lengajes
+        } else if ("languages".equals(type)) { //lengajes
             //setso = getGeoLocation(suri, lang, filter, filterGeneral);
             HashMap map = new HashMap();
             WebSite ss = SWBSocialUtil.getConfigWebSite();
@@ -632,7 +632,8 @@ public class PieCharts extends GenericResource {
                 }
                 SimpleDateFormat df = new SimpleDateFormat();
                 //createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_created(), lang));
-                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_createdInSocialNet(), lang));
+//                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, SWBUtils.TEXT.getTimeAgo(postIn.getPi_createdInSocialNet(), lang));
+                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, df.format(postIn.getPi_createdInSocialNet()));
 //                createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, df.format(postIn.getPi_createdInSocialNet()));
 
                 String path = "";
@@ -646,7 +647,7 @@ public class PieCharts extends GenericResource {
                 }
                 createCell(cellStyle, wb, troww, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostIntesityType() == 0 ? SWBSocialResUtil.Util.getStringFromGenericLocale("low", lang) : postIn.getPostIntesityType() == 1 ? SWBSocialResUtil.Util.getStringFromGenericLocale("low", lang) : postIn.getPostIntesityType() == 2 ? SWBSocialResUtil.Util.getStringFromGenericLocale("low", lang) : "---");
                 
-                createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getMsg_lang() !=null ? postIn.getMsg_lang().getTitle() :  "---");
+                createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getMsg_lang() !=null ? postIn.getMsg_lang().getDisplayTitle(lang):  "---");
 
                 if (postIn.getPostSentimentalEmoticonType() == 1) {
                     createCell(cellStyle, wb, troww, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Positivo");
