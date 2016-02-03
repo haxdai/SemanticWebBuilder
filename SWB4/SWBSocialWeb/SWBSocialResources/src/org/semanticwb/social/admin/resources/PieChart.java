@@ -325,15 +325,15 @@ public class PieChart extends GenericResource {
 
         String lang = paramRequest.getUser().getLanguage();
 
-        if (type.equals("socialNetwork")) {
+        if ("socialNetwork".equals(type)) {
             setso = getSocialNetwork(suri, lang, filterGeneral, filter);
-        } else if (type.equals("graphBar")) {
+        } else if ("graphBar".equals(type)) {
             setso = getGraphBar(request, suri, lang, filterGeneral, filter);
-        } else if (type.equals("graphBar2")) {
+        } else if ("graphBar2".equals(type)) {
             setso = getGraphBar2(request, suri);
-        } else if (type.equals("graphBarByHour")) {
+        } else if ("graphBarByHour".equals(type)) {
             setso = getGraphBarByHour(request);
-        } else if (type.equals("graphChartTopUser")) {
+        } else if ("graphChartTopUser".equals(type)) {
             setso = getGraphChartTopUser(request, semObjParam);
             sinDateAnalysis = null;
             tDateAnalysis = null;
@@ -1031,11 +1031,11 @@ public class PieChart extends GenericResource {
 
         Calendar calendario = Calendar.getInstance();
 
-        String anio = request.getParameter("selectedAnio");
+//        String anio = request.getParameter("selectedAnio");
         if (selectedAnio.equals("")) {
             selectedAnio = String.valueOf(calendario.get(Calendar.YEAR));
         }
-        Date date; // your date
+//        Date date; // your date
         Calendar cal = Calendar.getInstance();
 
         while (itObjPostIns.hasNext()) {
@@ -1051,8 +1051,8 @@ public class PieChart extends GenericResource {
                     if (year == Integer.parseInt(selectedAnio) && month == Integer.parseInt(selectMes)) {
                         totalArray.add(postIn);
                     }
-                } else if (!selectedAnio.equals("") && !selectMonth2.equals("") && !selectDay.equals("")) {
-                    if (year == Integer.parseInt(selectedAnio) && month == Integer.parseInt(selectMonth2) + 1 && day == Integer.parseInt(selectDay)) {
+                } else if (!selectedAnio.equals("") && !selectMes.equals("") && !selectDay.equals("")) {
+                    if (year == Integer.parseInt(selectedAnio) && month == Integer.parseInt(selectMes) && day == Integer.parseInt(selectDay)) {
                         totalArray.add(postIn);
                     }
                 }

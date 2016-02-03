@@ -253,7 +253,7 @@ public class StreamInBoxNoTopic extends GenericResource {
             return;
         }
 
-        System.out.println("StreamInBoxNoTopic");
+        //System.out.println("StreamInBoxNoTopic");
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite wsite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
         String sinceDateStreamMsgNP = request.getParameter("sinceDateStreamMsgNP") == null ? "" : request.getParameter("sinceDateStreamMsgNP");
@@ -1325,7 +1325,7 @@ public class StreamInBoxNoTopic extends GenericResource {
                         }
                     }else{  //No seleccionaron ningún ordenamiento
                         streamPostIns=Integer.parseInt(getPostInWithOutTopic_Query(0, 0, true, stream, dateInit, dateEnd));
-                        System.out.println("streamPostIns: " + streamPostIns);
+                        //System.out.println("streamPostIns: " + streamPostIns);
                         if(streamPostIns>0)
                         {
                             sQuery=getPostInWithOutTopic_Query(Integer.valueOf((nPage * RECPERPAGE) - RECPERPAGE).longValue(), Integer.valueOf((RECPERPAGE)).longValue(), false, stream, dateInit, dateEnd);
@@ -1333,7 +1333,6 @@ public class StreamInBoxNoTopic extends GenericResource {
                         }
                     }
                 } else { //Traer todo, NPage==0, en teoría jamas entraría a esta opción.
-                    System.out.println("donde nunca entraria");
                     streamPostIns=Integer.parseInt(getPostInWithOutTopic_Query(0L, 0, true, stream, dateInit, dateEnd));
                     if(streamPostIns>0)
                     {
@@ -2377,18 +2376,18 @@ public class StreamInBoxNoTopic extends GenericResource {
                 }*/
                 int postS = postIn.getPostShared();
                 String postShared = Integer.toString(postS);
-                createCell(cellStyle, wb, troww, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postShared);
-                createCell(cellStyle, wb, troww, 9, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getSnu_name() : paramRequest.getLocaleString("withoutUser"));
+                createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postShared);
+                createCell(cellStyle, wb, troww, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getSnu_name() : paramRequest.getLocaleString("withoutUser"));
                 Serializable foll = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getFollowers() : paramRequest.getLocaleString("withoutUser");
-                createCell(cellStyle, wb, troww, 10, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, foll.toString());
+                createCell(cellStyle, wb, troww, 9, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, foll.toString());
                 Serializable amigos = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getFriends() : paramRequest.getLocaleString("withoutUser");
-                createCell(cellStyle, wb, troww, 11, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, amigos.toString());
+                createCell(cellStyle, wb, troww, 10, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, amigos.toString());
 
                 //Serializable klout = postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getSnu_klout() : paramRequest.getLocaleString("withoutUser");
 
                 //createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, klout.toString());
-                createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostPlace() == null ? "---" : postIn.getPostPlace());
-                createCell(cellStyle, wb, troww, 13, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.isIsPrioritary() ? "SI" : "NO");
+                createCell(cellStyle, wb, troww, 11, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostPlace() == null ? "---" : postIn.getPostPlace());
+                createCell(cellStyle, wb, troww, 12, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.isIsPrioritary() ? "SI" : "NO");
 
                 i++;
 

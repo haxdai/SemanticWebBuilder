@@ -62,6 +62,7 @@ public class SWBSocialCreateUser  extends GenericResource {
     {
         StringBuffer ret = new StringBuffer();
         SWBResourceURL url = paramRequest.getActionUrl();
+        String idRepository = paramRequest.getWebPage().getWebSite().getUserRepository().getId();
                  ret.append("<script type=\"text/javascript\">\n"+
         "           dojo.require(\"dojo.parser\");\n"+
         "                   dojo.require(\"dijit.layout.ContentPane\");\n"+
@@ -69,13 +70,13 @@ public class SWBSocialCreateUser  extends GenericResource {
         "                   dojo.require(\"dijit.form.CheckBox\");\n"+
                          "function validpwd(pwd){\n" +
                          "var ret=true;\n"+
-                         ((SWBPlatform.getSecValues().isDifferFromLogin())?
+                         ((SWBPlatform.getSecValues().isDifferFromLogin(idRepository))?
                              "if (dijit.byId('Ulogin').textbox.value == pwd) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getMinlength()>0)?
-                             "if (pwd.length < "+SWBPlatform.getSecValues().getMinlength()+") { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity()==1)?
+                         ((SWBPlatform.getSecValues().getMinlength(idRepository)>0)?
+                             "if (pwd.length < "+SWBPlatform.getSecValues().getMinlength(idRepository)+") { ret=false;}":"")+"\n"+
+                         ((SWBPlatform.getSecValues().getComplexity(idRepository)==1)?
                              "if (!pwd.match(/^.*(?=.*[a-zA-Z])(?=.*[0-9])().*$/) ) { ret=false;}":"")+"\n"+
-                         ((SWBPlatform.getSecValues().getComplexity()==2)?
+                         ((SWBPlatform.getSecValues().getComplexity(idRepository)==2)?
                              "if (!pwd.match(/^.*(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[\\W])().*$/) ) { ret=false;}":"")+"\n"+
                          "return ret;\n"+
                           "}\n"+

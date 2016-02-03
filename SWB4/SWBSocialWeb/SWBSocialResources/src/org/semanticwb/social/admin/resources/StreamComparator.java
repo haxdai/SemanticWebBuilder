@@ -227,7 +227,7 @@ public class StreamComparator extends GenericResource {
                     result.add(postIn);
                 }
             }else {
-                System.out.print("country:");
+                //System.out.print("country:");
                 if(postIn.getGeoStateMap() != null) {
                     //System.out.println("|" + postIn.getGeoStateMap().getCountry()+ "VS" + country);
                     if (postIn.getGeoStateMap().getCountry().equals(country)) {
