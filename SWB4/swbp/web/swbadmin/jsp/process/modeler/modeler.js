@@ -2201,7 +2201,7 @@ var _GraphicalElement = function(obj) {
         selectedPath:null,
         navPath:null,
         window:null,
-        version:"0.1.2",
+        version: "0.2.0",
                 
         init:function(svgid, options, callbackHandler)
         {
@@ -2330,22 +2330,23 @@ var _GraphicalElement = function(obj) {
                     offY = _this.svg.dragOffsetY,
                     evtX = _this.getEventX(evt),
                     evtY = _this.getEventY(evt),
-                    ah = _this.svg.activeHandler || null;
+                    currentHandler = _this.svg.activeHandler || null;
                 if(_this.onmousemove(evt)===false) {
                     return;
                 }
                 _this.svg.mouseX = evtX;
                 _this.svg.mouseY = evtY;
 
-                if (ah !== null) {
+                if (currentHandler !== null) {
                     x = evtX - offX;
                     y = evtY - offY;
-                    ah.segment.x = x;
-                    ah.segment.y = y;
-                    ah.move(x, y);
-                    ah.parent.updateStartPoint();
-                    ah.parent.updateEndPoint();
-                    ah.parent.updateSubLine();
+                    //ah.segment.x = x;
+                    //ah.segment.y = y;
+                    currentHandler.updateSegment(x,y);
+                    currentHandler.move(x, y);
+                    currentHandler.parent.updateStartPoint();
+                    currentHandler.parent.updateEndPoint();
+                    currentHandler.parent.updateSubLine();
                 } else if(resizeObj && resizeObj !== null) {
                     var parent = resizeObj.parent,
                         objix = resizeObj.ix,
@@ -2701,7 +2702,8 @@ var _GraphicalElement = function(obj) {
                     
             obj.setEndPoint=function(x,y) {
                 //Se asignan x y y finales, puede que no provengan de un objeto, sino de las coordenadas del mouse
-                obj.setPoint(obj.pathSegList.numberOfItems-1,x,y);
+                //obj.setPoint(obj.pathSegList.numberOfItems-1,x,y);
+                obj.setPoint(obj.getPathData().length-1,x,y);
                 obj.xe=x;
                 obj.ye=y;
                 obj.updatePoints();
@@ -2854,17 +2856,18 @@ var _GraphicalElement = function(obj) {
                 };
                 
                 obj.text.updateLocation = function() {
-                    var p1 = obj.pathSegList.getItem(obj.pathSegList.numberOfItems - 1),
-                        p2 = obj.pathSegList.getItem(obj.pathSegList.numberOfItems - 2),
-                        _x = p1.x,
-                        _y = p1.y;
+                    var pData = obj.getPathData(),
+                        p1 = pData[pData.length - 1],
+                        p2 = pData[pData.length - 2],
+                        _x = p1.values[0],
+                        _y = p1.values[1];
                     
-                    if (p1.x !== p2.x) {
-                        _x += (p2.x - p1.x)/2;
+                    if (p1.values[0] !== p2.values[0]) {
+                        _x += (p2.values[0] - p1.values[0])/2;
                     }
                     
-                    if (p1.y !== p2.y) {
-                        _y += (p2.y - p1.y)/2;
+                    if (p1.values[1] !== p2.values[1]) {
+                        _y += (p2.values[1] - p1.values[1])/2;
                     }
                     
                     obj.text.setAttributeNS(null, "x", _x);
@@ -2900,11 +2903,11 @@ var _GraphicalElement = function(obj) {
             obj.updateEndPoint = function() {
                 var from = this.fromObject || null, pini, pend,
                     to = this.toObject || null, ini, end, dx, dy,
-                    fw, tw, fh, th, segments = this.pathSegList;
+                    fw, tw, fh, th, segments = this.getPathData();//this.pathSegList;
                 
-                if (segments.numberOfItems >= 4) {
-                    pini = segments.getItem(0);
-                    pend = segments.getItem(segments.numberOfItems - 1);
+                if (segments.length >= 4) {
+                    pini = segments[0];//segments.getItem(0);
+                    pend = segments[segments.length - 1];//segments.getItem(segments.numberOfItems - 1);
                     
                     ini = {
                         x: from.getX(),
@@ -2914,8 +2917,8 @@ var _GraphicalElement = function(obj) {
                     //Hay que recalcular si es que es fixed, para tomar de referencia un handler anterior
                     if (this.fixed) {
                         ini = {
-                            x: segments.getItem(segments.numberOfItems - 2).x,
-                            y: segments.getItem(segments.numberOfItems - 2).y
+                            x: segments[segments.length - 2].values[0],
+                            y: segments[segments.length - 2].values[1]
                         };
                     }
 
@@ -2938,17 +2941,21 @@ var _GraphicalElement = function(obj) {
                         } else if(dx < 0){
                             dx = -1;
                         }
-                        pend.x = end.x - dx * (tw + this.eoff);
-                        pend.y = end.y;
+                        pend.values[0] = end.x - dx * (tw + this.eoff);
+                        pend.values[1] = end.y;
                     } else {
                         if(dy > 0){
                             dy = 1;
                         } else if(dy < 0){
                             dy = -1;
                         }
-                        pend.x = end.x;
-                        pend.y = end.y - dy * (th + this.eoff);
+                        pend.values[0] = end.x;
+                        pend.values[1] = end.y - dy * (th + this.eoff);
                     }
+                    
+                    segments[0] = pini;
+                    segments[segments.length - 1] = pend;
+                    this.setPathData(segments);
 
                     this.updateSubLine();
                     if (this.text) {
@@ -2959,25 +2966,30 @@ var _GraphicalElement = function(obj) {
             
             obj.snap2Grid = function() {
                 if(ToolKit.snap2Grid) {
-                    var segments = this.pathSegList,
-                    i, gridSize = ToolKit.snap2GridSize, seg;
+                    var segments = this.getPathData(),//this.pathSegList,
+                    i, gridSize = ToolKit.snap2GridSize;
             
-                    for (i = 0; i < segments.numberOfItems; i++) {
+                    for (i = 0; i < segments.length; i++) {
+                        segments[i].values[0] = Math.round(segments[i].values[0]/gridSize)*gridSize;
+                        segments[i].values[1] = Math.round(segments[i].values[1]/gridSize)*gridSize;
+                    }
+                    this.setPathData(segments);
+                    /*for (i = 0; i < segments.numberOfItems; i++) {
                         seg = segments.getItem(i);
                         seg.x = Math.round(seg.x/gridSize)*gridSize;
                         seg.y = Math.round(seg.y/gridSize)*gridSize;
-                    }
+                    }*/
                 }
             };
             
             obj.updateStartPoint = function() {//Siempre existe un punto inicial cuando se manipula una línea
                 var from = this.fromObject || null, pini, pend,
                     to = this.toObject || null, ini, end, dx, dy,
-                    fw, tw, fh, th, segments = this.pathSegList;
+                    fw, tw, fh, th, segments = this.getPathData();//this.pathSegList;
                 
-                if (segments.numberOfItems >= 4) {
-                    pini = segments.getItem(0);
-                    pend = segments.getItem(segments.numberOfItems - 1);
+                if (segments.length >= 4) {
+                    pini = segments[0];
+                    pend = segments[segments.length - 1];
                     
                     ini = {
                         x: from.getX(),
@@ -2992,8 +3004,8 @@ var _GraphicalElement = function(obj) {
                     //Hay que recalcular si es que es fixed, para tomar de referencia un handler anterior
                     if (this.fixed) {
                         end = {
-                            x: segments.getItem(1).x,
-                            y: segments.getItem(1).y
+                            x: segments[1].values[0],
+                            y: segments[1].values[1]
                         };  
                     }
                     
@@ -3011,17 +3023,22 @@ var _GraphicalElement = function(obj) {
                         } else if(dx < 0){
                             dx = -1;
                         }
-                        pini.x = ini.x + dx * (fw + this.soff);
-                        pini.y = ini.y;
+                        pini.values[0] = ini.x + dx * (fw + this.soff);
+                        pini.values[1] = ini.y;
                     } else {
                         if(dy > 0){
                             dy = 1;
                         } else if(dy < 0){
                             dy = -1;
                         }
-                        pini.x = ini.x;
-                        pini.y = ini.y + dy * (fh + this.soff);
+                        pini.values[0] = ini.x;
+                        pini.values[1] = ini.y + dy * (fh + this.soff);
                     }
+                    
+                    segments[0] = pini;
+                    segments[segments.length - 1] = pend;
+                    this.setPathData(segments);
+                    
                     this.updateSubLine();
                     if (this.text) {
                         this.text.updateLocation();
@@ -3036,33 +3053,33 @@ var _GraphicalElement = function(obj) {
             };
             
             obj.updateInterPoints=function() {
-                var segments = obj.pathSegList,
-                    p1 = segments.getItem(1), p2 = segments.getItem(2), 
-                    p0 = obj.pathSegList.getItem(0),
-                    p3 = obj.pathSegList.getItem(3),
-                    fw = 0, fh = 0, tw = 0, th = 0,
+                var segments = obj.getPathData();
+                if (segments.length >= 4 && !this.fixed) {                    
+                    var fw = 0, fh = 0, tw = 0, th = 0,
                     from = obj.fromObject,
                     to = obj.toObject, dx = obj.xe - from.getX(),
                     dy = obj.ye - from.getY();
                 
-                fw = from !== null ? from.getWidth() / 2 : 0;
-                fh = from !== null ? from.getHeight() / 2 : 0;
-                tw = to !== null ? to.getWidth() / 2 : 0;
-                th = to !== null ? to.getHeight() / 2 : 0;
+                    fw = from !== null ? from.getWidth() / 2 : 0;
+                    fh = from !== null ? from.getHeight() / 2 : 0;
+                    tw = to !== null ? to.getWidth() / 2 : 0;
+                    th = to !== null ? to.getHeight() / 2 : 0;
                 
-                if (segments.numberOfItems >= 4 && !this.fixed) {
+                
                     if((Math.abs(dx) - fw - tw) >= (Math.abs(dy) - fh - th))  {//Caso X
-                        p1.x = (p3.x - p0.x) / 2 + p0.x;
-                        p2.x = p1.x;
-                        p1.y = p0.y;
-                        p2.y = p3.y;
+                        segments[1].values[0] = (segments[3].values[0] - segments[0].values[0]) / 2 + segments[0].values[0];
+                        segments[2].values[0] = segments[1].values[0];
+                        segments[1].values[1] = segments[0].values[1];
+                        segments[2].values[1] = segments[3].values[1];
                     } else {   //Caso Y
-                        p1.y = (p3.y - p0.y) / 2 + p0.y;
-                        p2.y = p1.y;
-                        p1.x = p0.x;
-                        p2.x = p3.x;
+                        segments[1].values[1] = (segments[3].values[1] - segments[0].values[1]) / 2 + segments[0].values[1];
+                        segments[2].values[1] = segments[1].values[1];
+                        segments[1].values[0] = segments[0].values[0];
+                        segments[2].values[0] = segments[3].values[0];
                     }
                 }
+                obj.setPathData(segments);
+                
                 obj.updateSubLine();
                 if (obj.text) {
                     obj.text.updateLocation();
@@ -3097,28 +3114,29 @@ var _GraphicalElement = function(obj) {
             };
             
             obj.updateSubLine= function() {
-                obj.subLine.pathSegList.clear();
-                var segments = obj.pathSegList, i, items = segments.numberOfItems;
-                for (i = 0; i < items; i++) {
-                    var segment = segments.getItem(i);
-                    if (segment.pathSegType===SVGPathSeg.PATHSEG_LINETO_ABS) {
+                obj.subLine.setPathData(obj.getPathData());
+                //obj.subLine.pathSegList.clear();
+                //var segments = obj.getPathData(), i, items = segments.length;
+                /*for (i = 0; i < items; i++) {
+                    var segment = segments[i];
+                    if (segment.type==="L") {
                         obj.subLine.pathSegList.appendItem(obj.subLine.createSVGPathSegLinetoAbs(segment.x, segment.y));
                     } else if (segment.pathSegType===SVGPathSeg.PATHSEG_MOVETO_ABS) {
                        obj.subLine.pathSegList.appendItem(obj.subLine.createSVGPathSegMovetoAbs(segment.x, segment.y));
                     }
-                }
+                }*/
                 //ToolKit.svg.insertBefore(obj.subLine, obj);
                 //obj.subLine.setAttributeNS(null,"class","sequenceFlowSubLine");
             };
             
             obj.getConnectionPoints = function() {
-                var segments = this.pathSegList, i, items = segments.numberOfItems, 
+                var segments = this.getPathData(), i, items = segments.length, 
                     segment, ret = "", from = this.fromObject, sx = from.getX(), sy = from.getY();
                 ret = ret + sx + "," + sy + "|";
                 for (i = 1; i < items - 1; i++) {
-                    segment = segments.getItem(i);
-                    if (segment.pathSegType===SVGPathSeg.PATHSEG_LINETO_ABS || segment.pathSegType===SVGPathSeg.PATHSEG_MOVETO_ABS) {
-                        ret = ret + segment.x + "," + segment.y + "|";
+                    segment = segments[i];
+                    if (segment.type==="L" || segment.yype==="M") {
+                        ret = ret + segment.values[0] + "," + segment.values[1] + "|";
                     }
                 }
                 
@@ -3840,14 +3858,32 @@ var _GraphicalElement = function(obj) {
 
                             if (_points.length >= 4) { //Modeler requiere al menos 4 puntos
                                 obj.fixed = true;
-                                obj.pathSegList.clear();
-                                obj.pathSegList.appendItem(obj.createSVGPathSegMovetoAbs(start.getX(), start.getY()));
+                                var segments = [], point = [];
+                                point.push(start.getX());
+                                point.push(start.getY());
+                                
+                                segments.push({type:"M", values: point});
+                                for (var m = 1; m < _points.length-1; m++) {
+                                    point = [];
+                                    point.push(_points[m].x);
+                                    point.push(_points[m].y);
+                                    segments.push({type:"L", values: point});
+                                }
+                                obj.xe = obj.xe || end.getX();
+                                obj.ye = obj.ye || end.getY();
+                                
+                                point = [];
+                                point.push(obj.xe);
+                                point.push(obj.ye);
+                                segments.push({type:"L", values: point});
+                                obj.setPathData(segments);
+                                /*obj.pathSegList.appendItem(obj.createSVGPathSegMovetoAbs(start.getX(), start.getY()));
                                 for (var m = 1; m < _points.length - 1; m++) {
                                     obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(_points[m].x, _points[m].y));
                                 }
                                 obj.xe = obj.xe || end.getX();
                                 obj.ye = obj.ye || end.getY();
-                                obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(obj.xe, obj.ye));
+                                obj.pathSegList.appendItem(obj.createSVGPathSegLinetoAbs(obj.xe, obj.ye));*/
                                 obj.snap2Grid();
                                 obj.updateSubLine();
                             }
@@ -3867,6 +3903,7 @@ var _GraphicalElement = function(obj) {
 
                     start.addOutConnection(obj);
                     end.addInConnection(obj);
+                    obj.updateInterPoints();
 
                     if (etype === "ConditionalFlow" || etype === "DefaultFlow") {
                         if (obj.setLabel && typeof obj.setLabel === "function") {
@@ -4400,3 +4437,5 @@ var _GraphicalElement = function(obj) {
             return ret;
         }
     };
+    
+    
