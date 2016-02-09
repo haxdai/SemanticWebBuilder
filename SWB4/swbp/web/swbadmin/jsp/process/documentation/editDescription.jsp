@@ -4,6 +4,7 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.process.documentation.model.Activity"%>
 <%@page import="java.util.Date"%>
 <%@page import="org.semanticwb.model.WebPage"%>
@@ -50,10 +51,11 @@
 <script type="text/javascript">
     tinymce.init({
         selector: 'textarea',
+        entity_encoding : "raw",
+        save_enablewhendirty: false,
         language: '<%=paramRequest.getUser().getLanguage()%>',
         toolbar: "save | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | undo redo code | forecolor backcolor emoticons ",
         menubar: false,
-        save_enablewhendirty: true,
         force_br_newlines: true,
         paste_data_images: true,
         force_p_newlines: true,
@@ -67,7 +69,7 @@
         file_browser_callback: function(field_name, url, type, win) {
             tinymce.activeEditor.windowManager.open({
                 title: "Cargar archivo",
-                url: "/work/models/<%= wpage.getWebSiteId()%>/jsp/documentation/uploader.jsp?modelid=<%= wpage.getWebSiteId()%>&urlact=<%=urlUpload%>",
+                url: "<%= SWBPortal.getContextPath() %>/swbadmin/jsp/process/documentation/uploader.jsp?modelid=<%= wpage.getWebSiteId()%>&urlact=<%=urlUpload%>"
             }, {
                 oninsert: function(url) {
                     var id = tinymce.activeEditor.id;
