@@ -1,3 +1,4 @@
+4.5.11.2
     -(08/02/2016) - Documenter - Actualizada versión de tinymce
     -(08/02/2016) - Modeler - Agregado polyfill para corregir errores en líneas de conexión por depreciación de los métodos de SVGPathElement
     -(13/01/2016) - SWBProcess - Agregada ontología de Documenter en web.properties 
@@ -8,7 +9,6 @@
     -(23/12/2015) - Modeler - Agregado iframe con scroll al desplegar modelo en modo vista
     -(30/11/2015) - SWBProcess - SWPDocumentation es ahora una dependencia 
     -(24/11/2015) - Documenter - Agregadas bibliotecas para exportación de documentación en formato docx
-
 4.5.11.1
     -(13/11/2015) - BUG: Modeler - Corregido bug al eliminar grupos que evitaba mostrar nuevamente el modelo en la recarga
     -(06/10/2015) - Modeler - Corregida disposición de líneas al arrastrar pools
