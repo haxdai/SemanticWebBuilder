@@ -28,11 +28,12 @@
     String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
     if(semObj == null)return;
     String title = "";
+    String lang = request.getParameter("lang") != null ? request.getParameter("lang") : "es";
     String urlRender = (String)request.getParameter("urlRender");
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {
@@ -60,8 +61,8 @@
         itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
     }
     String args2 = "?suri=" + URLEncoder.encode(suri);
-    args2 += "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
-    args2 += "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    args2 += "&sinceDateAnalysis" + clsName2 + semObj.getId() + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
+    args2 += "&toDateAnalysis" + clsName2 + semObj.getId() + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
     args2 += "&type=graphChartByHour";
     if (itObjPostIns == null || !itObjPostIns.hasNext()) {
 %>
@@ -157,7 +158,7 @@ svg {
     <div align="center" style="margin-left: 100px; width: 700px">N&Uacute;MERO DE MENSAJES POR HORA DEL D&Iacute;A</div>
     <div align="center">
         <a href="javascript:exportFile();" 
-                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel"><%=SWBSocialResUtil.Util.getStringFromGenericLocale("exportExcel", lang)%></a>
     </div>
 </div>
 <div id="chart1" >  
@@ -194,7 +195,7 @@ nv.addGraph(function() {
   d3.select('#chart1 svg')
     .datum(getChartData())
     .call(chart);
-
+    
   //TODO: Figure out a good way to do this automatically
   nv.utils.windowResize(chart.update);
   //nv.utils.windowResize(function() { d3.select('#chart1 svg').call(chart) });

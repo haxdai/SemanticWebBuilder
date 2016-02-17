@@ -51,8 +51,8 @@
     String clsName = semObj.createGenericInstance().getClass().getName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
     if(sinceDateAnalysis != null && !sinceDateAnalysis.isEmpty() && toDateAnalysis != null && !toDateAnalysis.isEmpty()) {
         try {
             sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
@@ -65,8 +65,8 @@
     }
     
     String args = "?objUri=" + semObj.getEncodedURI() + "&lang=" + lang + "&idModel=" + idModel +
-    "&sinceDateAnalysis" + clsName + "=" +  (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null) +
-    "&toDateAnalysis" + clsName + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    "&sinceDateAnalysis" + clsName + semObj.getId() + "=" +  (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null) +
+    "&toDateAnalysis" + clsName + semObj.getId() + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
 
     if (semObj.getGenericInstance() instanceof Stream) {
         stream = (Stream) semObj.getGenericInstance();
@@ -171,7 +171,7 @@
                         .on("click", function(d) {
                             if(confirm('¿Desea exportar a excel?')){
                             var filter =d.data.label; 
-                            var url = "<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter;
+                            var url = "<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName + semObj.getId(), (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName + semObj.getId(),(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter;
                             document.location.href = url;
                             }
                         })
@@ -296,7 +296,7 @@
             var val = document.querySelector('input[name="socialNetwork"]:checked').value;
             var xArrayRedes = new Array();
 
-            document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName + semObj.getId(), (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName + semObj.getId(),(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>&filterGeneral="+val ;
             var opciones =  document.getElementsByName("socialNetwork");
             for(var i=0; i<opciones.length; i++) {        
                 opciones[i].disabled = true;
@@ -392,7 +392,7 @@
                         if(confirm('¿Desea exportar a excel?')){
                             var filter = d.data.suri2;//d.data.suri2//d.data.label
                             //alert(filter);
-                            var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                            var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysis" + clsName + semObj.getId(), (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).setParameter("toDateAnalysis" + clsName + semObj.getId(),(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                             document.location.href = url;
                         }
                     })
@@ -581,9 +581,9 @@
             <h1><%=SWBSocialResUtil.Util.getStringFromGenericLocale("sentimentProm", lang)%>: <%=title%></h1>
             <a href="<%=urlRender.setMode("exportExcel").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).
                     setParameter("type", "").setParameter("lang", lang).
-                    setParameter("sinceDateAnalysis" + clsName , (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).
-                    setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" 
-                    onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+                    setParameter("sinceDateAnalysis" + clsName + semObj.getId() , (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).
+                    setParameter("toDateAnalysis" + clsName + semObj.getId(),(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" 
+                    onclick="return confirm('¿Desea exportar a excel?')" class="excel"><%=SWBSocialResUtil.Util.getStringFromGenericLocale("exportExcel", lang)%></a>
         </div>    
         <div id="pieChart"></div>
 
@@ -600,9 +600,9 @@
             <h1>Redes Sociales</h1>
             <a id="hrefGender" href="<%=urlRender.setMode("exportExcel").setParameter("type", "socialNetwork").
                     setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).
-                    setParameter("sinceDateAnalysis" + clsName, (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).
-                    setParameter("toDateAnalysis" + clsName,(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" 
-                    onclick="return confirm('¿Desea exportar a excel?')"  class="excel">Exportar excel</a>
+                    setParameter("sinceDateAnalysis" + clsName + semObj.getId(), (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)).
+                    setParameter("toDateAnalysis" + clsName + semObj.getId(),(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null))%>" 
+                    onclick="return confirm('¿Desea exportar a excel?')"  class="excel"><%=SWBSocialResUtil.Util.getStringFromGenericLocale("exportExcel", lang)%></a>
         </div>
         <div id="pieNetworkSocial"></div>    
         <div class="grafOptions">
@@ -711,9 +711,9 @@
     <div id="showgraphBar" dojoType="dijit.layout.ContentPane"></div>
     <!--div id="postInByHour" dojoType="dijit.layout.ContentPane">
     </div-->
-    <iframe id="<%=suri+"byHour"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHour.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
-    <iframe id="<%=suri+"byNet"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHourByNet.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
-    <div id="topUserChart" dojoType="dijit.layout.ContentPane"><iframe id="<%=suri+"byUser"%>" src="/work/models/SWBAdmin/jsp/stream/topUserChart.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&url=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(PieChart.MODE_TopUser)%>&urlExport=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("exportExcel")%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe></div>
-    <iframe id="<%=suri+"byPlatform"%>" src="/work/models/SWBAdmin/jsp/stream/devicePlatform.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byHour"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHour.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>&lang=<%=paramRequest.getUser().getLanguage()%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <iframe id="<%=suri+"byNet"%>" src="/work/models/SWBAdmin/jsp/stream/lineChartByHourByNet.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe>
+    <div id="topUserChart" dojoType="dijit.layout.ContentPane"><iframe id="<%=suri+"byUser"%>" src="/work/models/SWBAdmin/jsp/stream/topUserChart.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&url=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(PieChart.MODE_TopUser)%>&urlExport=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("exportExcel")%>" frameborder="0" width="100%" height="500" scrolling="no"></iframe></div>
+    <iframe id="<%=suri+"byPlatform"%>" src="/work/models/SWBAdmin/jsp/stream/devicePlatform.jsp?suri=<%=URLEncoder.encode(suri)%>&sinceDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>&toDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>&urlRender=<%=paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_ExportSpecificData)%>&lang=<%=paramRequest.getUser().getLanguage()%>" frameborder="0" width="100%" height="510" scrolling="no"></iframe>
 </div>
 </body>

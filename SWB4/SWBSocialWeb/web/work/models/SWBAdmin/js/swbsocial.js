@@ -1059,3 +1059,9 @@ function myFunction(url) {
     //myWindow.opener.document.write("<p>This is the source window Edited!</p>");
     //window.showModalDialog(url, 'dialogWidth:800px; dialogHeight:600px; dialogLeft:10; dialogTop:10; center:1; status:0; help:0');
 }
+
+function clearInput(id) {
+    if(dojo.byId(id) != null) {
+        dojo.byId(id).value = '';
+    }
+}

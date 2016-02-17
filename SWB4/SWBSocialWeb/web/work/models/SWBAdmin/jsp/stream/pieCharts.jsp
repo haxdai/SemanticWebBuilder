@@ -44,8 +44,8 @@
     Date sinDateAnalysisPieCharts = null;
     Date tDateAnalysisPieCharts = null;
 
-    String sinceDateAnalysisPieCharts = request.getParameter("sinceDateAnalysisPieCharts" + clsName);
-    String toDateAnalysisPieCharts = request.getParameter("toDateAnalysisPieCharts" + clsName);
+    String sinceDateAnalysisPieCharts = request.getParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId());
+    String toDateAnalysisPieCharts = request.getParameter("toDateAnalysisPieCharts" + clsName + semObj.getId());
     if(sinceDateAnalysisPieCharts != null && !sinceDateAnalysisPieCharts.isEmpty() && toDateAnalysisPieCharts != null && !toDateAnalysisPieCharts.isEmpty()) {
         try {
             sinDateAnalysisPieCharts = formatDate.parse(sinceDateAnalysisPieCharts);
@@ -62,8 +62,8 @@
     String idModel = paramRequest.getWebPage().getWebSiteId();
     args += "&lang=" + lang;
     args += "&idModel=" + idModel;
-    args += "&sinceDateAnalysisPieCharts" + clsName + "=" +  (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null);
-    args += "&toDateAnalysisPieCharts" + clsName + "=" + (tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null);
+    args += "&sinceDateAnalysisPieCharts" + clsName + semObj.getId() + "=" +  (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null);
+    args += "&toDateAnalysisPieCharts" + clsName + semObj.getId() + "=" + (tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null);
 
 
     String title = "";
@@ -105,7 +105,7 @@
             //alert('entro');
             var content='';               
             
-            var url='<%=urlRender.setMode("exportExcel").setParameter("type", "education").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>';
+            var url='<%=urlRender.setMode("exportExcel").setParameter("type", "education").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>';
             var strToEval='dojo.xhrPost({form: url,timeout: 3000,content: {'+ content +' }})';
                
             var xhrArgs = {
@@ -164,7 +164,7 @@
     <div id="pieGenderParent">
         <div class="grafTit">
             <h1><%=SWBSocialResUtil.Util.getStringFromGenericLocale("gender", lang)%></h1>
-            <a id="hrefGender" href="<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+            <a id="hrefGender" href="<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('¿Desea exportar a excel?')" class="excel"><%=SWBSocialResUtil.Util.getStringFromGenericLocale("exportExcel", lang)%></a>
         </div>
         <div id="pieGender">
         </div>
@@ -218,7 +218,7 @@
             document.getElementById('pieGender').innerHTML="";
             var val = document.querySelector('input[name="gender"]:checked').value;            
 
-            document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefGender").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
      
             var opciones =  document.getElementsByName("gender");//.disabled=false;
             for(var i=0; i<opciones.length; i++) {        
@@ -318,7 +318,7 @@
                 .on("click", function(d) {
                     if(confirm('¿Desea exportar a excel?')){
                         var filter = d.data.label; 
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "gender").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                     }
                 })
@@ -1195,7 +1195,7 @@
     <div id="profileGeoLocationParent">
         <div class="grafTit">
             <h1><%=SWBSocialResUtil.Util.getStringFromGenericLocale("location", lang)%> México</h1>
-            <a id="hrefGeo" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("country", "MX").setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')"  class="excel">Exportar excel</a>
+            <a id="hrefGeo" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("country", "MX").setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')"  class="excel">Exportar excel</a>
         </div> 
         <div id="profileGeoLocation">
         </div>     
@@ -1238,7 +1238,7 @@
             }
  
             var val = document.querySelector('input[name="geo"]:checked').value;
-            document.getElementById("hrefGeo").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "MX").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefGeo").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "MX").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
      
             var opciones =  document.getElementsByName("geo");//.disabled=false;
             for(var i=0; i<opciones.length; i++) {        
@@ -1359,7 +1359,7 @@
                         for (var i=0; i<acentos.length; i++) {
                             filter = filter.replace(acentos.charAt(i), original.charAt(i));
                         }
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "MX").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "MX").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                         //document.hrefGeo.href = url;
                     }
@@ -1466,7 +1466,7 @@
     <div id="profileGeoLocationParentEU">
         <div class="grafTit">
             <h1><%=SWBSocialResUtil.Util.getStringFromGenericLocale("location", lang)%> Estados Unidos</h1>
-            <a id="hrefGeoEU" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("country", "US").setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+            <a id="hrefGeoEU" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("country", "US").setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
         </div> 
         <div id="profileGeoLocationEU">
         </div>     
@@ -1506,7 +1506,7 @@
        
  
             var val = document.querySelector('input[name="geoUS"]:checked').value;
-            document.getElementById("hrefGeoEU").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "US").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefGeoEU").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("country", "US").setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
      
             var opciones =  document.getElementsByName("geoUS");//.disabled=false;
             for(var i=0; i<opciones.length; i++) {        
@@ -1620,7 +1620,7 @@
                 .on("click", function(d) {
                     if(confirm('¿Desea exportar a excel?')){
                         var filter = d.data.label;  
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geoLocation").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                     }
                 }) 
@@ -1722,7 +1722,7 @@
     <div id="profileCountryParent">
         <div class="grafTit">
             <h1> Global </h1>
-            <a id="hrefCountry" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+            <a id="hrefCountry" href="<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"  onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
         </div> 
         <div id="profileCountry">
         </div>     
@@ -1766,7 +1766,7 @@
             }
  
             var val = document.querySelector('input[name="country"]:checked').value;
-            document.getElementById("hrefCountry").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefCountry").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
      
             var opciones =  document.getElementsByName("country");//.disabled=false;
             for(var i=0; i<opciones.length; i++) {        
@@ -1887,7 +1887,7 @@
                             filter = filter.replace(acentos.charAt(i), original.charAt(i));
                         }
 
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "geolocationCountry").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts"+clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                     }
                 }) 
@@ -1988,7 +1988,7 @@
     <div id="profileLanguageParent">
         <div class="grafTit">
             <h1> Lenguajes </h1>
-            <a id="hrefLanguage" href="<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
+            <a id="hrefLanguage" href="<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>" onclick="return confirm('¿Desea exportar a excel?')" class="excel">Exportar excel</a>
         </div> 
         <div id="profileLanguage">
         </div>     
@@ -2031,7 +2031,7 @@
             }
  
             var val = document.querySelector('input[name="language"]:checked').value;
-            document.getElementById("hrefLanguage").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+ clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
+            document.getElementById("hrefLanguage").href= "<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" + clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts"+ clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>&filterGeneral="+val ;
      
             var opciones =  document.getElementsByName("language");//.disabled=false;
             for(var i=0; i<opciones.length; i++) {        
@@ -2152,7 +2152,7 @@
                             filter = filter.replace(acentos.charAt(i), original.charAt(i));
                         }
 
-                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" +clsName, (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName,(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
+                        var url = "<%=urlRender.setMode("exportExcel").setParameter("type", "languages").setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("suri", suri).setParameter("lang", lang).setParameter("sinceDateAnalysisPieCharts" +clsName + semObj.getId(), (sinDateAnalysisPieCharts != null ? formatDate.format(sinDateAnalysisPieCharts) : null)).setParameter("toDateAnalysisPieCharts" + clsName + semObj.getId(),(tDateAnalysisPieCharts != null ? formatDate.format(tDateAnalysisPieCharts) : null))%>"+"&filter="+filter+"&filterGeneral="+val;
                         document.location.href = url;
                     }
                 }) 

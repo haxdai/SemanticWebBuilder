@@ -30,12 +30,13 @@
     SemanticObject semObj = SemanticObject.createSemanticObject(suri);
     if(semObj == null)return;
     String title = "";
+    String lang = request.getParameter("lang") != null ? request.getParameter("lang") : "es";
     String urlRender = (String)request.getParameter("urlRender");
     String clsName = semObj.createGenericInstance().getClass().getName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName +  semObj.getId());
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {
@@ -51,9 +52,10 @@
     }       
     String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
     String args2 = "?suri=" + URLEncoder.encode(suri) +
-    "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null) +
-    "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null) +
+    "&sinceDateAnalysis" + clsName2 + semObj.getId()+ "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null) +
+    "&toDateAnalysis" + clsName2 + semObj.getId()+ "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null) +
     "&type=graphDevicePlatform";
+    String args = "?suri=" + URLEncoder.encode(suri, "UTF-8") + "&type=graphDevPlatfSentim";
     
     Iterator<PostIn> itObjPostIns = null;
     LinkedHashMap<DevicePlatform, Integer[]> lhm = new LinkedHashMap<DevicePlatform,Integer[]>();
@@ -94,16 +96,14 @@
                 Integer [] tmp = lhm.get(pInDP);//0Neutrals, 1positives, 2negatives
                 if(postIn.getPostSentimentalType() >= 0 && postIn.getPostSentimentalType() <= 2 ){
                     tmp[postIn.getPostSentimentalType()]++;
-                }
+                } 
                 lhm.put(pInDP, tmp);
-            }
+            } 
         }
     }
 %>
-
 <meta charset="utf-8">
 <link href="/swbadmin/css/nv.d3.css" rel="stylesheet" type="text/css">
-
 <style>
 
 body {
@@ -148,9 +148,10 @@ text {
 <body class='with-3d-shadow with-transitions'>
 <div id="chart1" >
   <div align="center" style="margin-left: 100px; width: 700px">MENSAJES POR PLATAFORMA M&Oacute;VIL</div>
-    <div align="center" class="aShowGraph">
+    <div align="center" style="margin-left: 100px; width: 700px; padding-top: 10px;">** <%=SWBSocialResUtil.Util.getStringFromGenericLocale("grapDisplayOnlyTwitter", lang)%></div>
+    <div align="center" style="margin-left: 100px; width: 700px;" class="aShowGraph">
         <a href="javascript:exportFile();" 
-                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel">Exportar excel</a>
+                onclick="return confirm('&iquest;Desea exportar a excel?')" class="excel"><%=SWBSocialResUtil.Util.getStringFromGenericLocale("exportExcel", lang)%></a>
     </div>
   <svg style="height: 430px;"></svg>
 </div>
@@ -182,6 +183,16 @@ nv.addGraph(function() {
   nv.utils.windowResize(chart.update);
 
   chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+  
+  chart.multibar.dispatch.on("elementClick", function(e) {
+    if(e != null) {
+        if(e.point != null && e.series != null) {
+            var url = '<%=urlRender%>';
+            url += '<%=args%>&dev=' + e.point.label + '&sent=' +e.series.key;
+            document.location.href = url;
+        }
+    }
+});
 
   return chart;
 });
