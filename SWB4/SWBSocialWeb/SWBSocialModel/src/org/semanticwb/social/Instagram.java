@@ -92,6 +92,9 @@ public class Instagram extends org.semanticwb.social.base.InstagramBase
             session.setAttribute("redirectInstagram", uri);
             out.println("<script type=\"text/javascript\">");
             out.println("   location.href='"+ "https://api.instagram.com/oauth/authorize/?client_id=" + clientId + "&redirect_uri=" + uriTemp + "&response_type=code"+"'");
+            //Permiso necesario para la actualización Junio 2016 hecha al API
+ //           out.println("   location.href='"+ "https://api.instagram.com/oauth/authorize/?client_id=" + clientId + "&redirect_uri=" + uriTemp + "&response_type=code"+"&scope=public_content'");
+            
             out.println("</script>");
         } else {
             Map<String, String> params = new HashMap<String, String>();
