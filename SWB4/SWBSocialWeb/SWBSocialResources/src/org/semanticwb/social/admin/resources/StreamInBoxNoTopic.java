@@ -256,8 +256,8 @@ public class StreamInBoxNoTopic extends GenericResource {
         //System.out.println("StreamInBoxNoTopic");
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite wsite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
-        String sinceDateStreamMsgNP = request.getParameter("sinceDateStreamMsgNP") == null ? "" : request.getParameter("sinceDateStreamMsgNP");
-        String toDateStreamMsgNP = request.getParameter("toDateStreamMsgNP") == null ? "" : request.getParameter("toDateStreamMsgNP");
+        String sinceDateStreamMsgNP = request.getParameter("sinceDateStreamMsgNP" + stream.getId()) == null ? "" : request.getParameter("sinceDateStreamMsgNP" + stream.getId());
+        String toDateStreamMsgNP = request.getParameter("toDateStreamMsgNP" + stream.getId()) == null ? "" : request.getParameter("toDateStreamMsgNP" + stream.getId());
         String sinceDateStreamMsgNP1 = sinceDateStreamMsgNP;
         String toDateStreamMsgNP1 = toDateStreamMsgNP;
         PrintWriter out = response.getWriter();
@@ -299,7 +299,7 @@ public class StreamInBoxNoTopic extends GenericResource {
         out.println("}");
         out.println(".filterInput {");
         out.println("   width:110px;");
-        out.println("}");        
+        out.println("}");  
         out.println("</style>");
 
         ////System.out.println("search word que llega sin:"+request.getParameter("search"));
@@ -405,7 +405,7 @@ public class StreamInBoxNoTopic extends GenericResource {
         
         * */
         out.println("<a href=\""+urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy).
-                setParameter("sinceDateStreamMsgNP", sinceDateStreamMsgNP1).setParameter("toDateStreamMsgNP", toDateStreamMsgNP1)+"\" class=\"excelall\">"+paramRequest.getLocaleString("importAll")+"</a>");
+                setParameter("sinceDateStreamMsgNP" + stream.getId(), sinceDateStreamMsgNP1).setParameter("toDateStreamMsgNP" + stream.getId(), toDateStreamMsgNP1)+"\" class=\"excelall\">"+paramRequest.getLocaleString("importAll")+"</a>");
 
         //TAG CLOUD
         SWBResourceURL tagUrl = paramRequest.getRenderUrl();
@@ -431,18 +431,19 @@ public class StreamInBoxNoTopic extends GenericResource {
         
         out.println("<fieldset class=\"filterTextField\">");
         out.println("<div class=\"soria\">");
-        out.println("<form id=\"frmFilterStreamMsg\" name=\"frmFilterStreamMsg\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+        out.println("<form id=\"frmFilterStreamMsg" + stream.getId() + "\" name=\"frmFilterStreamMsg" + stream.getId() + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
                 + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", stream.getURI())
                 + "\" method=\"post\" " /**/
-                + " onsubmit=\"submitForm('frmFilterStreamMsg'); return false;\">");
+                + " onsubmit=\"submitForm('frmFilterStreamMsg" + stream.getId() + "'); return false;\">");
         out.println("<label class=\"counterFilter\">Del día</label>");
-        out.println("<input name=\"sinceDateStreamMsgNP\" id=\"sinceDateStreamMsgNP\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + sinceDateStreamMsgNP1 + "\" data-dojo-id=\"sinceDateStreamMsgNP" + stream.getId() + "\""
-                + " onChange=\"toDateStreamMsgNP" + stream.getId() + ".constraints.min = arguments[0];\">");
+        out.println("<input name=\"sinceDateStreamMsgNP" + stream.getId() + "\" id=\"sinceDateStreamMsgNP" + stream.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + sinceDateStreamMsgNP1 + "\" data-dojo-id=\"sinceDateStreamMsgNPStream" + stream.getId() + "\""
+                + " onChange=\"toDateStreamMsgNPStream" + stream.getId() + ".constraints.min = arguments[0];\">");
         out.println("<label for=\"toDate\" class=\"counterFilter\"> al día:</label>");
-        out.println("<input name=\"toDateStreamMsgNP\" id=\"toDateStreamMsgNP\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + toDateStreamMsgNP1 + "\" data-dojo-id=\"toDateStreamMsgNP" + stream.getId() + "\""
-                + " onChange=\"sinceDateStreamMsgNP" + stream.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<input name=\"toDateStreamMsgNP" + stream.getId() + "\" id=\"toDateStreamMsgNP" + stream.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + toDateStreamMsgNP1 + "\" data-dojo-id=\"toDateStreamMsgNPStream" + stream.getId() + "\""
+                + " onChange=\"sinceDateStreamMsgNPStream" + stream.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<a title=\"Limpiar fechas\" href=\"javascript: clearInput('toDateStreamMsgNP" + stream.getId() + "'); clearInput('sinceDateStreamMsgNP" + stream.getId() +"'); \" ><span class='swbRefresh'></span></a>");
         out.println("<button dojoType=\"dijit.form.Button\" class=\"filterInput\" type=\"submit\">Calcular</button>");
         out.println("</form>");
         out.println("</div>");
@@ -832,6 +833,11 @@ public class StreamInBoxNoTopic extends GenericResource {
         
 
         Iterator<PostIn> itposts = (Iterator)hmapResult.get("itResult"); 
+        if(itposts == null || !itposts.hasNext()){
+           out.println("<div id=\"refrescar_cred\">");
+           out.println("<a href=\"#\" class=\"countersBar\" title=\"Refrescar Tab\" onclick=\"submitUrl('" + urlRefresh.setMode(SWBResourceURL.Action_EDIT) + "',this); return false;\"><span>Recargar mensajes</span></a>");
+           out.println("</div>");
+        }
         //Una vez que ya se cuantos elementos son, ya que ya se hizo una primera iteración sobre todos los PostIn, hago una segunda
         //iteración ya para mostrar esos ultimos elementos, esto de hacer 2 iteraciones no es muy bueno, TODO: ver con Javier si vemos
         //otra mejor opción.
@@ -885,8 +891,8 @@ public class StreamInBoxNoTopic extends GenericResource {
             if (request.getParameter("orderBy") != null) {
                 pageURL.setParameter("orderBy", request.getParameter("orderBy"));
             }
-            pageURL.setParameter("sinceDateStreamMsgNP", sinceDateStreamMsgNP1);
-            pageURL.setParameter("toDateStreamMsgNP", toDateStreamMsgNP1);            
+            pageURL.setParameter("sinceDateStreamMsgNP" + stream.getId(), sinceDateStreamMsgNP1);
+            pageURL.setParameter("toDateStreamMsgNP" + stream.getId(), toDateStreamMsgNP1);            
             /*
             out.println("<div id=\"pagination\">");
             out.println("<span>P&aacute;ginas:</span>");
@@ -1173,8 +1179,8 @@ public class StreamInBoxNoTopic extends GenericResource {
         String id = request.getParameter("suri");
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite webSite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
-        String sinceDateStreamMsgNP = request.getParameter("sinceDateStreamMsgNP") == null ? "" : request.getParameter("sinceDateStreamMsgNP");
-        String toDateStreamMsgNP = request.getParameter("toDateStreamMsgNP") == null ? "" : request.getParameter("toDateStreamMsgNP");
+        String sinceDateStreamMsgNP = request.getParameter("sinceDateStreamMsgNP" + stream.getId()) == null ? "" : request.getParameter("sinceDateStreamMsgNP" + stream.getId());
+        String toDateStreamMsgNP = request.getParameter("toDateStreamMsgNP" + stream.getId()) == null ? "" : request.getParameter("toDateStreamMsgNP" + stream.getId());
         if(sinceDateStreamMsgNP != null && !sinceDateStreamMsgNP.isEmpty() && !sinceDateStreamMsgNP.contains("T00:00:00") && toDateStreamMsgNP != null 
                 && !toDateStreamMsgNP.isEmpty() && !toDateStreamMsgNP.contains("T23:59:59")) {
             sinceDateStreamMsgNP += "T00:00:00";

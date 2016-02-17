@@ -276,10 +276,6 @@ public class SocialTopicInBox extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         log.debug("doEdit()");
-        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
-        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
-        String sinceDateStreamMsg1 = sinceDateStreamMsg;
-        String toDateStreamMsg1 = toDateStreamMsg;        
 
         String id = request.getParameter("suri");
         if (id == null) {
@@ -290,6 +286,10 @@ public class SocialTopicInBox extends GenericResource {
         WebSite wsite = WebSite.ClassMgr.getWebSite(socialTopic.getSemanticObject().getModel().getName());
 
         PrintWriter out = response.getWriter();
+        String sinceDateStreamMsg = request.getParameter("sinceDateTopicMsg" + socialTopic.getId()) == null ? "" : request.getParameter("sinceDateTopicMsg" + socialTopic.getId());
+        String toDateStreamMsg = request.getParameter("toDateTopicMsg" + socialTopic.getId()) == null ? "" : request.getParameter("toDateTopicMsg" + socialTopic.getId());
+        String sinceDateStreamMsg1 = sinceDateStreamMsg;
+        String toDateStreamMsg1 = toDateStreamMsg;        
         //Resource base = getResourceBase();
         //User user = paramRequest.getUser();
 
@@ -351,7 +351,7 @@ public class SocialTopicInBox extends GenericResource {
         out.println("}");
         out.println(".filterInput {");
         out.println("   width:110px;");
-        out.println("}");        
+        out.println("}");   
         out.println("</style>");
 
         //String action = request.getParameter("act");
@@ -451,7 +451,7 @@ public class SocialTopicInBox extends GenericResource {
          out.println("</form>");
          out.println("</span>");
          * */
-        out.println("<a href=\"" + urls.setMode("exportExcel").setParameter("pages", page).setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("orderBy", orderBy) + "\" class=\"excel\">" + paramRequest.getLocaleString("importCurrentPage") + "</a>");
+        out.println("<a href=\"" + urls.setMode("exportExcel").setParameter("pages", page).setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("orderBy", orderBy).setParameter("sinceDateTopicMsg" + socialTopic.getId(), sinceDateStreamMsg1).setParameter("toDateTopicMsg" + socialTopic.getId(), toDateStreamMsg1) + "\" class=\"excel\">" + paramRequest.getLocaleString("importCurrentPage") + "</a>");
 
         /*
          out.println("<span  class=\"spanFormat\">");
@@ -463,7 +463,7 @@ public class SocialTopicInBox extends GenericResource {
          out.println("</span>");
          * */
         out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy).
-                setParameter("sinceDateStreamMsg", sinceDateStreamMsg1).setParameter("toDateStreamMsg", toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
+                setParameter("sinceDateTopicMsg" + socialTopic.getId(), sinceDateStreamMsg1).setParameter("toDateTopicMsg" + socialTopic.getId(), toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
 
         //TAG CLOUD
         SWBResourceURL tagUrl = paramRequest.getRenderUrl();
@@ -487,18 +487,19 @@ public class SocialTopicInBox extends GenericResource {
         out.println("</fieldset>");
         out.println("<fieldset class=\"filterTextField\">");
         out.println("<div class=\"soria\">");
-        out.println("<form id=\"frmFilterStreamMsg\" name=\"frmFilterStreamMsg\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+        out.println("<form id=\"frmFilterTopicMsg" + socialTopic.getId() + "\" name=\"frmFilterTopicMsg" + socialTopic.getId() + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
                 + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", socialTopic.getURI())
                 + "\" method=\"post\" " /**/
-                + " onsubmit=\"submitForm('frmFilterStreamMsg'); return false;\">");
+                + " onsubmit=\"submitForm('frmFilterTopicMsg" + socialTopic.getId() + "'); return false;\">");
         out.println("<label class=\"counterFilter\">Del día</label>");
-        out.println("<input name=\"sinceDateStreamMsg\" id=\"sinceDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateStreamMsg" + socialTopic.getId() + "\""
-                + " onChange=\"toDateStreamMsg" + socialTopic.getId() + ".constraints.min = arguments[0];\">");
+        out.println("<input name=\"sinceDateTopicMsg" + socialTopic.getId() + "\" id=\"sinceDateTopicMsg" + socialTopic.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateTopicMsgTopic" + socialTopic.getId() + "\""
+                + " onChange=\"toDateTopicMsgTopic" + socialTopic.getId() + ".constraints.min = arguments[0];\">");
         out.println("<label for=\"toDate\" class=\"counterFilter\"> al día:</label>");
-        out.println("<input name=\"toDateStreamMsg\" id=\"toDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateStreamMsg" + socialTopic.getId() + "\""
-                + " onChange=\"sinceDateStreamMsg" + socialTopic.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<input name=\"toDateTopicMsg" + socialTopic.getId() + "\" id=\"toDateTopicMsg" + socialTopic.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateTopicMsgTopic" + socialTopic.getId() + "\""
+                + " onChange=\"sinceDateTopicMsgTopic" + socialTopic.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<a title=\"Limpiar fechas\" href=\"javascript: clearInput('toDateTopicMsg'"+ socialTopic.getId() + "); clearInput('sinceDateTopicMsg'" + socialTopic.getId()+ "); \" ><span class='swbRefresh'></span></a>");
         out.println("<button dojoType=\"dijit.form.Button\" class=\"filterInput\" type=\"submit\">Calcular</button>");
         out.println("</form>");
         out.println("</div>");
@@ -907,6 +908,11 @@ public class SocialTopicInBox extends GenericResource {
 
 
         Iterator<PostIn> itposts = (Iterator) hmapResult.get("itResult");
+        if(itposts == null || !itposts.hasNext()){
+           out.println("<div id=\"refrescar_cred\">");
+           out.println("<a href=\"#\" class=\"countersBar\" title=\"Refrescar Tab\" onclick=\"submitUrl('" + urlRefresh.setMode(SWBResourceURL.Action_EDIT) + "',this); return false;\"><span>Recargar mensajes</span></a>");
+           out.println("</div>");
+        }        
         while (itposts != null && itposts.hasNext()) {
             PostIn postIn = itposts.next();
 
@@ -943,8 +949,8 @@ public class SocialTopicInBox extends GenericResource {
             if (request.getParameter("orderBy") != null) {
                 pageURL.setParameter("orderBy", request.getParameter("orderBy"));
             }
-            pageURL.setParameter("sinceDateStreamMsg", sinceDateStreamMsg1);
-            pageURL.setParameter("toDateStreamMsg", toDateStreamMsg1);            
+            pageURL.setParameter("sinceDateTopicMsg" + socialTopic.getId(), sinceDateStreamMsg1);
+            pageURL.setParameter("toDateTopicMsg" + socialTopic.getId(), toDateStreamMsg1);            
             /*
              out.println("<div id=\"pagination\">");
              out.println("<span>P&aacute;ginas:</span>");
@@ -1312,8 +1318,8 @@ public class SocialTopicInBox extends GenericResource {
 
         SocialTopic socialTopic = (SocialTopic) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite webSite = WebSite.ClassMgr.getWebSite(socialTopic.getSemanticObject().getModel().getName());
-        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
-        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
+        String sinceDateStreamMsg = request.getParameter("sinceDateTopicMsg" + socialTopic.getId()) == null ? "" : request.getParameter("sinceDateTopicMsg" + socialTopic.getId());
+        String toDateStreamMsg = request.getParameter("toDateTopicMsg" + socialTopic.getId()) == null ? "" : request.getParameter("toDateTopicMsg" + socialTopic.getId());
         if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
                 && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
             sinceDateStreamMsg += "T00:00:00";
