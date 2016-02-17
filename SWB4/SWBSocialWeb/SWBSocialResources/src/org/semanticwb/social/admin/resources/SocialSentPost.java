@@ -811,7 +811,11 @@ public class SocialSentPost extends GenericResource {
 
         //Set<PostOut> setso = ((Set) hmapResult.get("itResult"));
         Iterator<PostOut> itposts = (Iterator) hmapResult.get("itResult");
-
+        if(itposts == null || !itposts.hasNext()){
+           out.println("<div id=\"refrescar_cred\">");
+           out.println("<a href=\"#\" class=\"countersBar\" title=\"Refrescar Tab\" onclick=\"submitUrl('" + urlRefresh.setMode(SWBResourceURL.Action_EDIT) + "',this); return false;\"><span>Recargar mensajes</span></a>");
+           out.println("</div>");
+        }
         //Iterator<PostOut> itposts = setso.iterator();
         while (itposts != null && itposts.hasNext()) {
             PostOut postOut = (PostOut) itposts.next();

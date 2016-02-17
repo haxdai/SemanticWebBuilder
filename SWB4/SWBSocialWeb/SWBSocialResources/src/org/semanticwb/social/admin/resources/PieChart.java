@@ -145,29 +145,34 @@ public class PieChart extends GenericResource {
         String suri = request.getParameter("suri");
         String paramSinceDateAnalysis = "sinceDateAnalysis";
         String paramToDateAnalysis = "toDateAnalysis";
+
         if (suri != null) {
             SemanticObject semObj = SemanticObject.createSemanticObject(suri);
             String clsName = semObj.createGenericInstance().getClass().getName();
+            String strName = semObj.createGenericInstance() instanceof Stream ? "Stream" : "Topic";
             if (semObj != null) {
-                sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName) == null ? "" : request.getParameter("sinceDateAnalysis" + clsName);
-                toDateAnalysis = request.getParameter("toDateAnalysis" + clsName) == null ? "" : request.getParameter("toDateAnalysis" + clsName);
+                sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId()) == null ? "" : request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+                toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId()) == null ? "" : request.getParameter("toDateAnalysis" + clsName + semObj.getId());
                 //Stream socialNet = (Stream) SemanticObject.getSemanticObject(suri).createGenericInstance();
-                out.println("<form id=\"frmFilter" + clsName + "\" name=\"frmFilter" + clsName + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+                out.println("<form id=\"frmFilter" + clsName + semObj.getId() + "\" name=\"frmFilter" + clsName + semObj.getId() + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
                         + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", semObj.getURI())
                         + "\" method=\"post\" "
-                        + " onsubmit=\"submitForm('frmFilter" + clsName + "'); return false;\">");
+                        + " onsubmit=\"submitForm('frmFilter" + clsName + semObj.getId() + "'); return false;\">");
                 out.println("<label>Del día</label>");
-                out.println("<input name=\"sinceDateAnalysis" + clsName + "\" id=\"sinceDateAnalysis" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
-                        + sinceDateAnalysis + "\" data-dojo-id=\"sinceDateAnalysis" + semObj.getId() + "\""
-                        + " onChange=\"toDateAnalysis" + semObj.getId() + ".constraints.min = arguments[0];\">");
+                out.println("<input name=\"sinceDateAnalysis" + clsName + semObj.getId() + "\" id=\"sinceDateAnalysis" + clsName + semObj.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + sinceDateAnalysis + "\" data-dojo-id=\"sinceDateAnalysis" + strName + semObj.getId() + "\""
+                        + " onChange=\"toDateAnalysis" + strName + semObj.getId() + ".constraints.min = arguments[0];\">");
                 out.println("<label for=\"toDate\"> al día:</label>");
-                out.println("<input name=\"toDateAnalysis" + clsName + "\" id=\"toDateAnalysis" + clsName + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
-                        + toDateAnalysis + "\" data-dojo-id=\"toDateAnalysis" + semObj.getId() + "\""
-                        + " onChange=\"sinceDateAnalysis" + semObj.getId() + ".constraints.max = arguments[0];\">");
+                out.println("<input name=\"toDateAnalysis" + clsName + semObj.getId() + "\" id=\"toDateAnalysis" + clsName + semObj.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" style=\"width:110px;\" hasDownArrow=\"true\" value=\""
+                        + toDateAnalysis + "\" data-dojo-id=\"toDateAnalysis" + strName + semObj.getId() + "\""
+                        + " onChange=\"sinceDateAnalysis" + strName + semObj.getId() + ".constraints.max = arguments[0];\">");
+                out.println("<a title=\"Limpiar fechas\" href=\"javascript: clearInput('toDateAnalysis" + clsName + semObj.getId() + "'); clearInput('sinceDateAnalysis" + clsName + semObj.getId() + "'); \" ><span class='swbRefresh'></span></a>");
                 out.println("<button dojoType=\"dijit.form.Button\" type=\"submit\">Calcular</button>");
                 out.println("</form>");
                 paramSinceDateAnalysis += clsName;
+                paramSinceDateAnalysis += semObj.getId();
                 paramToDateAnalysis += clsName;
+                paramToDateAnalysis += semObj.getId();
             }
         }
         out.println("<iframe width=\"100%\" height=\"100%\" src=\"" + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("doView", "1").setParameter("suri", request.getParameter("suri")).setParameter(paramToDateAnalysis, toDateAnalysis).setParameter(paramSinceDateAnalysis, sinceDateAnalysis) + "\"></iframe> ");
@@ -298,8 +303,8 @@ public class PieChart extends GenericResource {
         String toDateAnalysis = null;
 
         if (semObjParam != null) {
-            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObjParam.getId());
+            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObjParam.getId());
         }
 
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -337,6 +342,8 @@ public class PieChart extends GenericResource {
             setso = getGraphChartTopUser(request, semObjParam);
             sinDateAnalysis = null;
             tDateAnalysis = null;
+        } else if ("graphChartTopUserBySent".equals(type)) {
+            setso = getGraphChartTopUserBySent(request, semObjParam);
         } else {
             setso = getListSentiment(suri, lang, filter);
         }
@@ -707,7 +714,7 @@ public class PieChart extends GenericResource {
                 Descriptiveable ele = (Descriptiveable) semObj1.createGenericInstance();
                 titleDescr = ele.getDisplayTitle(lang);
             }
-            
+
             //Se crea la fila con el nombre del Stream o Tema
             CellRangeAddress region = new CellRangeAddress(2, 2, incCelds, incCelds + (feelings.length - 1));
             sheet.addMergedRegion(region);
@@ -793,21 +800,20 @@ public class PieChart extends GenericResource {
         Sheet sheet = wb.createSheet(title);
         sheet.setDisplayGridlines(false);
         sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, (4)));// * map.size()
+        CellStyle cellStyle = wb.createCellStyle();
 
         // creo una nueva fila
         //Se crea el nombre de la gráfica a exportar
         Row trow = sheet.createRow(0);
         createTituloCell(wb, trow, 0, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, title);
+
         int incCelds2 = 1;
-
         Row trow1 = sheet.createRow(2);
-
         createHead(wb, trow1, 0, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Dispositivos móviles");
-            for (String strFeelings : feelings) {
-                createHead(wb, trow1, incCelds2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, strFeelings);
-                incCelds2++;
-            }
-            
+        for (String strFeelings : feelings) {
+            createHead(wb, trow1, incCelds2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, strFeelings);
+            incCelds2++;
+        }
 
         Iterator it = map.entrySet().iterator();
         int iRow = 3;
@@ -820,10 +826,9 @@ public class PieChart extends GenericResource {
                 DevicePlatform ele = (DevicePlatform) semObj1.createGenericInstance();
                 titleDescr = ele.getId();
             }
-            
-            CellStyle cellStyle = wb.createCellStyle();
+
             int dataArrayHelp[] = (int[]) e.getValue();
-            
+
             createCell(cellStyle, wb, troww, 0, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, titleDescr);
 
             createIntCell(cellStyle, wb, troww, 1, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, dataArrayHelp[1]);
@@ -833,6 +838,16 @@ public class PieChart extends GenericResource {
                     + dataArrayHelp[1] + dataArrayHelp[2]));
             iRow++;
         }
+
+//        sheet.setDisplayGridlines(false);
+//        sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, (4)));// * map.size()
+        trow = sheet.createRow(iRow += 2);
+
+        String tit = SWBUtils.TEXT.decode(SWBSocialResUtil.Util.getStringFromGenericLocale("grapDisplayOnlyTwitter1", paramRequest.getUser().getLanguage()), "utf-8");
+        CellRangeAddress region = new CellRangeAddress(iRow, iRow, 0, 5);
+        sheet.addMergedRegion(region);
+        createNoteCell(wb, trow, 0, CellStyle.ALIGN_CENTER,
+                CellStyle.VERTICAL_CENTER, tit + "");
 
         // Definimos el tamaño de las celdas, podemos definir un tamaña especifico o hacer que 
         //la celda se acomode según su tamaño
@@ -855,7 +870,6 @@ public class PieChart extends GenericResource {
         ou.close();
     }
 
-    
     /**
      * Crea celdas en un excel que tienen formato de horas.
      *
@@ -956,6 +970,25 @@ public class PieChart extends GenericResource {
         cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
         cell.setCellStyle(cellStyle);
 
+    }
+
+    public static void createNoteCell(Workbook wb, Row row, int column, short halign, short valign, String strContenido) {
+        CreationHelper ch = wb.getCreationHelper();
+        Cell cell = row.createCell(column);
+        cell.setCellValue(ch.createRichTextString(strContenido));
+
+        Font cellFont = wb.createFont();
+        cellFont.setFontHeightInPoints((short) 8);
+        cellFont.setFontName(HSSFFont.FONT_ARIAL);
+        //cellFont.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+
+        CellStyle cellStyle = wb.createCellStyle();
+        cellStyle.setAlignment(halign);
+        cellStyle.setVerticalAlignment(valign);
+        cellStyle.setFont(cellFont);
+        //cellStyle.setFillForegroundColor(HSSFColor.GREY_25_PERCENT.index);
+        //cellStyle.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+        cell.setCellStyle(cellStyle);
     }
 
     public static void createHead(Workbook wb, Row row, int column, short halign, short valign, String strContenido) {
@@ -1239,10 +1272,10 @@ public class PieChart extends GenericResource {
         String clsName = semObj.createGenericInstance().getClass().getName();
         String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
         String networkSocial = request.getParameter("networkSocial") == null ? "" : request.getParameter("networkSocial");
-        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-        String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+        String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
         out.println("<iframe  id=\"" + suri + "byUser\" src=\"/work/models/SWBAdmin/jsp/stream/topUserChart.jsp?suri=" + URLEncoder.encode(suri) + "&url=" + paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(PieChart.MODE_TopUser) + "&networkSocial=" + URLEncoder.encode(networkSocial) + ""
-                + "&sinceDateAnalysis" + clsName2 + "=" + sinceDateAnalysis + "&toDateAnalysis" + clsName2 + "=" + toDateAnalysis + "&urlExport=" + paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("exportExcel") + "\"  frameborder=\"0\" width=\"100%\"   height=\"500\"  scrolling=\"no\"></iframe>"); //frameborder=\"0\" style=\"overflow:hidden;overflow-x:h
+                + "&sinceDateAnalysis" + clsName2 + semObj.getId() + "=" + sinceDateAnalysis + "&toDateAnalysis" + clsName2 + semObj.getId() + "=" + toDateAnalysis + "&urlExport=" + paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("exportExcel") + "\"  frameborder=\"0\" width=\"100%\"   height=\"500\"  scrolling=\"no\"></iframe>"); //frameborder=\"0\" style=\"overflow:hidden;overflow-x:h
     }
 
     /**
@@ -1273,8 +1306,8 @@ public class PieChart extends GenericResource {
         String toDateAnalysis = null;
 
         if (clsName != null) {
-            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
         }
 
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -1294,7 +1327,7 @@ public class PieChart extends GenericResource {
         }
         Stream stream = null;
         SocialTopic socialTopic = null;
-        
+
         if (semObj.getGenericInstance() instanceof Stream) {
             stream = (Stream) semObj.getGenericInstance();
             itObjPostIns = stream.listPostInStreamInvs();
@@ -1304,26 +1337,25 @@ public class PieChart extends GenericResource {
             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
             title_elem = socialTopic.getURI();//Title() + "_" + socialTopic.getId();
         }
-        
+
         if (sinDateAnalysis != null && tDateAnalysis != null) {
             itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
         }
-            
+
         HashMap map = new HashMap();
         if ("graphChartByHour".equals(type)) {
             /*if (semObj.getGenericInstance() instanceof Stream) {
-                Stream stream = (Stream) semObj.getGenericInstance();
-                itObjPostIns = stream.listPostInStreamInvs();
-                title_elem = stream.getURI();//Title() + "_" + stream.getId();
-            } else if (semObj.getGenericInstance() instanceof SocialTopic) {
-                SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
-                itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
-                title_elem = socialTopic.getURI();//Title() + "_" + socialTopic.getId();
-            }*/
+             Stream stream = (Stream) semObj.getGenericInstance();
+             itObjPostIns = stream.listPostInStreamInvs();
+             title_elem = stream.getURI();//Title() + "_" + stream.getId();
+             } else if (semObj.getGenericInstance() instanceof SocialTopic) {
+             SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
+             itObjPostIns = PostIn.ClassMgr.listPostInBySocialTopic(socialTopic, socialTopic.getSocialSite());
+             title_elem = socialTopic.getURI();//Title() + "_" + socialTopic.getId();
+             }*/
 //            if (sinDateAnalysis != null && tDateAnalysis != null) {
 //                itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
 //            }
-            
 
             java.util.Date date = null;
             Calendar calendario = Calendar.getInstance();
@@ -1356,7 +1388,7 @@ public class PieChart extends GenericResource {
             //dataArray[24][0] = totalPosts;
             map.put(title_elem, dataArray);
             createStatisticalExcel(map, paramRequest, response, "NÚMERO DE MENSAJES POR HORA DEL DÍA");
-        } else if("graphChartByHourByNet".equals(type)) {
+        } else if ("graphChartByHourByNet".equals(type)) {
             if (stream != null) {
 //                Stream stream = (Stream) semObj.getGenericInstance();
 //                itObjPostIns = stream.listPostInStreamInvs();
@@ -1378,7 +1410,6 @@ public class PieChart extends GenericResource {
 //            if (sinDateAnalysis != null && tDateAnalysis != null) {
 //                itObjPostIns = SWBSocialResUtil.Util.getFilterDates(itObjPostIns, sinDateAnalysis, tDateAnalysis);
 //            }
-            
             Date date = null;
             Calendar calendario = Calendar.getInstance();
 
@@ -1409,7 +1440,7 @@ public class PieChart extends GenericResource {
                 //totalPosts++;
             }
             createStatisticalExcel(map, paramRequest, response, "NÚMERO DE MENSAJES POR HORA DEL DÍA");
-        } else if("graphDevicePlatform".equals(type)) { 
+        } else if ("graphDevicePlatform".equals(type)) {
             LinkedHashMap<DevicePlatform, int[]> lhm = new LinkedHashMap<DevicePlatform, int[]>();
 
 //            if (semObj.getGenericInstance() instanceof Stream) {
@@ -1444,18 +1475,44 @@ public class PieChart extends GenericResource {
             }
             createStatisticalMovilExcel(lhm, paramRequest, response, "MENSAJES POR PLATAFORMA MÓVIL");
 
+        } else if ("graphDevPlatfSentim".equals(type)) {
+            String dev = request.getParameter("dev");
+            String sent = request.getParameter("sent");
+            String[] typeSent = {"Neutros", "Positivos", "Negativos"};
+            ArrayList<PostIn> setso = new ArrayList<>();
+            int intSent = -1;
+            for (int i = 0; i < typeSent.length; i++) {
+                if (typeSent[i].equals(sent)) {
+                    intSent = i;
+                    break;
+                }
+            }
+            DevicePlatform dp = DevicePlatform.ClassMgr.getDevicePlatform(dev, SWBContext.getGlobalWebSite());
+            if (dp != null && intSent != -1) {
+                while (itObjPostIns.hasNext()) {
+                    PostIn postIn = itObjPostIns.next();
+                    if (postIn.getPostInDevicePlatform().equals(dp) && postIn.getPostSentimentalType() == intSent) {
+                        setso.add(postIn);
+                    }
+                }
+            }
+            try {
+                createExcel(setso.iterator(), paramRequest, response, "MENSAJES POR PLATAFORMA MÓVIL");
+            } catch (Exception e) {
+                log.error(e);
+            }
         }
-        
+
     }
 
     /**
      * Obtiene los post para generar el reporte en excel de la gr&aacute;fica de
      * Usuarios con m&aacute;s interacci&oacute;n
-     * 
+     *
      * @param request Proporciona informaci&oacute;n de petici&oacute;n HTTP
      * @param semObj
-     * @return Conjunto de Post que cumplen con los requisitos para la gr&aacute;fica
-     * Usuarios con m&aacute;s interacci&oacute;n
+     * @return Conjunto de Post que cumplen con los requisitos para la
+     * gr&aacute;fica Usuarios con m&aacute;s interacci&oacute;n
      */
     private Iterator getGraphChartTopUser(HttpServletRequest request, SemanticObject semObj) {
         ArrayList listPost = new ArrayList();
@@ -1470,14 +1527,14 @@ public class PieChart extends GenericResource {
         boolean isSocialTopic = false;
         SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+        String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
 
         if (sinceDateAnalysis == null) {
-            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName2);
+            sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName2 + semObj.getId());
         }
-        String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+        String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
         if (toDateAnalysis == null) {
-            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName2);
+            toDateAnalysis = request.getParameter("toDateAnalysis" + clsName2 + semObj.getId());
         }
         Date sinDateAnalysis = null;
         Date tDateAnalysis = null;
@@ -1535,4 +1592,135 @@ public class PieChart extends GenericResource {
 
         return listPost.iterator();
     }
+
+    private Iterator getGraphChartTopUserBySent(HttpServletRequest request, SemanticObject semObj) {
+        ArrayList listPost = new ArrayList();
+        SocialTopic st = null;
+        String usr = request.getParameter("usr") != null ? 
+                (request.getParameter("usr").substring(0, request.getParameter("usr").indexOf("("))) : "";
+        String networkSocial = request.getParameter("network");
+        String sent = request.getParameter("sent");
+        SocialNetworkUser usrSNU = null;
+        String[] typeSent = {"Neutros", "Positivos", "Negativos"};
+        int intSent = -1;
+        for (int i = 0; i < typeSent.length; i++) {
+            if (typeSent[i].equals(sent)) {
+                intSent = i;
+                break;
+            }
+        }
+
+        LinkedHashMap usersByStream = null;
+
+        if (semObj.getGenericInstance() instanceof Stream) {
+            Stream stream = (Stream) semObj.createGenericInstance();
+            usersByStream = SWBSocialUtil.sparql.getSocialUsersInStream(stream);
+        } else if (semObj.getGenericInstance() instanceof SocialTopic) {
+            SocialTopic socialTopic = (SocialTopic) semObj.getGenericInstance();
+            usersByStream = SWBSocialUtil.sparql.getSocialUsersInSocialTopic(socialTopic);
+        }
+        Iterator itUsr = usersByStream.entrySet().iterator();
+        while (itUsr.hasNext()) {
+            Map.Entry pair = (Map.Entry) itUsr.next();
+            SocialNetworkUser usrSN = (SocialNetworkUser) ((SemanticObject) pair.getKey()).createGenericInstance();
+            if (usrSN.getSnu_name() != null && usrSN.getSnu_name().equals(usr)) {
+                usrSNU = usrSN;
+                break;
+            }
+        }
+
+        SemanticObject rdNetworkSocial = SemanticObject.getSemanticObject(networkSocial);
+        boolean isSocialTopic = false;
+        /*SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+         SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+         String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+
+         if (sinceDateAnalysis == null) {
+         sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName2 + semObj.getId());
+         }
+         String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
+         if (toDateAnalysis == null) {
+         toDateAnalysis = request.getParameter("toDateAnalysis" + clsName2 + semObj.getId());
+         }
+         Date sinDateAnalysis = null;
+         Date tDateAnalysis = null;
+         if (sinceDateAnalysis != null && toDateAnalysis != null) {
+         try {
+         sinDateAnalysis = formatDate.parse(sinceDateAnalysis);
+         } catch (java.text.ParseException e) {
+         }
+         try {
+         toDateAnalysis += " 23:59:59";
+         tDateAnalysis = formatTo.parse(toDateAnalysis);
+         } catch (java.text.ParseException e) {
+         }
+         }*/
+        if (semObj.getGenericInstance() instanceof SocialTopic) {
+            isSocialTopic = true;
+            st = (SocialTopic) semObj.getGenericInstance();
+        }
+        if (usrSNU != null && intSent > -1) {
+            Iterator posts = usrSNU.listPostInInvs();
+            while (posts.hasNext()) {
+                PostIn postIn = (PostIn) posts.next();
+                boolean isCount = false;
+                if ((rdNetworkSocial == null || rdNetworkSocial.equals(""))
+                        || (rdNetworkSocial != null && rdNetworkSocial.equals(postIn.getPostInSocialNetwork()))) {
+                    isCount = true;
+                }
+                if (isCount) {
+                    if (isSocialTopic) {
+                        if (postIn.getSocialTopic() == null) {
+                            continue;
+                        }
+                        if (!postIn.getSocialTopic().equals(st)) {
+                            continue;
+                        }
+                    }
+                    //adds 1 depending what is the post sentiment
+                    if (postIn.getPostSentimentalType() == intSent) {
+                        listPost.add(postIn);
+                    }
+                }
+            }
+        }
+        /*String[] idUsr = ids.split(",");
+         for (String idUsr1 : idUsr) {
+         if (!idUsr1.equals("")) {
+         SocialNetworkUser snetu = SocialNetworkUser.ClassMgr.getSocialNetworkUser(idUsr1, ws);//getSocialNetworkUserbyIDAndSocialNet(idSN[0], socNet, ws);
+         if (snetu != null) {
+         Iterator posts = snetu.listPostInInvs();//Lists user posts 
+         if (sinDateAnalysis != null && tDateAnalysis != null) {
+         posts = SWBSocialResUtil.Util.getFilterDates(posts, sinDateAnalysis, tDateAnalysis);
+         }
+
+         while (posts.hasNext()) {
+         PostIn postIn = (PostIn) posts.next();
+         boolean isCount = false;
+         if ((rdNetworkSocial == null || rdNetworkSocial.equals(""))
+         || (rdNetworkSocial != null && rdNetworkSocial.equals(postIn.getPostInSocialNetwork()))) {
+         isCount = true;
+         }
+         if (isCount) {
+         if (isSocialTopic) {
+         if (postIn.getSocialTopic() == null) {
+         continue;
+         }
+         if (!postIn.getSocialTopic().equals(st)) {
+         continue;
+         }
+         }
+         //adds 1 depending what is the post sentiment
+         if (postIn.getPostSentimentalType() >= 0 && postIn.getPostSentimentalType() <= 2) {
+         listPost.add(postIn);
+         }
+         }
+         }
+         }
+         }
+         }*/
+
+        return listPost.iterator();
+    }
+
 }

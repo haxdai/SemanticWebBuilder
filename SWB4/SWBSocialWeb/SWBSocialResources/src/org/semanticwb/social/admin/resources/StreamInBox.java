@@ -1,27 +1,35 @@
-/**  
-* SWB Social es una plataforma que descentraliza la publicación, seguimiento y monitoreo hacia las principales redes sociales. 
-* SWB Social escucha y entiende opiniones acerca de una organización, sus productos, sus servicios e inclusive de su competencia, 
-* detectando en la información sentimientos, influencia, geolocalización e idioma, entre mucha más información relevante que puede ser 
-* útil para la toma de decisiones. 
-* 
-* SWB Social, es una herramienta basada en la plataforma SemanticWebBuilder. SWB Social, como SemanticWebBuilder, es una creación original 
-* del Fondo de Información y Documentación para la Industria INFOTEC, cuyo registro se encuentra actualmente en trámite. 
-* 
-* INFOTEC pone a su disposición la herramienta SWB Social a través de su licenciamiento abierto al público (‘open source’), 
-* en virtud del cual, usted podrá usarla en las mismas condiciones con que INFOTEC la ha diseñado y puesto a su disposición; 
-* aprender de élla; distribuirla a terceros; acceder a su código fuente y modificarla, y combinarla o enlazarla con otro software, 
-* todo ello de conformidad con los términos y condiciones de la LICENCIA ABIERTA AL PÚBLICO que otorga INFOTEC para la utilización 
-* del SemanticWebBuilder 4.0. y SWB Social 1.0
-* 
-* INFOTEC no otorga garantía sobre SWB Social, de ninguna especie y naturaleza, ni implícita ni explícita, 
-* siendo usted completamente responsable de la utilización que le dé y asumiendo la totalidad de los riesgos que puedan derivar 
-* de la misma. 
-* 
-* Si usted tiene cualquier duda o comentario sobre SemanticWebBuilder o SWB Social, INFOTEC pone a su disposición la siguiente 
-* dirección electrónica: 
-*  http://www.semanticwebbuilder.org
-**/ 
- 
+/**
+ * SWB Social es una plataforma que descentraliza la publicación, seguimiento y
+ * monitoreo hacia las principales redes sociales. SWB Social escucha y entiende
+ * opiniones acerca de una organización, sus productos, sus servicios e
+ * inclusive de su competencia, detectando en la información sentimientos,
+ * influencia, geolocalización e idioma, entre mucha más información relevante
+ * que puede ser útil para la toma de decisiones.
+ * 
+* SWB Social, es una herramienta basada en la plataforma SemanticWebBuilder.
+ * SWB Social, como SemanticWebBuilder, es una creación original del Fondo de
+ * Información y Documentación para la Industria INFOTEC, cuyo registro se
+ * encuentra actualmente en trámite.
+ * 
+* INFOTEC pone a su disposición la herramienta SWB Social a través de su
+ * licenciamiento abierto al público (‘open source’), en virtud del cual, usted
+ * podrá usarla en las mismas condiciones con que INFOTEC la ha diseñado y
+ * puesto a su disposición; aprender de élla; distribuirla a terceros; acceder a
+ * su código fuente y modificarla, y combinarla o enlazarla con otro software,
+ * todo ello de conformidad con los términos y condiciones de la LICENCIA
+ * ABIERTA AL PÚBLICO que otorga INFOTEC para la utilización del
+ * SemanticWebBuilder 4.0. y SWB Social 1.0
+ * 
+* INFOTEC no otorga garantía sobre SWB Social, de ninguna especie y naturaleza,
+ * ni implícita ni explícita, siendo usted completamente responsable de la
+ * utilización que le dé y asumiendo la totalidad de los riesgos que puedan
+ * derivar de la misma.
+ * 
+* Si usted tiene cualquier duda o comentario sobre SemanticWebBuilder o SWB
+ * Social, INFOTEC pone a su disposición la siguiente dirección electrónica:
+ * http://www.semanticwebbuilder.org
+*
+ */
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
@@ -94,6 +102,7 @@ import org.semanticwb.social.SWBSocial;
 import org.semanticwb.social.Youtube;
 import org.semanticwb.social.admin.resources.util.SWBSocialResUtil;
 import org.semanticwb.social.SocialNetPostable;
+
 /**
  *
  * @author jorge.jimenez
@@ -188,28 +197,28 @@ public class StreamInBox extends GenericResource {
             User user = paramRequest.getUser();
             //Manejo de permisos
             /*SocialUserExtAttributes socialUserExtAttr = SocialUserExtAttributes.ClassMgr.getSocialUserExtAttributes(user.getId(), SWBContext.getAdminWebSite());
-            boolean userCanRemoveMsg = false;
-            boolean userCanRetopicMsg = false;
-            boolean userCanRevalueMsg = false;
-            boolean userCanRespondMsg = false;
-            if (socialUserExtAttr != null) {
-                userCanRemoveMsg = socialUserExtAttr.isUserCanRemoveMsg();
-                userCanRetopicMsg = socialUserExtAttr.isUserCanReTopicMsg();
-                userCanRevalueMsg = socialUserExtAttr.isUserCanReValueMsg();
-                userCanRespondMsg = socialUserExtAttr.isUserCanRespondMsg();
-            }*/
+             boolean userCanRemoveMsg = false;
+             boolean userCanRetopicMsg = false;
+             boolean userCanRevalueMsg = false;
+             boolean userCanRespondMsg = false;
+             if (socialUserExtAttr != null) {
+             userCanRemoveMsg = socialUserExtAttr.isUserCanRemoveMsg();
+             userCanRetopicMsg = socialUserExtAttr.isUserCanReTopicMsg();
+             userCanRevalueMsg = socialUserExtAttr.isUserCanReValueMsg();
+             userCanRespondMsg = socialUserExtAttr.isUserCanRespondMsg();
+             }*/
             //boolean userCandoEveryThing=false;
             //UserGroup userAdminGrp=SWBContext.getAdminWebSite().getUserRepository().getUserGroup("admin");
             HashMap<String, SemanticProperty> mapa = new HashMap<String, SemanticProperty>();
             Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialUserExtAttributes").listProperties();
             while (list.hasNext()) {
                 SemanticProperty sp = list.next();
-                mapa.put(sp.getName(),sp);
+                mapa.put(sp.getName(), sp);
             }
-            boolean userCanRetopicMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanReTopicMsg"))).booleanValue();
-            boolean userCanRevalueMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanReValueMsg"))).booleanValue();
-            boolean userCanRemoveMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanRemoveMsg"))).booleanValue();
-            boolean userCanRespondMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanRespondMsg"))).booleanValue();
+            boolean userCanRetopicMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanReTopicMsg"))).booleanValue();
+            boolean userCanRevalueMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanReValueMsg"))).booleanValue();
+            boolean userCanRemoveMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanRemoveMsg"))).booleanValue();
+            boolean userCanRespondMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanRespondMsg"))).booleanValue();
             UserGroup userSuperAdminGrp = SWBContext.getAdminWebSite().getUserRepository().getUserGroup("su");
             //if(user.hasUserGroup(userAdminGrp) || user.hasUserGroup(userSuperAdminGrp)) userCandoEveryThing=true;
 
@@ -278,10 +287,7 @@ public class StreamInBox extends GenericResource {
     public void doEdit(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         User user = paramRequest.getUser();
         //String lang = paramRequest.getUser().getLanguage();
-        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
-        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
-        String sinceDateStreamMsg1 = sinceDateStreamMsg;
-        String toDateStreamMsg1 = toDateStreamMsg;
+
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
@@ -293,25 +299,26 @@ public class StreamInBox extends GenericResource {
         }
 
         ////System.out.println("Stream-id/doEdit:"+id);
-
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite wsite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg" + stream.getId()) == null ? "" : request.getParameter("sinceDateStreamMsg" + stream.getId());
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg" + stream.getId()) == null ? "" : request.getParameter("toDateStreamMsg" + stream.getId());
+        String sinceDateStreamMsg1 = sinceDateStreamMsg;
+        String toDateStreamMsg1 = toDateStreamMsg;
 
         ////System.out.println("stream:"+stream.getURI());
-
         PrintWriter out = response.getWriter();
 
         HashMap<String, SemanticProperty> mapa = new HashMap<String, SemanticProperty>();
         Iterator<SemanticProperty> list = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/social#SocialUserExtAttributes").listProperties();
         while (list.hasNext()) {
             SemanticProperty sp = list.next();
-            mapa.put(sp.getName(),sp);
+            mapa.put(sp.getName(), sp);
         }
-        boolean userCanRetopicMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanReTopicMsg"))).booleanValue();
-        boolean userCanRevalueMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanReValueMsg"))).booleanValue();
-        boolean userCanRemoveMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanRemoveMsg"))).booleanValue();
-        boolean userCanRespondMsg = ((Boolean)user.getExtendedAttribute(mapa.get("userCanRespondMsg"))).booleanValue();
-       
+        boolean userCanRetopicMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanReTopicMsg"))).booleanValue();
+        boolean userCanRevalueMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanReValueMsg"))).booleanValue();
+        boolean userCanRemoveMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanRemoveMsg"))).booleanValue();
+        boolean userCanRespondMsg = ((Boolean) user.getExtendedAttribute(mapa.get("userCanRespondMsg"))).booleanValue();
 
         //UserGroup userAdminGrp=SWBContext.getAdminWebSite().getUserRepository().getUserGroup("admin");
         UserGroup userSuperAdminGrp = SWBContext.getAdminWebSite().getUserRepository().getUserGroup("su");
@@ -412,14 +419,13 @@ public class StreamInBox extends GenericResource {
             nPage = 1;
         }
         ////System.out.println("nPage a Filtros:"+nPage);
-        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+        if (sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null
                 && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
             sinceDateStreamMsg += "T00:00:00";
             toDateStreamMsg += "T23:59:59";
         }
 
         HashMap hmapResult = filtros(swbSocialUser, wsite, searchWord, request, stream, nPage, sinceDateStreamMsg, toDateStreamMsg);
-
 
         out.println("<fieldset class=\"barra\">");
         out.println("<div class=\"barra\">");
@@ -432,12 +438,9 @@ public class StreamInBox extends GenericResource {
         urlRefresh.setParameter("suri", id);
         out.println("<a class=\"countersBar\" href=\"#\" title=\"Refrescar Tab\" onclick=\"submitUrl('" + urlRefresh.setMode(SWBResourceURL.Action_EDIT) + "',this); return false;\">" + nf2.format(nRec) + " mensajes</a>");
 
-
         if (page == null) {
             page = "1";
         }
-
-
 
         //out.println("<span  class=\"spanFormat\">");
         //out.println("<form id=\"" + id + "/importCurrentPage\" name=\"" + id + "/importCurrentPage\" method=\"post\" action=\"" + urls.setMode("exportExcel").setParameter("pages", page).setCallMethod(SWBParamRequest.Call_DIRECT).setParameter("orderBy", orderBy) + "\" >");
@@ -458,10 +461,10 @@ public class StreamInBox extends GenericResource {
          out.println("</span>");
          * */
         out.println("<a href=\"" + urls.setMode("exportExcel").setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("pages", "0").setParameter("orderBy", orderBy).
-                setParameter("sinceDateStreamMsg", sinceDateStreamMsg1).setParameter("toDateStreamMsg", toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
+                setParameter("sinceDateStreamMsg" + stream.getId(), sinceDateStreamMsg1).setParameter("toDateStreamMsg" + stream.getId(), toDateStreamMsg1) + "\" class=\"excelall\">" + paramRequest.getLocaleString("importAll") + "</a>");
 
         //Advance re-Classify by topic
-        if (userCanRetopicMsg  || user.hasUserGroup(userSuperAdminGrp)) {
+        if (userCanRetopicMsg || user.hasUserGroup(userSuperAdminGrp)) {
             //out.println("<span  class=\"spanFormat\">");
             SWBResourceURL ReClassbyTopicUrl = paramRequest.getRenderUrl();
             ReClassbyTopicUrl.setParameter("streamid", id);
@@ -494,23 +497,23 @@ public class StreamInBox extends GenericResource {
         out.println("</fieldset>");
         out.println("<fieldset class=\"filterTextField\">");
         out.println("<div class=\"soria\">");
-        out.println("<form id=\"frmFilterStreamMsgNP\" name=\"frmFilterStreamMsgNP\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
+        out.println("<form id=\"frmFilterStreamMsgNP" + stream.getId() + "\" name=\"frmFilterStreamMsgNP" + stream.getId() + "\" dojoType=\"dijit.form.Form\" class=\"swbform\" method=\"post\" action=\""
                 + paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter("suri", stream.getURI())
                 + "\" method=\"post\" " /**/
-                + " onsubmit=\"submitForm('frmFilterStreamMsgNP'); return false;\">");
+                + " onsubmit=\"submitForm('frmFilterStreamMsgNP" + stream.getId() + "'); return false;\">");
         out.println("<label class=\"counterFilter\">Del día</label>");
-        out.println("<input name=\"sinceDateStreamMsg\" id=\"sinceDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateStreamMsg" + stream.getId() + "\""
-                + " onChange=\"toDateStreamMsg" + stream.getId() + ".constraints.min = arguments[0];\">");
+        out.println("<input name=\"sinceDateStreamMsg" + stream.getId() + "\" id=\"sinceDateStreamMsg" + stream.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + sinceDateStreamMsg1 + "\" data-dojo-id=\"sinceDateStreamMsgStream" + stream.getId() + "\""
+                + " onChange=\"toDateStreamMsgStream" + stream.getId() + ".constraints.min = arguments[0];\">");
         out.println("<label for=\"toDate\" class=\"counterFilter\"> al día:</label>");
-        out.println("<input name=\"toDateStreamMsg\" id=\"toDateStreamMsg\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
-                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateStreamMsg" + stream.getId() + "\""
-                + " onChange=\"sinceDateStreamMsg" + stream.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<input name=\"toDateStreamMsg" + stream.getId() + "\" id=\"toDateStreamMsg" + stream.getId() + "\" dojoType=\"dijit.form.DateTextBox\"  size=\"11\" class=\"filterInput\" hasDownArrow=\"true\" value=\""
+                + toDateStreamMsg1 + "\" data-dojo-id=\"toDateStreamMsgStream" + stream.getId() + "\""
+                + " onChange=\"sinceDateStreamMsgStream" + stream.getId() + ".constraints.max = arguments[0];\">");
+        out.println("<a title=\"Limpiar fechas\" href=\"javascript: clearInput('toDateStreamMsg'); clearInput('sinceDateStreamMsg'); \" ><span class='swbRefresh'></span></a>");
         out.println("<button dojoType=\"dijit.form.Button\" class=\"filterInput\" type=\"submit\">Calcular</button>");
         out.println("</form>");
         out.println("</div>");
         out.println("</fieldset>");
-
 
         out.println("<fieldset>");
 
@@ -522,7 +525,6 @@ public class StreamInBox extends GenericResource {
         out.println("<span>" + paramRequest.getLocaleString("action") + "</span>");
         out.println("</th>");
 
-
         out.println("<th class=\"mensaje\">");
         out.println("<span>" + paramRequest.getLocaleString("post") + "</span>");
         out.println("</th>");
@@ -530,7 +532,6 @@ public class StreamInBox extends GenericResource {
         SWBResourceURL urlOderby = paramRequest.getRenderUrl();
         urlOderby.setParameter("act", "");
         urlOderby.setParameter("suri", id);
-
 
         String typeOrder = "Ordenar Ascendente";
         String nameClass = "ascen";
@@ -603,7 +604,6 @@ public class StreamInBox extends GenericResource {
         out.println("</a>");
         out.println("</th>");
 
-
         String nameClassCreted = "ascen";
         String typeOrderCreted = "Ordenar Ascendente";
         urlOderby.setParameter("orderBy", "cretedDown");
@@ -628,7 +628,6 @@ public class StreamInBox extends GenericResource {
         out.println("</a>");
         out.println("</th>");
 
-
         String nameClassSentiment = "ascen";
         String typeOrderSentiment = "Ordenar Ascendente";
         urlOderby.setParameter("orderBy", "sentimentDown");
@@ -651,7 +650,6 @@ public class StreamInBox extends GenericResource {
         out.println("<span>" + paramRequest.getLocaleString("sentiment") + "</span>");
         out.println("</a>");
         out.println("</th>");
-
 
         String nameClassIntensity = "ascen";
         String typeOrderIntensity = "Ordenar Ascendente";
@@ -678,31 +676,29 @@ public class StreamInBox extends GenericResource {
         out.println("</th>");
 
         /*
-        String nameClassEmoticon = "ascen";
-        String typeOrderEmoticon = "Ordenar Ascendente";
-        urlOderby.setParameter("orderBy", "emoticonDown");
-        if (request.getParameter("orderBy") != null) {
-            if (request.getParameter("orderBy").equals("emoticonUp") || request.getParameter("orderBy").equals("emoticonDown")) {
-                if (request.getParameter("nameClassEmoticon") != null) {
-                    if (request.getParameter("nameClassEmoticon").equals("descen")) {
-                        nameClassEmoticon = "ascen";
-                    } else {
-                        nameClassEmoticon = "descen";
-                        urlOderby.setParameter("orderBy", "emoticonUp");
-                        typeOrderEmoticon = "Ordenar Descendente";
-                    }
-                }
-            }
-        }
-        out.println("<th>");
-        urlOderby.setParameter("nameClassEmoticon", nameClassEmoticon);
-        out.println("<a href=\"#\" class=\"" + nameClassEmoticon + "\" title=\"" + typeOrderEmoticon + "\" onclick=\"submitUrl('" + urlOderby + "',this); return false;\">");
-        out.println("<span>" + paramRequest.getLocaleString("emoticon") + "</span>");
-        out.println("</a>");
-        out.println("</th>");
-        * */
-
-
+         String nameClassEmoticon = "ascen";
+         String typeOrderEmoticon = "Ordenar Ascendente";
+         urlOderby.setParameter("orderBy", "emoticonDown");
+         if (request.getParameter("orderBy") != null) {
+         if (request.getParameter("orderBy").equals("emoticonUp") || request.getParameter("orderBy").equals("emoticonDown")) {
+         if (request.getParameter("nameClassEmoticon") != null) {
+         if (request.getParameter("nameClassEmoticon").equals("descen")) {
+         nameClassEmoticon = "ascen";
+         } else {
+         nameClassEmoticon = "descen";
+         urlOderby.setParameter("orderBy", "emoticonUp");
+         typeOrderEmoticon = "Ordenar Descendente";
+         }
+         }
+         }
+         }
+         out.println("<th>");
+         urlOderby.setParameter("nameClassEmoticon", nameClassEmoticon);
+         out.println("<a href=\"#\" class=\"" + nameClassEmoticon + "\" title=\"" + typeOrderEmoticon + "\" onclick=\"submitUrl('" + urlOderby + "',this); return false;\">");
+         out.println("<span>" + paramRequest.getLocaleString("emoticon") + "</span>");
+         out.println("</a>");
+         out.println("</th>");
+         * */
         String nameClassReplies = "ascen";
         String typeOrderReplies = "Ordenar Ascendente";
         urlOderby.setParameter("orderBy", "repliesDown");
@@ -874,7 +870,6 @@ public class StreamInBox extends GenericResource {
         out.println("</th>");
         out.println("</tr>");
 
-
         out.println("</thead>");
         out.println("<tbody>");
 
@@ -887,12 +882,14 @@ public class StreamInBox extends GenericResource {
          {
          checkKlout=false;
          }*/
-
         //Iterator<PostIn> itposts = setso.iterator();
-
         //System.out.append("nRec-George29:"+nRec);
-
         Iterator<PostIn> itposts = (Iterator) hmapResult.get("itResult");
+        if (itposts == null || !itposts.hasNext()) {
+            out.println("<div id=\"refrescar_cred\">");
+            out.println("<a href=\"#\" class=\"countersBar\" title=\"Refrescar Tab\" onclick=\"submitUrl('" + urlRefresh.setMode(SWBResourceURL.Action_EDIT) + "',this); return false;\"><span>Recargar mensajes</span></a>");
+            out.println("</div>");
+        }
         while (itposts != null && itposts.hasNext()) {
             PostIn postIn = itposts.next();
 
@@ -933,8 +930,8 @@ public class StreamInBox extends GenericResource {
             if (request.getParameter("orderBy") != null) {
                 pageURL.setParameter("orderBy", request.getParameter("orderBy"));
             }
-            pageURL.setParameter("sinceDateStreamMsg", sinceDateStreamMsg1);
-            pageURL.setParameter("toDateStreamMsg", toDateStreamMsg1);
+            pageURL.setParameter("sinceDateStreamMsg" + stream.getId(), sinceDateStreamMsg1);
+            pageURL.setParameter("toDateStreamMsg" + stream.getId(), toDateStreamMsg1);
             /*
              for (int countPage = 1; countPage < (Math.ceil((double) nRec / (double) RECPERPAGE) + 1); countPage++) {
              SWBResourceURL pageURL = paramRequest.getRenderUrl();
@@ -959,12 +956,10 @@ public class StreamInBox extends GenericResource {
             //stxtsig=Texto para siguiente
             //stfont=Algun font, pero yo creo que hay que poner en lugar de td una div (como esta ahorita arriba) y con un class
             //position=Posición en (arriba, abajo, ambos), esto no aplicaría para este uso
-
             //out.println(SWBSocialUtil.Util.getContentByPage(totalPages, nPage, PAGES2VIEW, paramRequest.getLocaleString("pageBefore"), paramRequest.getLocaleString("pageNext"), pageURL));
             out.println(SWBSocialResUtil.Util.getContentByPage(totalPages, nPage, PAGES2VIEW, pageURL));
             out.println("</div>");
         }
-
 
         out.println("</div>");
     }
@@ -1167,9 +1162,9 @@ public class StreamInBox extends GenericResource {
         String id = request.getParameter("suri");
         Stream stream = (Stream) SemanticObject.getSemanticObject(id).getGenericInstance();
         WebSite webSite = WebSite.ClassMgr.getWebSite(stream.getSemanticObject().getModel().getName());
-        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg") == null ? "" : request.getParameter("sinceDateStreamMsg");
-        String toDateStreamMsg = request.getParameter("toDateStreamMsg") == null ? "" : request.getParameter("toDateStreamMsg");
-        if(sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null 
+        String sinceDateStreamMsg = request.getParameter("sinceDateStreamMsg" + stream.getId()) == null ? "" : request.getParameter("sinceDateStreamMsg" + stream.getId());
+        String toDateStreamMsg = request.getParameter("toDateStreamMsg" + stream.getId()) == null ? "" : request.getParameter("toDateStreamMsg" + stream.getId());
+        if (sinceDateStreamMsg != null && !sinceDateStreamMsg.isEmpty() && !sinceDateStreamMsg.contains("T00:00:00") && toDateStreamMsg != null
                 && !toDateStreamMsg.isEmpty() && !toDateStreamMsg.contains("T23:59:59")) {
             sinceDateStreamMsg += "T00:00:00";
             toDateStreamMsg += "T23:59:59";
@@ -1180,8 +1175,10 @@ public class StreamInBox extends GenericResource {
         //long nRec = ((Long) hmapResult.get("countResult")).longValue();
         Iterator<PostIn> setso = ((Iterator) hmapResult.get("itResult"));
 
-        if(setso==null) setso=new <PostIn>ArrayList().iterator();
-        
+        if (setso == null) {
+            setso = new <PostIn>ArrayList().iterator();
+        }
+
         try {
 
             createExcel(setso, paramRequest, page, response, stream);
@@ -1201,8 +1198,6 @@ public class StreamInBox extends GenericResource {
             long size = list.size();
             long limite = 65535;
 
-
-
             Workbook wb = null;
             if (size <= limite) {
 
@@ -1213,7 +1208,6 @@ public class StreamInBox extends GenericResource {
             }
             // Creo la Hoja en Excel
             Sheet sheet = wb.createSheet("Mensajes " + title);
-
 
             sheet.setDisplayGridlines(false);
             sheet.addMergedRegion(new CellRangeAddress(0, 0, 0, 12));
@@ -1227,7 +1221,6 @@ public class StreamInBox extends GenericResource {
             Row row = sheet.createRow((short) 2);
 
             // Creo las celdas de mi fila, se puede poner un diseño a la celda
-
             CellStyle cellStyle = wb.createCellStyle();
 
             createHead(wb, row, 0, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Mensaje");
@@ -1237,7 +1230,7 @@ public class StreamInBox extends GenericResource {
             createHead(wb, row, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Creación");
             createHead(wb, row, 5, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Sentimiento");
             createHead(wb, row, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Intensidad");
-           // createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Emot");
+            // createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Emot");
             createHead(wb, row, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "RT/Likes");
             createHead(wb, row, 8, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Usuario");
             createHead(wb, row, 9, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Seguidores");
@@ -1250,7 +1243,6 @@ public class StreamInBox extends GenericResource {
 
             //Número de filas
             int i = 3;
-
 
             while (setso1 != null && setso1.hasNext()) {
                 PostIn postIn = (PostIn) setso1.next();
@@ -1286,7 +1278,6 @@ public class StreamInBox extends GenericResource {
                 createCell(cellStyle, wb, troww, 1, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn instanceof MessageIn ? paramRequest.getLocaleString("message") : postIn instanceof PhotoIn ? paramRequest.getLocaleString("photo") : postIn instanceof VideoIn ? paramRequest.getLocaleString("video") : "---");
                 createCell(cellStyle, wb, troww, 2, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostInSocialNetwork().getDisplayTitle(lang));
 
-
                 if (postIn.getSocialTopic() != null) {
                     createCell(cellStyle, wb, troww, 3, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getSocialTopic().getDisplayTitle(lang));
                 } else {
@@ -1296,8 +1287,8 @@ public class StreamInBox extends GenericResource {
                 SimpleDateFormat output = new SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy hh:mm a", new Locale("es", "MX"));
                 if (postIn.getPi_createdInSocialNet() != null) {
                     Date postDate = postIn.getPi_createdInSocialNet();
-                    if(postDate.after(new Date())){
-                        postDate= new Date();
+                    if (postDate.after(new Date())) {
+                        postDate = new Date();
                     }
                     createCell(cellStyle, wb, troww, 4, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, output.format(postDate));
                 } else {
@@ -1314,17 +1305,17 @@ public class StreamInBox extends GenericResource {
                     createCell(cellStyle, wb, troww, 5, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Negativo");
                 }
                 createCell(cellStyle, wb, troww, 6, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postIn.getPostIntesityType() == 0 ? paramRequest.getLocaleString("low") : postIn.getPostIntesityType() == 1 ? paramRequest.getLocaleString("medium") : postIn.getPostIntesityType() == 2 ? paramRequest.getLocaleString("high") : "---");
-                
+
                 /*
-                if (postIn.getPostSentimentalEmoticonType() == 1) {
-                    createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Positivo");
+                 if (postIn.getPostSentimentalEmoticonType() == 1) {
+                 createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Positivo");
 
-                } else if (postIn.getPostSentimentalEmoticonType() == 2) {
-                    createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Negativo");
-                } else if (postIn.getPostSentimentalEmoticonType() == 0) {
+                 } else if (postIn.getPostSentimentalEmoticonType() == 2) {
+                 createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "Negativo");
+                 } else if (postIn.getPostSentimentalEmoticonType() == 0) {
 
-                    createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "---");
-                }*/
+                 createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, "---");
+                 }*/
                 int postS = postIn.getPostShared();
                 String postShared = Integer.toString(postS);
                 createCell(cellStyle, wb, troww, 7, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, postShared);
@@ -1343,7 +1334,6 @@ public class StreamInBox extends GenericResource {
                 i++;
 
             }
-
 
             // Definimos el tamaño de las celdas, podemos definir un tamaña especifico o hacer que 
             //la celda se acomode según su tamaño
@@ -1385,7 +1375,6 @@ public class StreamInBox extends GenericResource {
 
     public static void createTituloCell(Workbook wb, Row row, int column, short halign, short valign, String strContenido) {
 
-
         CreationHelper ch = wb.getCreationHelper();
         Cell cell = row.createCell(column);
         cell.setCellValue(ch.createRichTextString(strContenido));
@@ -1406,7 +1395,6 @@ public class StreamInBox extends GenericResource {
     }
 
     public static void createHead(Workbook wb, Row row, int column, short halign, short valign, String strContenido) {
-
 
         CreationHelper ch = wb.getCreationHelper();
         Cell cell = row.createCell(column);
@@ -1440,7 +1428,6 @@ public class StreamInBox extends GenericResource {
 
     public static void createCell(CellStyle cellStyle, Workbook wb, Row row, int column, short halign, short valign, String strContenido) {
 
-
         CreationHelper ch = wb.getCreationHelper();
         Cell cell = row.createCell(column);
 
@@ -1455,7 +1442,6 @@ public class StreamInBox extends GenericResource {
         cellStyle.setRightBorderColor((short) 8);
         cellStyle.setBorderTop(HSSFCellStyle.BORDER_DOTTED);
         cellStyle.setTopBorderColor((short) 8);
-
 
         cell.setCellStyle(cellStyle);
 
@@ -1514,7 +1500,7 @@ public class StreamInBox extends GenericResource {
                     ////System.out.println("Entra a processA/reValue-4:"+dpth);
                     SentimentalLearningPhrase slp;
                     for (String phrase : phrases) {
-                        String originalPhrase=phrase.toLowerCase().trim();
+                        String originalPhrase = phrase.toLowerCase().trim();
                         phrase = originalPhrase;
                         ////System.out.println("Entra a processA/reValue-4.1:"+phrase);
                         phrase = SWBSocialUtil.Classifier.normalizer(phrase).getNormalizedPhrase();
@@ -1545,17 +1531,15 @@ public class StreamInBox extends GenericResource {
                             slp.setIntensityType(dpth);
                         }
                     }
-                    
-                    boolean reclasifiedMsgs=false;
-                    if(request.getParameter("reclasify")!=null && !request.getParameter("reclasify").equals("0"))//Reclasificar
+
+                    boolean reclasifiedMsgs = false;
+                    if (request.getParameter("reclasify") != null && !request.getParameter("reclasify").equals("0"))//Reclasificar
                     {
-                        reclasifiedMsgs=true;
-                        if(request.getParameter("reclasify").equals("1"))
-                        {
-                            Iterator<PostIn> itStreamPostIns=postInStream.listPostInStreamInvs();
-                            while(itStreamPostIns.hasNext())
-                            {
-                                PostIn postIn=itStreamPostIns.next();
+                        reclasifiedMsgs = true;
+                        if (request.getParameter("reclasify").equals("1")) {
+                            Iterator<PostIn> itStreamPostIns = postInStream.listPostInStreamInvs();
+                            while (itStreamPostIns.hasNext()) {
+                                PostIn postIn = itStreamPostIns.next();
                                 ////System.out.println("postIn:"+postIn.getMsg_Text());
                                 HashMap hmapValues = SWBSocialUtil.Classifier.classifyText(postIn.getMsg_Text());
                                 float promSentimentalValue = ((Float) hmapValues.get("promSentimentalValue")).floatValue();
@@ -1571,22 +1555,23 @@ public class StreamInBox extends GenericResource {
                                 postIn.setPostIntensityValue(promIntensityValue);
                                 postIn.setPostIntesityType(intensityTweetValueType);
                             }
-                        }else if(request.getParameter("reclasify").equals("2")) //Revisar permisos de usuario para ver si tiene permiso a reclasificar por Marca o Por todas las  marcas
+                        } else if (request.getParameter("reclasify").equals("2")) //Revisar permisos de usuario para ver si tiene permiso a reclasificar por Marca o Por todas las  marcas
                         {//Reclasificación para todos los mensajes de todos los streams de la marca en la que se encuentra
 
-                        }else if(request.getParameter("reclasify").equals("3"))
-                        {//Reclasificación para todos los mensajes de todos los streams de todas las marcas.
+                        } else if (request.getParameter("reclasify").equals("3")) {//Reclasificación para todos los mensajes de todos los streams de todas las marcas.
 
                         }
                     }
-                    
+
                     //response.setMode(Mode_EMPTYRESPONSE);
                     response.setMode(SWBActionResponse.Mode_EDIT);
                     response.setRenderParameter("dialog", "close");
-                    String statusMsg=response.getLocaleString("phrasesAdded");
-                    if(reclasifiedMsgs) statusMsg+=" " +response.getLocaleString("reclasifiedMsg");
+                    String statusMsg = response.getLocaleString("phrasesAdded");
+                    if (reclasifiedMsgs) {
+                        statusMsg += " " + response.getLocaleString("reclasifiedMsg");
+                    }
                     response.setRenderParameter("statusMsg", statusMsg);
-                    response.setRenderParameter("reloadTap","1");
+                    response.setRenderParameter("reloadTap", "1");
                     response.setRenderParameter("suri", postInStream.getURI());
                 }
             } catch (Exception e) {
@@ -1663,9 +1648,7 @@ public class StreamInBox extends GenericResource {
                 ///SocialNetwork socialNet = (SocialNetwork) SemanticObject.getSemanticObject(request.getParameter("socialNetUri")).createGenericInstance();
                 ///ArrayList aSocialNets = new ArrayList();
                 ///aSocialNets.add(socialNet);
-
                 ///WebSite wsite = WebSite.ClassMgr.getWebSite(request.getParameter("wsite"));
-
                 //En este momento en el siguiente código saco uno de los SocialPFlowRef que tiene el SocialTopic del PostIn que se esta contestando,
                 //Obviamente debo de quitar este código y el SocialPFlowRef debe llegar como parametro, que es de acuerdo al SocialPFlow que el usuario
                 //desee enviar el PostOut que realizó.
@@ -1730,7 +1713,9 @@ public class StreamInBox extends GenericResource {
                     Iterator<PostIn> itPostIns = stream.listPostInStreamInvs();
                     while (itPostIns.hasNext()) {
                         PostIn postIn = itPostIns.next();
-                        if(postIn.getSocialTopic()!=null) postIn.removeSocialTopic();
+                        if (postIn.getSocialTopic() != null) {
+                            postIn.removeSocialTopic();
+                        }
                         SocialTopic socialTopic = SWBSocialUtil.Classifier.clasifyMsgbySocialTopic(stream, postIn, postIn.getMsg_Text(), false);
                         if (socialTopic != null) //El sistema si pudo clasificar el postIn en uno de los SocialTopic del website
                         {
@@ -1814,7 +1799,7 @@ public class StreamInBox extends GenericResource {
      * Method which controls the filters allowed in this class
      */
     private HashMap filtros(String swbSocialUser, WebSite wsite, String searchWord, HttpServletRequest request, Stream stream, int nPage,
-			String dateInit, String dateEnd) {
+            String dateInit, String dateEnd) {
         //.out.println("Stream---K carajos...:"+stream.getURI()+",orderByJInBox:"+request.getParameter("orderBy")+",page:"+nPage);
         ////System.out.println("stream k Llega a Filtros--George08/11/2013:"+nPage);
         ////System.out.println("filtros/searchWord:"+searchWord);
@@ -1970,6 +1955,7 @@ public class StreamInBox extends GenericResource {
          itposts = aListFilter.iterator();
          hampResult.put("countResult", Long.valueOf(streamPostIns));
          }*/
+
         hampResult.put("itResult", itposts);
 
         return hampResult;
@@ -2021,7 +2007,6 @@ public class StreamInBox extends GenericResource {
 
         query
                 += "where {\n"
-
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreatedInSN. \n";//?postInCreatedInSN
         if (dateInit != null && !dateInit.isEmpty() && dateEnd != null && !dateEnd.isEmpty()) {
@@ -2029,7 +2014,6 @@ public class StreamInBox extends GenericResource {
             query += "  FILTER(xsd:dateTime(?postInCreatedInSN) > xsd:dateTime(\"" + dateInit + "\") && xsd:dateTime(?postInCreatedInSN) < xsd:dateTime(\"" + dateEnd + "\")) \n";
         }
         query += "  }\n";
-
 
         if (!isCount) {
             query += "ORDER BY desc(?postInCreatedInSN) \n";
@@ -2047,10 +2031,10 @@ public class StreamInBox extends GenericResource {
         ////System.out.println("query:"+query);
         return query;
     }
-	
+
     private String getPostInStreambyWord_Query(long offset, long limit, boolean isCount, Stream stream, String word) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2060,8 +2044,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:msg_Text ?msgText. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2084,8 +2068,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInStreambyUser_Query(long offset, long limit, boolean isCount, Stream stream, String word) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2095,8 +2079,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser ?postInSocialNetUsr. \n"
                 + "  ?postInSocialNetUsr social:snu_name ?userName. \n"
@@ -2123,8 +2107,8 @@ public class StreamInBox extends GenericResource {
      * gets all PostIn by specific SocialNetUser
      */
     private String getAllPostInbyShared_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2134,8 +2118,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
                 + "   OPTIONAL { " + "\n"
@@ -2167,8 +2151,8 @@ public class StreamInBox extends GenericResource {
      * gets all PostIn by specific SocialNetUser
      */
     private String getAllPostInbyFollowers_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2178,8 +2162,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser ?postInSocialNetUsr. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
@@ -2195,7 +2179,6 @@ public class StreamInBox extends GenericResource {
                 query += "ORDER BY desc(?userFollowers) ";
             }
             query += "desc(?postInCreated)";
-
 
             query += "OFFSET " + offset + "\n";
             if (limit > 0) {
@@ -2213,8 +2196,8 @@ public class StreamInBox extends GenericResource {
      * gets all PostIn by specific SocialNetUser
      */
     private String getAllPostInbyFriends_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2224,8 +2207,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser ?postInSocialNetUsr. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
@@ -2241,7 +2224,6 @@ public class StreamInBox extends GenericResource {
                 query += "ORDER BY desc(?userFriends) ";
             }
             //query+="desc(?postInCreated)";
-
 
             query += "OFFSET " + offset + "\n";
             if (limit > 0) {
@@ -2259,8 +2241,8 @@ public class StreamInBox extends GenericResource {
      * gets all PostIn by specific SocialNetUser
      */
     private String getAllPostInbyKlout_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2270,8 +2252,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser ?postInSocialNetUsr. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
@@ -2287,7 +2269,6 @@ public class StreamInBox extends GenericResource {
                 query += "ORDER BY desc(?userKlout) ";
             }
             //query+="desc(?postInCreated)";
-
 
             query += "OFFSET " + offset + "\n";
             if (limit > 0) {
@@ -2306,8 +2287,8 @@ public class StreamInBox extends GenericResource {
      * gets all PostIn by specific SocialNetUser
      */
     private String getAllPostInbyNetUser_Query(long offset, long limit, boolean isCount, Stream stream, SocialNetworkUser socialNetUser) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2317,8 +2298,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser <" + socialNetUser.getURI() + ">." + "\n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
@@ -2340,8 +2321,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInType_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2351,8 +2332,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_type ?postInType. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2379,8 +2360,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInNet_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2390,8 +2371,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetwork ?postInSocialNet. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2418,8 +2399,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInTopic_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2429,8 +2410,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
                 + "OPTIONAL { \n"
@@ -2460,8 +2441,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInCreated_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2471,8 +2452,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated." + "\n"
                 + "  }\n";
@@ -2498,8 +2479,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInSentimentalType_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2509,8 +2490,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postSentimentalType ?postSentimentalType." + "\n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2537,8 +2518,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInIntensityType_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2548,8 +2529,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postIntesityType ?postIntensityType." + "\n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2576,8 +2557,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInEmotType_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2587,8 +2568,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
                 + "  OPTIONAL { \n"
@@ -2617,8 +2598,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInUserName_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2628,8 +2609,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:postInSocialNetworkUser ?postInuserNetwork." + "\n"
                 + "  ?postInuserNetwork social:snu_name ?userName." + "\n"
@@ -2658,8 +2639,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInPlace_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2669,8 +2650,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
                 + "  OPTIONAL { \n"
@@ -2699,8 +2680,8 @@ public class StreamInBox extends GenericResource {
     }
 
     private String getPostInPriority_Query(String orderType, long offset, long limit, boolean isCount, Stream stream) {
-        String query =
-                "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
+        String query
+                = "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\n"
                 + "PREFIX social: <http://www.semanticwebbuilder.org/swb4/social#>"
                 + "\n";
         if (isCount) {
@@ -2710,8 +2691,8 @@ public class StreamInBox extends GenericResource {
             query += "select *\n";
         }
 
-        query +=
-                "where {\n"
+        query
+                += "where {\n"
                 + "  ?postUri social:postInStream <" + stream.getURI() + ">. \n"
                 + "  ?postUri social:isPrioritary ?isPriority." + "\n"
                 + "  ?postUri social:pi_createdInSocialNet ?postInCreated. \n"
@@ -2746,7 +2727,6 @@ public class StreamInBox extends GenericResource {
 
         int streamKloutValue = stream.getStream_KloutValue();
 
-
         //Show Actions
         out.println("<td class=\"accion\">");
 
@@ -2761,14 +2741,13 @@ public class StreamInBox extends GenericResource {
         text = SWBSocialResUtil.Util.replaceSpecialCharacters(text, false);
 
         /*
-        System.out.println("User:"+user);
-        System.out.println("userCanRemoveMsg:"+userCanRemoveMsg);
-        System.out.println("userCanRetopicMsg:"+userCanRetopicMsg);
-        System.out.println("userCanRevalueMsg:"+userCanRevalueMsg);
-        System.out.println("userCanRespondMsg:"+userCanRespondMsg);
-        System.out.println("userCandoEveryThing:"+userCandoEveryThing);
-        * */
-        
+         System.out.println("User:"+user);
+         System.out.println("userCanRemoveMsg:"+userCanRemoveMsg);
+         System.out.println("userCanRetopicMsg:"+userCanRetopicMsg);
+         System.out.println("userCanRevalueMsg:"+userCanRevalueMsg);
+         System.out.println("userCanRespondMsg:"+userCanRespondMsg);
+         System.out.println("userCandoEveryThing:"+userCandoEveryThing);
+         * */
         if (userCanRemoveMsg || userCandoEveryThing) {
             out.println("<div id=\"inStream" + postIn.getId() + "\">");
             out.println("</div>");
@@ -2776,7 +2755,6 @@ public class StreamInBox extends GenericResource {
             out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("remove") + "\" class=\"eliminar\" onclick=\"if(confirm('" + paramRequest.getLocaleString("confirm_remove") + ": "
                     + text + "?'))" + "{ postSocialPostInHtml('" + urlr + "','inStream" + postIn.getId() + "'); } else { return false;}\"></a>");
         }
-
 
         SWBResourceURL urlPrev = paramRequest.getRenderUrl().setMode(Mode_PREVIEW).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("postUri", postIn.getURI());
         out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("previewdocument") + "\" class=\"ver\" onclick=\"showDialog('" + urlPrev + "','" + paramRequest.getLocaleString("previewdocument")
@@ -2857,7 +2835,6 @@ public class StreamInBox extends GenericResource {
         //out.println("postIn:"+postIn);
         out.println("</td>");
 
-
         //Show PostType
         out.println("<td>");
         //out.println(postIn instanceof MessageIn ? paramRequest.getLocaleString("message") : postIn instanceof PhotoIn ? paramRequest.getLocaleString("photo") : postIn instanceof VideoIn ? paramRequest.getLocaleString("video") : "---");
@@ -2873,7 +2850,6 @@ public class StreamInBox extends GenericResource {
             out.println("</br><img class=\"swbIcon" + postIn.getPostInSocialNetwork().getClass().getSimpleName() + "\" src=\"/swbadmin/js/dojo/dojo/resources/blank.gif\"/>");
         }
         out.println("</td>");
-
 
         //SocialTopic
         out.println("<td>");
@@ -2891,8 +2867,8 @@ public class StreamInBox extends GenericResource {
         SimpleDateFormat output = new SimpleDateFormat("EEEE dd 'de' MMMM 'de' yyyy hh:mm a", new Locale("es", "MX"));
         if (postIn.getPi_createdInSocialNet() != null) {
             Date postDate = postIn.getPi_createdInSocialNet();
-            if(postDate.after(new Date())){
-                postDate= postIn.getPi_created();
+            if (postDate.after(new Date())) {
+                postDate = postIn.getPi_created();
             }
             out.println("<span title=\"" + output.format(postDate) + "\">" + df.format(postDate) + "</span>");
         } else {
@@ -2918,21 +2894,18 @@ public class StreamInBox extends GenericResource {
 
         //Emoticon
         /*out.println("<td align=\"center\">");
-        if (postIn.getPostSentimentalEmoticonType() == 1) {
-            out.println("<img title=\"Positivo\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emopos.png" + "\"/>");
-        } else if (postIn.getPostSentimentalEmoticonType() == 2) {
-            out.println("<img title=\"Negativo\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emoneg.png" + "\"/>");
-        } else if (postIn.getPostSentimentalEmoticonType() == 0) {
-            out.println("<img title=\"Neutro\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emoneu.png" + "\"/>");
-        }
-        out.println("</td>");*/
-
-
+         if (postIn.getPostSentimentalEmoticonType() == 1) {
+         out.println("<img title=\"Positivo\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emopos.png" + "\"/>");
+         } else if (postIn.getPostSentimentalEmoticonType() == 2) {
+         out.println("<img title=\"Negativo\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emoneg.png" + "\"/>");
+         } else if (postIn.getPostSentimentalEmoticonType() == 0) {
+         out.println("<img title=\"Neutro\" src=\"" + SWBPortal.getContextPath() + "/swbadmin/css/images/emoneu.png" + "\"/>");
+         }
+         out.println("</td>");*/
         //Replicas
         out.println("<td align=\"center\">");
         out.println(postIn.getPostShared());
         out.println("</td>");
-
 
         //Nunca debería un PostIn no tener un usuario, porque obvio las redes sociales simpre tienen un usuario que escribe los mensajes
         //User
@@ -2950,7 +2923,6 @@ public class StreamInBox extends GenericResource {
         out.println("<td align=\"center\">");
         out.println(postIn.getPostInSocialNetworkUser() != null ? postIn.getPostInSocialNetworkUser().getFriends() : paramRequest.getLocaleString("withoutUser"));
         out.println("</td>");
-
 
         //Retrieving user Klout data
         //Klout
