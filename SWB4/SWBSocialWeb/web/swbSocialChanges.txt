@@ -1,2 +1,12 @@
-Versón 1.0
-	
+Versi?n 1.0
+
+versi?n 1.0.0.1
+
+    Correcci?n del desfase de columnas en la exportaci?n a excel del monitoreo de streams.
+    Exportaci?n a excel por tipo de sentimiento positivo, negativo o neutro de la gr?fica Promedio de Sentimientos.
+    Correcci?n de la exportaci?n a excel de gr?fica de Menciones por mes al seleccionar mes y a?o.
+    Correcci?n del formato de fechas para la exportaci?n de las gr?ficas Genero, Localizaci?n M?xico, Localizaci?n Estados Unidos, Global y Lenguajes.
+    Correcci?n para mostrar el lenguaje en las exportaciones a excel de las gr?ficas Genero, Localizaci?n M?xico, Localizaci?n Estados Unidos, Global y Lenguajes.
+    Incorporaci?n de la opci?n para limpiar fechas que permiten filtrar informaci?n de los Post
+    Incorporaci?n de la opci?n para recargar un Stream o un Tema
+    Incorporaci?n de las opciones Mobile Web y Web en la gr?fica de Mensajes por plataforma m?vil
