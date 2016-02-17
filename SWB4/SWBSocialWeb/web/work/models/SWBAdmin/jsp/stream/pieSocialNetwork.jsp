@@ -311,8 +311,8 @@
         String clsName = semObj.createGenericInstance().getClass().getName();
         String lang = request.getParameter("lang");
         String filter = request.getParameter("filter");
-        String sinceDate = request.getParameter("sinceDateAnalysis" + clsName);
-        String toDate = request.getParameter("toDateAnalysis" + clsName);
+        String sinceDate = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+        String toDate = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
         //System.out.println("lang:" + lang + "--" + filter);
         out.println(getObject(semObj, lang, filter, sinceDate , toDate));
     }

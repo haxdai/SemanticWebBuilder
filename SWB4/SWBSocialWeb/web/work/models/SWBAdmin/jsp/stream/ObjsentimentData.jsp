@@ -163,8 +163,8 @@
         SemanticObject semObj = SemanticObject.createSemanticObject(request.getParameter("objUri"));
         String clsName = semObj.createGenericInstance().getClass().getName();
         String lang = request.getParameter("lang");
-        String sinceDate = request.getParameter("sinceDateAnalysis" + clsName);
-        String toDate = request.getParameter("toDateAnalysis" + clsName);
+        String sinceDate = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
+        String toDate = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
         //System.out.println("Entra 2:"+lang);
         out.println(getObject(semObj, lang, sinceDate , toDate));
     }

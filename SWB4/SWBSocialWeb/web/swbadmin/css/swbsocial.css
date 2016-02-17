@@ -1508,6 +1508,7 @@ border-radius:3px;
 .barra a:hover	{ border:solid 1px #dddfe0; background-color:#f7f9fa !important;}
 
 .barra .countersBar	{ background:url(images/icono-refresh.png) no-repeat 14px 7px !important;}
+.swbRefresh { background:url(images/icono-refresh.png) no-repeat 14px 7px !important; width:26px; height: 20px; text-align: center; padding-right:0px; display: inline-block}
 .barra .excel		{ background:url(images/ico-exp-excel.png) no-repeat 5px 2px !important;}
 .barra .excelall	{ background:url(images/ico-exp-exceltodo.png) no-repeat 5px 1px !important;}
 .barra .reclasif	{ background:url(images/ico-reclasificar.png) no-repeat 5px 2px !important;}

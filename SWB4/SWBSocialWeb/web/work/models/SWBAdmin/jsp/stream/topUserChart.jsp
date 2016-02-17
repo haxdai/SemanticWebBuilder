@@ -38,14 +38,14 @@
     
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName + semObj.getId());
 
     if(sinceDateAnalysis == null) {
-        sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName2);
+        sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName2 + semObj.getId());
     }
-    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
     if(toDateAnalysis == null) {
-        toDateAnalysis = request.getParameter("toDateAnalysis" + clsName2);
+        toDateAnalysis = request.getParameter("toDateAnalysis" + clsName2 + semObj.getId());
     }
     String networkSocial = request.getParameter("networkSocial");
     Date sinDateAnalysis = null;
@@ -233,8 +233,8 @@ text {
 <script src="../../js/nv.d3.js"></script>
 <script>
     var usrsTopChart = "";
-    var args = '&sinceDateAnalysis<%=clsName%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>';
-    args += '&toDateAnalysis<%=clsName%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>';
+    var args = '&sinceDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null)%>';
+    args += '&toDateAnalysis<%=clsName%><%=semObj.getId()%>=<%=(tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null)%>';
           
     function showNetworkSocial(netSocial) {
         var urlParams = '&networkSocial=' + escape(netSocial); 
@@ -293,6 +293,20 @@ nv.addGraph(function() {
   nv.utils.windowResize(chart.update);
 
   chart.dispatch.on('stateChange', function(e) { nv.log('New State:', JSON.stringify(e)); });
+  
+  chart.multibar.dispatch.on("elementClick", function(e) {
+    if(e != null) {
+        if(e.point != null && e.series != null) {
+            var url = '<%=urlRender%>';
+            url += '?suri=<%=URLEncoder.encode(suri, "UTF-8")%>';
+            url += "&type=graphChartTopUserBySent&usr="  + escape(e.point.label);
+            url += '&sent=' + escape(e.series.key);
+            url += '&ws=<%=ws.getId()%>';
+            url += '&network=' + escape(document.getElementById("networkSocial").value);
+            document.location.href = url;
+        }
+    }
+  });
 
   return chart;
 });

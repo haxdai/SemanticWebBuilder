@@ -35,8 +35,8 @@
     String clsName2 = semObj.createGenericInstance().getClass().getSimpleName();
     SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
     SimpleDateFormat formatTo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName);
-    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName);
+    String sinceDateAnalysis = request.getParameter("sinceDateAnalysis" + clsName  + semObj.getId());
+    String toDateAnalysis = request.getParameter("toDateAnalysis" + clsName + semObj.getId());
     Date sinDateAnalysis = null;
     Date tDateAnalysis = null;
     if(sinceDateAnalysis != null && toDateAnalysis != null) {
@@ -51,8 +51,8 @@
         }
     }    
     String args2 = "?suri=" + URLEncoder.encode(suri);
-    args2 += "&sinceDateAnalysis" + clsName2 + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
-    args2 += "&toDateAnalysis" + clsName2 + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
+    args2 += "&sinceDateAnalysis" + clsName2 + semObj.getId() + "=" + (sinDateAnalysis != null ? formatDate.format(sinDateAnalysis) : null);
+    args2 += "&toDateAnalysis" + clsName2 + semObj.getId() + "=" + (tDateAnalysis != null ? formatDate.format(tDateAnalysis) : null);
     args2 += "&type=graphChartByHourByNet";
     Iterator<PostIn> itObjPostIns = null;
     HashMap<SocialNetwork,Integer > networks = new HashMap<SocialNetwork,Integer>();
