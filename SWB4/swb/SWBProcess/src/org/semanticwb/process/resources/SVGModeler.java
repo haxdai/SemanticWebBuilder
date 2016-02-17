@@ -44,14 +44,12 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.Sortable;
-import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticModel;
@@ -159,13 +157,18 @@ public class SVGModeler extends GenericAdmResource {
         RequestDispatcher rd = request.getRequestDispatcher(JSP);
         Resource base = getResourceBase();
         boolean isViewMode = false;
+        boolean showStatus = false;
         response.setContentType("text/html; charset=UTF-8");
         if (base.getAttribute("viewMode") != null && base.getAttribute("viewMode").equals("true")) {
             isViewMode = true;
         }
+        if (base.getAttribute("showStatus") != null && base.getAttribute("showStatus").equals("true")) {
+            showStatus = true;
+        }
 
         try {
             request.setAttribute("isViewMode", isViewMode);
+            request.setAttribute("showStatus", showStatus);
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
         } catch (Exception ex) {
