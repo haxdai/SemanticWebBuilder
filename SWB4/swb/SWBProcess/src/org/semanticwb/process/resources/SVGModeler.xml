@@ -5,6 +5,7 @@
         <admdbconnmgr defconn="true"/>
         <fieldset legend="Configuración general">
             <input type="CHECKBOX" name="viewMode" label="Usar modo vista" value="true"/>
+            <input type="CHECKBOX" name="showStatus" label="Mostrar estado del proceso" value="true"/>
         </fieldset>
         <fieldset>
             <input type="SUBMIT" name="btnSave" value="Guardar"/>
