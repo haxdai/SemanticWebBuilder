@@ -724,6 +724,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
     }
     
     public void doCreateProcessInstance(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         String jsp = "/swbadmin/jsp/process/taskInbox/userTaskInboxNewCase.jsp";
 
         try {
