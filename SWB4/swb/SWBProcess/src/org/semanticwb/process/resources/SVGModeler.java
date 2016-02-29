@@ -1413,14 +1413,14 @@ public class SVGModeler extends GenericAdmResource {
                 while (it.hasNext()) {
                     FileItemStream item = it.next();
                     if (!item.isFormField()) {//Es un archivo
-                        if (item.getName().endsWith(".swp")) { //Es un archivo swp
+                        if (item.getName().toLowerCase().endsWith(".swp")) { //Es un archivo swp
                             InputStream stream = item.openStream();
                             java.util.Scanner scanner = new Scanner(stream, "UTF-8").useDelimiter("\\A");
                             if (scanner.hasNext()) {
                                 data = scanner.next();
                             }
                         } else {
-                            if (item.getName().endsWith(".xpdl")) {//Es un archivo XPDL
+                            if (item.getName().toLowerCase().endsWith(".xpdl")) {//Es un archivo XPDL
                                 InputStream stream = item.openStream();
                                 XPDLParser parser = new XPDLParser();
                                 JSONObject ret = parser.parse(stream);
