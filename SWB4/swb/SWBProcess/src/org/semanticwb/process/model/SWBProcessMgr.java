@@ -321,5 +321,4 @@ public class SWBProcessMgr
     {
         return linkedThreads.contains(thread);
     }
-
 }
