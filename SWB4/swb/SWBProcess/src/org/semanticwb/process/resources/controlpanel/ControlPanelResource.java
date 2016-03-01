@@ -55,6 +55,12 @@ import org.semanticwb.process.model.RepositoryFile;
 import org.semanticwb.process.model.SWBProcessMgr;
 import org.semanticwb.process.model.UserTask;
 import org.semanticwb.process.resources.taskinbox.UserTaskInboxResource;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_GRAPHSENGINE;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_INSTANCEGRAPH;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_PARTGRAPH;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_RESPONSEGRAPH;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_SHOWPERFORMANCE;
+import static org.semanticwb.process.resources.taskinbox.UserTaskInboxResource.ATT_STATUSGRAPH;
 import org.semanticwb.process.schema.File;
 import org.semanticwb.process.schema.FileCollection;
 
@@ -316,7 +322,7 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
     }
     
     public void doDetail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        String jsp = "/swbadmin/jsp/process/monitor/processDetail.jsp";
+        String jsp = "/swbadmin/jsp/process/taskInbox/userTaskInboxDetail.jsp";
 
         try {
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
@@ -326,6 +332,7 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
                 request.setAttribute("statusWp", getDisplayMapWp());
                 request.setAttribute("itemsPerPage", getItemsPerPage());
                 request.setAttribute("base", getResourceBase());
+                request.setAttribute("graphConfig", getGraphsConfig());
             }
             rd.include(request, response);
         } catch (Exception e) {
@@ -333,7 +340,31 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
         }
     }
     
-    public ArrayList<ProcessInstance> getDetailProcessInstances(HttpServletRequest request, SWBParamRequest paramRequest) {
+    /**
+     * Obtiene una cadena con la configuración de las gráficas para el recurso.
+     * @return Propiedades de configuración activas, separadas por |.
+     */
+    private String getGraphsConfig() {
+        StringBuilder ret = new StringBuilder();
+        
+        if (isShowGraphs()) ret.append(ATT_SHOWPERFORMANCE).append("|");
+        if (isShowInstanceGraph()) ret.append(ATT_INSTANCEGRAPH).append("|");
+        if (isShowPartGraph()) ret.append(ATT_PARTGRAPH).append("|");
+        if (isShowResponseGraph()) ret.append(ATT_RESPONSEGRAPH).append("|");
+        if (isShowStatusGraph()) ret.append(ATT_STATUSGRAPH).append("|");
+        if (null != getGraphsEngine()) ret.append(ATT_GRAPHSENGINE).append(":").append(getGraphsEngine()).append("|");
+        
+        return ret.toString();
+    }
+    
+    /**
+     * Obtiene las estadísticas de los procesos y devuelve la lista de instancias filtradas y ordenadas.
+     * @param request
+     * @param paramRequest
+     * @return
+     * @throws SWBResourceException 
+     */
+    public ArrayList<ProcessInstance> getDetailProcessInstances(HttpServletRequest request, SWBParamRequest paramRequest) throws SWBResourceException {
         ArrayList<ProcessInstance> unpaged = new ArrayList<ProcessInstance>();
         ArrayList<ProcessInstance> instances = new ArrayList<ProcessInstance>();
         String suri = request.getParameter("suri");
@@ -450,21 +481,61 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
                 unpaged.add(pi);
             }
             
-            request.setAttribute("processing", processing);
-            request.setAttribute("aborted", aborted);
-            request.setAttribute("closed", closed);
-            request.setAttribute("delayed", delayed);
-            request.setAttribute("ontime", ontime);
+            JSONObject data = new JSONObject();
+            JSONArray instanceInfo = new JSONArray();
+            JSONArray statusInfo = new JSONArray();
+            JSONArray responseInfo = new JSONArray();
+            
+            if (processing > 0 || aborted > 0 || closed > 0) {
+                JSONArray dt = new JSONArray();
+                if (processing > 0) dt.put(paramRequest.getLocaleString("lblProcessing")).put(processing);
+                if (aborted > 0) dt.put(paramRequest.getLocaleString("lblAborted")).put(aborted);
+                if (closed > 0) dt.put(paramRequest.getLocaleString("lblClosed")).put(closed);
+                instanceInfo.put(dt);
+                //request.setAttribute("processing", processing);
+                //request.setAttribute("aborted", aborted);
+                //request.setAttribute("closed", closed);
+                try {
+                    data.put("instanceData", instanceInfo);
+                } catch (JSONException ex) {}
+            }
+            
+            if (delayed > 0 || ontime > 0) {
+                if (delayed > 0) {
+                    JSONArray dt = new JSONArray();
+                    dt.put(paramRequest.getLocaleString("lblDelayed")).put(delayed);
+                    statusInfo.put(dt);
+                }
+                if (ontime > 0) {
+                    JSONArray dt = new JSONArray();
+                    dt.put(paramRequest.getLocaleString("lblOntime")).put(ontime);
+                    statusInfo.put(dt);
+                }
+                //request.setAttribute("delayed", delayed);
+                //request.setAttribute("ontime", ontime);
+                try {
+                    data.put("statusData", statusInfo);
+                } catch (JSONException ex) {}
+            }
             
             if (closed > 0) {
-                request.setAttribute("minTime", TimeUnit.MILLISECONDS.toMinutes(minTime));
+                JSONArray dt = new JSONArray();
+                dt.put(paramRequest.getLocaleString("lblMin")).put(TimeUnit.MILLISECONDS.toMinutes(minTime));
+                dt.put(paramRequest.getLocaleString("lblMax")).put(TimeUnit.MILLISECONDS.toMinutes(maxTime));
+                dt.put(paramRequest.getLocaleString("lblAvg")).put(TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));
+                responseInfo.put(dt);
+                
+                try {
+                    data.put("responseData", responseInfo);
+                } catch (JSONException ex) {}
+                /*request.setAttribute("minTime", TimeUnit.MILLISECONDS.toMinutes(minTime));
                 request.setAttribute("maxTime", TimeUnit.MILLISECONDS.toMinutes(maxTime));
-                request.setAttribute("avgTime", TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));
-            } else {
+                request.setAttribute("avgTime", TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));*/
+            }/* else {
                 request.setAttribute("minTime", 0L);
                 request.setAttribute("maxTime", 0L);
                 request.setAttribute("avgTime", 0L);
-            }
+            }*/
         
             //Realizar paginado de instancias
             int maxPages = 1;
@@ -509,7 +580,7 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
                     JSONArray users = new JSONArray();
                     while (uit.hasNext()) {
                         User key = uit.next();
-                        int value = (Integer) participantCount.get(key);
+                        int value = participantCount.get(key);
                         if (value > max) {
                             max = value;
                             theUser = key;
@@ -525,11 +596,12 @@ public class ControlPanelResource extends org.semanticwb.process.resources.contr
                     processInfo.put("children", users);
                     processInfo.put("theUser", theUser.getFullName()==null?"Anónimo":theUser.getFullName());
                     
-                    request.setAttribute("participation", processInfo.toString());
+                    data.put("partData", processInfo);
                 } catch (JSONException ex) {
                     log.error("UserTaskInboxResource - Error al generar JSON", ex);
                 }
             }
+            request.setAttribute("processStats", data.toString());
         }
         return instances;
     }
