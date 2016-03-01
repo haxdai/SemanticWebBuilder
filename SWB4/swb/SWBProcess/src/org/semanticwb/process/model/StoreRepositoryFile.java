@@ -104,7 +104,7 @@ public class StoreRepositoryFile extends org.semanticwb.process.model.base.Store
                 
                 try
                 {
-                    file.storeFile(filename, new FileInputStream(filePath), comments, false,getNodeStatus()!=null?getNodeStatus().getId():null);
+                    file.storeFile(new FileInputStream(filePath), filename, comments, getNodeStatus()!=null?getNodeStatus().getId():null, false);
                 }catch(Exception e)
                 {
                     log.error(e);
@@ -158,7 +158,7 @@ public class StoreRepositoryFile extends org.semanticwb.process.model.base.Store
                 if(comments!=null)comments=SWBScriptParser.parser(instance, user, comments);
                 try
                 {
-                    file.storeFile(filename, new FileInputStream(filePath), comments, false,getNodeStatus()!=null?getNodeStatus().getId():"Indefinido");
+                    file.storeFile(new FileInputStream(filePath), filename, comments, getNodeStatus()!=null?getNodeStatus().getId():"Indefinido", false);
                 }catch(Exception e)
                 {
                     log.error(e);
