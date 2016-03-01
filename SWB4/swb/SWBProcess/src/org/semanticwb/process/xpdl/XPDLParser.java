@@ -63,6 +63,7 @@ public class XPDLParser extends DefaultHandler {
     private JSONObject processModel;
     private boolean validate = false;
     private boolean namespaceAware = true;
+    private Stack<String> contextStack;
     
     /**
      * Constructor. Crea e inicializa el parser sin forzar validación y con manejo de namespaces.
@@ -132,23 +133,30 @@ public class XPDLParser extends DefaultHandler {
     
     @Override
     public void startDocument() throws SAXException {
-        XMLElementNames = new Stack<String>();
-        XMLElementObjects = new Stack<JSONObject>();
+        XMLElementNames = new Stack<>();
+        XMLElementObjects = new Stack<>();
+        contextStack = new Stack<>();
         elements = new HashMap<String, JSONObject>();
         processModel = null;
     }
 
     @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        String context = contextStack.isEmpty() ? "Process:1" : contextStack.peek();
+        
         try {
-            processElement(uri, localName, qName, attributes);
+            processElement(context, uri, localName, qName, attributes);
         } catch (JSONException ex) {
             log.error("Ocurrió un error procesando el elemento", ex);
         }
+        
+        if ("ActivitySet".equals(localName)) contextStack.push(attributes.getValue("Id"));
     }
 
     @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
+        if ("ActivitySet".equals(localName) && !contextStack.isEmpty()) contextStack.pop();
+        
         if (!XMLElementNames.isEmpty()) {
             if (XMLElementNames.peek().equals(localName)) {
                 XMLElementNames.pop();
@@ -286,7 +294,7 @@ public class XPDLParser extends DefaultHandler {
                     }
                 } else if (XPDLProcessor.XPDLEntities.ASSOCIATION.equals(cls)) {
                     JSONObject source = elements.get(el.optString(XPDLProcessor.XPDLAttributes.SOURCE, ""));
-                    JSONObject target = elements.get(el.optString("parent", ""));
+                    JSONObject target = elements.get(el.optString(XPDLProcessor.XPDLAttributes.TARGET, ""));
                     
                     String sourceCls = "";
                     String targetCls = "";
@@ -468,20 +476,20 @@ public class XPDLParser extends DefaultHandler {
      * @param attributes Attributos del elemento.
      * @throws JSONException 
      */
-    private void processElement(String uri, String localName, String qName, Attributes attributes) throws JSONException {
+    private void processElement(String context, String uri, String localName, String qName, Attributes attributes) throws JSONException {
         HashMap<String, String> atts = getAttributeMap(attributes);
-
+        
         if (XPDLProcessor.XPDLEntities.ACTIVITY.equals(localName)) {
-            processor.processActivity(XMLElementNames, XMLElementObjects, atts);
+            processor.processActivity(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.BLOCKACTIVITY.equals(localName)) {
             processor.processBlockActivity(XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.LANE.equals(localName)) {
-            processor.processLane(XMLElementNames, XMLElementObjects, atts);
+            processor.processLane(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.POOL.equals(localName)) {
-            processor.processPool(XMLElementNames, XMLElementObjects, atts);
+            processor.processPool(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.NODEGRAPHICSINFO.equals(localName)) {
             processor.processNodeGraphicsInfo(XMLElementNames, XMLElementObjects, atts);
@@ -500,7 +508,7 @@ public class XPDLParser extends DefaultHandler {
             processor.processGateway(XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.DATASTOREREFERENCE.equals(localName) || XPDLProcessor.XPDLEntities.DATASTORE.equals(localName) || XPDLProcessor.XPDLEntities.DATAOBJECT.equals(localName)) {
-            processor.processDataObject(XMLElementNames, XMLElementObjects, atts);
+            processor.processDataObject(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.DATAFIELD.equals(localName)) {
             processor.processDataField(XMLElementNames, XMLElementObjects, atts);
@@ -515,10 +523,10 @@ public class XPDLParser extends DefaultHandler {
             processor.processLoopType(XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.ARTIFACT.equals(localName)) {
-            processor.processArtifact(XMLElementNames, XMLElementObjects, atts);
+            processor.processArtifact(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.TRANSITION.equals(localName)) {
-            processor.processTransition(XMLElementNames, XMLElementObjects, atts);
+            processor.processTransition(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.CONDITION.equals(localName)) {
             processor.processConditionType(XMLElementNames, XMLElementObjects, atts);
@@ -527,10 +535,10 @@ public class XPDLParser extends DefaultHandler {
             processor.processWorkFlow(XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.ACTIVITYSET.equals(localName)) {
-            processor.processActivitySet(XMLElementNames, XMLElementObjects, atts);
+            processor.processActivitySet(context, XMLElementNames, XMLElementObjects, atts);
         }
         if (XPDLProcessor.XPDLEntities.ASSOCIATION.equals(localName)) {
-            processor.processAssociation(XMLElementNames, XMLElementObjects, atts);
+            processor.processAssociation(context, XMLElementNames, XMLElementObjects, atts);
         }
         //Put current tag on top of the stack
         XMLElementNames.push(localName);
