@@ -25,11 +25,6 @@ RepositoryElement rf = (RepositoryElement) request.getAttribute("element");
 int luser = (Integer) request.getAttribute("luser");
 WebSite site = paramRequest.getWebPage().getWebSite();
 User user = paramRequest.getUser();
-String lang = "es";
-
-if (user != null && user.getLanguage() != null) {
-    lang = user.getLanguage();
-}
 SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy - hh:mm");
 
 if (!user.isSigned()) {
@@ -46,25 +41,22 @@ if (!user.isSigned()) {
     }
 } else {
     %>
-    <h2><a class="btn" data-toggle="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("btnBack")%>" href="<%=paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_VIEW)%>"><span class="fa fa-reply"></span></a><%=paramRequest.getLocaleString("msgVerHistoryTitle")%></h2>
+    <div class="row swbp-pad">
+        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
+            <a href="<%=paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_VIEW)%>" class="btn btn-block swbp-btn-block"><%=paramRequest.getLocaleString("btnBack")%></a>
+        </div>
+    </div>
+    <hr/>
+    <div class="panel panel-default swbp-panel-head">
+                  <div class="panel-heading text-center"><%=paramRequest.getLocaleString("msgVerHistoryTitle")%></div>
+            </div>
     <%
     if (!files.isEmpty()) {
         Iterator<VersionInfo> it = files.iterator();
         if (it.hasNext()) {
             %>
             <div class="table-responsive">
-                <table class="table table-hover swbp-table">
-                    <thead>
-                        <tr>
-                            <th><%=paramRequest.getLocaleString("msgVersion")%></th>
-                            <th><%=paramRequest.getLocaleString("msgCreationDate")%></th>
-                            <th><%=paramRequest.getLocaleString("msgVersionUser")%></th>
-                            <th><%=paramRequest.getLocaleString("msgComments")%></th>
-                            <th><%=paramRequest.getLocaleString("msgTHStatus")%></th>
-                            <th><%=paramRequest.getLocaleString("msgTHAction")%></th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    
                     <%
                     while (it.hasNext()) {
                         VersionInfo vi = it.next();
@@ -77,14 +69,21 @@ if (!user.isSigned()) {
                         propsUrl.setParameter("type", (rf instanceof RepositoryURL)?"url":"file");
                         propsUrl.setParameter("verNum", String.valueOf(vi.getVersionNumber()));
                         %>
-                        <tr>
-                            <td><%=vi.getVersionValue()%></td>
-                            <td><%=format.format(vi.getCreated())%></td>
-                            <td><%=modifier%></td>
-                            <td><%=vi.getVersionComment()==null?"--":vi.getVersionComment()%></td>
-                            <td><%=rf.getStatus()==null?"--":rf.getStatus().getDisplayTitle(lang)%></td>
-                            <td class="swbp-actions">
-                                <a href="<%=propsUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
+                        <div class="swbp-list-element">
+                            <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 swbp-list-title">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number">
+                                   <%=vi.getVersionValue()%> 
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text">
+                                   
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-2 swbp-list-date">
+                                    <%=format.format(vi.getCreated())%>
+                                </div>
+                            </div> 
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 swbp-list-action">    
+             
+                                <a href="<%=propsUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default col-xs-6 fa fa-info-circle" data-toggle="modal" data-target="#modalDialog"></a>
                                 <%
                                 if (luser > 0) {
                                     SWBResourceURL urlDownload = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
@@ -92,16 +91,14 @@ if (!user.isSigned()) {
                                     urlDownload.setParameter("fid", rf.getId());
                                     urlDownload.setParameter("verNum", "" + vi.getVersionNumber());
                                     %>
-                                    <a href="<%=rf instanceof RepositoryFile?urlDownload:vi.getVersionFile()%>" title="<%=rf instanceof RepositoryFile?paramRequest.getLocaleString("msgDownload"):paramRequest.getLocaleString("msgGoLink")%>" class="btn btn-default"><span class="fa <%=rf instanceof RepositoryFile?"fa-cloud-download":"fa-external-link"%>"></span></a>
+                                    <a href="<%=rf instanceof RepositoryFile?urlDownload:vi.getVersionFile()%>" title="<%=rf instanceof RepositoryFile?paramRequest.getLocaleString("msgDownload"):paramRequest.getLocaleString("msgGoLink")%>" class="btn btn-default col-xs-6 fa <%=rf instanceof RepositoryFile?"fa-download":"fa-external-link"%>"></a>
                                 <%}
                                 %>
-                            </td>
-                        </tr>
+                      
+                        </div>
                         <%
                     }
                     %>
-                    </tbody>
-                </table>
             </div>
             <%
         }

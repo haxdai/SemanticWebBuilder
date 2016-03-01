@@ -34,22 +34,13 @@
     WebSite site = paramRequest.getWebPage().getWebSite();
     User user = paramRequest.getUser();
     String lang = "es";
-    Resource base = paramRequest.getResourceBase();
 
     if (user != null && user.getLanguage() != null) {
         lang = user.getLanguage();
     }
     SimpleDateFormat format = new SimpleDateFormat("dd/MMM/yyyy - hh:mm");
-    boolean snv = "true".equals(paramRequest.getResourceBase().getAttribute("showNavbar"));
 
-    if (!(paramRequest.getWebPage() instanceof RepositoryDirectory)) {
-        %>
-        <div class="alert alert-block alert-warning fade in">
-            <h4><%=paramRequest.getLocaleString("msgBadConfigTitle")%></h4>
-            <p><%=paramRequest.getLocaleString("msgBadConfig")%></p>
-        </div>
-<%
-    } else if (!user.isSigned()) {
+    if (!user.isSigned()) {
         if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {
 %>
 <div class="alert alert-block alert-danger fade in">
@@ -62,28 +53,18 @@
 <%
     }
 } else {
-    SWBResourceURL addUrl = paramRequest.getRenderUrl().setMode(ProcessFileRepository.MODE_ADDFILE);
-    SWBResourceURL addFolderUrl = paramRequest.getRenderUrl().setMode(ProcessFileRepository.MODE_ADDFOLDER);
-    
-    if (luser > 1) {
+    SWBResourceURL addUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ProcessFileRepository.MODE_ADDFILE);
+    SWBResourceURL addFolderUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(ProcessFileRepository.MODE_ADDFOLDER);
 %>
-<div class="row text-right">
-    <ul class="list-unstyled list-inline">
-        <li>
-            <a href="<%=addUrl%>" class="btn btn-default swbp-btn-action" data-toggle="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("addFile")%>"><span class="fa fa-plus"></span> <span class="fa fa-file-text"></span></a>
-        </li>
-        <li>
-            <a href="<%=addFolderUrl%>" class="btn btn-default swbp-btn-action" data-toggle="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("msgCreateDirectory")%>"><span class="fa fa-plus"></span> <span class="fa fa-folder"></span></a>
-        </li>
-    </ul>
-</div>
-<%
-    }
-        if (snv && path != null) {%>
-<ol class="breadcrumb swbp-breadcrumb">
-    <li>
-        <span class="swbp-breadcrumb-title"><%=paramRequest.getLocaleString("msgLocation")%>:</span>
-    </li>
+<div class="row swbp-pad">
+  
+    <%
+    if (path != null) {%>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 swbp-breadcrumbs">
+        <div class="breadCrumbHolder module">
+            <div id="breadCrumb2" class="breadCrumb module">
+<ol id="breadcrumbs-1a">
+    <li class="fa fa-archive first"></li>
     <%
         if (path.indexOf("|") != -1) {
             String[] pathelems = path.split("\\|");
@@ -108,8 +89,28 @@
             }
         %>
 </ol>
+        </div>
+        </div>
 <%
-    }
+    }%>
+    </div>
+    
+<div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
+                    <a href="<%=addUrl%>" class="btn btn-block swbp-btn-block" data-toggle="modal" data-target="#modalDialog">
+                        agregar archivo
+                    </a>   
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
+                    <a href="<%=addFolderUrl%>" class="btn btn-block swbp-btn-block" data-toggle="modal" data-target="#modalDialog">
+                        agregar directorio
+                    </a>   
+                </div>
+</div>
+                        
+<hr>
+
+
+    <%
 
     if (!files.isEmpty()) {
         SWBResourceURL urlOrder = paramRequest.getRenderUrl();
@@ -117,21 +118,8 @@
         Iterator<GenericObject> it = files.iterator();
         if (it.hasNext()) {
 %>
-<div class="table-responsive">
-    <table class="table table-hover swbp-table">
-        <thead>
-            <tr>
-                <th><%=paramRequest.getLocaleString("msgTHFileName")%> <a href="<%=urlOrder.setParameter("sort", "title")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgType")%> <a href="<%=urlOrder.setParameter("sort", "type")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgVersion")%></th>
-                <th><%=paramRequest.getLocaleString("msgLastDateModification")%> <a href="<%=urlOrder.setParameter("sort", "date")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgVersionUser")%> <a href="<%=urlOrder.setParameter("sort", "usr")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgTHArea")%> <a href="<%=urlOrder.setParameter("sort", "gpousr")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgTHStatus")%> <a href="<%=urlOrder.setParameter("sort", "status")%>"><span class="fa fa-sort-asc"></span></a></th>
-                <th><%=paramRequest.getLocaleString("msgTHAction")%></th>
-            </tr>
-        </thead>
-        <tbody>
+
+
             <%
                 while (it.hasNext()) {
                     GenericObject go = it.next();
@@ -152,6 +140,7 @@
                         VersionInfo vi = re.getLastVersion();
                         if (vi != null) {
                             type = ProcessFileRepository.getFileType(vi.getVersionFile(), lang);
+                            
                         }
                         _type = (go instanceof RepositoryURL) ? "url" : "file";
                         if (vi != null && vi.getModifiedBy() != null && vi.getModifiedBy().getFullName().length() > 0) {
@@ -188,11 +177,25 @@
                     propsUrl.setMode(ProcessFileRepository.MODE_PROPS);
                     propsUrl.setParameter("fid", go.getId());
                     propsUrl.setParameter("type", _type);
+
+                    SWBResourceURL editUrl = paramRequest.getRenderUrl().setCallMethod(SWBParamRequest.Call_DIRECT);
+                    editUrl.setMode(ProcessFileRepository.MODE_EDITFOLDER);
+                    editUrl.setParameter("fid", go.getId());
+                    editUrl.setParameter("type", _type);
+                    
             %>
-            <tr>
-                <td>
-                    <img src="<%=urlIcon%>" alt="<%=type%>" title="<%=title%>"/>
-                    <%if (go instanceof RepositoryElement) {
+            <div class="swbp-list-element">
+                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 swbp-list-title">
+                     <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%>
+                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-folder-open swbp-list-icon"></div>
+                    <%}else if (_type.equals("url")) {%>
+                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-link swbp-list-icon"></div>
+                    <%}else{%> 
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-file-text swbp-list-icon"></div>
+                        <%}%>
+         
+                    <%
+                        if (go instanceof RepositoryElement) {
                             RepositoryElement re = (RepositoryElement) go;
                             VersionInfo vi = re.getLastVersion();
                             if (vi != null) {
@@ -202,24 +205,30 @@
                                     urlDownload.setParameter("fid", go.getId());
                                     urlDownload.setParameter("verNum", "" + vi.getVersionNumber());
                     %>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text">
                     <a <%=re instanceof RepositoryURL ? "target=\"_blank\"" : ""%> href="<%=re instanceof RepositoryFile ? urlDownload : vi.getVersionFile()%>"><%=title%></a>
+                    </div>
                     <%
                             }
                         }
                     } else if (go instanceof RepositoryDirectory) {
                     %>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text">
                     <a href="<%=((RepositoryDirectory) go).getUrl()%>" title="<%=paramRequest.getLocaleString("msgOpenFolder")%>"><%=title%></a>
+                    </div>
                     <%
-                                        }%>
-                </td>
-                <td><%=type%></td>
-                <td><%=version%></td>
-                <td><%=lastUpdated%></td>
-                <td><%=modifier%></td>
-                <td><%=ownerGroup%></td>
-                <td><%=status%></td>
-                <td class="swbp-actions">
-                    <a href="<%=propsUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
+                        }%>
+                
+                <div class="col-lg-3 col-md-3 col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-2 swbp-list-date">
+                <%=lastUpdated%>
+                </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 swbp-list-action">
+                    <a href="<%=propsUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%> col-xs-4 <%}else{%>col-xs-3<%}%> fa fa-info-circle" data-toggle="modal" data-target="#modalDialog"></a>
+                        <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%>
+                    <a href="<%=editUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default col-xs-4 fa fa-pencil" data-toggle="modal" data-target="#modalDialog"></a>
+                        <%}%>
                         <%if (luser == 3 || (((Traceable) go).getCreator() != null && ((Traceable) go).getCreator().equals(user) && luser > 1)) {
                                 boolean canDelete = true;
                                 if (go instanceof RepositoryDirectory) {
@@ -240,14 +249,17 @@
                                     urlremove.setParameter("fid", go.getURI());
                         %>
                     <a href="<%=urlremove%>" onclick="if (!confirm('<%=paramRequest.getLocaleString("msgAlertConfirmRemoveFile") + " " + title + "?"%>'))
-                                return false;" title="<%=paramRequest.getLocaleString("msgAltDelete")%>" class="btn btn-default"><span class="fa fa-trash-o"></span></a>
+                                return false;" title="<%=paramRequest.getLocaleString("msgAltDelete")%>" class="btn btn-default <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%> col-xs-4 <%}else{%>col-xs-3<%}%> fa fa-trash-o"></a>
                         <%
                             }
+                            else{%>
+                            <a href="#" disabled="true" class="btn btn-default <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%> col-xs-4 <%}else{%>col-xs-3<%}%> fa fa-trash-o"></a>
+                                <%}
                             if (go instanceof RepositoryElement) {
                                 addUrl.setParameter("fid", go.getId());
                                 addUrl.setParameter("type", _type);
                         %>
-                    <a href="<%=addUrl%>" title="<%=paramRequest.getLocaleString("msgAddVersion")%>" class="btn btn-default"><span class="fa fa-cloud-upload"></span></a>
+                    <a href="<%=addUrl%>" title="<%=paramRequest.getLocaleString("msgAddVersion")%>" class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-cloud-upload"></span></a>
                         <%
                                 }
                             }
@@ -261,20 +273,23 @@
                                         historyUrl.setParameter("fid", go.getId());
                                         historyUrl.setParameter("type", (re instanceof RepositoryURL ? "url" : "file"));
                         %>
-                    <a href="<%=historyUrl%>" title="<%=paramRequest.getLocaleString("msgViewVersionHistory")%>" class="btn btn-default"><span class="fa fa-archive"></span></a>
+                    <a href="<%=historyUrl%>" title="<%=paramRequest.getLocaleString("msgViewVersionHistory")%>" class="btn btn-default col-xs-3 fa fa-sort-numeric-asc"></a>
                         <%
                                     }
+                                    else{%>
+                                    <a href="#" disabled="true" class="btn btn-default col-xs-3 fa fa-sort-numeric-asc"></a>
+                                    <%}
                                 }
                             }
                         %>
-                </td>
-            </tr>
+                </div>
+            </div>
             <%
                 }
             %>
-        </tbody>
-    </table>
-</div>
+            
+
+
 <%
     String sort = request.getParameter("sort");
     if (sort != null && sort.length() > 0) {
@@ -283,7 +298,7 @@
         sort = "";
     }
 %>
-<jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
+    <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
     <jsp:param name="navUrlParams" value="<%=sort%>"/>
     <jsp:param name="showPageOfPage" value="true"/>
 </jsp:include>

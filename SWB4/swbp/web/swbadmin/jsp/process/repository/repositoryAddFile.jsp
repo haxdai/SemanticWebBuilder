@@ -27,22 +27,17 @@ RepositoryElement re = null;
 String lang ="es";
 String actualStatus ="";
 
-if (user != null && user.getLanguage() != null) {
-    lang = user.getLanguage();
-}
+if (user != null && user.getLanguage() != null) lang = user.getLanguage();
 
-String fid = request.getParameter("fid");
 String type = request.getParameter("type");
 VersionInfo vi = null;
 
-if (fid != null && fid.length() > 0) {
-    if (type != null) {
-        if ("url".equals(type)) {
-            re = RepositoryURL.ClassMgr.getRepositoryURL(fid, site);
-        } else if ("file".equals(type)) {
-            re = RepositoryFile.ClassMgr.getRepositoryFile(fid, site);
-        }
-    }
+if ("url".equals(type)) {
+    re = RepositoryURL.ClassMgr.getRepositoryURL(request.getParameter("fid"), site);
+} else if ("file".equals(type)) {
+    re = RepositoryFile.ClassMgr.getRepositoryFile(request.getParameter("fid"), site);
+} else {
+    type = "";
 }
 
 if (re != null) {
@@ -63,7 +58,6 @@ if (!user.isSigned()) {
         <%
     }
 } else {
-    SWBResourceURL viewURL = paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_VIEW);
     SWBResourceURL createURL = paramRequest.getActionUrl().setAction(ProcessFileRepository.ACT_NEWFILE);
     
     String comments = "";
@@ -74,221 +68,277 @@ if (!user.isSigned()) {
     
     if (re != null && re.getDisplayDescription(lang) != null) description = re.getDisplayDescription(lang);
     %>
-    <script src="<%=SWBPlatform.getContextPath()%>/swbadmin/jsp/process/repository/fileRepositoryUtils.js" charset="utf-8"></script>
-    <div class="col-lg-offset-3 col-lg-6">
-    <div class="panel panel-default swbp-panel">
-        <div class="panel-heading swbp-panel-title">
-            <h1 class="panel-title"><strong><%=paramRequest.getLocaleString("msgAdd")%>&nbsp;<%=re != null?paramRequest.getLocaleString("msgVersionOf")+" ":""%> <%=(re != null && re instanceof RepositoryURL)?paramRequest.getLocaleString("msgDocLink"):paramRequest.getLocaleString("msgFile")%></strong></h1>
-        </div>
-        <form class="form-horizontal" role="form" action="<%=createURL%>" method="post" enctype="multipart/form-data">
-            <div class="panel-body">
-                <%if (re != null) {%>
-                <input type="hidden" name="fid" value="<%=re.getURI()%>"/>
-                <%}%>
-                <div class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgTitle")%> *</label>
-                    <div class="col-lg-6">
-                        <input type="text" name="ftitle" id="ftitle" value="<%=(re != null)?re.getDisplayTitle(lang):""%>" class="form-control"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgDescription")%> *</label>
-                    <div class="col-lg-6">
-                        <textarea name="fdescription" id="fdescription" class="form-control"><%=description%></textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgComments")%></label>
-                    <div class="col-lg-6">
-                        <textarea name="fcomment" id="fcomment" class="form-control"><%=comments%></textarea>
-                    </div>
-                </div>
-                <%if (re == null) {%>
-                    <div class="form-group">
-                        <label class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgFileType")%> *</label>
-                        <div class="col-lg-6">
-                            <div class="radio-inline">
-                              <label>
-                                  <input type="radio" id="fileToggleRadio" onclick="toggleShow('fileSelect', true);toggleShow('linkSelect', false);" checked name="hftype" value="file"> <%=paramRequest.getLocaleString("msgFile")%>
-                              </label>
-                            </div>
-                            <div class="radio-inline">
-                                <label>
-                                    <input type="radio" id="urlToggleRadio" onclick="toggleShow('fileSelect', false);toggleShow('linkSelect', true);"name="hftype" value="url"> <%=paramRequest.getLocaleString("lblLink")%>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                <%
-                } else {
-                    %><input type="hidden" name="hftype" id="hftype" value="<%=type%>"/><%
-                }
-                if (re == null || (re != null && re instanceof RepositoryFile)) {%>
-                    <div id="fileSelect" class="form-group">
-                        <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgFile")%> *</label>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <span class="input-group-btn">
-                                    <span class="btn btn-success btn-file">
-                                        <%=paramRequest.getLocaleString("msgSearchFile")%> <input type="file" name="ffile" id="ffile" class="form-control" />
-                                    </span>
-                                </span>
-                                <input type="text" class="form-control" disabled/>
-                            </div>
-                        </div>
-                    </div>
-                <%
-                }
-                if (re == null || (re != null && re instanceof RepositoryURL)) {
-                    String val = "";
+    <div class="modal-dialog">
+        <div class="modal-content swbp-modal">
+            <div class="modal-header">
+                <h4 class="modal-title"><%=paramRequest.getLocaleString("msgAdd")%>&nbsp;<%=re != null?paramRequest.getLocaleString("msgVersionOf")+" ":""%> <%=(re != null && re instanceof RepositoryURL)?paramRequest.getLocaleString("msgDocLink"):paramRequest.getLocaleString("msgFile")%></h4>
+            </div>
+            <form class="form-horizontal" id="fileForm" role="form" action="<%=createURL%>" method="post" enctype="multipart/form-data">
+                <div class="modal-body">
+                    <%
                     if (re != null) {
-                        val = vi.getVersionFile().startsWith("http://")?vi.getVersionFile().replace("http://", ""):vi.getVersionFile();
-                    }
-                    %>
-                    <div id="linkSelect" class="form-group">
-                        <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("lblLink")%> *</label>
-                        <div class="col-lg-6">
-                            <div class="input-group">
-                                <span class="input-group-addon">http://</span>
-                                <input type="text" name="extfile" id="extfile" value="<%=val%>" class="form-control" />
-                                </span>
+                        %><input type="hidden" name="fid" value="<%= re.getURI() %>"/><%
+                    }%>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for=""><%=paramRequest.getLocaleString("msgTitle")%> *</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                            <input type="text" name="ftitle" id="ftitle" required value="<%=(re != null)?re.getDisplayTitle(lang):""%>" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for=""><%=paramRequest.getLocaleString("msgDescription")%> *</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-textarea">
+                            <textarea name="fdescription" id="fdescription" required rows="2" class="form-control swbp-form-control"><%=description%></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for=""><%=paramRequest.getLocaleString("msgComments")%></label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-textarea">
+                            <textarea name="fcomment" id="fcomment" rows="2" class="form-control swbp-form-control"><%=comments%></textarea>
+                        </div>
+                    </div>
+                    <%
+                    if (re == null) {
+                        %>
+                        <div class="form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                            <label><%=paramRequest.getLocaleString("msgFileType")%></label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                      <input class="css-checkbox" type="radio" id="fileToggleRadio" checked name="hftype" value="file">
+                                      <label class="css-label" for="fileToggleRadio"><span><%=paramRequest.getLocaleString("msgFile")%></span></label>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                      <input class="css-checkbox" type="radio" id="urlToggleRadio" name="hftype" value="url"> 
+                                      <label class="css-label" for="urlToggleRadio"><%=paramRequest.getLocaleString("lblLink")%></label>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <%}%>
-                <div class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgTHStatus")%></label>
-                    <div class="col-lg-6">
-                        <select name="itemAwStatus" id="itemAwStatus" class="form-control">
-                            <option value="" <%=(actualStatus.equals("")?"selected":"")%>><%=paramRequest.getLocaleString("msgSelNone")%></option>
-                            <%
-                            Iterator<ItemAwareStatus> ititwstst = SWBComparator.sortByDisplayName(ItemAwareStatus.ClassMgr.listItemAwareStatuses(site), lang);
-                            while (ititwstst.hasNext()) {
-                                ItemAwareStatus itemAwareStatus = ititwstst.next();
-                                %>
-                                <option value="<%=itemAwareStatus.getId()%>" <%=(actualStatus.equals(itemAwareStatus.getId())?"selected":"")%>><%=itemAwareStatus.getDisplayTitle(lang)%></option>
-                                <%
-                            }
-                            %>
-                        </select>
-                    </div>
-                </div>
-                <%if (re != null) {%>
-                    <div class="form-group">
-                        <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgVersion")%> *</label>
-                        <div class="col-lg-6">
-                            <select name="newVersion" id="itemAwStatus" class="form-control">
-                                <%
-                                float fver = Float.parseFloat(vi.getVersionValue());
-                                fver = fver + 0.1F;
+                        <%
+                    } else {
+                        %><input type="hidden" name="hftype" id="hftype" value="<%=type%>"/><%
+                    }
 
-                                int iver = (int) fver;
-                                iver = iver + 1;
-                                %>
-                                <option value="fraction"><%=fver%></option>
-                                <option value="nextInt"><%=(float)iver%></option>
-                            </select>
+                    if (re == null || (re != null && re instanceof RepositoryFile)) {
+                        %>
+                        <div id="fileSelect" class="form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                <label for=""><%=paramRequest.getLocaleString("msgFile")%> *</label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                <input type="file" name="ffile" id="ffile" class="form-control" />
+                            </div>
                         </div>
-                    </div>
-                <%}%>
+                        <%
+                    }
+
+                    if (re == null || (re != null && re instanceof RepositoryURL)) {
+                        String val = "";
+                        if (re != null) {
+                            val = vi.getVersionFile();//vi.getVersionFile().startsWith("http://")?vi.getVersionFile().replace("http://", ""):vi.getVersionFile();
+                        }
+                        %>
+                        <div id="linkSelect" class="row form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                <label for=""><%=paramRequest.getLocaleString("lblLink")%> *</label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                <input type="text" name="extfile" id="extfile" value="<%=val%>" class="form-control" placeholder="http://"/>
+                            </div>
+                        </div>
+                        <%
+                    }
+
+                    Iterator<ItemAwareStatus> ititwstst = SWBComparator.sortByDisplayName(ItemAwareStatus.ClassMgr.listItemAwareStatuses(site), lang);
+                    if (ititwstst.hasNext()) {
+                        %>
+                        <div class="form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                <label for=""><%=paramRequest.getLocaleString("msgTHStatus")%></label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">            
+                                <select name="itemAwStatus" id="itemAwStatus" class="form-control">
+                                    <option value="" <%=(actualStatus.equals("")?"selected":"")%>><%=paramRequest.getLocaleString("msgSelNone")%></option>
+                                    <%
+                                    while (ititwstst.hasNext()) {
+                                        ItemAwareStatus itemAwareStatus = ititwstst.next();
+                                        %>
+                                        <option value="<%=itemAwareStatus.getId()%>" <%=(actualStatus.equals(itemAwareStatus.getId())?"selected":"")%>><%=itemAwareStatus.getDisplayTitle(lang)%></option>
+                                        <%
+                                    }
+                                    %>
+                                </select>
+                            </div>
+                        </div>
+                        <%
+                    }
+
+                    if (re != null) {
+                        %>
+                        <div class="form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                <label for="" ><%=paramRequest.getLocaleString("msgVersion")%> *</label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">  
+                                <select name="newVersion" id="itemAwStatus" class="form-control">
+                                    <%
+                                    float fver = Float.parseFloat(vi.getVersionValue());
+                                    fver = fver + 0.1F;
+
+                                    int iver = (int) fver;
+                                    iver = iver + 1;
+                                    %>
+                                    <option value="fraction"><%=fver%></option>
+                                    <option value="nextInt"><%=(float)iver%></option>
+                                </select>
+                            </div>
+                        </div>
+                        <%
+                    }%>
                 </div>
-                <div class="panel-footer text-right">
-                    <!--label for="" class="col-lg-2"></label-->
-                    <!--div class="col-lg-3 text-right"-->
-                        <button type="button" onclick="window.location='<%=viewURL%>';" class="btn btn-default"><%=paramRequest.getLocaleString("msgBTNCancel")%></button>
-                        <button type="button" class="btn btn-success" onclick="if(checkfiles('<%=validFiles%>')){this.form.submit();} else {return false;};"><%=paramRequest.getLocaleString("msgAdd")%></button>
-                    <!--/div-->
+                <div class="modal-footer">
+                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus fa-fw"></span><%=paramRequest.getLocaleString("msgAdd")%></button>
+                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("msgBTNCancel")%></button>
                 </div>
             </form>
         </div>
     </div>
+    <iframe style="display:none;" name="fUploadFrame" id="fUploadFrame"></iframe>
     <script>
-        <%if (re == null) {%>
-        function toggleShow(elementId, show) {
-            var el = document.getElementById(elementId);
-            if (el !== null) {
-                if (show) {
-                    el.style.display="block";
-                } else {
-                    el.style.display="none";
-                }
-            }
-        }
-        
-        toggleShow("linkSelect", false);
-        <%}%>
-        
-        function checkfiles(pExt) {
-            var ftit = document.getElementById('ftitle');
-            var ftval = ftit.value;
-            ftval = ftval.replace(' ' , '');
-            if(ftval.length === 0) {
-                alert('<%=paramRequest.getLocaleString("msgMissingTitle")%>');
-                ftit.focus();
-                return false;
-            }
+        (function () {
+            var isFile = true;
             
-            var fdesc = document.getElementById('fdescription');
-            ftval = fdesc.value;
-            ftval = ftval.replace(' ' , '');
-            if(ftval.length === 0) {
-                alert('<%=paramRequest.getLocaleString("msgMissingDesc")%>');
-                fdesc.focus();
-                return false;
-            }
-            <%if (re == null) {%>
-                var fileradio = document.getElementById('fileToggleRadio');
-                var ftype = fileradio.checked?"file":"url";
-            <%} else {%>
-                var ftype = document.getElementById('hftype').value;
-            <%}%>
-            if(ftype === "url") {
-                var urlfilec = document.getElementById('extfile');
-                var urlfile = urlfilec.value;
-                urlfile = urlfile.replace(' ' , '');
-                if(urlfile.length === 0) {
-                    alert('<%=paramRequest.getLocaleString("msgMissingLink")%>');
-                    urlfilec.focus();
-                    return false;
-                } else {
-                    return true;
+            var isFileType = function(pFile) {
+                if (pFile && pFile.length && pFile.lastIndexOf(".") === -1) return false;
+                var exts = '<%= validFiles %>'.split("|"), valid = false, fext;
+                
+                fext = pFile && pFile.length && pFile.slice(pFile.lastIndexOf("."), pFile.length);
+                if (pFile && pFile.length > 0) {
+                    exts.forEach(function(e) {
+                       if (fext.toLowerCase() === e) valid = true;
+                    });
                 }
-            } else {
-                var fup = document.getElementById('ffile');
-                var fileName = fup.value;
-                if(fileName.length === 0) {
-                    alert('<%=paramRequest.getLocaleString("msgMissingFile")%>');
-                    fup.focus();
-                    return false;
+                return valid;
+            };
+            
+            $(document).ready(function() {
+                var theForm = document.getElementById('fileForm');
+                var theType = document.getElementById('hftype');
+                if (theType) isFile = ("url" !== theType.value);
+                
+                var isElementValid = function(element) {
+                    if (element.required) {
+                        return !element.validity.valueMissing;
+                    } else {
+                        return element.value && element.value !== "";
+                    }
+                };
+                
+                var isFileValid = function(element) {
+                    return (element.value && element.value.length > 0 && isFileType(element.value));
+                };
+                
+                if (null !== theForm) {
+                    $(theForm).on("submit", function(evt) {
+                        var isValid = isElementValid(theForm['ftitle']) && isElementValid(theForm['fdescription']);
+                        if (!isFile) {
+                            isValid = isValid && isElementValid(theForm['extfile']);
+                            
+                            //submit form ajax
+                            $.ajax({
+                                url: $(theForm).attr('action'),
+                                cache: false,
+                                data: $(theForm).serialize(),
+                                type: 'POST',
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                success: function(data) {
+                                    if (data.status === "ok") {
+                                        var loc = '<%= paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW) %>';
+                                        window.location = loc;
+                                    }
+                                }
+                            });
+                        } else {
+                            var fup = document.getElementById('ffile');
+                            isValid = isFileValid(fup);
+                            
+                            $("#fUploadFrame").on("load", function() {
+                                var data = JSON.parse($("#fUploadFrame").contents().text());
+                                if (data && data.status === "ok") {
+                                    window.top.location.reload();
+                                }
+                            });
+                            
+                            //submit form files
+                            if (isValid) {
+                                theForm.target = "fUploadFrame";
+                                theForm.submit();
+                            } else {
+                                $(fup).closest(".form-group").addClass("has-error");
+                            }
+                        }
+                        evt.preventDefault();
+                        return false;
+                    });
+                    
+                    theForm['ffile'].addEventListener("change", function(evt) {
+                        if (isFileValid(evt.target)) {
+                            $(evt.target).closest(".form-group").removeClass("has-error");
+                        } else {
+                            $(evt.target).closest(".form-group").addClass("has-error");
+                        }
+                    });
+                    theForm['ftitle'].addEventListener("keyup", function(evt) {
+                        if (isElementValid(evt.target)) {
+                            $(evt.target).closest(".form-group").removeClass("has-error");
+                        } else {
+                            $(evt.target).closest(".form-group").addClass("has-error");
+                        }
+                    });
+                    theForm['fdescription'].addEventListener("keyup", function(evt) {
+                        if (isElementValid(evt.target)) {
+                            $(evt.target).closest(".form-group").removeClass("has-error");
+                        } else {
+                            $(evt.target).closest(".form-group").addClass("has-error");
+                        }
+                    });
+                    theForm['extfile'].addEventListener("keyup", function(evt) {
+                        if (isElementValid(evt.target)) {
+                            $(evt.target).closest(".form-group").removeClass("has-error");
+                        } else {
+                            $(evt.target).closest(".form-group").addClass("has-error");
+                        }
+                    });
                 }
-                if(isFileType(fileName, pExt)) {
-                    return true;
-                } else {
-                    var ptemp = pExt;
-                    ptemp = ptemp.replace('|',',');
-                    alert('<%=paramRequest.getLocaleString("msgBadFileType")%> '+ptemp);
-                    fup.focus();
-                    return false;
-                }
-            }
-        }
-
-        function isFileType(pFile, pExt) {
-            if(pFile.length > 0 && pExt.length > 0) {
-                var swFormat=pExt + '|';
-                var sExt=pFile.substring(pFile.indexOf('.')).toLowerCase();
-                var sType='';
-                while(swFormat.length > 0 ) {
-                    sType= swFormat.substring(0, swFormat.indexOf('|'));
-                    if(sExt.indexOf(sType)!==-1) return true;
-                    swFormat=swFormat.substring(swFormat.indexOf('|')+1);
-                }
-                while(pExt.indexOf('|')!==-1) pExt=pExt.replace('|',',');
-                    return false;
-            } else {
-                return true;
-            }
-        }
+                
+                $("#fileToggleRadio").on("click", function(evt) {
+                    $("#fileSelect").show();
+                    $("#linkSelect").hide();
+                    $("#extfile").attr("required", false);
+                    $("#ffile").attr("required", true);
+                    isFile = true;
+                });
+                
+                $("#urlToggleRadio").on("click", function(evt) {
+                    $("#fileSelect").hide();
+                    $("#linkSelect").show();
+                    $("#extfile").attr("required", true);
+                    $("#ffile").attr("required", false);
+                    isFile = false;
+                });
+                
+                $("#fileSelect").show();
+                $("#linkSelect").hide();
+                isFile && $("#ffile").attr("required", true);
+            });
+        })();
     </script>
     <%
 }
