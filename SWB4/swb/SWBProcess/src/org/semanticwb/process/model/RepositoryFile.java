@@ -51,14 +51,30 @@ public class RepositoryFile extends org.semanticwb.process.model.base.Repository
      * Si no existe ninguna version crea una nueva
      * Si existe una version anterior agrega una nueva versión
      * @param name
-     * @param out
      * @param comment
      * @param bigVersionInc
+     * @param status
+     * @param sanitizeFileName
      */
-    public OutputStream storeFile(String name, String comment, boolean bigVersionInc, String status) throws FileNotFoundException
-    {
+    public OutputStream storeFile(String name, String comment, String status, boolean bigVersionInc, boolean sanitizeFileName) throws FileNotFoundException {
+        String fname = name;
+        if (fname.contains("\\")) {
+            fname = fname.substring(fname.lastIndexOf("\\") + 1);
+        } else if (fname.contains("/")) {
+            fname = fname.substring(fname.lastIndexOf("/") + 1);
+        }
+        
+        if (sanitizeFileName) {
+            //Replace special characters in file name to avoid 404 when linking directly to file
+            if (fname.lastIndexOf(".") > -1) {
+                String tfname = fname.substring(0, fname.lastIndexOf("."));
+                String tfext = fname.substring(fname.lastIndexOf("."), fname.length());
+
+                fname = SWBUtils.TEXT.replaceSpecialCharacters(tfname, true) + tfext;
+            }
+        }
         VersionInfo v=VersionInfo.ClassMgr.createVersionInfo(getProcessSite());
-        v.setVersionFile(name);
+        v.setVersionFile(fname);
         if(comment!=null)
         {
             v.setVersionComment(comment);
@@ -95,23 +111,24 @@ public class RepositoryFile extends org.semanticwb.process.model.base.Repository
 
         File file=new File(SWBPortal.getWorkPath()+getWorkPath()+"/"+ver);
         file.mkdirs();
-        return  new FileOutputStream(SWBPortal.getWorkPath()+getWorkPath()+"/"+ver+"/"+name);
+        return  new FileOutputStream(SWBPortal.getWorkPath()+getWorkPath()+"/"+ver+"/"+fname);
     }
 
     /**
      * Almacena el archivo en la ruta predefinida del RepositoryFile,
      * Si no existe ninguna version crea una nueva
      * Si existe una version anterior agrega una nueva versión
+     * @param in
      * @param name
-     * @param out
+     * @param status
      * @param comment
      * @param bigVersionInc
      */
-    public void storeFile(String name, InputStream in, String comment, boolean bigVersionInc, String status)
+    public void storeFile(InputStream in, String name, String comment, String status, boolean bigVersionInc)
     {
         try
         {
-            OutputStream out=storeFile(name, comment, bigVersionInc,status);
+            OutputStream out=storeFile(name, comment, status, bigVersionInc, true);
             SWBUtils.IO.copyStream(in, out);
         }catch(Exception e)
         {
