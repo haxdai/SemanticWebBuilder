@@ -4,53 +4,27 @@
     Author     : carlos.alvarez
 --%>
 
-<%@page import="org.semanticwb.process.documentation.model.Instantiable"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentationResource"%>
-<%@page import="org.semanticwb.model.FormElement"%>
-<%@page import="java.util.List"%>
-<%@page import="org.semanticwb.process.model.RepositoryURL"%>
-<%@page import="org.semanticwb.process.model.RepositoryFile"%>
-<%@page import="org.semanticwb.model.VersionInfo"%>
-<%@page import="org.semanticwb.process.model.RepositoryElement"%>
-<%@page import="java.util.Collections"%>
-<%@page import="org.semanticwb.process.documentation.model.Referable"%>
-<%@page import="org.semanticwb.process.documentation.model.SectionElementRef"%>
-<%@page import="org.semanticwb.process.documentation.model.Model"%>
-<%@page import="org.semanticwb.process.documentation.model.base.ModelBase"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentationInstance"%>
-<%@page import="org.semanticwb.process.model.ProcessElement"%>
-<%@page import="org.semanticwb.process.model.GraphicalElement"%>
-<%@page import="org.semanticwb.process.documentation.model.Activity"%>
-<%@page import="org.semanticwb.process.documentation.model.Definition"%>
-<%@page import="org.semanticwb.process.documentation.model.Reference"%>
-<%@page import="org.semanticwb.process.resources.ProcessFileRepository"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceModes"%>
+<%@page import="org.semanticwb.process.documentation.model.DocumentSection"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="org.semanticwb.model.Resource"%>
-<%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
+<%@page import="org.semanticwb.process.model.RepositoryURL"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceModes"%>
+<%@page import="org.semanticwb.process.resources.ProcessFileRepository"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
-<%@page import="org.semanticwb.process.documentation.model.Format"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.util.HashMap"%>
-<%@page import="org.semanticwb.process.documentation.model.FreeText"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentSectionInstance"%>
-<%@page import="org.semanticwb.process.documentation.model.SectionElement"%>
-<%@page import="org.semanticwb.model.Descriptiveable"%>
-<%@page import="org.semanticwb.model.DisplayProperty"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.process.model.RepositoryElement"%>
+<%@page import="org.semanticwb.model.VersionInfo"%>
+<%@page import="java.util.List"%>
+<%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
+<%@page import="org.semanticwb.process.documentation.model.Referable"%>
 <%@page import="org.semanticwb.platform.SemanticProperty"%>
-<%@page import="java.util.Iterator"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="org.semanticwb.platform.SemanticClass"%>
-<%@page import="org.semanticwb.platform.SemanticObject"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
+<%@page import="org.semanticwb.process.documentation.model.SectionElement"%>
+<%@page import="org.semanticwb.process.documentation.model.DocumentSectionInstance"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentationResource"%>
 <%@page import="org.semanticwb.model.WebSite"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentSection"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%--@page contentType="multipart/form-data" pageEncoding="UTF-8"--%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentationResource.PARAM_REQUEST);
     WebSite model = paramRequest.getWebPage().getWebSite();
@@ -61,195 +35,174 @@
     DocumentSectionInstance dsi = (DocumentSectionInstance) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uridsi);
     SectionElement se = (SectionElement) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(urise);
     String related = request.getParameter("related") != null ? request.getParameter("related") : "";
-    //System.out.println("the se edit : " + se);
 
-    String iconClass = urise.equals("") ? "fa fa-plus" : "fa fa-edit";
     String action = (urise.equals("") ? "Agregar" : "Editar") + " " + (dsi != null && dsi.getSecTypeDefinition() != null && dsi.getSecTypeDefinition().getTitle() != null ? dsi.getSecTypeDefinition().getTitle() : "");
 
     SWBResourceURL urlAction = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_ADD_INSTANTIABLE);
-    SWBResourceURL urlRelated = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentationResource.MODE_RELATED).setParameter("uridsi", uridsi);
-    String idrep = "";
     boolean read = request.getParameter("read") != null;
-
+    
+    SemanticClass scls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(dsi.getSecTypeDefinition().getSectionType().getURI());
+    SWBFormMgr mgr = new SWBFormMgr(scls, model.getSemanticObject(), SWBFormMgr.MODE_CREATE);
+    if (se != null) {
+        mgr = new SWBFormMgr(se.getSemanticObject(), null, SWBFormMgr.MODE_EDIT);
+        urlAction.setAction(SWPDocumentationResource.ACTION_EDIT_INSTANTIABLE);
+    }
 %>
-<div class="modal-dialog">
-    <div class="modal-content swbp-content" id="modalContent">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><span class="<%= iconClass%>"></span> <%= action%></h4>
-        </div>
-        <%
-            SemanticClass scls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(dsi.getSecTypeDefinition().getSectionType().getURI());
-            SWBFormMgr mgr = new SWBFormMgr(scls, model.getSemanticObject(), SWBFormMgr.MODE_CREATE);
-            if (se != null) {
-                mgr = new SWBFormMgr(se.getSemanticObject(), null, SWBFormMgr.MODE_EDIT);
-                urlAction.setAction(SWPDocumentationResource.ACTION_EDIT_INSTANTIABLE);
-            }
-        %>
-        <form class="form-horizontal" method="POST" id="formSE" action="<%= urlAction%>" enctype="multipart/form-data" acceptcharset="UTF-8">
-            <div class="modal-body">
-                <% //if (se == null) {%>
-                <!--div class="form-group">
-                    <div class="col-lg-7 col-lg-offset-4 text-right">
-                        <a class="btn btn-sm btn-success" 
-                           rel="tooltip" data-original-title="Asociar" title="Aso"
-                           onclick="showModal('<'%=urlRelated%>', 'Relacionar', 'Cargando...', 'No se pudó cargar', 'modalDialog2')"><i class="fa fa-link"></i>
-                        </a>
-                    </div>
-                </div-->
-                <%// }
-                    String[] propst = dsi.getSecTypeDefinition().getVisibleProperties().split("\\|");
-                    out.print(mgr.getFormHiddens());
-                    for (String props : propst) {
+    <div class="modal-dialog">
+        <div class="modal-content swbp-modal">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><%= action%></h4>
+            </div>
+            <form class="form-horizontal" method="POST" id="formSE" action="<%= urlAction %>" enctype="multipart/form-data">
+                <%out.print(mgr.getFormHiddens());%>
+                <div class="modal-body">
+                <%
+                String[] propst = dsi.getSecTypeDefinition().getVisibleProperties().split("\\|");
+                for (String props : propst) {
+                    if (null != props && !props.isEmpty()) {
                         String titleprop = props.substring(0, props.indexOf(";"));
                         String idprop = props.substring(props.indexOf(";") + 1, props.length());
                         SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(idprop);
-                        /*
-                         SemanticObject semObj = se.getSemanticObject();
-                         Iterator<SemanticProperty> itsp = se.getSemanticObject().getSemanticClass().listProperties();
-                         while (itsp.hasNext()) {
-                         SemanticProperty spt = itsp.next();
-                         if (!spt.isObjectProperty() && semObj.getProperty(spt) != null) {
-                         System.out.println("prop : " + spt.getName() + "\tvalue : " + semObj.getProperty(spt));
-                         }
-                         }
-                         */
                         boolean required = sp != null && sp.isRequired();
-                        if (!sp.getPropId().equals(Referable.swpdoc_file.getPropId())) { // Input y TextArea
-%>
-                <div class="form-group" id="div<%=sp.getName()%>">
-                    <label for="" class="col-lg-4 control-label"><%=titleprop%> <%if (required) {%>*<%}%></label>
-                    <div class="col-lg-7">
-                        <%
-                            String mode = SWBFormMgr.MODE_CREATE;
-                            if (read) {
-                                mode = SWBFormMgr.MODE_VIEW;
-                            }
-                            String inputfm = mgr.renderElement(request, sp, mode);
-                            if (!read) {
-                                inputfm = inputfm.replaceFirst(">", " id=\"" + sp.getName() + "\" " + (required ? "required" : "") + " class=\"form-control\">");
-                                inputfm = inputfm.replace("name=\"" + sp.getName() + "\"", "name=\"" + idprop + "\"");
-                                //System.out.println("uno: \n" + inputfm);
-                                inputfm = inputfm.replace(inputfm.substring(inputfm.indexOf("style"), (inputfm.indexOf("px;\"") + 4)), "");
-                                //System.out.println("dos :\n" + inputfm);
-                            }
-                            out.println(inputfm);
-                        %>
-                    </div>
-                </div>
-                <%
-                } else { //Es un archivo
-                    RepositoryDirectory rd = null;
-                    Referable ref = null;
-                    idrep = sp.getName();
-                    if (se == null) {//Archivo nuevo
-%>
-                <div class="form-group">
-                    <label class="col-lg-4 control-label"><%=paramRequest.getLocaleString("msgFileType")%> *</label>
-                    <div class="col-lg-6">
-                        <div class="radio-inline">
-                            <label>
-                                <input type="radio" id="fileToggleRadio" onclick="toggleShow('divf<%=sp.getName()%>', 'ffile', true);
-                                        toggleShow('divl<%=sp.getName()%>', 'lfile', false);" checked name="hftype" value="file"> <%=paramRequest.getLocaleString("msgFile")%>
-                            </label>
-                        </div>
-                        <div class="radio-inline">
-                            <label>
-                                <input type="radio" id="urlToggleRadio" onclick="toggleShow('divl<%=sp.getName()%>', 'lfile', true);
-                                        toggleShow('divf<%=sp.getName()%>', 'ffile', false);"name="hftype" value="url"> <%=paramRequest.getLocaleString("lblLink")%>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group" id="divf<%= sp.getName()%>">
-                    <label for="" class="col-lg-4 control-label"><%= titleprop%> *</label>
-                    <div class="col-lg-7">
-                        <div class="input-group">
-                            <span class="input-group-btn">
-                                <span class="btn btn-default btn-file">
-                                    <%=paramRequest.getLocaleString("lblSelect")%> <input type="file" id="ffile" name="ffile" required="true" class="form-control">
-                                </span>
-                            </span>
-                            <input type="text" class="form-control" disabled="true"/>
-                        </div>
-                    </div>
-                </div>
-                                    <div id="divl<%= sp.getName()%>" style="display:none" class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%=paramRequest.getLocaleString("lblLink")%> *</label>
-                    <div class="col-lg-6">
-                        <div class="input-group">
-                            <span class="input-group-addon">http://</span>
-                            <input type="text" name="lfile" id="lfile" class="form-control" />
-                            </span>
-                        </div>
-                    </div>
-                </div> 
-                <% } else { // Es edición 
-                    List<VersionInfo> listvi = null;
-                    VersionInfo vi = null;
-                %>
-                <div class="form-group" id="div<%=sp.getName()%>">
-                    <label for="" class="col-lg-4 control-label"><%= titleprop%></label>
-                    <%
-                        if (se instanceof Referable) {
-                            ref = (Referable) se;
-                            rd = ref.getRefRepository().getRepositoryDirectory();
-                        }
-                        String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "";
-                        String idfile = ref.getRefRepository().getId();
-                        RepositoryElement re = (RepositoryElement) ref.getRefRepository();
-                        //VersionInfo vi = re.getLastVersion();
-                        vi = ref.getVersion() != null ? ref.getVersion() : re.getLastVersion();
-                        //String versionfile = ref.getRefRepository().getLastVersion().getVersionNumber() + "";
-                        SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
-                        urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
-                        urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
                         
-                        listvi = re.listVersions();
-                    %>
-                    <input type="hidden" name="urire" value="<%= re.getURI()%>">
-                    <div class="col-lg-7 input-group">
-                        <%
-                            if (re instanceof org.semanticwb.process.model.RepositoryFile) {%>
-                        <a href="<%= urlDownload%>" class="btn btn-default"><%= titleref%> <i class="fa fa-download"></i></a>
-                            <% } else if (re instanceof RepositoryURL) {%>
-                        <a href="<%= vi.getVersionFile()%>" target="_blank" class="btn btn-default"><%= titleref%> <i class="fa fa-external-link"></i></a>  
-                            <%}%>
-                    </div>
-                </div>
-                <div id="divversionref" class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
-                    <div class="col-lg-7">
-                        <%if (read) {
-                                out.print(vi.getVersionNumber());
-                            } else {%>
-                        <select name="versionref" id="versionref" class="form-control" required="true">
-                            <% for (VersionInfo vit : listvi) {%>
-                            <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionNumber()%></option>
-                            <%}%>
-                        </select>
-                        <% }%>
-                    </div>
-                </div>
+                        if (!sp.getPropId().equals(Referable.swpdoc_file.getPropId())) {// Input y TextArea
+                            %>
+                            <div class="form-group" id="div<%=sp.getName()%>">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                    <label for=""><%=titleprop%> <%if (required) {%>*<%}%></label>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                    <%
+                                        String mode = SWBFormMgr.MODE_CREATE;
+                                        if (read) {
+                                            mode = SWBFormMgr.MODE_VIEW;
+                                        }
+                                        String inputfm = mgr.renderElement(request, sp, mode);
+                                        if (!read) {
+                                            inputfm = inputfm.replaceFirst(">", " id=\"" + sp.getName() + "\" " + (required ? "required" : "") + " class=\"form-control\">");
+                                            inputfm = inputfm.replace("name=\"" + sp.getName() + "\"", "name=\"" + idprop + "\"");
+                                            //System.out.println("uno: \n" + inputfm);
+                                            inputfm = inputfm.replace(inputfm.substring(inputfm.indexOf("style"), (inputfm.indexOf("px;\"") + 4)), "");
+                                            //System.out.println("dos :\n" + inputfm);
+                                        }
+                                        out.println(inputfm);
+                                    %>
+                                </div>
+                            </div>
+                            <%
+                        } else { //Es un archivo
+                            RepositoryDirectory rd = null;
+                            Referable ref = null;
+                            
+                            if (se == null) {//Archivo nuevo
+                                %>
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                        <label><%=paramRequest.getLocaleString("msgFileType")%></label>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <input class="css-checkbox" type="radio" id="fileToggleRadio" checked name="hftype" value="file">
+                                            <label class="css-label" for="fileToggleRadio"><span><%=paramRequest.getLocaleString("msgFile")%></span></label>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+                                            <input class="css-checkbox" type="radio" id="urlToggleRadio" name="hftype" value="url"> 
+                                            <label class="css-label" for="urlToggleRadio"><%=paramRequest.getLocaleString("lblLink")%></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="fileSelect" class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                        <label for=""><%= titleprop%> *</label>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <input type="file" id="ffile" name="ffile" required="true" class="form-control" />
+                                    </div>
+                                </div>
+                                <div id="linkSelect" class="row form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                        <label for=""><%=paramRequest.getLocaleString("lblLink")%> *</label>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <input type="text" name="lfile" id="lfile" class="form-control" placeholder="http://"/>
+                                    </div>
+                                </div>
+                                <%
+                            } else { // Es edición 
+                                List<VersionInfo> listvi = null;
+                                VersionInfo vi = null;
+                                %>
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                        <label for=""><%= titleprop%></label>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <%
+                                        if (se instanceof Referable) {
+                                            ref = (Referable) se;
+                                            rd = ref.getRefRepository().getRepositoryDirectory();
+                                        }
+                                        String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "--";
+                                        String idfile = ref.getRefRepository().getId();
+                                        RepositoryElement re = (RepositoryElement) ref.getRefRepository();
+                                        vi = ref.getVersion() != null ? ref.getVersion() : re.getLastVersion();
+                                        SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
+                                        urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
+                                        urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
 
+                                        listvi = re.listVersions();
 
-                <% }
-                    SemanticProperty semPropData = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(DocumentSection.swpdoc_configData.getPropId());
-                    String configData = "";
-                    if (semPropData != null) {
-                        configData = semPropData.getLabel(lang);
-                    }
-                    WebPage webpage = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(dsi.getSecTypeDefinition().getConfigData());
-                    List<RepositoryDirectory> list = SWPDocumentationResource.listRepositoryDerectoryByParent(webpage, true);
+                                        if (re instanceof org.semanticwb.process.model.RepositoryFile) {
+                                            %><a href="<%= urlDownload%>"><%= titleref%></a><%
+                                        } else if (re instanceof RepositoryURL) {
+                                            %><a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%></a><%
+                                        }
+                                        %>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="urire" value="<%= re.getURI()%>">
+                                <div class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                        <label for=""><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
+                                    </div>
+                                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <%
+                                        if (read) {
+                                            out.print(vi.getVersionNumber());
+                                        } else {
+                                            %>
+                                            <select name="versionref" id="versionref" class="form-control" required="true">
+                                                <% for (VersionInfo vit : listvi) {%>
+                                                <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionValue()%></option>
+                                                <%}%>
+                                            </select>
+                                            <%
+                                        }
+                                        %>
+                                    </div>
+                                </div>
+                                <%
+                            }
+                SemanticProperty semPropData = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(DocumentSection.swpdoc_configData.getPropId());
+                String configData = "";
+                if (semPropData != null) {
+                    configData = semPropData.getLabel(lang);
+                }
+//TODO: change repository list method
+                WebPage webpage = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(dsi.getSecTypeDefinition().getConfigData());
+                List<RepositoryDirectory> list = SWPDocumentationResource.listRepositoryDerectoryByParent(webpage, true);
                 %>
-                <div id="div<%= semPropData.getName()%>" class="form-group">
-                    <label for="" class="col-lg-4 control-label"><%= configData%> *</label>
-                    <div class="col-lg-7">
+                <div class="form-group">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for=""><%= configData%> *</label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
                         <%if (read) {
                                 out.print(rd.getTitle());
                             } else {%>
-                        <select name="<%= semPropData.getPropId()%>" id="<%= semPropData.getName()%>" class="form-control" required="true">
-                            <option value=""><%="-- " + configData + " --"%></option>
+                        <select name="<%= semPropData.getName()%>" id="<%= semPropData.getName()%>" class="form-control" required>
+                            <option value=" ">Seleccione repositorio</option>
                             <option <%if (rd != null && rd.equals(webpage)) {%> selected="true"<%}%> value="<%= webpage.getURI()%>"><%= webpage.getTitle()%></option>
                             <% for (RepositoryDirectory rep : list) {%>
                             <option value="<%= rep.getURI()%>" <%if (rd != null && rd.equals(rep)) {%> selected="true"<%}%>><%= rep.getTitle()%></option>
@@ -259,50 +212,165 @@
                     </div>
                 </div>
                 <%
+                            }
                         }
                     }%>
             </div>
             <div class="modal-footer">
-
                 <input type="hidden" name="props" value="<%= dsi.getSecTypeDefinition().getVisibleProperties()%>">
                 <% if (read) {%>
                 <input type="hidden" name="read" value="<%= read%>">
                 <% }%>
                 <input type="hidden" name="uridsi" value="<%= uridsi%>">
                 <input type="hidden" name="urise" value="<%= urise%>">
-                <%if(!related.equals("view")){%>
-                <a class="btn btn-default fa fa-mail-reply" data-dismiss="modal"> <%=paramRequest.getLocaleString("btnCancel")%></a>
-                <button type="submit" onclick="saveSE('formSE', 'dsitab<%= dsi.getId()%>', 'modalDialog', true);
-                        return  false;" class="btn btn-default fa fa-save"> <%=paramRequest.getLocaleString("btnSave")%></button>
-                <% }%>
+                <%if (!related.equals("view")) {%>
+                <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
+                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
+                    <% } else {
+                    %><button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button><%
+                        }%>
             </div>
         </form>
     </div>
 </div>
-<script type="text/javascript">
+<iframe style="display:none;" name="fUploadFrame" id="fUploadFrame"></iframe>
+<script>
+    (function () {
+        var isFile = true;
+        var isFileType = function(pFile) {
+          return true;  
+        };
 
-       
-    
-    $(document).ready(function() {
-        $('.btn-file :file').on('change', function() {
-            var file = this.files[0];
-            var input = $(this).parents('.input-group').find(':text');
-            if (input.length) {
-                input.val(file.name);
+        /*var isFileType = function(pFile) {
+            if (pFile && pFile.length && pFile.lastIndexOf(".") === -1) return false;
+            var exts = '< validFiles %>'.split("|"), valid = false, fext;
+
+            fext = pFile && pFile.length && pFile.slice(pFile.lastIndexOf("."), pFile.length);
+            if (pFile && pFile.length > 0) {
+                exts.forEach(function(e) {
+                   if (fext.toLowerCase() === e) valid = true;
+                });
             }
+            return valid;
+        };*/
+
+        $(document).ready(function() {
+            var theForm = document.getElementById('formSE');
+            var theType = document.getElementById('hftype');
+            if (theType) isFile = ("url" !== theType.value);
+
+            var isElementValid = function(element) {
+                if (element.required) {
+                    return !element.validity.valueMissing;
+                } else {
+                    return element.value && element.value !== "";
+                }
+            };
+
+            var isFileValid = function(element) {
+                return (element.value && element.value.length > 0 && isFileType(element.value));
+            };
+            
+            //Add event handlers
+            for (var es = theForm.elements, v = 0; v < theForm.elements.length; v++) {
+                if (es[v].required) {
+                    if (es[v].tagName === "INPUT" || es[v].tagName === "TEXTAREA" || es[v].tagName === "SELECT") {
+                        if (es[v].tagName === "SELECT") {
+                            es[v].addEventListener("change", function(evt) {
+                                if (isElementValid(evt.target)) {
+                                    $(evt.target).closest(".form-group").removeClass("has-error");
+                                } else {
+                                    $(evt.target).closest(".form-group").addClass("has-error");
+                                }
+                            });
+                        } else {
+                            if (es[v].type && es[v].type !== "file") {
+                                es[v].addEventListener("keyup", function(evt) {
+                                    if (isElementValid(evt.target)) {
+                                        $(evt.target).closest(".form-group").removeClass("has-error");
+                                    } else {
+                                        $(evt.target).closest(".form-group").addClass("has-error");
+                                    } 
+                                });
+                            } else {
+                                es[v].addEventListener("change", function(evt) {
+                                    if (isFileValid(evt.target)) {
+                                        $(evt.target).closest(".form-group").removeClass("has-error");
+                                    } else {
+                                        $(evt.target).closest(".form-group").addClass("has-error");
+                                    }
+                                });
+                            } 
+                        }
+                    }
+                }
+            }
+
+            if (null !== theForm) {
+                $(theForm).on("submit", function(evt) {
+                    var isValid = true;
+                    var elements = theForm.elements;
+                    for (var i = 0; i < elements.length; i++) {
+                        if (elements[i].required && !isElementValid(elements[i])) {
+                            isValid = false;
+                            $(elements[i]).closest(".form-group").addClass("has-error");
+                        } else {
+                            $(elements[i]).closest(".form-group").removeClass("has-error");
+                        }
+                    }
+                    
+                    if (isValid) {
+                        if (isFile) {
+                            $("#fUploadFrame").on("load", function() {
+                                var data = JSON.parse($("#fUploadFrame").contents().text());
+                                if (data && data.status === "ok") {
+                                    window.top.location.reload();
+                                }
+                            });
+
+                            //submit form files
+                            theForm.target = "fUploadFrame";
+                            theForm.submit();
+                        } else {
+                            $.ajax({
+                                url: $(theForm).attr('action'),
+                                cache: false,
+                                data: $(theForm).serialize(),
+                                type: 'POST',
+                                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                success: function(data) {
+                                    if (data.status === "ok") {
+                                        window.location.reload();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    evt.preventDefault();
+                    return false;
+                });
+            }
+
+            $("#fileToggleRadio").on("click", function(evt) {
+                $("#fileSelect").show();
+                $("#linkSelect").hide();
+                $("#lfile").removeProp("required");
+                $("#ffile").attr("required", true);
+                isFile = true;
+            });
+
+            $("#urlToggleRadio").on("click", function(evt) {
+                $("#fileSelect").hide();
+                $("#linkSelect").show();
+                $("#lfile").attr("required", true);
+                $("#ffile").removeProp("required");
+                isFile = false;
+            });
+
+            $("#fileSelect").show();
+            $("#linkSelect").hide();
+            isFile && $("#ffile").attr("required", true);
+            !isFile && $("#lfile").removeProp("required");
         });
-
-        $("form input, textarea").addClass("form-control");
-        setTimeout(function() {
-            $('form').find('input,textarea,select').filter(':visible:first').focus();
-        }, 500);
-    <% if (scls.isSubClass(Referable.swpdoc_Referable, false)) {%>
-        toggleShow('divl<%=idrep%>', 'lfile', false);
-        $('lfile').removeAttr("required");
-    <%}%>
-
-        $('.modal a[rel="tooltip"]')
-                .tooltip({placement: 'bottom'})
-                .data('tooltip');
-    });
+    })();
 </script>

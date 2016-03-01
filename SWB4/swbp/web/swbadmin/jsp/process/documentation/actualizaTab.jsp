@@ -3,36 +3,32 @@
     Created on : 29/11/2014, 07:32:48 PM
     Author     : carlos.alvarez
 --%>
-
-<%@page import="org.semanticwb.SWBPortal"%>
-<%@page import="org.semanticwb.process.documentation.model.Activity"%>
-<%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
 <%@page import="org.semanticwb.process.documentation.model.DocumentationInstance"%>
-<%@page import="org.semanticwb.process.documentation.model.Instantiable"%>
-<%@page import="org.semanticwb.platform.SemanticClass"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.process.documentation.model.ElementReference"%>
+<%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
+<%@page import="org.semanticwb.process.documentation.model.Activity"%>
 <%@page import="org.semanticwb.process.model.RepositoryURL"%>
 <%@page import="org.semanticwb.model.VersionInfo"%>
 <%@page import="org.semanticwb.process.model.RepositoryElement"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
-<%@page import="org.semanticwb.process.resources.ProcessFileRepository"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceModes"%>
+<%@page import="org.semanticwb.process.resources.ProcessFileRepository"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURLImp"%>
 <%@page import="org.semanticwb.platform.SemanticProperty"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
-<%@page import="org.semanticwb.process.documentation.model.SectionElement"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
-<%@page import="java.util.Iterator"%>
 <%@page import="org.semanticwb.process.documentation.model.Referable"%>
 <%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
-<%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentationResource"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="java.util.List"%>
+<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.process.documentation.model.Instantiable"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="org.semanticwb.platform.SemanticClass"%>
+<%@page import="org.semanticwb.process.documentation.model.ElementReference"%>
+<%@page import="org.semanticwb.process.documentation.model.SectionElement"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.process.documentation.model.DocumentSectionInstance"%>
-<%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentationResource"%>
+<%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -70,8 +66,8 @@
 <%
     String[] propst = dsi.getSecTypeDefinition().getVisibleProperties().trim().split("\\|");
     if (!dsi.getSecTypeDefinition().getVisibleProperties().trim().equals("") && propst.length > 0) {
-        List<String> listtitle = new ArrayList<String>();
-        List<String> listid = new ArrayList<String>();
+        List<String> listtitle = new ArrayList<>();
+        List<String> listid = new ArrayList<>();
         for (String propt : propst) {
             listtitle.add(propt.substring(0, propt.indexOf(";")));
             listid.add(propt.substring(propt.indexOf(";") + 1, propt.length()));
@@ -123,7 +119,7 @@
                 %>
 
         <a href="<%= urlDownload%>"><%= titleref%> <i class="fa fa-download"></i></a>
-            <% } else if (re instanceof RepositoryURL) {
+        <% } else if (re instanceof RepositoryURL) {
             %>
         <a href="<%=vi.getVersionFile()%>" target="_blank"><%= titleref%> <i class="fa fa-external-link"></i></a>    
             <% }
@@ -164,7 +160,7 @@
                 <span class="fa fa-trash-o"></span>
             </a>
             <a class="btn btn-sm btn-default" title="<%=paramRequest.getLocaleString("btnInfo")%>"
-               onclick="showModal('<%= urlDialog.setParameter("uridt", se.getURI())%>', '<%=se.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>');"
+               onclick="showModal('<%= urlDialog.setMode(SWPDocumentationResource.MODE_TRACEABLE).setParameter("uridt", se.getURI())%>', '<%=se.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>');"
                rel="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("btnInfo")%>"
                >
                 <span class="fa fa-info-circle"></span>
@@ -262,7 +258,7 @@
 <%}
     }
 %>
-<script src="<%= SWBPortal.getWebWorkPath() %>/models/<%= paramRequest.getWebPage().getWebSite().getId() %>/js/documenter.js"></script>
+<script src="<%= SWBPlatform.getContextPath() %>/swbadmin/jsp/process/documentation/js/documenter.js"></script>
 <script type="text/javascript">
     $(document).ready(function() {
         $('.panel a[rel="tooltip"]')

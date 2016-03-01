@@ -4,16 +4,10 @@
     Author     : carlos.alvarez
 --%>
 
-<%@page import="java.util.Locale"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="java.text.DateFormat"%>
+<%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
 <%@page import="org.semanticwb.model.Descriptiveable"%>
-<%@page import="org.semanticwb.model.base.DescriptiveableBase"%>
 <%@page import="org.semanticwb.model.Traceable"%>
-<%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
-<%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -21,14 +15,6 @@
     String uritc = request.getParameter("uritc") != null ? request.getParameter("uritc").toString() : "";
     SemanticObject semObj = SemanticObject.createSemanticObject(uritc);
     String title = "";
-    String lang = "es";
-    User user = paramRequest.getUser();
-    if (user != null && user.getLanguage() != null) {
-        lang = user.getLanguage();
-    }
-    Locale loc = new Locale(lang);
-
-    DateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy-hh:mm:ss", loc);
 
     if (semObj != null) {
         Traceable tr = null;
@@ -45,34 +31,50 @@
             creator = tr.getCreator().getFullName();
         }
         if (tr.getCreated() != null) {
-            created = sdf.format(tr.getCreated());
+            created = SWPUtils.DateFormatter.format(tr.getCreated());
         }
         if (tr.getModifiedBy() != null) {
             modifiedby = tr.getModifiedBy().getFullName();
         }
         if (tr.getUpdated() != null) {
-            modified = sdf.format(tr.getUpdated());
+            modified = SWPUtils.DateFormatter.format(tr.getUpdated());
         }
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><i class="fa fa-check-square-o"></i> <%= title%></h4>
+            <h4 class="modal-title"><%= title %></h4>
         </div>
         <div class="modal-body">
-            <ul class="list-group">
-                <li class="list-group-item"><span class="fa fa-user fa-fw"></span><strong><%=paramRequest.getLocaleString("lblCreator")%>:</strong> <%= creator%></li>
-                <li class="list-group-item"><span class="fa fa-calendar fa-fw"></span><strong><%=paramRequest.getLocaleString("lblCreated")%>:</strong> <%= created%></li>
-            </ul>
-
-            <ul class="list-group">
-                <li class="list-group-item"><span class="fa fa-user fa-fw"></span><strong><%=paramRequest.getLocaleString("lblModifier")%>:</strong> <%= modifiedby%></li>
-                <li class="list-group-item"><span class="fa fa-calendar fa-fw"></span><strong><%=paramRequest.getLocaleString("lblModified")%>:</strong> <%= modified%></li>
-            </ul>
-        </div>
-        <div class="modal-footer text-right">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnClose")%></button>
+            <form class="form-horizontal" role="form">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                        <%=paramRequest.getLocaleString("lblCreator")%>   
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                        <%= creator %>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                        <%=paramRequest.getLocaleString("lblCreated")%>   
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                        <%= created %>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                        <%=paramRequest.getLocaleString("lblModifier")%>   
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                        <%= modifiedby %>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                        <%=paramRequest.getLocaleString("lblModified")%>   
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                        <%= modified %>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

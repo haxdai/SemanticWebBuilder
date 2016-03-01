@@ -24,43 +24,52 @@
     SWBResourceURL urlAction = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_SAVE_VERSION).setParameter("uridi", uridi);
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h4 class="modal-title"><i class="fa fa-check-square-o"></i> <%= paramRequest.getLocaleString("lblSaveVersion")%></h4>
         </div>
         <form id="saveVersion" class="form-horizontal" role="form" method="post" action="<%= urlAction%>">
+            <input type="hidden" name="uridi" value="<%= uridi%>">
+            <input type="hidden" name="idp" value="<%= idp%>">
             <div class="modal-body">
-                <div class="form-group" id="divtitle">
-                    <label class="col-sm-2 control-label"><%= title%></label>
-                    <div class="col-sm-10">
-                        <input name="title" id="title" class="form-control" required="">
-                    </div>
-                </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><%= description%></label>
-                    <div class="col-sm-10">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for="">Comentarios de la versión *</label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
                         <input type="text" name="description" class="form-control">
                     </div>
                 </div>
             </div>
-            <div class="modal-footer text-right">
-                <input type="hidden" name="uridi" value="<%= uridi%>">
-                <input type="hidden" name="idp" value="<%= idp%>">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
-                    <span class="fa fa-mail-reply fa-fw"></span>
+            <div class="modal-footer">
+                <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%></button>
+                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                    <span class="fa fa-arrow-left fa-fw"></span>
                     <%= paramRequest.getLocaleString("btnCancel")%>    
                 </button>
-                <button type="submit" onclick="saveSE('saveVersion', 'linotification','modalDialog');
-                        return false;" class="btn btn-default"><span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%></button>
             </div>
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        setTimeout(function() {
-            $('form').find('input,textarea,select').filter(':visible:first').focus();
-        }, 500);
-    });
+<script>
+    ($(document).ready(function(){
+        $("#saveVersion").on("submit", function(evt){
+            var theForm = evt.target;
+            $.ajax({
+                url: $(theForm).attr('action'),
+                cache: false,
+                data: $(theForm).serialize(),
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(data) {
+                    if (data && data.status === "ok") {
+                        window.location.reload();
+                    }
+                }
+            });
+            evt.preventDefault();
+        });
+    })
+    )();
 </script>

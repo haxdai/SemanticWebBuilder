@@ -3,6 +3,11 @@
     Created on : 30/09/2014, 09:32:20 AM
     Author     : carlos.alvarez
 --%>
+<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
+<%@page import="org.semanticwb.SWBUtils"%>
+<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
+<%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
@@ -15,7 +20,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
-    SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+    SWBResourceURL url = paramRequest.getRenderUrl();//.setCallMethod(SWBResourceURL.Call_DIRECT);
     WebSite model = paramRequest.getWebPage().getWebSite();
     User user = paramRequest.getUser();
     String lang = user != null && user.getLanguage() != null ? user.getLanguage() : "es";
@@ -32,61 +37,67 @@
         <%
     } else {
         List<TemplateContainer> templates = (List<TemplateContainer>) request.getAttribute(SWPDocumentTemplateResource.LIST_TEMPLATES_CONTAINER);
+        if (null != templates) templates = SWBUtils.Collections.copyIterator(SWBComparator.sortByCreated(templates.iterator(), false));
+        SWBResourceURL createURL = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+        createURL.setMode(SWPDocumentTemplateResource.MODE_ADD_TEMPLATE);
         %>
-        <div class="row text-right">
-            <ul class="list-unstyled list-inline ">
-                <li>
-                    <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-default swbp-btn-action" data-toggle="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("lblBack")%>" title="<%=paramRequest.getLocaleString("lblBack")%>">
-                        <span class="fa fa-reply fa-fw"></span><%=paramRequest.getLocaleString("lblBack")%>
-                    </a>
-                </li>
-            </ul>
+        <div class="row swbp-pad">
+            <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
+                <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                    <%=paramRequest.getLocaleString("lblBack")%>
+                </a>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
+                <a href="<%= createURL %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>" data-toggle="modal" data-target="#modalDialog">
+                    <%=paramRequest.getLocaleString("btnAddTemplate")%>
+                </a>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-                <div class="panel panel-default swbp-panel">
-                    <div class="panel-heading">
-                        <div class="panel-title swbp-panel-title">
-                            <h1 class="panel-title">
-                                <span class="fa fa-list-alt fa-fw"></span><strong><%=paramRequest.getLocaleString("lblResourceTitle")%></strong>
-                                <a href="#" onclick="postHtmlDoc('<%=url.setMode(SWBResourceURL.Mode_EDIT)%>', 'container');
-                                    return false;" data-toggle="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("btnAddTemplate")%>" data-original-title="<%=paramRequest.getLocaleString("btnAddTemplate")%>"><span class="btn btn-sm btn-success pull-right fa fa-plus"></span></a>
-                            </h1>
+        <hr>
+        <div class="panel panel-default swbp-panel-head">
+            <div class="panel-heading text-center">Plantillas</div>
+        </div>    
+        <%            
+        if (templates != null && !templates.isEmpty()) {
+            for (TemplateContainer tc : templates) {
+                DocumentTemplate actualTemplate = tc.getActualTemplate();
+                
+                if (null == tc.getLastTemplate().getVersionValue()) { //TODO: TO REMOVE METHOD CALL IN FUTURE VERSIONS
+                    SWPUtils.setVersionNumbers(tc.getLastTemplate());
+                }
+                SWBResourceURL viewLog = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_VIEW_LOG).setParameter("uritc", tc.getURI());
+                SWBResourceURL action = paramRequest.getActionUrl();
+                SWBResourceURL urlDuplicate = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_DUPLICATE_TEMPLATE);
+                String title = tc.getTitle();
+                String idtc = tc.getId();
+                
+                //check for current template version
+                if (null != actualTemplate) { //Each template container must have at least one document template
+                    %>
+                    <div class="swbp-list-item">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-list-title">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-list-alt swbp-list-icon"></div>
+                            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10 swbp-list-text"><%= title %></div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
+                            <a href="<%= url.setMode(SWBResourceURL.Mode_EDIT).setParameter("uridt", actualTemplate.getURI()) %>" class="btn btn-default col-xs-3 fa fa-edit" role="button"></a>
+                            <a href="#" class="btn btn-default col-xs-3 fa fa-info-circle" role="button" onclick="showModal('<%= viewLog.setParameter("uritc", tc.getURI())%>', '<%= tc.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>', 'modalDialog');"></a>
+                            <a href="#" class="btn btn-default col-xs-3 fa fa-copy" role="button" onclick="showModal('<%= urlDuplicate.setParameter("uritc", tc.getURI()) %>', '<%= tc.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>', 'modalDialog');"></a>
+                            <a href="<%= action.setAction(SWBResourceURL.Action_REMOVE).setParameter("uritc", tc.getURI())%>" onclick="if (!confirm('<%=paramRequest.getLocaleString("msgDeletePrompt")%> <%= tc.getTitle()%>')) { return false; };" class="btn btn-default col-xs-3 fa fa-trash-o" role="button"></a>
                         </div>
                     </div>
-                    <div class="panel-body">
-                        <%
-                        if (templates != null && !templates.isEmpty()) { 
-                            %>
-                            <ul class="list-unstyled">
-                            <%
-                            for (TemplateContainer tc : templates) {
-                                String title = tc.getTitle();
-                                String idtc = tc.getId();
-                                %>
-                                <li><a id="litc<%= idtc%>" href="#<%= idtc%>" class="template-anchor" onclick="postHtmlDoc('<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("uritc", tc.getURI())%>', 'container');return false;"><i class="fa fa-file fa-fw"></i> <%= title%></a></li>
-                                <%
-                            }
-                            %>
-                            </ul>
-                            <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true" />
-                            <% 
-                        } 
-                        %>
-                    </div>
-                </div>
+                    <%
+                }
+            }
+            %>
+            <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true" />
+            <% 
+        } else {
+            %>
+            <div class="alert alert-block alert-danger fade in">
+                <p>No hay plantillas disponibles</p>
             </div>
-            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12" id="container"></div>
-        </div>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('.template-anchor').on('click', function(){
-                    $('.template-anchor').removeClass('active');
-                    $(this).addClass('active');
-                });
-            });
-        </script>
-        <script src="<%=SWBPortal.getWebWorkPath()%>/models/<%=model.getId()%>/js/documenter.js"></script>
-        <%  
+            <%
+        }
     }
 %>
