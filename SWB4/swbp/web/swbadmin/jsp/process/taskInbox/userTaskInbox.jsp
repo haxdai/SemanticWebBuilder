@@ -4,37 +4,24 @@
     Author     : Hasdai Pacheco {ebenezer.sanchez@infotec.com.mx}
 --%>
 
+<%@page import="org.semanticwb.SWBUtils"%>
+<%@page import="org.semanticwb.process.model.UserTask"%>
+<%@page import="org.semanticwb.process.model.Instance"%>
+<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.process.model.ProcessGroup"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="org.semanticwb.process.model.FlowNodeInstance"%>
+<%@page import="org.semanticwb.process.model.Process"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.semanticwb.process.model.ProcessInstance"%>
+<%@page import="org.semanticwb.model.Resource"%>
 <%@page import="org.semanticwb.model.Role"%>
 <%@page import="org.semanticwb.model.WebSite"%>
-<%@page import="java.util.Date"%>
-<%@page import="org.semanticwb.process.resources.taskinbox.UserTaskInboxResource"%>
-<%@page import="org.semanticwb.model.Resource"%>
-<%@page import="org.semanticwb.process.model.MessageStartEvent"%>
-<%@page import="org.semanticwb.process.model.StartEventNode"%>
-<%@page import="org.semanticwb.platform.SemanticClass"%>
-<%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.SWBPortal"%>
-<%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
 <%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
-<%@page import="org.semanticwb.process.model.ProcessGroup"%>
-<%@page import="org.semanticwb.process.model.StartEvent"%>
-<%@page import="org.semanticwb.process.model.Instance"%>
-<%@page import="org.semanticwb.process.model.Process"%>
-<%@page import="org.semanticwb.process.model.Activity"%>
-<%@page import="org.semanticwb.process.model.UserTask"%>
-<%@page import="org.semanticwb.process.model.ProcessInstance"%>
-<%@page import="org.semanticwb.process.model.SubProcessInstance"%>
-<%@page import="org.semanticwb.process.model.FlowNodeInstance"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.TreeMap"%>
-<%@page import="java.util.Map"%>
-<%@page import="java.net.URLEncoder"%>
-<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
+<%@page import="org.semanticwb.process.resources.taskinbox.UserTaskInboxResource"%>
+<%@page import="org.semanticwb.model.User"%>
 <%!
 public boolean isAdminUser(User user, UserTaskInboxResource base) {
     if (user == null) return false;
@@ -91,7 +78,7 @@ if (sFilter == null || sFilter.trim().equals("")) {
     sFilter = String.valueOf(ProcessInstance.STATUS_PROCESSING);
 }
 
-ArrayList<String> cols = new ArrayList<String>();
+ArrayList<String> cols = new ArrayList<>();
 int i = 1;
 while(!base.getAttribute(UserTaskInboxResource.ATT_COLS+i, "").equals("")) {
     String val = base.getAttribute(UserTaskInboxResource.ATT_COLS+i);
@@ -123,105 +110,53 @@ if (!user.isSigned()) {
     }
 } else {
     if (paramRequest.getCallMethod() == SWBParamRequest.Call_STRATEGY) {
-        %>
-        <a onclick="showModal('<%=createPiUrl%>', '<%=paramRequest.getLocaleString("createCase")%>', '<%=paramRequest.getLocaleString("msgLoading")%>', '<%=paramRequest.getLocaleString("msgResponseError")%>'); return false;" href="" class="btn btn-sm btn-success swbp-btn-start"><span class="fa fa-play-circle fa-lg fa-fw"></span> <%=paramRequest.getLocaleString("createCase")%></a>
-        <div class="swbp-left-menu">
-            <ul class="list-unstyled">
-                <li>
-                    <a href="<%=optsUrl%>"><%=paramRequest.getLocaleString("pendingTasks")%></a>
-                </li>
-                <li>
-                    <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_CLOSED))%>"><%=paramRequest.getLocaleString("closedTasks")%></a>
-                </li>
-                <li>
-                    <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_ABORTED))%>"><%=paramRequest.getLocaleString("abortedTasks")%></a>
-                </li> 
-           </ul>
-        </div>
-        <%
-    } else {
-        if (null != request.getSession(true).getAttribute("msg")) {
-            String message = (String) request.getSession(true).getAttribute("msg");
-            if (message.startsWith("OK")) {
-                String id = message.substring(2);
-                %>
-                <div class="alert alert-success alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    <span class="fa fa-check"></span> <strong><%=paramRequest.getLocaleString("msgCreated")+" "+id%></strong>
-                </div>
-                <%
-            }
-            request.getSession(true).removeAttribute("msg");
-        }
-        %>
-        <div class="row">
-            <div class=" pull-right">
-        <ul class="list-unstyled list-inline">
+    %>
+    <a href="<%=createPiUrl%>" class="btn btn-sm btn-success swbp-btn-start" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-play-circle fa-lg fa-fw"></span> <%=paramRequest.getLocaleString("createCase")%></a>
+    <div class="swbp-left-menu">
+        <ul class="list-unstyled">
             <li>
-                <a class="btn btn-default" data-tooltip="tooltip" data-pacement="bottom" title="<%=paramRequest.getLocaleString("createCase")%>" onclick="showModal('<%=createPiUrl%>', '<%=paramRequest.getLocaleString("createCase")%>', '<%=paramRequest.getLocaleString("msgLoading")%>', '<%=paramRequest.getLocaleString("msgResponseError")%>'); return false;" href=""><span class="fa fa-play-circle fa-lg"></span></a>
+                <a href="<%=optsUrl%>"><%=paramRequest.getLocaleString("pendingTasks")%></a>
             </li>
             <li>
-                <div class="dropdown">
-                    <a class="btn btn-default" data-toggle="dropdown" data-tooltip="tooltip" data-placement="bottom" title=" <%=paramRequest.getLocaleString("sortLabel")%> ">
-                        <span class="fa fa-sort-amount-asc"></span><span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortDate")%></li>
-                        <%
-                            optsUrl = paramRequest.getRenderUrl();
-                            if (applyFilter) {
-                                optsUrl.setParameter("pf", pFilter);
-                            }
-                            optsUrl.setParameter("sf", sFilter);
-                        %>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "1") %>"><span class="fa fa-sort-numeric-asc"></span> <%=sortType.equals("1")?"<strong>":""%><%=paramRequest.getLocaleString("sortLatest")%><%=sortType.equals("1")?"</strong>":""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "2") %>"><span class="fa fa-sort-numeric-desc"></span> <%=sortType.equals("2")?"<strong>":""%><%=paramRequest.getLocaleString("sortOldest")%><%=sortType.equals("2")?"</strong>":""%></a>
-                        </li>
-                        <li class="divider" role="menuitem"></li>
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortProcess")%></li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "3") %>"><span class="fa fa-sort-alpha-asc"></span> <%=sortType.equals("3")?"<strong>":""%><%=paramRequest.getLocaleString("sortNameAsc")%><%=sortType.equals("3")?"</strong>":""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "4") %>"><span class="fa fa-sort-alpha-desc"></span> <%=sortType.equals("4")?"<strong>":""%><%=paramRequest.getLocaleString("sortNameDes")%><%=sortType.equals("4")?"</strong>":""%></a>
-                        </li>
-                    </ul>
-                </div>
+                <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_CLOSED))%>"><%=paramRequest.getLocaleString("closedTasks")%></a>
             </li>
             <li>
-                <div class="dropdown">
-                    <a class="btn btn-default" data-toggle="dropdown" data-tooltip="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("filteringLabel")%>">
-                        <span class="fa fa-filter"></span><span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortStatus")%></li>
-                        <%
-                            optsUrl = paramRequest.getRenderUrl();
-                            optsUrl.setParameter("sort", sortType);
-                            if (applyFilter) {
-                                optsUrl.setParameter("pf", pFilter);
-                            }
-                        %>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_PROCESSING))%>"><span class="fa fa-flag-checkered"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING))?"<strong>":""%><%=paramRequest.getLocaleString("pendingTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING))?"</strong>":""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_CLOSED))%>"><span class="fa fa-flag"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED))?"<strong>":""%><%=paramRequest.getLocaleString("closedTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED))?"</strong>":""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_ABORTED))%>"><span class="fa fa-flag-o"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED))?"<strong>":""%><%=paramRequest.getLocaleString("abortedTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED))?"</strong>":""%></a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
+                <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_ABORTED))%>"><%=paramRequest.getLocaleString("abortedTasks")%></a>
+            </li> 
+        </ul>
+    </div>
+    <%
+} else {
+    if (null != request.getSession(true).getAttribute("msg")) {
+        String message = (String) request.getSession(true).getAttribute("msg");
+        if (message.startsWith("OK")) {
+            String id = message.substring(2);
+            %>
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <span class="fa fa-check"></span> <strong><%=paramRequest.getLocaleString("msgCreated")+" "+id%></strong>
+            </div>
             <%
-            optsUrl = paramRequest.getRenderUrl(); 
-            optsUrl.setParameter("sort", sortType);
-            optsUrl.setParameter("sf", sFilter);
+        }
+        request.getSession(true).removeAttribute("msg");
+    }
+    %>
+    <div class="row swbp-pad">
+        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
+            <a href="<%=createPiUrl%>" class="btn btn-block swbp-btn-block" data-toggle="modal" data-target="#modalDialog">Crear instancia</a>
+        </div>
+    </div> 
+<hr>    
+<div class="row form-group swbp-filters">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+        <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+            <label for="">Mostrar:</label>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+            <%
+        optsUrl = paramRequest.getRenderUrl(); 
+        optsUrl.setParameter("sort", sortType);
+        optsUrl.setParameter("sf", sFilter);
             %>
             <select class="form-control" onchange="loadPageUrl('<%=optsUrl%>', 'pf', this.options[this.selectedIndex].value)">
                 <option value="" <%=pFilter.equals("")?"selected":""%>><%=paramRequest.getLocaleString("allProcesses")%></option>
@@ -230,7 +165,7 @@ if (!user.isSigned()) {
                 while (itgroups.hasNext()) {
                     ProcessGroup pgroup = itgroups.next();
                     Iterator<Process> processes = SWBComparator.sortByDisplayName(pgroup.listProcesses(), lang);
-                    ArrayList<Process> alProcesses = new ArrayList<Process>();
+                    ArrayList<Process> alProcesses = new ArrayList<>();
 
                     while (processes.hasNext()) {
                         Process process = processes.next();
@@ -241,264 +176,253 @@ if (!user.isSigned()) {
 
                     if (!alProcesses.isEmpty()) {
                         processes = alProcesses.iterator();
-                        %>
-                        <optgroup label="<%=pgroup.getDisplayTitle(lang)%>">
-                        <%
-                        while (processes.hasNext()) {
-                            Process process = processes.next();
-                            String selected = "";
-                            if (pFilter.equals(process.getId())) selected = "selected";
-                                %>
-                                <option value="<%=process.getId()%>" <%=selected%>><%=process.getDisplayTitle(lang)%></option>
-                                <%
-                            }
-                            %>
-                        </optgroup>
-                        <%
-                    }
+                %>
+                <optgroup label="<%=pgroup.getDisplayTitle(lang)%>">
+                    <%
+                    while (processes.hasNext()) {
+                        Process process = processes.next();
+                        String selected = "";
+                        if (pFilter.equals(process.getId())) selected = "selected";
+                    %>
+                    <option value="<%=process.getId()%>" <%=selected%>><%=process.getDisplayTitle(lang)%></option>
+                    <%
                 }
+                    %>
+                </optgroup>
+                <%
+            }
+        }
                 %>
             </select>
-            </li>
-        </ul>
-            </div>
+        </div>  
+    </div> 
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+            <label for="">ordenar:</label>
         </div>
-        <% if (tinstances != null && tinstances.size() > 0) { %>
-            <div class="table-responsive">
-                <table class="table table-hover swbp-table">
-                    <thead>
-                        <tr>
-                            <%Iterator<String> itCols = cols.iterator();
-                            while(itCols.hasNext()) {
-                                String val = itCols.next();
-                                String []conf = val.split("\\|");
-                                if (conf.length == 2) {
-                                    %><th><%=conf[1]%></th><%
-                                }
-                            }
-                            %>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%Iterator<FlowNodeInstance> instances = tinstances.iterator();
-                        while(instances.hasNext()) {
-                            FlowNodeInstance instance = instances.next();
-                            if (instance.getProcessInstance().getCreator() != null) {
-                                if (instance.getProcessInstance().getStatus() == Instance.STATUS_PROCESSING) {
-                                    String status = "--";
-                                    %>
-                                    <tr>
-                                        <%
-                                        itCols = cols.iterator();
-                                        while(itCols.hasNext()) {
-                                            String val = itCols.next();
-                                            String []conf = val.split("\\|");
-                                            if (conf.length == 2) {
-                                                if (conf[0].equals(UserTaskInboxResource.COL_IDPROCESS)) {
-                                                    %><td><%=instance.getProcessInstance().getId()%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_IDTASK)) {
-                                                    %><td><%=instance.getId()%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_NAMEPROCESS)) {
-                                                    String pName = instance.getFlowNodeType().getProcess().getDisplayTitle(lang);
-                                                    %><td><%=pName%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_NAMETASK)) {
-                                                    %><td><%=instance.getFlowNodeType().getDisplayTitle(lang)%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_STARTPROCESS)) {
-                                                    %><td><%=SWBUtils.TEXT.getStrDate(instance.getProcessInstance().getCreated(), lang, "dd/mm/yy - hh:%m")%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_STARTTASK)) {
-                                                    %><td><%=SWBUtils.TEXT.getStrDate(instance.getCreated(), lang, "dd/mm/yy - hh:%m")%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_ENDPROCESS)) {
-                                                    String ended = "--";
-                                                    if (instance.getProcessInstance().getStatus() == Instance.STATUS_CLOSED || instance.getProcessInstance().getStatus() == Instance.STATUS_ABORTED) {
-                                                        if (instance.getProcessInstance().getEnded() != null) {
-                                                            ended = SWBUtils.TEXT.getStrDate(instance.getProcessInstance().getEnded(), lang, "dd/mm/yy - hh:%m");
-                                                        }
-                                                    }
-                                                    %><td><%=ended%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_ENDTASK)) {
-                                                    String ended = "--";
-                                                    if (instance.getStatus() == Instance.STATUS_CLOSED || instance.getStatus() == Instance.STATUS_ABORTED) {
-                                                        if (instance.getEnded() != null) {
-                                                            ended = SWBUtils.TEXT.getStrDate(instance.getEnded(), lang, "dd/mm/yy - hh:%m");
-                                                        }
-                                                    }
-                                                    %><td><%=ended%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_CREATORPROCESS)) {
-                                                    String screator = paramRequest.getLocaleString("autoCreation");
-                                                    User creator = instance.getProcessInstance().getCreator();
-                                                    if (creator != null) {
-                                                        if (creator.getFullName() != null && !creator.getFullName().trim().equals("")) {
-                                                            screator = creator.getFullName();
-                                                        } else {
-                                                            screator = creator.getLogin();
-                                                        }
-                                                    }
-                                                    %><td><%=screator%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_ASSIGNEDTO)) {
-                                                    String screator = paramRequest.getLocaleString("lblNotAssigned");
-                                                    User assigned = instance.getAssignedto();
-                                                    if (assigned != null) {
-                                                        if (assigned.getFullName() != null && !assigned.getFullName().trim().equals("")) {
-                                                            screator = assigned.getFullName();
-                                                        } else {
-                                                            screator = assigned.getLogin();
-                                                        }
-                                                    }
-                                                    %><td><%=screator%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_CREATORTASK)) {
-                                                    String screator = paramRequest.getLocaleString("autoCreation");
-                                                    User creator = instance.getCreator();
-                                                    if (creator != null) {
-                                                        if (creator.getFullName() != null && !creator.getFullName().trim().equals("")) {
-                                                            screator = creator.getFullName();
-                                                        } else {
-                                                            screator = creator.getLogin();
-                                                        }
-                                                    }
-                                                    %><td><%=screator%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_STATUSPROCESS)) {
-                                                    int st = instance.getProcessInstance().getStatus();
-                                                    if (st == Instance.STATUS_ABORTED) {
-                                                        status = paramRequest.getLocaleString("pStatusAborted");
-                                                    } else if (st == Instance.STATUS_CLOSED) {
-                                                        status = paramRequest.getLocaleString("pStatusClosed");
-                                                    } if (st == Instance.STATUS_INIT) {
-                                                        status = paramRequest.getLocaleString("pStatusInit");
-                                                    } if (st == Instance.STATUS_OPEN || st == Instance.STATUS_PROCESSING) {
-                                                        status = paramRequest.getLocaleString("pStatusPending");
-                                                    } if (st == Instance.STATUS_STOPED) {
-                                                        status = paramRequest.getLocaleString("pStatusStopped");
-                                                    }
-                                                    %><td><%=status%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_STATUSTASK)) {
-                                                    int st = instance.getStatus();
-                                                    if (st == Instance.STATUS_ABORTED) {
-                                                        status = paramRequest.getLocaleString("tStatusAborted");
-                                                    } else if (st == Instance.STATUS_CLOSED) {
-                                                        status = paramRequest.getLocaleString("tStatusClosed");
-                                                    } if (st == Instance.STATUS_INIT) {
-                                                        status = paramRequest.getLocaleString("tStatusInit");
-                                                    } if (st == Instance.STATUS_OPEN || st == Instance.STATUS_PROCESSING) {
-                                                        status = paramRequest.getLocaleString("tStatusPending");
-                                                    } if (st == Instance.STATUS_STOPED) {
-                                                        status = paramRequest.getLocaleString("tStatusStopped");
-                                                    }
-                                                    %><td><%=status%><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_ACTIONS)) {%>
-                                                    <td class="swbp-actions">
-                                                        <%UserTask utask = (UserTask) instance.getFlowNodeType();
-                                                        if (instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
-                                                            if (isAdminUser(user, utir)) {
-                                                                SWBResourceURL claimUrl = paramRequest.getActionUrl().setAction(UserTaskInboxResource.ACT_CLAIM);
-                                                                %>
-                                                                <a href="<%=claimUrl%>?suri=<%=instance.getEncodedURI()%>" <% if (instance.getAssignedto() != null && !user.getURI().equals(instance.getAssignedto().getURI())) {%>onclick="return (confirm('La tarea le será asignada y desaparecerá de la bandeja del dueño. ¿Desea continuar?'))"<%}%> class="btn btn-default" title="<%=paramRequest.getLocaleString("actTake")%>"><span class="fa fa-external-link-square"></span></a>
-                                                                <%
-                                                            } else {
-                                                                %>
-                                                                <a href="<%=utask.getTaskWebPage().getUrl()%>?suri=<%=instance.getEncodedURI()%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actTake")%>"><span class="fa fa-external-link-square"></span></a>
-                                                                <%
-                                                            }
-                                                            if (allowForward) {
-                                                                SWBResourceURL forward = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(UserTaskInboxResource.MODE_FWD);
-                                                                //No es de nadie, no se permite reasignar a menos que sea admin
-                                                                if (null == instance.getAssignedto()) {
-                                                                    if (isAdminUser(user, utir)) {
-                                                                        %><a href="" onclick="showModal('<%=forward.setParameter("suri", instance.getURI())%>', '<%=paramRequest.getLocaleString("actFwd")%>', '<%=paramRequest.getLocaleString("msgLoading")%>', '<%=paramRequest.getLocaleString("msgResponseError")%>'); return false;" class="btn btn-default" title="<%=paramRequest.getLocaleString("actFwd")%>" ><span class="fa fa-exchange"></span></a><%
-                                                                    }
-                                                                } else if (instance.getAssignedto().getURI().equals(user.getURI()) || isAdminUser(user, utir)) {
-                                                                    %><a href="" onclick="showModal('<%=forward.setParameter("suri", instance.getURI())%>', '<%=paramRequest.getLocaleString("actFwd")%>', '<%=paramRequest.getLocaleString("msgLoading")%>', '<%=paramRequest.getLocaleString("msgResponseError")%>'); return false;" class="btn btn-default" title="<%=paramRequest.getLocaleString("actFwd")%>" ><span class="fa fa-exchange"></span></a><%
-                                                                }
-                                                            }
-                                                        }
-                                                        if (statusWp != null) {%>
-                                                            <a href="<%=statusWp.getUrl()%>?suri=<%=instance.getProcessInstance().getProcessType().getEncodedURI()%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actMap")%>"><span class="fa fa-sitemap fa-rotate-270"></span></a><%
-                                                        }
-                                                        if(showPwpLink) {
-                                                            SWBResourceURL detailUrl = paramRequest.getRenderUrl().setMode(UserTaskInboxResource.MODE_PROCESSDETAIL);
-                                                            detailUrl.setParameter("suri", instance.getFlowNodeType().getProcess().getURI());%>
-                                                            <a href="<%=detailUrl%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actDetail")%>"><span class="fa fa-bar-chart-o"></span></a><%
-                                                        }
-                                                        %>
-                                                    </td>
-                                                    <%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_TASKSUBJECT)) {
-                                                    String subject = "--";
-                                                    if (instance.getSubject() != null) {
-                                                        subject = instance.getSubject();
-                                                    }
-                                                    %><td><%=subject%></td><%
-                                                } else if (conf[0].equals(UserTaskInboxResource.COL_FLAGTASK)) {
-                                                    UserTask utask = (UserTask)instance.getFlowNodeType();
-                                                    int delay = utask.getNotificationTime();
-                                                    boolean delayed = false;
-                                                    //String delayTitle = paramRequest.getLocaleString("lblOntime");
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+            <%
+                        optsUrl = paramRequest.getRenderUrl();
+                        if (applyFilter) {
+                            optsUrl.setParameter("pf", pFilter);
+                        }
+                        optsUrl.setParameter("sf", sFilter);
+                    %>
+             
+             <select class="form-control"  onchange="loadPageUrl('<%=optsUrl%>&sort='+this.options[this.selectedIndex].value, 'pf', this.options[this.selectedIndex].value)">
+                 <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortDate")%>">
+                    <option value="1" <%=sortType.equals("1")?"selected":""%>><span class="fa fa-sort-numeric-asc"></span><%=paramRequest.getLocaleString("sortLatest")%></option>
+                    <option value="2" <%=sortType.equals("2")?"selected":""%>><span class="fa fa-sort-numeric-desc"></span><%=paramRequest.getLocaleString("sortOldest")%></option>
+                </optgroup>
+                <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortProcess")%>">  
+                    <option value="3" <%=sortType.equals("3")?"selected":""%>><%=paramRequest.getLocaleString("sortNameAsc")%></option>
+                    <option value="4" <%=sortType.equals("4")?"selected":""%>><%=paramRequest.getLocaleString("sortNameDes")%></option>
+                </optgroup>
+            </select>
+        </div>       
+    </div>
 
-                                                    if (delay > 0) {
-                                                        long today = System.currentTimeMillis();
-                                                        long cr = instance.getCreated().getTime();
-                                                        if (today - cr > (1000*60*delay)) {
-                                                            delayed = true;
-                                                            //delayTitle = paramRequest.getLocaleString("lblDelayed");
-                                                        }
-                                                    }
-                                                    %>
-                                                    <td class="swbp-status">
-                                                    <%
-                                                    if (delayed) {
-                                                        %><span class="swbp-delayed"><%
-                                                    } else {
-                                                        %><span class="swbp-ontime"><%
-                                                    }
-                                                    %><span class="fa fa-clock-o"></span></span>
-                                                    </td><%
-                                                }
-                                            }
-                                        }
-                                        %>
-                                    </tr>
-                                <%
-                                }
-                            }
-                        }%>
-                    </tbody>
-                </table>
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+        <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+            <label for="">Filtrar:</label>
+        </div>
+        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding dropdown">
+             <% optsUrl = paramRequest.getRenderUrl();
+                optsUrl.setParameter("sort", sortType);
+                if (applyFilter) {
+                     optsUrl.setParameter("pf", pFilter);
+                }
+            %>
+            <select class="form-control"  onchange="loadPageUrl('<%=optsUrl%>&sf='+this.options[this.selectedIndex].value, 'pf', this.options[this.selectedIndex].value)">
+                <option <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING))?"selected":""%> value="<%=String.valueOf(FlowNodeInstance.STATUS_PROCESSING)%>"><%=paramRequest.getLocaleString("pendingTasks")%></option>
+                <option <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED))?"selected":""%> value="<%=String.valueOf(FlowNodeInstance.STATUS_CLOSED)%>"><%=paramRequest.getLocaleString("closedTasks")%></option>
+                <option <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED))?"selected":""%> value="<%=String.valueOf(FlowNodeInstance.STATUS_ABORTED)%>"><%=paramRequest.getLocaleString("abortedTasks")%></option>
+            </select>
+
+            <ul class="dropdown-menu" role="menu">
+                <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortStatus")%></li>
+                    <%
+                        optsUrl = paramRequest.getRenderUrl();
+                        optsUrl.setParameter("sort", sortType);
+                        if (applyFilter) {
+                            optsUrl.setParameter("pf", pFilter);
+                        }
+                    %>
+                <li role="menuitem">
+                    <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_PROCESSING))%>"><span class="fa fa-flag-checkered"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING))?"<strong>":""%><%=paramRequest.getLocaleString("pendingTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING))?"</strong>":""%></a>
+                </li>
+                <li role="menuitem">
+                    <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_CLOSED))%>"><span class="fa fa-flag"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED))?"<strong>":""%><%=paramRequest.getLocaleString("closedTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED))?"</strong>":""%></a>
+                </li>
+                <li role="menuitem">
+                    <a href="<%=optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_ABORTED))%>"><span class="fa fa-flag-o"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED))?"<strong>":""%><%=paramRequest.getLocaleString("abortedTasks")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED))?"</strong>":""%></a>
+                </li>
+            </ul>
+        </div>             
+    </div>  
+</div> 
+<% if (tinstances != null && tinstances.size() > 0) { %>
+            <%Iterator<FlowNodeInstance> instances = tinstances.iterator();
+            while(instances.hasNext()) {
+                FlowNodeInstance instance = instances.next();
+                if (instance.getProcessInstance().getCreator() != null) {
+                    if (instance.getProcessInstance().getStatus() == Instance.STATUS_PROCESSING) {
+            %>
+
+        <div class="row swbp-input-tray"> 
+            <%if (UserTaskInboxResource.COL_FLAGTASK != null) {
+                UserTask utask = (UserTask)instance.getFlowNodeType();
+                int delay = utask.getNotificationTime();
+                boolean delayed = false;
+                if (delay > 0) {
+                    long today = System.currentTimeMillis();
+                    long cr = instance.getCreated().getTime();
+                    if (today - cr > (1000*60*delay)) {
+                        delayed = true;
+                    }
+                }
+                if (delayed) {%>
+                    <div class="col-xs-12 swbp-tray-state-red"></div>
+                <%} else {%>
+                    <div class="col-xs-12 swbp-tray-state-green"></div>
+                <%}  
+            }%>
+            <div class="row swbp-tray-info">    
+            <% if (UserTaskInboxResource.COL_IDPROCESS != null) {%>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number"><%=instance.getProcessInstance().getId()%></div>
+            <%}%>
+            <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10 hidden-padding">               
+            <% if (UserTaskInboxResource.COL_NAMETASK != null) {%> 
+                <div class="col-xs-12 swbp-tray-process">
+                    <%=instance.getFlowNodeType().getDisplayTitle(lang)%>
+                </div>
+            <%} if (UserTaskInboxResource.COL_NAMEPROCESS != null) {%> 
+                <div class="col-xs-12 swbp-tray-task">
+                    <%=instance.getFlowNodeType().getProcess().getDisplayTitle(lang)%>
+                </div> 
+            <%} if (UserTaskInboxResource.COL_STARTTASK != null) {%>    
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 swbp-tray-date">
+                    <span class="">Inicio de la Tarea:</span>
+                    <span class=""><%=SWBUtils.TEXT.getStrDate(instance.getCreated(), lang, "dd/mm/yy - hh:%m")%></span>
+                </div>     
+            <%} if (UserTaskInboxResource.COL_ENDTASK != null) {
+                    String ended = "";
+                    if (instance.getStatus() == Instance.STATUS_CLOSED || instance.getStatus() == Instance.STATUS_ABORTED) {
+                        if (instance.getEnded() != null) {
+                            ended = SWBUtils.TEXT.getStrDate(instance.getEnded(), lang, "dd/mm/yy - hh:%m");
+                        }
+                    }
+                    if (!ended.isEmpty()) {
+                    %>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 swbp-tray-date">
+                        <span class="">Fin de la Tarea:</span>
+                        <span class=""><%=ended%></span>
+                    </div>   
+                <%
+                    }
+                }%>  
+            </div>
+            </div>
+               <%if (UserTaskInboxResource.COL_ACTIONS != null) {%>
+               <div class="row swbp-tray-action">
+                <%UserTask utask = (UserTask) instance.getFlowNodeType();
+                if (instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
+                    if (isAdminUser(user, utir)) {
+                        SWBResourceURL claimUrl = paramRequest.getActionUrl().setAction(UserTaskInboxResource.ACT_CLAIM);
+                %>
+                <a class="btn btn-default col-xs-3" href="<%=claimUrl%>?suri=<%=instance.getEncodedURI()%>" <% if (instance.getAssignedto() != null && !user.getURI().equals(instance.getAssignedto().getURI())) {%>onclick="return (confirm('La tarea le será asignada y desaparecerá de la bandeja del dueño. ¿Desea continuar?'))"<%}%>>
+                    <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-hand-o-up"></span>
+                    <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actTake")%></span>
+                </a>
+                    <%
+                } else {
+                    %>
+                <a class="btn btn-default col-xs-3" href="<%=utask.getTaskWebPage().getUrl()%>?suri=<%=instance.getEncodedURI()%>" title="<%=paramRequest.getLocaleString("actTake")%>">
+                    <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-hand-o-up"></span>
+                    <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actTake")%></span>
+                </a>
+                    <%
+                }
+                if (allowForward) {
+                    SWBResourceURL forward = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(UserTaskInboxResource.MODE_FWD);
+                    //No es de nadie, no se permite reasignar a menos que sea admin
+                    if (null == instance.getAssignedto()) {
+                        if (isAdminUser(user, utir)) {
+                    %><a href="<%=forward.setParameter("suri", instance.getURI())%>" class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modalDialog">
+                            <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-exchange"></span>
+                            <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actFwd")%></span>
+                            
+                    </a><%
+}
+} else if (instance.getAssignedto().getURI().equals(user.getURI()) || isAdminUser(user, utir)) {
+                    %><a href="<%=forward.setParameter("suri", instance.getURI())%>" class="btn btn-default col-xs-3" data-toggle="modal" data-target="#modalDialog">
+                            <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-exchange"></span>
+                            <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actFwd")%></span>
+                    </a><%
+}
+}
+}
+if (statusWp != null) {%>
+                <a class="btn btn-default col-xs-3" href="<%=statusWp.getUrl()%>?suri=<%=instance.getProcessInstance().getProcessType().getEncodedURI()%>">
+                    <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-sitemap fa-rotate-270"></span>
+                    <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actMap")%></span></a><%
+            }
+            if(showPwpLink) {
+                SWBResourceURL detailUrl = paramRequest.getRenderUrl().setMode(UserTaskInboxResource.MODE_PROCESSDETAIL);
+                detailUrl.setParameter("suri", instance.getFlowNodeType().getProcess().getURI()).setParameter("suriInstance", instance.getProcessInstance().getURI());%>
+                <a class="btn btn-default col-xs-3" href="<%=detailUrl%>">
+                    <span class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-bar-chart-o"></span>
+                    <span class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-tray-text"><%=paramRequest.getLocaleString("actDetail")%></span>
+                </a><%
+            }
+                    %>
             </div>
             <%
-            String sort = sortType;
-            String filter = sFilter;
-            String pfilter = pFilter;
-            if (sort != null && sort.length() > 0) {
-                sort = "sort|"+sort;
-            } else {
-                sort = "";
-            }
-
-            if (filter != null && filter.length() > 0) {
-                filter = "sf|"+filter;
-            } else {
-                filter = "";
-            }
-            
-            if (pfilter != null && pfilter.length() > 0) {
-                pfilter = "pf|"+pfilter;
-            } else {
-                pfilter = "";
-            }
-            %>
-            <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
-                <jsp:param name="navUrlParams" value="<%=sort%>"/>
-                <jsp:param name="navUrlParams" value="<%=filter%>"/>
-                <jsp:param name="navUrlParams" value="<%=pfilter%>"/>
-                <jsp:param name="showPageOfPage" value="true"/>
-            </jsp:include>
+            } 
+            %>         
+        </div>
         <%
-        } else {
-            %>
-            <div class="alert alert-warning">
-                <p><%=paramRequest.getLocaleString("noTasks")%></p>
-            </div>
-            <%
         }
     }
+}%>
+
+
+<%
+String sort = sortType;
+String filter = sFilter;
+String pfilter = pFilter;
+if (sort != null && sort.length() > 0) {
+    sort = "sort|"+sort;
+} else {
+    sort = "";
+}
+
+if (filter != null && filter.length() > 0) {
+    filter = "sf|"+filter;
+} else {
+    filter = "";
+}
+            
+if (pfilter != null && pfilter.length() > 0) {
+    pfilter = "pf|"+pfilter;
+} else {
+    pfilter = "";
+}
+%>
+<jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
+    <jsp:param name="navUrlParams" value="<%=sort%>"/>
+    <jsp:param name="navUrlParams" value="<%=filter%>"/>
+    <jsp:param name="navUrlParams" value="<%=pfilter%>"/>
+    <jsp:param name="showPageOfPage" value="true"/>
+</jsp:include>
+<%
+} else {
+%>
+<div class="alert alert-warning">
+    <p><%=paramRequest.getLocaleString("noTasks")%></p>
+</div>
+<%
+}
+}
 }
 %>

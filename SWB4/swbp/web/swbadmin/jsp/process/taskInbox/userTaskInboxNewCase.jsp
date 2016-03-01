@@ -23,7 +23,7 @@ if (user != null && user.getLanguage() != null) {
     lang = user.getLanguage();
 }
 
-Map<String, ArrayList<Process>> groups = new TreeMap<String, ArrayList<Process>>();
+Map<String, ArrayList<Process>> groups = new TreeMap<>();
 SWBResourceURL createUrl = paramRequest.getActionUrl().setAction(UserTaskInboxResource.ACT_CREATE);
 ArrayList<Process> pccs = null;
 
@@ -46,7 +46,7 @@ while(startEvents.hasNext()) {
                     }
                     groups.put(pg, pccs);
                 } else { //Si no existe el grupo de procesos en el treemap
-                    pccs = new ArrayList<Process>();
+                    pccs = new ArrayList<>();
                     pccs.add(itp);
                     groups.put(pg, pccs);
                 }
@@ -57,37 +57,43 @@ while(startEvents.hasNext()) {
 Iterator<String> keys = groups.keySet().iterator();
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4><%=paramRequest.getLocaleString("createCase")%></h4>
+            <h4 class="modal-title"><%=paramRequest.getLocaleString("createCase")%></h4>
         </div>
         <%if (keys.hasNext()) {%>
-            <form method="post" action="<%=createUrl%>">
+            <form method="post" action="<%=createUrl%>" class="form-horizontal">
                 <div class="modal-body">
-                    <label for="pid"><%=paramRequest.getLocaleString("promptCreate")%></label>
-                    <select class="form-control" name="pid">
-                    <%while(keys.hasNext()) {
-                        String key = keys.next();
-                    %>
-                        <optgroup label="<%=key%>">
-                        <%Iterator<Process> it_pccs = SWBComparator.sortByDisplayName(groups.get(key).iterator(), lang);
-                        while(it_pccs.hasNext()) {
-                            Process pcc = it_pccs.next();
-                        %>
-                            <option value="<%=pcc.getId()%>"><%=pcc.getDisplayTitle(lang)%></option>
-                        <%
-                        }
-                        %>
-                        </optgroup>
-                    <%
-                    }
-                    %>
-                    </select>
+                    <div class="form-group">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                            <label for="pid">Proceso:</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                            <select class="form-control" name="pid" required>
+                            <%while(keys.hasNext()) {
+                                String key = keys.next();
+                                %>
+                                    <optgroup label="<%=key%>">
+                                    <%Iterator<Process> it_pccs = SWBComparator.sortByDisplayName(groups.get(key).iterator(), lang);
+                                    while(it_pccs.hasNext()) {
+                                        Process pcc = it_pccs.next();
+                                    %>
+                                        <option value="<%=pcc.getId()%>"><%=pcc.getDisplayTitle(lang)%></option>
+                                    <%
+                                    }
+                                    %>
+                                    </optgroup>
+                                <%
+                            }
+                            %>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnCancel")%></button>
-                    <button type="submit" class="btn btn-success"><%=paramRequest.getLocaleString("btnOk")%></button>
+                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%></button>
+                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
                 </div>
             </form>
         <%
