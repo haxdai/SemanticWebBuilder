@@ -3404,6 +3404,15 @@ var _GraphicalElement = function(obj) {
             obj.subLine.setAttributeNS(null,"bclass","annotationArtifact");
             obj.subLine.setAttributeNS(null,"oclass","annotationArtifact");
             obj.subLine.setBaseClass();
+            obj.subLine.hide = function() {
+                obj.subLine.style.display="none";
+                obj.subLine.hidden=true;
+            };
+            obj.subLine.show=function() {
+                obj.subLine.style.display="";
+                obj.subLine.hidden=false;
+            };
+            
             obj.mouseup=function(x,y) {
                 return Modeler.options.mode === "view" ? false : true;
             };
@@ -3429,6 +3438,8 @@ var _GraphicalElement = function(obj) {
             var fRemove=obj.remove;
             var fResize=obj.resize;
             var fMoveFirst = obj.moveFirst;
+            var fHide = obj.hide;
+            var fShow = obj.show;
             
             obj.move=function(x,y) {
                 fMove(x,y);
@@ -3448,6 +3459,16 @@ var _GraphicalElement = function(obj) {
             obj.resize=function(w,h) {
                 fResize(w,h);
                 obj.updateSubLine();
+            };
+            
+            obj.hide = function() {
+                fHide();
+                obj.subLine.hide();
+            };
+            
+            obj.show = function() {
+                fShow();
+                obj.subLine.show();
             };
             
             return obj;
@@ -3681,7 +3702,7 @@ var _GraphicalElement = function(obj) {
             } else {
                 json = modelJSON || {};
             }
-            
+
             if (Object.keys(json).length === 0) {
                 ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo. Modelo vacío.", 200, "Error");
                 return;
@@ -3918,7 +3939,7 @@ var _GraphicalElement = function(obj) {
             for (i = 0; i < length; i++) {
                 var tmp = flowNodes[i],
                     obj = Modeler.getGraphElementByURI(null, tmp.uri);
-
+            
                 if (tmp.container && tmp.container !== null) {
                     var cont = Modeler.getGraphElementByURI(null, tmp.container);
                     if (cont !== null && obj !== null) {
