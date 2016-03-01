@@ -4,6 +4,12 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
+<%@page import="org.semanticwb.model.WebPage"%>
+<%@page import="org.semanticwb.portal.SWBFormMgr"%>
+<%@page import="java.util.HashMap"%>
+<%@page import="java.util.Map"%>
+<%@page import="org.semanticwb.platform.SemanticProperty"%>
 <%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
 <%@page import="java.util.Enumeration"%>
 <%@page import="java.util.Date"%>
@@ -24,140 +30,151 @@
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%!
+    String getRepoOptions(RepositoryDirectory root, RepositoryDirectory actual, String indentChar) {
+        StringBuilder ret = new StringBuilder();
+        String idt = indentChar;
+        if (null == idt) idt= " ";
+        
+        if (null != root) {
+            ret.append("<option value=\"").append(root.getURI()).append("\"").append((null != actual && root.getURI().equals(actual.getURI()))?" selected":"").append(">").append(idt).append(root.getTitle()).append("</option>");
+        }
+        Iterator<WebPage> childs = root.listChilds();
+        while(childs.hasNext()) {
+            WebPage child = childs.next();
+            if (child instanceof RepositoryDirectory && child.isValid()) {
+                ret.append(getRepoOptions((RepositoryDirectory)child, actual, idt+idt));
+            }
+        }
+
+        return ret.toString();
+    }
+%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
-    String uriTemplateCont = request.getParameter("uritc") != null ? request.getParameter("uritc") : "";
     String uriDocSection = request.getParameter("urids") != null ? request.getParameter("urids") : "";
-    TemplateContainer templateCont = (TemplateContainer) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uriTemplateCont);
-    if (templateCont != null) {
-        DocumentTemplate docTemplate = templateCont.getActualTemplate();
-        String iconClass = "fa fa-plus fa-fw";
-        String lang = "es";
-        User user = paramRequest.getUser();
-        if (user != null && user.getLanguage() != null) {
-            lang = user.getLanguage();
-        }
+    SWBResourceURL urlSave = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_ADD_DOCUMENT_SECTION);
+    String title = "";
+    String lang = "es";
+    if (paramRequest.getUser() != null && paramRequest.getUser().getLanguage() != null) lang = paramRequest.getUser().getLanguage();
 
-        SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-        SWBResourceURL urlSave = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_ADD_DOCUMENT_SECTION);
-        String viewlabel = paramRequest.getLocaleString("btnAddSection");
-        String title = "";
-        String uriCls = "";
-        String typeDocSection = "";
-
-        DocumentSection documentSection = (DocumentSection) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uriDocSection);
-        if (documentSection != null) {
-            iconClass = "fa fa-edit fa-fw";
-            title = documentSection.getTitle();
-            typeDocSection = documentSection.getSectionType().getDisplayName(lang);
-            viewlabel = paramRequest.getLocaleString("btnEdit") + " " + title;
-            urlSave = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_EDIT_DOCUMENT_SECTION);
-            uriCls = documentSection.getSectionType().getURI();
-        }
-        String action = request.getParameter("action") != null ? request.getParameter("action") : "";
-        url.setParameter("urids", uriDocSection);
-        String required = "required";
-        //SWBResourceURL urleds = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_EDIT_DOCUMENT_SECTION).setParameter("uritc", uritc);
-        //SWBResourceURL urlrds = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_REMOVE_DOCUMENT_SECTION).setParameter("uritc", uritc);
-%>
-<script type="text/javascript">
-    <% if (!action.equals("")) {%>
-
-    $('#modalDialog').modal('hide');
-    $('#litc' + location.hash.slice(1)).trigger('click');
-    <% }%></script>
-<div class="modal-dialog">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><li class="<%=iconClass%>"></li><%=viewlabel%></h4>
-        </div>
-        <form method="post" id="formesd" name="formesd" action="<%=urlSave%>" class="form-horizontal">
-            <div class="modal-body">
-                <div class="form-group" id="divtitleSection">
-                    <label class="col-lg-3 control-label" for=""><%=paramRequest.getLocaleString("lblTitle")%><%=documentSection == null ? " *" : ""%>:</label>
-                    <div class="col-lg-9">
-                        <input <%=required%> type="text" class="form-control" id="titleSection" name="titleSection"  value="<%=title%>">
-                    </div>
-                </div>
-                <div class="form-group" id="divdstype">
-                    <label for="" class="col-lg-3 control-label"><%=paramRequest.getLocaleString("lblSecType")%><%=documentSection == null ? " *" : ""%>:</label>
-                    <div class="col-lg-9">
-                        <%
-                            if (documentSection != null && documentSection.getSectionType() != null) {
-                        %>
-                        <input type="text" name="dstype" class="form-control" disabled value="<%=documentSection.getSectionType().transformToSemanticClass().getDisplayName(lang)%>"/>
-                        <%           } else {
-                        %>
-                        <select  <%=required%> name="dstype" id="dstype" class="form-control" onchange="changeLoad(this.options[this.selectedIndex].value);">
-                            <option value=""><%=paramRequest.getLocaleString("lblNoneOption")%></option>  
-                            <%
-                                Iterator<SemanticClass> itSemCls = SWBComparator.sortByDisplayName(SectionElement.sclass.listSubClasses(), lang);
-                                while (itSemCls.hasNext()) {
-                                    SemanticClass semanticCls = itSemCls.next();
-                                    boolean add = true;
-                                    if (!semanticCls.isSubClass(Instantiable.swpdoc_Instantiable, false)
-                                            && !semanticCls.getClassId().equals(FreeText.sclass.getClassId())) {
-                                        Iterator<DocumentSection> itdst = docTemplate.listDocumentSections();
-                                        while (itdst.hasNext()) {
-                                            DocumentSection doset = itdst.next();
+    DocumentSection documentSection = (DocumentSection) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uriDocSection);
+    if (documentSection != null) {
+        SWBResourceURL viewUrl = paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT);
+        viewUrl.setParameter("uridt", documentSection.getParentTemplate().getURI());
         
-                                            if (semanticCls.getURI().equals(doset.getSectionType().getURI()) 
-                                                || semanticCls.getName().equals("ElementReference")) {
-                                                add = false;
-                                                break;
+        SemanticClass sectionType = documentSection.getSectionType().transformToSemanticClass();
+        title = documentSection.getTitle();
+        urlSave = paramRequest.getActionUrl().setAction(SWPDocumentTemplateResource.ACTION_EDIT_DOCUMENT_SECTION);
+        String visibleProps = documentSection.getVisibleProperties();
+        if (null == visibleProps) visibleProps = "";
+        %>
+        <div class="row swbp-pad">
+            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button pull-right">
+                <a href="<%= viewUrl %>" class="btn btn-block swbp-btn-block" >Volver a la plantilla</a>
+            </div>
+        </div>
+        <hr>
+        <div class="panel panel-default swbp-panel-head hidden-margin">
+            <div class="panel-heading text-center"><%= documentSection.getTitle() %></div>
+            <form method="post" id="formesd" name="formesd" action="<%=urlSave%>">
+                <input type="hidden" name="urids" value="<%= uriDocSection %>"/>
+                <div class="panel-body swbp-panel-body-card">
+                    <div class="form-group" id="divtitletc">
+                        <label><h5><%=paramRequest.getLocaleString("lblTitle")%>*:</h5></label>
+                        <input type="text" name="titleSection" id="titleSection" required value="<%= title %>" class="form-control"/>
+                    </div>
+                    <%
+                    if (sectionType.isSubClass(Instantiable.swpdoc_Instantiable, false)) {
+                        Map map = new HashMap();
+                        if (!visibleProps.isEmpty()) {
+                            String[] values = documentSection.getVisibleProperties().split("\\|");
+                            for (int i = 0; i < values.length; i++) {
+                                String value = values[i];
+                                String ptitle = value.substring(0, value.indexOf(";"));
+                                String propId = value.substring((value.indexOf(";") + 1), value.length());
+                                map.put(propId, ptitle);
+                            }
+                        }
+                        if (sectionType.isSubClass(Referable.swpdoc_Referable, false)) {
+                                WebPage repo = paramRequest.getWebPage().getWebSite().getWebPage("Repository");
+                                RepositoryDirectory currentDir = (RepositoryDirectory) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(documentSection.getConfigData());
+                                String options = getRepoOptions((RepositoryDirectory)repo, currentDir, "-");
+                                %>
+                                <div class="form-group">
+                                    <label><%=paramRequest.getLocaleString("lblRepository")%>*</label>
+                                    <select required id="configData" class="form-control" name="configData">
+                                        <option value="">Seleccione directorio</option>
+                                        <% out.print(options); %>
+                                    </select>
+                                </div>
+                                <%
+                        }
+                        %>
+                        <div class="form-group">
+                            <label>
+                                <h5>Propiedades</h5>
+                            </label>
+                            <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th><%=paramRequest.getLocaleString("lblSecActive")%></th>
+                                        <th><%=paramRequest.getLocaleString("lblProperty")%></th>
+                                        <th><%=paramRequest.getLocaleString("lblLabel")%></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                    SWBFormMgr mgr = new SWBFormMgr(sectionType, paramRequest.getWebPage().getWebSite().getSemanticObject(), SWBFormMgr.MODE_EDIT);
+                                    mgr.clearProperties();
+                                    Iterator<SemanticProperty> properties = sectionType.listProperties();
+                                    while (properties.hasNext()) {
+                                        SemanticProperty prop = properties.next();
+                                        if (prop.getDisplayProperty() != null) mgr.addProperty(prop);
+                                    }
+                                    
+                                    properties = mgr.getProperties().iterator();
+                                    if (properties.hasNext()) {
+                                        while (properties.hasNext()) {
+                                            SemanticProperty prop = properties.next();
+                                            String titleSemProp = prop.getDisplayName(lang);
+                                            String idSemProp = prop.getPropId();
+                                            String label = titleSemProp;
+                                            if (map.containsKey(idSemProp)) {
+                                                label = map.get(idSemProp).toString();
                                             }
+                                            %>
+                                            <tr>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblSecActive")%>" class="text-center">
+                                                    <input <%=(visibleProps.contains(idSemProp))?"checked":""%> name="<%=idSemProp%>" id="<%=idSemProp%>" type="checkbox" class="css-checkbox">
+                                                    <label class="css-label" for="<%= idSemProp%>"></label>
+                                                </td>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblProperty")%>"><%=titleSemProp%></td>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblLabel")%>">
+                                                    <input type="text" name="label<%=idSemProp%>" value="<%=label%>" class="form-control">
+                                                </td>
+                                            </tr>
+                                            <%
                                         }
                                     }
-                                    String nameSemCls = semanticCls.getDisplayName(lang);
-                                    String uriSemCls = semanticCls.getEncodedURI();
-                                    
-                                    if (add) {
-                            %>
-                            <option value="<%=uriSemCls%>"><%=nameSemCls%></option>
-                            <%
-                                    }
-                                }
-                            %>
-                        </select>
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
                         <%
-                            }
-                        %>
+                    }
+                    %>
+                </div>
+                <div class="panel-footer swbp-mup">
+                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 swbp-panel-button pull-right">
+                        <button id="savedtes" class="btn btn-block" type="submit">
+                            <span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%>
+                        </button>
                     </div>
                 </div>
-                <div id="containersp">
-                </div>
-            </div>
-            <div class="modal-footer text-center">
-                <a class="btn btn-default" data-dismiss="modal"><span class="fa fa-mail-reply fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></a>
-                <button type="submit" onclick="submitFormSection('formesd', 'guardaCambios', 'modalDialog', '');
-                        return false;" class="btn btn-success" id="savedtes"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
-            </div>
-            <input type="hidden" name="uritc" value="<%= uriTemplateCont%>"/>
-            <input type="hidden" name="urids" value="<%= uriDocSection%>"/>
-        </form>
-    </div>
-</div>
-<%
-    if (documentSection != null) {
-%>
-<script>
-    postHtmlDoc('<%=url.setMode(SWPDocumentTemplateResource.MODE_PROPERTIES).setParameter("classuri", uriCls)%>', 'containersp');</script> 
-    <%
-        }
-    %>
-<script type="text/javascript">
-    function changeLoad(clsURI) {
-        var url = "<%=url.setMode(SWPDocumentTemplateResource.MODE_PROPERTIES)%>";
-        if (clsURI && clsURI !== null) {
-            url += "&classuri=" + clsURI;
-        }
-        postHtmlDoc(url, 'containersp');
+            </form>
+        </div>
+        <%
     }
-    $(document).ready(function() {
-        $('#modalDialog').on('shown.bs.modal', function() {
-            $('#titleSection').focus();
-        });
-    });
-</script>
-<% }%>
+%>

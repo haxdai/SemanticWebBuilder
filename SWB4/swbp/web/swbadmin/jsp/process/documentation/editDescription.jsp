@@ -22,28 +22,24 @@
     String uridsi = request.getParameter("uridsi") != null ? request.getParameter("uridsi") : "";
     String idp = request.getParameter("idp") != null ? request.getParameter("idp") : "";
     SectionElement sei = (SectionElement) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(urise);
-    SWBResourceURL urlEditor = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_EDIT_DESCRIPTION).setParameter("urise", urise);
+    SWBResourceURL urlEditor = paramRequest.getActionUrl().setAction(SWPDocumentationResource.ACTION_EDIT_TEXT).setParameter("urise", urise);
     urlEditor.setParameter("uridsi", uridsi);
     urlEditor.setParameter("idp", idp);
     WebPage wpage = paramRequest.getWebPage();
     DocumentSectionInstance dsi = (DocumentSectionInstance) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uridsi);
     SWBResourceURL urlUpload = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_UPLOAD_PICTURE).setParameter("urise", java.net.URLEncoder.encode(urise, "UTF-8"));
-
+    final String fullHostname = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() != 80? ":" + request.getServerPort():"");
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><span class="fa fa-pencil"></span><%=paramRequest.getLocaleString("btnEdit")%></h4>
+            <h4 class="modal-title"><%=paramRequest.getLocaleString("btnEdit")%></h4>
         </div>
         <div class="modal-body">
-            <form method="post" class="form-inline">
-                <div class="form-row">
-                    <textarea>
-                        <%= sei.getDescription() != null ? sei.getDescription() : ""%>
-                    </textarea>
-                </div>
-                    <input type="hidden" id="urise" name="urise" value="<%=urise%>">
+            <form method="post">    
+                <textarea><%= sei.getDescription() != null ? sei.getDescription() : ""%></textarea>
+                <input type="hidden" id="urise" name="urise" value="<%=urise%>">
             </form>
         </div>
     </div>
@@ -59,26 +55,43 @@
         force_br_newlines: true,
         paste_data_images: true,
         force_p_newlines: true,
+        relative_urls : false,
+        remove_script_host : false,
+        document_base_url : '<%= fullHostname %>',
         height: 500,
         plugins: [
             " fullpage save advlist table contextmenu link image textcolor code paste"
         ],
         save_onsavecallback: function(ed) {
-            saveText('<%= urlEditor%>', ed.getContent(), '<%= urise%>', '', 'dsitab<%= dsi != null ? dsi.getId() : ""%>');
+            var content = ed.getContent();
+            $.ajax({
+                url: '<%= urlEditor %>',
+                cache: false,
+                data: {data: content},
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(dt) {
+                    if (dt && dt.status === "ok") {
+                        ed.notificationManager.open({
+                            text: 'Se ha guardado el contenido.'
+                        });
+                        window.location.reload();
+                    }
+                }
+            });
         },
         file_browser_callback: function(field_name, url, type, win) {
             tinymce.activeEditor.windowManager.open({
                 title: "Cargar archivo",
-                url: "<%= SWBPortal.getContextPath() %>/swbadmin/jsp/process/documentation/uploader.jsp?modelid=<%= wpage.getWebSiteId()%>&urlact=<%=urlUpload%>"
+                url: "/swbadmin/jsp/process/documentation/uploader.jsp?modelid=<%= wpage.getWebSiteId()%>&urlact=<%= urlUpload%>",
+                width: 600
             }, {
                 oninsert: function(url) {
-                    var id = tinymce.activeEditor.id;
-                    id = id.substr((id.lastIndexOf(":") + 1), id.length);
                     win.document.getElementById(field_name).value = url;
-                    setTimeout(function() {
-                        tinymce.activeEditor.windowManager.close();
-                    }, 500);
-                }
+                        setTimeout(function() {
+                            top.tinymce.activeEditor.windowManager.close();
+                        }, 500);
+                    }
             });
         }
     });

@@ -4,6 +4,8 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="org.semanticwb.SWBUtils"%>
+<%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -28,7 +30,7 @@
         <form id="uploadImg" class="form-horizontal" onsubmit="uploadOk();" action="<%= urlact%>" method="post" enctype="multipart/form-data">
             <div class="panel-body">
               
- <%
+                <%
                     String basePath = SWBPortal.getWorkPath() + "/models/" + modelid + "/swp_DocumentationImage/";
                     File dir = new File(basePath);
                     if (dir.exists()) {
@@ -39,7 +41,7 @@
                         for (File file : dir.listFiles()) {
                     %>
                     <a class="btn btn-default shortcut" onclick="selectImage('image_<%= i %>')">
-                        <img id="image_<%= i %>" width="40" height="40" src="/work/models/<%= modelid%>/swp_DocumentationImage/<%= file.getName() %>">
+                        <img id="image_<%= i %>" width="40" height="40" src="<%= SWBPortal.getWebWorkPath() %>/models/<%= modelid%>/swp_DocumentationImage/<%= file.getName() %>">
                         <span class="swbp-menu-vertical"><%= file.getName()%></span>
                     </a>
                     <%
@@ -76,10 +78,10 @@
         <script type="text/javascript">
             function selectImage(element) {
                 var a = $('#' + element);
-                 top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + a.attr('src'), false);
-                 if(top.tinymce.activeEditor.id.indexOf('http') == 0){
-                 top.tinymce.activeEditor.windowManager.close();
-                 }
+                top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + a.attr('src'), false);
+                if(top.tinymce.activeEditor.id.indexOf('http') == 0){
+                    top.tinymce.activeEditor.windowManager.close();
+                }
                 //top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + '/work/models/<%= modelid%>/swp_DocumentationImage/' + element);
             }
             function uploadOk() {

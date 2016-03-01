@@ -4,6 +4,8 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="java.util.Locale"%>
@@ -16,92 +18,113 @@
 <%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
     String uritc = request.getParameter("uritc") != null ? request.getParameter("uritc").toString() : "";
     TemplateContainer tc = (TemplateContainer) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uritc);
     SWBResourceURL urlSave = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_DUPLICATE_TEMPLATE).setParameter("uritc", uritc);
-    String lang = "es";
-    User user = paramRequest.getUser();
-    if (user != null && user.getLanguage() != null) {
-        lang = user.getLanguage();
-    }
-    Locale loc = new Locale(lang);
-    DateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss", loc);
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><li class="fa fa-copy"></li> Duplicar Template</h4>
+            <h4 class="modal-title">Duplicar plantilla</h4>
         </div>
-        <form action="<%= urlSave%>" method="post" id="formdte" class="form-horizontal" role="form">
+        <form action="<%= urlSave %>" method="post" id="formdte" class="form-horizontal" role="form">
             <div class="modal-body">
                 <div class="form-group" id="divtitletcd">
-                    <label class="col-lg-3 control-label"><%= paramRequest.getLocaleString("lblPropTitle")%>:</label>
-                    <div class="col-lg-8">
-                        <input name="titletcd" id="titletcd" required="true" value="<%= tc == null ? "" : tc.getTitle()%>" class="form-control"/>
-                        <span class="help-block" id="sphtitletc"></span>
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for="">Título *:</label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        <input name="titletcd" id="titletcd" required value="<%= tc == null ? "" : tc.getTitle()%>" class="form-control"/>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th> </th>
-                                <th>TÃ­tulo</th>
-                                <th>DescripciÃ³n</th>
-                                <th>CreaciÃ³n</th>
-                                <th>Creador</th>
-                            </tr>
-                        </thead>
-                        <tbody> 
+                <div class="form-group">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                        <label for="">Versión *:</label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        <select name="versiontemp" class="form-control" required>
+                            <option>Seleccione una versión</option>
                             <%
-                                if (tc != null) {
-                                    Iterator<DocumentTemplate> it = SWBComparator.sortByCreated(tc.listTemplates(), true);
-                                    while (it.hasNext()) {
-                                        DocumentTemplate dt = it.next();
-                                        String title = dt.getTitle() != null ? dt.getTitle() : "";
-                                        String desc = dt.getDescription() != null ? dt.getDescription() : "";
-                                        String creator = dt.getCreator() != null ? dt.getCreator().getFullName() : "";
-                                        String created = dt.getCreated() != null ? sdf.format(dt.getCreated()) : "";
-                                        boolean actual = tc.getActualTemplate().getURI().equals(dt.getURI());
-                            %>
-                            <tr class="<% if (actual) {%>success<% }%>" id="trdvt<%= dt.getId()%>">
-                                <td class="text-right">
-                                    <input type="radio" value="<%= dt.getURI() %>" name="versiontemp" <%if (tc.getActualTemplate().equals(dt)) { %> checked="true" <%} %>>
-                                </td>
-                                <td><%= title%></td>
-                                <td><%= desc%></td>
-                                <td><%= created%></td>
-                                <td><%= creator%></td>
-                                
-                            </tr>   
-                            <% }
+                            if (null != tc) {
+                                Iterator<DocumentTemplate> it = SWBComparator.sortByCreated(tc.listTemplates(), false);
+                                while (it.hasNext()) {
+                                    DocumentTemplate dt = it.next();
+                                    %>
+                                    <option value="<%= dt.getURI() %>"><%= dt.getVersionValue() %></option>
+                                    <%
                                 }
+                            }
                             %>
-                        </tbody>
-                    </table>
+                        </select>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn btn-default" data-dismiss="modal"><span class="fa fa-mail-reply fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></a>
-                <button type="submit" onclick="submitForm('formdte', 'guardaCambios', 'modalDialog');
-                        return false;" class="btn btn-success" id="savedtes"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
+                <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" id="savedtes"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
+                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
             </div>
         </form>
     </div>
 </div>
-<script type="text/javascript">
-    $(document).ready(function() {
-        setTimeout(function() {
-            //$('form').find('input,textarea,select').filter(':visible:first').focus();
-            $('#titletcd').focus();
-        }, 500);
-        /*
-        $('#modalDialog').on('shown.bs.modal', function() {
-            $('#titletcd').focus();
-        });*/
-    });
+<script>
+    (function() {
+        var theForm = document.getElementById('formdte');
+        if (!theForm) return;
+
+        var isTitleValid = function(element) {
+            if (element.required) {
+                return !element.validity.valueMissing;
+            } else {
+                return element.value && element.value !== "";
+            }
+        };
+
+        var isSelectValid = function(element) {
+            if (element.required) {
+                return !element.validity.valueMissing;
+            } else {
+                return element.value && element.value !== "";
+            }
+        };
+
+        theForm['versiontemp'].addEventListener("change", function(evt) {
+            if (isSelectValid(evt.target)) {
+                $(evt.target).closest(".form-group").removeClass("has-error");
+            } else {
+                $(evt.target).closest(".form-group").addClass("has-error");
+            }
+        });
+
+        theForm['titletcd'].addEventListener("keyup", function(evt) {
+            if (isTitleValid(evt.target)) {
+                $(evt.target).closest(".form-group").removeClass("has-error");
+            } else {
+                $(evt.target).closest(".form-group").addClass("has-error");
+            }
+        });
+
+        theForm.addEventListener('submit', function(evt) {
+            var valid = isTitleValid(theForm['titletcd']) && isSelectValid(theForm['versiontemp']);                      
+            if (valid) {
+                $.ajax({
+                    url: $(theForm).attr('action'),
+                    cache: false,
+                    data: $(theForm).serialize(),
+                    type: 'POST',
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                    success: function(data) {
+                        if (data.status === "ok") {
+                            var loc = '<%= paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_CONTENT).setMode(SWBResourceURL.Mode_VIEW) %>';
+                            window.location = loc;
+                        }
+                    }
+                });
+            }
+            evt.preventDefault();
+            return false;
+        });
+    })();
 </script>

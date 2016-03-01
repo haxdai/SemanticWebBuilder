@@ -143,7 +143,7 @@ if (!list.isEmpty()) {
             } else {
                 %>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 swbp-list-title swbp-title-xs">
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-cogs swbp-list-icon"></div>
+                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 fa fa-folder-open swbp-list-icon"></div>
                     <div class="col-lg-11  col-md-11 col-sm-11 col-xs-10 swbp-list-text">
                         <a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= desc.getSemanticObject().getId()%> "><%= title %></a>
                     </div>

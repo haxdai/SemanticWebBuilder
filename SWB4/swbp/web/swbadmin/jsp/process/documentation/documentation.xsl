@@ -2,7 +2,17 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="xml" version="1.0" encoding="ISO-8859-1" omit-xml-declaration="yes" indent="yes"/>
     <xsl:template match="/">
-        <div class="panel-body"><!-- begin Panel body -->
+            <div id="SWBP-MENU-PROCESO" class="panel-collapse collapse">
+                <div class="list-group">
+                    <xsl:if test="root/model">
+                        <a href="#swbp-modelo" class="list-group-item active">Modelo</a>
+                    </xsl:if>
+                    <xsl:for-each select="root/section">
+                            <a href="#{@idSection}" class="list-group-item"><xsl:value-of select="@title"/></a>
+                    </xsl:for-each>
+                </div>  
+             </div>
+            <div class="panel-body swbp-panel-body"><!-- begin Panel body -->
             <xsl:if test="root/model">
                 <xsl:choose>
                     <xsl:when test="root/@export!='true'">
@@ -21,41 +31,33 @@
                         <xsl:text disable-output-escaping="yes"><![CDATA[ <script src="js/bootstrap/bootstrap.js"></script>]]></xsl:text>
                     </xsl:otherwise>
                 </xsl:choose>
-                <div class="row">
-                    <div class="col-lg-2">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li>
-                                <a data-toggle="collapse" data-target="#collapsemodel" id="collapseModelButton">Modelo</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="table-responsive">
-                    <table> 
-                        <tr>
-                            <td>
-                                <div class="in" id="collapsemodel" style="height: auto;">
-                                    <div class="row text-center" id="modelerprocess">
-                                        <ul class="list-unstyled list-inline hidden-print text-center modelerControls">
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Zoom in" onclick="zoomin();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-search-plus"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Zoom out" onclick="zoomout();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-search-minus"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Reset zoom" onclick="resetZoom();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-desktop"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan left" onclick="handlePanning('left');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-arrow-left"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan down" onclick="handlePanning('down');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-arrow-down"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan up" onclick="handlePanning('up');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-arrow-up"></i>]]></xsl:text></a></li>
-                                            <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan right" onclick="handlePanning('right');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-arrow-right"></i>]]></xsl:text></a></li>
-                                            <xsl:choose>
-                                                <xsl:when test="root/@export!='true'">
-                                                    <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG" onclick="submit_download_form('png');"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-image-o"></i>]]></xsl:text></a></li>
-                                                    <li><a href="#" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG" onclick="submit_download_form('svg');"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-code-o"></i>]]></xsl:text></a></li>
-                                                </xsl:when>
-                                                <xsl:otherwise>
-                                                    <li><a href="rep_files/{root/model/@id}.png" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-image-o"></i>]]></xsl:text></a></li>
-                                                    <li><a href="rep_files/{root/model/@id}.svg" class="btn btn-default" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG"><xsl:text disable-output-escaping="yes"><![CDATA[<i class="fa fa-file-code-o"></i>]]></xsl:text></a></li>
-                                                </xsl:otherwise>
-                                            </xsl:choose>
-                                        </ul>
-                                        <div id="modelerContainer" class="modelerprocess" style="margin-left:66px;">
+                
+                        <H4 id="swbp-modelo">MODELO</H4>
+                        <HR></HR>
+
+                            <div class="btn-toolbar" role="toolbar">
+                                <div class="btn-group swbp-toolbar-model">
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Zoom in" onclick="zoomin();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-search-plus fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Zoom out" onclick="zoomout();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-search-minus fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Reset zoom" onclick="resetZoom();return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-desktop fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan left" onclick="handlePanning('left');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-arrow-left fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan down" onclick="handlePanning('down');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-arrow-down fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan up" onclick="handlePanning('up');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-arrow-up fa-lg"></span>]]></xsl:text></a>
+                                    <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Pan right" onclick="handlePanning('right');return false;"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-arrow-right fa-lg"></span>]]></xsl:text></a>
+                                    <xsl:choose>
+                                        <xsl:when test="root/@export!='true'">
+                                            <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG" onclick="submit_download_form('png');"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-file-image-o fa-lg"></span>]]></xsl:text></a>
+                                            <a href="#" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG" onclick="submit_download_form('svg');"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-file-code-o fa-lg"></span>]]></xsl:text></a>
+                                        </xsl:when>
+                                        <xsl:otherwise>
+                                            <a href="rep_files/{root/model/@id}.png" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar PNG"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-file-image-o fa-lg"></span>]]></xsl:text></a>
+                                            <a href="rep_files/{root/model/@id}.svg" class="btn btn-default swbp-button-tool" data-placement="bottom" data-toggle="tooltip" data-original-title="Descargar SVG"><xsl:text disable-output-escaping="yes"><![CDATA[<span class="fa fa-file-code-o fa-lg"></span>]]></xsl:text></a>
+                                        </xsl:otherwise>
+                                    </xsl:choose>
+                                </div>
+                            </div>  
+                                    
+                                    <div id="swbp-model-container">
                                             <!--   must have viewBox  -->
                                             <svg id="modeler" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" viewBox="0 0 1200 800" class="modeler">
                                                 <style type="text/css"><![CDATA[
@@ -627,14 +629,10 @@
                                                     </g>
                                                 </defs>
                                             </svg>
-                                        </div>
                                     </div>
-                                </div> 
-                            </td>
-                        </tr>
-                    </table>
+
                     <xsl:value-of select="root/colorTask" disable-output-escaping="yes"/>
-                </div>
+
                 <script>
                     <xsl:text disable-output-escaping="yes"><![CDATA[var strJSON=]]></xsl:text><xsl:value-of select="root/model" disable-output-escaping="yes" /><xsl:text disable-output-escaping="yes"><![CDATA[;]]></xsl:text>
                     <xsl:text disable-output-escaping="yes">
@@ -653,7 +651,7 @@
                         function zoomin() {
                             var viewBox = document.getElementById("modeler").getAttribute('viewBox'),
                                 viewBoxValues = viewBox.split(' ');
-
+                            
                             viewBoxValues[2] = parseFloat(viewBoxValues[2]);
                             viewBoxValues[3] = parseFloat(viewBoxValues[3]);
                             viewBoxValues[2] /= zoomFactor;
@@ -720,7 +718,7 @@
                                             cw = lastX;
                                             fx = obj;
                                         }
-
+                                        
                                         if (lastY > ch) {
                                             ch = lastY;
                                             fy = obj;
@@ -734,8 +732,8 @@
                             } else {
                                 cw = 1200;
                                 ch = 900;
-                            }
-
+                        }
+                        
                             var ret = {w: cw, h: ch};
                             return ret;
                         }
@@ -758,25 +756,15 @@
                     </xsl:text>
                 </script>
             </xsl:if>
-            <div class="row">
-                <div class="col-lg-2">
-                    <ul id="myTab0" class="nav nav-pills nav-stacked">
-                        <xsl:for-each select="root/section">
-                            <li>
-                                <a data-toggle="tab" href="#{@url}" id="{@className}">
-                                    <xsl:value-of select="@title"/>
-                                </a>
-                            </li>
-                        </xsl:for-each>
-                    </ul>
-                </div>    
-                <div class="tab-content col-lg-10">
+
                     <xsl:for-each select="root/section">
-                        <div id="{@url}" class="tab-pane">
+                        <H4 id="{@idSection}"><xsl:value-of select="@title"/></H4>
+                                <HR></HR>
                             <xsl:if test="@className != 'Activity' and @className != 'FreeText' and @className != 'Model'">
-                                <div class="table-responsive">
-                                    <table class="table table-hover swbp-table">
+                                <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                                    <table id="table" class="table">
                                         <thead>
+                                            <tr>
                                             <xsl:for-each select="instance">
                                                 <xsl:if test="@count = 1">
                                                     <xsl:for-each select="property">
@@ -786,39 +774,32 @@
                                                     </xsl:for-each>
                                                 </xsl:if>
                                             </xsl:for-each>
+                                            </tr>
                                         </thead>
                                         <xsl:for-each select="instance">
+                                            <tbody>
                                             <tr>
                                                 <xsl:for-each select="property">
-                                                    <td>
+                                                    <td data-title="{@title}">
                                                         <xsl:value-of select="." disable-output-escaping="yes"/>
                                                     </td>
                                                 </xsl:for-each>
                                             </tr>
+                                            </tbody>
                                         </xsl:for-each>
                                     </table>
                                 </div>
                             </xsl:if>
                             <xsl:if test="@className = 'Activity'">
-                                <ul class="list-group" id="ulactivity">
                                     <xsl:for-each select="instance">
-                                        <li class="list-group-item" id="liactivity{@id}">
-                                            
-                                            <div class="row">
-                                                <div class="col-lg-11">
-                                                    <xsl:value-of select="propertyd" disable-output-escaping="yes"/>
-                                                </div>
-                                                <xsl:if test="@related = 'true'">
-                                                    <div class="col-lg-1">
-                                                        <a class="btn btn-default pull-right" data-toggle="collapse" data-parent="#liactivity{property/@id}" href="#colact{@id}" aria-expanded="true" aria-controls="collapseOne">
-                                                            <span class="fa fa-eye"></span>
-                                                        </a>  
-                                                    </div>
-                                                </xsl:if>
-                                            </div>
+                                                <H5><xsl:value-of select="property" disable-output-escaping="yes"/></H5>
+                                                <p><xsl:value-of select="propertyd" disable-output-escaping="yes"/></p>
                                             <!-- Si contiene elementos relacionados -->
-                                            <xsl:if test="@related = 'true'">                           
-                                                <div class="row panel-collapse collapse" id="colact{@id}">
+                                            <xsl:if test="@related = 'true'">
+                                                <a data-toggle="collapse" data-parent="#liactivity{property/@id}" href="#colact{@id}" aria-expanded="true" aria-controls="collapseOne">     
+                                                <H6>ELEMENTOS RELACIONADOS</H6> 
+                                                </a>                          
+                                                <div class="row panel-collapse in swbp-related" id="colact{@id}">
                                                     <div class="col-lg-2">
                                                         <ul id="relatedTab" class="nav nav-pills nav-stacked">
                                                             <xsl:for-each select="documentSection">
@@ -833,8 +814,8 @@
                                                     <div class="tab-content col-lg-10">
                                                         <xsl:for-each select="documentSection">
                                                             <div id="{@url}" class="tab-pane">
-                                                                <div class="table-responsive">
-                                                                    <table class="table table-hover swbp-table">
+                                                                <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                                                                    <table id="table" class="table">
                                                                         <thead>
                                                                             <xsl:for-each select="related">
                                                                                 <xsl:if test="@count = 0">
@@ -849,7 +830,7 @@
                                                                         <xsl:for-each select="related">
                                                                             <tr>
                                                                                 <xsl:for-each select="relatedprop">
-                                                                                    <td>
+                                                                                    <td data-title="{@title}">
                                                                                         <xsl:value-of select="." disable-output-escaping="yes"/>
                                                                                     </td>
                                                                                 </xsl:for-each>
@@ -862,23 +843,18 @@
                                                     </div>
                                                 </div>   
                                             </xsl:if>
-                                        </li>
                                     </xsl:for-each>
-                                </ul>
                             </xsl:if>
                             <xsl:if test="@className = 'FreeText'">
-                                <ul class="list-group">
                                     <xsl:for-each select="instance">
-                                        <li class="list-group-item" id="liactivity{property/@id}">
+                                        <p>
                                             <xsl:value-of select="." disable-output-escaping="yes"/>
-                                        </li>
+                                        </p>
                                     </xsl:for-each>
-                                </ul>
                             </xsl:if>
-                        </div>
                     </xsl:for-each>
-                </div>
-            </div>
+           
+            
         </div> <!-- end Panel body -->
         <!--/div-->
     </xsl:template>
