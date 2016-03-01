@@ -43,25 +43,20 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a una actividad.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processActivity(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processActivity(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.ACTIVITIES)) {
             JSONObject obj = new JSONObject();
-            JSONObject container = elements.peek();
             
             atts.put("class",XPDLEntities.ACTIVITY);
-            String c = container.optString("class", "");
+            atts.put("container",context);
             
-            if (c.equals(XPDLEntities.ACTIVITYSET)) {
-                atts.put("container",container.getString("uri"));
-            }
-            //System.out.println(elements.peek().toString(2));
-            
-            setAttributes(obj, atts);
+            setAttributes(obj, atts);            
             elements.push(obj);
         }
     }
@@ -76,32 +71,27 @@ public class XPDLProcessor {
     public void processBlockActivity(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.ACTIVITY)) {
             JSONObject obj = elements.pop();
-            
+
             setAttributes(obj, atts);
-            //System.out.println(obj.toString());
             elements.push(obj);
         }
     }
     
     /**
      * Procesa un bloque XPDL correspondiente a un ActivitySet (SubProceso).
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processActivitySet(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processActivitySet(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.ACTIVITYSETS)) {
             JSONObject obj = new JSONObject();
-            JSONObject container = elements.peek();
             
             atts.put("class",XPDLEntities.ACTIVITYSET);
             atts.put("_class","SubProcess");
-            String c = container.optString("class", "");
-            
-            if (c.equals(XPDLEntities.ACTIVITYSET)) {
-                atts.put("container",container.getString("uri"));
-            }
+            atts.put("container",context);
             
             setAttributes(obj, atts);
             elements.push(obj);
@@ -110,15 +100,17 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un Lane.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processLane(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processLane(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.LANES)) {
             JSONObject obj = new JSONObject();
             atts.put("class",XPDLEntities.LANE);
+            atts.put("container",context);
             
             setAttributes(obj, atts);
             elements.push(obj);
@@ -127,15 +119,17 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un Pool.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processPool(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processPool(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.POOLS)) {
             JSONObject obj = new JSONObject();
             atts.put("class",XPDLEntities.POOL);
+            atts.put("container",context);
             
             setAttributes(obj, atts);
             elements.push(obj);
@@ -144,17 +138,19 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un Artifact.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processArtifact(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processArtifact(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.ARTIFACTS)) {
             JSONObject obj = new JSONObject();
             String cls = atts.get(XPDLAttributes.ARTIFACTTYPE);
             
             atts.put("class",XPDLEntities.ARTIFACT);
+            atts.put("container",context);
             if (cls != null) {
                 obj.put("_class",cls+XPDLEntities.ARTIFACT);
             }
@@ -166,15 +162,18 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a una Transition (Flujo).
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processTransition(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processTransition(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.TRANSITIONS)) {
             JSONObject obj = new JSONObject();
+            
             atts.put("class",XPDLEntities.TRANSITION);
+            atts.put("container",context);
             setAttributes(obj, atts);
             elements.push(obj);
         }
@@ -226,6 +225,7 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un Event.
+     * @param localName LocalName del tag.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
@@ -264,7 +264,6 @@ public class XPDLProcessor {
                 JSONObject obj = elements.pop();
                 
                 setAttributes(obj, atts);
-                //System.out.println(obj.toString());
                 elements.push(obj);
             }
         }
@@ -311,20 +310,19 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un DataObject.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processDataObject(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processDataObject(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         JSONObject obj = new JSONObject();
-        if (tags.peek().equals(XPDLEntities.DATASTOREREFERENCES)) {
-            atts.put("class",XPDLEntities.DATASTOREREFERENCE);
-        } else if (tags.peek().equals(XPDLEntities.DATAOBJECTS)) {
-            atts.put("class",XPDLEntities.DATAOBJECT);
-        } else if (tags.peek().equals(XPDLEntities.DATASTORES)) {
-            atts.put("class",XPDLEntities.DATASTORE);
-        }
+        atts.put("container",context);
+        
+        if (tags.peek().equals(XPDLEntities.DATASTOREREFERENCES)) atts.put("class",XPDLEntities.DATASTOREREFERENCE);
+        if (tags.peek().equals(XPDLEntities.DATAOBJECTS)) atts.put("class",XPDLEntities.DATAOBJECT);
+        if (tags.peek().equals(XPDLEntities.DATASTORES)) atts.put("class",XPDLEntities.DATASTORE);
         
         setAttributes(obj, atts);
         elements.push(obj);
@@ -332,6 +330,7 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a una TaskImplementation.
+     * @param localName LocalName del tag.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
@@ -365,16 +364,19 @@ public class XPDLProcessor {
     
     /**
      * Procesa un bloque XPDL correspondiente a un Association.
+     * @param context Id del contexto (SubProceso) del elemento, si este existe.
      * @param tags Pila de tags en el parser.
      * @param elements Lista de elementos generados en el parser.
      * @param atts Atributos del elemento.
      * @throws JSONException 
      */
-    public void processAssociation(Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
+    public void processAssociation(String context, Stack<String> tags, Stack<JSONObject> elements, HashMap<String,String> atts) throws JSONException {
         if (tags.peek().equals(XPDLEntities.ASSOCIATIONS)) {
             JSONObject obj = new JSONObject();
             
+            atts.put("container",context);
             obj.put("class", XPDLEntities.ASSOCIATION);
+            
             setAttributes(obj, atts);
             elements.push(obj);
         }
@@ -464,7 +466,7 @@ public class XPDLProcessor {
         if (XPDLAttributes.HEIGHT.equals(attName)) ret = "h";
         if (XPDLAttributes.NAME.equals(attName)) ret = "title";
         if (XPDLAttributes.ISARRAY.equals(attName)) ret = "isCollection";
-        if (XPDLAttributes.TARGET.equals(attName)) ret = "parent";
+        //if (XPDLAttributes.TARGET.equals(attName)) ret = "parent";
         if (XPDLAttributes.TEXTANNOTATION.equals(attName)) ret = "title";
 
         return ret;
