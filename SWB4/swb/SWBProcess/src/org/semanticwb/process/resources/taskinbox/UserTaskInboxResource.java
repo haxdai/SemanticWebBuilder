@@ -464,7 +464,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                     if (inst != null) {
                         request.getSession(true).setAttribute("msg", "OK"+inst.getId());
                     }
-                    response.sendRedirect(getUserTaskInboxUrl(process));
+                    response.sendRedirect(getUserTaskInboxUrl());
                 }
             }
         } else if (MODE_FWD.equals(act)) {
@@ -483,7 +483,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                     }
                  
                     if (null != fni.getFlowNodeType()) {
-                        response.sendRedirect(getUserTaskInboxUrl(fni.getFlowNodeType().getProcess()));
+                        response.sendRedirect(getUserTaskInboxUrl());
                     }
                 }
             }
@@ -514,6 +514,24 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         } catch (Exception e) {
             log.error("Error including jsp in view mode", e);
         }
+    }
+    
+    /**
+     * Obtiene una cadena con la configuración de las gráficas para el recurso.
+     * @return Cadena con las propiedades de configuración activas, separadas por |.
+     */
+    private String getGraphsConfig() {
+        StringBuilder ret = new StringBuilder();
+        Resource base = getResourceBase();
+        
+        if (base.getAttribute(ATT_SHOWPERFORMANCE, "--").equals("yes")) ret.append(ATT_SHOWPERFORMANCE).append("|");
+        if (base.getAttribute(ATT_INSTANCEGRAPH, "--").equals("use")) ret.append(ATT_INSTANCEGRAPH).append("|");
+        if (base.getAttribute(ATT_PARTGRAPH, "--").equals("use")) ret.append(ATT_PARTGRAPH).append("|");
+        if (base.getAttribute(ATT_RESPONSEGRAPH, "--").equals("use")) ret.append(ATT_RESPONSEGRAPH).append("|");
+        if (base.getAttribute(ATT_STATUSGRAPH, "--").equals("use")) ret.append(ATT_STATUSGRAPH).append("|");
+        if (!base.getAttribute(ATT_GRAPHSENGINE, "--").equals("--")) ret.append(ATT_GRAPHSENGINE).append("|");
+        
+        return ret.toString();
     }
     
     @Override
@@ -747,6 +765,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                 request.setAttribute("statusWp", getDisplayMapWp());
                 request.setAttribute("itemsPerPage", getItemsPerPage());
                 request.setAttribute("base", getResourceBase());
+                request.setAttribute("graphConfig", getGraphsConfig());
             }
             rd.include(request, response);
         } catch (Exception e) {
@@ -755,6 +774,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
     }
     
     public void doForward(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         String jsp = "/swbadmin/jsp/process/taskInbox/userTaskInboxFwd.jsp";
 
         try {
@@ -767,7 +787,14 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         }
     }
     
-    public ArrayList<ProcessInstance> getProcessInstances(HttpServletRequest request, SWBParamRequest paramRequest) {
+    /**
+     * Obtiene las estadísticas de los procesos y devuelve una lista de las instancias, ordenadas y filtradas.
+     * @param request
+     * @param paramRequest
+     * @return
+     * @throws SWBResourceException 
+     */
+    public ArrayList<ProcessInstance> getProcessInstances(HttpServletRequest request, SWBParamRequest paramRequest) throws SWBResourceException {
         ArrayList<ProcessInstance> unpaged = new ArrayList<ProcessInstance>();
         ArrayList<ProcessInstance> instances = new ArrayList<ProcessInstance>();
         String suri = request.getParameter("suri");
@@ -884,21 +911,61 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                 unpaged.add(pi);
             }
             
-            request.setAttribute("processing", processing);
-            request.setAttribute("aborted", aborted);
-            request.setAttribute("closed", closed);
-            request.setAttribute("delayed", delayed);
-            request.setAttribute("ontime", ontime);
+            JSONObject data = new JSONObject();
+            JSONArray instanceInfo = new JSONArray();
+            JSONArray statusInfo = new JSONArray();
+            JSONArray responseInfo = new JSONArray();
+            
+            if (processing > 0 || aborted > 0 || closed > 0) {
+                JSONArray dt = new JSONArray();
+                if (processing > 0) dt.put(paramRequest.getLocaleString("lblProcessing")).put(processing);
+                if (aborted > 0) dt.put(paramRequest.getLocaleString("lblAborted")).put(aborted);
+                if (closed > 0) dt.put(paramRequest.getLocaleString("lblClosed")).put(closed);
+                instanceInfo.put(dt);
+                //request.setAttribute("processing", processing);
+                //request.setAttribute("aborted", aborted);
+                //request.setAttribute("closed", closed);
+                try {
+                    data.put("instanceData", instanceInfo);
+                } catch (JSONException ex) {}
+            }
+            
+            if (delayed > 0 || ontime > 0) {
+                if (delayed > 0) {
+                    JSONArray dt = new JSONArray();
+                    dt.put(paramRequest.getLocaleString("lblDelayed")).put(delayed);
+                    statusInfo.put(dt);
+                }
+                if (ontime > 0) {
+                    JSONArray dt = new JSONArray();
+                    dt.put(paramRequest.getLocaleString("lblOntime")).put(ontime);
+                    statusInfo.put(dt);
+                }
+                //request.setAttribute("delayed", delayed);
+                //request.setAttribute("ontime", ontime);
+                try {
+                    data.put("statusData", statusInfo);
+                } catch (JSONException ex) {}
+            }
             
             if (closed > 0) {
-                request.setAttribute("minTime", TimeUnit.MILLISECONDS.toMinutes(minTime));
+                JSONArray dt = new JSONArray();
+                dt.put(paramRequest.getLocaleString("lblMin")).put(TimeUnit.MILLISECONDS.toMinutes(minTime));
+                dt.put(paramRequest.getLocaleString("lblMax")).put(TimeUnit.MILLISECONDS.toMinutes(maxTime));
+                dt.put(paramRequest.getLocaleString("lblAvg")).put(TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));
+                responseInfo.put(dt);
+                
+                try {
+                    data.put("responseData", responseInfo);
+                } catch (JSONException ex) {}
+                /*request.setAttribute("minTime", TimeUnit.MILLISECONDS.toMinutes(minTime));
                 request.setAttribute("maxTime", TimeUnit.MILLISECONDS.toMinutes(maxTime));
-                request.setAttribute("avgTime", TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));
-            } else {
+                request.setAttribute("avgTime", TimeUnit.MILLISECONDS.toMinutes(sumTime/closed));*/
+            }/* else {
                 request.setAttribute("minTime", 0L);
                 request.setAttribute("maxTime", 0L);
                 request.setAttribute("avgTime", 0L);
-            }
+            }*/
         
             //Realizar paginado de instancias
             int maxPages = 1;
@@ -943,7 +1010,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                     JSONArray users = new JSONArray();
                     while (uit.hasNext()) {
                         User key = uit.next();
-                        int value = (Integer) participantCount.get(key);
+                        int value = participantCount.get(key);
                         if (value > max) {
                             max = value;
                             theUser = key;
@@ -959,11 +1026,13 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                     processInfo.put("children", users);
                     processInfo.put("theUser", theUser.getFullName()==null?"Anónimo":theUser.getFullName());
                     
-                    request.setAttribute("participation", processInfo.toString());
+                    data.put("partData", processInfo);
+                    //request.setAttribute("participation", processInfo.toString());
                 } catch (JSONException ex) {
                     log.error("UserTaskInboxResource - Error al generar JSON", ex);
                 }
             }
+            request.setAttribute("processStats", data.toString());
         }
         return instances;
     }
@@ -1113,9 +1182,9 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
      * Obtiene la URL de la página Web asociada a la Bandeja de tareas del sitio.
      * @return URL de la bandeja de tareas o URL del proceso en su defecto.
      */
-    public String getUserTaskInboxUrl(Process process) {
-        String url = process.getProcessSite().getHomePage().getUrl();
-        ResourceType rtype = ResourceType.ClassMgr.getResourceType("ProcessTaskInbox", process.getProcessSite());
+    public String getUserTaskInboxUrl() {
+        String url = getResourceBase().getWebSite().getHomePage().getUrl();
+        ResourceType rtype = ResourceType.ClassMgr.getResourceType("ProcessTaskInbox", getResourceBase().getWebSite());
 
         if (rtype != null) {
             Resource res = rtype.getResource();
