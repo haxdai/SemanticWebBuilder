@@ -37,7 +37,7 @@ if (fni != null) {
     if (isAdmin || owner.equals(user)) {
         UserRepository ur = site.getUserRepository();
         UserTask task = (UserTask) fni.getFlowNodeType();
-        ArrayList<Role> taskRoles = new ArrayList<Role>();
+        ArrayList<Role> taskRoles = new ArrayList<>();
 
         Iterator<RoleRef> refs = task.listRoleRefs();
         while (refs.hasNext()) {
@@ -50,7 +50,7 @@ if (fni != null) {
         if (taskRoles.isEmpty()) {
             tPartners = ur.listUsers();
         } else {
-            ArrayList<User> _users = new ArrayList<User>();
+            ArrayList<User> _users = new ArrayList<>();
             Iterator<Role> tRoles = taskRoles.iterator();
             while (tRoles.hasNext()) {
                 Role role = tRoles.next();
@@ -70,17 +70,21 @@ if (fni != null) {
 SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxResource.MODE_FWD);
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4><%=paramRequest.getLocaleString("actFwd")%></h4>
+            <button type="button" class="close fa fa-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><%=paramRequest.getLocaleString("actFwd")%></h4>
         </div>
         <%if (tPartners != null && tPartners.hasNext()) {%>
             <form method="post" action="<%=forward%>" >
                 <input type="hidden" name="suri" value="<%=suri%>"/>
                 <div class="modal-body">
-                    <label for="pid"><%=paramRequest.getLocaleString("promptFwd")%></label>
-                    <select class="form-control" name="owner">
+                    <div class="row form-group">
+                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-12 swbp-modal-property">
+                        <label for="pid"><%=paramRequest.getLocaleString("promptFwd")%></label>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
+                        <select class="form-control" name="owner">
                         <option value="--"><%=paramRequest.getLocaleString("freeTask")%></option>
                         <%while(tPartners.hasNext()) {
                             User _user = tPartners.next();
@@ -90,12 +94,19 @@ SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxReso
                                 <%
                             }
                         }
-                    %>
-                    </select>
+                        %>
+                        </select>
+                    </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnCancel")%></button>
-                    <button type="submit" class="btn btn-primary"><%=paramRequest.getLocaleString("btnOk")%></button>
+                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                        <span class="fa fa-hand-o-right fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%>
+                    </button>
+                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                        <span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%>
+                    </button>
+                    
                 </div>
             </form>
         <%

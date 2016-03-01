@@ -54,8 +54,10 @@ if (showParticipation) {
 }
 
 if (showInstances) {%>
-    <div class="col-xs-6 col-sm-6 col-md-3">
+    <div class="panel panel-default col-lg-3 col-md-6 col-sm-6 col-xs-12 swbp-tray-chart">
+    <div class="panel-body swbp-tray-body">
         <div id="performanceGraph"></div>
+    </div>
     </div>
 <%}
 if (showResponse) {%>

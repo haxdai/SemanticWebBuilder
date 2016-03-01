@@ -1,4 +1,4 @@
-var color = d3.scale.category10();
+
 
 function loadPageUrl(url, paramName, paramValue) {
     var dest = url;
