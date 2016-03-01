@@ -84,29 +84,6 @@
         }
         return ret;
     }
-
-    /*public String _getStatusInstances(FlowNodeInstance fi, int status) {
-     String ret = "";
-     if (fi instanceof SubProcessInstance) {
-     SubProcessInstance pi = (SubProcessInstance) fi;
-     Iterator<FlowNodeInstance> acit = pi.listFlowNodeInstances();
-     if (acit.hasNext()) {
-     while (acit.hasNext()) {
-     FlowNodeInstance actinst = acit.next();
-     ret += _getStatusInstances(actinst, status);
-     }
-     }
-     } else if (fi.getFlowNodeType() instanceof Activity && fi.getStatus() == status) {
-     Iterator<FlowNodeInstance> fnii = fi.getFlowNodeType().listFlowObjectInstances();
-     int c = 0;
-     while (fnii.hasNext()) {
-     c++;
-     fnii.next();
-     }
-     ret += fi.getFlowNodeType().getURI() + "(" + c + ")|";
-     }
-     return ret;
-     }*/
 %>
 
 <script type="text/javascript">
@@ -122,7 +99,7 @@
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     WebPage statusWp = (WebPage) request.getAttribute("statusWp");
-//WebPage detailWp = (WebPage)request.getAttribute("trackWp");
+
     SWBResourceURL detailURL = paramRequest.getRenderUrl().setMode(ControlPanelResource.MODE_DETAIL);
     User user = paramRequest.getUser();
     WebSite site = paramRequest.getWebPage().getWebSite();
@@ -135,8 +112,6 @@
     String pNum = request.getParameter("p");
     int maxPages = (Integer) request.getAttribute("maxPages");
     int pageNum = 1;
-
-//WebPage detailWp = paramRequest.getWebPage().getWebSite().getWebPage("Seguimiento");
 
     if (user.getLanguage() != null) {
         lang = user.getLanguage();
@@ -161,316 +136,309 @@
     if (sFilter == null || sFilter.trim().equals("")) {
         sFilter = String.valueOf(ProcessInstance.STATUS_PROCESSING);
     }
+    
+    SWBResourceURL filterGroupUrl = paramRequest.getRenderUrl();
+    filterGroupUrl.setParameter("p", String.valueOf(pageNum));
+    filterGroupUrl.setParameter("sF", sFilter);
+    filterGroupUrl.setParameter("sort", sortType);
+    
+    SWBResourceURL filterStatusUrl = paramRequest.getRenderUrl();
+    filterStatusUrl.setParameter("p", String.valueOf(pageNum));
+    filterStatusUrl.setParameter("gF", gFilter);
+    filterStatusUrl.setParameter("sort", sortType);
+    
+    SWBResourceURL filterSort = paramRequest.getRenderUrl();
+    filterSort.setParameter("p", String.valueOf(pageNum));
+    filterSort.setParameter("gF", gFilter);
+    filterSort.setParameter("sF", sFilter);
+    
     ArrayList<ProcessInstance> pinstances = (ArrayList<ProcessInstance>) request.getAttribute("instances");
     if (!user.isSigned()) {
         if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {
-%>
-<div class="alert alert-block alert-danger fade in">
-    <h4><span class="fa fa-ban"></span> <%=paramRequest.getLocaleString("msgNoAccessTitle")%></h4>
-    <p><%=paramRequest.getLocaleString("msgNoAccess")%></p>
-    <p>
-        <a class="btn btn-default" href="/login/<%=site.getId()%>/<%=paramRequest.getWebPage().getId()%>"><%=paramRequest.getLocaleString("btnLogin")%></a>
-    </p>
-</div>
-<%
-    }
-} else {
-    if (paramRequest.getMode().equals(paramRequest.Mode_VIEW)) {
-        SWBResourceURL optsUrl = paramRequest.getRenderUrl();
-%>
-<!--h2><%--paramRequest.getLocaleString("titleMonitor")--%></h2-->
-<div class="row">
-    <div class="pull-right">
-        <ul class="list-unstyled list-inline">
-            <li>
-                <div class="dropdown">
-                    <a class="btn btn-default" data-toggle="dropdown" data-tooltip="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("sortLabel")%>">
-                        <span class="fa fa-sort-amount-asc"></span> <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortDate")%></li>
-                            <%
-                                optsUrl.setParameter("gF", gFilter);
-                                optsUrl.setParameter("sF", sFilter);
-                            %>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "1")%>"><span class="fa fa-sort-numeric-asc"></span> <%=sortType.equals("1") ? "<strong>" : ""%><%=paramRequest.getLocaleString("sortLatest")%><%=sortType.equals("1") ? "</strong>" : ""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "2")%>"><span class="fa fa-sort-numeric-desc"></span> <%=sortType.equals("2") ? "<strong>" : ""%><%=paramRequest.getLocaleString("sortOldest")%><%=sortType.equals("2") ? "</strong>" : ""%></a>
-                        </li>
-                        <li class="divider" role="menuitem"></li>
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortProcess")%></li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "3")%>"><span class="fa fa-sort-alpha-asc"></span> <%=sortType.equals("3") ? "<strong>" : ""%><%=paramRequest.getLocaleString("sortNameAsc")%><%=sortType.equals("3") ? "</strong>" : ""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sort", "4")%>"><span class="fa fa-sort-alpha-desc"></span> <%=sortType.equals("4") ? "<strong>" : ""%><%=paramRequest.getLocaleString("sortNameDes")%><%=sortType.equals("4") ? "</strong>" : ""%></a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <div class="dropdown">
-                    <a class="btn btn-default" data-toggle="dropdown" data-tooltip="tooltip" data-placement="bottom" title="<%=paramRequest.getLocaleString("filteringLabel")%>">
-                        <span class="fa fa-filter"></span> <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class="dropdown-header" role="menuitem"><%=paramRequest.getLocaleString("sortStatus")%></li>
-                            <%
-                                optsUrl = paramRequest.getRenderUrl();
-                                optsUrl.setParameter("sort", sortType);
-                                optsUrl.setParameter("gF", gFilter);
-                            %>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sF", "-1")%>"><span class="fa fa-reorder"></span> <%=sFilter.equals("-1") ? "<strong>" : ""%><%=paramRequest.getLocaleString("allStatus")%><%=sFilter.equals("-1") ? "</strong>" : ""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sF", String.valueOf(FlowNodeInstance.STATUS_PROCESSING))%>"><span class="fa fa-flag-checkered"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING)) ? "<strong>" : ""%><%=paramRequest.getLocaleString("lblProcessing")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_PROCESSING)) ? "</strong>" : ""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sF", String.valueOf(FlowNodeInstance.STATUS_CLOSED))%>"><span class="fa fa-flag"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED)) ? "<strong>" : ""%><%=paramRequest.getLocaleString("lblClosed")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_CLOSED)) ? "</strong>" : ""%></a>
-                        </li>
-                        <li role="menuitem">
-                            <a href="<%=optsUrl.setParameter("sF", String.valueOf(FlowNodeInstance.STATUS_ABORTED))%>"><span class="fa fa-flag-o"></span> <%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED)) ? "<strong>" : ""%><%=paramRequest.getLocaleString("lblAborted")%><%=sFilter.equals(String.valueOf(FlowNodeInstance.STATUS_ABORTED)) ? "</strong>" : ""%></a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <%
-                    optsUrl = paramRequest.getRenderUrl();
-                    optsUrl.setParameter("sort", sortType);
-                    optsUrl.setParameter("sF", sFilter);
-                %>
-                <select class="form-control" onchange="loadPageUrl('<%=optsUrl.toString()%>', 'gF', this.options[this.selectedIndex].value);">
-                    <option value="" <%=gFilter.equals("") ? "selected" : ""%>><%=paramRequest.getLocaleString("allGroups")%></option>
-                    <%
-                        Iterator<ProcessGroup> groups = ProcessGroup.ClassMgr.listProcessGroups(site);
-                        groups = SWBComparator.sortByDisplayName(groups, lang);
-                        while (groups.hasNext()) {
-                            ProcessGroup group = groups.next();
-                            String selected = "";
-                            if (gFilter.equals(group.getId())) {
-                                selected = "selected";
-                            }
-                    %>
-                    <option value="<%=group.getId()%>" <%=selected%>><%=group.getDisplayTitle(lang)%></option>
-                    <%
-                        }
-                    %>
-                </select>
-            </li>
-        </ul>
-    </div>
-</div>
-<%
-    if (pinstances != null && !pinstances.isEmpty()) {
-%>
-<div class="table-responsive">
-    <table class="table table-hover swbp-table">
-        <thead>
-            <tr>
-                <%
-                    if (displayCols.contains("idCol")) {
-                %><th><%=paramRequest.getLocaleString("lblColID")%></th><%
-                        }
-                        if (displayCols.contains("priorityCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColPriority")%></th><%
-                        }
-                        if (displayCols.contains("nameCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColProcessName")%></th><%
-                        }
-                        if (displayCols.contains("sdateCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColStarted")%></th><%
-                        }
-                        if (displayCols.contains("edateCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColEnded")%></th><%
-                        }
-                        if (displayCols.contains("pendingCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColActivities")%></th><%
-                        }
-                        if (displayCols.contains("rolesCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColRoles")%></th><%
-                        }
-                        if (displayCols.contains("actionsCol")) {
-                    %><th><%=paramRequest.getLocaleString("lblColActions")%></th><%
-                        }
-                    %>
-            </tr>
-        </thead>
-        <tbody>
-            <%
-                Iterator<ProcessInstance> instances = pinstances.iterator();
-                while (instances.hasNext()) {
-                    ProcessInstance instance = instances.next();
-                    String Id = instance.getId();
-                    String pName = instance.getProcessType().getDisplayTitle(lang);
-                    String pCreated = SWBUtils.TEXT.getStrDate(instance.getCreated(), lang, "dd/mm/yy - hh:%m");
-                    String pClosed = "--";
-
-                    if (instance.getStatus() == ProcessInstance.STATUS_CLOSED) {
-                        pClosed = SWBUtils.TEXT.getStrDate(instance.getEnded(), lang, "dd/mm/yy - hh:%m");
-                    }
             %>
-            <tr>
-                <%
-                    if (displayCols.contains("idCol")) {
-                %><td><%=Id%></td><%
-                        }
-                        if (displayCols.contains("priorityCol")) {
-                %><td><%=instance.getPriority()%></td><%
-                        }
-                        if (displayCols.contains("nameCol")) {
-                %><td><%=pName%></td><%
-                        }
-                        if (displayCols.contains("sdateCol")) {
-                %><td><%=pCreated%></td><%
-                        }
-                        if (displayCols.contains("edateCol")) {
-                %><td><%=pClosed%></td><%
-                        }
-                        if (displayCols.contains("pendingCol")) {
-                %>
-                <td>
-                    <%
-                        Iterator<FlowNodeInstance> tasks = instance.listFlowNodeInstances();
-                        if (tasks.hasNext() && instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
-                            boolean hasTasks = false;
-                    %>
-                    <ul>
-                        <%
-                            while (tasks.hasNext()) {
-                                FlowNodeInstance task = tasks.next();
-                                if (task.getFlowNodeType() instanceof UserTask) {
-                                    if (task.getStatus() == task.STATUS_PROCESSING) {
-                                        hasTasks = true;
-                        %>
-                        <b><%=task.getFlowNodeType().getDisplayTitle(lang)%></b><br/>
-                        <%
-                                    }
-                                }
-                            }
-                            if (!hasTasks) {
-                        %>--<%                                                    }
-                        %>
-                    </ul>
-                    <%
-                    } else {
-                    %>--<%                                            }
-                    %>
-                </td>
-                <%
-                    }
-                    if (displayCols.contains("rolesCol")) {
-                %>
-                <td>
-                    <%
-                        Iterator<FlowNodeInstance> tasks = instance.listFlowNodeInstances();
-                        if (tasks.hasNext() && instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
-                            boolean hasTasks = false;
-                    %>
-                    <ul>
-                        <%
-                            while (tasks.hasNext()) {
-                                FlowNodeInstance task = tasks.next();
-                                if (task.getFlowNodeType() instanceof UserTask) {
-                                    if (task.getStatus() == task.STATUS_PROCESSING) {
-                                        hasTasks = true;
-                                        UserTask utask = (UserTask) task.getFlowNodeType();
-                                        Iterator<RoleRef> roles = utask.listRoleRefs();
-                                        while (roles.hasNext()) {
-                                            RoleRef roleRef = roles.next();
-                                            String role = roleRef.getRole().getDisplayTitle(lang);
-                        %>
-                        <li>
-                            <b><%=role%></b>
-                        </li>
-                        <%
-                                        }
-                                    }
-                                }
-                            }
-                            if (!hasTasks) {
-                        %>--<%                                                    }
-                        %>
-                    </ul>
-                    <%
-                    } else {
-                    %>--<%                                            }
-                    %>
-                </td>
-                <%
-                    }
-                    if (displayCols.contains("actionsCol")) {
-                %>
-                <td>
-                    <%
-                        String acts = getStatusInstances(instance, ProcessInstance.STATUS_PROCESSING);
-                        if (acts != null && !acts.trim().equals("")) {
-                            acts = "&currentActivities=" + URLEncoder.encode(acts);
-                        }
-
-                        if (statusWp != null) {
-                    %>
-                    <a href="<%=statusWp.getUrl()%>?suri=<%=instance.getProcessInstance().getProcessType().getEncodedURI()%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actMap")%>"><span class="fa fa-sitemap fa-rotate-270"></span></a>
-                        <%
-                            }
-                        %>
-                    <a href="<%=detailURL.setParameter("suri", instance.getProcessType().getURI())%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actDetail")%>"><span class="fa fa-bar-chart-o"></span></a>
-                        <%
-                            Role processAdmRole = instance.getProcessType().getAdministrationRole();
-                            if (processAdmRole != null && user.hasRole(processAdmRole)) {
-                                SWBResourceURL delUrl = paramRequest.getActionUrl().setAction(paramRequest.Action_REMOVE);
-                                delUrl.setParameter("pid", instance.getId());
-                        %>
-                    <a class="acc-eliminar" href="<%=delUrl%>" onclick ="if (!confirm('¿Seguro que desea eliminar la instancia del proceso con ID <%=instance.getId()%>?'))
-            return false;">Eliminar</a>
-                    <%
-                        }
-
-                        SWBResourceURL docsUrl = paramRequest.getRenderUrl().setMode("showFiles");
-                        docsUrl.setParameter("pid", instance.getId());
-                        docsUrl.setParameter("gF", request.getParameter("gF"));
-                        docsUrl.setParameter("sF", request.getParameter("sF"));
-                        docsUrl.setParameter("sort", request.getParameter("sort"));
-                    %>
-                    <a href="<%=docsUrl%>" class="btn btn-default" title="<%=paramRequest.getLocaleString("actDocs")%>"><span class="fa fa-folder-open-o"></span></a>
-                </td>
-                <%
-                    }
-                %>
-            </tr>
+            <div class="alert alert-block alert-danger fade in">
+                <h4><span class="fa fa-ban"></span> <%=paramRequest.getLocaleString("msgNoAccessTitle")%></h4>
+                <p><%=paramRequest.getLocaleString("msgNoAccess")%></p>
+                <p>
+                    <a class="btn btn-default" href="/login/<%=site.getId()%>/<%=paramRequest.getWebPage().getId()%>"><%=paramRequest.getLocaleString("btnLogin")%></a>
+                </p>
+            </div>
             <%
-                }
-            %>
-        </tbody>
-    </table>
-</div>
-<%
-    String sort = request.getParameter("sort");
-    if (sort != null && sort.length() > 0) {
-        sort = "sort|" + sort;
+        }
     } else {
-        sort = "";
-    }
-    String p1 = sFilter.length() > 0 ? ("sF|"+sFilter) : "";
-    String p2 = gFilter.length() > 0 ? ("gF|"+gFilter) : "";
-%>
-<jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
-    <jsp:param name="navUrlParams" value="<%=sort%>"/>
-    <jsp:param name="navUrlParams" value="<%=p1%>"/>
-    <jsp:param name="navUrlParams" value="<%=p2%>"/>
-    <jsp:param name="showPageOfPage" value="true"/>
-</jsp:include>                           
-<%
-} else {
-%>
-<div class="alert alert-warning">
-    <p><%=paramRequest.getLocaleString("msgNoInfo")%></p>
-</div>
-<%
-            }
+        if (paramRequest.getMode().equals(paramRequest.Mode_VIEW)) {
+            %>
+            <div class="row swbp-pad">&nbsp;</div>
+            <div class="row form-group swbp-filters">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
+                    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+                        <label for="">Mostrar:</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+                        <select id="groupSelect" class="form-control">
+                            <option value="-1" <%=gFilter.equals("") ? "selected" : ""%>><%=paramRequest.getLocaleString("allGroups")%></option>
+                            <%
+                            Iterator<ProcessGroup> groups = ProcessGroup.ClassMgr.listProcessGroups(site);
+                            groups = SWBComparator.sortByDisplayName(groups, lang);
+                            while (groups.hasNext()) {
+                                ProcessGroup group = groups.next();
+                                String selected = gFilter.equals(group.getId()) ? "selected" : "";
+                                %>
+                                <option value="<%=group.getId()%>" <%=selected%>><%=group.getDisplayTitle(lang)%></option>
+                                <%
+                            }
+                            %>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+                        <label for="">Ordenar:</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+                         <select id="sortSelect" class="form-control">
+                             <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortDate")%>">
+                                 <option value="1" <%= sortType.equals("1")?"selected":"" %>><%=paramRequest.getLocaleString("sortLatest")%></option>
+                                <option value="2" <%= sortType.equals("2")?"selected":"" %>><%=paramRequest.getLocaleString("sortOldest")%></option>
+                            </optgroup>
+                            <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortProcess")%>">  
+                                <option value="3" <%= sortType.equals("3")?"selected":"" %>><%=paramRequest.getLocaleString("sortNameAsc")%></option>
+                                <option value="4" <%= sortType.equals("4")?"selected":"" %>><%=paramRequest.getLocaleString("sortNameDes")%></option>
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
+                    <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
+                        <label for="">Filtrar:</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding dropdown">
+                        <select id="statusSelect" class="form-control">
+                            <option value="-1" <%= sFilter.equals("-1")?"selected":"" %>><%=paramRequest.getLocaleString("allStatus")%></option>
+                            <option value="1" <%= sFilter.equals("1")?"selected":"" %>><%=paramRequest.getLocaleString("lblProcessing")%></option>
+                            <option value="4" <%= sFilter.equals("4")?"selected":"" %>><%=paramRequest.getLocaleString("lblClosed")%></option>
+                            <option value="3" <%= sFilter.equals("3")?"selected":"" %>><%=paramRequest.getLocaleString("lblAborted")%></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default swbp-panel-head hidden-margin">
+                <div class="panel-heading text-center">Instancias de procesos</div>
+                <%
+                if (null != pinstances && !pinstances.isEmpty()) {
+                    %>
+                    <div class="panel-body swbp-panel-body-card swbp-tray-body-panel">
+                        <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <%
+                                        if (displayCols.contains("idCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColID")%></th><%
+                                        }
+                                        if (displayCols.contains("priorityCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColPriority")%></th><%
+                                        }
+                                        if (displayCols.contains("nameCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColProcessName")%></th><%
+                                        }
+                                        if (displayCols.contains("sdateCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColStarted")%></th><%
+                                        }
+                                        if (displayCols.contains("edateCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColEnded")%></th><%
+                                        }
+                                        if (displayCols.contains("pendingCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColActivities")%></th><%
+                                        }
+                                        if (displayCols.contains("rolesCol")) {
+                                            %><th><%=paramRequest.getLocaleString("lblColRoles")%></th><%
+                                        }
+                                        if (displayCols.contains("actionsCol")) {
+                                            %><th class="swbp-actions"><%=paramRequest.getLocaleString("lblColActions")%></th><%
+                                        }
+                                        %>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <%
+                                    Iterator<ProcessInstance> instances = pinstances.iterator();
+                                    while (instances.hasNext()) {
+                                        ProcessInstance instance = instances.next();
+                                        String Id = instance.getId();
+                                        String pName = instance.getProcessType().getDisplayTitle(lang);
+                                        String pCreated = SWBUtils.TEXT.iso8601DateFormat(instance.getCreated());//getStrDate(instance.getCreated(), lang, "dd/mm/yy - hh:%m");
+                                        String pClosed = "";
+
+                                        if (instance.getStatus() == ProcessInstance.STATUS_CLOSED) {
+                                            pClosed = SWBUtils.TEXT.iso8601DateFormat(instance.getEnded());//getStrDate(instance.getEnded(), lang, "dd/mm/yy - hh:%m");
+                                        }
+                                        %>
+                                        <tr>
+                                            <%
+                                            if (displayCols.contains("idCol")) {
+                                                %><td data-title="<%=paramRequest.getLocaleString("lblColID")%>"><%=Id%></td><%
+                                            }
+                                            if (displayCols.contains("priorityCol")) {
+                                                %><td data-title="<%=paramRequest.getLocaleString("lblColPriority")%>"><%=instance.getPriority()%></td><%
+                                            }
+                                            if (displayCols.contains("nameCol")) {
+                                                %><td data-title="<%=paramRequest.getLocaleString("lblColProcessName")%>"><%=pName%></td><%
+                                            }
+                                            if (displayCols.contains("sdateCol")) {
+                                                %><td data-title="<%=paramRequest.getLocaleString("lblColStarted")%>"><%=pCreated%></td><%
+                                            }
+                                            if (displayCols.contains("edateCol")) {
+                                                %><td data-title="<%=paramRequest.getLocaleString("lblColEnded")%>"><%=pClosed%></td><%
+                                            }
+                                            if (displayCols.contains("pendingCol")) {
+                                                %>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblColActivities")%>">
+                                                    <%
+                                                    Iterator<FlowNodeInstance> tasks = instance.listFlowNodeInstances();
+                                                    if (tasks.hasNext() && instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
+                                                        %>
+                                                        <ul>
+                                                            <%
+                                                            while (tasks.hasNext()) {
+                                                                FlowNodeInstance task = tasks.next();
+                                                                if (task.getFlowNodeType() instanceof UserTask) {
+                                                                    if (task.getStatus() == task.STATUS_PROCESSING) {
+                                                                        %>
+                                                                        <b><%=task.getFlowNodeType().getDisplayTitle(lang)%></b><br/>
+                                                                        <%
+                                                                    }
+                                                                }
+                                                            }
+                                                            %>
+                                                        </ul>
+                                                        <%
+                                                    }
+                                                    %>
+                                                </td>
+                                                <%
+                                            }
+                                            if (displayCols.contains("rolesCol")) {
+                                                %>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblColRoles")%>">
+                                                    <%
+                                                    Iterator<FlowNodeInstance> tasks = instance.listFlowNodeInstances();
+                                                    if (tasks.hasNext() && instance.getStatus() == ProcessInstance.STATUS_PROCESSING) {
+                                                        %>
+                                                        <ul>
+                                                            <%
+                                                            while (tasks.hasNext()) {
+                                                                FlowNodeInstance task = tasks.next();
+                                                                if (task.getFlowNodeType() instanceof UserTask) {
+                                                                    if (task.getStatus() == task.STATUS_PROCESSING) {
+                                                                        UserTask utask = (UserTask) task.getFlowNodeType();
+                                                                        Iterator<RoleRef> roles = utask.listRoleRefs();
+                                                                        while (roles.hasNext()) {
+                                                                            RoleRef roleRef = roles.next();
+                                                                            String role = roleRef.getRole().getDisplayTitle(lang);
+                                                                            %>
+                                                                            <li>
+                                                                                <b><%=role%></b>
+                                                                            </li>
+                                                                            <%
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                            %>
+                                                        </ul>
+                                                        <%
+                                                    }
+                                                    %>
+                                                </td>
+                                                <%
+                                            }
+                                            if (displayCols.contains("actionsCol")) {
+                                                %>
+                                                <td class="swbp-action-table">
+                                                    <%
+                                                    String acts = getStatusInstances(instance, ProcessInstance.STATUS_PROCESSING);
+                                                    if (acts != null && !acts.trim().equals("")) {
+                                                        acts = "&currentActivities=" + URLEncoder.encode(acts);
+                                                    }
+
+                                                    if (statusWp != null) {
+                                                        %>
+                                                        <a href="<%=statusWp.getUrl()%>?suri=<%=instance.getProcessInstance().getProcessType().getEncodedURI()%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("actMap")%>"><span class="fa fa-sitemap fa-rotate-270"></span></a>
+                                                        <%
+                                                    }
+                                                    %>
+                                                    <a href="<%=detailURL.setParameter("suriInstance", instance.getProcessInstance().getURI()).setParameter("suri", instance.getProcessType().getURI())%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("actDetail")%>"><span class="fa fa-bar-chart-o"></span></a>
+                                                    <%
+                                                    SWBResourceURL docsUrl = paramRequest.getRenderUrl().setMode("showFiles");
+                                                    docsUrl.setParameter("pid", instance.getId());
+                                                    docsUrl.setParameter("gF", request.getParameter("gF"));
+                                                    docsUrl.setParameter("sF", request.getParameter("sF"));
+                                                    docsUrl.setParameter("sort", request.getParameter("sort"));
+                                                    %>
+                                                    <!--a href="<%=docsUrl%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("actDocs")%>"><span class="fa fa-folder-open-o"></span></a-->
+                                                </td>
+                                                <%
+                                            }
+                                            %>
+                                        </tr>
+                                        <%
+                                    }
+                                    %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <%
+                    String sort = request.getParameter("sort");
+                    if (sort != null && sort.length() > 0) {
+                        sort = "sort|" + sort;
+                    } else {
+                        sort = "";
+                    }
+                    String p1 = sFilter.length() > 0 ? ("sF|"+sFilter) : "";
+                    String p2 = gFilter.length() > 0 ? ("gF|"+gFilter) : "";
+                    %>
+                    <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
+                        <jsp:param name="navUrlParams" value="<%=sort%>"/>
+                        <jsp:param name="navUrlParams" value="<%=p1%>"/>
+                        <jsp:param name="navUrlParams" value="<%=p2%>"/>
+                        <jsp:param name="showPageOfPage" value="true"/>
+                    </jsp:include>                           
+                    <%
+                } else {
+                    %>
+                    <div class="alert alert-warning">
+                        <p><%=paramRequest.getLocaleString("msgNoInfo")%></p>
+                    </div>
+                    <%
+                }
+                %>
+            </div>
+            <script>
+                (function() {
+                    $(document).ready(function(){
+                        var e = document.getElementById("groupSelect");
+                        var e2 = document.getElementById("sortSelect");
+                        var e3 = document.getElementById("statusSelect");
+                        e.addEventListener("change", function(ev) {
+                            var g = (ev.target && ev.target.options[ev.target.selectedIndex].value) || "";
+                            window.location = '<%= filterGroupUrl %>&gF='+g;
+                        });
+
+                        e2.addEventListener("change", function(ev) {
+                            var g = (ev.target && ev.target.options[ev.target.selectedIndex].value) || "";
+                            window.location = '<%= filterSort %>&sort='+g;
+                        });
+
+                        e3.addEventListener("change", function(ev) {
+                            var g = (ev.target && ev.target.options[ev.target.selectedIndex].value) || "";
+                            window.location = '<%= filterStatusUrl %>&sF='+g;
+                        });
+                    });
+                })();
+            </script>
+            <%
         }
     }
 %>
