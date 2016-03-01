@@ -19,7 +19,6 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,11 +31,12 @@ import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.DisplayProperty;
-import org.semanticwb.model.FormElement;
 import org.semanticwb.model.Resource;
+import org.semanticwb.model.ResourceType;
+import org.semanticwb.model.Resourceable;
 import org.semanticwb.model.SWBClass;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebSite;
+import org.semanticwb.model.WebPage;
 import org.semanticwb.platform.*;
 import org.semanticwb.portal.SWBFormMgr;
 import org.semanticwb.portal.SWBForms;
@@ -47,7 +47,6 @@ import org.semanticwb.portal.api.SWBParameters;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.portal.util.Base64;
-import org.semanticwb.process.forms.SWBFormMgrLayer;
 import org.semanticwb.process.model.DataTypes;
 import org.semanticwb.process.model.FlowNodeInstance;
 import org.semanticwb.process.model.Instance;
@@ -84,6 +83,7 @@ public class ProcessForm extends GenericResource {
     public static final String ATT_RBASE = "rbase";
     public static final String ATT_PROPMAP = "propMap";
     public static final String ATT_CLASSMAP = "classMap";
+    public static final String PARAM_SURI = "suri";
     public static final String ATT_USERVARS = "userDefinedVars";
     public static final String ACT_TOGGLEBUTTON = "toggleBut";
     public static final String ACT_ADDPROPS = "addProps";
@@ -230,8 +230,8 @@ public class ProcessForm extends GenericResource {
                 String[] props = request.getParameterValues("properties");
                 HashMap<String, String> hmparam = new HashMap<String, String>();
                 if (props != null && props.length > 0) {
-                    for (int j = 0; j < props.length; j++) {
-                        hmparam.put(props[j], props[j]);
+                    for (String prop : props) {
+                        hmparam.put(prop, prop);
                     }
                 }
 
@@ -245,7 +245,7 @@ public class ProcessForm extends GenericResource {
                     String propKey = propMap.get("varName") +"|"+ propMap.get("propId");
                     
                     if (allprops.containsKey(propKey)) {
-                        hmprops.put(new Integer(j++), val);
+                        hmprops.put(j++, val);
                         if (hmparam.containsKey(propKey)) {
                             hmparam.remove(propKey);
                         }
@@ -289,7 +289,7 @@ public class ProcessForm extends GenericResource {
                     }
 
                     String value = strnew + "|" + defaultMode + "|" + defaultFE + "|" + defaultLabel + "|" + defaultRoles;
-                    hmprops.put(new Integer(j), value);
+                    hmprops.put(j, value);
                     j++;
                 }
 
@@ -450,7 +450,7 @@ public class ProcessForm extends GenericResource {
             File xmlFile = new File(basepath);
             if (xmlFile.exists()) {
                 try {
-                    String value = null;
+                    String value;
                     if (request.getParameter("hiddencode") != null && request.getParameter("hiddencode").trim().length() > 0) {
                         value = request.getParameter("hiddencode");
                     } else {
@@ -482,7 +482,7 @@ public class ProcessForm extends GenericResource {
             //System.out.println("appletValue:"+appletHidden);
             try {
                 CertificateFactory cf = CertificateFactory.getInstance("X.509");
-                if(user.getExternalID()!=null)
+                if(null != user && null != user.getExternalID())
                 {
                     //System.out.println("user.getExternalID():"+user.getExternalID());
                     Iterator<SemanticObject>it = foi.getProcessSite().getSemanticModel().listSubjects(X509Certificate.swp_X509Serial, user.getExternalID()); //TODO: Modificar Búsqueda
@@ -756,7 +756,21 @@ public class ProcessForm extends GenericResource {
 
     @Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-        PrintWriter out = response.getWriter();
+        String jsp = SWBPlatform.getContextPath()+"/swbadmin/jsp/process/formsBuilder/render.jsp";
+        
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        try {
+            request.setAttribute(ATT_PARAMREQUEST, paramRequest);
+            request.setAttribute(ATT_RBASE, this);
+            if (getResourceBase().getResourceable() instanceof UserTask) {
+                request.setAttribute(ATT_TASK, (UserTask)getResourceBase().getResourceable());
+            }
+            rd.include(request, response);
+        } catch (Exception ex) {
+            log.error("FormsBuilderResource - Error including render.jsp", ex);
+        }
+        
+        /*PrintWriter out = response.getWriter();
         String lang = paramRequest.getUser().getLanguage();
         String suri = request.getParameter("suri");
         StringBuilder ret = new StringBuilder("");
@@ -804,9 +818,9 @@ public class ProcessForm extends GenericResource {
             //}
         }
 
-        SWBProcessFormMgr mgr = new SWBProcessFormMgr(foi);
-        mgr.setAction(paramRequest.getActionUrl().setAction(ACT_PROCESS).toString());
-        mgr.clearProperties();
+        //SWBProcessFormMgr mgr = new SWBProcessFormMgr(foi);
+        //mgr.setAction(paramRequest.getActionUrl().setAction(ACT_PROCESS).toString());
+        //mgr.clearProperties();
 
         HashMap<String, SemanticClass> hmclass = new HashMap<String, SemanticClass>();
         HashMap<String, SemanticProperty> hmprops = new HashMap<String, SemanticProperty>();
@@ -885,10 +899,10 @@ public class ProcessForm extends GenericResource {
 //                        
 //                        if (canUserView) {
                             if (FE_MODE_VIEW.equals(propsMap.get("mode"))) {
-                                mgr.addProperty(semprop, propsMap.get("varName"), SWBFormMgr.MODE_VIEW);
+                                //mgr.addProperty(semprop, propsMap.get("varName"), SWBFormMgr.MODE_VIEW);
                                 strMode = SWBFormMgr.MODE_VIEW;
                             } else if (FE_MODE_EDIT.equals(propsMap.get("mode"))) {
-                                mgr.addProperty(semprop, propsMap.get("varName"), SWBFormMgr.MODE_EDIT);
+                                //mgr.addProperty(semprop, propsMap.get("varName"), SWBFormMgr.MODE_EDIT);
                                 strMode = SWBFormMgr.MODE_VIEW;
                             }
 
@@ -980,7 +994,7 @@ public class ProcessForm extends GenericResource {
                 }
             }
             out.println(ret.toString());
-        }
+        }*/
     }
     
     public void doConfig(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
@@ -1014,7 +1028,7 @@ public class ProcessForm extends GenericResource {
         ret.append("\n</optgroup>");
 
         HashMap<String, SemanticClass> hmscfe = new HashMap<String, SemanticClass>();
-        HashMap<String, SemanticObject> hmso = null;
+        HashMap<String, SemanticObject> hmso;
 
         //Property prop=SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty(SemanticVocabulary.SWB_ANNOT_FORMELEMENTRANGE).getRDFProperty();
         SemanticProperty pro = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty(SemanticVocabulary.SWB_ANNOT_FORMELEMENTRANGE);
@@ -1082,7 +1096,7 @@ public class ProcessForm extends GenericResource {
                 String stmp = FEsel + "edit|" + sofe.getURI();
                 String stmp2 = FEsel + "view|" + sofe.getURI();
                 String data = paramRequest.getResourceBase().getData(paramRequest.getWebPage());
-                if (FEsel != null && !FEsel.equals("") && (data != null && (data.indexOf(stmp) > -1 || data.indexOf(stmp2) > -1) || FEsel.equals(sofe.getURI()))) {
+                if (FEsel != null && !FEsel.equals("") && (data != null && (data.contains(stmp) || data.contains(stmp2)) || FEsel.equals(sofe.getURI()))) {
                     ret.append(" selected ");
                 }
                 ret.append(">");
@@ -1458,4 +1472,24 @@ public class ProcessForm extends GenericResource {
         }
         return ret;
     }
+    
+    /**
+     * Obtiene la URL de la página Web asociada a la Bandeja de tareas del sitio.
+     * @return URL de la bandeja de tareas o URL del proceso en su defecto.
+     */
+    public String getUserTaskInboxUrl() {
+        String url = getResourceBase().getWebSite().getHomePage().getUrl();
+        ResourceType rtype = ResourceType.ClassMgr.getResourceType("ProcessTaskInbox", getResourceBase().getWebSite());
+
+        if (rtype != null) {
+            Resource res = rtype.getResource();
+            if(res != null) {
+                Resourceable resable = res.getResourceable();
+                if(resable instanceof WebPage) {
+                    url = ((WebPage)resable).getUrl();
+                }
+            }
+        }
+        return url;
+    }            
 }
