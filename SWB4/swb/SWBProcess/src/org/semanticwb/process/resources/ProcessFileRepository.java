@@ -22,9 +22,9 @@
  */
 package org.semanticwb.process.resources;
 
-import java.io.ByteArrayInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -33,9 +33,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
@@ -78,6 +83,7 @@ public class ProcessFileRepository extends GenericResource {
     public static final String MODE_ADDFOLDER = "addFolder";
     public static final String MODE_EDITFOLDER = "editFolder";
     public static final String MODE_HISTORY = "versionHistory";
+    public static final String MODE_RESPONSE = "m_response";
     public static final String ACT_NEWFILE = "newfile";
     public static final String ACT_NEWFOLDER = "newfolder";
     public static final String ACT_EDITFOLDER = "updateFolder";
@@ -103,6 +109,8 @@ public class ProcessFileRepository extends GenericResource {
             doAddFolder(request, response, paramRequest);
         } else if (MODE_EDITFOLDER.equals(mode)) {
             doEditFolder(request, response, paramRequest);
+        } else if (MODE_RESPONSE.equals(mode)) {
+            doResponse(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -122,6 +130,7 @@ public class ProcessFileRepository extends GenericResource {
     }
     
     public void doAddFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         String jsp = "/swbadmin/jsp/process/repository/repositoryAddFile.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         try {
@@ -134,6 +143,7 @@ public class ProcessFileRepository extends GenericResource {
     }
     
     public void doAddFolder(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         String jsp = "/swbadmin/jsp/process/repository/repositoryAddFolder.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         try {
@@ -145,10 +155,10 @@ public class ProcessFileRepository extends GenericResource {
     }
     
    public void doEditFolder(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=UTF-8");
         String jsp = "/swbadmin/jsp/process/repository/repositoryEditFolder.jsp";
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         
-        response.setContentType("text/html; charset=UTF-8");
         try {
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
@@ -208,12 +218,27 @@ public class ProcessFileRepository extends GenericResource {
             log.error("Error including view.jsp", ex);
         }
     }
+    
+    public void doResponse(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Map params = request.getParameterMap();
+        Iterator<String> keys = params.keySet().iterator();
+        
+        out.print("{");
+        while(keys.hasNext()) {
+            String key = keys.next();
+            String val = request.getParameter(key);
+            out.print("\""+key+"\":\""+val+"\"");
+            if (keys.hasNext()) out.print(",");
+        }
+        out.print("}");
+    }
 
     public void doGetFile(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-        User user = paramRequest.getUser();
         String fid = request.getParameter("fid");
         String verNumber = request.getParameter("verNum");
         int intVer = 1;
@@ -481,23 +506,54 @@ public class ProcessFileRepository extends GenericResource {
 
         SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         if (ACT_NEWFILE.equals(action)) {
-            org.semanticwb.portal.util.FileUpload fup = new org.semanticwb.portal.util.FileUpload();
-            fup.getFiles(request, null);
-            String fname = fup.getFileName("ffile");
-            String ftitle = fup.getValue("ftitle");
-            String fdescription = fup.getValue("fdescription");
-            String fcomment = fup.getValue("fcomment");
-            String hftype = fup.getValue("hftype");
-            String extfile = fup.getValue("extfile");
+            boolean isMultiPart = ServletFileUpload.isMultipartContent(request);
+            HashMap<String, Object> params = new HashMap<String, Object>();
+            InputStream file = null;
+            
+            if (isMultiPart) {
 
-            String fid = fup.getValue("fid");
-            String newVersion = fup.getValue("newVersion");
-            String repoEleStat = fup.getValue("itemAwStatus");
+                try {
+                    List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
+                    for (FileItem item : items) {
+                        if (item.isFormField()) {
+                            String name = item.getFieldName();
+                            String val = item.getString();
+                            params.put(name, val);
+                        } else {
+                            file = item.getInputStream();
+                            params.put("ffile",item.getName());
+                        }
+                    }
+                } catch (FileUploadException fue) {
+                    log.error("Error processing file upload", fue);
+                }
+            } else {
+                params.put("ffile", request.getParameter("ffile"));
+                params.put("ftitle", request.getParameter("ftitle"));
+                params.put("fdescription", request.getParameter("fdescription"));
+                params.put("fcomment", request.getParameter("fcomment"));
+                params.put("hftype", request.getParameter("hftype"));
+                params.put("extfile", request.getParameter("extfile"));
+                params.put("newVersion", request.getParameter("newVersion"));
+                params.put("fid", request.getParameter("fid"));
+                params.put("itemAwStatus", request.getParameter("itemAwStatus"));
+            }
+            
+            String fid = (String)params.get("fid");
+            String extfile = (String)params.get("extfile");
+            String newVersion = (String) params.get("newVersion");
+            String repoEleStat = (String) params.get("itemAwStatus");
+            String hftype = (String) params.get("hftype");
+            String ftitle = (String) params.get("ftitle");
+            String fdescription = (String) params.get("fdescription");
+            String fcomment = (String) params.get("fcomment");
+            
+            String fname = "";
+            if (null != file) fname = (String)params.get("ffile");
             
             GenericObject go = null;
             RepositoryDirectory repoDir = (RepositoryDirectory) response.getWebPage();
-            if (hftype != null && hftype.equals("file")) {
-                byte[] bcont = fup.getFileData("ffile");
+            if (hftype != null && hftype.equals("file") && null != file) {
 
                 RepositoryFile repoFile = null;
                 boolean incremento = Boolean.FALSE;
@@ -517,22 +573,9 @@ public class ProcessFileRepository extends GenericResource {
                 User usr = response.getUser();
 
                 repoFile.setOwnerUserGroup(usr.getUserGroup());
-
-                //System.out.println("fname: "+fname);
-                if (fname.indexOf("\\") != -1) {
-                    fname = fname.substring(fname.lastIndexOf("\\") + 1);
-                } else if (fname.indexOf("/") != -1) {
-                    fname = fname.substring(fname.lastIndexOf("/") + 1);
-                }
-                //Replace special characters in file name to avoid 404 when linking directly to file
-                if (fname.lastIndexOf(".") > -1) {
-                    String tfname = fname.substring(0, fname.lastIndexOf("."));
-                    String tfext = fname.substring(fname.lastIndexOf("."), fname.length());
-                    
-                    fname = SWBUtils.TEXT.replaceSpecialCharacters(tfname, true) + tfext;
-                }
                 
-                repoFile.storeFile(fname, new ByteArrayInputStream(bcont), fcomment, incremento, repoEleStat);
+                repoFile.storeFile(file, fname, fcomment, repoEleStat, incremento);
+                response.setRenderParameter("status", "ok");
             } else {
                 RepositoryURL repoUrl = null;
                 boolean incremento = Boolean.FALSE;
@@ -553,8 +596,10 @@ public class ProcessFileRepository extends GenericResource {
 
                 repoUrl.setOwnerUserGroup(usr.getUserGroup());
                 repoUrl.storeFile(extfile.startsWith("http://")?extfile:"http://"+extfile, fcomment, incremento, repoEleStat);
+                response.setRenderParameter("status", "ok");
             }
-            response.setMode(SWBParamRequest.Mode_VIEW);
+            response.setCallMethod(SWBResourceURL.Call_DIRECT);
+            response.setMode(MODE_RESPONSE);
         } else if ("removefile".equals(action)) {
             String fid = request.getParameter("fid");
 
@@ -639,8 +684,9 @@ public class ProcessFileRepository extends GenericResource {
                         }
                     }//--EHSP25082015
                 }
+                response.setRenderParameter("status", "ok");
             }
-            response.setMode(SWBParamRequest.Mode_VIEW);
+            response.setMode(MODE_RESPONSE);
         }
         else if(ACT_EDITFOLDER.equals(action)){
             String fid = request.getParameter("fid");
@@ -648,9 +694,9 @@ public class ProcessFileRepository extends GenericResource {
             RepositoryDirectory rd = RepositoryDirectory.ClassMgr.getRepositoryDirectory(fid, site);
             if (null != rd && null != newTitle && !newTitle.isEmpty()) {
                 rd.setTitle(newTitle);
+                response.setRenderParameter("status", "ok");
             }
-            response.setMode(SWBParamRequest.Mode_VIEW);      
-            
+            response.setMode(MODE_RESPONSE);
         }else {
             super.processAction(request, response);
         }
