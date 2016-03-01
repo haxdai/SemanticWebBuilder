@@ -53,8 +53,6 @@ public class TransformRepositoryFile extends org.semanticwb.process.model.base.T
         String filePath=SWBPortal.getWorkPath()+this.getFileTemplate().getWorkPath()+"/"+this.getFileTemplate().getFileName();
         XDocReport rep=new XDocReport(this.getNodeName(), filePath);
 
-        //rep.addContextList("", null, null);
-
         rep.addContextObject("instance", instance);
         rep.addContextObject("user", user);
 
@@ -65,15 +63,11 @@ public class TransformRepositoryFile extends org.semanticwb.process.model.base.T
             SemanticObject object=item.getProcessObject().getSemanticObject();
             try
             {
-                //System.out.println("Cargando clase "+className+" ...");
                 Class clazz=SWBPClassMgr.getClassDefinition(object.getSemanticClass());
-                //System.out.println("Obteniendo constructor...");
                 Constructor c=clazz.getConstructor(SemanticObject.class);
-                //System.out.println("Instanciando objeto...");
+                
                 Object instanceObject=c.newInstance(object);
-                //System.out.println("Agregando variable "+varname+"="+instanceObject+" de tipo "+instanceObject.getClass());
                 rep.addContextObject(varname, instanceObject);
-                //System.out.println("Variable "+ varname +" agregada");
             }
             catch(Exception cnfe)
             {
@@ -106,7 +100,7 @@ public class TransformRepositoryFile extends org.semanticwb.process.model.base.T
             ItemAwareStatus _status = getNodeStatus();
             String status = null;
             if (_status != null) status = _status.getId();
-            OutputStream ous = file.storeFile(SWBScriptParser.parser(instance, user, name)+".docx", comments, false, status);
+            OutputStream ous = file.storeFile(SWBScriptParser.parser(instance, user, name)+".docx", comments, status, false, true);
             rep.generateReport(ous);
             
             if (getNodeVarName() != null && !getNodeVarName().trim().equals("")){
@@ -124,11 +118,7 @@ public class TransformRepositoryFile extends org.semanticwb.process.model.base.T
                             break;
                         }
                     }
-                    //System.out.println("n1:"+n1);
-                    //System.out.println("n2:"+n2);
                 }
-
-                //System.out.println("obj:"+obj);
 
                 if(obj!=null && obj instanceof org.semanticwb.process.schema.File)
                 {
