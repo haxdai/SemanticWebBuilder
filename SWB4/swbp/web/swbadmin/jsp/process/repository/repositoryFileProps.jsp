@@ -82,10 +82,10 @@
 } else {
 %>
 <div class="modal-dialog">
-    <div class="modal-content">
+    <div class="modal-content swbp-modal">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4><%=paramRequest.getLocaleString("msgDocProperties")%></h4>
+            <h4 class="modal-title"><%=paramRequest.getLocaleString("msgDocProperties")%></h4>
         </div>
         <div class="modal-body">
             <%
@@ -93,16 +93,15 @@
             %><%                    } else {
             %>
             <form class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label class="col-lg-5 control-label"><%=paramRequest.getLocaleString("msgTitle")%></label>
-                    <div class="col-lg-7">
-                        <input class="form-control" type="text" disabled value="<%=((Descriptiveable) re).getDisplayTitle(lang)%>"/>
-                    </div>
-                </div>
-                <%if (re instanceof RepositoryElement) {%>
-
-                <div class="form-group">
-                    <%
+                <div class="row">
+                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                     <%=paramRequest.getLocaleString("msgTitle")%>   
+                 </div>
+                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                     <%=((Descriptiveable) re).getDisplayTitle(lang)%>
+                 </div>
+                 <%if (re instanceof RepositoryElement) {%>
+                  <%
                         SWBResourceURL urlDownload = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
                         urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
                         urlDownload.setParameter("fid", re.getId());
@@ -114,54 +113,56 @@
                             val = vi.getVersionFile();
                         }
                     %>
-                    <label for="" class="col-lg-5 control-label"><%=re instanceof RepositoryFile ? paramRequest.getLocaleString("msgFile") : paramRequest.getLocaleString("lblLink")%></label>
-                    <div class="col-lg-7 input-group">
-                        <input type="text" value="<%=val%>" class="form-control" disabled="true">
-                        <span class="input-group-btn">
-                            <a class="btn btn-success" href="<%=urlDownload%>"><li class="fa fa-download"></li></a>
-                        </span>
-                    </div>
-                </div> 
-                <%}%>
-                <div class="form-group">
-                    <label class="col-lg-5 control-label"><%=paramRequest.getLocaleString("msgDescription")%></label>
-                    <div class="col-lg-7">
-                        <textarea class="form-control" disabled><%=((Descriptiveable) re).getDisplayDescription(lang) != null ? ((Descriptiveable) re).getDisplayDescription(lang) : ""%></textarea>
-                    </div>
+                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                     <%=re instanceof RepositoryFile ? paramRequest.getLocaleString("msgFile") : paramRequest.getLocaleString("lblLink")%>
+                 </div>
+                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                    <%=val%>   
+                 </div>                
+                 <%}%>
+            
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                    <%=paramRequest.getLocaleString("msgDescription")%>
                 </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                    <%=((Descriptiveable) re).getDisplayDescription(lang) != null ? ((Descriptiveable) re).getDisplayDescription(lang) : ""%>&nbsp;
+                </div>
+             
+     
                 <%if (re instanceof RepositoryElement) {
                         String comment = (vi != null ? vi.getVersionComment() : "");
                         if (comment == null) {
                             comment = "";
                         }
                 %>
-                <div class="form-group">
-                    <label class="col-lg-5 control-label"><%=paramRequest.getLocaleString("msgComments")%></label>
-                    <div class="col-lg-7">
-                        <textarea class="form-control" disabled><%=comment%></textarea>
-                    </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                    <%=paramRequest.getLocaleString("msgComments")%>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                    <%=comment%>&nbsp;
                 </div>
                 <%}%>
-                <div class="form-group">
-                    <label class="col-lg-5 control-label"><%=paramRequest.getLocaleString("msgVersionUser")%></label>
-                    <div class="col-lg-7">
-                        <input class="form-control" type="text" disabled value="<%=((Traceable) re).getCreator() == null ? "" : ((Traceable) re).getCreator().getFullName()%>"/>
-                    </div>
+                
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                    <%=paramRequest.getLocaleString("msgVersionUser")%>
                 </div>
-                <div class="form-group">
-                    <label class="col-lg-5 control-label"><%=paramRequest.getLocaleString("msgLastDateModification")%></label>
-                    <div class="col-lg-7">
-                        <input class="form-control" type="text" disabled value="<%=((Traceable) re).getCreated() == null ? "" : format.format(((Traceable) re).getCreated())%>"/>
-                    </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                    <%=((Traceable) re).getCreator() == null ? "" : ((Traceable) re).getCreator().getFullName()%>
                 </div>
+                
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                    <%=paramRequest.getLocaleString("msgLastDateModification")%>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                    <%=((Traceable) re).getCreated() == null ? "" : format.format(((Traceable) re).getCreated())%>
+                </div>
+            </div>
             </form>
             <%
                 }
             %>
         </div>
-        <div class="modal-footer">
-            <a href="#" class="btn btn-success" data-dismiss="modal"><%=paramRequest.getLocaleString("lblButtonClose")%></a>
-        </div>
+       
     </div>
 </div>
 <%
