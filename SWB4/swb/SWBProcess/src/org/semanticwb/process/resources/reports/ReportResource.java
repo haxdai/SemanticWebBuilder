@@ -12,7 +12,6 @@ import com.lowagie.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -49,7 +48,6 @@ import org.apache.poi.ss.usermodel.Picture;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
 import org.semanticwb.SWBPlatform;
-import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.FormValidateException;
 import org.semanticwb.model.SWBComparator;
@@ -384,25 +382,18 @@ public class ReportResource extends org.semanticwb.process.resources.reports.bas
         try {
             int i = 0;
             OutputStream ou = null;
-            if (!isSaveOnSystem()) {
-                ou = response.getOutputStream();
-                response.setHeader("Cache-Control", "no-cache");
-                response.setHeader("Pragma", "no-cache");
-            }
+            ou = response.getOutputStream();
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Pragma", "no-cache");
+                
             Report report = Report.ClassMgr.getReport(request.getParameter("idReport"), paramRequest.getWebPage().getWebSite());
-            String extension = request.getParameter("extension").toString();
-            String reportName = request.getParameter("reportName");
-            if (reportName != null) {
-                if (reportName.equals("")) {
-                    reportName = report.getTitle();
-                }
-            }
+            String extension = request.getParameter("extension");
+            String reportName = SWBUtils.TEXT.replaceSpecialCharacters(report.getTitle(), true);//request.getParameter("reportName");
+            
             Iterator<ProcessInstance> pi = getProcessInstances(request, paramRequest).iterator();
             if (extension.equals("xls")) {
-                if (!isSaveOnSystem()) {
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + ".xls\";");
-                    response.setContentType("application/octet-stream");
-                }
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + ".xls\";");
+                response.setContentType("application/octet-stream");
                 HSSFWorkbook workbook = new HSSFWorkbook();
                 HSSFSheet worksheet = workbook.createSheet(reportName);
                 //Headers
@@ -431,6 +422,7 @@ public class ReportResource extends org.semanticwb.process.resources.reports.bas
                 HSSFRow rowTitle = worksheet.createRow((short) 3);
                 HSSFCell cellTitle = rowTitle.createCell((short) 0);
                 cellTitle.setCellValue(reportName);
+                
                 HSSFFont fontTitle = workbook.createFont();
                 fontTitle.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
                 HSSFCellStyle cellStyle = workbook.createCellStyle();
@@ -438,18 +430,25 @@ public class ReportResource extends org.semanticwb.process.resources.reports.bas
                 cellStyle = workbook.createCellStyle();
                 cellStyle.setFont(fontTitle);
                 cellTitle.setCellStyle(cellStyle);
+                
                 worksheet.addMergedRegion(new Region(3, (short) 0, 3, (short) (i - 1)));
-                InputStream is = new FileInputStream(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
-                byte[] bytes = IOUtils.toByteArray(is);
-                int pictureIdx = workbook.addPicture(bytes, workbook.PICTURE_TYPE_JPEG);
-                is.close();
-                CreationHelper helper = workbook.getCreationHelper();
-                Drawing drawing = worksheet.createDrawingPatriarch();
-                ClientAnchor anchor = helper.createClientAnchor();
-                anchor.setCol1(0);
-                anchor.setRow1(0);
-                Picture pict = drawing.createPicture(anchor, pictureIdx);
-                pict.resize();
+                
+                File f = new File(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
+                if (f.exists()) {
+                    InputStream is = new FileInputStream(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
+                    byte[] bytes = IOUtils.toByteArray(is);
+                    int pictureIdx = workbook.addPicture(bytes, workbook.PICTURE_TYPE_JPEG);
+                    is.close();
+                    
+                    CreationHelper helper = workbook.getCreationHelper();
+                    Drawing drawing = worksheet.createDrawingPatriarch();
+                    ClientAnchor anchor = helper.createClientAnchor();
+                    anchor.setCol1(0);
+                    anchor.setRow1(0);
+                    Picture pict = drawing.createPicture(anchor, pictureIdx);
+                    pict.resize();
+                }
+                
                 //Registros
                 int j = 4;
                 while (pi.hasNext()) {
@@ -505,56 +504,28 @@ public class ReportResource extends org.semanticwb.process.resources.reports.bas
                         }
                     }
                 }
-                if (isSaveOnSystem()) {
-                    FileReport fr = FileReport.ClassMgr.createFileReport(paramRequest.getWebPage().getWebSite());
-                    fr.setTitle(reportName + "." + extension);
-                    fr.setFileNameReport(report);
-                    report.addFileReport(fr);
-                    fr.setExtension(extension);
-                    fr.setActive(true);
-                    String fileName = SWBPortal.getWorkPath() + report.getWorkPath() + "/" + report.getTitle();
-                    fileName = fileName.replace("/", "\\");
-                    File file = new File(fileName);
-                    file.mkdirs();
-                    FileOutputStream fileOut = new FileOutputStream(file + "/" + reportName + "." + extension);
-                    workbook.write(fileOut);
-                } else {
-                    workbook.write(ou);
-                }
+                workbook.write(ou);
             } else {
-                if (!isSaveOnSystem()) {
-                    response.setContentType("application/pdf");
-                    response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + ".pdf\";");
-                    response.setContentType("application/octet-stream");
-                }
+                response.setContentType("application/pdf");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + reportName + ".pdf\";");
+                response.setContentType("application/octet-stream");
+                
                 Document document = new Document();
                 document.setMargins(1, 1, 1, 1);
                 try {
-                    if (isSaveOnSystem()) {
-                        FileReport fr = FileReport.ClassMgr.createFileReport(paramRequest.getWebPage().getWebSite());
-                        fr.setTitle(reportName + "." + extension);
-                        fr.setFileNameReport(report);
-                        report.addFileReport(fr);
-                        fr.setExtension(extension);
-                        fr.setActive(true);
-                        String fileName = SWBPortal.getWorkPath() + report.getWorkPath() + "/" + report.getTitle();
-                        fileName = fileName.replace("/", "\\");
-                        File file = new File(fileName);
-                        file.mkdirs();
-                        FileOutputStream fileOut = new FileOutputStream(file + "/" + reportName + "." + extension);
-                        PdfWriter.getInstance(document, fileOut);
-                    } else {
-                        PdfWriter.getInstance(document, ou);
-                    }
+                    PdfWriter.getInstance(document, ou);
                 } catch (DocumentException ex) {
                     log.error("error to create " + ou + " -- " + ex.getMessage());
                 }
                 document.open();
-                Image header = Image.getInstance(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
-                header.setAlignment(Chunk.ALIGN_LEFT);
-                header.rectangle(230, 20);
-                document.add(header);
-
+                
+                File f = new File(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
+                if (f.exists()) {
+                    Image header = Image.getInstance(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/commons/css/images/cabecera-logo.png");
+                    header.setAlignment(Chunk.ALIGN_LEFT);
+                    header.rectangle(230, 20);
+                    document.add(header);
+                }
 //                Image foto = Image.getInstance(SWBUtils.getApplicationPath() + "/swbadmin/jsp/process/reports/images/bar.png");
 //                foto.setAlignment(Chunk.ALIGN_CENTER);
 //                foto.rectangle(230, 10);
