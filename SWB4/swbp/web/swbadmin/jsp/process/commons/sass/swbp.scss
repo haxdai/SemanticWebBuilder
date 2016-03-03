@@ -1,5 +1,8 @@
 /************************* PROPIEDADES SASS *************************/
+$imgPath: "../images";
+$fontPath: "../fonts";
 
+/************************* COLORES SASS *************************/
 $process-color: #40964a;
 $process-colorBar: #2ba272;
 $white-color: #fff;
@@ -23,12 +26,282 @@ $iconLogin-color: #6e7f8e;
 $finished-color: #7cb342;
 $pending-color: #e53935;
 $aborted-color: #1e88e5;
+/************************* MIXINS SASS *************************/
 
-/*******************************************************************/
+/************************ Fuentes ************************/
+@mixin fontPrimary{
+	color: $textColor-Primary;
+    font-size: 13px;
+}
+@mixin fontPrimary-Light {
+    color: $white-color;
+    font-size: 13px;
+}
+@mixin fontPrimary-High {
+    color: $color-primary;
+    font-size: 13px;
+}
+@mixin fontSecundary {
+    color: $textColor-Secundary;
+    font-size: 13px;
+}
+@mixin fontLink{
+	color: $color-primaryLink;
+    font-size: 13px;
+}
+@mixin fontHeadline {
+    height: 48px;
+    background-color: $content-background;
+    color: $navigationBar-color;
+    font-size: 22px;
+    padding: 10px 40px;
+}
+@mixin fontTitle {
+  color: $color-primary;
+  font-size: 20px;
+  margin: 0px;
+}
+@mixin fontSubhead {
+  color: $color-primary;
+  font-size: 18px;
+  text-transform: uppercase;
+  margin: 22px 0px 14px;
+}
+@mixin fontCaption {
+  color: $textColor-Secundary;
+  font-size: 12px;
+}
+@mixin fontCaption-Button {
+  color: #979797;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+@mixin fontButton-Block {
+  color: $white-color;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+@mixin  fontProperty{
+    color: $textColor-Secundary;
+    font-size: 11px;
+    font-style: italic;
+}
+@mixin fontMinimum{
+    color: $textColor-Secundary;
+    font-size: 10px;
+}
+/************************ Iconos ************************/
+@mixin iconList {
+  padding: 8px 0px 0px 0px;
+  min-height: 36px;
+  color: $accentColor;
+  font-size: 20px;
+  text-align: center;
+}
+@mixin iconMenu{
+  height: 48px;
+  font-size: 24px;
+  padding-top: 12px;
+}
+/************************ Botones ************************/
+@mixin buttonRaised {
+    background-color: $color-primaryLink;
+    border-radius: 0px;
+    margin: 6px 0px 6px 16px;
+    height: 36px;
+    @include fontButton-Block;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    -webkit-background-size: 200% 200%;
+    background-size: 200%;
+    background-position: 50%;
+    -webkit-transition: all 0.4s; /* Chrome, Safari*/
+    -o-transition: all 0.4s;  /* Opera*/
+    -moz-transition: all 0.4s;  /* Firefox*/
+    transition: all 0.4s; /* Standard syntax */
+}
+@mixin buttonRaised-Secundary{
+    margin: 8px 0px;
+    background-color: $color-primary;
+    border: solid 1px $window-background;
+    color: $white-color;
+    border-radius: 0px;
+    height: 36px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+@mixin buttonFloatAction-Card{
+    width: 48px;
+    height: 48px;
+    background-color: $color-primary;
+    position: absolute;
+    z-index: 11; 
+    top: 196px; 
+    left: 1; 
+    right: 20px; 
+    bottom: 0;
+    border-radius: 99px;
+    text-align: center;
+    color: $white-color;
+    padding-top: 11px;
+    font-size: 24px;
+    border: 0px;
+}
+@mixin buttonFloatAction-Gotop{
+  position: fixed;
+  bottom: 48px;
+  right: 24px;
+  text-decoration: none;
+  color: $white-color;
+  background-color: $accentColor;
+  font-size: 24px;
+  width: 56px;
+  height: 56px;
+  padding: 16px;
+  display: none;
+  border-radius: 50px;
+  -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
+  -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
+  box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
+  -webkit-background-size: 200% 200%;
+  background-size: 200%;
+  background-position: 50%;
+  -webkit-transition: all 0.4s; /* Chrome, Safari*/
+  -o-transition: all 0.4s;  /* Opera*/
+  -moz-transition: all 0.4s;  /* Firefox*/
+  transition: all 0.4s; /* Standard syntax */
+  z-index: 99;
+}
+@mixin buttonFlat{
+  @include fontCaption-Button;
+  background-color: $content-background;
+  height: 36px;
+  padding: 0px;
+  line-height: 3;
+  border-radius: 0px;
+}
+@mixin buttonFlat-Userbar{
+  @include fontCaption;
+  height: 36px;
+  border-radius: 0px;
+  background-color: $white-color;
+  border: 0px;
+  padding: 0px;
+}
+/************************ Imagenes ************************/
+@mixin img-Userbar{
+  height: 20px;
+  width: 20px;
+  margin-right: 4px;
+  border-radius: 50%;
+}
+@mixin img-Usercomment{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+@mixin img-Captcha{
+  width: 155px;
+  height: 36px;
+}
+/************************ Distintivos/Badges ************************/
+@mixin badge{
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 4px;
+    @include fontPrimary-Light;
+}
+/************************ Controles de selección ************************/
+@mixin  selectionControls{
+  padding-left: 18px;
+  height: 32px;
+  display: inline-block;
+  line-height: 18px;
+  background-repeat: no-repeat;
+  background-position: 0px 4px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+/************************ Paneles ************************/
+@mixin panel-Title{
+    min-height: 36px;
+    background-color: $panelHead-color;
+    border-radius: 0px;
+    padding: 8px 16px;
+    @include fontButton-Block;
+}
+@mixin panelContainer{
+    background-color: $content-background;
+    border: solid 1px $border-color;
+}
+@mixin panelCollaboration{
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
+    @include border;
+    background-color: $content-background;
+    margin-bottom: 20px;
+}
+@mixin cardBackground{
+  height: 270px;
+  background-size: cover;
+  padding: 0px;
+  -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
+  box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
+}
+/************************ Genéricos ************************/
+@mixin  hr{
+  border: 0;
+  border-top: solid 2px  $border-color;
+  margin-top: 0px;
+  margin-bottom: 16px;
+}
+@mixin border{
+  border: solid 1px $border-color;
+  border-radius: 0px;
+}
+@mixin input{
+  width: 100%;
+  height: 36px;
+  padding: 8px;
+  background-color: $content-background;
+  @include border;
+  @include fontLink;
+}
+@mixin inputFocus{
+  border-bottom: 0px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  outline: 0px;
+  border: 0px;
+}
+@mixin textarea{
+    background-color: transparent;
+    border: 0px;
+    box-shadow: none;
+    border-bottom: solid 1px $border-color;
+    @include fontLink;
+}
+@mixin select{
+    height: 36px;
+    padding: 8px;
+    background-color: $content-background;
+    @include border;
+    @include fontLink;
+}
+/*****************************************************************/
 
 @font-face {
     font-family: Roboto;
-    src: url(../fonts/Roboto/Roboto-Regular.ttf) format("truetype");
+    src: url(#{$fontPath}/Roboto/Roboto-Regular.ttf) format("truetype");
 }
  html, body{
     font-family: Roboto;
@@ -89,14 +362,14 @@ $aborted-color: #1e88e5;
         width: 14% !important;
     }
     .swbp-align-text{
-        width: 86%; padding-left: 10px !important;
+        width: 86%; 
+        padding-left: 10px !important;
     }
     .swbp-list-text {
         padding: 8px;
         background-color: $content-background;
         min-height: 36px;
-        color: $textColor-Primary;
-        font-size: 13px;
+        @include fontPrimary;
         max-height: 36px;
         overflow: hidden;
         line-height: 1.8;
@@ -124,8 +397,7 @@ $aborted-color: #1e88e5;
         padding: 8px;
         background-color: $content-background;
         min-height: 36px;
-        color: $textColor-Primary;
-        font-size: 13px;
+        @include fontPrimary;
         max-height: 36px;
         overflow: hidden;
         line-height: 1.8;
@@ -243,8 +515,7 @@ $aborted-color: #1e88e5;
         padding: 8px;
         background-color: $content-background;
         min-height: 36px;
-        color: $textColor-Primary;
-        font-size: 13px;
+        @include fontPrimary;
         max-height: 36px;
         overflow: hidden;
         line-height: 1.8;
@@ -324,7 +595,7 @@ $aborted-color: #1e88e5;
         width: 80% !important;
         height: 48px !important; 
         background-color: $process-color; 
-        background-image: url(../images/background-menu-xs.png) !important;
+        background-image: url(#{$imgPath}/background-menu-xs.png) !important;
         padding-top: 10px;
         
         img {
@@ -372,8 +643,7 @@ $aborted-color: #1e88e5;
                 text-align: left;
                 min-height: 36px;
                 padding: 6px 16px;
-                color: $textColor-Primary;
-                font-size: 13px;
+                @include fontPrimary;
                 line-height: 24px;
             }
         } 
@@ -462,42 +732,43 @@ $aborted-color: #1e88e5;
 /************************* GENERICOS *************************/
 
 H1{
-    font-size: 13px;
-    color: $color-primary;
+    @include fontPrimary-High;
     margin: 8px 16px;
     text-transform: uppercase;
 }
+
+H6{
+    @include fontLink;
+    margin: 16px 0px;
+}
+
+p{
+    font-size: 14px;
+}
+
+.swbp-header-icon {
+    font-size: 16px;
+}
+
+H4{
+  @include fontSubhead;
+}
+
 H3{
     font-size: 24px;
 }
-H4{
-    font-size: 18px;
-    color: $color-primary;
-    margin: 22px 0px 14px;
-    text-transform: uppercase;
-}
+
 H5{
     font-weight: bold;
     color: $black-color;
     margin: 16px 0px 10px;
 }
-H6{
-    font-size: 13px;
-    color: $color-primaryLink;
-    margin: 16px 0px;
-}
+
 hr {
-    border: 0;
-    border-top: 2px solid $border-color;
-    margin-top: 0px;
-    margin-bottom: 16px;
+    @include hr;
+    
 }
-p{
-    font-size: 14px;
-}
-.swbp-header-icon {
-    font-size: 16px;
-}
+
 .swbp-height {
     height: 100%;
 }
@@ -505,30 +776,15 @@ p{
     background-color: $window-background;
 }
 .swbp-panel-body hr{
-    border: 0;
-    border-top: 2px solid $color-primary;
-    margin-top: 0px;
-    margin-bottom: 16px;
+    @include hr;
 }
 
-input[type=radio].css-checkbox{
-	display: none;
-}
-input[type=radio].css-checkbox + label.css-label{
-	padding-left: 18px;
-	height: 32px;
-	display: inline-block;
-	line-height: 18px;
-	background-repeat: no-repeat;
-	background-position: 0px 4px;
-	vertical-align: middle;
-	cursor: pointer;
-}
-input[type=radio].css-checkbox:checked + label.css-label{
-	background-position: 0 -24px;
-}
+
+
+/************* Controles de selección ******************/
+
 label.css-label{
-	background-image: url(../images/activar.svg);
+	background-image: url(#{$imgPath}/activar.svg);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select:none;
@@ -536,22 +792,27 @@ label.css-label{
 	-ms-user-select: none;
 	user-select: none;
 }
+
+input[type=radio].css-checkbox{
+	display: none;
+}
+input[type=radio].css-checkbox + label.css-label{
+	@include selectionControls;
+}
+input[type=radio].css-checkbox:checked + label.css-label{
+	background-position: 0 -24px;
+}
+
 input[type=checkbox].css-checkbox{
 	display: none;
 }
 input[type=checkbox].css-checkbox + label.css-label{
-	padding-left: 18px;
-	height: 32px;
-	display: inline-block;
-	line-height: 18px;
-	background-repeat: no-repeat;
-	background-position: 0px 4px;
-	vertical-align: middle;
-	cursor: pointer;
+	@include selectionControls;
 }
 input[type=checkbox].css-checkbox:checked + label.css-label{
 	background-position: 0 -24px;
 }
+
 /************************* PLECA AQUA *************************/
 .swbp-paqua {
     color: $white-color;
@@ -576,15 +837,13 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     
     span{
     background-color: $iconLogin-color;
-    border: solid $border-color 1px;
-    border-radius: 0px;
-    color: $white-color;    
+    color: $white-color;
+    @include border;
     }
    
     input {
-        border: solid $border-color 1px;
+        @include border;
         background-color: $content-background;
-        border-radius: 0px;
         height: 36px;
         color: $iconLogin-color;
     }    
@@ -592,27 +851,19 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .swbp-icon-fa {
     display: table-ceLl;
 }
+/************************* BOTONES DE ACCIÓN RÁPIDA *************************/
+.swbp-raised-button {
+    height: 48px;
+    background-color: $window-background;
+    padding: 0px;   
+}
 /************************* BOTONES EN BLOQUE *************************/
 .swbp-btn-block {
-    background-color: $color-primaryLink;
-    color: $white-color;
-    border-radius: 0px;
-    margin: 6px 0px 6px 16px;
-    height: 36px;
-    font-size: 14px;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -webkit-background-size: 200% 200%;
-    background-size: 200%;
-    background-position: 50%;
-    -webkit-transition: all 0.4s; /* Chrome, Safari*/
-    -o-transition: all 0.4s;  /* Opera*/
-    -moz-transition: all 0.4s;  /* Firefox*/
-    transition: all 0.4s; /* Standard syntax */
+    @include buttonRaised;
     
     &:active {
         background-color: $color-primaryLink;
+        
         background-image: -webkit-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Chrome, Safari*/
         background-image: -o-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Opera 11.6 to 12.0 */
         background-image: -moz-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Firefox 3.6 to 15 */
@@ -638,18 +889,17 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 
 /************************* FOOTER *************************/
 .swbp-footer {
-    background-color: $navigationBar-color;
-    color: $textColor-Secundary;
-    height: 36px;
     width: 100%;
-    line-height: 36px;
+    height: 36px;
     text-align: center;
+    background-color: $navigationBar-color;
+    line-height: 36px;
     position: absolute;
     bottom: 0;
     left: 0;
     
     p{
-        font-size: 10px;
+        @include fontMinimum;
         margin: 0px;
     }
 }
@@ -663,9 +913,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     height: 36px;
     text-align: center;
     background-color: $navigationBar-color;
-    color: $textColor-Secundary;
-    height: 36px;
-    font-size: 10px;
+    @include fontMinimum;
     
     p{
     padding: 8px 0px 0px 0px;
@@ -683,7 +931,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         margin-bottom: 38px;
         border: 0px;
         background-color: $process-color;
-        background-image: url(../images/background-menu.png);
+        background-image: url(#{$imgPath}/background-menu.png);
     }    
     
     .navbar-collapse {
@@ -694,14 +942,14 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 100%;
     height: 96px;
     background-color: $process-color;
-    background-image: url(../images/background-menu-xs.png);
+    background-image: url(#{$imgPath}/background-menu-xs.png);
 }
 .swbp-brand-header {
     width: 100%;
     height: 96px;
     text-align: center;
     background-color: $process-color;
-    background-image: url(../images/background-menu.png);
+    background-image: url(#{$imgPath}/background-menu.png);
     
     img{
         display: inline;
@@ -756,9 +1004,8 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     position: fixed;
     
     p{
-    font-size: 10px;
+    @include fontMinimum;
     padding-top: 13px;
-    color: $textColor-Secundary;
     }
 }
 
@@ -777,9 +1024,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 /************************* MENU construído con columnas *************************/
 .swbp-menu-icon {
-    height: 48px;
-    font-size: 24px;
-    padding-top: 12px;
+    @include iconMenu
 }
 .swbp-menu-text {
     font-size: 14px;
@@ -822,13 +1067,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     padding: 0px;
     
      button{
-        height: 36px;
-        border-radius: 0px;
-        font-size: 12px;
-        color: $textColor-Secundary;
-        background-color: $white-color;
-        border: 0px;
-        padding: 0px;
+        @include buttonFlat-Userbar;
          
         &:active{
             color: $white-color;
@@ -852,9 +1091,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 
 .swbp-img-user {
-    height: 20px;
-    width: 20px;
-    margin-right: 4px;
+    @include img-Userbar;
 }
 /************************* MENU XS *************************/
 .MENU-COLAPSABLE-XS {
@@ -905,25 +1142,10 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     margin: 0px;
 }
 .swbp-titulo {
-    height: 48px;
-    background-color: $content-background;
-    color: $navigationBar-color;
-    font-size: 22px;
-    padding: 10px 40px 0px 40px;
+    @include fontHeadline;
     
     span {
         color: $border-color;
-    }    
-}
-/************************* BOTONES DE ACCIÓN RÁPIDA *************************/
-.swbp-raised-button {
-    height: 48px;
-    background-color: $window-background;
-    padding: 0px;
-    text-transform: uppercase;
-    
-    button{
-        text-transform: uppercase;
     }    
 }
 /************************* CONTENIDO PRINCIPAL *************************/
@@ -941,13 +1163,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     margin-top: 16px !important;
     
     .panel-heading{
-        min-height: 36px;
-        background-color: $panelHead-color;
-        color: $white-color;
-        border-radius: 0px;
-        text-transform: uppercase;
-        font-size: 14px;
-        padding: 8px 16px;
+        @include panel-Title;
     }        
 }
 /************************* MODELO DEL PROCESO *************************/
@@ -962,8 +1178,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .swbp-button-tool {
     width: 10%;
     height: 36px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
     color: $textColor-Secundary;
     padding: 6px 12px;
 
@@ -988,11 +1203,9 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 
 #SWBP-MENU-PROCESO .list-group{
     a {
-        background-color: $content-background;
-        border: solid 1px $border-color;
-        color: $textColor-Secundary;
+        @include panelContainer;
+        @include fontSecundary;
         min-height: 36px;
-        font-size: 13px;
         padding: 8px 32px;
         text-transform: uppercase;
         
@@ -1015,10 +1228,9 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     margin-top: 16px;
     
     p{
-    color: $textColor-Primary;
-    font-size: 13px;
-    line-height: 1.5;
-    text-align: justify;
+        @include fontPrimary;
+        line-height: 1.5;
+        text-align: justify;
     }
     
 }
@@ -1032,8 +1244,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     
     .panel-heading{
         background-color: $content-background;
-        color: $color-primaryLink;
-        font-size: 13px;
+        @include fontLink;
         text-transform: uppercase;
         min-height: 36px;
         padding: 8px 16px;
@@ -1050,10 +1261,9 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     
     .list-group a{
         background-color: $white-color;
-        color: $textColor-Secundary;
+        @include fontSecundary;
         text-decoration: none;
         border: 0px;
-        font-size: 13px;
         padding: 9px 16px;
         
         &:hover, &:active{
@@ -1078,13 +1288,11 @@ ul#relatedTab {
     
     ul li a{
         background-color: $content-background;
-        color: $color-primaryLink;
-        font-size: 13px;
+        @include fontLink;
         text-transform: uppercase;
         min-height: 36px;
         padding: 8px 16px;
-        border: solid 1px $border-color;
-        border-radius: 0px;
+        @include border;
         
         &:hover, &:active, &:focus{
             background-color: $color-primaryLink !important;
@@ -1093,9 +1301,9 @@ ul#relatedTab {
             text-transform: uppercase;
             min-height: 36px;
             padding: 8px 16px;
-            border: solid 1px $border-color;
-            border-radius: 0px;
             outline: 0px;
+            @include border;
+            
         }        
     }  
     
@@ -1106,8 +1314,7 @@ ul#relatedTab {
         text-transform: uppercase;
         min-height: 36px;
         padding: 8px 16px;
-        border: solid 1px $border-color;
-        border-radius: 0px;
+        @include border;
         
         &:hover{
             background-color: $color-primaryLink;
@@ -1116,8 +1323,7 @@ ul#relatedTab {
             text-transform: uppercase;
             min-height: 36px;
             padding: 8px 16px;
-            border: solid 1px $border-color;
-            border-radius: 0px;
+            @include border;
         }        
     }    
 }
@@ -1147,8 +1353,7 @@ ul#relatedTab {
         
         td {
             border: solid 1px $border-color;
-            color: $textColor-Primary;
-            font-size: 13px;
+            @include fontPrimary;
             padding: 8px 16px;
             vertical-align: middle;
             
@@ -1222,16 +1427,11 @@ ul#relatedTab {
 }
 .swbp-list-title{
     padding: 0px;
-    border: solid 1px $border-color;
-    background-color: $content-background;
+    @include panelContainer;
 }
 .swbp-list-icon{
-    padding: 8px 0px 0px 0px;
-    text-align: center;
+    @include iconList;
     background-color: $content-background;
-    min-height: 36px;
-    color: $accentColor;
-    font-size: 20px;
 }
 .swbp-list-number{
     padding: 8px 0px 0px 0px;
@@ -1244,16 +1444,13 @@ ul#relatedTab {
     padding: 8px;
     background-color: $content-background;
     min-height: 36px;
-    color: $textColor-Primary;
-    font-size: 13px;
+    @include fontPrimary;
 }
 .swbp-list-date{
     padding: 10px 8px 8px 8px;
     background-color: $content-background;
     min-height: 36px;
-    color: $textColor-Secundary;
-    font-size: 11px;
-    font-style: italic;
+    @include fontProperty;
     text-align: center;
 }
 .swbp-list-action{
@@ -1295,25 +1492,19 @@ ul#relatedTab {
 .swbp-block-list{
     margin: 0px;
     margin-bottom: 6px;
-    border: solid 1px $border-color;
-    background-color: $content-background;
+    @include panelContainer;
 }
 .swbp-block-title{
     padding: 0px;
     border-right: solid 1px $border-color;
 }
 .swbp-block-icon{
-    padding: 8px 0px 0px 0px;
-    text-align: center;
-    min-height: 36px;
-    color: $accentColor;
-    font-size: 20px;
+    @include iconList;
 }
 .swbp-block-text{
     padding: 8px;
     min-height: 36px;
-    color: $textColor-Primary;
-    font-size: 13px;
+    @include fontPrimary;
 }
 .swbp-block-action{
     padding: 0px;
@@ -1349,8 +1540,7 @@ ul#relatedTab {
     min-height: 48px;
     background-color: $window-background;
     padding: 0px;
-    font-size: 12px;
-    color: $textColor-Secundary; 
+    @include fontCaption; 
     
     ol.breadcrumb {
         margin-bottom: 0px;
@@ -1371,7 +1561,7 @@ ul#relatedTab {
     
     ul li{
         height: auto;
-        background: url(../images/ChevronOverlayProcess.png) no-repeat 100% 0;
+        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
     }   
     
     ul li.first a
@@ -1387,7 +1577,7 @@ ul#relatedTab {
     
     ol li{
         height: auto;
-        background: url(../images/ChevronOverlayProcess.png) no-repeat 100% 0;
+        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
     } 
     
     ol li.first a
@@ -1403,29 +1593,7 @@ ul#relatedTab {
 }
 /************************* BOTON PARA SUBIR CON SCRIP *************************/
 .go-top {
-	position: fixed;
-	bottom: 48px;
-	right: 24px;
-	text-decoration: none;
-	color: $white-color;
-	background-color: $accentColor;
-	font-size: 24px;
-    width: 56px;
-    height: 56px;
-	padding: 16px;
-	display: none;
-    border-radius: 50px;
-    -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    -webkit-background-size: 200% 200%;
-    background-size: 200%;
-    background-position: 50%;
-    -webkit-transition: all 0.4s; /* Chrome, Safari*/
-    -o-transition: all 0.4s;  /* Opera*/
-    -moz-transition: all 0.4s;  /* Firefox*/
-    transition: all 0.4s; /* Standard syntax */
-    z-index: 99;
+    @include buttonFloatAction-Gotop;
 
     &:active{
         background-color: $accentColor-Click;
@@ -1454,13 +1622,10 @@ ul#relatedTab {
 /************************* PAGINACIÓN  *************************/
 .swbp-pagination-title {
     height: 32px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
-    color: $textColor-Secundary;
-    margin-top: 16px;
-    font-size: 11px;
-    font-style: italic;
+    @include panelContainer;
     padding: 8px 16px;
+    margin-top: 16px;
+    @include fontProperty;
 }
 .swbp-pagination-number {
     padding: 0px;
@@ -1473,8 +1638,7 @@ ul#relatedTab {
         
         li a{
             height: 32px;
-            background-color: $content-background;
-            border: solid 1px $border-color;
+            @include panelContainer;
             color: $textColor-Secundary;
             text-align: center;
             width: 11.11%;
@@ -1511,25 +1675,14 @@ ul#relatedTab {
     margin: 32px 0px;
 }
 .swbp-card-blog{
-    height: 270px;
-    background-image: url(../images/blog.jpg);
-    background-size: cover;
-    padding: 0px;
+    @include cardBackground;
+    background-image: url(#{$imgPath}/blog.jpg);
     margin-bottom: 24px;
-    -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
 }
 .swbp-card-forum{
-    height: 270px;
-   
-    background-image: url(../images/foro.jpg);
-    background-size: cover;
-    padding: 0px;
+    @include cardBackground;
+    background-image: url(#{$imgPath}/foro.jpg);
     margin-bottom: 64px;
-    -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
 }
 .swbp-card-background{
     height: 222px;
@@ -1550,25 +1703,11 @@ ul#relatedTab {
     z-index: 10; 
     color: $white-color;  
     padding: 10px 16px; 
-    font-size:18px; 
+    font-size: 18px; 
     height:48px;   
 }
 .swbp-card-boton{
-    width: 48px;
-    height: 48px;
-    background-color: $color-primary;
-    position: absolute;
-    z-index:11; 
-    top:196px; 
-    left:1; 
-    right:20px; 
-    bottom:0;
-    border-radius: 99px;
-    text-align: center;
-    color: $white-color;
-    padding-top: 11px;
-    font-size: 24px;
-    border: 0px;
+    @include buttonFloatAction-Card;
     
     &:hover, &:active, &:focus, &:active:focus{
         background-color: $color-primary-Click;
@@ -1578,18 +1717,10 @@ ul#relatedTab {
 }
 /******************** BLOG ********************/
 .swbp-panel-blog{
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    border-radius: 0px;
-    border: solid 1px $border-color;
-    background-color: $content-background;
-    margin-bottom: 20px;
+    @include panelCollaboration;
 
     h2{
-        font-size: 20px;
-        color: $color-primary;
-        margin: 0px;
+        @include fontTitle;
         padding: 13px 16px;
     }
     
@@ -1602,8 +1733,7 @@ ul#relatedTab {
     
     .property-user{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         padding: 0px 16px;
         font-style: italic;
@@ -1611,16 +1741,14 @@ ul#relatedTab {
     
     .property{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         padding: 0px;
         font-style: italic;
 
         span{
             min-height: 24px;
-            font-size: 12px;
-            color: $textColor-Secundary;
+            @include fontCaption;
             line-height: 2;
             font-family: Roboto;
         }
@@ -1631,8 +1759,7 @@ ul#relatedTab {
         padding: 16px;
 
         p{
-            font-size: 13px;
-            color: $textColor-Primary;
+            @include fontPrimary;
         }      
     }
     
@@ -1649,15 +1776,8 @@ ul#relatedTab {
     padding: 0px;
     
      a {
-        color: $textColor-Secundary;
-        background-color: $content-background;
-        height: 36px;
-        font-size: 12px;
-        padding: 0px;
-        line-height: 3;
-        border-radius: 0px;
-        text-transform: uppercase;
-         
+        @include buttonFlat;
+
             &:hover, &:active, &:focus, &:active:focus {
                 background-color: $white-color;
                 color: $color-primary;
@@ -1677,14 +1797,7 @@ ul#relatedTab {
         }   
     
     button{
-        color: $textColor-Secundary;
-        background-color: $content-background;
-        height: 36px;
-        font-size: 12px;
-        padding: 0px;
-        line-height: 3;
-        border-radius: 0px;
-        text-transform: uppercase;
+        @include buttonFlat;
         
             &:hover, &:active, &:focus, &:hover:active:focus{
                 background-color: $white-color;
@@ -1697,8 +1810,7 @@ ul#relatedTab {
 
 .swbp-blog-post-comment{
     padding: 16px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
 
     form{
         
@@ -1719,14 +1831,9 @@ ul#relatedTab {
 }
 
 textarea.swbp-form-control{
-    background-color: transparent;
     border-radius: 0px;
-    border: 0px;
-    box-shadow: none;
-    border-bottom: solid 1px $border-color;
     padding: 8px 16px;
-    color: color-primary-link;
-    font-size: 13px;
+    @include textarea;
     
     &:focus{
         border-bottom: 0px;
@@ -1737,8 +1844,7 @@ textarea.swbp-form-control{
 
 .swbp-comment{
     padding: 16px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
     margin: 0px;
     border-top: 0px;
 
@@ -1751,8 +1857,7 @@ textarea.swbp-form-control{
 
     .property-user{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         padding: 0px;
         font-style: italic;
@@ -1764,24 +1869,15 @@ textarea.swbp-form-control{
     padding: 4px 0px;
     
     img{
-        width: 40px;
-        height: 40px;
+        @include img-Usercomment;
     }   
 }
 /******************** FORO ********************/
 .swbp-panel-foro{
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    border-radius: 0px;
-    border: solid 1px $border-color;
-    background-color: $content-background;
-    margin-bottom: 20px;
+    @include panelCollaboration;
     
     h2{
-        font-size: 20px;
-        color: $color-primary;
-        margin: 0px;
+        @include fontTitle;
         padding: 0px 0px 10px;
     }  
     h1{
@@ -1805,8 +1901,7 @@ textarea.swbp-form-control{
 
     .property-user{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         padding: 0px 16px 0px 0px;
         font-style: italic;
@@ -1814,16 +1909,14 @@ textarea.swbp-form-control{
 
     .property{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         padding: 0px;
         font-style: italic;
         
         span{
         min-height: 24px;
-        font-size: 12px;
-        color: $textColor-Secundary;
+        @include fontCaption;
         line-height: 2;
         font-family: Roboto;
         }    
@@ -1833,8 +1926,7 @@ textarea.swbp-form-control{
         padding: 16px;
         
          p{
-            font-size: 13px;
-            color: $textColor-Primary;
+            @include fontPrimary;
           } 
         
          .swbp-comment{
@@ -1856,15 +1948,8 @@ textarea.swbp-form-control{
     padding: 0px;
     
     a {
-        color: $textColor-Secundary;
-        background-color: $content-background;
-        height: 36px;
-        font-size: 12px;
-        padding: 0px;
-        line-height: 3;
-        border-radius: 0px;
-        text-transform: uppercase;
-        
+        @include buttonFlat;
+
         &:hover, &:active, &:focus, &:active:focus {
             background-color: $white-color;
             color: $color-primary;
@@ -1884,14 +1969,7 @@ textarea.swbp-form-control{
       }   
     
     button{
-        color: $textColor-Secundary;
-        background-color: $content-background;
-        height: 36px;
-        font-size: 12px;
-        padding: 0px;
-        line-height: 3;
-        border-radius: 0px;
-        text-transform: uppercase;
+        @include buttonFlat;
         
         &:hover, &:active, &:focus, &:hover:active:focus{
             background-color: $white-color;
@@ -1907,26 +1985,14 @@ textarea.swbp-form-control{
     padding: 0px;
     
     img{
-        width: 155px;
-        height: 36px;
+        @include img-Captcha;
     }  
     
     input{
-        width: 100%;
-        height: 36px;
-        padding: 8px;
-        background-color: $content-background;
-        border: solid 1px $border-color;
-        border-radius: 0px;
-        color: $color-primaryLink;
-        font-size: 13px;
+        @include input;
 
         &:focus{
-            border-bottom: 0px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            outline: 0px;
-            border: 0px;
+            @include inputFocus;
         }
     }    
 }
@@ -1934,8 +2000,7 @@ textarea.swbp-form-control{
 
 .swbp-foro-post-comment{
     padding: 16px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
     
     form{
 
@@ -1956,21 +2021,10 @@ textarea.swbp-form-control{
 }
 
 .swbp-panel-body input {
-    width: 100%;
-    height: 36px;
-    padding: 8px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
-    border-radius: 0px;
-    color: $color-primaryLink;
-    font-size: 13px;
+    @include input;
     
     &:focus{
-        border-bottom: 0px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        outline: 0px;
-        border: 0px;
+        @include inputFocus;
     }    
 }
 /******************** TEXTOS LARGOS ********************/
@@ -1984,18 +2038,15 @@ textarea.swbp-form-control{
     
     .swbp-list-icon{
         padding: 0px;
-        background-color: $content-background;
         color: $accentColor;
         font-size: 20px;
-        border: solid 1px $border-color;
+        @include panelContainer;
     }  
     
     .swbp-list-text{
          padding: 8px;
-         background-color: $content-background;
-         color: $textColor-Primary;
-         border: solid 1px $border-color;
-        font-size: 13px;
+         @include fontPrimary;
+         @include panelContainer;
     }    
 }
 
@@ -2008,9 +2059,8 @@ textarea.swbp-form-control{
 }
 
 .accion1 {
-    background-color: $content-background;
+    @include panelContainer;
     color: $textColor-Secundary;
-    border: solid 1px $border-color;
     
     &:hover, &:active, &:focus, &:active:focus {
         background-color: $white-color;
@@ -2043,33 +2093,19 @@ textarea.swbp-form-control{
 }
 /******************** PLANTILLAS ********************/
 .swbp-panel-body-card input {
-    width: 100%;
-    height: 36px;
-    padding: 8px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
-    border-radius: 0px;
-    color: $color-primaryLink;
-    font-size: 13px;
+    @include input;
     
     &:focus{
-        border-bottom: 0px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        outline: 0px;
-        border: 0px;
+        @include inputFocus;
     }
 }
 
 .swbp-btn-inter{
     margin: 8px 0px;
     background-color: $content-background;
-    border: solid 1px $border-color;
-    color: $textColor-Secundary;
-    border-radius: 0px;
+    @include border;
+    @include fontCaption-Button;
     height: 36px;
-    text-transform: uppercase;
-    font-size: 12px;
     
     span{
         font-size: 14px;
@@ -2084,14 +2120,7 @@ textarea.swbp-form-control{
 }
 
 .swbp-btn-inter2{
-    margin: 8px 0px;
-    background-color: $color-primary;
-    border: solid 1px $window-background;
-    color: $white-color;
-    border-radius: 0px;
-    height: 36px;
-    text-transform: uppercase;
-    font-size: 12px;
+    @include buttonRaised-Secundary;
     
     &:hover, &:active, &:focus, &:active:focus{
         background-color: $color-primary-Click;
@@ -2104,43 +2133,22 @@ textarea.swbp-form-control{
 .swbp-select-multi{
     margin-bottom: 8px;
     background-color: $content-background;
-    border: solid 1px $border-color;
-    border-radius: 0px;
+    @include border;
     font-size: 13px;
     
     option{
         color: $panelHead-color;
     }    
 }
-
-.swbp-badge-out{
-    display: inline-block;
-    min-width: 10px;
-    padding: 3px 7px;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
-    color: $white-color;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    background-color: $textColor-Secundary;
-    border-radius: 4px;
-}
 .swbp-badge-in{
-    display: inline-block;
-    min-width: 10px;
-    padding: 3px 7px;
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 1;
-    color: $white-color;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
+    @include badge;
     background-color: $color-primary;
-    border-radius: 4px;
 }
+.swbp-badge-out{
+    @include badge;
+    background-color: $textColor-Secundary;
+}
+
 .panel-footer{
     height: 36px;
     padding: 0PX;
@@ -2153,13 +2161,7 @@ textarea.swbp-form-control{
     padding: 0px;
     
     a {
-        color: $textColor-Secundary;
-        background-color: $content-background;
-        height: 36px;
-        font-size: 12px;
-        padding: 0px;
-        line-height: 3;
-        border-radius: 0px;
+        @include buttonFlat;
         
         &:hover, &:active, &:focus, &:active:focus {
             background-color: $white-color;
@@ -2197,18 +2199,13 @@ textarea.swbp-form-control{
         height: 36px;
         padding: 8px;
         background-color: $content-background;
-        border: solid 1px $border-color;
-        border-radius: 0px;
+        @include border;
         color: $color-primaryLink;
         font-size: 12px;
         text-transform: uppercase;
         
         &:focus{
-            border-bottom: 0px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            outline: 0px;
-            border: 0px;
+            @include inputFocus;
         }    
     }    
 }
@@ -2234,6 +2231,7 @@ textarea.swbp-form-control{
         font-size: 16px;
         background-color: transparent;
         height: auto;
+        line-height: 1;
         
         &:hover, &:active, &:focus, &:active:focus{
             color: $white-color;
@@ -2243,14 +2241,11 @@ textarea.swbp-form-control{
     }  
     
     .modal-title{
-        color: $white-color;
-        font-size: 14px;
-        text-transform: uppercase;
+        @include fontButton-Block;
     }    
     
     .modal-body{
-        color: $textColor-Primary;
-        font-size: 13px;
+        @include fontPrimary;
         padding: 16px;
         
         label.css-label{
@@ -2264,21 +2259,10 @@ textarea.swbp-form-control{
     }   
     
     input {
-        width: 100%;
-        height: 36px;
-        padding: 8px;
-        background-color: $content-background;
-        border: solid 1px $border-color;
-        border-radius: 0px;
-        color: $color-primaryLink;
-        font-size: 13px;
+        @include input;
         
         &:focus{
-            border-bottom: 0px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            outline: 0px;
-            border: 0px;
+            @include inputFocus;
         }        
     }    
     
@@ -2288,13 +2272,8 @@ textarea.swbp-form-control{
     }    
     
     button{
-        height: 36px;
-        background-color: $content-background;
-        color: $textColor-Secundary;
-        font-size: 12px;
-        text-transform: uppercase;
-        border-radius: 0px;
-        
+        @include buttonFlat;
+
         &:hover, &:active, &:focus, &:active:focus{
             color: $color-primary;
             outline: 0px;
@@ -2308,20 +2287,10 @@ textarea.swbp-form-control{
     }  
     
     select{
-        height: 36px;
-        padding: 8px;
-        background-color: $content-background;
-        border: solid 1px $border-color;
-        border-radius: 0px;
-        color: $color-primaryLink;
-        font-size: 13px;
+        @include select;
         
         &:focus{
-            border-bottom: 0px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-            outline: 0px;
-            border: 0px;
+            @include inputFocus;
         }        
     }  
     
@@ -2347,19 +2316,13 @@ textarea.swbp-form-control{
     margin-left: 0px;
 }
 .swbp-modal-textarea textarea {
-    background-color: transparent;
     border-radius: 4px;
-    border: 0px;
-    box-shadow: none;
-    border-bottom: solid 1px $border-color;
     padding: 8px;
-    color: $color-primaryLink;
-    font-size: 13px;
+    @include textarea;
 }
 /******************** BANDEJA ********************/
 .swbp-btn-filter{
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
     color: $color-primaryLink;
     border-radius: 4px;
     height: 36px;
@@ -2367,9 +2330,8 @@ textarea.swbp-form-control{
     font-size: 12px;
     
     &:hover, &:active, &:focus, &:active:focus{
-        background-color: $content-background;
+        @include panelContainer;
         color: $color-primaryLink;
-        border: solid 1px $border-color;
         outline: 0px;
         box-shadow: none;
     }    
@@ -2435,8 +2397,7 @@ ul.swbp-btn-dropdown li a{
 .swbp-tray-section{
     min-height: 36px;
     padding: 8px 16px;
-    color: $textColor-Primary;
-    font-size: 13px;
+    @include fontPrimary;
 }
 .swbp-tray-title{
     font-weight: bold;
@@ -2450,10 +2411,9 @@ ul.swbp-btn-dropdown li a{
 
     a{
         background-color: $content-background;
-        border: solid 1px $border-color;
+        @include border;
         color: $textColor-Secundary;
         min-height: 36px;
-        border-radius: 0px;
         padding: 10px 0px 0px 0px;
         
         &:hover, &:active, &:focus, &:active:focus{
@@ -2478,20 +2438,10 @@ ul.swbp-btn-dropdown li a{
     padding: 0px;
 }
 select.form-control{
-    height: 36px;
-    padding: 8px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
-    border-radius: 0px;
-    color: $color-primaryLink;
-    font-size: 13px;
+    @include select;
     
     &:focus{
-        border-bottom: 0px;
-        -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-        outline: 0px;
-        border: 0px;
+        @include inputFocus;
     }    
 }
 .panel.swbp-tray-chart{
@@ -2502,8 +2452,7 @@ select.form-control{
     margin-bottom: 4px;
     
     .panel-footer{
-        background-color: $content-background;
-        border: solid 1px $border-color;
+        @include panelContainer;
         border-top: 0px;
         height: auto;
 
@@ -2515,11 +2464,9 @@ select.form-control{
     }    
 }
 
-
 .swbp-tray-body{
     padding: 16px;
-    background-color: $content-background;
-    border: solid 1px $border-color;
+    @include panelContainer;
     text-align: center;
     height: 200px;
     overflow: scroll;
@@ -2555,16 +2502,13 @@ select.form-control{
     padding: 10px 8px 8px 8px;
     background-color: $content-background;
     min-height: 36px;
-    color: $textColor-Secundary;
-    font-size: 11px;
-    font-style: italic;
+    @include fontProperty;
 }
 .swbp-tray-process{
     padding: 8px;
     background-color: $content-background;
     min-height: 36px;
-    color: $textColor-Primary;
-    font-size: 13px;
+    @include fontPrimary;
     text-transform: uppercase;
     font-weight: bold;
 }
@@ -2572,8 +2516,7 @@ select.form-control{
     padding: 8px;
     background-color: $content-background;
     min-height: 36px;
-    color: $textColor-Secundary;
-    font-size: 13px;
+    @include fontSecundary;
 }
 
 /******************** MONITOREO ********************/
@@ -2588,8 +2531,7 @@ select.form-control{
 .swbp-monitor-section{
     min-height: 36px;
     padding: 8px 16px;
-    color: $textColor-Primary;
-    font-size: 13px;
+    @include fontPrimary;
 }
 .swbp-monitor-title{
     font-weight: bold;
