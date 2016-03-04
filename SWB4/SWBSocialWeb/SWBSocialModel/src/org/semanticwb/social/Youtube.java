@@ -748,7 +748,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                     DateTime since = new DateTime(lastVideoID);
                     search.setPublishedAfter(since);
                 }
-                if (!category.isEmpty()) {
+                if (category!=null && !category.isEmpty()) {
                     search.setVideoCategoryId(category);
                 }
                 if (stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 &&
