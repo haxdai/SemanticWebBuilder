@@ -41,22 +41,23 @@
     if (report.hasNext()) {
         while (report.hasNext()) {
             Report rp = (Report) report.next();
-            urlDialog = paramRequest.getRenderUrl().setMode("dialog").setCallMethod(SWBResourceURL.Call_DIRECT);
-            urlDialog.setParameter("idReport", rp.getId());
-            urlDialog.setParameter("action", "export");
-            %>
-            <div class="swbp-list-element">
-                <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 swbp-list-title">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text"><%= rp.getTitle() %></div>
+            if (rp.isValid()) {
+                urlDialog = paramRequest.getRenderUrl().setMode("dialog").setCallMethod(SWBResourceURL.Call_DIRECT);
+                urlDialog.setParameter("idReport", rp.getId());
+                urlDialog.setParameter("action", "export");
+                %>
+                <div class="swbp-list-element">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 swbp-list-title">
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text"><%= rp.getTitle() %></div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 swbp-list-action">
+                        <a href="<%=urlDialog%>" class="btn btn-default col-xs-4 fa fa-download" data-toggle="modal" data-target="#modalDialog"></a>
+                        <a href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", rp.getId())%>" class="btn btn-default col-xs-4 fa fa-wrench"></a>
+                        <a href="<%=urlAction.setAction(SWBResourceURL.Action_REMOVE).setParameter("idReport", rp.getURI())%>" class="btn btn-default col-xs-4 fa fa-trash-o" onclick="if (!confirm('<%=paramRequest.getLocaleString("remove") + " " + paramRequest.getLocaleString("report")%>?'))return false;"></a>
+                    </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 swbp-list-action">
-                    <a href="<%=urlDialog%>" class="btn btn-default col-xs-4 fa fa-download" data-toggle="modal" data-target="#modalDialog"></a>
-                    <a href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", rp.getId())%>" class="btn btn-default col-xs-4 fa fa-wrench"></a>
-                    <a href="<%=urlAction.setAction(SWBResourceURL.Action_REMOVE).setParameter("idReport", rp.getId())%>" class="btn btn-default col-xs-4 fa fa-trash-o" onclick="if (!confirm('<%=paramRequest.getLocaleString("remove") + " " + paramRequest.getLocaleString("report")%>?'))
-                               return false;"></a>
-                </div>
-            </div>
-            <%
+                <%
+            }
         }
     } else {
         %>
