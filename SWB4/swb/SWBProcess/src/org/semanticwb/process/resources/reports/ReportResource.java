@@ -333,10 +333,11 @@ public class ReportResource extends org.semanticwb.process.resources.reports.bas
             removeReport(report);
             report.remove();
             response.setMode(SWBResourceURL.Mode_VIEW);
-        }*/ else if (response.getAction().equals("removeFileReport")) {
-            FileReport fileReport = FileReport.ClassMgr.getFileReport(request.getParameter("idFileReport"), response.getWebPage().getWebSite());
-            fileReport.remove();
-            response.setMode(SWBResourceURL.Mode_VIEW);
+        }*/ else if (SWBResourceURL.Action_REMOVE.equals(action)) {
+            Report rp = (Report) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("idReport"));
+            if (null != rp) {
+                rp.remove();
+            }
         } else {
             //response.setMode(SWBResourceURL.Mode_VIEW);
             super.processAction(request, response);
