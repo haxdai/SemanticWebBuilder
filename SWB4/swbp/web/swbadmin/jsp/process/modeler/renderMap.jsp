@@ -839,7 +839,6 @@ if (suri == null) {
                             <use xlink:href="#parallelMarker" x="<%=x%>" y="<%=y%>" class="<%=mcssClass%>"/>
                             <%
                         } else if (ele instanceof TerminationEndEvent) {
-                            System.out.println("termination");
                             %>
                             <circle r="8" cx="<%=x%>" cy="<%=y%>" class="endFilledMarked"/>
                             <%
