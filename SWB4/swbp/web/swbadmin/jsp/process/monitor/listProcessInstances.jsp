@@ -229,8 +229,6 @@ if (mode == ProcessTracer.MODE_TRACKING) {
             <%
         }
     }
-} else {
-    System.out.println("Modo overview");
 }
     %>
 <!--meta http-equiv="refresh" content="20"/-->
