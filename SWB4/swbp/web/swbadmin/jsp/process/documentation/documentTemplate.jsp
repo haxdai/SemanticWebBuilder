@@ -54,11 +54,13 @@
             </div>
         </div>
         <hr>
-        <div class="panel panel-default swbp-panel-head">
-            <div class="panel-heading text-center">Plantillas</div>
-        </div>    
         <%            
         if (templates != null && !templates.isEmpty()) {
+            %>
+            <div class="panel panel-default swbp-panel-head">
+                <div class="panel-heading text-center">Plantillas</div>
+            </div>    
+            <%
             for (TemplateContainer tc : templates) {
                 DocumentTemplate actualTemplate = tc.getActualTemplate();
                 
@@ -94,7 +96,7 @@
             <% 
         } else {
             %>
-            <div class="alert alert-block alert-danger fade in">
+            <div class="alert alert-block alert-warning">
                 <p>No hay plantillas disponibles</p>
             </div>
             <%
