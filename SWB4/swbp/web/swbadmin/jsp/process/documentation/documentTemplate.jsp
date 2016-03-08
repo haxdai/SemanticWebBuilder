@@ -3,21 +3,19 @@
     Created on : 30/09/2014, 09:32:20 AM
     Author     : carlos.alvarez
 --%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
-<%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPUserDocumentationResource"%>
 <%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
-<%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
-<%@page import="org.semanticwb.SWBPortal"%>
+<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
+<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
 <%@page import="java.util.List"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPUserDocumentationResource"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
     SWBResourceURL url = paramRequest.getRenderUrl();//.setCallMethod(SWBResourceURL.Call_DIRECT);
@@ -71,7 +69,6 @@
                 SWBResourceURL action = paramRequest.getActionUrl();
                 SWBResourceURL urlDuplicate = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_DUPLICATE_TEMPLATE);
                 String title = tc.getTitle();
-                String idtc = tc.getId();
                 
                 //check for current template version
                 if (null != actualTemplate) { //Each template container must have at least one document template
@@ -82,9 +79,9 @@
                             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10 swbp-list-text"><%= title %></div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
-                            <a href="<%= url.setMode(SWBResourceURL.Mode_EDIT).setParameter("uridt", actualTemplate.getURI()) %>" class="btn btn-default col-xs-3 fa fa-edit" role="button"></a>
-                            <a href="#" class="btn btn-default col-xs-3 fa fa-info-circle" role="button" onclick="showModal('<%= viewLog.setParameter("uritc", tc.getURI())%>', '<%= tc.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>', 'modalDialog');"></a>
-                            <a href="#" class="btn btn-default col-xs-3 fa fa-copy" role="button" onclick="showModal('<%= urlDuplicate.setParameter("uritc", tc.getURI()) %>', '<%= tc.getTitle()%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>', 'modalDialog');"></a>
+                            <a href="<%= url.setMode(SWBResourceURL.Mode_EDIT).setParameter("uridt", actualTemplate.getURI()) %>" class="btn btn-default col-xs-3 fa fa-pencil" role="button"></a>
+                            <a href="<%= viewLog.setParameter("uritc", tc.getURI()) %>" class="btn btn-default col-xs-3 fa fa-info-circle" role="button" data-toggle="modal" data-target="#modalDialog"></a>
+                            <a href="<%= urlDuplicate.setParameter("uritc", tc.getURI()) %>" class="btn btn-default col-xs-3 fa fa-copy" role="button" data-toggle="modal" data-target="#modalDialog"></a>
                             <a href="<%= action.setAction(SWBResourceURL.Action_REMOVE).setParameter("uritc", tc.getURI())%>" onclick="if (!confirm('<%=paramRequest.getLocaleString("msgDeletePrompt")%> <%= tc.getTitle()%>')) { return false; };" class="btn btn-default col-xs-3 fa fa-trash-o" role="button"></a>
                         </div>
                     </div>
