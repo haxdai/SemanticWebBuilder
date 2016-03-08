@@ -96,6 +96,14 @@ optsUrl.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_PROCESSING));
 SWBResourceURL createPiUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
 createPiUrl.setMode(UserTaskInboxResource.MODE_CREATEPI);
 
+/*File source = new File(SWBUtils.getApplicationPath()+"/swbadmin/jsp/process/commons/sass/swbp.scss");
+ScssStylesheet scss = ScssStylesheet.get(source.getCanonicalPath(), null, new SCSSDocumentHandlerImpl(), new SCSSErrorHandler());
+scss.compile();
+
+FileWriter fwr = new FileWriter(SWBUtils.getApplicationPath()+"/swbadmin/jsp/process/commons/css/swbp.css");
+scss.write(fwr, true);
+fwr.close();*/
+
 if (!user.isSigned()) {
     if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {
         %>
@@ -127,18 +135,22 @@ if (!user.isSigned()) {
     </div>
     <%
 } else {
-    if (null != request.getSession(true).getAttribute("msg")) {
-        String message = (String) request.getSession(true).getAttribute("msg");
-        if (message.startsWith("OK")) {
-            String id = message.substring(2);
-            %>
-            <div class="alert alert-success alert-dismissable">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                <span class="fa fa-check"></span> <strong><%=paramRequest.getLocaleString("msgCreated")+" "+id%></strong>
-            </div>
-            <%
-        }
-        request.getSession(true).removeAttribute("msg");
+    String pid = (String) request.getSession(true).getAttribute("processInstance");
+    if (null != pid && !pid.isEmpty()) {
+        %>
+        <script>
+            (function(){
+                $(function() {
+                    if (window.toastr) {
+                        toastr.options.closeButton = true;
+                        toastr.options.positionClass = "toast-bottom-full-width";
+                        toastr.success("Se ha creado la instancia <%= pid %>");
+                    }
+                });
+            })();
+        </script>
+        <%
+        request.getSession(true).removeAttribute("processInstance");
     }
     %>
     <div class="row swbp-pad">
