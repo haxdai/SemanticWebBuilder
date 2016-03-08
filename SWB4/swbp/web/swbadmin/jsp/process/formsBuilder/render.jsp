@@ -70,6 +70,25 @@
         </script>
         <%
     } else {
+        //Show message
+        String pid = (String) request.getSession(true).getAttribute("processInstance");
+        if (null != pid && !pid.isEmpty()) {
+            %>
+            <script>
+                (function(){
+                    $(function() {
+                        if (window.toastr) {
+                            toastr.options.closeButton = true;
+                            toastr.options.positionClass = "toast-bottom-full-width";
+                            toastr.success("Se ha creado la instancia <%= pid %>");
+                        }
+                    });
+                })();
+            </script>
+            <%
+            request.getSession(true).removeAttribute("processInstance");
+        }
+
         //Asign task to user
         foi.setAssigned(new Date());
         foi.setAssignedto(user);
