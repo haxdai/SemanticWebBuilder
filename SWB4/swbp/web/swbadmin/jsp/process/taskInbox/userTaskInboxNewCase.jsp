@@ -63,49 +63,87 @@ Iterator<String> keys = groups.keySet().iterator();
             <h4 class="modal-title"><%=paramRequest.getLocaleString("createCase")%></h4>
         </div>
         <%if (keys.hasNext()) {%>
-            <form method="post" action="<%=createUrl%>" class="form-horizontal">
-                <div class="modal-body">
-                    <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                            <label for="pid">Proceso:</label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                            <select class="form-control" name="pid" required>
-                            <%while(keys.hasNext()) {
-                                String key = keys.next();
-                                %>
-                                    <optgroup label="<%=key%>">
-                                    <%Iterator<Process> it_pccs = SWBComparator.sortByDisplayName(groups.get(key).iterator(), lang);
-                                    while(it_pccs.hasNext()) {
-                                        Process pcc = it_pccs.next();
+            <div id="formContainer">
+                <form id="createInstanceForm" method="post" action="<%=createUrl%>" class="form-horizontal">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                <label for="pid">Proceso:</label>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                <select class="form-control" name="pid" required>
+                                <%while(keys.hasNext()) {
+                                    String key = keys.next();
                                     %>
-                                        <option value="<%=pcc.getId()%>"><%=pcc.getDisplayTitle(lang)%></option>
+                                        <optgroup label="<%=key%>">
+                                        <%Iterator<Process> it_pccs = SWBComparator.sortByDisplayName(groups.get(key).iterator(), lang);
+                                        while(it_pccs.hasNext()) {
+                                            Process pcc = it_pccs.next();
+                                        %>
+                                            <option value="<%=pcc.getId()%>"><%=pcc.getDisplayTitle(lang)%></option>
+                                        <%
+                                        }
+                                        %>
+                                        </optgroup>
                                     <%
-                                    }
-                                    %>
-                                    </optgroup>
-                                <%
-                            }
-                            %>
-                            </select>
+                                }
+                                %>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%></button>
-                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%></button>
+                        <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
+                    </div>
+                </form>
+            </div>
+            <script>
+                (function() {
+                    $(document).ready(function() {
+                        var theForm = document.getElementById('createInstanceForm');
+                        
+                        if (theForm) {
+                            $("#createInstanceForm").on("submit", function(evt) {
+                                $.ajax({
+                                    url: $(theForm).attr('action'),
+                                    cache: false,
+                                    data: $(theForm).serialize(),
+                                    type: 'POST',
+                                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                                    beforeSend: function() {
+                                        $("#formContainer").empty();
+                                        $("#formContainer").html('<div class="modal-body"><div class="row text-center"><p><span class="fa fa-refresh fa-2x fa-spin"></span></p><p>Creando instancia...</p></div></div>')
+                                    },
+                                    success: function(data) {
+                                        $("#modalDialog").toggle("modal");
+                                        if (data.status === "ok") {
+                                            if (data.redirectUrl) window.location = data.redirectUrl;
+                                        } else {
+                                            if (window.toastr) {
+                                                toastr.options.closeButton = true;
+                                                toastr.options.positionClass = "toast-bottom-full-width";
+                                                toastr.error("Ha ocurrido un error al crear la instancia");
+                                            }
+                                        }
+                                    }
+                                });
+                                evt.preventDefault();
+                            });
+                        }
+                    });
+                })();
+            </script>
         <%
         } else {
-        %>
-            <div class="modal-body">
-                <div class="text-center"><%=paramRequest.getLocaleString("msgNoProcess")%></div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnCancel")%></button>
-            </div>
-        <%
+            %>
+                <div class="modal-body">
+                    <div class="text-center"><%=paramRequest.getLocaleString("msgNoProcess")%></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnCancel")%></button>
+                </div>
+            <%
         }
         %>
     </div>
