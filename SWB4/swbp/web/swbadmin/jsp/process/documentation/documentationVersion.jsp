@@ -61,15 +61,16 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
                     <%
+                        System.out.println("Actual: "+actual);
                     if (!actual) {
                         %><a href="<%= urlActive.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) %>" class="btn btn-default col-xs-4 fa fa-retweet" onclick="if (!confirm('¿Desea hacer versión <%= documentation.getVersionValue() %> la versión actual?')) return false;"></a><%
                     } else {
-                        %><a href="#" class="btn btn-default col-xs-4 fa fa-check-square-o disabled active"></a><%
+                        %><a href="#" class="btn btn-default col-xs-4 fa fa-check-square-o active"></a><%
                     }
                     %>
                     <a class="col-xs-4 btn btn-default fa fa-info-circle" role="button"></a>
-                    <a href="<%= urlRemove.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) %>" <%if (documentation.isActualVersion()) {%> disabled="disabled" <%}%> onclick="if (!confirm('Eliminar versión?')) return false;"
-                        class="col-xs-4 btn btn-default fa fa-trash-o">
+                    <a href="<%= !actual ? urlRemove.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) : "#" %>" <%if (!actual) {%> onclick="if (!confirm('Eliminar versión?')) return false;" <%}%>
+                        class="col-xs-4 btn btn-default fa fa-trash-o <%= actual ? "disabled" : "" %>">
                     </a>
                 </div>
             </div>
