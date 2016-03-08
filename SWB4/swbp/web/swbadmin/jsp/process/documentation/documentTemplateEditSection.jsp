@@ -29,7 +29,7 @@
 <%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%!
     String getRepoOptions(RepositoryDirectory root, RepositoryDirectory actual, String indentChar) {
         StringBuilder ret = new StringBuilder();
@@ -77,7 +77,7 @@
         <hr>
         <div class="panel panel-default swbp-panel-head hidden-margin">
             <div class="panel-heading text-center"><%= documentSection.getTitle() %></div>
-            <form method="post" id="formesd" name="formesd" action="<%=urlSave%>">
+            <form method="post" id="formesd" name="formesd" action="<%= urlSave %>">
                 <input type="hidden" name="urids" value="<%= uriDocSection %>"/>
                 <div class="panel-body swbp-panel-body-card">
                     <div class="form-group" id="divtitletc">
@@ -97,70 +97,69 @@
                             }
                         }
                         if (sectionType.isSubClass(Referable.swpdoc_Referable, false)) {
-                                WebPage repo = paramRequest.getWebPage().getWebSite().getWebPage("Repository");
-                                RepositoryDirectory currentDir = (RepositoryDirectory) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(documentSection.getConfigData());
-                                String options = getRepoOptions((RepositoryDirectory)repo, currentDir, "-");
-                                %>
-                                <div class="form-group">
-                                    <label><%=paramRequest.getLocaleString("lblRepository")%>*</label>
-                                    <select required id="configData" class="form-control" name="configData">
-                                        <option value="">Seleccione directorio</option>
-                                        <% out.print(options); %>
-                                    </select>
-                                </div>
-                                <%
+                            WebPage repo = paramRequest.getWebPage().getWebSite().getWebPage("Repository");
+                            RepositoryDirectory currentDir = (RepositoryDirectory) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(documentSection.getConfigData());
+                            String options = getRepoOptions((RepositoryDirectory)repo, currentDir, "-");
+                            %>
+                            <div class="form-group">
+                                <label><%=paramRequest.getLocaleString("lblRepository")%>*</label>
+                                <select required id="configData" class="form-control" name="configData">
+                                    <option value="">Seleccione directorio</option>
+                                    <% out.print(options); %>
+                                </select>
+                            </div>
+                            <%
                         }
                         %>
                         <div class="form-group">
-                            <label>
-                                <h5>Propiedades</h5>
-                            </label>
+                            <label><h5>Propiedades</h5></label>
                             <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th><%=paramRequest.getLocaleString("lblSecActive")%></th>
-                                        <th><%=paramRequest.getLocaleString("lblProperty")%></th>
-                                        <th><%=paramRequest.getLocaleString("lblLabel")%></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                                    SWBFormMgr mgr = new SWBFormMgr(sectionType, paramRequest.getWebPage().getWebSite().getSemanticObject(), SWBFormMgr.MODE_EDIT);
-                                    mgr.clearProperties();
-                                    Iterator<SemanticProperty> properties = sectionType.listProperties();
-                                    while (properties.hasNext()) {
-                                        SemanticProperty prop = properties.next();
-                                        if (prop.getDisplayProperty() != null) mgr.addProperty(prop);
-                                    }
-                                    
-                                    properties = mgr.getProperties().iterator();
-                                    if (properties.hasNext()) {
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><%=paramRequest.getLocaleString("lblSecActive")%></th>
+                                            <th><%=paramRequest.getLocaleString("lblProperty")%></th>
+                                            <th><%=paramRequest.getLocaleString("lblLabel")%></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <%
+                                        SWBFormMgr mgr = new SWBFormMgr(sectionType, paramRequest.getWebPage().getWebSite().getSemanticObject(), SWBFormMgr.MODE_EDIT);
+                                        mgr.clearProperties();
+                                        Iterator<SemanticProperty> properties = sectionType.listProperties();
                                         while (properties.hasNext()) {
                                             SemanticProperty prop = properties.next();
-                                            String titleSemProp = prop.getDisplayName(lang);
-                                            String idSemProp = prop.getPropId();
-                                            String label = titleSemProp;
-                                            if (map.containsKey(idSemProp)) {
-                                                label = map.get(idSemProp).toString();
-                                            }
-                                            %>
-                                            <tr>
-                                                <td data-title="<%=paramRequest.getLocaleString("lblSecActive")%>" class="text-center">
-                                                    <input <%=(visibleProps.contains(idSemProp))?"checked":""%> name="<%=idSemProp%>" id="<%=idSemProp%>" type="checkbox" class="css-checkbox">
-                                                    <label class="css-label" for="<%= idSemProp%>"></label>
-                                                </td>
-                                                <td data-title="<%=paramRequest.getLocaleString("lblProperty")%>"><%=titleSemProp%></td>
-                                                <td data-title="<%=paramRequest.getLocaleString("lblLabel")%>">
-                                                    <input type="text" name="label<%=idSemProp%>" value="<%=label%>" class="form-control">
-                                                </td>
-                                            </tr>
-                                            <%
+                                            if (prop.getDisplayProperty() != null) mgr.addProperty(prop);
                                         }
-                                    }
-                                    %>
-                                </tbody>
-                            </table>
+
+                                        properties = mgr.getProperties().iterator();
+                                        if (properties.hasNext()) {
+                                            while (properties.hasNext()) {
+                                                SemanticProperty prop = properties.next();
+                                                String titleSemProp = prop.getDisplayName(lang);
+                                                String idSemProp = prop.getPropId();
+                                                String label = titleSemProp;
+                                                if (map.containsKey(idSemProp)) {
+                                                    label = map.get(idSemProp).toString();
+                                                }
+                                                %>
+                                                <tr>
+                                                    <td data-title="<%=paramRequest.getLocaleString("lblSecActive")%>" class="text-center">
+                                                        <input <%=(visibleProps.contains(idSemProp))?"checked":""%> name="<%=idSemProp%>" id="<%=idSemProp%>" type="checkbox" class="css-checkbox">
+                                                        <label class="css-label" for="<%= idSemProp%>"></label>
+                                                    </td>
+                                                    <td data-title="<%=paramRequest.getLocaleString("lblProperty")%>"><%=titleSemProp%></td>
+                                                    <td data-title="<%=paramRequest.getLocaleString("lblLabel")%>">
+                                                        <input type="text" name="label<%=idSemProp%>" value="<%=label%>" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <%
+                                            }
+                                        }
+                                        %>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <%
                     }
