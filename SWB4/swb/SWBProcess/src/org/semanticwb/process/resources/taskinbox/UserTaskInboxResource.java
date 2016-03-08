@@ -30,6 +30,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.*;
@@ -110,6 +111,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
     public static final String MODE_GETDATA = "getData";
     public static final String MODE_CREATEPI = "createPi";
     public static final String MODE_PROCESSDETAIL = "processDetail";
+    public static final String MODE_RESPONSE = "response";
     private HashMap<String, String> colNames;
     
     private Comparator taskNameComparator = new Comparator() {
@@ -246,6 +248,8 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             doCreateProcessInstance(request, response, paramRequest);
         } else if (MODE_PROCESSDETAIL.equals(mode)) {
             doDetail(request, response, paramRequest);
+        } else if (MODE_RESPONSE.equals(mode)) {
+            doResponse(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -445,28 +449,27 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             }
         } else if (ACT_CREATE.equals(act)) {
             User user = response.getUser();
-            String pid = request.getParameter(PARAM_PID);
+            Process process = Process.ClassMgr.getProcess(request.getParameter(PARAM_PID), response.getWebPage().getWebSite());
             ProcessInstance inst = null;
-            List<FlowNodeInstance> arr = new ArrayList<FlowNodeInstance>();
+            List<FlowNodeInstance> arr = new ArrayList<>();
             
-            if (pid != null && !pid.trim().equals("")) {
-                Process process = Process.ClassMgr.getProcess(pid, response.getWebPage().getWebSite());
-                if (process != null)  {
-                    inst = SWBProcessMgr.createSynchProcessInstance(process, user);
-                    arr = SWBProcessMgr.getActiveUserTaskInstances(inst,response.getUser());                        
-                    if(arr.size() > 0) {
-                        response.sendRedirect(arr.get(0).getUserTaskUrl());
-                        return;
-                    }
-                }
+            if (process != null)  {
+                inst = SWBProcessMgr.createSynchProcessInstance(process, user);
+                arr = SWBProcessMgr.getActiveUserTaskInstances(inst,response.getUser());
                 
-                if (arr.isEmpty()) {
-                    if (inst != null) {
-                        request.getSession(true).setAttribute("msg", "OK"+inst.getId());
-                    }
-                    response.sendRedirect(getUserTaskInboxUrl());
+                if (!arr.isEmpty()) {
+                    response.setRenderParameter("redirectUrl", arr.get(0).getUserTaskUrl());
+                } else {
+                    response.setRenderParameter("redirectUrl", getUserTaskInboxUrl());
+                }
+
+                if (null != inst) {
+                    response.setRenderParameter("processInstance", inst.getId());
+                    request.getSession().setAttribute("processInstance", inst.getId());
+                    response.setRenderParameter("status", "ok");
                 }
             }
+            response.setMode(MODE_RESPONSE);
         } else if (MODE_FWD.equals(act)) {
             String suri = request.getParameter("suri");
             String sowner = request.getParameter("owner");
@@ -785,6 +788,22 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         } catch (Exception e) {
             log.error("Error including jsp in forward mode", e);
         }
+    }
+    
+    public void doResponse(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Map params = request.getParameterMap();
+        Iterator<String> keys = params.keySet().iterator();
+        
+        out.print("{");
+        while(keys.hasNext()) {
+            String key = keys.next();
+            String val = request.getParameter(key);
+            out.print("\""+key+"\":\""+val+"\"");
+            if (keys.hasNext()) out.print(",");
+        }
+        out.print("}");
     }
     
     /**
