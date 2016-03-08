@@ -19,7 +19,7 @@
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.process.model.ProcessGroup"%>
 <%@page import="org.semanticwb.process.model.Process"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%! 
     ArrayList<ProcessGroup> getNavPath (WebSite site, ProcessGroup current) {
         ArrayList<ProcessGroup> ret = new ArrayList<>();
@@ -58,26 +58,33 @@
 %>
 <div class="row swbp-pad">
     <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 swbp-breadcrumbs">
-        <div class="breadCrumbHolder module">
-            <div id="breadCrumb2" class="breadCrumb module">
-                <ol id="breadcrumbs-1a">
-                    <li><a class="fa fa-file-text first" href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>="> </a></li>
-                    <%
-                    ArrayList<ProcessGroup> nPath = getNavPath(model, group1);
-                    Collections.reverse(nPath);
-                    for (ProcessGroup _pg : nPath) {
-                        String cssClass = "";
-                        if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
-                            cssClass = "active";
-                        }
-                        %>
-                        <li class="<%= cssClass %>"><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
-                        <%
-                    }
-                    %>
-                </ol>
-            </div>
-        </div>
+        <%
+        ArrayList<ProcessGroup> nPath = getNavPath(model, group1);
+        if (!nPath.isEmpty()) {
+            Collections.reverse(nPath);
+            %>
+                <div class="breadCrumbHolder module">
+                    <div id="breadCrumb2" class="breadCrumb module">
+                        <ol id="breadcrumbs-1a">
+                            <li><a class="fa fa-file-text first" href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>="> </a></li>
+                            <%
+                            for (ProcessGroup _pg : nPath) {
+                                String cssClass = "";
+                                if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
+                                    cssClass = "active";
+                                }
+                                %>
+                                <li class="<%= cssClass %>"><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
+                                <%
+                            }
+                            %>
+                        </ol>
+                    </div>
+                </div>
+
+            <%
+        }
+        %>
     </div>
     <%
     if (isDocumenter) {
@@ -92,7 +99,13 @@
 </div>
 <hr>
 <%
-if (!list.isEmpty()) {
+    if (list.isEmpty()) {
+        %>
+        <div class="alert alert-block alert-warning">
+            <p>No hay elementos para mostrar</p>
+        </div>
+        <%
+    } else {
     //Sort by language, then by type
     Collections.sort(list, new SWBComparator(lang));
     Collections.sort(list, new Comparator<Descriptiveable>() {
