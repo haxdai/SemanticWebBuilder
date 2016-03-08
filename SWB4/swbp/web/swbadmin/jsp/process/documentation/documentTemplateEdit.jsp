@@ -15,8 +15,8 @@
 <%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page isELIgnored="false" %>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
+<!--%@page isELIgnored="false" %-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
     User user = paramRequest.getUser();
@@ -113,7 +113,7 @@ if (null != docTemplate) {
                     </label>
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12 pull-right">
-                            <a href="#" onclick="showModal('<%= url.setMode(SWPDocumentTemplateResource.MODE_ADD_DOCUMENT_SECTION).setParameter("uridt", docTemplate.getURI()).setParameter("uritc", docTemplate.getURI()) %>', '<%=paramRequest.getLocaleString("btnAddSection")%>', '<%=paramRequest.getLocaleString("msgLoadingElement")%>', '<%=paramRequest.getLocaleString("msgLoadError")%>', 'modalDialog'); return false;" class="btn btn-default btn-block swbp-btn-inter2" role="button">Agregar secciÃ³n</a>
+                            <a href="<%= url.setMode(SWPDocumentTemplateResource.MODE_ADD_DOCUMENT_SECTION).setParameter("uridt", docTemplate.getURI()).setParameter("uritc", docTemplate.getURI()) %>" data-toggle="modal" data-target="#modalDialog" class="btn btn-default btn-block swbp-btn-inter2" role="button">Agregar sección</a>
                         </div>
                     </div>
                 </div>
@@ -167,7 +167,7 @@ if (null != docTemplate) {
                         <script>
                             $("a.btn-ajax-action.btn-ajax-action-remove").on("click", function(evt) {
                                 evt.preventDefault();
-                                if (!confirm("Â¿Desea eliminar esta secciÃ³n?")) return false;
+                                if (!confirm("¿Desea eliminar esta sección?")) return false;
                                 $.post($(this).attr("href"), function(data) {
                                     window.location.reload(true); 
                                 });
