@@ -451,11 +451,10 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             User user = response.getUser();
             Process process = Process.ClassMgr.getProcess(request.getParameter(PARAM_PID), response.getWebPage().getWebSite());
             ProcessInstance inst = null;
-            List<FlowNodeInstance> arr = new ArrayList<>();
             
             if (process != null)  {
                 inst = SWBProcessMgr.createSynchProcessInstance(process, user);
-                arr = SWBProcessMgr.getActiveUserTaskInstances(inst,response.getUser());
+                List<FlowNodeInstance> arr = SWBProcessMgr.getActiveUserTaskInstances(inst,response.getUser());
                 
                 if (!arr.isEmpty()) {
                     response.setRenderParameter("redirectUrl", arr.get(0).getUserTaskUrl());
