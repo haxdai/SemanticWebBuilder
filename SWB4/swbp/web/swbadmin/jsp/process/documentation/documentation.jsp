@@ -61,7 +61,7 @@
     boolean showWord = null != base.getAttribute("allowWord") && "true".equalsIgnoreCase(base.getAttribute("allowWord"));
     WebSite site = paramRequest.getWebPage().getWebSite();
     String idp = request.getParameter("idp") != null ? request.getParameter("idp").toString() : "";
-    String idpg = request.getParameter("idpg") != null ? request.getParameter("idpg").toString() : "";
+    String idpg = request.getParameter("pg") != null ? request.getParameter("pg").toString() : "";
     String lang = user != null && user.getLanguage() != null ? user.getLanguage() : "es";
     Process p = Process.ClassMgr.getProcess(idp, site);
     String pg = request.getParameter("pg") != null ? request.getParameter("pg") : "";
@@ -75,6 +75,14 @@
 <%  Iterator<TemplateContainer> itTemplateCont = TemplateContainer.ClassMgr.listTemplateContainerByProcess(p);
 if (itTemplateCont == null || !itTemplateCont.hasNext())  {
     %>
+    <div class="row swbp-pad">
+        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
+            <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block">
+                Regresar
+            </a>
+        </div>
+    </div>
+    <hr>
     <div class="alert alert-block alert-warning fade in">
         <%=paramRequest.getLocaleString("msgNoTemplate")%>
     </div>
@@ -116,7 +124,7 @@ if (itTemplateCont == null || !itTemplateCont.hasNext())  {
 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 swbp-breadcrumbs">
 </div>
  <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-    <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?idpg=<%=idpg%>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("lblBack")%>">
+    <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("lblBack")%>">
         REGRESAR  
     </a> 
  </div>
