@@ -44,60 +44,59 @@ if (navParams != null && navParams.length > 0) {
     }
 }
 
-%>
-<div class="swbp-pagination">
-    <%
-    if (showPageOfPage) {
-        %>
-        <span class="swbp-pagination-info pull-left"><%=paramRequest.getLocaleString("pagPage")%> <%=pageNum%> <%=paramRequest.getLocaleString("pagDelim")%> <%=maxPages%></span>
-        <%
-    }
-    if (maxPages > 1) {%>
-        <div class="swbp-pagination-nav pull-right">
-            <ul class="pagination pagination-sm">
-                <%
-                int pagSlice = 5;
-                int sliceIdx = 1;
-                int start = 1;
-                int end = pagSlice * sliceIdx;
-
-                if (pageNum > end) {
-                    do {
-                        sliceIdx++;
-                        end = pagSlice * sliceIdx;
-                    } while(pageNum > end);
-                }
-                end = pagSlice * sliceIdx;
-
-                if (end > maxPages) {
-                    end = maxPages;
-                }
-
-                start = (end-pagSlice)+1;
-                if (start < 1) {
-                    start = 1;
-                }
-
-                if (sliceIdx != 1) {
-                    nav.setParameter(pageParam, String.valueOf(pageNum-1));
-                    %><li><a href="<%=nav%>">&laquo;</a></li><%
-                }
-
-                for(int k = start; k <= end; k++) {
-                    nav.setParameter(pageParam, String.valueOf(k));
-                    %>
-                    <li <%=(k==pageNum?"class=\"active\"":"")%>><a href="<%=nav%>"><%=k%></a></li>
-                    <%
-                }
-
-                if (end < maxPages) {
-                    nav.setParameter(pageParam, String.valueOf(pageNum+1));
-                    %><li><a href="<%=nav%>">&raquo;</a></li><%
-                }
-                %>
-            </ul>
-        </div>
-    <%
-    }
+if (maxPages > 1) {
     %>
-</div>
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 swbp-pagination-title">
+        <%
+        if (showPageOfPage) {
+            %><%=paramRequest.getLocaleString("pagPage")%> <%=pageNum%> <%=paramRequest.getLocaleString("pagDelim")%> <%=maxPages%><%
+        }
+        %>
+    </div>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 swbp-pagination-number">
+        <ul class="pagination">
+            <%
+            int pagSlice = 5;
+            int sliceIdx = 1;
+            int start = 1;
+            int end = pagSlice * sliceIdx;
+
+            if (pageNum > end) {
+                do {
+                    sliceIdx++;
+                    end = pagSlice * sliceIdx;
+                } while(pageNum > end);
+            }
+            end = pagSlice * sliceIdx;
+
+            if (end > maxPages) {
+                end = maxPages;
+            }
+
+            start = (end-pagSlice)+1;
+            if (start < 1) {
+                start = 1;
+            }
+
+            if (sliceIdx != 1) {
+                nav.setParameter(pageParam, String.valueOf(pageNum-1));
+                %><li><a href="<%=nav%>" class="fa fa-angle-double-left"></a></li><%
+            }
+
+            for(int k = start; k <= end; k++) {
+                nav.setParameter(pageParam, String.valueOf(k));
+                %>
+                <li <%=(k==pageNum?"class=\"active\"":"")%>><a href="<%=nav%>"><%=k%></a></li>
+                <%
+            }
+
+            if (end < maxPages) {
+                nav.setParameter(pageParam, String.valueOf(pageNum+1));
+                %><li><a href="<%=nav%>" class="fa fa-angle-double-right"></a></li><%
+            }
+            %>
+        </ul>
+    </div>
+    <%
+}
+%>
