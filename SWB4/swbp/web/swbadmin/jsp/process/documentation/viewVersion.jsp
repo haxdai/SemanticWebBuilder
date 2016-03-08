@@ -4,27 +4,18 @@
     Author     : carlos.alvarez
 --%>
 
-<%@page import="org.semanticwb.process.documentation.model.DocumentSection"%>
 <%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
 <%@page import="org.semanticwb.model.SWBComparator"%>
-<%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
 <%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
-<%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
-<%@page import="org.semanticwb.model.VersionInfo"%>
 <%@page import="java.util.Iterator"%>
-<%@page import="org.semanticwb.model.Template"%>
-<%@page import="java.util.Locale"%>
-<%@page import="org.semanticwb.model.User"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
-<%@page import="org.semanticwb.model.Descriptiveable"%>
-<%@page import="org.semanticwb.model.base.DescriptiveableBase"%>
-<%@page import="org.semanticwb.model.Traceable"%>
+<%@page import="java.util.Locale"%>
+<%@page import="org.semanticwb.model.User"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.platform.SemanticObject"%>
-<%@page import="org.semanticwb.portal.SWBFormMgr"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
@@ -32,16 +23,9 @@
     String uritc = request.getParameter("uritc") != null ? request.getParameter("uritc").toString() : "";
     TemplateContainer tc = (TemplateContainer) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uritc);
     SWBResourceURL admVersion = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_EDIT_VERSION_TEMPLATE).setParameter("uritc", uritc);
-    SWBResourceURL editVersion = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentTemplateResource.MODE_EDIT_VERSION_TEMPLATE).setParameter("uritc", uritc);
     SWBResourceURL urlAction = paramRequest.getActionUrl().setAction(SWPDocumentTemplateResource.ACTION_DEFINE_VERSION_TEMPLATE).setParameter("uritc", uritc);
     SWBResourceURL urlActionRemove = paramRequest.getActionUrl().setAction(SWPDocumentTemplateResource.ACTION_REMOVE_VERSION_TEMPLATE).setParameter("uritc", uritc);
-    String lang = "es";
-    User user = paramRequest.getUser();
-    if (user != null && user.getLanguage() != null) {
-        lang = user.getLanguage();
-    }
-    Locale loc = new Locale(lang);
-    DateFormat sdf = new SimpleDateFormat("dd MMM yyyy hh:mm:ss", loc);
+
     if (tc != null) {
         %>
         <div class="row swbp-pad">
@@ -61,15 +45,6 @@
         if (null == tc || !it.hasNext()) {
 
         } else {
-            int i = 0;
-
-            while (it.hasNext()) {
-                it.next();
-                i++;
-                if (i > 1) {
-                    break;
-                }
-            }
             it = SWBComparator.sortByCreated(tc.listTemplates(), false);
             while (it.hasNext()) {
                 DocumentTemplate dt = it.next();
