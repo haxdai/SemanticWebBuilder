@@ -37,7 +37,7 @@
         <div class="row swbp-pad">
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button pull-right">
                 <a href="<%=paramRequest.getWebPage().getUrl()%>?idp=<%= idp%>&wp=<%= request.getParameter("wp")%>&_rid=<%= request.getParameter("_rid")%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
-                    <%=paramRequest.getLocaleString("lblBack")%>
+                    Regresar
                 </a>
             </div>
         </div>
@@ -47,32 +47,40 @@
         </div>
         <%
         Iterator<Documentation> it = SWBComparator.sortByCreated(Documentation.ClassMgr.listDocumentationByProcess(process), true);
-        while (it.hasNext()) {
-            Documentation documentation = it.next();
-            String desc = documentation.getVersionComment() == null? "" : documentation.getVersionComment();
-            String created = documentation.getCreated() != null ? SWBUtils.TEXT.iso8601DateFormat(documentation.getCreated()) : "";
-            boolean actual = documentation.isActualVersion();
+        if (it.hasNext()) {
+            while (it.hasNext()) {
+                Documentation documentation = it.next();
+                String desc = documentation.getVersionComment() == null? "" : documentation.getVersionComment();
+                String created = documentation.getCreated() != null ? SWBUtils.TEXT.iso8601DateFormat(documentation.getCreated()) : "";
+                boolean actual = documentation.isActualVersion();
+                %>
+                <div class="swbp-list-element">
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-list-title">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number"><%= documentation.getVersionValue()%></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10 swbp-list-text"><%= desc %></div>
+                        <div class="col-lg-5 col-md-5 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-2 swbp-list-date"><%= created %></div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
+                        <%
+                            System.out.println("Actual: "+actual);
+                        if (!actual) {
+                            %><a href="<%= urlActive.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) %>" class="btn btn-default col-xs-4 fa fa-retweet" onclick="if (!confirm('¿Desea hacer versión <%= documentation.getVersionValue() %> la versión actual?')) return false;"></a><%
+                        } else {
+                            %><a href="#" class="btn btn-default col-xs-4 fa fa-check-square-o active"></a><%
+                        }
+                        %>
+                        <a class="col-xs-4 btn btn-default fa fa-info-circle" role="button"></a>
+                        <a href="<%= !actual ? urlRemove.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) : "#" %>" <%if (!actual) {%> onclick="if (!confirm('Eliminar versión?')) return false;" <%}%>
+                            class="col-xs-4 btn btn-default fa fa-trash-o <%= actual ? "disabled" : "" %>">
+                        </a>
+                    </div>
+                </div>
+                <%
+            }
+        } else {
             %>
-            <div class="swbp-list-element">
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-list-title">
-                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number"><%= documentation.getVersionValue()%></div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-10 swbp-list-text"><%= desc %></div>
-                    <div class="col-lg-5 col-md-5 col-sm-5 col-sm-offset-0 col-xs-10 col-xs-offset-2 swbp-list-date"><%= created %></div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
-                    <%
-                        System.out.println("Actual: "+actual);
-                    if (!actual) {
-                        %><a href="<%= urlActive.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) %>" class="btn btn-default col-xs-4 fa fa-retweet" onclick="if (!confirm('¿Desea hacer versión <%= documentation.getVersionValue() %> la versión actual?')) return false;"></a><%
-                    } else {
-                        %><a href="#" class="btn btn-default col-xs-4 fa fa-check-square-o active"></a><%
-                    }
-                    %>
-                    <a class="col-xs-4 btn btn-default fa fa-info-circle" role="button"></a>
-                    <a href="<%= !actual ? urlRemove.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) : "#" %>" <%if (!actual) {%> onclick="if (!confirm('Eliminar versión?')) return false;" <%}%>
-                        class="col-xs-4 btn btn-default fa fa-trash-o <%= actual ? "disabled" : "" %>">
-                    </a>
-                </div>
+            <div class="alert alert-block alert-warning">
+                No se han publicado versiones.
             </div>
             <%
         }
