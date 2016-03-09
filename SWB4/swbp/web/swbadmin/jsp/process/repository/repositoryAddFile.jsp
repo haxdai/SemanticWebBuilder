@@ -217,13 +217,24 @@ if (!user.isSigned()) {
             
             var isFileType = function(pFile) {
                 if (pFile && pFile.length && pFile.lastIndexOf(".") === -1) return false;
-                var exts = '<%= validFiles %>'.split("|"), valid = false, fext;
+                var exts = '<%= validFiles %>', valid = false, fext;
+
+                if (exts.indexOf('|') > -1) {
+                    exts = exts.split("|");
+                }
+
+                if (!exts.length) return true;
                 
-                fext = pFile && pFile.length && pFile.slice(pFile.lastIndexOf("."), pFile.length);
+                fext = pFile && pFile.length && pFile.slice(pFile.lastIndexOf(".")+1, pFile.length);
+                
                 if (pFile && pFile.length > 0) {
-                    exts.forEach(function(e) {
-                       if (fext.toLowerCase() === e) valid = true;
-                    });
+                    if (exts.forEach) {
+                        exts.forEach(function(e) {
+                           if (fext.toLowerCase() === e) valid = true;
+                        });
+                    } else if (exts === fext.toLowerCase()) {
+                        valid = true;
+                    }
                 }
                 return valid;
             };
@@ -232,7 +243,7 @@ if (!user.isSigned()) {
                 var theForm = document.getElementById('fileForm');
                 var theType = document.getElementById('hftype');
                 if (theType) isFile = ("url" !== theType.value);
-                console.log(isFile);
+                
                 var isElementValid = function(element) {
                     if (element.required) {
                         return !element.validity.valueMissing;
