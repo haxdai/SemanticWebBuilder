@@ -33,7 +33,7 @@ viewUrl.setParameter("gF", request.getParameter("gF"));
 viewUrl.setParameter("sF", request.getParameter("sF"));
 viewUrl.setParameter("sort", request.getParameter("sort"));
 %>
-<h2><a class="btn" data-toggle="tooltip" data-placement="bottom" title="Back to monitor" href="<%=viewUrl%>"><span class="fa fa-reply"></span></a><%=paramRequest.getLocaleString("viewDocsTitle")%> <%=pName%></h2>
+<h2><a class="btn" title="Back to monitor" href="<%=viewUrl%>"><span class="fa fa-reply"></span></a><%=paramRequest.getLocaleString("viewDocsTitle")%> <%=pName%></h2>
 <%
 if (!user.isSigned()) {
     if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {

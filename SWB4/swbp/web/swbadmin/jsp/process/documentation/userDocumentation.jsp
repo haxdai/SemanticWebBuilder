@@ -90,7 +90,7 @@
     if (isDocumenter) {
         %>
         <div class="col-lg-3 col-lg-offset-0 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a href="<%= templatesPage.getUrl() %>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>" title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>">
+            <a href="<%= templatesPage.getUrl() %>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>">
                 <%=paramRequest.getLocaleString("lblAdminTemplates")%>
             </a>
         </div>

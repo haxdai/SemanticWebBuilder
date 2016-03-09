@@ -205,17 +205,12 @@ if (action != null && action.equals("viewPost")) {
 } else {
     %>
     <div class="row swbp-pad">
-        <!--div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="Regresar a la página de colaboración" title="Regresar a la página de colaboración">
-                Regresar a la página de colaboración
-            </a>
-        </div-->
         <%
         if (isforumAdmin || !onlyAdminCreate) {
             urlthread.setMode("addThread");
             %>
             <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                <a href="<%= urlthread %>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="Agregar entrada" title="Agregar entrada">Agregar entrada</a>
+                <a href="<%= urlthread %>" class="btn btn-block swbp-btn-block">Agregar entrada</a>
             </div>
             <%
         }

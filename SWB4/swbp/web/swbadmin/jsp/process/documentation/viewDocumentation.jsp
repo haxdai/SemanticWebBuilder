@@ -170,9 +170,8 @@
             <%if (pe instanceof org.semanticwb.process.model.Process) {%>
             <div class="col-lg-1 col-md-2 col-sm-2">
                 <ul class="list-unstyled list-inline">
-                <!--a href="javascript:print()" class="btn btn-default fa fa-print hidden-print" data-placement="bottom" data-toggle="tooltip" data-original-title="<%//paramRequest.getLocaleString("print")%>"></a-->
                     <li>
-                        <a href="<%=urlExport.setParameter("format", "html")%>" class="btn btn-default fa fa-download hidden-print" data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("export")%>"></a>
+                        <a href="<%=urlExport.setParameter("format", "html")%>" class="btn btn-default fa fa-download hidden-print" ></a>
                     </li>
                 </ul>
             </div>
@@ -921,7 +920,7 @@
                     <div class="panel-heading">
                         <div class="panel-title">
                             <strong><%=paramRequest.getLocaleString("docFromPro") + " " + pe.getTitle()%></strong>
-                            <a href="<%=urlModel.setParameter("suri", suri)%>" target="_blank" data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("viewModel")%>" class="pull-right fa fa-fullscreen hidden-lg"></a>
+                            <a href="<%=urlModel.setParameter("suri", suri)%>" target="_blank" data-placement="bottom"  class="pull-right fa fa-fullscreen hidden-lg"></a>
                         </div>
                     </div>
                     <div class="panel-body">
