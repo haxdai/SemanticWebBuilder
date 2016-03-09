@@ -192,18 +192,20 @@ public class SVGModeler extends GenericAdmResource {
         GenericObject go = ont.getGenericObject(request.getParameter("suri"));
 
         if (ACT_GETPROCESSJSON.equals(action)) { //Obtener el JSON del modelo almacenado
-            String json = "";
             try {
                 if (go != null && go instanceof Process) {
                     Process process = (Process) go;
-                    JSONObject pJson = getProcessJSON(process);
-                    if (pJson != null) {
+                    String pJson = process.serialize("JSON");//getProcessJSON(process);
+                    if (null == pJson || pJson.isEmpty()) {
+                        pJson = ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgJSONPError"));
+                    }
+                    /*if (pJson != null) {
                         json = pJson.toString();
                     } else {
                         json = ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgJSONPError"));
-                    }
+                    }*/
                     response.setContentType("application/json");
-                    outs.write(json.getBytes("UTF-8"));
+                    outs.write(pJson.getBytes("UTF-8"));
                 } else {
                     log.error("Error to create JSON: Process not found");
                     outs.write(ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgNoProcess")).getBytes("UTF-8"));
@@ -1066,20 +1068,18 @@ public class SVGModeler extends GenericAdmResource {
             outs.write(svg.getBytes());
         } else if ("swp".equalsIgnoreCase(format)) {
             response.setContentType("application/json");
-            String json = "";
+            String pJson = "";
             if (p != null) {
-                JSONObject pJson = getProcessJSON(p);
-                if (pJson != null) {
-                    json = pJson.toString();
-                } else {
-                    json = ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgJSONPError"));
+                pJson = p.serialize("JSON");
+                if (null == pJson || pJson.isEmpty()) {
+                    pJson = ERRORSTRING.replace("_JSONERROR_", paramRequest.getLocaleString("msgJSONPError"));
                 }
             } else {
                 if (data != null && data.length() > 0) {
-                    json = data;
+                    pJson = data;
                 }
             }
-            outs.write(json.getBytes("UTF-8"));
+            outs.write(pJson.getBytes("UTF-8"));
         } else if ("png".equals(format)) {
             response.setContentType("image/png; charset=ISO-8859-1");
 //            Document svg = SWBUtils.XML.xmlToDom(data);
@@ -1162,238 +1162,6 @@ public class SVGModeler extends GenericAdmResource {
 //            }
         outs.flush();
         outs.close();
-    }
-
-    /**
-     * Utilizado para generar un JSON del modelo, para la comunicacion con el
-     * modelador
-     *
-     * @param process, Modelo a convertir en formato JSON
-     * @return JSONObject, informacion del proceso en formato JSON
-     */
-    public JSONObject getProcessJSON(org.semanticwb.process.model.Process process) {
-        JSONObject json_ret = null;
-        JSONArray nodes = null;
-        JSONObject ele = null;
-        JSONObject coele = null;
-
-        try {
-            json_ret = new JSONObject();
-            json_ret.put(PROP_URI, process.getURI());
-            json_ret.put(PROP_TITLE, process.getTitle());
-            json_ret.put(PROP_DESCRIPTION, process.getDescription());
-            json_ret.put(PROP_CLASS, process.getSemanticObject().getSemanticClass().getClassCodeName());
-            nodes = new JSONArray();
-            json_ret.putOpt("nodes", nodes);
-
-            Iterator<GraphicalElement> it_fo = process.listContaineds();
-            while (it_fo.hasNext()) {
-                GraphicalElement obj = it_fo.next();
-                ele = new JSONObject();
-                nodes.put(ele);
-                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
-                ele.put(PROP_TITLE, obj.getTitle());
-
-                //if(obj.getDescription()==null) obj.setDescription("");
-                ele.put(PROP_DESCRIPTION, obj.getDescription());
-                ele.put(PROP_URI, obj.getURI());
-                ele.put(PROP_X, obj.getX());
-                ele.put(PROP_Y, obj.getY());
-                ele.put(PROP_W, obj.getWidth());
-                ele.put(PROP_H, obj.getHeight());
-                if (obj.getContainer() != null) {
-                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
-                } else {
-                    ele.put(PROP_CONTAINER, "");
-                }
-                if (obj.getParent() != null) {
-                    ele.put(PROP_PARENT, obj.getParent().getURI());
-                } else {
-                    ele.put(PROP_PARENT, "");
-                }
-
-                if (obj.getLabelSize() != 0) {
-                    ele.put(PROP_labelSize, obj.getLabelSize());
-                } else {
-                    ele.put(PROP_labelSize, 10);
-                }
-
-                if (obj instanceof Sortable) {
-
-                    //System.out.println("Es coleccion...");
-                    Sortable sorble = (Sortable) obj;
-                    ele.put(PROP_index, sorble.getIndex());
-                }
-
-                if (obj instanceof IntermediateCatchEvent) {
-                    IntermediateCatchEvent ice = (IntermediateCatchEvent) obj;
-                    ele.put(PROP_isInterrupting, ice.isInterruptor());
-                }
-
-                if (obj instanceof ActivityConfable) {
-                    ActivityConfable tsk = (ActivityConfable) obj;
-                    if (tsk.getLoopCharacteristics() != null) {
-                        LoopCharacteristics loopC = tsk.getLoopCharacteristics();
-                        if (loopC instanceof MultiInstanceLoopCharacteristics) {
-                            ele.put(PROP_isMultiInstance, true);
-                        } else {
-                            ele.put(PROP_isMultiInstance, false);
-                        }
-
-                        if (loopC instanceof StandarLoopCharacteristics) {
-                            ele.put(PROP_isLoop, true);
-                        } else {
-                            ele.put(PROP_isLoop, false);
-                        }
-                    }
-                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
-                }
-
-                if (obj instanceof Collectionable) {
-
-                    //System.out.println("Es coleccion...");
-                    Collectionable colble = (Collectionable) obj;
-                    if (colble.isCollection()) {
-                        ele.put(PROP_isCollection, true);
-                    } else {
-                        ele.put(PROP_isCollection, false);
-                    }
-                    //System.out.println("===>"+colble.isCollection());
-                }
-
-                if (obj instanceof Lane) {
-                    //System.out.println("put index:"+obj+" "+((Lane)obj).getLindex());
-                    ele.put("lindex", ((Lane) obj).getLindex());
-                }
-                Iterator<ConnectionObject> it = obj.listOutputConnectionObjects();
-                while (it.hasNext()) {
-                    ConnectionObject connectionObject = it.next();
-                    coele = new JSONObject();
-                    nodes.put(coele);
-                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
-                    coele.put(PROP_URI, connectionObject.getURI());
-                    coele.put(PROP_START, connectionObject.getSource().getURI());
-                    coele.put(PROP_END, connectionObject.getTarget().getURI());
-                    coele.put(PROP_TITLE, connectionObject.getTitle());
-                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
-                    //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
-                }
-                if (obj instanceof Containerable) {
-                    getSubProcessJSON((Containerable) obj, nodes);
-                }
-            }
-
-        } catch (Exception e) {
-            json_ret = null;
-            log.error("Error al general el JSON del Modelo.....getModelJSON(" + process.getTitle() + ", uri:" + process.getURI() + ")", e);
-        }
-        return json_ret;
-    }
-
-    /**
-     * Obtiene el JSON de un subproceso en el modelo.
-     *
-     * @param subprocess Subproceso.
-     * @param nodes Arreglo donde se almacenarán los nodos generados.
-     */
-    public void getSubProcessJSON(org.semanticwb.process.model.Containerable subprocess, JSONArray nodes) {
-        JSONObject ele = null;
-        JSONObject coele = null;
-        try {
-            Iterator<GraphicalElement> it_fo = subprocess.listContaineds();
-            while (it_fo.hasNext()) {
-                GraphicalElement obj = it_fo.next();
-                ele = new JSONObject();
-                nodes.put(ele);
-                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
-                ele.put(PROP_TITLE, obj.getTitle());
-
-                //if(obj.getDescription()==null) obj.setDescription("");
-                ele.put(PROP_DESCRIPTION, obj.getDescription());
-                ele.put(PROP_URI, obj.getURI());
-                ele.put(PROP_X, obj.getX());
-                ele.put(PROP_Y, obj.getY());
-                ele.put(PROP_W, obj.getWidth());
-                ele.put(PROP_H, obj.getHeight());
-                if (obj.getContainer() != null) {
-                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
-                } else {
-                    ele.put(PROP_CONTAINER, "");
-                }
-                if (obj.getParent() != null) {
-                    ele.put(PROP_PARENT, obj.getParent().getURI());
-                } else {
-                    ele.put(PROP_PARENT, "");
-                }
-
-                if (obj.getLabelSize() != 0) {
-                    ele.put(PROP_labelSize, obj.getLabelSize());
-                } else {
-                    ele.put(PROP_labelSize, 10);
-                }
-
-                if (obj instanceof Sortable) {
-
-                    //System.out.println("Es coleccion...");
-                    Sortable sorble = (Sortable) obj;
-                    ele.put(PROP_index, sorble.getIndex());
-                }
-
-                if (obj instanceof ActivityConfable) {
-
-                    ActivityConfable tsk = (ActivityConfable) obj;
-                    if (tsk.getLoopCharacteristics() != null) {
-                        LoopCharacteristics loopC = tsk.getLoopCharacteristics();
-                        if (loopC instanceof MultiInstanceLoopCharacteristics) {
-                            ele.put(PROP_isMultiInstance, true);
-                        } else {
-                            ele.put(PROP_isMultiInstance, false);
-                        }
-
-                        if (loopC instanceof StandarLoopCharacteristics) {
-                            ele.put(PROP_isLoop, true);
-                        } else {
-                            ele.put(PROP_isLoop, false);
-                        }
-                    }
-                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
-                }
-
-                if (obj instanceof Collectionable) {
-                    //System.out.println("Es coleccion subprocess...");
-                    Collectionable colble = (Collectionable) obj;
-                    if (colble.isCollection()) {
-                        ele.put(PROP_isCollection, true);
-                    } else {
-                        ele.put(PROP_isCollection, false);
-                    }
-                    //System.out.println("===>"+colble.isCollection());
-                }
-
-                if (obj instanceof Lane) {
-                    ele.put("lindex", ((Lane) obj).getLindex());
-                }
-
-                Iterator<ConnectionObject> it = obj.listOutputConnectionObjects();
-                while (it.hasNext()) {
-                    ConnectionObject connectionObject = it.next();
-                    coele = new JSONObject();
-                    nodes.put(coele);
-                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
-                    coele.put(PROP_URI, connectionObject.getURI());
-                    coele.put(PROP_START, connectionObject.getSource().getURI());
-                    coele.put(PROP_END, connectionObject.getTarget().getURI());
-                    coele.put(PROP_TITLE, connectionObject.getTitle());
-                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
-                    //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
-                }
-                if (obj instanceof Containerable) {
-                    getSubProcessJSON((Containerable) obj, nodes);
-                }
-            }
-        } catch (Exception e) {
-            log.error("Error al general el JSON del Modelo.....getSubProcessJSON(" + subprocess.getId() + ", uri:" + subprocess.getURI() + ")", e);
-        }
     }
 
     /**
