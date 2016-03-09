@@ -232,7 +232,7 @@ if (!user.isSigned()) {
                 var theForm = document.getElementById('fileForm');
                 var theType = document.getElementById('hftype');
                 if (theType) isFile = ("url" !== theType.value);
-                
+                console.log(isFile);
                 var isElementValid = function(element) {
                     if (element.required) {
                         return !element.validity.valueMissing;
@@ -288,13 +288,15 @@ if (!user.isSigned()) {
                         return false;
                     });
                     
-                    theForm['ffile'].addEventListener("change", function(evt) {
-                        if (isFileValid(evt.target)) {
-                            $(evt.target).closest(".form-group").removeClass("has-error");
-                        } else {
-                            $(evt.target).closest(".form-group").addClass("has-error");
-                        }
-                    });
+                    if (theForm['ffile']) {
+                        theForm['ffile'].addEventListener("change", function(evt) {
+                            if (isFileValid(evt.target)) {
+                                $(evt.target).closest(".form-group").removeClass("has-error");
+                            } else {
+                                $(evt.target).closest(".form-group").addClass("has-error");
+                            }
+                        });
+                    }
                     theForm['ftitle'].addEventListener("keyup", function(evt) {
                         if (isElementValid(evt.target)) {
                             $(evt.target).closest(".form-group").removeClass("has-error");
@@ -309,13 +311,15 @@ if (!user.isSigned()) {
                             $(evt.target).closest(".form-group").addClass("has-error");
                         }
                     });
-                    theForm['extfile'].addEventListener("keyup", function(evt) {
-                        if (isElementValid(evt.target)) {
-                            $(evt.target).closest(".form-group").removeClass("has-error");
-                        } else {
-                            $(evt.target).closest(".form-group").addClass("has-error");
-                        }
-                    });
+                    if (theForm['extfile']) {
+                        theForm['extfile'].addEventListener("keyup", function(evt) {
+                            if (isElementValid(evt.target)) {
+                                $(evt.target).closest(".form-group").removeClass("has-error");
+                            } else {
+                                $(evt.target).closest(".form-group").addClass("has-error");
+                            }
+                        });
+                    }
                 }
                 
                 $("#fileToggleRadio").on("click", function(evt) {
