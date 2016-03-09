@@ -60,14 +60,12 @@
 </div>
 <div id="out" class="alert alert-dismissable alert-warning" style="display: none; width: 100%; alignment-adjust: central;">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-    <a id="a" href="<%=url%>"
-       data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("reports") + " " + paramRequest.getLocaleString("saved")%>">
+    <a id="a" href="<%=url%>">
         <%=paramRequest.getLocaleString("reports") + " " + paramRequest.getLocaleString("saved")%> <span id="count" class="badge"></span></a>
 </div>
 <h2>
     <a class="btn"
-       onclick="javascript:document.back.submit();"
-       data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("back")%>">
+       onclick="javascript:document.back.submit();">
         <li class="fa fa-mail-reply"></li>
     </a>
     <%=paramRequest.getLocaleString("report") + " " + obj.getTitle()%></h2>
@@ -78,19 +76,16 @@
     %>
     <li>
         <a href="<%=urlDialog%>" data-toggle="modal" data-target="#modalDialog"
-           class="btn  btn-default fa fa-save" data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("save") + " " + paramRequest.getLocaleString("report") + " " + obj.getTitle()%>">
+           class="btn  btn-default fa fa-save" >
         </a>
     </li>
     <%} else {%>
     <li>
-        <a href="<%=urlDialog%>" data-toggle="modal" data-target="#modalDialog" class="btn btn-default fa fa-file"
-           data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("generate") + " " + paramRequest.getLocaleString("report") + " " + obj.getTitle()%>">
-        </a>
+        <a href="<%=urlDialog%>" data-toggle="modal" data-target="#modalDialog" class="btn btn-default fa fa-file"></a>
     </li>
     <%}%>
     <li>
-        <a class="btn btn-default fa fa-wrench" data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("configureReport") + " " + obj.getTitle()%>" href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", obj.getId())%>">
-        </a>  
+        <a class="btn btn-default fa fa-wrench" href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", obj.getId())%>"></a>
     </li>
 </ul>
 <div class="row">
@@ -216,7 +211,7 @@
 </div>
 <%} else {%>
 <ul class="list-unstyled list-inline">
-    <li><a class="btn btn-default fa fa-wrench" data-placement="bottom" data-toggle="tooltip" data-original-title="<%=paramRequest.getLocaleString("configureReport") + " " + obj.getTitle()%>" href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", obj.getId())%>">
+    <li><a class="btn btn-default fa fa-wrench" href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", obj.getId())%>">
         </a></li>
 </ul>
 <div class="alert alert-block alert-warning fade in">

@@ -130,7 +130,7 @@
             %>
             <div class="row swbp-pad">
                 <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-                   <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block" data-toggle="tooltip" data-placement="bottom" data-original-title="<%=paramRequest.getLocaleString("lblBack")%>">REGRESAR</a>
+                   <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block">REGRESAR</a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
                      <a href="<%= templatesUrl%>" class="btn btn-block swbp-btn-block"><%=paramRequest.getLocaleString("lblAdminTemplates")%></a>

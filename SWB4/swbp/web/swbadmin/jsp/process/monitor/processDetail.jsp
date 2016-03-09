@@ -72,7 +72,7 @@ if (!user.isSigned()) {
         %><script>window.location='<%=viewUrl%>';</script><%
     } else {
         %>
-        <h2><a class="btn" data-toggle="tooltip" data-placement="bottom" title="Regresar" href="<%=viewUrl%>"><span class="fa fa-reply"></span></a><%=p.getTitle()%></h2>
+        <h2><a class="btn" title="Regresar" href="<%=viewUrl%>"><span class="fa fa-reply"></span></a><%=p.getTitle()%></h2>
         <%
         if (tinstances != null && !tinstances.isEmpty()) {
             %>
