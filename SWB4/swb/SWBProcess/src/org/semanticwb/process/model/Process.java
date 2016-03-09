@@ -25,8 +25,12 @@ package org.semanticwb.process.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Sortable;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
@@ -38,6 +42,29 @@ import org.semanticwb.platform.SemanticObserver;
 public class Process extends org.semanticwb.process.model.base.ProcessBase 
 {
     private static Logger log=SWBUtils.getLogger(Process.class);
+    private static final String PROP_CLASS = "class";
+    private static final String PROP_TITLE = "title";
+    private static final String PROP_DESCRIPTION = "description";
+    private static final String PROP_CONNPOINTS = "connectionPoints";
+    private static final String PROP_URI = "uri";
+    private static final String PROP_X = "x";
+    private static final String PROP_Y = "y";
+    private static final String PROP_W = "w";
+    private static final String PROP_H = "h";
+    private static final String PROP_START = "start";
+    private static final String PROP_END = "end";
+    private static final String PROP_PARENT = "parent";
+    private static final String PROP_CONTAINER = "container";
+    private static final String PROP_isMultiInstance = "isMultiInstance";
+    private static final String PROP_isSeqMultiInstance = "isSequentialMultiInstance";
+    private static final String PROP_isCollection = "isCollection";
+    private static final String PROP_isLoop = "isLoop";
+    private static final String PROP_isForCompensation = "isForCompensation";
+    private static final String PROP_isAdHoc = "isAdHoc";
+    private static final String PROP_isTransaction = "isTransaction";
+    private static final String PROP_isInterrupting = "isInterrupting";
+    private static final String PROP_labelSize = "labelSize";
+    private static final String PROP_index = "index";
     
     //Bloque estático para registrar un observador cuando se modifica la propiedad parentWebPage
     static 
@@ -213,6 +240,243 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
 
     @Override
     public String serialize(String format) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        String ret = "";
+        if ("JSON".equalsIgnoreCase(format)) {
+            JSONObject model = getProcessJSON();
+            try {
+                if (null != model) ret = model.toString(2);
+            } catch (JSONException jse) {
+                log.error("Ha ocurrido un error al serializar el modelo", jse);
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     * Obtiene la representación en formato JSON de un subproceso.
+     * @param subprocess SubProceso
+     * @param nodes Lista de nodos del subproceso
+     */
+    public void getSubProcessJSON(org.semanticwb.process.model.Containerable subprocess, JSONArray nodes) {
+        JSONObject ele = null;
+        JSONObject coele = null;
+        try {
+            Iterator<GraphicalElement> it_fo = subprocess.listContaineds();
+            while (it_fo.hasNext()) {
+                GraphicalElement obj = it_fo.next();
+                ele = new JSONObject();
+                nodes.put(ele);
+                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
+                ele.put(PROP_TITLE, obj.getTitle());
+
+                //if(obj.getDescription()==null) obj.setDescription("");
+                ele.put(PROP_DESCRIPTION, obj.getDescription());
+                ele.put(PROP_URI, obj.getURI());
+                ele.put(PROP_X, obj.getX());
+                ele.put(PROP_Y, obj.getY());
+                ele.put(PROP_W, obj.getWidth());
+                ele.put(PROP_H, obj.getHeight());
+                if (obj.getContainer() != null) {
+                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
+                } else {
+                    ele.put(PROP_CONTAINER, "");
+                }
+                if (obj.getParent() != null) {
+                    ele.put(PROP_PARENT, obj.getParent().getURI());
+                } else {
+                    ele.put(PROP_PARENT, "");
+                }
+
+                if (obj.getLabelSize() != 0) {
+                    ele.put(PROP_labelSize, obj.getLabelSize());
+                } else {
+                    ele.put(PROP_labelSize, 10);
+                }
+
+                if (obj instanceof Sortable) {
+
+                    //System.out.println("Es coleccion...");
+                    Sortable sorble = (Sortable) obj;
+                    ele.put(PROP_index, sorble.getIndex());
+                }
+
+                if (obj instanceof ActivityConfable) {
+
+                    ActivityConfable tsk = (ActivityConfable) obj;
+                    if (tsk.getLoopCharacteristics() != null) {
+                        LoopCharacteristics loopC = tsk.getLoopCharacteristics();
+                        if (loopC instanceof MultiInstanceLoopCharacteristics) {
+                            ele.put(PROP_isMultiInstance, true);
+                        } else {
+                            ele.put(PROP_isMultiInstance, false);
+                        }
+
+                        if (loopC instanceof StandarLoopCharacteristics) {
+                            ele.put(PROP_isLoop, true);
+                        } else {
+                            ele.put(PROP_isLoop, false);
+                        }
+                    }
+                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
+                }
+
+                if (obj instanceof Collectionable) {
+                    //System.out.println("Es coleccion subprocess...");
+                    Collectionable colble = (Collectionable) obj;
+                    if (colble.isCollection()) {
+                        ele.put(PROP_isCollection, true);
+                    } else {
+                        ele.put(PROP_isCollection, false);
+                    }
+                    //System.out.println("===>"+colble.isCollection());
+                }
+
+                if (obj instanceof Lane) {
+                    ele.put("lindex", ((Lane) obj).getLindex());
+                }
+
+                Iterator<ConnectionObject> it = obj.listOutputConnectionObjects();
+                while (it.hasNext()) {
+                    ConnectionObject connectionObject = it.next();
+                    coele = new JSONObject();
+                    nodes.put(coele);
+                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
+                    coele.put(PROP_URI, connectionObject.getURI());
+                    coele.put(PROP_START, connectionObject.getSource().getURI());
+                    coele.put(PROP_END, connectionObject.getTarget().getURI());
+                    coele.put(PROP_TITLE, connectionObject.getTitle());
+                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
+                    //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
+                }
+                if (obj instanceof Containerable) {
+                    getSubProcessJSON((Containerable) obj, nodes);
+                }
+            }
+        } catch (Exception e) {
+            log.error("Error al general el JSON del Modelo.....getSubProcessJSON(" + subprocess.getId() + ", uri:" + subprocess.getURI() + ")", e);
+        }
+    }
+    
+    /**
+     * Obtiene la representación en formato JSON del proceso.
+     * @return Objeto con la representación del proceso.
+     */
+    private JSONObject getProcessJSON() {
+        JSONObject json_ret = null;
+        JSONArray nodes = null;
+        JSONObject ele = null;
+        JSONObject coele = null;
+
+        try {
+            json_ret = new JSONObject();
+            json_ret.put(PROP_URI, getURI());
+            json_ret.put(PROP_TITLE, getTitle());
+            json_ret.put(PROP_DESCRIPTION, getDescription());
+            json_ret.put(PROP_CLASS, getSemanticObject().getSemanticClass().getClassCodeName());
+            nodes = new JSONArray();
+            json_ret.putOpt("nodes", nodes);
+
+            Iterator<GraphicalElement> it_fo = listContaineds();
+            while (it_fo.hasNext()) {
+                GraphicalElement obj = it_fo.next();
+                ele = new JSONObject();
+                nodes.put(ele);
+                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
+                ele.put(PROP_TITLE, obj.getTitle());
+
+                //if(obj.getDescription()==null) obj.setDescription("");
+                ele.put(PROP_DESCRIPTION, obj.getDescription());
+                ele.put(PROP_URI, obj.getURI());
+                ele.put(PROP_X, obj.getX());
+                ele.put(PROP_Y, obj.getY());
+                ele.put(PROP_W, obj.getWidth());
+                ele.put(PROP_H, obj.getHeight());
+                if (obj.getContainer() != null) {
+                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
+                } else {
+                    ele.put(PROP_CONTAINER, "");
+                }
+                if (obj.getParent() != null) {
+                    ele.put(PROP_PARENT, obj.getParent().getURI());
+                } else {
+                    ele.put(PROP_PARENT, "");
+                }
+
+                if (obj.getLabelSize() != 0) {
+                    ele.put(PROP_labelSize, obj.getLabelSize());
+                } else {
+                    ele.put(PROP_labelSize, 10);
+                }
+
+                if (obj instanceof Sortable) {
+
+                    //System.out.println("Es coleccion...");
+                    Sortable sorble = (Sortable) obj;
+                    ele.put(PROP_index, sorble.getIndex());
+                }
+
+                if (obj instanceof IntermediateCatchEvent) {
+                    IntermediateCatchEvent ice = (IntermediateCatchEvent) obj;
+                    ele.put(PROP_isInterrupting, ice.isInterruptor());
+                }
+
+                if (obj instanceof ActivityConfable) {
+                    ActivityConfable tsk = (ActivityConfable) obj;
+                    if (tsk.getLoopCharacteristics() != null) {
+                        LoopCharacteristics loopC = tsk.getLoopCharacteristics();
+                        if (loopC instanceof MultiInstanceLoopCharacteristics) {
+                            ele.put(PROP_isMultiInstance, true);
+                        } else {
+                            ele.put(PROP_isMultiInstance, false);
+                        }
+
+                        if (loopC instanceof StandarLoopCharacteristics) {
+                            ele.put(PROP_isLoop, true);
+                        } else {
+                            ele.put(PROP_isLoop, false);
+                        }
+                    }
+                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
+                }
+
+                if (obj instanceof Collectionable) {
+
+                    //System.out.println("Es coleccion...");
+                    Collectionable colble = (Collectionable) obj;
+                    if (colble.isCollection()) {
+                        ele.put(PROP_isCollection, true);
+                    } else {
+                        ele.put(PROP_isCollection, false);
+                    }
+                    //System.out.println("===>"+colble.isCollection());
+                }
+
+                if (obj instanceof Lane) {
+                    //System.out.println("put index:"+obj+" "+((Lane)obj).getLindex());
+                    ele.put("lindex", ((Lane) obj).getLindex());
+                }
+                Iterator<ConnectionObject> it = obj.listOutputConnectionObjects();
+                while (it.hasNext()) {
+                    ConnectionObject connectionObject = it.next();
+                    coele = new JSONObject();
+                    nodes.put(coele);
+                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
+                    coele.put(PROP_URI, connectionObject.getURI());
+                    coele.put(PROP_START, connectionObject.getSource().getURI());
+                    coele.put(PROP_END, connectionObject.getTarget().getURI());
+                    coele.put(PROP_TITLE, connectionObject.getTitle());
+                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
+                    //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
+                }
+                if (obj instanceof Containerable) {
+                    getSubProcessJSON((Containerable) obj, nodes);
+                }
+            }
+
+        } catch (Exception e) {
+            json_ret = null;
+            log.error("Error al general el JSON del Modelo.....getModelJSON(" + getTitle() + ", uri:" + getURI() + ")", e);
+        }
+        return json_ret;
     }
 }
