@@ -38,7 +38,7 @@
         </div>
         <div class="modal-body">
             <form method="post">    
-                <textarea><%= sei.getDescription() != null ? sei.getDescription() : ""%></textarea>
+                <textarea name="description"><%= sei.getDescription() != null ? sei.getDescription() : ""%></textarea>
                 <input type="hidden" id="urise" name="urise" value="<%=urise%>">
             </form>
         </div>
