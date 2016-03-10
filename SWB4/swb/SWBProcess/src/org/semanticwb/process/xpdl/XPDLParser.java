@@ -25,6 +25,7 @@ package org.semanticwb.process.xpdl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -95,16 +96,16 @@ public class XPDLParser extends DefaultHandler {
         spf.setNamespaceAware(nsAware);
         spf.setValidating(validate);
         processor = new XPDLProcessor();
-        
     }
     
     /**
      * Parsea el archivo XPDL y genera el modelo JSON del proceso.
      * @param istream Inputsream con el contenido del archivo XPDL.
+     * @param normalize Indica si se normalizarán los saltos de línea previo al parseo.
      * @return JSON del modelo del proceso.
      * @throws Exception 
      */
-    public JSONObject parse(InputStream istream) throws Exception {
+    public JSONObject parse(InputStream istream, boolean normalize) throws Exception {
         parser = spf.newSAXParser();
         
         if (validate) {
@@ -116,7 +117,25 @@ public class XPDLParser extends DefaultHandler {
             }
         }
         
-        parser.parse(istream, this);
+        if (normalize) {
+            String xml = SWBUtils.IO.readInputStream(istream);
+            istream.close();
+            xml = xml.replace("&#xD;&#xA;", "\n");//EHSP10032016 - To prevent errors importing from bizagi, because apparently SAX does not notmalize strings
+            parser.parse(SWBUtils.IO.getStreamFromString(xml), this);
+        } else {
+            parser.parse(istream, this);
+        }
+        return processModel;
+    }
+    
+    /**
+     * Parsea el archivo XPDL y genera el modelo JSON del proceso.
+     * @param istream Inputsream con el contenido del archivo XPDL.
+     * @return JSON del modelo del proceso.
+     * @throws Exception 
+     */
+    public JSONObject parse(InputStream istream) throws Exception {
+        parse(istream, true);
         return processModel;
     }
     
