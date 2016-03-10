@@ -276,7 +276,7 @@
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12 pull-right">
                                         <a href="<%= urlEdit.setMode(SWPDocumentationResource.MODE_EDIT_INSTANTIABLE).setParameter("uridsi", uriDocSectionInstance)%>" class="btn btn-default btn-block swbp-btn-inter2" data-toggle="modal" data-target="#modalDialog" >
-                                            Agregar <%=docSectionInstance.getSecTypeDefinition().getTitle()%>
+                                            Agregar
                                         </a>
                                     </div>
                                 </div>
@@ -322,6 +322,7 @@
                                                             er.setIndex(se.getIndex());
                                                             isReference = true;
                                                         }
+
                                                         if (se instanceof Referable) {
                                                             ref = (Referable) se;
                                                             if(ref.getRefRepository() != null){
@@ -362,7 +363,7 @@
                                                 %>
                                                 <a href="<%= urlEdit.setMode(SWPDocumentationResource.MODE_EDIT_INSTANTIABLE).setParameter("urise", uriSectionElement)%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("btnEdit")%>" data-toggle="modal" data-target="#modalDialog">
                                                     <span class="fa fa-pencil"></span>
-                                                </a> 
+                                                </a>
                                                 <%} else if (se.getDocumentSectionInst() != null
                                                         && se.getDocumentSectionInst().getDocumentationInstance() != null
                                                         && se.getDocumentSectionInst().getDocumentationInstance().getProcessRef() != null) {
@@ -374,12 +375,12 @@
                                                    >
                                                 </a>
                                                 <% }%>
+                                                <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
                                                 <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
                                                    onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") + " " +se.getTitle() %>?'))
                                                                return false;">
                                                     <span class="fa fa-trash-o"></span>
                                                 </a>
-                                                   <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
                                             </td>
                                             </tr><% }%>
                                             </tbody>
