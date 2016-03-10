@@ -4,6 +4,7 @@
     Author     : hasdai
 --%>
 
+<%@page import="org.semanticwb.process.documentation.model.ElementReference"%>
 <%@page import="org.semanticwb.process.documentation.model.Activity"%>
 <%@page import="org.semanticwb.process.documentation.model.Model"%>
 <%@page import="org.semanticwb.platform.SemanticClass"%>
@@ -86,7 +87,9 @@
                                     if (semanticCls.getURI().equals(Activity.sclass.getURI()) && hasActivity) {
                                         add = false;
                                     }
-
+                                    if (semanticCls.getURI().equals(ElementReference.sclass.getURI())) {
+                                        add = false;
+                                    }
                                     if (add) {
                                         %><option value="<%=semanticCls.getURI()%>"><%=semanticCls.getDisplayName(lang) %></option><%
                                     }
