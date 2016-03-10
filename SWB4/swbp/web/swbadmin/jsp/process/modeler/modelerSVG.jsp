@@ -1,4 +1,3 @@
-
 <svg id="modeler" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100" height="100" class="modeler">
     <style type="text/css"><![CDATA[
         .resizeBox {
@@ -514,7 +513,7 @@
             <use xlink:href="#complexMarker" x="0" y="0" style="stroke:none;fill:#d4aa00" transform="scale(0.7,0.7)"/>
         </g>
         <!--Definición de objetos de datos-->
-        <g id="data" bclass="itemaware" oclass="itemaware_o">
+        <g id="dataObject" bclass="itemaware" oclass="itemaware_o">
             <path transform="scale(0.7,0.7) translate(-3,-10)" d="m -25,-25 0,74.61135 58.22841,0 0,-55.2509 -19.88426,-19.36045 -38.34415,0 z"/>
             <path transform="scale(0.7,0.7) translate(-2,-10)" d="m 12.5,-24 0,19.5625 20.0601,0"/>
         </g>
@@ -523,11 +522,11 @@
             <path d="m 0,0 c 0,6.9397 -22.5028602,12.5654 -50.26153,12.5654 -27.39179,0 -49.73975,-5.4833 -50.25272,-12.33" transform="scale(0.6,0.6) translate(72,-12)"/>
         </g>	
         <g id="dataInput" bclass="itemaware" oclass="itemaware_o">
-            <use xlink:href="#data" x="0" y="0"/>
+            <use xlink:href="#dataObject" x="0" y="0"/>
             <use xlink:href="#linkMarker" x="-12" y="-17" style="fill:none;stroke:#666666;stroke-width:2.5;" transform="scale(0.8,0.8)"/>
         </g>
         <g id="dataOutput" bclass="itemaware" oclass="itemaware_o">
-            <use xlink:href="#data" x="0" y="0"/>
+            <use xlink:href="#dataObject" x="0" y="0"/>
             <use xlink:href="#linkMarker" x="-12" y="-17" style="fill:#666666;stroke:none;stroke-width:2.5;" transform="scale(0.8,0.8)"/>
         </g>
         <!--Definición de tareas-->
