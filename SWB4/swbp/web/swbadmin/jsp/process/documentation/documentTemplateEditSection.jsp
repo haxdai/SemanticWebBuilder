@@ -4,52 +4,19 @@
     Author     : carlos.alvarez
 --%>
 
-<%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
-<%@page import="org.semanticwb.model.WebPage"%>
+<%@page import="org.semanticwb.platform.SemanticProperty"%>
+<%@page import="java.util.Iterator"%>
 <%@page import="org.semanticwb.portal.SWBFormMgr"%>
 <%@page import="java.util.HashMap"%>
 <%@page import="java.util.Map"%>
-<%@page import="org.semanticwb.platform.SemanticProperty"%>
-<%@page import="org.semanticwb.process.documentation.model.TemplateContainer"%>
-<%@page import="java.util.Enumeration"%>
-<%@page import="java.util.Date"%>
-<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
-<%@page import="org.semanticwb.process.documentation.model.FreeText"%>
 <%@page import="org.semanticwb.process.documentation.model.Instantiable"%>
-<%@page import="org.semanticwb.process.documentation.model.Referable"%>
-<%@page import="org.semanticwb.process.documentation.model.ElementReference"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
-<%@page import="org.semanticwb.process.documentation.model.SectionElement"%>
 <%@page import="org.semanticwb.platform.SemanticClass"%>
-<%@page import="java.util.Iterator"%>
+<%@page import="org.semanticwb.SWBPlatform"%>
 <%@page import="org.semanticwb.process.documentation.model.DocumentSection"%>
+<%@page import="org.semanticwb.process.documentation.resources.SWPDocumentTemplateResource"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
-<%@page import="org.semanticwb.process.documentation.model.DocumentTemplate"%>
-<%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
-<%!
-    String getRepoOptions(RepositoryDirectory root, RepositoryDirectory actual, String indentChar) {
-        StringBuilder ret = new StringBuilder();
-        String idt = indentChar;
-        if (null == idt) idt= " ";
-        
-        if (null != root) {
-            ret.append("<option value=\"").append(root.getURI()).append("\"").append((null != actual && root.getURI().equals(actual.getURI()))?" selected":"").append(">").append(idt).append(root.getTitle()).append("</option>");
-        }
-        Iterator<WebPage> childs = root.listChilds();
-        while(childs.hasNext()) {
-            WebPage child = childs.next();
-            if (child instanceof RepositoryDirectory && child.isValid()) {
-                ret.append(getRepoOptions((RepositoryDirectory)child, actual, idt+idt));
-            }
-        }
-
-        return ret.toString();
-    }
-%>
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentTemplateResource.PARAM_REQUEST);
     String uriDocSection = request.getParameter("urids") != null ? request.getParameter("urids") : "";
@@ -95,20 +62,6 @@
                                 String propId = value.substring((value.indexOf(";") + 1), value.length());
                                 map.put(propId, ptitle);
                             }
-                        }
-                        if (sectionType.isSubClass(Referable.swpdoc_Referable, false)) {
-                            WebPage repo = paramRequest.getWebPage().getWebSite().getWebPage("Repository");
-                            RepositoryDirectory currentDir = (RepositoryDirectory) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(documentSection.getConfigData());
-                            String options = getRepoOptions((RepositoryDirectory)repo, currentDir, "-");
-                            %>
-                            <div class="form-group">
-                                <label><%=paramRequest.getLocaleString("lblRepository")%>*</label>
-                                <select required id="configData" class="form-control" name="configData">
-                                    <option value="">Seleccione directorio</option>
-                                    <% out.print(options); %>
-                                </select>
-                            </div>
-                            <%
                         }
                         %>
                         <div class="form-group">
