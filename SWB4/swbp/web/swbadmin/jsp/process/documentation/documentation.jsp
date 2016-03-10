@@ -520,7 +520,7 @@
                                             <tr>
                                                 <th><%=paramRequest.getLocaleString("lblTitle")%></th>
                                                 <th><%=paramRequest.getLocaleString("lblDescription")%></th>
-                                                <th><%=paramRequest.getLocaleString("lblActions")%></th>
+                                                <th class="swbp-actions"><%=paramRequest.getLocaleString("lblActions")%></th>
                                             </tr>
                                         </thead>
                                         <tbody>
