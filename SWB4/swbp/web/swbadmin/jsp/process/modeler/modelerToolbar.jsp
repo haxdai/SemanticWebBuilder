@@ -148,7 +148,7 @@ SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequ
     <span class="callruleTask" cId ="CallBusinessRuleTask" onmouseover="ToolBar.overToolBar(true);" onmouseout="ToolBar.outToolBar()" title="<%=paramRequest.getLocaleString("itemCallTaskRule")%>" onclick="Modeler.creationStart(this)"></span>
     <span class="callscriptTask" cId ="CallScriptTask" onmouseover="ToolBar.overToolBar(true);" onmouseout="ToolBar.outToolBar()" title="<%=paramRequest.getLocaleString("itemCallTaskScript")%>" onclick="Modeler.creationStart(this)"></span>
     <span class="calluserTask" cId ="CallUserTask" onmouseover="ToolBar.overToolBar(true);" onmouseout="ToolBar.outToolBar()" title="<%=paramRequest.getLocaleString("itemCallTaskUser")%>" onclick="Modeler.creationStart(this)"></span>
-    <span class="callsubProcess" cId ="CallSubProcess" onmouseover="ToolBar.overToolBar(true);" onmouseout="ToolBar.outToolBar()" title="<%=paramRequest.getLocaleString("itemCallSubprocess")%>" onclick="Modeler.creationStart(this)"></span>
+    <span class="callsubProcess" cId ="CallProcess" onmouseover="ToolBar.overToolBar(true);" onmouseout="ToolBar.outToolBar()" title="<%=paramRequest.getLocaleString("itemCallSubprocess")%>" onclick="Modeler.creationStart(this)"></span>
     <span class="subbarEnd"></span>
 </div>
 <div id="gatewaysBar" class="subbarHidden" style="width: 274px;">
