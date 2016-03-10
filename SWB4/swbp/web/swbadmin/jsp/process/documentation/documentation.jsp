@@ -255,7 +255,6 @@
                     </div>
                 </div>
                 <div class="panel-body swbp-panel-body">
-                    <div class="container">        
                         <%
                         itdsi = actives.iterator();//SWBComparator.sortSortableObject(di.listDocumentSectionInstances());//Regerar código para ordenamiento
                         while (itdsi.hasNext()) {
@@ -406,10 +405,10 @@
                                 <%
                             } else if (cls.equals(Model.sclass)) { //Model 
                                 String svgPath=SWBPortal.getContextPath()+"/swbadmin/jsp/process/modeler/modelerSVG.jsp";
-                                System.out.println("processData: "+p.getData());
                                 %>
-                                <div id="content_modeler" <%= (null == p.getData() || p.getData().isEmpty()) ? "style=\"display:none;\"" : "" %>></div>
-                                <jsp:include page="<%= svgPath %>" flush="true"/>
+                                <div id="swbp-model-container" <%= (null == p.getData() || p.getData().isEmpty()) ? "style=\"display:none;\"" : "" %>>
+                                    <jsp:include page="<%= svgPath %>" flush="true"/>
+                                </div>
                                 <%
                                 if (null != p.getData() && !p.getData().isEmpty()) {
                                     %>
@@ -424,8 +423,8 @@
 
                                             Modeler._svgSize = getDiagramSize();
                                             fitToScreen();
-                                            var element = $('#modelerContainer').detach();
-                                            $('#content_modeler').append(element);
+                                            //var element = $('#modelerContainer').detach();
+                                            //$('#swbp-model-container').append(element);
                                             var viewBox = document.getElementById("modeler").getAttribute('viewBox');
                                             console.log(viewBox);
                                             var vi = $('#viewBox');
@@ -590,7 +589,6 @@
                             }
                         }
                         %>
-                    </div>
                 </div>
                 <script type="text/javascript" src="/swbadmin/jsp/process/utils/tinymce/tinymce.min.js"></script>
                 <script type="text/javascript">
