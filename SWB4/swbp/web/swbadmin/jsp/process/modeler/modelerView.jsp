@@ -53,7 +53,9 @@
         if (!isViewMode) {
             %>
             <jsp:include page="modelerToolbar.jsp" flush="true"/>
-            <jsp:include page="modelerSVG.jsp" flush="true"/>
+            <div id="modelerContainer" class="modelerprocess" style="margin-left:66px;">
+                <jsp:include page="modelerSVG.jsp" flush="true"/>
+            </div>
             <%
         } else {
             %>
@@ -62,7 +64,7 @@
                     <a href="" onclick="window.history.go(-1); return false;" class="btn btn-block swbp-btn-block">Regresar</a>
                 </div>
             </div>
-            <div style="overflow: scroll;">
+            <div id="swbp-model-container">
                 <jsp:include page="modelerSVG.jsp" flush="true"/>
             </div>
             <%
