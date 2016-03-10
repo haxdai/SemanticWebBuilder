@@ -4338,7 +4338,7 @@ var _GraphicalElement = function(obj) {
                     ret.resize(200,60);
                     break;
                 case 'DataObject':
-                    ret = new _DataObject(Modeler.createObject("#data",null,null));
+                    ret = new _DataObject(Modeler.createObject("#dataObject",null,null));
                     ret.setText("");
                     break;
                 case 'DataInput':
