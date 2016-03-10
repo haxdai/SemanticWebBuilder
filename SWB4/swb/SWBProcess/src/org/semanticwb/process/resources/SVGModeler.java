@@ -259,12 +259,12 @@ public class SVGModeler extends GenericAdmResource {
                                 outs.write(ERRORSTRING.replace("_JSONERROR_", getError(3)).getBytes());
                             }
                         } catch (Exception ejs) {
-                            log.error("Error en el JSON recibido. ", ejs);
+                            log.error("Error en el JSON recibidopara el proceso "+process.getURI(), ejs);
                             outs.write(ERRORSTRING.replace("_JSONERROR_", getError(3)).getBytes());
                         }
                     }
                 } catch (Exception e) {
-                    log.error("Error al leer JSON...", e);
+                    log.error("Error al leer JSON para el proceso "+process.getURI(), e);
                     outs.write(ERRORSTRING.replace("_JSONERROR_", getError(3)).getBytes());
                 }
             } else {
