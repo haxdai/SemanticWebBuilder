@@ -1984,7 +1984,7 @@ var _GraphicalElement = function(obj) {
     
     var _CallSubProcess = function (obj) {
         var _this = new _CallActivity(obj);
-        _this.setElementType("CallSubProcess");
+        _this.setElementType("CallProcess");
         return _this;
     };
     
@@ -3542,9 +3542,9 @@ var _GraphicalElement = function(obj) {
                     obj.setAttributeNS(null,"oclass","eventSubTask_o");
                     obj.setBaseClass();
                     break;
-                case "callSubProcess":
-                    obj.setAttributeNS(null,"bclass","callActivity");
-                    obj.setAttributeNS(null,"oclass","callActivity_o");
+                case "callProcess":
+                    obj.setAttributeNS(null,"bclass","callactivity");
+                    obj.setAttributeNS(null,"oclass","callactivity_o");
                     obj.setBaseClass();
                     break;
                 case "transactionsubProcess":
@@ -4434,8 +4434,8 @@ var _GraphicalElement = function(obj) {
                     ret.setText("Subproceso");
                     ret.resize(100,60);
                     break;
-                case 'CallSubProcess':
-                    ret = new _CallSubProcess(Modeler.createSubProcess(null, null, "callSubProcess"));
+                case 'CallProcess':
+                    ret = new _CallSubProcess(Modeler.createSubProcess(null, null, "callProcess"));
                     ret.setText("Subproceso");
                     ret.resize(100,60);
                     break;
