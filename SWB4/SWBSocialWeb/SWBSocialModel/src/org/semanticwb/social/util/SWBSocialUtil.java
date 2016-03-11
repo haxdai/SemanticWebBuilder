@@ -1047,6 +1047,7 @@ public class SWBSocialUtil {
                     //System.out.println("socialTopic-2:"+socialTopic);
                     String sTags=socialTopic.getTags();
                     boolean existWord=false;
+                    //System.out.println("sTags-2:"+sTags);
                     if(sTags!=null && sTags.length()>0)
                     {
                         String[] tags=sTags.split("\\,");  //Dividir valores
@@ -1060,6 +1061,8 @@ public class SWBSocialUtil {
                             tag=SWBSocialUtil.Strings.replaceSpecialCharacters(tag);
 
                             tag=SWBSocialUtil.Strings.removePuntualSigns(tag, CONFIG_WEBSITE);
+                            
+                            //System.out.println("externalMsgTMP.toLowerCase():"+externalMsgTMP.toLowerCase());
 
                             //System.out.println("Tag2_Final:"+tag.toLowerCase());
                             //
