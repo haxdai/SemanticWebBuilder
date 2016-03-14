@@ -1481,6 +1481,7 @@ public class StreamInBox extends GenericResource {
                 response.setMode(Mode_UPDATEPOSTIN);
             }
         } else if (action.equals("reValue")) {
+            //System.out.println("Entra reValue-1");
             SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("postUri"));
             PostIn post = (PostIn) semObj.createGenericInstance();
             Stream postInStream = post.getPostInStream();
@@ -1488,32 +1489,39 @@ public class StreamInBox extends GenericResource {
                 String inputTextValue = request.getParameter("fw");
 
                 if (inputTextValue != null && inputTextValue.trim().length() > 0) {
-                    ////System.out.println("Text Completo:"+inputTextValue);
+                    //System.out.println("Texto Completo-StreamInBox:"+inputTextValue);
+                    //String lang=SWBSocialUtil.Util.getStringLanguage(inputTextValue);
+                    //System.out.println("lang:"+lang);
+                    
                     inputTextValue = SWBSocialUtil.Strings.removePrepositions(inputTextValue);
-                    ////System.out.println("Text Sin Prepo:"+inputTextValue);
+                    //System.out.println("Texto Sin Prepo:"+inputTextValue);
 
                     String[] phrases = inputTextValue.split(";");
                     /////System.out.println("Entra a processA/reValue-2:"+phrases);
                     int nv = Integer.parseInt(request.getParameter("nv"));
-                    ////System.out.println("Entra a processA/reValue-3:"+nv);¿¿8
+                    //System.out.println("Entra a processA/reValue-3:"+nv);
                     int dpth = Integer.parseInt(request.getParameter("dpth"));
-                    ////System.out.println("Entra a processA/reValue-4:"+dpth);
+                    //System.out.println("Entra a processA/reValue-4:"+dpth);
                     SentimentalLearningPhrase slp;
                     for (String phrase : phrases) {
                         String originalPhrase = phrase.toLowerCase().trim();
                         phrase = originalPhrase;
-                        ////System.out.println("Entra a processA/reValue-4.1:"+phrase);
-                        phrase = SWBSocialUtil.Classifier.normalizer(phrase).getNormalizedPhrase();
-                        ////System.out.println("Entra a processA/reValue-4.2--J:"+phrase);
-                        phrase = SWBSocialUtil.Classifier.getRootPhrase(phrase);
-                        ////System.out.println("Entra a processA/reValue-4.3--J:"+phrase);
-                        phrase = SWBSocialUtil.Classifier.phonematize(phrase);
-                        ////System.out.println("Entra a processA/reValue-4.4:"+phrase);
+                        //System.out.println("Entra a processA/reValue-4.1:"+phrase);
+                        //if(lang!=null && lang.equals("es"))
+                        {
+                            System.out.println("Es un Texto a clasificar en español...:"+phrase);
+                            phrase = SWBSocialUtil.Classifier.normalizer(phrase).getNormalizedPhrase();
+                            ////System.out.println("Entra a processA/reValue-4.2--J:"+phrase);
+                            phrase = SWBSocialUtil.Classifier.getRootPhrase(phrase);
+                            ////System.out.println("Entra a processA/reValue-4.3--J:"+phrase);
+                            phrase = SWBSocialUtil.Classifier.phonematize(phrase);
+                        }
+                        //System.out.println("Entra a processA/reValue-4.4:"+phrase);
                         //Se Buscan y se crean las frases de aprendizaje del sistema en el sitio de Admin, para que el sistema aprenda independientemente del
                         //sitio, así también si se elimina un sitio, las palabras aprendidas por el sistema para el clasificador, aun siguen sirviendo para los demas
                         //sitios.
-                        ////System.out.println("phrase:"+phrase);
                         slp = SentimentalLearningPhrase.getSentimentalLearningPhrasebyPhrase(phrase, SWBSocialUtil.getConfigWebSite());
+                        //System.out.println("phrase:"+phrase+",slp:"+slp);
                         if (slp == null) {
                             //phrase = SWBSocialUtil.Classifier.normalizer(phrase).getNormalizedPhrase();
                             //phrase = SWBSocialUtil.Classifier.getRootPhrase(phrase);
@@ -1533,14 +1541,18 @@ public class StreamInBox extends GenericResource {
                     }
 
                     boolean reclasifiedMsgs = false;
+                    //System.out.println("Reclasificar todos-0");
                     if (request.getParameter("reclasify") != null && !request.getParameter("reclasify").equals("0"))//Reclasificar
                     {
+                        //System.out.println("Reclasificar todos-1");
                         reclasifiedMsgs = true;
                         if (request.getParameter("reclasify").equals("1")) {
+                            //System.out.println("Reclasificar todos-2");
                             Iterator<PostIn> itStreamPostIns = postInStream.listPostInStreamInvs();
                             while (itStreamPostIns.hasNext()) {
                                 PostIn postIn = itStreamPostIns.next();
-                                ////System.out.println("postIn:"+postIn.getMsg_Text());
+                                //System.out.println("Reclasificar todos-3");
+                                //System.out.println("postIn:"+postIn.getMsg_Text());
                                 HashMap hmapValues = SWBSocialUtil.Classifier.classifyText(postIn.getMsg_Text());
                                 float promSentimentalValue = ((Float) hmapValues.get("promSentimentalValue")).floatValue();
                                 int sentimentalTweetValueType = ((Integer) hmapValues.get("sentimentalTweetValueType")).intValue();
@@ -1548,6 +1560,7 @@ public class StreamInBox extends GenericResource {
                                 int intensityTweetValueType = ((Integer) hmapValues.get("intensityTweetValueType")).intValue();
 
                                 //Guarda valores sentimentales en el PostIn (mensaje de entrada)
+                                //System.out.println("Reclasificar todos-4/promSentimentalValue:"+promSentimentalValue+",sentimentalTweetValueType:"+sentimentalTweetValueType);
                                 postIn.setPostSentimentalValue(promSentimentalValue);
                                 postIn.setPostSentimentalType(sentimentalTweetValueType);
 
@@ -1557,9 +1570,9 @@ public class StreamInBox extends GenericResource {
                             }
                         } else if (request.getParameter("reclasify").equals("2")) //Revisar permisos de usuario para ver si tiene permiso a reclasificar por Marca o Por todas las  marcas
                         {//Reclasificación para todos los mensajes de todos los streams de la marca en la que se encuentra
-
+                            //ToDo
                         } else if (request.getParameter("reclasify").equals("3")) {//Reclasificación para todos los mensajes de todos los streams de todas las marcas.
-
+                           //ToDo     
                         }
                     }
 
