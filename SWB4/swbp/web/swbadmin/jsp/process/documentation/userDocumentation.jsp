@@ -128,7 +128,7 @@
                     <div class="col-lg-10  col-md-10 col-sm-11 col-xs-10 swbp-list-text swbp-align-text"><%= title %></div>
                 </div>
                 <div class="col-lg-5 col-md-5 col-sm-3 col-xs-12 swbp-list-action">
-                    <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" href="<%= urlDoc.setParameter("idp", idp).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>"  role="button">
+                    <a class="btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6" href="<%= urlDoc.setParameter("idp", idp).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>"  role="button">
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-eye"></div>
                         <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Ver</div>
                     </a>
@@ -136,20 +136,16 @@
                     if (isDocumenter) { 
                         Process p = (Process)desc;
                         %> 
-                        <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" role="button" href="<%= contentsPage.getUrl() %>?idp=<%= p.getId() %>&_rid=<%=paramRequest.getResourceBase().getId()%>&wp=<%=paramRequest.getWebPage().getId()%>&<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%=idpg%>&p=<%= pag %>">
+                        <a class="btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6" role="button" href="<%= contentsPage.getUrl() %>?idp=<%= p.getId() %>&_rid=<%=paramRequest.getResourceBase().getId()%>&wp=<%=paramRequest.getWebPage().getId()%>&<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%=idpg%>&p=<%= pag %>">
                         <%
                     } else{
                         %>
-                        <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" role="button" href="#" disabled="disabled">
+                        <a class="btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6" role="button" href="#" disabled="disabled">
                         <%
                     }
                     %>
                         <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-pencil"></div>
                         <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Editar</div>
-                    </a>
-                    <a class="btn btn-default col-lg-4 col-md-4 col-sm-4 col-xs-4" href="#" role="button">
-                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 fa fa-trash-o"></div>
-                        <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Eliminar</div>
                     </a>
                 </div>
                 <%
