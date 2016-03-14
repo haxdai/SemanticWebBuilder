@@ -466,6 +466,7 @@ public class SWBSocialUtil {
         while(itPreps.hasNext())
         {
             Prepositions prep=itPreps.next();
+            //System.out.println("prep.getId():"+prep.getId());
             aPrepositions.add(prep.getId());
         }
         //Lenguaje Ingles
@@ -1262,7 +1263,7 @@ public class SWBSocialUtil {
             int sentimentalTweetValueType=0;    //Por defecto sería neutro
             int intensityTweetValueType=0;    //Por defecto sería un tweet con intensidad baja.
             float promIntensityValue=0;     
-            if(lang!=null && lang.equals("es"))
+            //if(lang!=null && lang.equals("es"))
             {    
                 //System.out.println("Va a Clasificar mensaje para Lenguage ESPAÑOL");
                 int wordsCont=0;
@@ -1327,7 +1328,7 @@ public class SWBSocialUtil {
                     //word2Find=SWBSocialUtil.Classifier.phonematize(word2Find);
                     //System.out.println("word Fonematizada:"+word2Find);
                     //SentimentWords sentimentalWordObj=SentimentWords.ClassMgr.getSentimentWords(word2Find, socialAdminSite);
-                    if(aSentimentWords.contains(word2Find)) //La palabra en cuestion ha sido encontrada en la BD
+                    if(lang!=null && lang.equals("es") && aSentimentWords.contains(word2Find)) //La palabra en cuestion ha sido encontrada en la BD
                     {   
                         SentimentWords sentimentalWordObj=SentimentWords.ClassMgr.getSentimentWords(word2Find, CONFIG_WEBSITE);
                         //System.out.println("Palabra Encontrada:"+word2Find);
@@ -1349,11 +1350,57 @@ public class SWBSocialUtil {
                             //System.out.println("VENIA PALABRA CON CARACTERES REPETIDOS:"+word2Find);
                             IntensiveTweetValue+=1;
                         }
-                        sentimentalTweetValue+=sentimentalWordObj.getSentimentalValue();
-                    }
+                        sentimentalTweetValue+=sentimentalWordObj.getSentimentalValue();                        
+                        
+                    }else if(lang!=null && lang.equals("en"))
+                        {   
+                            //System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
+                            //String[] words = text.split("\\s+"); 
+                            double totalScore = 0, averageScore;
+                            //for(String word : words) {                    
+                                if(!aENGLISH_STOP_WORDS.contains(word2Find))
+                                {
+                                    word2Find = word2Find.replaceAll("([^a-zA-Z\\s])", "");
+                                    //if (extract(word) == null)
+                                    //    continue;
+                                    totalScore += extract(word2Find);
+                                }
+                            //}
+                            averageScore = totalScore;
+
+                            //System.out.println("averageScore:"+averageScore);
+
+                            if(averageScore>=0.75){
+                                //return "Strong positive";
+                                sentimentalTweetValueType=1;
+                                IntensiveTweetValue=2;
+                            }else if(averageScore>=0.5){
+                                //return  "positive";
+                                sentimentalTweetValueType=1;
+                                IntensiveTweetValue=1;
+                            }else if(averageScore > 0.25 && averageScore<0.5){
+                                //return  "weak_positive";
+                                sentimentalTweetValueType=1;
+                                IntensiveTweetValue=0;
+                            }else if(averageScore < -0.25 && averageScore>=-0.5){
+                                //return "negative";
+                                sentimentalTweetValueType=2;
+                                IntensiveTweetValue=0;
+                            }else if(averageScore < -0.5 && averageScore>-0.75){
+                                //return "weak_negative";
+                                sentimentalTweetValueType=2;
+                                IntensiveTweetValue=1;
+                            }else if(averageScore<=-0.75){
+                                //return "strong_negative";
+                                sentimentalTweetValueType=2;
+                                IntensiveTweetValue=2;
+                            }
+                            //return "neutral";
+                            promSentimentalValue=Float.parseFloat(Double.toString(averageScore));
+                        }
                 }
                 
-                ////
+                
                 if(sentimentalTweetValue>0) //Se revisa de acuerdo al promedio de sentimentalTweetValue/wordsCont, que valor sentimental posee el tweet
                 {
                     promSentimentalValue=sentimentalTweetValue/wordsCont;
@@ -1381,9 +1428,9 @@ public class SWBSocialUtil {
                         intensityTweetValueType=1;
                     }
                 }
-            }else if(lang!=null && lang.equals("en"))
+            }/*else if(lang!=null && lang.equals("en"))
             {
-                //System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
+                System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
                 String[] words = text.split("\\s+"); 
                 double totalScore = 0, averageScore;
                 for(String word : words) {                    
@@ -1426,7 +1473,7 @@ public class SWBSocialUtil {
                 }
                 //return "neutral";
                 promSentimentalValue=Float.parseFloat(Double.toString(averageScore));
-            }
+            }*/
            
             HashMap hmapValuesReturn=new HashMap();
             //System.out.println("promSentimentalValue Final:"+promSentimentalValue+",sentimentalTweetValueType" +sentimentalTweetValueType);
