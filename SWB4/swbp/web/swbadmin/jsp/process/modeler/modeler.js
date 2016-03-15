@@ -3691,6 +3691,7 @@ var _GraphicalElement = function(obj) {
         loadProcess: function(modelJSON) {
             var json;
             
+            //Parse json
             if (typeof modelJSON === "string") {
                 try {
                     json = JSON.parse(modelJSON);
@@ -3703,8 +3704,15 @@ var _GraphicalElement = function(obj) {
                 json = modelJSON || {};
             }
 
+            //Check for empty 
             if (Object.keys(json).length === 0) {
                 ToolKit.showTooltip(0,"Ocurrió un problema al cargar el modelo. Modelo vacío.", 200, "Error");
+                return;
+            }
+            
+            //Process error from file processing
+            if (json.error) {
+                ToolKit.showTooltip(0,json.error, 200, "Error");
                 return;
             }
             
