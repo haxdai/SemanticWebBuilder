@@ -24,14 +24,15 @@ package org.semanticwb.process.xpdl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Stack;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.json.JSONArray;
@@ -41,7 +42,6 @@ import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
@@ -103,28 +103,46 @@ public class XPDLParser extends DefaultHandler {
      * @param istream Inputsream con el contenido del archivo XPDL.
      * @param normalize Indica si se normalizarán los saltos de línea previo al parseo.
      * @return JSON del modelo del proceso.
-     * @throws Exception 
      */
-    public JSONObject parse(InputStream istream, boolean normalize) throws Exception {
-        parser = spf.newSAXParser();
-        
-        if (validate) {
-            try {
+    public JSONObject parse(InputStream istream, boolean normalize) {
+        try {
+            parser = spf.newSAXParser();
+            
+            if (validate) {
                 parser.setProperty(JAXP_SCHEMA_LANGUAGE, W3C_XML_SCHEMA);
                 parser.setProperty(JAXP_SCHEMA_SOURCE, xsdPath);
-            } catch (SAXNotRecognizedException ex) {
-                log.error("Error: JAXP SAXParser property not recognized: " + JAXP_SCHEMA_LANGUAGE +" Check to see if parser conforms to the JAXP spec.");
             }
+            
+            if (normalize) {
+                String xml = SWBUtils.IO.readInputStream(istream);
+                istream.close();
+                xml = xml.replace("&#xD;&#xA;", "\n");//EHSP10032016 - To prevent errors importing from bizagi, because apparently SAX does not notmalize strings
+                parser.parse(SWBUtils.IO.getStreamFromString(xml), this);
+            } else {
+                parser.parse(istream, this);
+            }
+        } catch (ParserConfigurationException ex) {
+            log.error("Error de configuración del parser", ex);
+            try {
+                processModel = new JSONObject();
+                processModel.put("error", "Ocurrió un problema al procesar el archivo del modelo");
+            } catch (JSONException ex1) { }
+        } catch (SAXException ex) {
+            log.error("Error al crear el parser", ex);
+            try {
+                processModel = new JSONObject();
+                processModel.put("error", "Ocurrió un problema al procesar el archivo del modelo, verifique que el archivo XPDL está bien formado");
+            } catch (JSONException ex1) { }
+        } catch (IOException ex) {
+            log.error("Error al leer el archivo del modelo", ex);
+            try {
+                processModel = new JSONObject();
+                processModel.put("error", "Ocurrió un problema al leer el archivo del modelo");
+            } catch (JSONException ex1) { }
         }
-        
-        if (normalize) {
-            String xml = SWBUtils.IO.readInputStream(istream);
-            istream.close();
-            xml = xml.replace("&#xD;&#xA;", "\n");//EHSP10032016 - To prevent errors importing from bizagi, because apparently SAX does not notmalize strings
-            parser.parse(SWBUtils.IO.getStreamFromString(xml), this);
-        } else {
-            parser.parse(istream, this);
-        }
+        // catch (SAXNotRecognizedException ex) {
+        //    log.error("Error: JAXP SAXParser property not recognized: " + JAXP_SCHEMA_LANGUAGE +" Check to see if parser conforms to the JAXP spec.");
+        //}
         return processModel;
     }
     
@@ -132,9 +150,8 @@ public class XPDLParser extends DefaultHandler {
      * Parsea el archivo XPDL y genera el modelo JSON del proceso.
      * @param istream Inputsream con el contenido del archivo XPDL.
      * @return JSON del modelo del proceso.
-     * @throws Exception 
      */
-    public JSONObject parse(InputStream istream) throws Exception {
+    public JSONObject parse(InputStream istream) {
         parse(istream, true);
         return processModel;
     }
@@ -331,7 +348,7 @@ public class XPDLParser extends DefaultHandler {
                     } else {
                         _cls = "AssociationFlow";
                     }
-                    
+                    //TODO: Verificar asociaciones, agregar sólo en caso de que tengan inicio y fin
                     if (XPDLProcessor.XPDLEntities.DATASTOREREFERENCE.equals(sourceCls)) {
                         el.put("start",source.optString(XPDLProcessor.XPDLAttributes.DATASTOREREF,""));
                     } else {
@@ -434,23 +451,45 @@ public class XPDLParser extends DefaultHandler {
         String posfix = type;
         if ("None".equals(ret)) ret = "";
         
-        if ("Conditional".equals(trigger)) ret = "Rule";
-        else if ("ParallelMultiple".equals(trigger)) ret = "Parallel";
-        else if ("Multiple".equals(trigger)) ret = "Multiple";
-        else if ("Escalation".equals(trigger)) ret = "Scalation";
-        else if ("Cancel".equals(trigger)) ret = "Cancelation";
-        else if ("Terminate".equals(trigger)) ret = "Termination";
+        if (null != trigger) switch (trigger) {
+            case "Conditional":
+                ret = "Rule";
+                break;
+            case "ParallelMultiple":
+                ret = "Parallel";
+                break;
+            case "Multiple":
+                ret = "Multiple";
+                break;
+            case "Escalation":
+                ret = "Scalation";
+                break;
+            case "Cancel":
+                ret = "Cancelation";
+                break;
+            case "Terminate":
+                ret = "Termination";
+                break;
+            default:
+                break;
+        }
         
-        if (XPDLProcessor.XPDLEntities.STARTEVENT.equals(type)) {
-            posfix = XPDLProcessor.XPDLEntities.STARTEVENT;
-        } else if (XPDLProcessor.XPDLEntities.ENDEVENT.equals(type)) {
-            posfix = XPDLProcessor.XPDLEntities.ENDEVENT;
-        } else if (XPDLProcessor.XPDLEntities.INTERMEDIATEEVENT.equals(type)) {
-            if (!"".equals(catchThrow)) {
-                posfix = "IntermediateThrowEvent";
-            } else {
-                posfix = "IntermediateCatchEvent";
-            }
+        //TODO: Los primeros dos casos se pueden simplificar
+        if (null != type) switch (type) {
+            case XPDLProcessor.XPDLEntities.STARTEVENT:
+                posfix = XPDLProcessor.XPDLEntities.STARTEVENT;
+                break;
+            case XPDLProcessor.XPDLEntities.ENDEVENT:
+                posfix = XPDLProcessor.XPDLEntities.ENDEVENT;
+                break;
+            case XPDLProcessor.XPDLEntities.INTERMEDIATEEVENT:
+                if (!"".equals(catchThrow)) {
+                    posfix = "IntermediateThrowEvent";
+                } else {
+                    posfix = "IntermediateCatchEvent";
+                }   break;
+            default:
+                break;
         }
         return ret + posfix;
     }
