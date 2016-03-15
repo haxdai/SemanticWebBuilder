@@ -1255,6 +1255,7 @@ public class SWBSocialUtil {
         public static HashMap classifyText(String text)
         {
             String lang=SWBSocialUtil.Util.getStringLanguage(text);
+            if(lang==null) lang="";
             //System.out.println("classifyText-->LENGUAJE DETECTADO:"+lang);
             
             float sentimentalTweetValue;
@@ -1287,7 +1288,9 @@ public class SWBSocialUtil {
 
                 HashMap hmapValues=findInLearnigPhrases(text);
                 sentimentalTweetValue=((Float)hmapValues.get("sentimentalTweetValue")).floatValue();
+                //System.out.println("Aqui-0/sentimentalTweetValue:"+sentimentalTweetValue);
                 IntensiveTweetValue=((Float)hmapValues.get("IntensiveTweetValue")).floatValue();
+                //System.out.println("Aqui-1/IntensiveTweetValue:"+IntensiveTweetValue);
                 wordsCont=((Integer)hmapValues.get("wordsCont")).intValue();
                 text=((String)hmapValues.get("text"));
 
@@ -1304,6 +1307,7 @@ public class SWBSocialUtil {
 
                 //System.out.println("ANALISIS-6-SIN SIGNOS DE PUNTUACION:"+text);
                 
+                double totalScore = 0;
                 ArrayList<String> aListWords=new ArrayList();
                 StringTokenizer st = new StringTokenizer(text);
                 while (st.hasMoreTokens())
@@ -1328,7 +1332,7 @@ public class SWBSocialUtil {
                     //word2Find=SWBSocialUtil.Classifier.phonematize(word2Find);
                     //System.out.println("word Fonematizada:"+word2Find);
                     //SentimentWords sentimentalWordObj=SentimentWords.ClassMgr.getSentimentWords(word2Find, socialAdminSite);
-                    if(lang!=null && lang.equals("es") && aSentimentWords.contains(word2Find)) //La palabra en cuestion ha sido encontrada en la BD
+                    if(lang.equals("es") && aSentimentWords.contains(word2Find)) //La palabra en cuestion ha sido encontrada en la BD
                     {   
                         SentimentWords sentimentalWordObj=SentimentWords.ClassMgr.getSentimentWords(word2Find, CONFIG_WEBSITE);
                         //System.out.println("Palabra Encontrada:"+word2Find);
@@ -1353,57 +1357,41 @@ public class SWBSocialUtil {
                         sentimentalTweetValue+=sentimentalWordObj.getSentimentalValue();                        
                         
                     }else if(lang!=null && lang.equals("en"))
-                        {   
-                            //System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
-                            //String[] words = text.split("\\s+"); 
-                            double totalScore = 0, averageScore;
-                            //for(String word : words) {                    
-                                if(!aENGLISH_STOP_WORDS.contains(word2Find))
+                    {   
+                        //System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
+                        //String[] words = text.split("\\s+"); 
+                        //for(String word : words) {                    
+                        if(!aENGLISH_STOP_WORDS.contains(word2Find))
+                        {
+                            word2Find = word2Find.replaceAll("([^a-zA-Z\\s])", "");
+                            //if (extract(word) == null)
+                            //    continue;
+                            if(extract(word2Find)!=0)
+                            {
+                                totalScore += extract(word2Find);
+                                //sentimentalTweetValue+= extract(word2Find);
+                                wordsCont++;
+                                if(SWBSocialUtil.Strings.isIntensiveWordByUpperCase(word2FindTmp, 3))
                                 {
-                                    word2Find = word2Find.replaceAll("([^a-zA-Z\\s])", "");
-                                    //if (extract(word) == null)
-                                    //    continue;
-                                    totalScore += extract(word2Find);
+                                    //System.out.println("VENIA PALABRA CON MAYUSCULAS:"+word2Find);
+                                    IntensiveTweetValue+=1;
                                 }
-                            //}
-                            averageScore = totalScore;
+                                //Veo si en la palabra se repiten mas de 2 caracteres para los que se pueden repetir hasta 2 veces (Arrar Doubles)
+                                // y mas de 1 cuando no estan dichos caracteres en docho array, si es así entonces se incrementa la intensidad
 
-                            //System.out.println("averageScore:"+averageScore);
-
-                            if(averageScore>=0.75){
-                                //return "Strong positive";
-                                sentimentalTweetValueType=1;
-                                IntensiveTweetValue=2;
-                            }else if(averageScore>=0.5){
-                                //return  "positive";
-                                sentimentalTweetValueType=1;
-                                IntensiveTweetValue=1;
-                            }else if(averageScore > 0.25 && averageScore<0.5){
-                                //return  "weak_positive";
-                                sentimentalTweetValueType=1;
-                                IntensiveTweetValue=0;
-                            }else if(averageScore < -0.25 && averageScore>=-0.5){
-                                //return "negative";
-                                sentimentalTweetValueType=2;
-                                IntensiveTweetValue=0;
-                            }else if(averageScore < -0.5 && averageScore>-0.75){
-                                //return "weak_negative";
-                                sentimentalTweetValueType=2;
-                                IntensiveTweetValue=1;
-                            }else if(averageScore<=-0.75){
-                                //return "strong_negative";
-                                sentimentalTweetValueType=2;
-                                IntensiveTweetValue=2;
+                                if(normalizerCharDuplicate.isCharDuplicate()){
+                                    //System.out.println("VENIA PALABRA CON CARACTERES REPETIDOS:"+word2Find);
+                                    IntensiveTweetValue+=1;
+                                }
                             }
-                            //return "neutral";
-                            promSentimentalValue=Float.parseFloat(Double.toString(averageScore));
                         }
+                    }
                 }
-                
-                
-                if(sentimentalTweetValue>0) //Se revisa de acuerdo al promedio de sentimentalTweetValue/wordsCont, que valor sentimental posee el tweet
+               
+                if(lang.equals("es") && sentimentalTweetValue>0) //Se revisa de acuerdo al promedio de sentimentalTweetValue/wordsCont, que valor sentimental posee el tweet
                 {
-                    promSentimentalValue=sentimentalTweetValue/wordsCont;
+                    if(wordsCont>0) promSentimentalValue=sentimentalTweetValue/wordsCont;
+                    else promSentimentalValue=sentimentalTweetValue;
                     //post.setPostSentimentalValue(prom);
                     //System.out.println("prom final:"+prom);
                     if(promSentimentalValue>=4.5) //Si el promedio es mayor de 4.5 (Segun Octavio) es un tweet positivo
@@ -1414,20 +1402,63 @@ public class SWBSocialUtil {
                         //System.out.println("Se guarda Post Negativo:"+post.getId()+", valor promedio:"+prom);
                         //post.setPostSentimentalType(2); //Tweet Negativo, valor de 1 (Esto yo lo determiné)
                         sentimentalTweetValueType=2;
-                    }
+                    }                                      
                 }
-                ////
+                
+                //Para Ingles
+                if(lang!=null && lang.equals("en"))
+                {
+                    if(totalScore>=0.75 || sentimentalTweetValue>=7){
+                        //return "Strong positive";
+                        sentimentalTweetValueType=1;
+                        //IntensiveTweetValue=2;
+                    }else if(totalScore>=0.5 || sentimentalTweetValue>=5){
+                        //return  "positive";
+                        sentimentalTweetValueType=1;
+                        //IntensiveTweetValue=1;
+                    }else if((totalScore > 0.25 && totalScore<0.5) || sentimentalTweetValue>=4.5){
+                        //return  "weak_positive";
+                        sentimentalTweetValueType=1;
+                        //IntensiveTweetValue=0;
+                    }else if((totalScore < -0.25 && totalScore>=-0.5) || (sentimentalTweetValue<4.5 && sentimentalTweetValue>=3)){
+                        //return "negative";
+                        sentimentalTweetValueType=2;
+                        //IntensiveTweetValue=0;
+                    }else if((totalScore < -0.5 && totalScore>-0.75) || (sentimentalTweetValue<3 && sentimentalTweetValue>=2)){
+                        //return "weak_negative";
+                        sentimentalTweetValueType=2;
+                        //IntensiveTweetValue=1;
+                    }else if(totalScore<=-0.75 || (sentimentalTweetValue<2 && sentimentalTweetValue>0)){
+                        //return "strong_negative";
+                        sentimentalTweetValueType=2;
+                        //IntensiveTweetValue=2;
+                    }else if(sentimentalTweetValue==0){
+                        //return "strong_negative";
+                        sentimentalTweetValueType=0;
+                        //IntensiveTweetValue=2;
+                    }
+                    //return "neutral";
+                    if(totalScore==0)promSentimentalValue=sentimentalTweetValue;
+                    else promSentimentalValue=Float.parseFloat(Double.toString(totalScore));
+                } 
+                
+                //System.out.println("Aqui 1.5 Carnal/promSentimentalValue:"+promSentimentalValue);
+                //System.out.println("Aqui 2 Carnal:"+IntensiveTweetValue+",wordsCont:"+wordsCont);
+                
+                //Intensidad
                 if(IntensiveTweetValue>0)
                 {
-                    promIntensityValue=IntensiveTweetValue/wordsCont;
+                    if(wordsCont==0) promIntensityValue=IntensiveTweetValue;
+                    else promIntensityValue=IntensiveTweetValue/wordsCont;
                     if(promIntensityValue>=5.44) //Si el promedio es mayor de 5.44 sería un tweet con intesidad alta, ya que la maxima en intensidad es de 8.16
                     {
                         intensityTweetValueType=2;
                     }else if(promIntensityValue<5.44 && promIntensityValue>=2.72) //tweet con intensidad media
                     {
                         intensityTweetValueType=1;
-                    }
-                }
+                    }                    
+                }                                
+                //System.out.println("Aqui-3/intensityTweetValueType:"+intensityTweetValueType);
             }/*else if(lang!=null && lang.equals("en"))
             {
                 System.out.println("Va a Clasificar mensaje para Lenguage INGLES");
