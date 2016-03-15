@@ -1431,7 +1431,7 @@ public class StreamInBox extends GenericResource {
         CreationHelper ch = wb.getCreationHelper();
         Cell cell = row.createCell(column);
 
-        cell.setCellValue(ch.createRichTextString(strContenido));
+        cell.setCellValue(ch.createRichTextString(strContenido != null ? strContenido : ""));
         cellStyle.setAlignment(halign);
         cellStyle.setVerticalAlignment(valign);
         cellStyle.setBorderBottom(HSSFCellStyle.BORDER_DOTTED);
