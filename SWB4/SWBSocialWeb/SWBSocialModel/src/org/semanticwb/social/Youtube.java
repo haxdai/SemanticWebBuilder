@@ -38,9 +38,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -90,6 +88,7 @@ import com.google.api.services.youtube.model.*;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import org.semanticwb.model.GenericIterator;
 
 
 public class Youtube extends org.semanticwb.social.base.YoutubeBase {
@@ -147,8 +146,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             return;
         }
 
+        String messageText = "";
         if (video.getMsg_Text() != null && video.getMsg_Text().trim().length() > 1) {
-            String messageText = this.shortMsgText(video);
+            messageText = this.shortMsgText(video);
         }
         
         com.google.api.services.youtube.YouTube apiYoutube = this.getApiYoutubeInstance();
@@ -157,22 +157,36 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         com.google.api.services.youtube.model.Video apiVideo = new com.google.api.services.youtube.model.Video();
         String privacy = this.privacyValue(video);
         String category = video.getCategory() == null || video.getCategory().isEmpty()
-                          ? "22" : video.getCategory();  //Categoria 22 = People & blogs
+                          ? (this.getYoutubeCategory() != null && !this.getYoutubeCategory().getId().isEmpty())
+                            ? this.getYoutubeCategory().getId() : ""
+                          : video.getCategory();  //Categoria 22 = People & blogs
         
+        try {
+            int categoryInt = Integer.parseInt(category);
+        } catch (NumberFormatException nfe) {
+            category = "";
+        }
         VideoStatus videoStatus = new VideoStatus();
-        videoStatus.setPrivacyStatus(privacy.equalsIgnoreCase("NOT_LISTED") ? "unlisted" : privacy.toLowerCase());
+        if (privacy != null) {
+            videoStatus.setPrivacyStatus(privacy.equalsIgnoreCase("NOT_LISTED")
+                                         ? "unlisted" : privacy.toLowerCase());
+        }
         videoStatus.setEmbeddable(Boolean.TRUE);
         videoStatus.setPublicStatsViewable(Boolean.TRUE);
         apiVideo.setStatus(videoStatus);
         
         VideoSnippet videoSnippet = new VideoSnippet();
         videoSnippet.setTitle(video.getTitle());
-        videoSnippet.setDescription(video.getMsg_Text() == null ? "" : video.getMsg_Text());
-        String[] tags = video.getTags().split(",");
-        List<String> snippetTags = new ArrayList<String>();
-        snippetTags.addAll(Arrays.asList(tags));
-        videoSnippet.setTags(snippetTags);
-        videoSnippet.setCategoryId(category);
+        videoSnippet.setDescription(messageText);
+        if (video.getTags() != null && !video.getTags().isEmpty()) {
+            String[] tags = video.getTags().split(",");
+            List<String> snippetTags = new ArrayList<String>();
+            snippetTags.addAll(Arrays.asList(tags));
+            videoSnippet.setTags(snippetTags);
+        }
+        if (category != null && !category.isEmpty()) {
+            videoSnippet.setCategoryId(category);
+        }
         apiVideo.setSnippet(videoSnippet);
         
         String[] arr = video.getVideo().split("\\.");
@@ -229,7 +243,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                 }
             };
             uploader.setProgressListener(progressListener);
-            
+            //System.out.println("\nYoutube - video snippet: " + videoSnippet.toString());
             // Call the API and upload the video.
             com.google.api.services.youtube.model.Video returnedVideo = videosInsert.execute();
             if (returnedVideo != null && returnedVideo.getId() != null) {
@@ -294,9 +308,11 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
             in = conex.getInputStream();
             response = Youtube.getResponse(in);
+        } catch (java.io.FileNotFoundException fnfe) {
+            response = "{}";
         } catch (java.io.IOException ioe) {
             if (conex != null) {
-                Youtube.log.error("Ruta soliciatada: " + url + "?" + paramString + "\nERROR in getRequest:" + Youtube.getResponse(conex.getErrorStream()), ioe);
+                Youtube.log.error("Ruta solicitada: " + url + "?" + paramString + "\nERROR in getRequest:" + Youtube.getResponse(conex.getErrorStream()), ioe);
             } else {
                 Youtube.log.error("ERROR in getRequest", ioe); 
             }
@@ -688,7 +704,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             Youtube.log.event("Unable to update the access token inside listen Youtube!");
             this.validateToken();
         }
-        ArrayList<ExternalPost> aListExternalPost = new ArrayList(256);
+        ArrayList<ExternalPost> aListExternalPost = new ArrayList<ExternalPost>(256);
         String searchPhrases = this.formatsYoutubePhrases(stream);//getPhrases(stream.getPhrase());
         if (searchPhrases == null || searchPhrases.isEmpty()) {
             Youtube.log.warn("\nNot a valid value to make a youtube search:" + searchPhrases);
@@ -701,7 +717,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             return;
         }
         
-        Iterator<YouTubeCategory> it = this.listYoutubeCategories();
+        GenericIterator<YouTubeCategory> it = this.listYoutubeCategories();
         if (it.hasNext()) {//The first category
             category = it.next().getId();
         }
@@ -874,7 +890,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
                         }
                     }
                     if ((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)) {//Classify the block of videos
-                        new Classifier((ArrayList <ExternalPost>) aListExternalPost.clone(), stream, this, true);
+                        new Classifier((ArrayList<ExternalPost>) aListExternalPost.clone(), stream, this, true);
                         aListExternalPost.clear();
                     }
                     if (!stream.isActive()) {//If the stream has been disabled stop listening
@@ -1050,7 +1066,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             try {
                 parseUsrInf = new JSONObject(googlePlus);
             } catch (JSONException jse) {
-                parseUsrInf = new JSONObject();
+                parseUsrInf = new JSONObject();//si no existe el usuario
             }
             if (parseUsrInf.has("gender") && !parseUsrInf.isNull("gender")) {
                 userInfo.put("gender", parseUsrInf.getString("gender"));
@@ -1341,9 +1357,9 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
     }
 
     @Override
-    public HashMap monitorPostOutResponses(PostOut postOut) {
+    public HashMap<String, Long> monitorPostOutResponses(PostOut postOut) {
         //throw new UnsupportedOperationException("Not supported yet.");
-        HashMap hMapPostOutNets = new HashMap();
+        HashMap<String, Long> hMapPostOutNets = new HashMap<String, Long>();
         Iterator<PostOutNet> itPostOutNets=PostOutNet.ClassMgr.listPostOutNetBySocialPost(postOut);
         
         if (!this.validateToken()) {
@@ -1661,7 +1677,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         boolean removed = false;
         StringBuilder toFile = new StringBuilder(128);
         try {                        
-            Iterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
+            GenericIterator<PostOutNet> ponets = postOut.listPostOutNetInvs();
             while (ponets.hasNext()) {
                 PostOutNet postoutnet = ponets.next();
                 if (postoutnet.getSocialNetwork().equals(socialNet)) {//PostOut enviado de la red social
