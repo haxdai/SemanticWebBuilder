@@ -135,7 +135,7 @@
                 setParameter("suri", objUri).
                 setParameter("currentTab", "facebook" + facebook.getId() + "Wall").
                 setParameter("permission", WALL_PERMISSIONS);
-        if (wallPermissions.equals("declined")) {
+        if (wallPermissions.equals("declined") || wallPermissions.equals("false")) {
             permissionURL = permissionURL.setParameter("retry", "true");
         }
         SWBResourceURL formReloadUrl = paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW);
@@ -150,6 +150,7 @@
                 Lo puedes hacer dando clic 
                 <a href="#" onclick="myFunction('<%=permissionURL.toString()%>&containerId='+this.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.id); return false;">aqu&iacute;</a>
             </label>
+            
         </div>
     </div>
     <form id="permission<%=facebook.getEncodedURI()%>" action="<%=formReloadUrl.toString()%>"
