@@ -1052,7 +1052,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
         //Se realiza la peticion API Google,para obtener los datos de usuario en google+
         if (googlePlusUserId.isEmpty()) {
-            Youtube.log.error("El usuario " + userId + " no tiene asociado un id de google");
+//            Youtube.log.error("El usuario " + userId + " no tiene asociado un id de google");
             return userInfo;
         }
 
