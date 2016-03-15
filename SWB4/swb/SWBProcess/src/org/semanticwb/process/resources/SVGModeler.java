@@ -39,8 +39,10 @@ import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.PNGTranscoder;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -92,7 +94,7 @@ public class SVGModeler extends GenericAdmResource {
     public static final String ACT_LOADFILE = "loadFile";
     private static final String PROP_CLASS = "class";
     private static final String PROP_TITLE = "title";
-    private static final String ERRORSTRING = "{error:\"_JSONERROR_\"}";
+    private static final String ERRORSTRING = "{\"error\":\"_JSONERROR_\"}";
     private static final String PROP_DESCRIPTION = "description";
     private static final String PROP_CONNPOINTS = "connectionPoints";
     private static final String PROP_URI = "uri";
@@ -1199,9 +1201,12 @@ public class SVGModeler extends GenericAdmResource {
                         }
                     }
                 }
-            } catch (Exception ex) {
+            } catch (FileUploadException | IOException ex) {
                 data = null;
-                log.error("Error al cargar el archivo", ex);
+                log.error("Error al procesar el archivo", ex);
+            } catch (JSONException ex) {
+                data = null;
+                log.error("Error al generar el json del modelo", ex);
             }
         }
         return data;
