@@ -215,8 +215,8 @@ public class SocialWebResource extends GenericAdmResource
                         out.println("<p style=\"background-color: red;\">Aunque sin permisos de publicaci&oacute;n;");
                         out.println("por favor, pulsa el bot&oacute;n de abajo y acepta que esta aplicaci&oacute;n");
                         out.println(" publique en tu nombre a fin de que tengas una mejor experiencia con Facebook.</p>");
-                        System.out.println("  ++  ++  ++  ++ checkPubPerm: " + checkPubPerm);
-                        if (checkPubPerm.equals("declined")) {
+                        //System.out.println("  ++  ++  ++  ++ checkPubPerm: " + permission2Add + " - " + checkPubPerm);
+                        if (checkPubPerm.equals("declined") || checkPubPerm.equals("false")) {
                             retryAskPerm = true;
                         }
                     }

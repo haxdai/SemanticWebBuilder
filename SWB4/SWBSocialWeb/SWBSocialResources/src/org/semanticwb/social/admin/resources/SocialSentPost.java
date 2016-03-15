@@ -4142,7 +4142,7 @@ public class SocialSentPost extends GenericResource {
             /*writer.write("comments: " + fbComments);*/
 
             JSONObject phraseResp = new JSONObject(fbComments);
-            JSONArray commentsData = phraseResp.getJSONArray("data");
+            JSONArray commentsData = phraseResp.has("data") ? phraseResp.getJSONArray("data") : new JSONArray();
 //            JSONArray userData = null;
 //            JSONArray pageData = null;
 //
