@@ -2066,7 +2066,7 @@ textarea.swbp-form-control{
     }    
 }
 /******************** PLANTILLAS ********************/
-.swbp-panel-body-card input {
+.swbp-panel-body-card input :not(.dijitInputInner) {
     @include input;
     
     &:focus{
