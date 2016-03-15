@@ -241,20 +241,27 @@ public class ProcessFileRepository extends GenericResource {
 
         String fid = request.getParameter("fid");
         String verNumber = request.getParameter("verNum");
-        int intVer = 1;
-        if (verNumber != null) {
-            intVer = Integer.parseInt(verNumber);
-        }
+        //int intVer = 1;
+        //if (verNumber != null) {
+        //    intVer = Integer.parseInt(verNumber);
+       // }
         RepositoryFile repoFile = RepositoryFile.ClassMgr.getRepositoryFile(fid, paramRequest.getWebPage().getWebSite());
-        VersionInfo ver = null;
-        VersionInfo vl = repoFile.getLastVersion();
-        if (null != vl) {
-            ver = vl;
-            while (ver.getPreviousVersion() != null) { //
-                if (ver.getVersionNumber() == intVer) {
-                    break;
+        //Get last version by default
+        VersionInfo ver = repoFile.getLastVersion();
+        
+        //Get requested version number
+        if (null != verNumber && !verNumber.isEmpty()) {
+            int intVer = Integer.parseInt(verNumber);
+           
+            VersionInfo vl = ver;
+            if (null != vl) {
+                ver = vl;
+                while (ver.getPreviousVersion() != null) {
+                    if (ver.getVersionNumber() == intVer) {
+                        break;
+                    }
+                    ver = ver.getPreviousVersion();
                 }
-                ver = ver.getPreviousVersion();
             }
         }
 
@@ -264,7 +271,7 @@ public class ProcessFileRepository extends GenericResource {
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + ver.getVersionFile() + "\"");
 
                 OutputStream out = response.getOutputStream();
-                SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + verNumber + "/" + ver.getVersionFile()), out);
+                SWBUtils.IO.copyStream(new FileInputStream(SWBPortal.getWorkPath() + repoFile.getWorkPath() + "/" + ver.getVersionNumber() + "/" + ver.getVersionFile()), out);
             } catch (Exception e) {
                 log.error("Error al obtener el archivo del Repositorio de documentos.", e);
             }
