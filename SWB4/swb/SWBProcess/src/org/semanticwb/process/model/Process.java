@@ -34,6 +34,7 @@ import org.semanticwb.model.Sortable;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
+import org.semanticwb.process.SWBProcess;
 
 /**
  * Clase que encapsula las propiedades y funciones de un proceso.
@@ -42,29 +43,6 @@ import org.semanticwb.platform.SemanticObserver;
 public class Process extends org.semanticwb.process.model.base.ProcessBase 
 {
     private static Logger log=SWBUtils.getLogger(Process.class);
-    private static final String PROP_CLASS = "class";
-    private static final String PROP_TITLE = "title";
-    private static final String PROP_DESCRIPTION = "description";
-    private static final String PROP_CONNPOINTS = "connectionPoints";
-    private static final String PROP_URI = "uri";
-    private static final String PROP_X = "x";
-    private static final String PROP_Y = "y";
-    private static final String PROP_W = "w";
-    private static final String PROP_H = "h";
-    private static final String PROP_START = "start";
-    private static final String PROP_END = "end";
-    private static final String PROP_PARENT = "parent";
-    private static final String PROP_CONTAINER = "container";
-    private static final String PROP_isMultiInstance = "isMultiInstance";
-    private static final String PROP_isSeqMultiInstance = "isSequentialMultiInstance";
-    private static final String PROP_isCollection = "isCollection";
-    private static final String PROP_isLoop = "isLoop";
-    private static final String PROP_isForCompensation = "isForCompensation";
-    private static final String PROP_isAdHoc = "isAdHoc";
-    private static final String PROP_isTransaction = "isTransaction";
-    private static final String PROP_isInterrupting = "isInterrupting";
-    private static final String PROP_labelSize = "labelSize";
-    private static final String PROP_index = "index";
     
     //Bloque estático para registrar un observador cuando se modifica la propiedad parentWebPage
     static 
@@ -266,38 +244,38 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                 GraphicalElement obj = it_fo.next();
                 ele = new JSONObject();
                 nodes.put(ele);
-                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
-                ele.put(PROP_TITLE, obj.getTitle());
+                ele.put(SWBProcess.JSONProperties.PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
+                ele.put(SWBProcess.JSONProperties.PROP_TITLE, obj.getTitle());
 
                 //if(obj.getDescription()==null) obj.setDescription("");
-                ele.put(PROP_DESCRIPTION, obj.getDescription());
-                ele.put(PROP_URI, obj.getURI());
-                ele.put(PROP_X, obj.getX());
-                ele.put(PROP_Y, obj.getY());
-                ele.put(PROP_W, obj.getWidth());
-                ele.put(PROP_H, obj.getHeight());
+                ele.put(SWBProcess.JSONProperties.PROP_DESCRIPTION, obj.getDescription());
+                ele.put(SWBProcess.JSONProperties.PROP_URI, obj.getURI());
+                ele.put(SWBProcess.JSONProperties.PROP_X, obj.getX());
+                ele.put(SWBProcess.JSONProperties.PROP_Y, obj.getY());
+                ele.put(SWBProcess.JSONProperties.PROP_W, obj.getWidth());
+                ele.put(SWBProcess.JSONProperties.PROP_H, obj.getHeight());
                 if (obj.getContainer() != null) {
-                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
+                    ele.put(SWBProcess.JSONProperties.PROP_CONTAINER, obj.getContainer().getURI());
                 } else {
-                    ele.put(PROP_CONTAINER, "");
+                    ele.put(SWBProcess.JSONProperties.PROP_CONTAINER, "");
                 }
                 if (obj.getParent() != null) {
-                    ele.put(PROP_PARENT, obj.getParent().getURI());
+                    ele.put(SWBProcess.JSONProperties.PROP_PARENT, obj.getParent().getURI());
                 } else {
-                    ele.put(PROP_PARENT, "");
+                    ele.put(SWBProcess.JSONProperties.PROP_PARENT, "");
                 }
 
                 if (obj.getLabelSize() != 0) {
-                    ele.put(PROP_labelSize, obj.getLabelSize());
+                    ele.put(SWBProcess.JSONProperties.PROP_labelSize, obj.getLabelSize());
                 } else {
-                    ele.put(PROP_labelSize, 10);
+                    ele.put(SWBProcess.JSONProperties.PROP_labelSize, 10);
                 }
 
                 if (obj instanceof Sortable) {
 
                     //System.out.println("Es coleccion...");
                     Sortable sorble = (Sortable) obj;
-                    ele.put(PROP_index, sorble.getIndex());
+                    ele.put(SWBProcess.JSONProperties.PROP_index, sorble.getIndex());
                 }
 
                 if (obj instanceof ActivityConfable) {
@@ -306,27 +284,27 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                     if (tsk.getLoopCharacteristics() != null) {
                         LoopCharacteristics loopC = tsk.getLoopCharacteristics();
                         if (loopC instanceof MultiInstanceLoopCharacteristics) {
-                            ele.put(PROP_isMultiInstance, true);
+                            ele.put(SWBProcess.JSONProperties.PROP_isMultiInstance, true);
                         } else {
-                            ele.put(PROP_isMultiInstance, false);
+                            ele.put(SWBProcess.JSONProperties.PROP_isMultiInstance, false);
                         }
 
                         if (loopC instanceof StandarLoopCharacteristics) {
-                            ele.put(PROP_isLoop, true);
+                            ele.put(SWBProcess.JSONProperties.PROP_isLoop, true);
                         } else {
-                            ele.put(PROP_isLoop, false);
+                            ele.put(SWBProcess.JSONProperties.PROP_isLoop, false);
                         }
                     }
-                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
+                    ele.put(SWBProcess.JSONProperties.PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
                 }
 
                 if (obj instanceof Collectionable) {
                     //System.out.println("Es coleccion subprocess...");
                     Collectionable colble = (Collectionable) obj;
                     if (colble.isCollection()) {
-                        ele.put(PROP_isCollection, true);
+                        ele.put(SWBProcess.JSONProperties.PROP_isCollection, true);
                     } else {
-                        ele.put(PROP_isCollection, false);
+                        ele.put(SWBProcess.JSONProperties.PROP_isCollection, false);
                     }
                     //System.out.println("===>"+colble.isCollection());
                 }
@@ -340,12 +318,12 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                     ConnectionObject connectionObject = it.next();
                     coele = new JSONObject();
                     nodes.put(coele);
-                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
-                    coele.put(PROP_URI, connectionObject.getURI());
-                    coele.put(PROP_START, connectionObject.getSource().getURI());
-                    coele.put(PROP_END, connectionObject.getTarget().getURI());
-                    coele.put(PROP_TITLE, connectionObject.getTitle());
-                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
+                    coele.put(SWBProcess.JSONProperties.PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
+                    coele.put(SWBProcess.JSONProperties.PROP_URI, connectionObject.getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_START, connectionObject.getSource().getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_END, connectionObject.getTarget().getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_TITLE, connectionObject.getTitle());
+                    coele.put(SWBProcess.JSONProperties.PROP_CONNPOINTS, connectionObject.getConnectionPoints());
                     //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
                 }
                 if (obj instanceof Containerable) {
@@ -369,10 +347,10 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
 
         try {
             json_ret = new JSONObject();
-            json_ret.put(PROP_URI, getURI());
-            json_ret.put(PROP_TITLE, getTitle());
-            json_ret.put(PROP_DESCRIPTION, getDescription());
-            json_ret.put(PROP_CLASS, getSemanticObject().getSemanticClass().getClassCodeName());
+            json_ret.put(SWBProcess.JSONProperties.PROP_URI, getURI());
+            json_ret.put(SWBProcess.JSONProperties.PROP_TITLE, getTitle());
+            json_ret.put(SWBProcess.JSONProperties.PROP_DESCRIPTION, getDescription());
+            json_ret.put(SWBProcess.JSONProperties.PROP_CLASS, getSemanticObject().getSemanticClass().getClassCodeName());
             nodes = new JSONArray();
             json_ret.putOpt("nodes", nodes);
 
@@ -381,43 +359,43 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                 GraphicalElement obj = it_fo.next();
                 ele = new JSONObject();
                 nodes.put(ele);
-                ele.put(PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
-                ele.put(PROP_TITLE, obj.getTitle());
+                ele.put(SWBProcess.JSONProperties.PROP_CLASS, obj.getSemanticObject().getSemanticClass().getClassCodeName());
+                ele.put(SWBProcess.JSONProperties.PROP_TITLE, obj.getTitle());
 
                 //if(obj.getDescription()==null) obj.setDescription("");
-                ele.put(PROP_DESCRIPTION, obj.getDescription());
-                ele.put(PROP_URI, obj.getURI());
-                ele.put(PROP_X, obj.getX());
-                ele.put(PROP_Y, obj.getY());
-                ele.put(PROP_W, obj.getWidth());
-                ele.put(PROP_H, obj.getHeight());
+                ele.put(SWBProcess.JSONProperties.PROP_DESCRIPTION, obj.getDescription());
+                ele.put(SWBProcess.JSONProperties.PROP_URI, obj.getURI());
+                ele.put(SWBProcess.JSONProperties.PROP_X, obj.getX());
+                ele.put(SWBProcess.JSONProperties.PROP_Y, obj.getY());
+                ele.put(SWBProcess.JSONProperties.PROP_W, obj.getWidth());
+                ele.put(SWBProcess.JSONProperties.PROP_H, obj.getHeight());
                 if (obj.getContainer() != null) {
-                    ele.put(PROP_CONTAINER, obj.getContainer().getURI());
+                    ele.put(SWBProcess.JSONProperties.PROP_CONTAINER, obj.getContainer().getURI());
                 } else {
-                    ele.put(PROP_CONTAINER, "");
+                    ele.put(SWBProcess.JSONProperties.PROP_CONTAINER, "");
                 }
                 if (obj.getParent() != null) {
-                    ele.put(PROP_PARENT, obj.getParent().getURI());
+                    ele.put(SWBProcess.JSONProperties.PROP_PARENT, obj.getParent().getURI());
                 } else {
-                    ele.put(PROP_PARENT, "");
+                    ele.put(SWBProcess.JSONProperties.PROP_PARENT, "");
                 }
 
                 if (obj.getLabelSize() != 0) {
-                    ele.put(PROP_labelSize, obj.getLabelSize());
+                    ele.put(SWBProcess.JSONProperties.PROP_labelSize, obj.getLabelSize());
                 } else {
-                    ele.put(PROP_labelSize, 10);
+                    ele.put(SWBProcess.JSONProperties.PROP_labelSize, 10);
                 }
 
                 if (obj instanceof Sortable) {
 
                     //System.out.println("Es coleccion...");
                     Sortable sorble = (Sortable) obj;
-                    ele.put(PROP_index, sorble.getIndex());
+                    ele.put(SWBProcess.JSONProperties.PROP_index, sorble.getIndex());
                 }
 
                 if (obj instanceof IntermediateCatchEvent) {
                     IntermediateCatchEvent ice = (IntermediateCatchEvent) obj;
-                    ele.put(PROP_isInterrupting, ice.isInterruptor());
+                    ele.put(SWBProcess.JSONProperties.PROP_isInterrupting, ice.isInterruptor());
                 }
 
                 if (obj instanceof ActivityConfable) {
@@ -425,18 +403,18 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                     if (tsk.getLoopCharacteristics() != null) {
                         LoopCharacteristics loopC = tsk.getLoopCharacteristics();
                         if (loopC instanceof MultiInstanceLoopCharacteristics) {
-                            ele.put(PROP_isMultiInstance, true);
+                            ele.put(SWBProcess.JSONProperties.PROP_isMultiInstance, true);
                         } else {
-                            ele.put(PROP_isMultiInstance, false);
+                            ele.put(SWBProcess.JSONProperties.PROP_isMultiInstance, false);
                         }
 
                         if (loopC instanceof StandarLoopCharacteristics) {
-                            ele.put(PROP_isLoop, true);
+                            ele.put(SWBProcess.JSONProperties.PROP_isLoop, true);
                         } else {
-                            ele.put(PROP_isLoop, false);
+                            ele.put(SWBProcess.JSONProperties.PROP_isLoop, false);
                         }
                     }
-                    ele.put(PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
+                    ele.put(SWBProcess.JSONProperties.PROP_isForCompensation, Boolean.toString(tsk.isForCompensation()));
                 }
 
                 if (obj instanceof Collectionable) {
@@ -444,9 +422,9 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                     //System.out.println("Es coleccion...");
                     Collectionable colble = (Collectionable) obj;
                     if (colble.isCollection()) {
-                        ele.put(PROP_isCollection, true);
+                        ele.put(SWBProcess.JSONProperties.PROP_isCollection, true);
                     } else {
-                        ele.put(PROP_isCollection, false);
+                        ele.put(SWBProcess.JSONProperties.PROP_isCollection, false);
                     }
                     //System.out.println("===>"+colble.isCollection());
                 }
@@ -460,12 +438,12 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
                     ConnectionObject connectionObject = it.next();
                     coele = new JSONObject();
                     nodes.put(coele);
-                    coele.put(PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
-                    coele.put(PROP_URI, connectionObject.getURI());
-                    coele.put(PROP_START, connectionObject.getSource().getURI());
-                    coele.put(PROP_END, connectionObject.getTarget().getURI());
-                    coele.put(PROP_TITLE, connectionObject.getTitle());
-                    coele.put(PROP_CONNPOINTS, connectionObject.getConnectionPoints());
+                    coele.put(SWBProcess.JSONProperties.PROP_CLASS, connectionObject.getSemanticObject().getSemanticClass().getClassCodeName());
+                    coele.put(SWBProcess.JSONProperties.PROP_URI, connectionObject.getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_START, connectionObject.getSource().getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_END, connectionObject.getTarget().getURI());
+                    coele.put(SWBProcess.JSONProperties.PROP_TITLE, connectionObject.getTitle());
+                    coele.put(SWBProcess.JSONProperties.PROP_CONNPOINTS, connectionObject.getConnectionPoints());
                     //coele.put(PROP_DESCRIPTION, connectionObject.getDescription());
                 }
                 if (obj instanceof Containerable) {
