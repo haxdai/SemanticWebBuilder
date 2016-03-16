@@ -453,7 +453,7 @@ public class SVGModeler extends GenericAdmResource {
                 try {
                     // primero se crean los elementos graficos del modelo
                     if (semclass.isSubClass(GraphicalElement.swp_GraphicalElement)) {
-                        title = json.optString(PROP_TITLE, "");
+                        title = json.optString(PROP_TITLE, "");//TODO: Sanitize title and description from JSON
                         try {
                             description = json.optString(PROP_DESCRIPTION, "");
                         } catch (Exception e) {
@@ -845,7 +845,7 @@ public class SVGModeler extends GenericAdmResource {
                                 if (procsite.getResourceType("ProcessForm") != null && bupdate) {
                                     Resource res = procsite.createResource();
                                     res.setResourceType(procsite.getResourceType("ProcessForm"));
-                                    res.setTitle(title);
+                                    res.setTitle("ProcessFormResource");
                                     res.setActive(Boolean.TRUE);
                                     ((UserTask) gi).addResource(res);
                                 }
