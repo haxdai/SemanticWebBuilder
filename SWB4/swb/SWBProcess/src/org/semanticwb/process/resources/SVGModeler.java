@@ -61,6 +61,7 @@ import org.semanticwb.portal.api.GenericAdmResource;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.semanticwb.portal.api.SWBResourceURL;
+import org.semanticwb.process.SWBProcess;
 import org.semanticwb.process.model.ActivityConfable;
 import org.semanticwb.process.model.CatchEvent;
 import org.semanticwb.process.model.Collectionable;
@@ -92,31 +93,8 @@ public class SVGModeler extends GenericAdmResource {
     public static final String ACT_GETPROCESSJSON = "getProcessJSON";
     public static final String ACT_STOREPROCESS = "storeProcess";
     public static final String ACT_LOADFILE = "loadFile";
-    private static final String PROP_CLASS = "class";
-    private static final String PROP_TITLE = "title";
     private static final String ERRORSTRING = "{\"error\":\"_JSONERROR_\"}";
-    private static final String PROP_DESCRIPTION = "description";
-    private static final String PROP_CONNPOINTS = "connectionPoints";
-    private static final String PROP_URI = "uri";
-    private static final String PROP_X = "x";
-    private static final String PROP_Y = "y";
-    private static final String PROP_W = "w";
-    private static final String PROP_H = "h";
-    private static final String PROP_START = "start";
-    private static final String PROP_END = "end";
-    private static final String PROP_PARENT = "parent";
-    private static final String PROP_CONTAINER = "container";
     private static final String PROCESS_PREFIX = "http://www.semanticwebbuilder.org/swb4/process";
-    private static final String PROP_isMultiInstance = "isMultiInstance";
-    private static final String PROP_isSeqMultiInstance = "isSequentialMultiInstance";
-    private static final String PROP_isCollection = "isCollection";
-    private static final String PROP_isLoop = "isLoop";
-    private static final String PROP_isForCompensation = "isForCompensation";
-    private static final String PROP_isAdHoc = "isAdHoc";
-    private static final String PROP_isTransaction = "isTransaction";
-    private static final String PROP_isInterrupting = "isInterrupting";
-    private static final String PROP_labelSize = "labelSize";
-    private static final String PROP_index = "index";
     private static final String JSONSTART = "JSONSTART";
     private static final String JSONEND = "JSONEND";
     private SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
@@ -247,7 +225,7 @@ public class SVGModeler extends GenericAdmResource {
                             for (int i = 0; i < jsarr.length(); i++) {
                                 try {
                                     jsobj = jsarr.getJSONObject(i);
-                                    str_uri = jsobj.getString(PROP_URI);
+                                    str_uri = jsobj.getString(SWBProcess.JSONProperties.PROP_URI);
                                     //System.out.println("json uri:"+str_uri);
                                     hmjson.put(str_uri, jsobj);
                                 } catch (Exception ej) {
@@ -444,8 +422,8 @@ public class SVGModeler extends GenericAdmResource {
                 String key = it.next();
                 JSONObject json = (JSONObject) hmjson.get(key);
                 //System.out.println("json element: "+json.toString());
-                uri = json.getString(PROP_URI);
-                sclass = json.getString(PROP_CLASS);
+                uri = json.getString(SWBProcess.JSONProperties.PROP_URI);
+                sclass = json.getString(SWBProcess.JSONProperties.PROP_CLASS);
                 semclass = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(PROCESS_PREFIX + "#" + sclass);
                 if (semclass == null) {
                     continue;
@@ -453,59 +431,59 @@ public class SVGModeler extends GenericAdmResource {
                 try {
                     // primero se crean los elementos graficos del modelo
                     if (semclass.isSubClass(GraphicalElement.swp_GraphicalElement)) {
-                        title = json.optString(PROP_TITLE, "");//TODO: Sanitize title and description from JSON
+                        title = json.optString(SWBProcess.JSONProperties.PROP_TITLE, "");//TODO: Sanitize title and description from JSON
                         try {
-                            description = json.optString(PROP_DESCRIPTION, "");
+                            description = json.optString(SWBProcess.JSONProperties.PROP_DESCRIPTION, "");
                         } catch (Exception e) {
                             description = "";
                         }
 
                         try {
-                            isMultiInstance = json.getBoolean(PROP_isMultiInstance);
+                            isMultiInstance = json.getBoolean(SWBProcess.JSONProperties.PROP_isMultiInstance);
                             //System.out.println("MultiInstancia: " + isMultiInstance.booleanValue());
 
                         } catch (Exception e) {
                             isMultiInstance = null;
                         }
                         try {
-                            isSeqMultiInstance = json.getBoolean(PROP_isSeqMultiInstance);
+                            isSeqMultiInstance = json.getBoolean(SWBProcess.JSONProperties.PROP_isSeqMultiInstance);
                             //System.out.println("SeqMultiInstancia: " + isMultiInstance.booleanValue());
 
                         } catch (Exception e) {
                             isMultiInstance = null;
                         }
                         try {
-                            isLoop = json.getBoolean(PROP_isLoop);
+                            isLoop = json.getBoolean(SWBProcess.JSONProperties.PROP_isLoop);
                             //System.out.println("Ciclo: " + isLoop.booleanValue());
                         } catch (Exception e) {
                             isLoop = null;
                             //System.out.println("Ciclo: null");
                         }
                         try {
-                            isForCompensation = json.getBoolean(PROP_isForCompensation);
+                            isForCompensation = json.getBoolean(SWBProcess.JSONProperties.PROP_isForCompensation);
                             //System.out.println("Compensacion");
 
                         } catch (Exception e) {
                             isForCompensation = null;
                         }
                         try {
-                            isAdHoc = json.getBoolean(PROP_isAdHoc);
+                            isAdHoc = json.getBoolean(SWBProcess.JSONProperties.PROP_isAdHoc);
                         } catch (Exception e) {
                             isAdHoc = null;
                         }
                         try {
-                            isTransaction = json.getBoolean(PROP_isTransaction);
+                            isTransaction = json.getBoolean(SWBProcess.JSONProperties.PROP_isTransaction);
                         } catch (Exception e) {
                             isTransaction = null;
                         }
                         try {
-                            isInterrupting = json.getBoolean(PROP_isInterrupting);
+                            isInterrupting = json.getBoolean(SWBProcess.JSONProperties.PROP_isInterrupting);
                         } catch (Exception e) {
                             isInterrupting = true;
                         }
 
                         try {
-                            isCollection = json.getBoolean(PROP_isCollection);
+                            isCollection = json.getBoolean(SWBProcess.JSONProperties.PROP_isCollection);
                             //System.out.println("Viene isCollecion:"+isCollection.booleanValue());
                         } catch (Exception e) {
                             isCollection = null;
@@ -513,7 +491,7 @@ public class SVGModeler extends GenericAdmResource {
                         }
 
                         try {
-                            index = json.getInt(PROP_index);
+                            index = json.getInt(SWBProcess.JSONProperties.PROP_index);
                             //System.out.println("Viene isCollecion:"+isCollection.booleanValue());
                         } catch (Exception e) {
                             index = 1000;
@@ -521,14 +499,14 @@ public class SVGModeler extends GenericAdmResource {
                         }
 
                         //System.out.println("uri: "+uri);
-                        x = json.getInt(PROP_X);
-                        y = json.getInt(PROP_Y);
-                        w = json.getInt(PROP_W);
-                        h = json.getInt(PROP_H);
+                        x = json.getInt(SWBProcess.JSONProperties.PROP_X);
+                        y = json.getInt(SWBProcess.JSONProperties.PROP_Y);
+                        w = json.getInt(SWBProcess.JSONProperties.PROP_W);
+                        h = json.getInt(SWBProcess.JSONProperties.PROP_H);
 
-                        parent = json.optString(PROP_PARENT);
-                        container = json.optString(PROP_CONTAINER);
-                        labelSize = json.getInt(PROP_labelSize);
+                        parent = json.optString(SWBProcess.JSONProperties.PROP_PARENT);
+                        container = json.optString(SWBProcess.JSONProperties.PROP_CONTAINER);
+                        labelSize = json.getInt(SWBProcess.JSONProperties.PROP_labelSize);
 
                         // revisando si el elemento existe
                         if (hmori.get(uri) != null) {
@@ -865,8 +843,8 @@ public class SVGModeler extends GenericAdmResource {
             while (it.hasNext()) {
                 String key = it.next();
                 JSONObject json = (JSONObject) hmjson.get(key);
-                uri = json.getString(PROP_URI);
-                sclass = json.getString(PROP_CLASS);
+                uri = json.getString(SWBProcess.JSONProperties.PROP_URI);
+                sclass = json.getString(SWBProcess.JSONProperties.PROP_CLASS);
 
                 semclass = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(PROCESS_PREFIX + "#" + sclass);
                 if (semclass == null) {
@@ -874,8 +852,8 @@ public class SVGModeler extends GenericAdmResource {
                 }
 
                 if (semclass.isSubClass(GraphicalElement.swp_GraphicalElement)) {
-                    parent = json.optString(PROP_PARENT, "");
-                    container = json.optString(PROP_CONTAINER, "");
+                    parent = json.optString(SWBProcess.JSONProperties.PROP_PARENT, "");
+                    container = json.optString(SWBProcess.JSONProperties.PROP_CONTAINER, "");
                     go = ont.getGenericObject(hmnew.get(uri));
                     ge = null;
                     if (go instanceof GraphicalElement) {
@@ -912,9 +890,9 @@ public class SVGModeler extends GenericAdmResource {
             while (it.hasNext()) {
                 String key = it.next();
                 JSONObject json = (JSONObject) hmjson.get(key);
-                uri = json.getString(PROP_URI);
+                uri = json.getString(SWBProcess.JSONProperties.PROP_URI);
 
-                sclass = json.getString(PROP_CLASS);
+                sclass = json.getString(SWBProcess.JSONProperties.PROP_CLASS);
 
                 semclass = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(PROCESS_PREFIX + "#" + sclass);
                 if (semclass == null) {
@@ -922,18 +900,18 @@ public class SVGModeler extends GenericAdmResource {
                 }
 
                 if (semclass.isSubClass(ConnectionObject.swp_ConnectionObject)) {
-                    start = json.getString(PROP_START);
-                    end = json.getString(PROP_END);
+                    start = json.getString(SWBProcess.JSONProperties.PROP_START);
+                    end = json.getString(SWBProcess.JSONProperties.PROP_END);
 
-                    title = json.optString(PROP_TITLE, "");
+                    title = json.optString(SWBProcess.JSONProperties.PROP_TITLE, "");
                     try {
-                        description = json.optString(PROP_DESCRIPTION, "");
+                        description = json.optString(SWBProcess.JSONProperties.PROP_DESCRIPTION, "");
                     } catch (Exception e) {
                         description = "";
                     }
 
                     try {
-                        sconnpoints = json.getString(PROP_CONNPOINTS);
+                        sconnpoints = json.getString(SWBProcess.JSONProperties.PROP_CONNPOINTS);
                     } catch (Exception e) {
                         sconnpoints = "";
                     }
