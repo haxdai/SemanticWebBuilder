@@ -406,10 +406,8 @@ public class SVGModeler extends GenericAdmResource {
         ProcessSite procsite = process.getProcessSite();
         GenericObject go = null;
         String uri = null, sclass = null, title = null, description = null, container = null, parent = null, start = null, end = null;
-        int x = 0, y = 0, w = 0, h = 0, labelSize = 10, index = 0;
-        Boolean isMultiInstance = null, isSeqMultiInstance = null, isLoop = null, isForCompensation = null, isCollection = null, isAdHoc = null, isTransaction = null, isInterrupting = null;
-
-        boolean tmpBoolean = false;
+        int x, y, w, h, labelSize, index;
+        Boolean isMultiInstance, isSeqMultiInstance, isLoop, isForCompensation, isCollection, isAdHoc, isTransaction, isInterrupting;
 
         SemanticClass semclass = null;
         SemanticModel model = procsite.getSemanticObject().getModel();
@@ -432,81 +430,25 @@ public class SVGModeler extends GenericAdmResource {
                     // primero se crean los elementos graficos del modelo
                     if (semclass.isSubClass(GraphicalElement.swp_GraphicalElement)) {
                         title = json.optString(SWBProcess.JSONProperties.PROP_TITLE, "");//TODO: Sanitize title and description from JSON
-                        try {
-                            description = json.optString(SWBProcess.JSONProperties.PROP_DESCRIPTION, "");
-                        } catch (Exception e) {
-                            description = "";
-                        }
+                        description = json.optString(SWBProcess.JSONProperties.PROP_DESCRIPTION, "");
+                        isMultiInstance = json.optBoolean(SWBProcess.JSONProperties.PROP_isMultiInstance, false);
+                        isSeqMultiInstance = json.optBoolean(SWBProcess.JSONProperties.PROP_isSeqMultiInstance, false);
+                        isLoop = json.optBoolean(SWBProcess.JSONProperties.PROP_isLoop, false);
+                        isForCompensation = json.optBoolean(SWBProcess.JSONProperties.PROP_isForCompensation, false);
+                        isAdHoc = json.optBoolean(SWBProcess.JSONProperties.PROP_isAdHoc, false);
+                        isTransaction = json.optBoolean(SWBProcess.JSONProperties.PROP_isTransaction, false);
+                        isInterrupting = json.optBoolean(SWBProcess.JSONProperties.PROP_isInterrupting, false);
+                        isCollection = json.optBoolean(SWBProcess.JSONProperties.PROP_isCollection, false);
+                        index = json.optInt(SWBProcess.JSONProperties.PROP_index, 1000);
 
-                        try {
-                            isMultiInstance = json.getBoolean(SWBProcess.JSONProperties.PROP_isMultiInstance);
-                            //System.out.println("MultiInstancia: " + isMultiInstance.booleanValue());
-
-                        } catch (Exception e) {
-                            isMultiInstance = null;
-                        }
-                        try {
-                            isSeqMultiInstance = json.getBoolean(SWBProcess.JSONProperties.PROP_isSeqMultiInstance);
-                            //System.out.println("SeqMultiInstancia: " + isMultiInstance.booleanValue());
-
-                        } catch (Exception e) {
-                            isMultiInstance = null;
-                        }
-                        try {
-                            isLoop = json.getBoolean(SWBProcess.JSONProperties.PROP_isLoop);
-                            //System.out.println("Ciclo: " + isLoop.booleanValue());
-                        } catch (Exception e) {
-                            isLoop = null;
-                            //System.out.println("Ciclo: null");
-                        }
-                        try {
-                            isForCompensation = json.getBoolean(SWBProcess.JSONProperties.PROP_isForCompensation);
-                            //System.out.println("Compensacion");
-
-                        } catch (Exception e) {
-                            isForCompensation = null;
-                        }
-                        try {
-                            isAdHoc = json.getBoolean(SWBProcess.JSONProperties.PROP_isAdHoc);
-                        } catch (Exception e) {
-                            isAdHoc = null;
-                        }
-                        try {
-                            isTransaction = json.getBoolean(SWBProcess.JSONProperties.PROP_isTransaction);
-                        } catch (Exception e) {
-                            isTransaction = null;
-                        }
-                        try {
-                            isInterrupting = json.getBoolean(SWBProcess.JSONProperties.PROP_isInterrupting);
-                        } catch (Exception e) {
-                            isInterrupting = true;
-                        }
-
-                        try {
-                            isCollection = json.getBoolean(SWBProcess.JSONProperties.PROP_isCollection);
-                            //System.out.println("Viene isCollecion:"+isCollection.booleanValue());
-                        } catch (Exception e) {
-                            isCollection = null;
-                            //System.out.println("No viene isCollecion....."+title);
-                        }
-
-                        try {
-                            index = json.getInt(SWBProcess.JSONProperties.PROP_index);
-                            //System.out.println("Viene isCollecion:"+isCollection.booleanValue());
-                        } catch (Exception e) {
-                            index = 1000;
-                            //System.out.println("No viene isCollecion....."+title);
-                        }
-
-                        //System.out.println("uri: "+uri);
                         x = json.getInt(SWBProcess.JSONProperties.PROP_X);
                         y = json.getInt(SWBProcess.JSONProperties.PROP_Y);
                         w = json.getInt(SWBProcess.JSONProperties.PROP_W);
                         h = json.getInt(SWBProcess.JSONProperties.PROP_H);
 
-                        parent = json.optString(SWBProcess.JSONProperties.PROP_PARENT);
-                        container = json.optString(SWBProcess.JSONProperties.PROP_CONTAINER);
-                        labelSize = json.getInt(SWBProcess.JSONProperties.PROP_labelSize);
+                        parent = json.optString(SWBProcess.JSONProperties.PROP_PARENT, "");
+                        container = json.optString(SWBProcess.JSONProperties.PROP_CONTAINER, "");
+                        labelSize = json.optInt(SWBProcess.JSONProperties.PROP_labelSize, 10);
 
                         // revisando si el elemento existe
                         if (hmori.get(uri) != null) {
@@ -571,79 +513,67 @@ public class SVGModeler extends GenericAdmResource {
                                 if (go instanceof ActivityConfable) {  //Task
                                     ActivityConfable tsk = (ActivityConfable) go;
 
-                                    if (null != isForCompensation && isForCompensation.booleanValue()) {
-                                        if (bupdate) {
-                                            tsk.setForCompensation(isForCompensation.booleanValue());
-                                        }
+                                    if (isForCompensation && bupdate) {
+                                        tsk.setForCompensation(isForCompensation);
                                     }
 
-                                    if (null != isMultiInstance) {
-
-                                        if (isMultiInstance.booleanValue()) {
-                                            // si existe no se hace nada se deja el MultiInstanceLoopCharacteristics
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (loopchar == null) // si no existe lo crea
-                                            {
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                if (bupdate) {
-                                                    loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
-                                                    tsk.setLoopCharacteristics(loopchar);
-                                                }
-                                            } else if (!(loopchar instanceof MultiInstanceLoopCharacteristics)) {
-                                                if (bupdate) {
-                                                    loopchar.getSemanticObject().remove();
-                                                }
-                                            }
+                                    if (isMultiInstance) {
+                                        // si existe no se hace nada se deja el MultiInstanceLoopCharacteristics
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (loopchar == null) // si no existe lo crea
+                                        {
                                             // si no existe se crea uno nuevo y se asigna al task
                                             if (bupdate) {
                                                 loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
                                                 tsk.setLoopCharacteristics(loopchar);
                                             }
-                                        } else {
-                                            // si existe y cambio y ya no es MultiInstance se elimina el MultiInstanceLoopCharacteristics asociado
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (null != loopchar && loopchar instanceof MultiInstanceLoopCharacteristics) {
-                                                if (bupdate) {
-                                                    loopchar.getSemanticObject().remove();
-                                                }
+                                        } else if (!(loopchar instanceof MultiInstanceLoopCharacteristics)) {
+                                            if (bupdate) {
+                                                loopchar.getSemanticObject().remove();
                                             }
+                                        }
+                                        // si no existe se crea uno nuevo y se asigna al task
+                                        if (bupdate) {
+                                            loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
+                                            tsk.setLoopCharacteristics(loopchar);
+                                        }
+                                    } else {
+                                        // si existe y cambio y ya no es MultiInstance se elimina el MultiInstanceLoopCharacteristics asociado
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (null != loopchar && loopchar instanceof MultiInstanceLoopCharacteristics && bupdate) {
+                                            loopchar.getSemanticObject().remove();
                                         }
                                     }
 
-                                    if (null != isLoop) {
-                                        //System.out.println("LoopCharacteristic....");
-                                        if (isLoop.booleanValue()) {
-                                            // si existe no se hace nada se deja el LoopCharacteristics
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (loopchar == null) // si no existe lo crea
-                                            {
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                //System.out.println("creando LoopCharacteristic....");
-                                                if (bupdate) {
-                                                    loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
-                                                    tsk.setLoopCharacteristics(loopchar);
-                                                }
-                                            } else if (!(loopchar instanceof StandarLoopCharacteristics)) {
-                                                if (bupdate) {
-                                                    loopchar.getSemanticObject().remove();
-                                                }
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                //System.out.println("eliminando y creando LoopCharacteristic....");
-                                                if (bupdate) {
-                                                    loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
-                                                    tsk.setLoopCharacteristics(loopchar);
-                                                }
+                                    //System.out.println("LoopCharacteristic....");
+                                    if (isLoop) {
+                                        // si existe no se hace nada se deja el LoopCharacteristics
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (loopchar == null) // si no existe lo crea
+                                        {
+                                            // si no existe se crea uno nuevo y se asigna al task
+                                            //System.out.println("creando LoopCharacteristic....");
+                                            if (bupdate) {
+                                                loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
+                                                tsk.setLoopCharacteristics(loopchar);
                                             }
+                                        } else if (!(loopchar instanceof StandarLoopCharacteristics)) {
+                                            if (bupdate) {
+                                                loopchar.getSemanticObject().remove();
+                                            }
+                                            // si no existe se crea uno nuevo y se asigna al task
+                                            //System.out.println("eliminando y creando LoopCharacteristic....");
+                                            if (bupdate) {
+                                                loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
+                                                tsk.setLoopCharacteristics(loopchar);
+                                            }
+                                        }
 
-                                        } else {
-                                            // si existe y cambio y ya no es Loop se elimina el StandarLoopCharacteristics asociado
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (null != loopchar && loopchar instanceof StandarLoopCharacteristics) {
-                                                //System.out.println("eliminando LoopCharacteristic....");
-                                                if (bupdate) {
-                                                    loopchar.getSemanticObject().remove();
-                                                }
-                                            }
+                                    } else {
+                                        // si existe y cambio y ya no es Loop se elimina el StandarLoopCharacteristics asociado
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (null != loopchar && loopchar instanceof StandarLoopCharacteristics && bupdate) {
+                                            loopchar.getSemanticObject().remove();
                                         }
                                     }
                                 }
@@ -651,11 +581,8 @@ public class SVGModeler extends GenericAdmResource {
                                 // si es un Collectionable se revisa si es colección
                                 if (ge instanceof Collectionable) {
                                     Collectionable colble = (Collectionable) go;
-                                    if (isCollection != null) {
-                                        //System.out.println("Save Collection ===>"+isCollection.booleanValue());
-                                        if (bupdate) {
-                                            colble.setCollection(isCollection.booleanValue());
-                                        }
+                                    if (isCollection && bupdate) {
+                                        colble.setCollection(isCollection);
                                     }
                                 }
                                 // se agrega en este hm para la parte de la secuencia del proceso
@@ -709,61 +636,56 @@ public class SVGModeler extends GenericAdmResource {
                                 if (ge instanceof ActivityConfable) {  //Task
                                     ActivityConfable tsk = (ActivityConfable) gi;
 
-                                    if (null != isForCompensation && isForCompensation.booleanValue()) {
-                                        tsk.setForCompensation(isForCompensation.booleanValue());
+                                    if (isForCompensation) {
+                                        tsk.setForCompensation(isForCompensation);
                                     }
 
-                                    if (null != isMultiInstance) {
-
-                                        if (isMultiInstance.booleanValue()) {
-                                            // si existe no se hace nada se deja el MultiInstanceLoopCharacteristics
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (loopchar == null) // si no existe lo crea
-                                            {
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
-                                                tsk.setLoopCharacteristics(loopchar);
-                                            } else if (!(loopchar instanceof MultiInstanceLoopCharacteristics)) {
-                                                loopchar.getSemanticObject().remove();
-                                            }
+                                    if (isMultiInstance) {
+                                        // si existe no se hace nada se deja el MultiInstanceLoopCharacteristics
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (loopchar == null) // si no existe lo crea
+                                        {
                                             // si no existe se crea uno nuevo y se asigna al task
                                             loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
                                             tsk.setLoopCharacteristics(loopchar);
-                                        } else {
-                                            // si existe y cambio y ya no es MultiInstance se elimina el MultiInstanceLoopCharacteristics asociado
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (null != loopchar && loopchar instanceof MultiInstanceLoopCharacteristics) {
-                                                loopchar.getSemanticObject().remove();
-                                            }
+                                        } else if (!(loopchar instanceof MultiInstanceLoopCharacteristics)) {
+                                            loopchar.getSemanticObject().remove();
+                                        }
+                                        // si no existe se crea uno nuevo y se asigna al task
+                                        loopchar = MultiInstanceLoopCharacteristics.ClassMgr.createMultiInstanceLoopCharacteristics(procsite);
+                                        tsk.setLoopCharacteristics(loopchar);
+                                    } else {
+                                        // si existe y cambio y ya no es MultiInstance se elimina el MultiInstanceLoopCharacteristics asociado
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (null != loopchar && loopchar instanceof MultiInstanceLoopCharacteristics) {
+                                            loopchar.getSemanticObject().remove();
                                         }
                                     }
 
-                                    if (null != isLoop) {
-                                        //System.out.println("LoopCharacteristic....");
-                                        if (isLoop.booleanValue()) {
-                                            // si existe no se hace nada se deja el LoopCharacteristics
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (loopchar == null) // si no existe lo crea
-                                            {
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                //System.out.println("creando LoopCharacteristic....");
-                                                loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
-                                                tsk.setLoopCharacteristics(loopchar);
-                                            } else if (!(loopchar instanceof StandarLoopCharacteristics)) {
-                                                loopchar.getSemanticObject().remove();
-                                                // si no existe se crea uno nuevo y se asigna al task
-                                                //System.out.println("eliminando y creando LoopCharacteristic....");
-                                                loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
-                                                tsk.setLoopCharacteristics(loopchar);
-                                            }
+                                    //System.out.println("LoopCharacteristic....");
+                                    if (isLoop) {
+                                        // si existe no se hace nada se deja el LoopCharacteristics
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (loopchar == null) // si no existe lo crea
+                                        {
+                                            // si no existe se crea uno nuevo y se asigna al task
+                                            //System.out.println("creando LoopCharacteristic....");
+                                            loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
+                                            tsk.setLoopCharacteristics(loopchar);
+                                        } else if (!(loopchar instanceof StandarLoopCharacteristics)) {
+                                            loopchar.getSemanticObject().remove();
+                                            // si no existe se crea uno nuevo y se asigna al task
+                                            //System.out.println("eliminando y creando LoopCharacteristic....");
+                                            loopchar = StandarLoopCharacteristics.ClassMgr.createStandarLoopCharacteristics(procsite);
+                                            tsk.setLoopCharacteristics(loopchar);
+                                        }
 
-                                        } else {
-                                            // si existe y cambio y ya no es Loop se elimina el StandarLoopCharacteristics asociado
-                                            LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
-                                            if (null != loopchar && loopchar instanceof StandarLoopCharacteristics) {
-                                                //System.out.println("eliminando LoopCharacteristic....");
-                                                loopchar.getSemanticObject().remove();
-                                            }
+                                    } else {
+                                        // si existe y cambio y ya no es Loop se elimina el StandarLoopCharacteristics asociado
+                                        LoopCharacteristics loopchar = tsk.getLoopCharacteristics();
+                                        if (null != loopchar && loopchar instanceof StandarLoopCharacteristics) {
+                                            //System.out.println("eliminando LoopCharacteristic....");
+                                            loopchar.getSemanticObject().remove();
                                         }
                                     }
                                 }
@@ -771,9 +693,9 @@ public class SVGModeler extends GenericAdmResource {
                                 // si es un Collectionable se revisa si es colección
                                 if (ge instanceof Collectionable) {
                                     Collectionable colble = (Collectionable) gi;
-                                    if (isCollection != null) {
+                                    if (isCollection) {
                                         //System.out.println("Save Collection ===>"+isCollection.booleanValue());
-                                        colble.setCollection(isCollection.booleanValue());
+                                        colble.setCollection(isCollection);
                                     }
                                 }
 
