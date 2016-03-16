@@ -330,7 +330,7 @@ public class Promo extends GenericResource {
                         }                        
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\" src=\""+webWorkPath+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -356,7 +356,7 @@ public class Promo extends GenericResource {
                         }
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -382,7 +382,7 @@ public class Promo extends GenericResource {
                         }
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -407,7 +407,7 @@ public class Promo extends GenericResource {
                         }
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -432,7 +432,7 @@ public class Promo extends GenericResource {
                         }
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -458,7 +458,7 @@ public class Promo extends GenericResource {
                         }
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink) {
                         img.append("</a>");
                     }
@@ -612,7 +612,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\" src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -632,7 +632,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\" src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -652,7 +652,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -671,7 +671,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -690,7 +690,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\" src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -710,7 +710,7 @@ public class Promo extends GenericResource {
                             img.append(" target=\"_blank\"");
                         img.append(">");
                     }
-                    img.append("<img src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
+                    img.append("<img alt=\"\"  src=\""+webWorkPath+"/"+imgfile+"\" " +imgWidth+ " "+ imgHeight +"/>");
                     if(hasLink)
                         img.append("</a>");
                     img.append("</span>\n");
@@ -1140,7 +1140,7 @@ public class Promo extends GenericResource {
         htm.append("        <li class=\"swbform-li\">\n");
         htm.append("          <label class=\"swbform-label\"></label>\n");
         if(base.getAttribute("imgfile")!=null)
-          htm.append("        <img src=\""+path+base.getAttribute("imgfile")+"\" alt=\"\" hspace=\"5\" />\n");
+          htm.append("        <img alt=\"\"  src=\""+path+base.getAttribute("imgfile")+"\" alt=\"\" hspace=\"5\" />\n");
         htm.append("        </li>\n");
         if(base.getAttribute("imgfile")!=null) {
             htm.append("    <li class=\"swbform-li\">\n");
@@ -1239,7 +1239,7 @@ public class Promo extends GenericResource {
         htm.append("        </li>\n");
         htm.append("        <li class=\"swbform-li\">\n");
         htm.append("          <label class=\"swbform-label\">Cambiar la posición de la imagen</label>\n");
-        htm.append("          <img src=\"/swbadmin/images/posicion.gif\" alt=\"\" usemap=\"#positionmap\" />\n");
+        htm.append("          <img alt=\"\"  src=\"/swbadmin/images/posicion.gif\" alt=\"\" usemap=\"#positionmap\" />\n");
         htm.append("          <map id=\"positionmap\" name=\"positionmap\">\n");
         htm.append("              <area title=\"1\" shape=\"rect\" coords=\"1,1,20,17\" alt=\"1.- Superior izquierda\" onclick=\"dojo.byId('imgPos').value='1'\"/>\n");
         htm.append("              <area title=\"3\" shape=\"rect\" coords=\"24,3,44,18\" alt=\"3.- Derecha\" onclick=\"dojo.byId('imgPos').value='3'\"/>\n");
@@ -1309,7 +1309,7 @@ public class Promo extends GenericResource {
         htm.append("        </li>\n");
         htm.append("        <li class=\"swbform-li\">\n");
         htm.append("          <label class=\"swbform-label\"></label>\n");
-        htm.append("          <img src=\"/swbadmin/images/colorgrid.gif\" width=\"292\" height=\"196\" border=\"0\" alt=\"RGB color mixer\" usemap=\"#gridmap\" ismap=\"ismap\">\n");
+        htm.append("          <img alt=\"\"  src=\"/swbadmin/images/colorgrid.gif\" width=\"292\" height=\"196\" border=\"0\" alt=\"RGB color mixer\" usemap=\"#gridmap\" ismap=\"ismap\">\n");
         htm.append("          <map name=\"gridmap\">\n");
         htm.append("<!--- Row 1 --->\n");
         htm.append("<area coords=\"2,2,18,18\" onclick=\"setColor('#330000')\">\n");
