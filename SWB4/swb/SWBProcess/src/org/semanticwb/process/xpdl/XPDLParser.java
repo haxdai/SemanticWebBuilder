@@ -116,7 +116,7 @@ public class XPDLParser extends DefaultHandler {
             if (normalize) {
                 String xml = SWBUtils.IO.readInputStream(istream);
                 istream.close();
-                xml = xml.replace("&#xD;&#xA;", "\n");//EHSP10032016 - To prevent errors importing from bizagi, because apparently SAX does not notmalize strings
+                xml = replaceXMLWhiteSpaces(xml);
                 parser.parse(SWBUtils.IO.getStreamFromString(xml), this);
             } else {
                 parser.parse(istream, this);
@@ -600,5 +600,14 @@ public class XPDLParser extends DefaultHandler {
         }
         //Put current tag on top of the stack
         XMLElementNames.push(localName);
+    }
+    
+    /**
+     * Sustituye los caracteres de espacio en blanco válidos para la versión 1.0 de XML, pero no permitidos en otras versiones.
+     * @param source Fuente XML
+     * @return XML sin entidades para caracteres de espacio en blanco.
+     */
+    private String replaceXMLWhiteSpaces(String source) {
+        return source.replaceAll("&#x[20|9|D|A];"," ");//https://www.w3.org/TR/xml/#charsets https://www.w3.org/TR/xml11/#charsets
     }
 }
