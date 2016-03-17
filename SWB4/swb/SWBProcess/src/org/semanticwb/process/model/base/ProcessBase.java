@@ -20,6 +20,7 @@ public abstract class ProcessBase extends org.semanticwb.process.model.ProcessEl
     public static final org.semanticwb.platform.SemanticClass swp_WrapperProcessWebPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#WrapperProcessWebPage");
     public static final org.semanticwb.platform.SemanticProperty swp_processWebPage=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#processWebPage");
     public static final org.semanticwb.platform.SemanticProperty swp_delayNotificationTemplate=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#delayNotificationTemplate");
+    public static final org.semanticwb.platform.SemanticProperty swp_executable=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#executable");
     public static final org.semanticwb.platform.SemanticClass swp_ProcessInstance=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/process#ProcessInstance");
     public static final org.semanticwb.platform.SemanticProperty swp_hasProcessInstanceInv=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/process#hasProcessInstanceInv");
    /**
@@ -1400,6 +1401,24 @@ public abstract class ProcessBase extends org.semanticwb.process.model.ProcessEl
     public void setAndEvalRoleRef(boolean value)
     {
         getSemanticObject().setBooleanProperty(swb_andEvalRoleRef, value);
+    }
+
+/**
+* Gets the Executable property
+* @return boolean with the Executable
+*/
+    public boolean isExecutable()
+    {
+        return getSemanticObject().getBooleanProperty(swp_executable);
+    }
+
+/**
+* Sets the Executable property
+* @param value long with the Executable
+*/
+    public void setExecutable(boolean value)
+    {
+        getSemanticObject().setBooleanProperty(swp_executable, value);
     }
 
 /**
