@@ -1893,11 +1893,27 @@ if (!SVGPathElement.prototype.getPathData || !SVGPathElement.prototype.setPathDa
         createUseObject:function(type, id, parent)
         {
             var _this=ToolKit;
-            return _this.createObject(function(){
+            var ret = _this.createObject(function(){
                 var obj = document.createElementNS(_this.svgNS,"use"); //to create a circle, for rectangle use rectangle
                 obj.setAttributeNS(_this.xlink,"href",type);
                 return obj;
             }, id, parent);
+            
+            //Trata de establecer los valores de acuerdo al BBOX
+            if(ret.getWidth()===0 && ret.getHeight()===0) {
+                var bb = {x:0, y:0, width:0, height:0};
+                try {
+                    bb = ret.getBBox && ret.getBBox();
+                    if (bb) {
+                        ret.setWidth(bb.width);
+                        ret.setHeight(bb.height);
+                    }
+                } catch(e) {
+                    
+                }
+            }
+            
+            return ret;
         },
 
         createUseBaseObject:function(type, id, parent)
@@ -1914,7 +1930,7 @@ if (!SVGPathElement.prototype.getPathData || !SVGPathElement.prototype.setPathDa
         {
             var _this = ToolKit;
             var obj = constructor();
-            
+
             obj.elementType="BaseObject";
             obj.text=null;
             obj.contents=[];                        
@@ -2506,12 +2522,22 @@ if (!SVGPathElement.prototype.getPathData || !SVGPathElement.prototype.setPathDa
             {
                 _this.svg.appendChild(obj);
             }
-            if(obj.getWidth()===0 && obj.getHeight()===0)
-            {
-                var bb=obj.getBBox();
-                obj.setWidth(bb.width);
-                obj.setHeight(bb.height);
-            }
+            
+            /*if(obj.getWidth()===0 && obj.getHeight()===0) {
+                console.log("getting bbox");
+                console.log(obj);
+                var bb = {x:0, y:0, width:0, height:0};
+                try {
+                    bb = obj.getBBox && obj.getBBox();
+                    if (bb) {
+                        console.log(bb);
+                        obj.setWidth(bb.width);
+                        obj.setHeight(bb.height);
+                    }
+                } catch(e) {
+                    console.log(e);
+                }
+            }*/
             
             return obj;
         },
