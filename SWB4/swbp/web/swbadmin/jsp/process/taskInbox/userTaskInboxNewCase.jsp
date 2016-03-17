@@ -35,7 +35,7 @@ while(startEvents.hasNext()) {
     if (sevt.getContainer() != null && sevt.getContainer() instanceof Process && user.haveAccess(sevt)) {
         Process itp = sevt.getProcess();
         //Si el proceso al que pertenece el evento y es válido
-        if (itp != null && itp.isValid()) {
+        if (itp != null && itp.isValid() && itp.isExecutable()) {
             if(itp.getProcessGroup() != null) {
                 String pg = itp.getProcessGroup().getDisplayTitle(lang);
                 //Si ya existe el grupo de procesos en el treemap
