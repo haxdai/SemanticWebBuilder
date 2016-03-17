@@ -156,10 +156,8 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         
         com.google.api.services.youtube.model.Video apiVideo = new com.google.api.services.youtube.model.Video();
         String privacy = this.privacyValue(video);
-        String category = video.getCategory() == null || video.getCategory().isEmpty()
-                          ? (this.getYoutubeCategory() != null && !this.getYoutubeCategory().getId().isEmpty())
-                            ? this.getYoutubeCategory().getId() : ""
-                          : video.getCategory();  //Categoria 22 = People & blogs
+        String category = video.getCategory() != null && !video.getCategory().isEmpty()
+                          ? video.getCategory() : "";
         
         try {
             int categoryInt = Integer.parseInt(category);
@@ -722,7 +720,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             category = it.next().getId();
         }
         while (it.hasNext()) {//More categories
-            category = category + "|" + it.next().getId();
+            category = category + ":" + it.next().getId();
         }
         
         SocialSite socialSite = (SocialSite) WebSite.ClassMgr.getWebSite(
@@ -756,174 +754,180 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
             }
         } catch (Exception e) {}
         
-        //Se intentaria obtener maximo 500 videos; cada iteracion podria obtener maxResults = 50 y se realizan limit = 10 iteraciones
-        for (int startIndex = 1; startIndex <= limit; startIndex++) {
-            if (search != null) {
-                //Si se conoce la fecha de publicacion del ultimo video extraido
-                if (lastVideoID != null) {
-                    DateTime since = new DateTime(lastVideoID);
-                    search.setPublishedAfter(since);
-                }
-                if (category!=null && !category.isEmpty()) {
-                    search.setVideoCategoryId(category);
-                }
-                if (stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 &&
-                        stream.getGeoRadio() > 0) {
-                    search.setLocation(stream.getGeoCenterLatitude() + "," + stream.getGeoCenterLongitude());
-                    if (stream.getGeoRadio() < 50) {//Default value
-                        search.setLocationRadius("50km");
-                    } if (stream.getGeoRadio() > 1000) {//Max value
-                        search.setLocationRadius("1000km");
-                    } else {
-                        search.setLocationRadius(stream.getGeoRadio() + "km");
+        String[] selectedCategories = category.split(":");
+        int categoriesCount = 0;
+        //Recorrer todas las categorias asignadas a la instancia de Youtube:
+        do {
+            //Se intentaria obtener maximo 500 videos; cada iteracion podria obtener maxResults = 50 y se realizan limit = 10 iteraciones
+            for (int startIndex = 1; startIndex <= limit; startIndex++) {
+                if (search != null) {
+                    //Si se conoce la fecha de publicacion del ultimo video extraido
+                    if (lastVideoID != null) {
+                        DateTime since = new DateTime(lastVideoID);
+                        search.setPublishedAfter(since);
+                    }
+                    if (selectedCategories.length > 0 && !selectedCategories[categoriesCount].isEmpty()) {
+                        search.setVideoCategoryId(selectedCategories[categoriesCount]);
+                    }
+//                    if (stream.getGeoCenterLatitude() != 0 && stream.getGeoCenterLongitude() != 0 &&
+//                            stream.getGeoRadio() > 0) {
+//                        search.setLocation(stream.getGeoCenterLatitude() + "," + stream.getGeoCenterLongitude());
+//                        if (stream.getGeoRadio() < 50) {//Default value
+//                            search.setLocationRadius("50km");
+//                        } if (stream.getGeoRadio() > 1000) {//Max value
+//                            search.setLocationRadius("1000km");
+//                        } else {
+//                            search.setLocationRadius(stream.getGeoRadio() + "km");
+//                        }
+//                    }
+                    //index contiene el valor de nextPageToken de la respuesta de cada peticion a Youtube
+                    if (index != null && !index.isEmpty()) {
+                        search.setPageToken(index);
                     }
                 }
-                //index contiene el valor de nextPageToken de la respuesta de cada peticion a Youtube
-                if (index != null && !index.isEmpty()) {
-                    search.setPageToken(index);
-                }
-            }
 
-            try {
-                String videoIds = null;
-                //System.out.println("Objeto creado para busquedas:\n" + search.toString());
-                SearchListResponse searchResponse = search.execute();
-                //System.out.println("Respuesta:\n" + searchResponse.getPageInfo().toString() + "\n++++++++++++++++++++++++++++++");
-                List<SearchResult> searchResultList = searchResponse.getItems();
-                if (!searchResultList.isEmpty()) {
-                    count = searchResultList.size();
-                    Iterator<SearchResult> iteratorSearchResults = searchResultList.iterator();
-                    int j = 0;
-                    while (iteratorSearchResults.hasNext()) {
-                        SearchResult singleVideo = iteratorSearchResults.next();
-                        ResourceId rId = singleVideo.getId();
-                        if (rId.getKind().equals("youtube#video")) {
-                            if (j > 0) {
-                                videoIds += ("," + rId.getVideoId());
-                            } else {
-                                videoIds = rId.getVideoId();
+                try {
+                    String videoIds = null;
+                    //System.out.println("Objeto creado para busquedas:\n" + search.toString());
+                    SearchListResponse searchResponse = search.execute();
+                    //System.out.println("Respuesta:\n" + searchResponse.getPageInfo().toString() + "\n++++++++++++++++++++++++++++++");
+                    List<SearchResult> searchResultList = searchResponse.getItems();
+                    if (!searchResultList.isEmpty()) {
+                        count = searchResultList.size();
+                        Iterator<SearchResult> iteratorSearchResults = searchResultList.iterator();
+                        int j = 0;
+                        while (iteratorSearchResults.hasNext()) {
+                            SearchResult singleVideo = iteratorSearchResults.next();
+                            ResourceId rId = singleVideo.getId();
+                            if (rId.getKind().equals("youtube#video")) {
+                                if (j > 0) {
+                                    videoIds += ("," + rId.getVideoId());
+                                } else {
+                                    videoIds = rId.getVideoId();
+                                }
+                                j++;
                             }
-                            j++;
                         }
                     }
-                }
-                if (searchResponse.getNextPageToken() != null && !searchResponse.getNextPageToken().isEmpty()) {
-                    index = searchResponse.getNextPageToken();
-                } else {
-                    breakFor = true;
-                }
-                
-                if (videoIds != null) {
-                    //System.out.println("Videos to search for: \n" + videoIds);
-                    Map<String, String> paramsDetail = new HashMap<String, String>();
-                    paramsDetail.put("part", "snippet,contentDetails,recordingDetails");
-                    paramsDetail.put("id", videoIds);
-                    
-                    String detailInfo = this.getRequest(paramsDetail, Youtube.API_URL + "/videos",
-                            Youtube.USER_AGENT, "GET");
-                    JSONObject videosResp = new JSONObject(detailInfo);
-                    JSONArray items = !videosResp.isNull("items") ? videosResp.getJSONArray("items") : null;
-                    if (items != null) {
-                        count = items.length();
+                    if (searchResponse.getNextPageToken() != null && !searchResponse.getNextPageToken().isEmpty()) {
+                        index = searchResponse.getNextPageToken();
                     } else {
-                        count = 0;
+                        breakFor = true;
                     }
-                    
-                    for (int i = 0; i < count; i++) {
-                        ExternalPost external = new ExternalPost();
-                        JSONObject video = items.getJSONObject(i);
-                        String idItem = video.getString("id");
-                        JSONObject snippet = video.getJSONObject("snippet");
-                        String uploader = snippet.getString("channelId");
-                        String title = snippet.getString("title");
-                        String channel = snippet.getString("channelId");
-                        String description = snippet.getString("description");
-                        if (description == null || description.equals("")) {
-                            description = title;
+
+                    if (videoIds != null) {
+                        //System.out.println("Videos to search for: \n" + videoIds);
+                        Map<String, String> paramsDetail = new HashMap<String, String>();
+                        paramsDetail.put("part", "snippet,contentDetails,recordingDetails");
+                        paramsDetail.put("id", videoIds);
+
+                        String detailInfo = this.getRequest(paramsDetail, Youtube.API_URL + "/videos",
+                                Youtube.USER_AGENT, "GET");
+                        JSONObject videosResp = new JSONObject(detailInfo);
+                        JSONArray items = !videosResp.isNull("items") ? videosResp.getJSONArray("items") : null;
+                        if (items != null) {
+                            count = items.length();
                         } else {
-                            description = title + " / " + description;
+                            count = 0;
                         }
-                        String categoryItem = snippet.getString("categoryId");
-                        uploadedStr = snippet.getString("publishedAt");
-                        Double latitude = null;
-                        Double longitude = null;
-                        
-                        if (!video.isNull("recordingDetails")) {
-                            JSONObject recDetails = video.getJSONObject("recordingDetails");
-                            JSONObject location = !recDetails.isNull("location")
-                                                  ? recDetails.getJSONObject("location") : null;
-                            if (location != null && !location.isNull("latitude") &&
-                                    !location.isNull("longitude")) {
-                                latitude = location.getDouble("latitude");
-                                longitude = location.getDouble("longitude");
-                            }
-                        }
-                        
-                        Date uploaded = formatter.parse(uploadedStr);
-                        if (uploaded.before(lastVideoID) || uploaded.equals(lastVideoID)) {
-                            canGetMoreVideos = false;
-                            break;
-                        } else {
-                            external.setPostId(idItem);
-                            external.setCreatorId(uploader);
-                            external.setCreatorName(uploader);
-                            
-                            external.setUserUrl("https://www.youtube.com/" + channel);
-                            external.setPostUrl("https://www.youtube.com/watch?v=" + idItem + "&feature=youtube_gdata");
-                            if (uploaded.after(new Date())) {
-                                external.setCreationTime(new Date());
+
+                        for (int i = 0; i < count; i++) {
+                            ExternalPost external = new ExternalPost();
+                            JSONObject video = items.getJSONObject(i);
+                            String idItem = video.getString("id");
+                            JSONObject snippet = video.getJSONObject("snippet");
+                            String uploader = snippet.getString("channelId");
+                            String title = snippet.getString("title");
+                            String channel = snippet.getString("channelId");
+                            String description = snippet.getString("description");
+                            if (description == null || description.equals("")) {
+                                description = title;
                             } else {
-                                external.setCreationTime(uploaded);
+                                description = title + " / " + description;
                             }
-                            external.setUpdateTime(uploaded);
-                            external.setMessage(description);
-                            external.setCategory(categoryItem);
-                            external.setSocialNetwork(this);
-                            external.setVideo(Youtube.BASE_VIDEO_URL + idItem);
-                            external.setPostType(SWBSocialUtil.VIDEO);
-                            aListExternalPost.add(external);
-                            if (latitude != null && longitude != null) {
-                                external.setLatitude(latitude);
-                                external.setLongitude(longitude);
-                                external.setPlace("(" + df.format(latitude) + "," + df.format(longitude) + ")");
+                            String categoryItem = snippet.getString("categoryId");
+                            uploadedStr = snippet.getString("publishedAt");
+                            Double latitude = null;
+                            Double longitude = null;
+
+                            if (!video.isNull("recordingDetails")) {
+                                JSONObject recDetails = video.getJSONObject("recordingDetails");
+                                JSONObject location = !recDetails.isNull("location")
+                                                      ? recDetails.getJSONObject("location") : null;
+                                if (location != null && !location.isNull("latitude") &&
+                                        !location.isNull("longitude")) {
+                                    latitude = location.getDouble("latitude");
+                                    longitude = location.getDouble("longitude");
+                                }
+                            }
+
+                            Date uploaded = formatter.parse(uploadedStr);
+                            if (uploaded.before(lastVideoID) || uploaded.equals(lastVideoID)) {
+                                canGetMoreVideos = false;
+                                break;
+                            } else {
+                                external.setPostId(idItem);
+                                external.setCreatorId(uploader);
+                                external.setCreatorName(uploader);
+
+                                external.setUserUrl("https://www.youtube.com/" + channel);
+                                external.setPostUrl("https://www.youtube.com/watch?v=" + idItem + "&feature=youtube_gdata");
+                                if (uploaded.after(new Date())) {
+                                    external.setCreationTime(new Date());
+                                } else {
+                                    external.setCreationTime(uploaded);
+                                }
+                                external.setUpdateTime(uploaded);
+                                external.setMessage(description);
+                                external.setCategory(categoryItem);
+                                external.setSocialNetwork(this);
+                                external.setVideo(Youtube.BASE_VIDEO_URL + idItem);
+                                external.setPostType(SWBSocialUtil.VIDEO);
+                                aListExternalPost.add(external);
+                                if (latitude != null && longitude != null) {
+                                    external.setLatitude(latitude);
+                                    external.setLongitude(longitude);
+                                    external.setPlace("(" + df.format(latitude) + "," + df.format(longitude) + ")");
+                                }
                             }
                         }
-                    }
-                    if ((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)) {//Classify the block of videos
-                        new Classifier((ArrayList<ExternalPost>) aListExternalPost.clone(), stream, this, true);
-                        aListExternalPost.clear();
-                    }
-                    if (!stream.isActive()) {//If the stream has been disabled stop listening
+                        if ((blockOfVideos > 0) && (aListExternalPost.size() >= blockOfVideos)) {//Classify the block of videos
+                            new Classifier((ArrayList<ExternalPost>) aListExternalPost.clone(), stream, this, true);
+                            aListExternalPost.clear();
+                        }
+                        if (!stream.isActive()) {//If the stream has been disabled stop listening
+                            canGetMoreVideos = false;
+                        }
+                        if (canGetMoreVideos == false) {
+                            break;
+                        }
+                    } else {//There are no video ids to search for
                         canGetMoreVideos = false;
-                    }
-                    if (canGetMoreVideos == false) {
                         break;
                     }
-                } else {//There are no video ids to search for
-                    canGetMoreVideos = false;
-                    break;
-                }
 
-                //Si ya no hay mas videos que extraer de Youtube
-                if (breakFor) {
+                    //Si ya no hay mas videos que extraer de Youtube
+                    if (breakFor) {
+                        canGetMoreVideos = false;
+                        break;
+                    }
+
+                } catch (Exception e) {
+                    Youtube.log.error("Error reading Youtube stream ", e);
                     canGetMoreVideos = false;
                     break;
                 }
-                
-            } catch (Exception e) {
-                Youtube.log.error("Error reading Youtube stream ", e);
-                canGetMoreVideos = false;
-                break;
+                startIndex = startIndex + (count - 1);
             }
-            startIndex = startIndex + (count - 1);
-        }
-        if (uploadedStr != null) {
-            this.setLastVideoID(uploadedStr, stream);//uploadedStr
-        }
+            if (uploadedStr != null) {
+                this.setLastVideoID(uploadedStr, stream);//uploadedStr
+            }
 
-        if (aListExternalPost.size() > 0) {
-            new Classifier(aListExternalPost, stream, this, true);
-        }
+            if (aListExternalPost.size() > 0) {
+                new Classifier(aListExternalPost, stream, this, true);
+            }
+            categoriesCount++;
+        } while (categoriesCount < selectedCategories.length);
     }
 
     private String getPhrases(String stream) {
