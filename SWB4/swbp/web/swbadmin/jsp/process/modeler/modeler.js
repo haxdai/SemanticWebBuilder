@@ -3757,7 +3757,6 @@ var _GraphicalElement = function(obj) {
             for (i = 0; i < length; i++) {
                 var tmp = pools[i],
                     obj = Modeler.mapObject("Pool");
-
                 obj.setURI(tmp.uri);
 
                 if (tmp.title && tmp.title !== null) {
