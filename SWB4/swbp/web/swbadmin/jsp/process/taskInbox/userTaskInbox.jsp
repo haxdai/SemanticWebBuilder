@@ -310,7 +310,7 @@ if (!user.isSigned()) {
                 </div>
             <%} if (UserTaskInboxResource.COL_NAMEPROCESS != null) {%> 
                 <div class="col-xs-12 swbp-tray-task">
-                    <%=instance.getFlowNodeType().getProcess().getDisplayTitle(lang)%>
+                    Proceso: <%=instance.getFlowNodeType().getProcess().getDisplayTitle(lang)%>
                 </div> 
             <%} if (UserTaskInboxResource.COL_STARTTASK != null) {%>    
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 swbp-tray-date">
