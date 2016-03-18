@@ -1018,6 +1018,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .swbp-menu-text {
     font-size: 14px;
     padding: 15px 15px 0px 0px;
+    
+    span.badge {
+        background-color: $color-primary-Click;
+        color: #fff;
+        margin-left: 5px;
+    }
 }
 .MENU-COLAPSABLE{
     ul{
