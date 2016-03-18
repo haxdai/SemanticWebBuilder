@@ -162,7 +162,8 @@ public class SWBProcessMgr
             FlowNode type=actins.getFlowNodeType();
             if(type instanceof UserTask)
             {
-                if(actins.haveAccess(user))
+                Process p = type.getProcess();
+                if(p.isValid() && actins.haveAccess(user))
                 {
                     ret.add(actins);
                 }
