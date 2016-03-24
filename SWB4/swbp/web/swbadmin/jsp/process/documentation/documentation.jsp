@@ -59,6 +59,8 @@
     User user = paramRequest.getUser();
     Resource base = paramRequest.getResourceBase();
     boolean showWord = null != base.getAttribute("allowWord") && "true".equalsIgnoreCase(base.getAttribute("allowWord"));
+    boolean showEditText = null != base.getAttribute("allowEditText") && "true".equalsIgnoreCase(base.getAttribute("allowEditText"));
+    String editTools = "";
     WebSite site = paramRequest.getWebPage().getWebSite();
     String idp = request.getParameter("idp") != null ? request.getParameter("idp").toString() : "";
     String idpg = request.getParameter("pg") != null ? request.getParameter("pg").toString() : "";
@@ -69,6 +71,9 @@
     SWBResourceURL urlText = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_EDIT_TEXT);    
     String wp = request.getParameter("wp");
     SWBResourceURL urlUpload = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_UPLOAD_PICTURE);
+    if(showEditText){
+     editTools = "cut copy paste| link unlink | searchreplace | insertdatetime | spellchecker | formatselect fontselect fontsizeselect";
+    }
 
     if (p != null) {
         Iterator<TemplateContainer> itTemplateCont = TemplateContainer.ClassMgr.listTemplateContainerByProcess(p);
@@ -613,13 +618,15 @@
                             });
                          });
                     })();
-
+                    
                     tinymce.init({
                         selector: 'textarea.freetext',
                         entity_encoding : "raw",
 
                         language: '<%=paramRequest.getUser().getLanguage()%>',
-                        toolbar: "save | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | undo redo code | forecolor backcolor emoticons ",
+                        toolbar1: "save | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | \n\
+                                    bullist numlist outdent indent | link image table | undo redo code | forecolor backcolor emoticons",
+                        toolbar2:"<%=editTools%>",
                         menubar: false,
                         save_enablewhendirty: false,
                         force_br_newlines: true,
