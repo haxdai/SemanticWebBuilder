@@ -163,8 +163,10 @@
                         var size = getDiagramSize();
                         var form = document.getElementById("svgform");
                         var svg = document.getElementsByTagName("svg")[0];
-                        var svg_xml = (new XMLSerializer).serializeToString(svg);
-                        form['data'].value = svg_xml;
+                        if (svg) {
+                            var svg_xml = (new XMLSerializer).serializeToString(svg);
+                            form['data'].value = svg_xml;
+                        }
                         form['format'].value = format;
                         form['width'].value = size.w;
                         form['height'].value = size.h;
