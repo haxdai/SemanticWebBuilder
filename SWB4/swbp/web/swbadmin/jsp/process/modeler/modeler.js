@@ -3762,6 +3762,9 @@ var _GraphicalElement = function(obj) {
                 if (tmp.title && tmp.title !== null) {
                     obj.setText(tmp.title);
                 }
+                if (tmp.index !== null && tmp.index) {
+                    obj.index = tmp.index;
+                }
                 obj.layer = null;
                 obj.resize(tmp.w, tmp.h);
                 obj.move(tmp.x, tmp.y);
