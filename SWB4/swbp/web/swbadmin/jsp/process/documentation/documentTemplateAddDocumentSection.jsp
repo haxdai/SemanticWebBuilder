@@ -145,7 +145,6 @@
                     theForm.addEventListener('submit', function(evt) {
                         var valid = isTitleValid(theForm['titleSection']) && isSelectValid(theForm['dstype']);                      
                         if (valid) {
-                            console.log("valid");
                             $.ajax({
                                 url: $(theForm).attr('action'),
                                 cache: false,
