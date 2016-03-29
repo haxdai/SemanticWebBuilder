@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -69,6 +70,7 @@ public class ProcessForm extends GenericResource {
     public static final String MODE_SIGN = "sign";
     public static final String MODE_ACUSE = "acuse";
     public static final String MODE_ADDPROPS = "addProps";
+    public static final String MODE_RESPONSE = "response";
     public static final String PARAM_PROPIDX = "prop";
     public static final String PARAM_PROPMODE = "propMode";
     public static final String PARAM_PROPFE = "propFe";
@@ -130,8 +132,9 @@ public class ProcessForm extends GenericResource {
                 if ("btnSave".equals(btn)) {
                     base.setAttribute("btnSaveLabel", label);
                 }
+                response.setRenderParameter("status", "ok");
             }
-            response.setMode(SWBActionResponse.Mode_ADMIN);
+            response.setMode(MODE_RESPONSE);
         } else if (ACT_TOGGLEBUTTON.equals(action)) {
             String toggle = request.getParameter("btns");
             if (base.getAttribute("btnAcceptLabel","").equals("")) {
@@ -303,10 +306,12 @@ public class ProcessForm extends GenericResource {
 
                 try {
                     base.updateAttributesToDB();
+                    response.setRenderParameter("status", "ok");
                 } catch (Exception e) {
                     log.error("Error al guardar las propiedades de acuerdo al display property.",e);
                 }
             }
+            response.setMode(MODE_RESPONSE);
         } else if (ACT_REMOVEPROP.equals(action)) {
             String prop = request.getParameter(PARAM_PROPIDX);
 
@@ -372,14 +377,14 @@ public class ProcessForm extends GenericResource {
                     base.setAttribute("prop"+propId, propMap.get("varName") + "|" + propMap.get("propId") + "|" + propMap.get("mode") + "|" + propMap.get("fe") + "|" + propMap.get("label") + "|" + propMap.get("roles"));
                     try {
                         base.updateAttributesToDB();
+                        response.setRenderParameter("status", "ok");
                     } catch (Exception ex) {
                         log.error("Error al actualizar la propiedad",ex);
                     }
-                    
                     request.getSession(true).setAttribute("reload", true);
                 }
             }
-            response.setMode(SWBActionResponse.Mode_ADMIN);
+            response.setMode(MODE_RESPONSE);
         } else if (ACT_SWAP.equals(action)) {
             String dir = request.getParameter(PARAM_DIR);
             String propid = request.getParameter(PARAM_PROPIDX);
@@ -643,6 +648,8 @@ public class ProcessForm extends GenericResource {
             doAcuse(request, response, paramRequest);
         } else if (MODE_ADDPROPS.equals(mode)) {
             doAddProps(request, response, paramRequest);
+        } else if (MODE_RESPONSE.equals(mode)) {
+            doResponse(request, response, paramRequest);
         } else {
             super.processRequest(request, response, paramRequest);
         }
@@ -1333,6 +1340,22 @@ public class ProcessForm extends GenericResource {
         out.println("</span></fieldset>");
         out.println("</form>");
         out.println("</div>");
+    }
+    
+    public void doResponse(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        Map params = request.getParameterMap();
+        Iterator<String> keys = params.keySet().iterator();
+        
+        out.print("{");
+        while(keys.hasNext()) {
+            String key = keys.next();
+            String val = request.getParameter(key);
+            out.print("\""+key+"\":\""+val+"\"");
+            if (keys.hasNext()) out.print(",");
+        }
+        out.print("}");
     }
     
     public void doAcuse(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
