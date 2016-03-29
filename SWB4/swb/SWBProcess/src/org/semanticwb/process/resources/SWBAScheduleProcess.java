@@ -79,7 +79,7 @@ public class SWBAScheduleProcess extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        log.debug("----doView() ");
+        //log.debug("----doView() ");
         PrintWriter out = response.getWriter();
 
         String id = request.getParameter("suri"); //uri del elemento
@@ -117,7 +117,7 @@ public class SWBAScheduleProcess extends GenericResource {
         //out.println("<script type=\"javascript\">include('" + SWBPlatform.getContextPath() + "/swbadmin/js/schedule.js');</script>");
 
 
-        log.debug("Action: " + action);
+        //log.debug("Action: " + action);
 
 //        out.println("<script type=\"text/javascript\">");
 //
@@ -524,8 +524,8 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("      <table cellSpacing=\"0\" cellPadding=\"1\" width=\"100%\" border=0>");
         out.println("        <tbody>");
         out.println("        <tr>");
-        out.println("          <td width=\"20\" ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "/timerinter1\" name=\"" + id + "/timerinter\" onclick=\"enableTimer('" + id + "');\" " + waithourc + " value=\"tiempoespera\"></td>");
-        out.println("          <td >" + paramRequest.getLocaleString("frmTemporizador") + ":&nbsp;<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/timer\" maxLength=\"2\" size=\"3\" style=\"width:30px;\" name=\"" + id + "/timer\" value=\""+(timer!=null&&timer.trim().length()>0?timer:"")+"\" " + waithourcd + " ></td>");
+        out.println("          <td width=\"20\" ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "_timerinter1\" name=\"" + id + "/timerinter\" onclick=\"enableTimer('" + id + "');\" " + waithourc + " value=\"tiempoespera\"></td>");
+        out.println("          <td >" + paramRequest.getLocaleString("frmTemporizador") + ":&nbsp;<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_timer\" maxLength=\"2\" size=\"3\" style=\"width:30px;\" name=\"" + id + "/timer\" value=\""+(timer!=null&&timer.trim().length()>0?timer:"")+"\" " + waithourcd + " ></td>");
         out.println("         </tr>");
         out.println("         <tr>");
         out.println("          <td width=20 >&nbsp;</td>");
@@ -541,14 +541,14 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("      <table cellSpacing=\"0\" cellPadding=\"1\" width=\"100%\" border=0>");
         out.println("        <tbody>");
         out.println("        <tr>");
-        out.println("          <td width=\"20\"><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "/timerinter2\" name=\"" + id + "/timerinter\" onClick=\"enableTimer('" + id + "');\" " + hourc + " value=\"tiempoexec\"></td>");
-        out.println("          <td colspan=\"2\">" + paramRequest.getLocaleString("frmStartHour") + ":&nbsp;<input dojoType=\"dijit.form.TimeTextBox\" name=\"" + id + "/exechour\" id=\"" + id + "/exechour\"  value=\"" + (starthour!=null&&starthour.trim().length() > 0 ? "T"+starthour+":00" : "T00:00:00") + "\"  "+ hourcd +" constraints=constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm'}  /></td>");
+        out.println("          <td width=\"20\"><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "_timerinter2\" name=\"" + id + "/timerinter\" onClick=\"enableTimer('" + id + "');\" " + hourc + " value=\"tiempoexec\"></td>");
+        out.println("          <td colspan=\"2\">" + paramRequest.getLocaleString("frmStartHour") + ":&nbsp;<input dojoType=\"dijit.form.TimeTextBox\" name=\"" + id + "exechour\" id=\"" + id + "_exechour\"  value=\"" + (starthour!=null&&starthour.trim().length() > 0 ? "T"+starthour+":00" : "T00:00:00") + "\"  "+ hourcd +" constraints=constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm'}  /></td>");
         out.println("         </tr>");
         out.println("        <tr>");
         out.println("          <td width=\"20\" >&nbsp;</td>");
-        out.println("          <td width=\"20\"><input type=\"checkbox\" id=\"" + id + "/time\" name=\"" + id + "/time\" dojoType=\"dijit.form.CheckBox\" onClick=\"enableIntervalTime('" + id + "');\" " + intervalhourc + "></td>");
-        out.println("          <td >" + paramRequest.getLocaleString("frmInterval") + ":&nbsp;<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/inter\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/inter\" value=\""+(interval!=null&&interval.trim().length()>0?interval:"")+"\" " + intervalhourcd + " >");
-        out.println("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + paramRequest.getLocaleString("frmEndHour") + ":&nbsp;<input dojoType=\"dijit.form.TimeTextBox\" name=\"" + id + "/endhour\" id=\"" + id + "/endhour\" value=\"" + (endhour!=null&&endhour.trim().length() > 0 ? "T"+endhour+":00" : "T00:00:00") + "\"  " + intervalhourcd + " constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm'} />");
+        out.println("          <td width=\"20\"><input type=\"checkbox\" id=\"" + id + "_time\" name=\"" + id + "/time\" dojoType=\"dijit.form.CheckBox\" onClick=\"enableIntervalTime('" + id + "');\" " + intervalhourc + "></td>");
+        out.println("          <td >" + paramRequest.getLocaleString("frmInterval") + ":&nbsp;<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_inter\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/inter\" value=\""+(interval!=null&&interval.trim().length()>0?interval:"")+"\" " + intervalhourcd + " >");
+        out.println("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + paramRequest.getLocaleString("frmEndHour") + ":&nbsp;<input dojoType=\"dijit.form.TimeTextBox\" name=\"" + id + "/endhour\" id=\"" + id + "_endhour\" value=\"" + (endhour!=null&&endhour.trim().length() > 0 ? "T"+endhour+":00" : "T00:00:00") + "\"  " + intervalhourcd + " constraints={formatLength:'short',selector:'timeOnly',timePattern:'HH:mm'} />");
         out.println("          </td>");
         out.println("         </tr>");
         out.println("        </tbody>");
@@ -587,7 +587,7 @@ public class SWBAScheduleProcess extends GenericResource {
         }
 
         out.println("  <tr>");
-        out.println("    <td ><input id=\"" + id + "/periodicidad\" type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" name=\"" + id + "/periodicidad\" onClick=\"disablePeriodicity('" + id + "');\" " + pchk + ">&nbsp;" + paramRequest.getLocaleString("frmRegularity") + "</td>");
+        out.println("    <td ><input id=\"" + id + "_periodicidad\" type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" name=\"" + id + "/periodicidad\" onClick=\"disablePeriodicity('" + id + "');\" " + pchk + ">&nbsp;" + paramRequest.getLocaleString("frmRegularity") + "</td>");
         out.println("  </tr>");
         // SEMANAL
         if (pchk.equals("checked") && period1c.equals("checked")) {
@@ -599,16 +599,16 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("        <tbody>");
         out.println("        <tr>");
         out.println("          <td width=10 rowSpan=3>&nbsp;</td>");
-        out.println("          <td width=100 rowSpan=2 ><input id=\"" + id + "/period1\" type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"weekly\" name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period1c + " " + periodd + ">" + paramRequest.getLocaleString("frmWeekly") + "</td>");
-        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday1\" name=\"" + id + "/wday1\" " + wday1 + " " + period1cd + ">" + paramRequest.getLocaleString("frmSunday") + "</td>");
-        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday2\" name=\"" + id + "/wday2\" " + wday2 + " " + period1cd + ">" + paramRequest.getLocaleString("frmMonday") + "</td>");
-        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday3\" name=\"" + id + "/wday3\" " + wday3 + " " + period1cd + ">" + paramRequest.getLocaleString("frmTuesday") + "</td>");
-        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday4\" name=\"" + id + "/wday4\" " + wday4 + " " + period1cd + ">" + paramRequest.getLocaleString("frmWednesday") + "</td>");
+        out.println("          <td width=100 rowSpan=2 ><input id=\"" + id + "_period1\" type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"weekly\" name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period1c + " " + periodd + ">" + paramRequest.getLocaleString("frmWeekly") + "</td>");
+        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday1\" name=\"" + id + "/wday1\" " + wday1 + " " + period1cd + ">" + paramRequest.getLocaleString("frmSunday") + "</td>");
+        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday2\" name=\"" + id + "/wday2\" " + wday2 + " " + period1cd + ">" + paramRequest.getLocaleString("frmMonday") + "</td>");
+        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday3\" name=\"" + id + "/wday3\" " + wday3 + " " + period1cd + ">" + paramRequest.getLocaleString("frmTuesday") + "</td>");
+        out.println("          <td ><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday4\" name=\"" + id + "/wday4\" " + wday4 + " " + period1cd + ">" + paramRequest.getLocaleString("frmWednesday") + "</td>");
         out.println("        </tr>");
         out.println("        <tr>");
-        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday5\" name=\"" + id + "/wday5\" " + wday5 + " " + period1cd + ">" + paramRequest.getLocaleString("frmThursday") + "</td>");
-        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday6\" name=\"" + id + "/wday6\" " + wday6 + " " + period1cd + ">" + paramRequest.getLocaleString("frmFriday") + "</td>");
-        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/wday7\" name=\"" + id + "/wday7\" " + wday7 + " " + period1cd + ">" + paramRequest.getLocaleString("frmSaturday") + "</td>");
+        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday5\" name=\"" + id + "/wday5\" " + wday5 + " " + period1cd + ">" + paramRequest.getLocaleString("frmThursday") + "</td>");
+        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday6\" name=\"" + id + "/wday6\" " + wday6 + " " + period1cd + ">" + paramRequest.getLocaleString("frmFriday") + "</td>");
+        out.println("          <td><input type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_wday7\" name=\"" + id + "/wday7\" " + wday7 + " " + period1cd + ">" + paramRequest.getLocaleString("frmSaturday") + "</td>");
         out.println("          <td></td>");
         out.println("        </tr>");
         out.println("        <tr>");
@@ -644,11 +644,11 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("        <tr>");
         out.println("          <td width=\"10\" rowSpan=\"5\">&nbsp;</td>");
         out.println("          <td width=\"100\" rowSpan=\"4\" >");
-        out.println("           <input id=\"" + id + "/period2\" type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"monthly\"  name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period2c + " " + periodd + ">" + paramRequest.getLocaleString("frmMonthly"));
+        out.println("           <input id=\"" + id + "_period2\" type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"monthly\"  name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period2c + " " + periodd + ">" + paramRequest.getLocaleString("frmMonthly"));
         out.println("            </td>");
-        out.println("          <td ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "/smonth1\" name=\"" + id + "/smonth\"  value=\"day\" onClick=\"enableMonthly('" + id + "');\" " + smonth1c + " " + period2cd + "></td>");
+        out.println("          <td ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "_smonth1\" name=\"" + id + "/smonth\"  value=\"day\" onClick=\"enableMonthly('" + id + "');\" " + smonth1c + " " + period2cd + "></td>");
         //out.println("          <td colSpan=\"3\" >" + paramRequest.getLocaleString("frmTheDay") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "/mmday\" name=\"" + id + "/mmday\" value=\"" + mmday + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " <input maxLength=\"2\"  size=\"2\" id=\"" + id + "/mmonths1\" type=\"text\" dojoType=\"dijit.form.TextBox\" name=\"" + id + "/mmonths1\" value=\"" + mmonths1 + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmMonths") + "</td>");
-        out.println("          <td colSpan=\"3\" >" + paramRequest.getLocaleString("frmTheDay") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "/mmday\" name=\"" + id + "/mmday\" value=\"" + ((mmday!=null&&!mmday.equals(""))?mmday:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmTheDayTo") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "/mmday2\" name=\"" + id + "/mmday2\" value=\"" + ((mmdayTo!=null&&!mmdayTo.equals(""))?mmdayTo:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " <input maxLength=\"2\"  size=\"2\" id=\"" + id + "/mmonths1\" type=\"text\" dojoType=\"dijit.form.TextBox\" name=\"" + id + "/mmonths1\" value=\"" + ((mmonths1!=null&&!mmonths1.equals(""))?mmonths1:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmMonths") + "</td>");
+        out.println("          <td colSpan=\"3\" >" + paramRequest.getLocaleString("frmTheDay") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "_mmday\" name=\"" + id + "/mmday\" value=\"" + ((mmday!=null&&!mmday.equals(""))?mmday:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmTheDayTo") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "_mmday2\" name=\"" + id + "/mmday2\" value=\"" + ((mmdayTo!=null&&!mmdayTo.equals(""))?mmdayTo:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " <input maxLength=\"2\"  size=\"2\" id=\"" + id + "_mmonths1\" type=\"text\" dojoType=\"dijit.form.TextBox\" name=\"" + id + "/mmonths1\" value=\"" + ((mmonths1!=null&&!mmonths1.equals(""))?mmonths1:"1") + "\"  style=\"width:30px;\" " + smonth1cd + ">&nbsp;" + paramRequest.getLocaleString("frmMonths") + "</td>");
         out.println("        </tr>");
         out.println("        <tr >");
         out.println("          <td colSpan=\"4\">");
@@ -656,7 +656,7 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("          </td>");
         out.println("        </tr>");
         out.println("        <tr>");
-        out.println("          <td ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "/smonth2\" name=\"" + id + "/smonth\"  value=\"week\" onClick=\"enableMonthly('" + id + "');\" " + smonth2c + " " + period2cd + "></td>");
+        out.println("          <td ><input type=\"radio\" dojoType=\"dijit.form.RadioButton\" id=\"" + id + "_smonth2\" name=\"" + id + "/smonth\"  value=\"week\" onClick=\"enableMonthly('" + id + "');\" " + smonth2c + " " + period2cd + "></td>");
         out.println("          <td >" + paramRequest.getLocaleString("frmThe") + " &nbsp; ");
         if ("add".equals(action)) {
             op1 = "selected";
@@ -667,7 +667,7 @@ public class SWBAScheduleProcess extends GenericResource {
             op4 = mweek.equals("4") ? "selected" : "";
             op5 = mweek.equals("5") ? "selected" : "";
         }
-        out.println("               <select  id=\"" + id + "/mweek\" name=\"" + id + "/mweek\"  dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:90px;\" " + smonth2cd + ">");
+        out.println("               <select  id=\"" + id + "_mweek\" name=\"" + id + "/mweek\"  dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:90px;\" " + smonth2cd + ">");
         out.println("                   <option value=\"1\" " + op1 + " >" + paramRequest.getLocaleString("frmFirst") + "</option>");
         out.println("                   <option value=\"2\" " + op2 + " >" + paramRequest.getLocaleString("frmSecond") + "</option>");
         out.println("                   <option value=\"3\" " + op3 + " >" + paramRequest.getLocaleString("frmThird") + "</option>");
@@ -683,20 +683,20 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("            <table cellSpacing=\"0\" cellPadding=\"1\" width=\"100%\" border=\"0\">");
         out.println("              <tbody>");
         out.println("              <tr>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday1\" name=\"" + id + "/mday1\" " + mday1 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmSun") + "</td>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday2\" name=\"" + id + "/mday2\" " + mday2 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmMon") + "</td>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday3\" name=\"" + id + "/mday3\" " + mday3 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmTue") + "</td>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday4\" name=\"" + id + "/mday4\" " + mday4 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmWed") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday1\" name=\"" + id + "/mday1\" " + mday1 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmSun") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday2\" name=\"" + id + "/mday2\" " + mday2 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmMon") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday3\" name=\"" + id + "/mday3\" " + mday3 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmTue") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday4\" name=\"" + id + "/mday4\" " + mday4 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmWed") + "</td>");
         out.println("              </tr>");
         out.println("              <tr>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday5\" name=\"" + id + "/mday5\" " + mday5 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmThu") + "</td>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday6\" name=\"" + id + "/mday6\" " + mday6 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmFri") + "</td>");
-        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/mday7\" name=\"" + id + "/mday7\" " + mday7 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmSat") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday5\" name=\"" + id + "/mday5\" " + mday5 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmThu") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday6\" name=\"" + id + "/mday6\" " + mday6 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmFri") + "</td>");
+        out.println("                <td ><input type=\"checkbox\"  dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_mday7\" name=\"" + id + "/mday7\" " + mday7 + " " + smonth2cd + ">" + paramRequest.getLocaleString("frmSat") + "</td>");
         out.println("              </tr>");
         out.println("              </tbody>");
         out.println("            </table>");
         out.println("          </td>");
-        out.println("          <td >&nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " &nbsp;<input  dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "/mmonths2\" name=\"" + id + "/mmonths2\" style=\"width:30px;\" value=\"" + mmonths2 + "\" " + smonth2cd + ">&nbsp;" + paramRequest.getLocaleString("frmMonths") + "</td>");
+        out.println("          <td >&nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " &nbsp;<input  dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" id=\"" + id + "_mmonths2\" name=\"" + id + "/mmonths2\" style=\"width:30px;\" value=\"" + mmonths2 + "\" " + smonth2cd + ">&nbsp;" + paramRequest.getLocaleString("frmMonths") + "</td>");
         out.println("        </tr>");
         out.println("        <tr>");
         out.println("          <td colSpan=\"5\">");
@@ -729,14 +729,14 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("        <tr>");
         out.println("          <td width=\"10\" rowSpan=\"4\">&nbsp;</td>");
         out.println("          <td width=\"100\" rowSpan=\"4\" >");
-        out.println("          <input  id=\"" + id + "/period3\"  type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"yearly\" name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period3c + " " + periodd + ">" + paramRequest.getLocaleString("frmYearly") + "</td>");
+        out.println("          <input  id=\"" + id + "_period3\"  type=\"radio\" dojoType=\"dijit.form.RadioButton\" value=\"yearly\" name=\"" + id + "/period\" onClick=\"disablePeriodicity('" + id + "');\" " + period3c + " " + periodd + ">" + paramRequest.getLocaleString("frmYearly") + "</td>");
 
 
-        out.println("          <td ><input id=\"" + id + "/radio1\" type=\"radio\"  dojoType=\"dijit.form.RadioButton\" name=\"" + id + "/syear\" value=\"day\" onClick=\"enableYearly('" + id + "');\" " + radio1c + " " + yearlyd + "></td>");
+        out.println("          <td ><input id=\"" + id + "_radio1\" type=\"radio\"  dojoType=\"dijit.form.RadioButton\" name=\"" + id + "/syear\" value=\"day\" onClick=\"enableYearly('" + id + "');\" " + radio1c + " " + yearlyd + "></td>");
         out.println("          <td colSpan=3 >" + paramRequest.getLocaleString("frmTheDay"));
         //out.println("            <input type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/text1\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyday\" style=\"width:30px;\" value=\"" + yyday + "\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmOf"));
-        out.println("            <input type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/text1\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyday\" style=\"width:30px;\" value=\"" +((yyday != null && !yyday.equals(""))?yyday:"1") + "\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmTheDayTo") + " ");
-        out.println("            <input type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/text12\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yydayTo\" style=\"width:30px;\" value=\"" +((yydayTo != null && !yydayTo.equals(""))?yydayTo:"1") + "\" " + radio1cd + ">");
+        out.println("            <input type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_text1\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyday\" style=\"width:30px;\" value=\"" +((yyday != null && !yyday.equals(""))?yyday:"1") + "\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmTheDayTo") + " ");
+        out.println("            <input type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_text12\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yydayTo\" style=\"width:30px;\" value=\"" +((yydayTo != null && !yydayTo.equals(""))?yydayTo:"1") + "\" " + radio1cd + ">");
         out.println("&nbsp;" + paramRequest.getLocaleString("frmOf"));
         op1 = "";
         op2 = "";
@@ -766,7 +766,7 @@ public class SWBAScheduleProcess extends GenericResource {
             op11 = ymonth1.equals("11") ? "selected" : "";
             op12 = ymonth1.equals("12") ? "selected" : "";
         }
-        out.println("            <select id=\"" + id + "/selectm1\"  name=\"" + id + "/ymonth1\" dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:110px;\" " + radio1cd + ">");
+        out.println("            <select id=\"" + id + "_selectm1\"  name=\"" + id + "/ymonth1\" dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:110px;\" " + radio1cd + ">");
         out.println("                <option value=\"1\" " + op1 + " >" + paramRequest.getLocaleString("frmJanuary") + "</option>");
         out.println("                <option value=\"2\" " + op2 + " >" + paramRequest.getLocaleString("frmFebruary") + "</option>");
         out.println("                <option value=\"3\" " + op3 + " >" + paramRequest.getLocaleString("frmMarch") + "</option>");
@@ -786,9 +786,9 @@ public class SWBAScheduleProcess extends GenericResource {
 //                out.println("       </script>");
 //            }
         if (yyears1 != null && !yyears1.equals("")) {
-            out.println("            &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/text2\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/yyears1\" value=\"" + yyears1 + "\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmYears") + "");
+            out.println("            &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " <input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_text2\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/yyears1\" value=\"" + yyears1 + "\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmYears") + "");
         } else {
-            out.println("            &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + "<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "/text2\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/yyears1\" value=\"1\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmYears") + "");
+            out.println("            &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + "<input  type=\"text\" dojoType=\"dijit.form.TextBox\" id=\"" + id + "_text2\" maxLength=\"2\" size=\"2\" style=\"width:30px;\" name=\"" + id + "/yyears1\" value=\"1\" " + radio1cd + ">&nbsp;" + paramRequest.getLocaleString("frmYears") + "");
         }
         out.println("          </td></tr>");
         out.println("        <tr >");
@@ -796,7 +796,7 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("            <hr size=\"1\" noshade>");
         out.println("          </td></tr>");
         out.println("        <tr>");
-        out.println("          <td ><input id=\"" + id + "/radio2\" type=\"radio\"  dojoType=\"dijit.form.RadioButton\" name=\"" + id + "/syear\" value=\"week\" onClick=\"enableYearly('" + id + "');\" " + radio2c + " " + yearlyd + "></td>");
+        out.println("          <td ><input id=\"" + id + "_radio2\" type=\"radio\"  dojoType=\"dijit.form.RadioButton\" name=\"" + id + "/syear\" value=\"week\" onClick=\"enableYearly('" + id + "');\" " + radio2c + " " + yearlyd + "></td>");
         out.println("          <td >" + paramRequest.getLocaleString("frmThe") + " &nbsp;");
         op1 = "";
         op2 = "";
@@ -812,7 +812,7 @@ public class SWBAScheduleProcess extends GenericResource {
             op4 = yweek.equals("4") ? "selected" : "";
             op5 = yweek.equals("5") ? "selected" : "";
         }
-        out.println("             <select id=\"" + id + "/select1\" name=\"" + id + "/yweek\"  dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:90px;\" " + radio2cd + ">");
+        out.println("             <select id=\"" + id + "_select1\" name=\"" + id + "/yweek\"  dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:90px;\" " + radio2cd + ">");
         out.println("              <option value=\"1\" " + op1 + " >" + paramRequest.getLocaleString("frmFirst") + "</option>");
         out.println("              <option value=\"2\" " + op2 + " >" + paramRequest.getLocaleString("frmSecond") + "</option>");
         out.println("              <option value=\"3\" " + op3 + " >" + paramRequest.getLocaleString("frmThird") + "</option>");
@@ -829,15 +829,15 @@ public class SWBAScheduleProcess extends GenericResource {
         out.println("            <table cellSpacing=\"0\" cellPadding=\"1\" width=\"100%\" border=\"0\">");
         out.println("              <tbody>");
         out.println("              <tr>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday1\" name=\"" + id + "/yday1\" " + yday1 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmSun") + "</td>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday2\" name=\"" + id + "/yday2\" " + yday2 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmMon") + "</td>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday3\" name=\"" + id + "/yday3\" " + yday3 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmTue") + "</td>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday4\" name=\"" + id + "/yday4\" " + yday4 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmWed") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday1\" name=\"" + id + "/yday1\" " + yday1 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmSun") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday2\" name=\"" + id + "/yday2\" " + yday2 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmMon") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday3\" name=\"" + id + "/yday3\" " + yday3 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmTue") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday4\" name=\"" + id + "/yday4\" " + yday4 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmWed") + "</td>");
         out.println("              </tr>");
         out.println("              <tr>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday5\" name=\"" + id + "/yday5\" " + yday5 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmThu") + "</td>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday6\" name=\"" + id + "/yday6\" " + yday6 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmFri") + "</td>");
-        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "/yday7\" name=\"" + id + "/yday7\" " + yday7 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmSat") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday5\" name=\"" + id + "/yday5\" " + yday5 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmThu") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday6\" name=\"" + id + "/yday6\" " + yday6 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmFri") + "</td>");
+        out.println("                <td ><input  type=\"checkbox\" dojoType=\"dijit.form.CheckBox\" id=\"" + id + "_yday7\" name=\"" + id + "/yday7\" " + yday7 + " " + radio2cd + ">" + paramRequest.getLocaleString("frmSat") + "</td>");
         out.println("              </tr>");
         out.println("              </tbody>");
         out.println("            </table>");
@@ -871,7 +871,7 @@ public class SWBAScheduleProcess extends GenericResource {
             op11 = ymonth2.equals("11") ? "selected" : "";
             op12 = ymonth2.equals("12") ? "selected" : "";
         }
-        out.println("             <select id=\"" + id + "/selectm2\" name=\"" + id + "/ymonth2\" dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:110px;\" " + radio2cd + ">");
+        out.println("             <select id=\"" + id + "_selectm2\" name=\"" + id + "/ymonth2\" dojoType=\"dijit.form.FilteringSelect\" autocomplete=\"true\" hasDownArrow=\"true\" style=\"width:110px;\" " + radio2cd + ">");
         out.println("                <option value=\"1\" " + op1 + " >" + paramRequest.getLocaleString("frmJanuary") + "</option>");
         out.println("                <option value=\"2\" " + op2 + " >" + paramRequest.getLocaleString("frmFebruary") + "</option>");
         out.println("                <option value=\"3\" " + op3 + " >" + paramRequest.getLocaleString("frmMarch") + "</option>");
@@ -892,11 +892,11 @@ public class SWBAScheduleProcess extends GenericResource {
 //            }
         if (yyears2 != null && !yyears2.equals("")) {
             out.println("               &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " &nbsp;");
-            out.println("               <input   id=\"" + id + "/text3\" type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyears2\" value=\"" + yyears2 + "\"  style=\"width:30px;\" " + radio2cd + ">");
+            out.println("               <input   id=\"" + id + "_text3\" type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyears2\" value=\"" + yyears2 + "\"  style=\"width:30px;\" " + radio2cd + ">");
             out.println("               &nbsp;" + paramRequest.getLocaleString("frmYears") + "</td></tr></tbody></table></td></tr>");
         } else {
             out.println("               &nbsp;" + paramRequest.getLocaleString("frmOfEvery") + " &nbsp;");
-            out.println("               <input  id=\"" + id + "/text3\" type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyears2\" value=\"1\"  style=\"width:30px;\" " + radio2cd + ">");
+            out.println("               <input  id=\"" + id + "_text3\" type=\"text\" dojoType=\"dijit.form.TextBox\" maxLength=\"2\" size=\"2\" name=\"" + id + "/yyears2\" value=\"1\"  style=\"width:30px;\" " + radio2cd + ">");
             out.println("               &nbsp;" + paramRequest.getLocaleString("frmYears") + "</td></tr></tbody></table></td></tr>");
         }
 
