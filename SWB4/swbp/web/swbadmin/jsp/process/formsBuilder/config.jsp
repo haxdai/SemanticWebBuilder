@@ -14,7 +14,6 @@
 <%@page import="org.semanticwb.process.model.UserTask"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
 <%@page import="org.semanticwb.model.Resource"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
 User user=SWBContext.getAdminUser();
 if(user==null)
@@ -91,33 +90,6 @@ if (paramRequest.getUser() != null && paramRequest.getUser().getLanguage() != nu
                                 </label>
                             </div>
                         </div>
-                            <!--tr>
-                                <td><label><%=paramRequest.getLocaleString("lblRoles")%>: </label></td>
-                                <td>
-                                    <select multiple name="<%=ProcessForm.PARAM_ROLES%>" style="width:300px;">
-                                        <%--
-                                        //TODO: Obtener roles y marcar los seleccionados
-                                        String roleList = propsMap.get("roles");
-                                        ArrayList<String> _roles = new ArrayList<String>();
-                                        if (roleList != null) {
-                                            StringTokenizer stk = new StringTokenizer(roleList, ":");
-                                            while(stk.hasMoreTokens()) {
-                                                String rN = stk.nextToken();
-                                                _roles.add(rN);
-                                            }
-                                        }
-                                        Iterator<Role> roles = SWBComparator.sortByDisplayName(site.getUserRepository().listRoles(), lang);
-                                        while(roles.hasNext()) {
-                                            Role role = roles.next();
-                                            String selected = _roles.contains(role.getId())?"selected":"";
-                                            --%>
-                                            <option <%--selected%> value="<%=role.getId()%>"><%=role.getDisplayTitle(lang)%></option>
-                                            <%--
-                                        }
-                                        --%>
-                                    </select>
-                                </td>
-                            </tr-->
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><%=paramRequest.getLocaleString("accept") %></button>
@@ -163,27 +135,26 @@ if (paramRequest.getUser() != null && paramRequest.getUser().getLanguage() != nu
     </div>
 </div>
 <script type="text/javascript">
-    if ($("#formEdit").length() !== 0) {
-        $("#formEdit").submit(function(e) {
+    var theForm = document.getElementById("formEdit");
+    if (theForm) {
+        $("#formEdit").on("submit", function(e) {
             $("#modalDialog").modal('hide');
-            var postData = $(this).serializeArray();
-            var formURL = $(this).attr("action");
+            
             $.ajax({
-                url : formURL,
-                type: "POST",
-                data : postData,
-                success:function(data, textStatus, jqXHR)  {
-                    <%
-                    SWBResourceURL admUrl = paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_ADMIN);
-                    %>
-                    window.location='<%=admUrl%>';
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-
+                url: $(theForm).attr('action'),
+                cache: false,
+                data: $(theForm).serialize(),
+                type: 'POST',
+                contentType: "application/x-www-form-urlencoded; charset=utf-8",
+                success: function(data) {
+                    if (data.status === "ok") {
+                        var loc = '<%= paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_ADMIN) %>';
+                        window.location = loc;
+                    }
                 }
             });
-            e.preventDefault(); //STOP default action
-            //e.unbind(); //unbind. to stop multiple form submit.
+            
+            e.preventDefault();
         });
     }
 </script>
