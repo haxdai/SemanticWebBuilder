@@ -3793,6 +3793,9 @@ var _GraphicalElement = function(obj) {
                 if (tmp.lindex && tmp.lindex !== null) {
                     obj.setIndex(tmp.lindex);
                 }
+                if (tmp.index !== null && tmp.index) {
+                    obj.index = tmp.index;
+                }
                 obj.resize(tmp.w, tmp.h);
                 var par = Modeler.getGraphElementByURI(null, tmp.parent);
                 par.addLane(obj);
