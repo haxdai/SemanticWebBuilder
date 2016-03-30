@@ -614,6 +614,14 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         sb.append("      </tr>");
         sb.append("      <tr>");
         sb.append("        <td width=\"200px\" align=\"right\">");
+        sb.append(mgr.renderLabel(request, utinbox_showAutoCreated, SWBFormMgr.MODE_VIEW));
+        sb.append("        </td>");
+        sb.append("        <td>");
+        sb.append(mgr.renderElement(request, utinbox_showAutoCreated, SWBFormMgr.MODE_EDIT));
+        sb.append("        </td>");
+        sb.append("      </tr>");
+        sb.append("      <tr>");
+        sb.append("        <td width=\"200px\" align=\"right\">");
         sb.append(mgr.renderLabel(request, utinbox_adminRole, SWBFormMgr.MODE_VIEW));
         sb.append("        </td>");
         sb.append("        <td>");
@@ -1158,19 +1166,21 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
         boolean hasStatus = false;
         
         Process pType = fni.getProcessInstance().getProcessType();
-        
+        System.out.println("Validating instance "+fni.getURI()+" - "+pType.getTitle());
         if (!pType.isValid()) {
             return false;
         }
         
         //TODO: Revisar que va a pasar con los procesos creados en automático.
-        if (fni.getProcessInstance().getCreator() == null) {
+        if (null == fni.getProcessInstance().getCreator() && !isShowAutoCreated()) { 
+        //if (fni.getProcessInstance().getCreator() == null) {
             return false;
         }
-        
+        System.out.println("  La instancia tiene creador y está activado la opción mostrar");
         if (isAdminUser(user)) return true;
         boolean canAccess = fni.haveAccess(user);
         
+        System.out.println("  El usuario tiene acceso: "+canAccess);
         if (canAccess) {
             //Verificar filtrado por grupo
             if (isFilterByGroup()) {
@@ -1193,6 +1203,7 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
                 hasStatus = true;
             }
         }
+        System.out.println("canAccess: "+canAccess+", hasGroup: "+hasGroup+", hasStatus: "+hasStatus);
         return canAccess && (hasGroup && hasStatus);
     }
     

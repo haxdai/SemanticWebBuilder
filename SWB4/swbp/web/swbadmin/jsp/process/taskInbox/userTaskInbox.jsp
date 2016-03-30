@@ -40,7 +40,6 @@ String sFilter = request.getParameter("sf");
 String pNum = request.getParameter("p");
 Resource base = (Resource) request.getAttribute("base");
 UserTaskInboxResource utir = (UserTaskInboxResource) request.getAttribute("me");
-
 WebSite site = paramRequest.getWebPage().getWebSite();
 
 boolean showPwpLink = false;
@@ -277,7 +276,6 @@ if (!user.isSigned()) {
             <%Iterator<FlowNodeInstance> instances = tinstances.iterator();
             while(instances.hasNext()) {
                 FlowNodeInstance instance = instances.next();
-                if (instance.getProcessInstance().getCreator() != null) {
                     if (instance.getProcessInstance().getStatus() == Instance.STATUS_PROCESSING) {
             %>
 
@@ -395,7 +393,6 @@ if (statusWp != null) {%>
         </div>
         <%
         }
-    }
 }%>
 
 
