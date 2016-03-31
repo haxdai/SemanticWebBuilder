@@ -78,14 +78,14 @@
         <script type="text/javascript">
             function selectImage(element) {
                 var a = $('#' + element);
-                top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + a.attr('src'), false);
+                top.tinymce.activeEditor.windowManager.getParams().oninsert(a.attr('src'), false);
                 if(top.tinymce.activeEditor.id.indexOf('http') == 0){
                     top.tinymce.activeEditor.windowManager.close();
                 }
                 //top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + '/work/models/<%= modelid%>/swp_DocumentationImage/' + element);
             }
             function uploadOk() {
-                top.tinymce.activeEditor.windowManager.getParams().oninsert(window.location.origin + '/work/models/<%= modelid%>/swp_DocumentationImage/' + $('#nameLogo').val(),true);
+                top.tinymce.activeEditor.windowManager.getParams().oninsert('/work/models/<%= modelid%>/swp_DocumentationImage/' + $('#nameLogo').val(),true);
                 return true;
             }
             $(document).ready(function() {
