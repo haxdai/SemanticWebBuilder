@@ -182,6 +182,7 @@ public class SocialSentPost extends GenericResource {
     public static final String Mode_ReplyPost = "replyPost";
     public static final String Mode_ShowFullProfile = "fullProfile";
     public static final String Mode_PostSent = "postSent";
+    public static final String Mode_CommentAComment = "commentComment";
     public static int DEFAULT_VIDEO_COMMENTS = 5;
     public static DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
 
@@ -234,6 +235,8 @@ public class SocialSentPost extends GenericResource {
             doCreatePost(request, response, paramRequest);
         } else if (Mode_PostSent.equals(mode)) {//Hides dialog used to create Post
             doPostSent(request, response, paramRequest);
+        } else if (Mode_CommentAComment.equals(mode)) {//Generates a comment on another comment
+            doCommentAComment(request, response, paramRequest);
         } else if (mode.equals("showUserProfile")) {
             response.setContentType("text/html; charset=ISO-8859-1");
             response.setHeader("Cache-Control", "no-cache");
@@ -297,33 +300,17 @@ public class SocialSentPost extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
-        //System.out.println("Llega a doEdit:"+request.getParameter("suri"));
-
         String id = request.getParameter("suri");
-        //System.out.println("SocialSentPost/Edit/id:"+id);
         if (id == null) {
             return;
         }
 
         SocialTopic socialTopic = (SocialTopic) SemanticObject.getSemanticObject(id).getGenericInstance();
 
-        /*
-         Iterator<SocialPFlowRef> itSocialPFlowRefs=socialTopic.listInheritPFlowRefs();
-         if(itSocialPFlowRefs.hasNext())
-         {
-         itSocialPFlowRefs.next();
-         }*/
-
-
         WebSite wsite = WebSite.ClassMgr.getWebSite(socialTopic.getSemanticObject().getModel().getName());
         boolean classifyBySentiment = socialTopic.isCheckSentPostSentiment();
 
         PrintWriter out = response.getWriter();
-        //Resource base = getResourceBase();
-        //User user = paramRequest.getUser();
-
-
-        //System.out.println("Entra a Edit, reload:"+request.getParameter("dialog"));
         out.println("<script type=\"javascript\">");
         if (request.getParameter("dialog") != null && request.getParameter("dialog").equals("close")) {
             out.println(" hideDialog(); ");
@@ -829,17 +816,8 @@ public class SocialSentPost extends GenericResource {
             needAuthorization = false;
             send2Flow = false;
 
-            //System.out.println("sobj PostOut..JJUri:"+postOut.getEncodedURI()+",Is Published:"+postOut.isPublished());
-
             isInFlow = pfmgr.isInFlow(postOut);
-
-
-            //System.out.println("Recurso esta en flujo: "+isInFlow);
-
             needAuthorization = pfmgr.needAnAuthorization(postOut);
-
-            //System.out.println("Necesita autorización: " + needAuthorization + ",postOut:" + postOut);
-
             /*
              if (!isInFlow && !needAuthorization) {
              activeButton = true;
@@ -867,10 +845,6 @@ public class SocialSentPost extends GenericResource {
              if (!postOut.isPublished() && !needAuthorization) {
              readyToPublish = true;
              }*/
-
-            //System.out.println("isInFlow:"+isInFlow);
-            //System.out.println("needAuthorization:"+needAuthorization);
-            //System.out.println("isAuthorized:"+isAuthorized);
 
             out.println("<tr>");
 
@@ -910,7 +884,6 @@ public class SocialSentPost extends GenericResource {
 
 
             //Nuevo agregado por Jorge el 15/Oct/2013
-            //System.out.println("PostUri-GyA:" + postOut.getURI());
             boolean postOutwithPostOutNets = false;
             boolean someOneIsNotPublished = false;
             SWBResourceURL urlPostOutNets = paramRequest.getRenderUrl().setMode(Mode_ShowPostOutNets).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("postOut", postOut.getURI()).setParameter("suri", id);
@@ -918,10 +891,8 @@ public class SocialSentPost extends GenericResource {
                 Iterator<PostOutNet> itPostOutNets = PostOutNet.ClassMgr.listPostOutNetBySocialPost(postOut, wsite);
                 while (itPostOutNets.hasNext()) {
                     PostOutNet postOutNet = itPostOutNets.next();
-                    //System.out.println("postOutNet-GyA:" + postOutNet);
                     postOutwithPostOutNets = true;
                     if (postOutNet.getStatus() == 0) {
-                        //System.out.println("postOutNet-1/status-GyA:" + postOutNet.getStatus());
                         someOneIsNotPublished = true;
                         break;
                     }
@@ -1051,7 +1022,6 @@ public class SocialSentPost extends GenericResource {
             //Show Networks
             out.println("<td>");
             String nets = "---";
-            //System.out.println("socialNet:"+postOut.getSocialNetwork()+",redes:"+postOut.listSocialNetworks().hasNext());
             int cont = 0;
             Iterator<SocialNetwork> itPostSocialNets = postOut.listSocialNetworks();
             while (itPostSocialNets.hasNext()) {
@@ -1060,7 +1030,6 @@ public class SocialSentPost extends GenericResource {
                     break; //Determinamos que solo se mostrara una y se mostrara un "ver mas" en dado caso que fueran mas redes sociales.
                 }
                 SocialNetwork socialNet = itPostSocialNets.next();
-                //System.out.println("socialNet-1:"+socialNet);
                 String sSocialNet = socialNet.getDisplayTitle(lang);
                 String netIcon = "";
                 if (socialNet instanceof Youtube) {
@@ -1074,9 +1043,7 @@ public class SocialSentPost extends GenericResource {
                 }else {
                     netIcon = "<img class=\"swbIcon" + socialNet.getClass().getSimpleName() + "\" src=\"/swbadmin/js/dojo/dojo/resources/blank.gif\"/>";
                 }
-                //System.out.println("socialNet-2:"+sSocialNet);
                 if (sSocialNet != null && sSocialNet.trim().length() > 0) {
-                    //System.out.println("socialNet-3:"+sSocialNet);
                     //Sacar privacidad
                     String sPrivacy = null;
                     //Si es necesario, cambiar esto por querys del Jei despues.
@@ -1192,10 +1159,6 @@ public class SocialSentPost extends GenericResource {
 
             out.println("<td class=\"status\">");
             //El PostOut No se ha enviado, aqui se daría la posibilidad de que un usuario lo envíe.
-            //System.out.println("msg..:"+postOut.getMsg_Text());
-            //System.out.println("Ya esta publicado..:"+postOut.isPublished());
-
-            //System.out.println("PostUri:" + postOut.getURI()+", published:"+postOut.isPublished());
 
             if (!postOut.isPublished()) {
 
@@ -1209,40 +1172,25 @@ public class SocialSentPost extends GenericResource {
                 //Esto no es cierto, puede que si el flujo no manda a publicar durectamente, aun no haya ningun PostOutNet para un PostOut, y aunque no se haya enviado 
                 //a publicar aun, con la siguiente condición va a decir que ya esta publicado, revisar mañana, ya que ahorita ya estoy cansado.
 
-                //System.out.println("Aver esto-isInFlow:"+isInFlow+", aver esto otro-someOneIsNotPublished:"+someOneIsNotPublished);
                 if (!isInFlow && postOutwithPostOutNets && !someOneIsNotPublished) //Se supone que por lo menos, hay publicado un PostOutNet del Post                         
                 {
-                    //System.out.println("SE SUPONE QUE ESTA PUBLICADO...");
                     postOut.setPublished(true);
                     out.println("<a class=\"status3\" href=\"#\" title=\"" + paramRequest.getLocaleString("postOutLog") + "\" onclick=\"showDialog('" + urlPostOutNets + "','" + paramRequest.getLocaleString("postOutLog") + "'); return false;\"><strong>Publicado</strong></a>"); //Publicado
                 } else {
-                    //System.out.println("SOCIALSENTPOST1");
                     if (!needAuthorization || postOut.getPflowInstance().getStatus() == 3) {
                         SWBResourceURL urlu = paramRequest.getRenderUrl();
                         urlu.setMode(Mode_Action);
                         urlu.setParameter("suri", postOut.getURI());
                         urlu.setParameter("act", "updstatus");
-                        /*
-                         if(postOut.getPflowInstance()!=null)
-                         {
-                         System.out.println("postOut.getPflowInstance():"+postOut.getPflowInstance()+",step:"+postOut.getPflowInstance().getStep()+",status:"+postOut.getPflowInstance().getStatus());
-                         }else{
-                         System.out.println("postOut.getPflowInstance()==NULL");
-                         }*/
-                        ///System.out.println("isInFlow:"+isInFlow+",needAuthorization:"+needAuthorization+",postOutwithPostOutNets:"+postOutwithPostOutNets+",someOneIsNotPublished:"+someOneIsNotPublished+",FlowStatus:"+postOut.getPflowInstance()!=null?postOut.getPflowInstance().getStatus():"NO TIENE FLUJO");
                         if (someOneIsNotPublished) {
-                            //System.out.println("ENTRA SENTPOST-STATUS-1");
                             out.println("<a class=\"status1\" href=\"#\" title=\"" + paramRequest.getLocaleString("postOutLog") + "\" onclick=\"showDialog('" + urlPostOutNets + "','" + paramRequest.getLocaleString("postOutLog") + "'); return false;\"><strong>" + paramRequest.getLocaleString("toReview") + "</strong></a>"); //No ha sido publicado en todas las redes sociales que debiera, abrir dialogo para mostrar todos los PostOutNtes del PostOut
                         } else if (isInFlow && needAuthorization && postOut.getPflowInstance() != null && postOut.getPflowInstance().getStatus() == 3) {
                             if (postOut.getFastCalendar() != null) {
-                                //System.out.println("ENTRA SENTPOST-STATUS-2");
                                 out.println("<span class=\"status5\" title=\"Cumplir Calendario\"><strong>Cumplir Calendario</strong></span>");
                             } else {
-                                //System.out.println("ENTRA SENTPOST-STATUS-2");
                                 out.println("<a class=\"status6\" href=\"#\" onclick=\"showStatusURL('" + urlu + "'); \" title=\"" + paramRequest.getLocaleString("publish") + "\" /></a>");
                             }
                         } else if (!isInFlow && !needAuthorization && !postOutwithPostOutNets) {
-                            //System.out.println("ENTRA SENTPOST-STATUS-4");
                             if (postOut.getFastCalendar() != null) {
                                 out.println("<span class=\"status5\" title=\"Cumplir Calendario\"><strong>Cumplir Calendario</strong></span>");
                             } else {
@@ -1250,17 +1198,13 @@ public class SocialSentPost extends GenericResource {
                                 out.println("<a class=\"status6\" href=\"#\" onclick=\"showStatusURL('" + urlu + "'); \" / title=\"" + paramRequest.getLocaleString("publish") + "\"></a>");
                             }
                         } else {
-                            //System.out.println("ENTRA SENTPOST-STATUS-5");
                             if (postOut.getFastCalendar() != null) {
-                                //System.out.println("ENTRA SENTPOST-STATUS-6");
                                 out.println("<span class=\"status5\" title=\"Cumplir Calendario\"><strong>Cumplir Calendario</strong></span>");
                             } else {
-                                //System.out.println("ENTRA SENTPOST-STATUS-7");
                                 out.println("<a class=\"status6\" title=\"" + paramRequest.getLocaleString("publish") + "\" href=\"#\" onclick=\"showStatusURL('" + urlu + "'); \" /><strong>" + paramRequest.getLocaleString("publish") + "</strong></a>");
                             }
                         }
                     } else {    //El PostOut ya se envío
-                        //System.out.println("SOCIALSENTPOST2");
                         if (!isInFlow && needAuthorization && !isAuthorized) {
                             String sFlowRejected = "---";
                             if (postOut.getPflowInstance() != null && postOut.getPflowInstance().getPflow() != null) {
@@ -1268,13 +1212,11 @@ public class SocialSentPost extends GenericResource {
                             }
                             out.println("<span class=\"status4\" title=\"" + paramRequest.getLocaleString("rejected") + "\"><strong>" + paramRequest.getLocaleString("rejected") + "</strong>" + sFlowRejected + "</span>");
                         } else if (isInFlow && needAuthorization && !isAuthorized) {
-                            //System.out.println("postOut.getPflowInstance().getStatus():"+postOut.getPflowInstance().getStatus());
                             out.println("<span class=\"status7\" title=\"" + paramRequest.getLocaleString("onFlow") + "\"><strong>" + paramRequest.getLocaleString("onFlow") + "</strong>" + postOut.getPflowInstance().getStep() + ":" + postOut.getPflowInstance().getPflow().getDisplayTitle(lang) + "</span>");
                         }
                     }
                 }
             } else {
-                //System.out.println("ESE POST ESTA PUBLICADO..");
                 out.println("<a class=\"status3\" href=\"#\" title=\"" + paramRequest.getLocaleString("postOutLog") + "\" onclick=\"showDialog('" + urlPostOutNets + "','" + paramRequest.getLocaleString("postOutLog") + "'); return false;\"><strong>" + paramRequest.getLocaleString("published") + "</strong></a>");
             }
             out.println("</td>");
@@ -1437,12 +1379,6 @@ public class SocialSentPost extends GenericResource {
         String id = request.getParameter("suri"); // id recurso
         String resid = request.getParameter("sval"); // id recurso
 
-        //System.out.println("Site:"+paramRequest.getWebPage().getWebSite());
-
-        //System.out.println("id:"+id);
-        //System.out.println("resid:"+resid);
-
-
         SemanticObject semObj = SemanticObject.getSemanticObject(resid);
         if (semObj == null) {
             return;
@@ -1453,7 +1389,6 @@ public class SocialSentPost extends GenericResource {
         if (postOut.getPflowInstance() != null && postOut.getPflowInstance().getPflow() != null) {
             postOutFlowUri = postOut.getPflowInstance().getPflow().getURI();
         }
-        //System.out.println("postOutFlowUri ---GGG--:"+postOutFlowUri);
 
         PrintWriter out = response.getWriter();
 
@@ -1495,7 +1430,6 @@ public class SocialSentPost extends GenericResource {
         out.println("<td>");
         out.println("<select name=\"pfid\">");
         for (int i = 0; i < arrPf.length; i++) {
-            //System.out.println("arrPf[i].getURI():"+arrPf[i].getURI());
             String select = "";
             if (postOutFlowUri != null && postOutFlowUri.equals(arrPf[i].getURI())) {
                 select = "selected";
@@ -1792,7 +1726,6 @@ public class SocialSentPost extends GenericResource {
                     }
                     //Termina
                     //postOut.setPublished(true); 
-                    //System.out.println("Post Publicado...");
                     so = postOut.getSocialTopic().getSemanticObject();
                 } catch (Exception se) {
                     actmsg = (paramRequest.getLocaleString("postOutNotPublished"));
@@ -1822,14 +1755,10 @@ public class SocialSentPost extends GenericResource {
         else if ("activeall".equals(action)) {
             log.debug("doAction(activeeall)" + sprop);
             String value = request.getParameter("sval");
-            //System.out.println("doAction(activeeall)"+value);
             boolean bstat = false;
             if (value != null && "true".equals(value)) {
                 bstat = true;
             }
-
-
-            //System.out.println("processAction(deleteall)" + value);
 
             PFlowManager pfmgr = SWBPortal.getPFlowManager();
             Resource res = null;
@@ -1843,7 +1772,6 @@ public class SocialSentPost extends GenericResource {
             Iterator<SemanticObject> itso = obj.listObjectProperties(sem_p);
             SemanticObject soc = null;
             while (itso.hasNext()) {
-                //System.out.println("revisando deleteAll (ListObjectsProperties)");
                 soc = itso.next();
 
                 isInFlow = false;
@@ -1922,15 +1850,14 @@ public class SocialSentPost extends GenericResource {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     @Override
-    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+    public void processAction(HttpServletRequest request, SWBActionResponse response)
+            throws SWBResourceException, IOException {
 
         String action = response.getAction();
         User user = response.getUser();
-        System.out.println("SocialSentPost/processAction-1:" + action);
         try {
             if (action.equals("postMessage") || action.equals("uploadPhoto") || action.equals("uploadVideo")) {
                 try {
-                    //System.out.println("SocialSentPost/processAction-2");
                     ArrayList aSocialNets = new ArrayList();
                     WebSite wsite = WebSite.ClassMgr.getWebSite(request.getParameter("wsite"));
                     String objUri = request.getParameter("objUri");
@@ -1943,9 +1870,7 @@ public class SocialSentPost extends GenericResource {
                         postOut = (PostOut) semanticObject.createGenericInstance();
                     }
 
-                    //System.out.println("SocialSentPost/processAction-3:"+postOut);
                     SocialPFlow spflow = null;
-                    //System.out.println("processA/socialFlow:"+request.getParameter("socialFlow"));
                     if (request.getParameter("socialFlow") != null && request.getParameter("socialFlow").trim().length() > 0) {
                         SemanticObject semObjSFlow = SemanticObject.getSemanticObject(request.getParameter("socialFlow"));
                         spflow = (SocialPFlow) semObjSFlow.createGenericInstance();
@@ -1966,7 +1891,6 @@ public class SocialSentPost extends GenericResource {
                             j++;
                         }
                     }
-                    //System.out.println("SocialSentPost/processAction-4:"+socialUri);
                     if (socialUri.trim().length() > 0) // La publicación por lo menos se debe enviar a una red social
                     {
                         String[] socialUris = socialUri.split("\\|");  //Dividir valores
@@ -1978,7 +1902,6 @@ public class SocialSentPost extends GenericResource {
                             aSocialNets.add(socialNet);
                         }
                         //SWBSocialUtil.PostOutUtil.publishPost(postOut, request, response);
-                        //System.out.println("SocialSentPost/processAction-J5");
                         //SWBSocialUtil.PostOutUtil.editPostOut(postOut, spflow, aSocialNets, wsite, toPost, request, response);
                         if (postOut != null) {
                             SWBSocialUtil.PostOutUtil.editPostOut(postOut, spflow, aSocialNets, wsite, toPost, request, response);
@@ -1990,7 +1913,6 @@ public class SocialSentPost extends GenericResource {
                         } else if (postIn != null) {
                             SWBSocialUtil.PostOutUtil.sendNewPost(postIn, postIn.getSocialTopic(), spflow, aSocialNets, wsite, toPost, request, response);
                         }
-                        //System.out.println("SocialSentPost/processAction-J6-suri:"+postOut.getSocialTopic().getURI());
                     } else {
                         if (postOut != null) {
                             response.setMode(SWBResourceURL.Mode_EDIT);
@@ -2008,12 +1930,9 @@ public class SocialSentPost extends GenericResource {
             } else if ("remove".equals(action)) //suri, prop
             {
                 String sval = request.getParameter("sval");
-                System.out.println("SocialSentPost-REMOVEj1:"+sval);
                 SemanticObject so = SemanticObject.createSemanticObject(sval);
 
                 PostOut postOut = (PostOut) so.getGenericInstance();
-
-                System.out.println("SocialSentPost-REMOVEj2:"+postOut);
 
                 int cont = 0;
                 //int cont2 = 0;
@@ -2024,15 +1943,12 @@ public class SocialSentPost extends GenericResource {
                 while (itpostOuts.hasNext()) {
                     //cont2++;
                     PostOutNet postOutNet = itpostOuts.next();
-                    System.out.println("PostOutNet a Eliminar con msg:"+postOutNet);
                     if (postOutNet.getStatus() == 1) //Esta publicado el PostOutNet
                     {
                         SocialNetwork socialNet = postOutNet.getSocialNetwork();
-                        System.out.println("PostOutNet a Eliminar en socialNet:"+socialNet);
                         if (socialNet.removePostOutfromSocialNet(postOut, socialNet)) {
                             cont++;
                             postOutNet.remove();
-                            System.out.println("PostOutNet ELIMINADO");
                             if (cont == 1) {
                                 canRemove = true;
                             } else if (cont > 1) {
@@ -2044,7 +1960,6 @@ public class SocialSentPost extends GenericResource {
                                 removedFrom += ",";
                             }*/
                             removedFrom += " " + socialNet.getDisplayTitle(user.getLanguage());
-                            System.out.println("PostOutNet ELIMINADO/removedFrom:"+removedFrom);
                         } else {
                             canRemove = false;
                         }
@@ -2095,14 +2010,11 @@ public class SocialSentPost extends GenericResource {
                 Iterator<SemanticObject> itso = obj.listObjectProperties(sem_p);
                 SemanticObject soc = null;
                 while (itso.hasNext()) {
-                    //System.out.println("revisando deleteAll (ListObjectsProperties)");
                     soc = itso.next();
                     Iterator<SemanticProperty> it = cls.listProperties();
                     while (it.hasNext()) {
                         SemanticProperty prop = it.next();
-                        //System.out.println("revisando (ListProperties("+sprop+")) "+ prop.getName());
                         String value = prop.getName();
-                        //System.out.println(sem_p.getURI() + ":" + sprop + "----" + (prop.getURI().equals(sprop) ? "true" : "false"));
                         if (value != null && value.equals(sem_p.getName())) { //se tiene que validar el valor por si es más de una
                             //obj.removeObjectProperty(prop, soc);
                             if (sem_p.getName().equalsIgnoreCase("userrepository")) {
@@ -2125,7 +2037,6 @@ public class SocialSentPost extends GenericResource {
 
                             //                        if(soc.getSemanticClass().isSubClass(Trashable.swb_Trashable))
                             //                        {
-                            //                            System.out.println("Es trashable.. delAll.."+soc.getURI());
                             //                            soc.setIntProperty(Trashable.swb_deleted, 1);
                             //                        }
                             //                        else
@@ -2162,11 +2073,9 @@ public class SocialSentPost extends GenericResource {
                     }
                 }
             } else if (action.equals("removePostOutNet") && request.getParameter("postOutNetUri") != null) {
-                //System.out.println("SocialSentPost/postOutNetUri");
                 SemanticObject semObj = SemanticObject.getSemanticObject(request.getParameter("postOutNetUri"));
                 PostOutNet postOutNet = (PostOutNet) semObj.getGenericInstance();
                 if (postOutNet != null) {
-                    //System.out.println("SocialSentPost/postOutNetUri a la goma");
                     postOutNet.remove();
                 }
                 response.setRenderParameter("suri", request.getParameter("suri"));
@@ -2199,9 +2108,6 @@ public class SocialSentPost extends GenericResource {
                         postOutInitDate = SWBSocialUtil.Util.changeFormat(postOutInitDate, 1);
                         postOutInitHour = postOutInitHour.substring(1, 6);
 
-                        //System.out.println("postOutInitDate-1**:"+postOutInitDate+",postOutInitHour-1**:"+postOutInitHour);
-
-
                         Date date2SendPostOut = new Date(postOutInitDate);
 
                         StringTokenizer st = new StringTokenizer(postOutInitHour, ":");
@@ -2216,8 +2122,6 @@ public class SocialSentPost extends GenericResource {
                         } catch (Exception noe) {
                             // No error
                         }
-                        //System.out.println("H a poner:"+h);
-                        //System.out.println("M a poner:"+m);
                         date2SendPostOut.setHours(h);
                         date2SendPostOut.setMinutes(m);
 
@@ -2236,10 +2140,34 @@ public class SocialSentPost extends GenericResource {
                     response.setRenderParameter("statusMsg", response.getLocaleLogString("calendarUpdated"));
                     response.setRenderParameter("reloadTab", postOut.getSocialTopic().getURI());
                 }
+            } else if ("createCommentComment".equals(action)) {
+
+                String videoId = request.getParameter("videoId");
+                String commentId = request.getParameter("commentId");
+                String objUri = request.getParameter("suri");
+                String comment = request.getParameter("commentComment");
+
+                if ((videoId == null || videoId.isEmpty()) || (comment == null || comment.isEmpty())
+                        || (objUri == null || objUri.isEmpty()) || ( commentId == null || commentId.isEmpty())) {
+                    SocialSentPost.log.error("Problema del posteo del comentario hacia un comentario - Youtube");
+                    return;
+                }
+
+                SemanticObject semanticObject = SemanticObject.createSemanticObject(objUri);
+                Youtube semanticYoutube = (Youtube) semanticObject.createGenericInstance();
+                if (!semanticYoutube.validateToken()) {
+                    SocialSentPost.log.error("Unable to update the access token inside post Comment!");
+                    return;
+                }
+
+                boolean commentCreated = semanticYoutube.commentAComment(commentId, comment);
+                if (!commentCreated) {
+                    SocialSentPost.log.info("Unable to update the access token inside post Comment!");
+                }
             }
 
         } catch (Exception e) {
-            log.error(e);
+            SocialSentPost.log.error(e);
         }
     }
 
@@ -2361,11 +2289,8 @@ public class SocialSentPost extends GenericResource {
                 Iterator<SocialNetwork> itPostSocialNets = postIn.listSocialNetworks();
                 while (itPostSocialNets.hasNext()) {
                     SocialNetwork socialNet = itPostSocialNets.next();
-                    //System.out.println("socialNet-1:"+socialNet);
                     String sSocialNet = socialNet.getDisplayTitle(lang);
-                    //System.out.println("socialNet-2:"+sSocialNet);
                     if (sSocialNet != null && sSocialNet.trim().length() > 0) {
-                        //System.out.println("socialNet-3:"+sSocialNet);
                         if (firstTime) {
                             nets = "" + sSocialNet;
                             firstTime = false;
@@ -2481,7 +2406,6 @@ public class SocialSentPost extends GenericResource {
                             }
                         }
                     } else {
-                        //System.out.println("ESE POST ESTA PUBLICADO..");
                         createCell(cellStyle, wb, troww, 8, CellStyle.ALIGN_CENTER,
                                 CellStyle.VERTICAL_CENTER, "Publicado");
                     }
@@ -2531,7 +2455,6 @@ public class SocialSentPost extends GenericResource {
                             }
                         }
                     } else {
-                        //System.out.println("ESE POST ESTA PUBLICADO..");
                         createCell(cellStyle, wb, troww, 6, CellStyle.ALIGN_CENTER,
                                 CellStyle.VERTICAL_CENTER, "Publicado");
                     }
@@ -2771,13 +2694,11 @@ public class SocialSentPost extends GenericResource {
                 }
             }
 
-            //System.out.println("streamPostOuts-Antes de:"+socialTopicPostOut);
                 /*
              if(socialTopicPostOut==0L)
              {
              socialTopicPostOut=Integer.parseInt(getAllPostOutSocialTopic_Query(0, 0, true, socialTopic));
              }*/
-            //System.out.println("StreamPostOuts:"+socialTopicPostOut);
 
             hampResult.put("countResult", Long.valueOf(socialTopicPostOut));
         }
@@ -2786,7 +2707,6 @@ public class SocialSentPost extends GenericResource {
 
         if (aListFilter.size() > 0) {
             itposts = aListFilter.iterator();
-            //System.out.println("Entra a ORDEBAR -2");
             //setso = SWBSocialComparator.convertArray2TreeSet(itposts);
         }/*else{
          int socialTopicPostOut=Integer.parseInt(getAllPostOutSocialTopic_Query(0, 0, true, socialTopic));
@@ -3528,8 +3448,6 @@ public class SocialSentPost extends GenericResource {
         SocialNetwork socialNetwork = (SocialNetwork) sNet.createGenericInstance();
 
         //PostOutNet.ClassMgr.lis                
-        //System.out.println("--------------------");
-        //System.out.println("POST OUT:" + postOut + "->" + postOut.getMsg_Text() + "</br>");
         ArrayList postOutSocialNet = SWBSocialUtil.sparql.getPostOutNetsPostOut(postOut, socialNetwork);
 
         SWBModel model = WebSite.ClassMgr.getWebSite(socialNetwork.getSemanticObject().getModel().getName());
@@ -3548,7 +3466,6 @@ public class SocialSentPost extends GenericResource {
             if (postOutNet.getSocialNetwork() instanceof Facebook) {
                 //out.println("THIS IS A FACEBOOK:" + postOutNet.getPo_socialNetMsgID() +"</br>");
                 if (postOutNet.getStatus() == 1) {
-                    //System.out.println("OUTNET:" + postOutNet.getPo_socialNetMsgID());
                     HashMap<String, String> params = new HashMap<String, String>(3);
                     //params.put("q", "{\"comments\": \"SELECT id, text, time, fromid, attachment, can_like, can_remove, likes, user_likes from comment where post_id='" + postOutNet.getPo_socialNetMsgID() + "' ORDER BY time DESC limit 10 offset 0\", \"usernames\": \"SELECT uid, name FROM user WHERE uid IN (SELECT fromid FROM #comments)\", \"pages\":\"SELECT page_id, name FROM page WHERE page_id IN (SELECT fromid FROM #comments)\"}");
                     params.put("access_token", ((Facebook) postOutNet.getSocialNetwork()).getAccessToken());
@@ -3569,7 +3486,6 @@ public class SocialSentPost extends GenericResource {
                 }
             } else if (postOutNet.getSocialNetwork() instanceof Youtube) {
                 if (postOutNet.getStatus() == 1) {
-                    //System.out.println("ESTA PUBLICADO?");
                     this.doPrintVideo(request, response, paramRequest, out, postOutUri, socialUserExtAttr,
                                  this.comments(postOutNet.getPo_socialNetMsgID(), (Youtube) postOutNet.getSocialNetwork()),
                                  (Youtube) postOutNet.getSocialNetwork());
@@ -3650,9 +3566,7 @@ public class SocialSentPost extends GenericResource {
         try {
             String fbResponse = getRequest(params, Facebook.FACEBOOKGRAPH + postID,
                     Facebook.USER_AGENT);
-            //System.out.println("THIS IS THE RESPONSE:" + fbResponse);
             response = new JSONObject(fbResponse);
-            //System.out.println("FACEBOOK:" + postID + " AND THE CONTENT:" + fbResponse);
         } catch (Exception e) {
             SocialSentPost.log.error("Facebook: Not data found for ->" + postID);
         }
@@ -3820,7 +3734,6 @@ public class SocialSentPost extends GenericResource {
             SocialUserExtAttributes socialUserExtAttr, String fbComments) {
         
         try {
-            //System.out.println("THE POST:" + postsData);
             SWBResourceURL actionURL = paramRequest.getActionUrl();
             SWBResourceURL renderURL = paramRequest.getRenderUrl();
             String objUri = facebook.getURI();//request.getParameter("suri");
@@ -4457,7 +4370,6 @@ public class SocialSentPost extends GenericResource {
             conex.connect();
             in = conex.getInputStream();
             response = getResponse(in);
-            //System.out.println("RESPONSE:" + response);
 
         } catch (java.io.IOException ioe) {
             if (conex.getResponseCode() >= 400) {
@@ -4510,13 +4422,13 @@ public class SocialSentPost extends GenericResource {
                 HashMap<String, String> paramsUsr = new HashMap<String, String>(2);
                 paramsUsr.put("part", "snippet");
                 paramsUsr.put("id", videoSnippet.getString("channelId"));
-                String commentProfile = youtube.getRequest(paramsUsr, "/channels", Youtube.USER_AGENT, "GET");
+                String commentProfile = youtube.getRequest(paramsUsr, Youtube.API_URL + "/channels", Youtube.USER_AGENT, "GET");
                 JSONObject items = new JSONObject(commentProfile);
                 if (!items.isNull("items")) {
                     channelResp = items.getJSONArray("items").getJSONObject(0);
                 }
             }
-
+            System.out.println("video (JSON):\n" + video.toString(4));
             String username = "";
             if (channelResp != null && !channelResp.isNull("snippet")) {
                 JSONObject snippet = channelResp.getJSONObject("snippet");
@@ -4541,22 +4453,22 @@ public class SocialSentPost extends GenericResource {
             out.write("<div class=\"timelineimg\">");
             out.write(" <span>");
             
-//            JSONArray thumb = video.getJSONObject("media$group").getJSONArray("media$thumbnail");
-//            for (int i = 0; i < thumb.length(); i++) {
-//                if (!thumb.getJSONObject(i).isNull("yt$name")) {
-//                    if (thumb.getJSONObject(i).getString("yt$name").equalsIgnoreCase("mqdefault")
-//                            || thumb.getJSONObject(i).getString("yt$name").equalsIgnoreCase("hqdefault")) {
-//                        imgPath = thumb.getJSONObject(i).getString("url");
-//                    }
-//                }
-//            }
-
+            if (videoSnippet.has("thumbnails")) {
+                JSONObject thumbs = videoSnippet.getJSONObject("thumbnails");
+                if (thumbs.has("default")) {
+                    imgPath = thumbs.getJSONObject("default").getString("url");
+                } else if (thumbs.has("medium")) {
+                    imgPath = thumbs.getJSONObject("medium").getString("url");
+                } else if (thumbs.has("high")) {
+                    imgPath = thumbs.getJSONObject("high").getString("url");
+                }
+            }
             out.write("      <span id=\"img" + youtube.getId() + videoId +
                     "\" style=\"width: 250px; height: 250px; border: thick #666666; overflow: hidden; position: relative;\">");
             out.write("      <a href=\"#\" onclick=\"hideDialog(); showDialog('" +
                     paramRequest.getRenderUrl().setMode("displayVideo").setParameter("videoUrl",
                             URLEncoder.encode(Youtube.BASE_VIDEO_URL + videoId, "UTF-8")) +
-                    "','" + video.getJSONObject("title").getString("$t") + "'); return false;\"><img src=\"" +
+                    "','" + videoSnippet.getString("title") + "'); return false;\"><img src=\"" +
                     imgPath + "\" style=\"position: relative;\" onerror=\"this.src ='" + imgPath +
                     "'\" onload=\"imageLoad(" + "this, 'img" + youtube.getId() + videoId + "');\"/></a>");
             out.write("      </span>");
@@ -4590,14 +4502,11 @@ public class SocialSentPost extends GenericResource {
             if (status != null && !status.isNull("privacyStatus")) {
                 isPrivate = !status.getString("privacyStatus").equalsIgnoreCase("public");
             }
-
             JSONArray arrayCommentThreads = null;
             int totalComments = 0;
             if (!isPrivate && commentCount > 0) {
                 //Comments,start
                 //if(!video.isNull("commentCount") && video.getInt("commentCount")>0 && !isPrivate){
-                //System.out.println("URL for comments:" );
-                //System.out.println("token:" + semanticYoutube.getAccessToken());
 //                HashMap<String, String> paramsComments = new HashMap<String, String>(4);
 //                paramsComments.put("part", "snippet");
 //                paramsComments.put("max-results", "5");
@@ -4613,11 +4522,13 @@ public class SocialSentPost extends GenericResource {
 //                    }
 //                }
                 JSONObject commentsResponse = youtube.getVideoCommentThreads(videoId, 5, null);
-                if (!commentsResponse.isNull("pageInfo") && !commentsResponse.getJSONObject("pageInfo").isNull("totalResults")) {
-                    totalComments = commentsResponse.getJSONObject("pageInfo").getInt("totalResults");
-                }
-                if (!commentsResponse.isNull("items")) {
-                    arrayCommentThreads = commentsResponse.getJSONArray("items");
+                if (commentsResponse != null) {
+                    if (!commentsResponse.isNull("pageInfo") && !commentsResponse.getJSONObject("pageInfo").isNull("totalResults")) {
+                        totalComments = commentsResponse.getJSONObject("pageInfo").getInt("totalResults");
+                    }
+                    if (!commentsResponse.isNull("items")) {
+                        arrayCommentThreads = commentsResponse.getJSONArray("items");
+                    }
                 }
             }
             if (arrayCommentThreads != null && arrayCommentThreads.length() > 0) {
@@ -4632,7 +4543,6 @@ public class SocialSentPost extends GenericResource {
                             "Ver todos los comentarios" + "</a>");
                     out.write("</li>");
                 }
-
                 this.walkThroughCommentThreads(arrayCommentThreads, paramRequest, objUri, out);
                 out.write("</ul>");
             }
@@ -4656,7 +4566,8 @@ public class SocialSentPost extends GenericResource {
                     paramRequest.getRenderUrl().setMode(SocialSentPost.Mode_CommentVideo).
                             setParameter("suri", objUri).
                             setParameter("videoId", videoId) +
-                    "','Comment to " + "MISSING" + "');return false;\"><span>Comment</span></a>\n");
+                    "','Comment to " + videoSnippet.getString("title").replaceAll("'", "\\'") +
+                    "');return false;\"><span>Comment</span></a>\n");
             out.write("  </span>\n");
 
             postURI = null;
@@ -4690,7 +4601,7 @@ public class SocialSentPost extends GenericResource {
             try {
                 JSONObject threadComment = commentThreads.getJSONObject(c);
                 //Se muestra el listado de los comentarios de primer nivel
-                if (!threadComment.isNull("snippet") && threadComment.getJSONObject("snippet").isNull("topLevelComment")) {
+                if (!threadComment.isNull("snippet") && !threadComment.getJSONObject("snippet").isNull("topLevelComment")) {
                     JSONObject comment = threadComment.getJSONObject("snippet").getJSONObject("topLevelComment");
                     out.write(this.commentInList(comment, paramRequest, uri));
                 }
@@ -4761,7 +4672,7 @@ public class SocialSentPost extends GenericResource {
             String comentarioId = comment.getString("id");
             out.append("   <span class=\"inline\">\n");
             out.append("     <a href=\"\" onclick=\"hideDialog(); showDialog('");
-            out.append(paramRequest.getRenderUrl().setMode("commentComment").
+            out.append(paramRequest.getRenderUrl().setMode(Mode_CommentAComment).
                     setParameter("suri", uri).
                     setParameter("videoId", snippet.getString("videoId")).
                     setParameter("commentId", comentarioId));
@@ -4782,7 +4693,6 @@ public class SocialSentPost extends GenericResource {
 
         CharSequence paramString = (null == params) ? "" : delimit(params.entrySet(), "&", "=", true);
         URL serverUrl = new URL(url + "?" + paramString);
-        //System.out.println("URL:" +  serverUrl);
 
         HttpURLConnection conex = null;
         InputStream in = null;
@@ -4842,8 +4752,6 @@ public class SocialSentPost extends GenericResource {
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
         String suri = request.getParameter("suri");
-//        System.out.println("suri:" + request.getParameter("suri"));
-//        System.out.println("postId:" + request.getParameter("postId"));
         SocialNetwork socialNetwork = (SocialNetwork) SemanticObject.createSemanticObject(suri).createGenericInstance();
         PrintWriter out = response.getWriter();
         
@@ -4961,7 +4869,6 @@ public class SocialSentPost extends GenericResource {
                     }
                 } while (pageToken != null);
             } catch (Exception e) {
-                System.out.println("ERROR GETTING MORE COMMENTS");
                 SocialSentPost.log.error("Problem while getting all the comments", e);
             }
         }
@@ -5103,6 +5010,44 @@ public class SocialSentPost extends GenericResource {
             SocialSentPost.log.error("ERROR:", e);
         }
     }
+    
+    /**
+     * Presenta la interface para capturar un comentario sobre otro comentario
+     * @param request la peticion HTTP realizada por el cliente
+     * @param response la respuesta que devolvera el servidor correspondiente a la peticion
+     * @param paramRequest contiene complementos propios de SWB para atender las peticiones recibidas
+     * @throws SWBResourceException si se produce algun problema con la plataforma de SWB
+     * @throws IOException en caso de algun problema con la escritura o lectura de datos en la peticion o en la respuesta
+     */
+    public void doCommentAComment(HttpServletRequest request, HttpServletResponse response,
+                               SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        
+            SWBResourceURL actionURL = paramRequest.getActionUrl();
+            actionURL.setParameter("videoId", request.getParameter("videoId"));
+            actionURL.setParameter("suri", request.getParameter("suri"));
+            actionURL.setParameter("commentId", request.getParameter("commentId"));
+            PrintWriter out = response.getWriter();
+                //try{document.getElementById('csLoading').style.display='inline';}catch(noe){};
+            out.println("<form type=\"dijit.form.Form\" id=\"commentCommentForm\" action=\"" +
+                    actionURL.setAction("createCommentComment") +
+                    "\" method=\"post\" onsubmit=\"submitForm('commentCommentForm'); hideDialog(); return false;\">");
+            out.println("<fieldset>");
+            out.println("<table>");
+            out.println("<tr>");
+            out.println("   <td>");
+            out.println("       <textarea type=\"dijit.form.Textarea\" name=\"commentComment\" id=\"commentComment\" rows=\"4\" cols=\"50\"></textarea>");
+            out.println("   </td>");
+            out.println("</tr>");
+            out.println("<tr>");
+            out.println("       <td style=\"text-align: center;\"><button dojoType=\"dijit.form.Button\" type=\"submit\">Comentar</button></td>");
+            out.println("</tr>");
+            out.println("</table>");
+            out.println("</fieldset>");
+            out.println("</form>");
+            out.println("<span id=\"csLoading\" style=\"width: 100px; display: none\" align=\"center\">&nbsp;&nbsp;&nbsp;<img src=\"" +
+                    SWBPlatform.getContextPath() +
+                    "/swbadmin/images/loading.gif\"/></span>");
+    }
 
     public void doReplyPost(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         Facebook facebook = null;
@@ -5185,7 +5130,6 @@ public class SocialSentPost extends GenericResource {
                             postIn.setMsg_Text("");
                         }
 
-                        System.out.println("********************STATUS guardado OK");
                     } else if (postType.equals("link")) {
                         if (!postData.isNull("story")) {
                             story = (!postData.isNull("story")) ? postData.getString("story") : "";
@@ -5202,10 +5146,8 @@ public class SocialSentPost extends GenericResource {
                         } else {
                             postIn.setMsg_Text("");
                         }
-                        System.out.println("********************LINK guardado OK");
                     }
                 } else if (postType.equals("video") || postType.equals("swf")) {
-                    System.out.println("ES UN VIDEO\n\n\n****");
                     postIn = VideoIn.ClassMgr.createVideoIn(model);
                     postIn.setPi_type(SWBSocialUtil.POST_TYPE_VIDEO);
                     //Get message and/or story
@@ -5216,25 +5158,18 @@ public class SocialSentPost extends GenericResource {
                         story = FacebookWall.getTagsFromPost(postData.getJSONObject("story_tags"), story);
                     }
 
-                    System.out.println("THE MESSAGE******\n" + message);
-                    System.out.println("THE STORY******\n" + story);
                     if (!message.isEmpty()) {
-                        System.out.println("SETTING MESSAGE");
                         postIn.setMsg_Text(message);
                     } else if (!story.isEmpty()) {
-                        System.out.println("SETTING STORY");
                         postIn.setMsg_Text(story);
                     } else {
-                        System.out.println("SETTING ONLY THE NAME!!!!!");
                         postIn.setMsg_Text("<a href=\"" + postData.getString("source") + "\" target=\"_blank\">" + postData.getString("name") + "</a>");
                     }
 
                     if (postData.has("source")) {
-                        System.out.println("Setting the VIDEO");
                         VideoIn videoIn = (VideoIn) postIn;
                         videoIn.setVideo(postData.getString("source"));
                     }
-                    System.out.println("********************VIDEO guardado OK");
                 } else if (postType.equals("photo")) {
                     postIn = PhotoIn.ClassMgr.createPhotoIn(model);
                     postIn.setPi_type(SWBSocialUtil.POST_TYPE_PHOTO);
@@ -5246,8 +5181,6 @@ public class SocialSentPost extends GenericResource {
                         story = FacebookWall.getTagsFromPost(postData.getJSONObject("story_tags"), story);
                     }
 
-                    System.out.println("\tMESSAGE:" + message);
-                    System.out.println("\tSTORY:" + story);
                     if (!message.isEmpty()) {
                         postIn.setMsg_Text(message);
                     } else if (!story.isEmpty()) {
@@ -5261,10 +5194,8 @@ public class SocialSentPost extends GenericResource {
                         PhotoIn photoIn = (PhotoIn) postIn;
                         photoIn.addPhoto(photo);
                     }
-                    System.out.println("********************STATUS guardado OK");
                 }
 
-                System.out.println("POSTDATA:" + postData.getString("id"));
                 //Information of post IN
                 postIn.setSocialNetMsgId(postData.getString("id"));
                 postIn.setPostInSocialNetwork(socialNetwork);
@@ -5276,10 +5207,8 @@ public class SocialSentPost extends GenericResource {
                 SocialTopic defaultSocialTopic = SocialTopic.ClassMgr.getSocialTopic("DefaultTopic", model);
                 if (defaultSocialTopic != null) {
                     postIn.setSocialTopic(defaultSocialTopic);//Asigns socialTipic
-                    System.out.println("Setting social topic:" + defaultSocialTopic);
                 } else {
                     postIn.setSocialTopic(null);
-                    System.out.println("Setting to null");
                 }
             }
         } catch (Exception e) {
@@ -5290,6 +5219,9 @@ public class SocialSentPost extends GenericResource {
         RequestDispatcher dis = request.getRequestDispatcher(path);
         if (dis != null) {
             try {
+                response.setContentType("text/html; charset=iso-8859-1");
+                response.setHeader("Cache-Control", "no-cache");
+                response.setHeader("Pragma", "no-cache");
                 request.setAttribute("postUri", SemanticObject.createSemanticObject(postIn.getURI()));
                 request.setAttribute("paramRequest", paramRequest);
                 dis.include(request, response);
