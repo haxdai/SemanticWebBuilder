@@ -901,7 +901,8 @@ public class CodeGenerator
         while (it.hasNext())
         {
             parent = it.next();
-            if (parent.isSWBClass() || parent.isSWBModel() || parent.isSWBFormElement())
+            //EHSP-31032016 - Check parent chain for virtual classes and add them to extends
+            if (parent.isSWBClass() || parent.isSWBModel() || parent.isSWBFormElement() || (parent.isSWBVirtualClass() && isGenerateVirtualClasses()))
             {
                 exts = parent.getCanonicalName();
                 break;
