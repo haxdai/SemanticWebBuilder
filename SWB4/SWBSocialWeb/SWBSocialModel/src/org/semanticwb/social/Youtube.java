@@ -1362,6 +1362,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
 
     @Override
     public HashMap<String, Long> monitorPostOutResponses(PostOut postOut) {
+        Youtube.log.event("Monitoreando mensajes en Youtube!!!\n");
         //throw new UnsupportedOperationException("Not supported yet.");
         HashMap<String, Long> hMapPostOutNets = new HashMap<String, Long>();
         Iterator<PostOutNet> itPostOutNets=PostOutNet.ClassMgr.listPostOutNetBySocialPost(postOut);
@@ -1410,7 +1411,7 @@ public class Youtube extends org.semanticwb.social.base.YoutubeBase {
         long totalComments = 0L;
         if (videoId != null && !videoId.isEmpty()) {
             HashMap<String, String> params = new HashMap<String, String>(4);
-            params.put("part", "id");
+            params.put("part", "id,snippet");
             params.put("videoId", videoId);//alt
             params.put("maxResults", "1");//alt
             try {
