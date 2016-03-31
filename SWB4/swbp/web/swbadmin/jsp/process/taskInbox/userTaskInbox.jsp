@@ -4,6 +4,7 @@
     Author     : Hasdai Pacheco {ebenezer.sanchez@infotec.com.mx}
 --%>
 
+<%@page import="java.util.HashMap"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="org.semanticwb.process.model.UserTask"%>
 <%@page import="org.semanticwb.process.model.Instance"%>
@@ -77,11 +78,13 @@ if (sFilter == null || sFilter.trim().equals("")) {
     sFilter = String.valueOf(ProcessInstance.STATUS_PROCESSING);
 }
 
-ArrayList<String> cols = new ArrayList<>();
+HashMap<String, String> cols = new HashMap<>();
 int i = 1;
 while(!base.getAttribute(UserTaskInboxResource.ATT_COLS+i, "").equals("")) {
-    String val = base.getAttribute(UserTaskInboxResource.ATT_COLS+i);
-    cols.add(val);
+    String[] val = base.getAttribute(UserTaskInboxResource.ATT_COLS+i).split("\\|");
+    if (val.length == 2) {
+        cols.put(val[0], val[1]);
+    }
     i++;
 }
 
@@ -299,7 +302,7 @@ if (!user.isSigned()) {
             }%>
             <div class="row swbp-tray-info">    
             <% if (UserTaskInboxResource.COL_IDPROCESS != null) {%>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number"><%=instance.getProcessInstance().getId()%></div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-2 swbp-list-number"><%=instance.getProcessInstance().getId()%></div>
             <%}%>
             <div class="col-lg-11 col-md-11 col-sm-11 col-xs-10 hidden-padding">               
             <% if (UserTaskInboxResource.COL_NAMETASK != null) {%> 
@@ -309,6 +312,10 @@ if (!user.isSigned()) {
             <%} if (UserTaskInboxResource.COL_NAMEPROCESS != null) {%> 
                 <div class="col-xs-12 swbp-tray-task">
                     Proceso: <%=instance.getFlowNodeType().getProcess().getDisplayTitle(lang)%>
+                </div> 
+            <%} if (cols.get(UserTaskInboxResource.COL_TASKSUBJECT) != null && null != instance.getSubject()) {%> 
+                <div class="col-xs-12 swbp-tray-task">
+                    <%= cols.get(UserTaskInboxResource.COL_TASKSUBJECT) %> : <%=instance.getSubject() %>
                 </div> 
             <%} if (UserTaskInboxResource.COL_STARTTASK != null) {%>    
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 swbp-tray-date">
