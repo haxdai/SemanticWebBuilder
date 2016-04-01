@@ -26,29 +26,31 @@ import bsh.Interpreter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.semanticwb.Logger;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.SWBClass;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.platform.SemanticClass;
-import org.semanticwb.platform.SemanticLiteral;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
-
-public class ProcessInstance extends org.semanticwb.process.model.base.ProcessInstanceBase 
-{
+/**
+ * Clase que encapsula las propiedades y métodos relacionados con una instancia de proceso.
+ */
+public class ProcessInstance extends org.semanticwb.process.model.base.ProcessInstanceBase  {
     private static Logger log=SWBUtils.getLogger(ProcessInstance.class);
     
-    
+    /**
+     * Constructor.
+     * @param base the base object
+     */
     public ProcessInstance(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
     }
 
     /**
-     * Se ejecuta cada que se crea la intancia del objeto de flujo desde un evento de inicio normal
+     * Se ejecuta cada que se crea la intancia del objeto de flujo desde un evento de inicio normal.
      * @param user
      */
     @Override
@@ -129,11 +131,8 @@ public class ProcessInstance extends org.semanticwb.process.model.base.ProcessIn
                     Object ret=null;
                     try
                     {
-                        //long ini=System.currentTimeMillis();
                         Interpreter i = SWBPClassMgr.getInterpreter();
                         ret=i.eval(code);
-                        //System.out.println("ret:"+ret);
-                        //System.out.println("time:"+ (System.currentTimeMillis()-ini ));
                     }catch(Exception e)
                     {
                         log.error(e);
@@ -195,7 +194,6 @@ public class ProcessInstance extends org.semanticwb.process.model.base.ProcessIn
                     ref.setProcessObject(c);
                 }
                 addItemAwareReference(ref);
-                //System.out.println("addItemAwareReference:"+ref);
             }
         }        
     }
