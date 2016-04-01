@@ -3804,7 +3804,10 @@ public class SWBUtils
                 {
                     email.setMsg(data);
                 }
-
+                //Set authentication default to config, as in sendBGEmail method
+                if( null != SWBUtils.EMAIL.smtpuser && null != SWBUtils.EMAIL.smtppassword) {
+                    email.setAuthentication(EMAIL.smtpuser, EMAIL.smtppassword);
+                }
                 if (login != null && password != null)
                 {
                     email.setAuthentication(login, password);
@@ -3878,7 +3881,10 @@ public class SWBUtils
                 {
                     email.setTextMsg(message.getData());
                 }
-                
+                //Set authentication default to config, as in sendBGEmail method
+                if( null != SWBUtils.EMAIL.smtpuser && null != SWBUtils.EMAIL.smtppassword) {
+                    email.setAuthentication(EMAIL.smtpuser, EMAIL.smtppassword);
+                }
                 if (message.getLogin() != null && message.getPassword() != null)
                 {
                     email.setAuthentication(message.getLogin(), message.getPassword());
@@ -3944,9 +3950,10 @@ public class SWBUtils
                     address.setAddress(toEmail);
                     acol.add(address);
                 }
+                //Send my with authentication information from config by default as in method sendBGEmail
                 SWBUtils.EMAIL.sendMail(SWBUtils.EMAIL.adminEmail, "", acol,
-                        null, null, subject, null, msg, null,
-                        null, null);
+                        null, null, subject, null, msg, EMAIL.smtpuser,
+                        EMAIL.smtppassword, null);
             }
             catch (Exception e)
             {
