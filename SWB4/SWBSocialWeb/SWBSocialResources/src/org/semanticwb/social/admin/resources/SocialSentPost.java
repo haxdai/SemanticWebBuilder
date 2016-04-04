@@ -44,6 +44,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -122,12 +123,10 @@ import org.semanticwb.social.util.SWBSocialUtil;
 import org.semanticwb.social.util.SocialLoader;
 import org.semanticwb.social.SWBSocial;
 import org.semanticwb.social.SocialNetworkUser;
-import org.semanticwb.social.Twitter;
 import org.semanticwb.social.VideoIn;
 import org.semanticwb.social.Youtube;
 import org.semanticwb.social.PostOutMonitorable;
 import org.semanticwb.social.admin.resources.util.SWBSocialResUtil;
-import org.semanticwb.social.SocialCalendar;
 import org.semanticwb.social.SocialCalendarRef;
 
 /**
@@ -3739,7 +3738,7 @@ public class SocialSentPost extends GenericResource {
             String objUri = facebook.getURI();//request.getParameter("suri");
             actionURL.setParameter("suri", objUri);
             renderURL.setParameter("suri", objUri);
-            //DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SSz");
+            DateFormat formatterLocal = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
             SocialSentPost.formatter.setTimeZone(TimeZone.getTimeZone("GMT-6"));
             String postType = "";
 
@@ -3748,7 +3747,7 @@ public class SocialSentPost extends GenericResource {
                     SocialSentPost.log.error("Facebook: Not data found");
                     writer.write("<div id=\"configuracion_redes\">");
                     writer.write("<div>");
-                    writer.write("<p>Post no encontrado. Ya no existe o no está innacesible.</p>");
+                    writer.write("<p>Post no encontrado. Ya no existe o está innacesible.</p>");
                     writer.write("</div>");
                     writer.write("</div>");
                     return;
@@ -4095,6 +4094,9 @@ public class SocialSentPost extends GenericResource {
                         "Ver todos los comentarios" + "</a>");
                 writer.write("</li>");
             }
+            
+            String timeOfPost = null;
+            Date postingTime = null;
             for (int i = 0; i < commentsData.length(); i++) {
                 JSONObject comment = commentsData.getJSONObject(i);
                 String username = "";
@@ -4113,16 +4115,30 @@ public class SocialSentPost extends GenericResource {
                         userId + "/picture?width=30&height=30\" width=\"30\" height=\"30\"/></a>");
 
                 writer.write("<p>");
-                writer.write("<a href=\"#\" title=\"" + paramRequest.getLocaleString("viewProfile") + "\" onclick=\"hideDialog(); showDialog('" + renderURL.setMode("fullProfile").setParameter("type", "noType").setParameter("id", comment.getLong("fromid") + "") + "','" + username + "'); return false;\">" + username + "</a>:");
+                writer.write("<a href=\"#\" title=\"" + paramRequest.getLocaleString("viewProfile") +
+                        "\" onclick=\"hideDialog(); showDialog('" +
+                        renderURL.setMode("fullProfile").setParameter("type", "noType").
+                                setParameter("id", userId) +
+                        "','" + username + "'); return false;\">" + username + "</a>:");
                 writer.write(comment.getString("message").replace("\n", "</br>") + "</br>");
                 writer.write("</p>");
 
-                Date commentTime = SocialSentPost.formatter.parse(comment.getString("created_time"));
+                try {
+                    postingTime = SocialSentPost.formatter.parse(comment.getString("created_time"));
+                    timeOfPost = FacebookWall.facebookHumanFriendlyDate(postingTime, paramRequest);
+                } catch (ParseException pe) {
+                    try {
+                        postingTime = formatterLocal.parse(comment.getString("created_time"));
+                        timeOfPost = FacebookWall.facebookHumanFriendlyDate(postingTime, paramRequest);
+                    } catch (ParseException pex) {
+                        timeOfPost = comment.getString("created_time");
+                    }
+                }
                 
                 writer.write("<p class=\"timelinedate\">");
                 writer.write("<span dojoType=\"dojox.layout.ContentPane\">");
 
-                writer.write("<em>" + FacebookWall.facebookHumanFriendlyDate(commentTime, paramRequest) + "</em>");
+                writer.write("<em>" + timeOfPost + "</em>");
                 if (comment.has("like_count")) {
                     writer.write("<strong>");
                     writer.write("<span>Likes:</span> " + comment.getLong("like_count"));
@@ -4139,7 +4155,17 @@ public class SocialSentPost extends GenericResource {
             //Comments, end
 
             writer.write("<div class=\"clear\"></div>");
-            Date postTime = SocialSentPost.formatter.parse(postsData.getString("created_time"));
+            try {
+                postingTime = SocialSentPost.formatter.parse(postsData.getString("created_time"));
+                timeOfPost = FacebookWall.facebookHumanFriendlyDate(postingTime, paramRequest);
+            } catch (ParseException pe) {
+                try {
+                    postingTime = formatterLocal.parse(postsData.getString("created_time"));
+                    timeOfPost = FacebookWall.facebookHumanFriendlyDate(postingTime, paramRequest);
+                } catch (ParseException pex) {
+                    timeOfPost = postsData.getString("created_time");
+                }
+            }
 
             writer.write("<div class=\"timelineresume\" dojoType=\"dijit.layout.ContentPane\">");
             if (!postsData.isNull("icon")) {
@@ -4148,7 +4174,7 @@ public class SocialSentPost extends GenericResource {
             writer.write("<span class=\"inline\" id=\"" +
                     facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION + tabSuffix +
                     "\" dojoType=\"dojox.layout.ContentPane\">");
-            writer.write("<em>" + FacebookWall.facebookHumanFriendlyDate(postTime, paramRequest) + "</em>");
+            writer.write("<em>" + timeOfPost + "</em>");
             boolean iLikedPost = false;
             writer.write("<strong><span> Likes: </span>");
             if (postsData.has("likes")) {
@@ -4428,7 +4454,6 @@ public class SocialSentPost extends GenericResource {
                     channelResp = items.getJSONArray("items").getJSONObject(0);
                 }
             }
-            System.out.println("video (JSON):\n" + video.toString(4));
             String username = "";
             if (channelResp != null && !channelResp.isNull("snippet")) {
                 JSONObject snippet = channelResp.getJSONObject("snippet");
@@ -4983,10 +5008,10 @@ public class SocialSentPost extends GenericResource {
                 SocialTopic defaultSocialTopic = SocialTopic.ClassMgr.getSocialTopic("DefaultTopic", model);
                 if (defaultSocialTopic != null) {
                     postIn.setSocialTopic(defaultSocialTopic);//Asigns socialTipic
-                    System.out.println("Setting social topic:" + defaultSocialTopic);
+//                    System.out.println("Setting social topic:" + defaultSocialTopic);
                 } else {
                     postIn.setSocialTopic(null);
-                    System.out.println("Setting to null");
+//                    System.out.println("Setting to null");
                 }
             }
 
@@ -5004,9 +5029,9 @@ public class SocialSentPost extends GenericResource {
                 }
             }
 
-            System.out.println("POST CREADO CORRECTAMENTE: " + postIn.getId() + " ** " + postIn.getSocialNetMsgId());
+//            System.out.println("POST CREADO CORRECTAMENTE: " + postIn.getId() + " ** " + postIn.getSocialNetMsgId());
         } catch (Exception e) {
-            System.out.println("Error trying to setSocialTopic");
+//            System.out.println("Error trying to setSocialTopic");
             SocialSentPost.log.error("ERROR:", e);
         }
     }
@@ -5076,14 +5101,14 @@ public class SocialSentPost extends GenericResource {
 
             if (postIn == null) {
                 JSONObject postData = FacebookWall.getPostFromFullId(idPost, facebook);
-                System.out.println("This is the post: " + postData);
+//                System.out.println("This is the post: " + postData);
                 socialNetUser = SocialNetworkUser.getSocialNetworkUserbyIDAndSocialNet(postData.getJSONObject("from").getString("id"), socialNetwork, model);
 
-                if (socialNetUser == null) {
-                    System.out.println("\n\nEL USUARIO NO EXISTE");
-                } else {
-                    System.out.println("\n\nEL USUARIO EXISTE: " + socialNetUser.getSnu_id());
-                }
+//                if (socialNetUser == null) {
+//                    System.out.println("\n\nEL USUARIO NO EXISTE");
+//                } else {
+//                    System.out.println("\n\nEL USUARIO EXISTE: " + socialNetUser.getSnu_id());
+//                }
 
                 if (socialNetUser == null) {
                     socialNetUser = SocialNetworkUser.ClassMgr.createSocialNetworkUser(model);//Create a socialNetworkUser
@@ -5096,7 +5121,7 @@ public class SocialSentPost extends GenericResource {
                     //TODO: Llamar al getUserInfoById
                     socialNetUser.setFollowers(0);
                     socialNetUser.setFriends(0);
-                    System.out.println("YA SE CREO EL USUARIO!!!");
+//                    System.out.println("YA SE CREO EL USUARIO!!!");
                 }
 
                 String postType = "";
