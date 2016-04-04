@@ -266,7 +266,7 @@
                                             String Id = instance.getId();
                                             String pName = instance.getProcessType().getDisplayTitle(lang);
                                             String pCreated = SWBUtils.TEXT.iso8601DateFormat(instance.getCreated());//getStrDate(instance.getCreated(), lang, "dd/mm/yy - hh:%m");
-                                            String pClosed = "";
+                                            String pClosed = "-";
 
                                             if (instance.getStatus() == ProcessInstance.STATUS_CLOSED) {
                                                 pClosed = SWBUtils.TEXT.iso8601DateFormat(instance.getEnded());//getStrDate(instance.getEnded(), lang, "dd/mm/yy - hh:%m");
