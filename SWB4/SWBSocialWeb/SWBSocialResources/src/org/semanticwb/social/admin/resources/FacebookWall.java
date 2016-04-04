@@ -2108,7 +2108,7 @@ public class FacebookWall extends GenericResource {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SSz");
             formatter.setTimeZone(TimeZone.getTimeZone("GMT-6"));
             String postType = postsData.getString("type");
-
+            
             String story = "";
             String message = "";
             String caption = "";
@@ -2588,13 +2588,13 @@ public class FacebookWall extends GenericResource {
             writer.write("<strong><span> Likes: </span>");
             if (postsData.has("likes")) {
                 JSONArray likes = postsData.getJSONObject("likes").getJSONArray("data");
-                int postLikes = 0;
-                if (postsData.getJSONObject("likes").has("summary") && !postsData.getJSONObject("likes").isNull("summary")) {
-                    if (!postsData.getJSONObject("likes").getJSONObject("summary").has("total_count")) {
-                        postLikes = postsData.getJSONObject("likes").getJSONObject("summary").getInt("total_count");
+                long postLikes = 0;
+                if (postsData.getJSONObject("likes").has("summary") &&
+                        !postsData.getJSONObject("likes").isNull("summary")) {
+                    if (postsData.getJSONObject("likes").getJSONObject("summary").has("total_count")) {
+                        postLikes = postsData.getJSONObject("likes").getJSONObject("summary").getLong("total_count");
                     }
                 }
-
                 writer.write(String.valueOf(postLikes));
                 //Como puede tardar encontrar si el usuario ha dado "like" a un post, se va a eliminar por v2.3 API Facebook
 //                for (int k = 0; k < likes.length(); k++) {
@@ -2693,29 +2693,31 @@ public class FacebookWall extends GenericResource {
                             }
                             writer.write("   </span>");
                         }
-//                    } else if (actions.getJSONObject(i).getString("name").equals("Like")) {//I can like
-//                        writer.write("   <span class=\"inline\" id=\"" + facebook.getId() +
-//                                postsData.getString("id") + FacebookWall.LIKE + tabSuffix +
-//                                "\" dojoType=\"dojox.layout.ContentPane\">");
-//                        if (iLikedPost) {
-//                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("undoLike") +
-//                                    "\" class=\"nolike\" onclick=\"postSocialHtml('" +
-//                                    actionURL.setAction("doUnlike").
-//                                            setParameter("postID", postsData.getString("id")).
-//                                            setParameter("currentTab", tabSuffix) + "','" +
-//                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
-//                                    tabSuffix + "');return false;" + "\"></a>");
-//                        } else {
-//                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("like") +
-//                                    "\" class=\"like\" onclick=\"postSocialHtml('" +
-//                                    actionURL.setAction("doLike").
-//                                            setParameter("postID", postsData.getString("id")).
-//                                            setParameter("currentTab", tabSuffix) + "','" +
-//                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
-//                                    tabSuffix + "');return false;" + "\"></a>");
-//                        }
-//                        writer.write("   </span>");
+                        //Inicio de comentario para acciones
+                    } else if (actions.getJSONObject(i).getString("name").equals("Like")) {//I can like
+                        writer.write("   <span class=\"inline\" id=\"" + facebook.getId() +
+                                postsData.getString("id") + FacebookWall.LIKE + tabSuffix +
+                                "\" dojoType=\"dojox.layout.ContentPane\">");
+                        if (iLikedPost) {
+                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("undoLike") +
+                                    "\" class=\"nolike\" onclick=\"postSocialHtml('" +
+                                    actionURL.setAction("doUnlike").
+                                            setParameter("postID", postsData.getString("id")).
+                                            setParameter("currentTab", tabSuffix) + "','" +
+                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
+                                    tabSuffix + "');return false;" + "\"></a>");
+                        } else {
+                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("like") +
+                                    "\" class=\"like\" onclick=\"postSocialHtml('" +
+                                    actionURL.setAction("doLike").
+                                            setParameter("postID", postsData.getString("id")).
+                                            setParameter("currentTab", tabSuffix) + "','" +
+                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
+                                    tabSuffix + "');return false;" + "\"></a>");
+                        }
+                        writer.write("   </span>");
 //                    } else {//Other unknown action
+                        //Fin de comentario para acciones
                         //writer.write("other:" + actions.getJSONObject(i).getString("name"));
                     }
                 }
