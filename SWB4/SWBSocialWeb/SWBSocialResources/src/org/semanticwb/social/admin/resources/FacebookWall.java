@@ -2694,28 +2694,28 @@ public class FacebookWall extends GenericResource {
                             writer.write("   </span>");
                         }
                         //Inicio de comentario para acciones
-                    } else if (actions.getJSONObject(i).getString("name").equals("Like")) {//I can like
-                        writer.write("   <span class=\"inline\" id=\"" + facebook.getId() +
-                                postsData.getString("id") + FacebookWall.LIKE + tabSuffix +
-                                "\" dojoType=\"dojox.layout.ContentPane\">");
-                        if (iLikedPost) {
-                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("undoLike") +
-                                    "\" class=\"nolike\" onclick=\"postSocialHtml('" +
-                                    actionURL.setAction("doUnlike").
-                                            setParameter("postID", postsData.getString("id")).
-                                            setParameter("currentTab", tabSuffix) + "','" +
-                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
-                                    tabSuffix + "');return false;" + "\"></a>");
-                        } else {
-                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("like") +
-                                    "\" class=\"like\" onclick=\"postSocialHtml('" +
-                                    actionURL.setAction("doLike").
-                                            setParameter("postID", postsData.getString("id")).
-                                            setParameter("currentTab", tabSuffix) + "','" +
-                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
-                                    tabSuffix + "');return false;" + "\"></a>");
-                        }
-                        writer.write("   </span>");
+//                    } else if (actions.getJSONObject(i).getString("name").equals("Like")) {//I can like
+//                        writer.write("   <span class=\"inline\" id=\"" + facebook.getId() +
+//                                postsData.getString("id") + FacebookWall.LIKE + tabSuffix +
+//                                "\" dojoType=\"dojox.layout.ContentPane\">");
+//                        if (iLikedPost) {
+//                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("undoLike") +
+//                                    "\" class=\"nolike\" onclick=\"postSocialHtml('" +
+//                                    actionURL.setAction("doUnlike").
+//                                            setParameter("postID", postsData.getString("id")).
+//                                            setParameter("currentTab", tabSuffix) + "','" +
+//                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
+//                                    tabSuffix + "');return false;" + "\"></a>");
+//                        } else {
+//                            writer.write(" <a href=\"#\" title=\"" + paramRequest.getLocaleString("like") +
+//                                    "\" class=\"like\" onclick=\"postSocialHtml('" +
+//                                    actionURL.setAction("doLike").
+//                                            setParameter("postID", postsData.getString("id")).
+//                                            setParameter("currentTab", tabSuffix) + "','" +
+//                                    facebook.getId() + postsData.getString("id") + FacebookWall.INFORMATION +
+//                                    tabSuffix + "');return false;" + "\"></a>");
+//                        }
+//                        writer.write("   </span>");
 //                    } else {//Other unknown action
                         //Fin de comentario para acciones
                         //writer.write("other:" + actions.getJSONObject(i).getString("name"));
