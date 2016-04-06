@@ -634,7 +634,7 @@
                         force_br_newlines: true,
                         paste_data_images: true,
                         force_p_newlines: true,
-                        relative_urls: false,
+                        relative_urls: true,
                         remove_script_host: false,
                         height: 500,
                         plugins: [
