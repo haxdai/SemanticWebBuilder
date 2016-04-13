@@ -180,9 +180,11 @@ public class Process extends org.semanticwb.process.model.base.ProcessBase
         boolean ret=super.isValid();
         if(ret)
         {
-            ret=getProcessGroup().isActive() && !getProcessGroup().isDeleted();
+            if (null == getProcessGroup()) return false; //No pueden existir procesos fuera de un grupo de procesos
+            
+            ret=getProcessGroup().isValid() && getProcessGroup().isActive() && !getProcessGroup().isDeleted();
         }
-        return ret; //To change body of generated methods, choose Tools | Templates.
+        return ret;
     }
     
     
