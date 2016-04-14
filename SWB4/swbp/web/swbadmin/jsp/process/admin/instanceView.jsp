@@ -84,7 +84,7 @@ SimpleDateFormat format = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         if (hasInstances) {
             actUrl.setAction(SWBAProcessInstanceList.ACT_REMOVEALLPI);
             %>
-            <button dojoType="dijit.form.Button" onclick="if (confirm('Se eliminarán todas las instancias del proceso. Esta acción no se puede deshacer. ¿Desea continuar?')) { submitUrl('<%= actUrl %>',this.domNode); } else { return false };">Eliminar todas las instancias</button>
+            <button dojoType="dijit.form.Button" onclick="if (confirm('<%= paramRequest.getLocaleString("confirm_removeall") %>')) { submitUrl('<%= actUrl %>',this.domNode); } else { return false };"><%= paramRequest.getLocaleString("btnRemoveAllIns") %></button>
             <%
         }
         %>
