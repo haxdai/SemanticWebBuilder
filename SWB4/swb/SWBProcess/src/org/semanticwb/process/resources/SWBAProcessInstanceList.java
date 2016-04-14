@@ -26,478 +26,192 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
-import org.semanticwb.model.SWBClass;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.User;
-import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
-import org.semanticwb.portal.api.SWBResourceURL;
 import org.semanticwb.process.model.FlowNodeInstance;
-import org.semanticwb.process.model.ItemAwareReference;
 import org.semanticwb.process.model.ProcessInstance;
-import org.semanticwb.process.model.ProcessSite;
 import org.semanticwb.process.model.SWBProcessMgr;
-import org.semanticwb.process.model.SubProcessInstance;
-import org.semanticwb.process.model.Task;
 import org.semanticwb.process.model.Process;
 
 /**
- *
+ * Componente de adminisración para gestionar las instancias de un proceso.
  * @author juan.fernandez
  */
 public class SWBAProcessInstanceList extends GenericResource {
     private static final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-YYYY - HH:mm:ss");
-    @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
-
+    public static final String ATT_INSTANCES = "at_instances";
+    public static final String ACT_REMOVEPI = "a_removepi";
+    public static final String ACT_CREATEPI = "a_createpi";
+    public static final String ACT_PROCESSTASK = "a_processtask";
+    public static final String ACT_REMOVEALLPI = "a_removeallpi";
+    public static final String MOD_DETAIL = "m_detail";
+    public static final String MOD_DATA = "m_data";
+    private static final Logger log = SWBUtils.getLogger(SWBAProcessInstanceList.class);
+    
+    public void doDetail(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String jsp = SWBPlatform.getContextPath()+"/swbadmin/jsp/process/admin/instanceDetail.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+       
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
 
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (IOException | ServletException sex) {
+            log.error("Error al obtener la vista de detalle del recurso", sex);
+        }
+    }
+    
+    public void doDataView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String jsp = SWBPlatform.getContextPath()+"/swbadmin/jsp/process/admin/instanceData.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+       
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (IOException | ServletException sex) {
+            log.error("Error al obtener la vista de datos del recurso", sex);
+        }
+    }
+    
+    public void doGetInstances(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         PrintWriter out = response.getWriter();
-        User user = paramRequest.getUser();
-        String id = request.getParameter("suri"); // del process
-        String page = request.getParameter("page");
-        Process process = null;
-
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        GenericObject gobj = ont.getGenericObject(id);
-
-        String action = request.getParameter("act");
-        if (action == null) {
-            action = "";
-        }
-
-        if (gobj instanceof Process) {
-            process = (Process) gobj;
-        } else {
-            return;
-        }
-
-        ProcessSite site = process.getProcessSite();
-        if (null != process) {
-            if ("".equals(action)) {
-                SWBResourceURL urlact = paramRequest.getActionUrl();
-                urlact.setParameter("suri", id);
-
-                SWBResourceURL urlnpi = paramRequest.getActionUrl();
-                urlnpi.setParameter("suri", id);
-                urlnpi.setParameter("act", "cpi");
-
-                out.println("<div class=\"swbform\">");
-                out.println("<fieldset>");
-                out.println("<legend>");
-                out.println(paramRequest.getLocaleString("listTitle"));
-                out.println("</legend>");
-                //out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlnpi + "',this.domNode); return false;\">" + paramRequest.getLocaleString("btnNewProcessInst") + "</button>"); //
-
-                out.println("<table width=\"100%\">");
-                out.println("<thead>");
-                out.println("<tr>");
-                out.println("<th>");
-                out.println("&nbsp;");
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("id"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("title"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("estatus"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("creator"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("assigned"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("started"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("ended"));
-                out.println("</th>");
-                out.println("<th>");
-                out.println(paramRequest.getLocaleString("docs"));
-                out.println("</th>");
-                out.println("</tr>");
-                out.println("</thead>");
-
-                out.println("<tbody>");
-                //TODO:Configurar Listar en Proceso o Todas
-                Iterator<ProcessInstance> pit = SWBComparator.sortByCreated(process.listProcessInstances(),false);
-                while (pit.hasNext()) {
-                    ProcessInstance pi = pit.next();
-
-                    SWBResourceURL urlrem = paramRequest.getActionUrl();
-                    urlrem.setParameter("suri", id);
-                    urlrem.setParameter("suripi", pi.getId());
-                    urlrem.setParameter("act", "rpi");
-
-                    out.println("<tr>");
-                    out.println("<td>");
-                    out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("remove") + "\" onclick=\"if(confirm('" + paramRequest.getLocaleString("confirm_remove") + " " + SWBUtils.TEXT.scape4Script(pi.getSemanticObject().getDisplayName(user.getLanguage())) + "?')){ submitUrl('" + urlrem + "',this); } else { return false;}\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" border=\"0\" alt=\"" + paramRequest.getLocaleString("remove") + "\"></a>");
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(pi.getId());
-                    out.println("</td>");
-                    out.println("<td>");
-
-                    //liga para ver el detalle de esta instancia del proceso.
-                    SWBResourceURL urlpd = paramRequest.getRenderUrl();
-                    urlpd.setParameter("suri", id);
-                    urlpd.setParameter("suripi", pi.getURI());
-                    urlpd.setParameter("act", "pidetail");
-
-                    out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("procInstDetail") + "\" onclick=\"submitUrl('" + urlpd + "',this); return false;\">" + pi.getProcessType().getTitle() + "</a>");
-                    //out.println(pi.getProcessType().getTitle());
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(getStatusName(pi.getStatus(), paramRequest));
-                    out.println("</td>");
-                    User usrtmp = pi.getCreator();
-                    out.println("<td>");
-                    out.println(usrtmp==null?"---":usrtmp.getFullName());
-                    out.println("</td>");
-                    out.println("<td>");
-                    usrtmp = pi.getAssignedto();
-                    out.println((usrtmp!=null?usrtmp.getFullName():paramRequest.getLocaleString("notAssigned")));
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(sdf.format(pi.getCreated()));
-                    out.println("</td>");
-                    out.println("<td>");
-                    out.println(pi.getEnded()!=null?sdf.format(pi.getEnded()):"---");
-                    out.println("</td>");
-
-                    //liga para ver artefactos asociados a esta instancia de proceso.
-                    SWBResourceURL urlart = paramRequest.getRenderUrl();
-                    urlart.setParameter("suri", id);
-                    urlart.setParameter("suripi", pi.getId());
-                    urlart.setParameter("act", "artifacts");
-
-                    out.println("<td>");
-                    out.println("<a href=\"#\" title=\"" + paramRequest.getLocaleString("showartifacts") + "\" onclick=\"submitUrl('" + urlart + "',this); return false;\">" + paramRequest.getLocaleString("msgview") + "</a>");
-                    out.println("</td>");
-                    out.println("</tr>");
+        response.setContentType("application/json");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        GenericObject go = (GenericObject) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+        if (null != go && go instanceof Process) {
+            Process p = (Process) go;
+            JSONArray instances = new JSONArray();
+            Iterator<ProcessInstance> it = SWBComparator.sortByCreated(p.listProcessInstances(), false);
+            while (it.hasNext()) {
+                ProcessInstance inst = it.next();
+                JSONObject obj = new JSONObject();
+                try {
+                    obj.put("id", inst.getId());
+                    obj.put("title", inst.getProcessType().getTitle());
+                    obj.put("status", getStatusName(inst.getStatus(), paramRequest));
+                    if (null != inst.getCreator()) obj.put("creator", inst.getCreator().getURI());
+                    if (null != inst.getAssignedto()) obj.put("assigned", inst.getAssignedto().getURI());
+                    obj.put("started", sdf.format(inst.getCreated()));
+                    if (null != inst.getEnded()) obj.put("ended", sdf.format(inst.getEnded()));
+                    instances.put(obj);
+                } catch (JSONException jse) {
+                    log.error("Ha ocurrido un problema al generar el JSON de las instancias", jse);
                 }
-
-
-                out.println("</tbody>");
-                out.println("<tfoot>");
-//                out.println("<tr>");
-//                out.println("<td colspan=\"5\">");
-//                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlnpi + "',this.domNode); return false;\">" + paramRequest.getLocaleString("btnNewProcessInst") + "</button>"); //
-//                out.println("</td>");
-//                out.println("</tr>");
-//                out.println("</tfoot>");
-                out.println("</table>");
-                out.println("</fieldset>");
-                out.println("<fieldset>");
-                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlnpi + "',this.domNode); return false;\">" + paramRequest.getLocaleString("btnNewProcessInst") + "</button>"); //
-                out.println("</fieldset>");
-                out.println("</div>");
-            } else if ("artifacts".equals(action)) {
-                String pinsturi = request.getParameter("suripi");
-                ProcessInstance pi = ProcessInstance.ClassMgr.getProcessInstance(pinsturi, site);
-
-                out.println("<div class=\"swbform\">");
-                out.println("<fieldset>");
-                out.println("<legend>");
-                out.println(paramRequest.getLocaleString("docs"));
-                out.println("</legend>");
-
-                out.println("<ul>");
-                Iterator<ItemAwareReference> objit = pi.listAllItemAwareReferences();
-                while (objit.hasNext()) {
-                    ItemAwareReference item=objit.next();
-                    SWBClass obj = item.getProcessObject();
-                    if(obj!=null)
-                    {
-                        //TODO: Verificar nombre del ItemAware
-                        out.println("<li>" + item.getItemAware().getDisplayTitle(user.getLanguage()) + "=");
-                        out.println("<a href=\"#\"  onclick=\"addNewTab('" + obj.getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + SWBUtils.TEXT.cropText(SWBUtils.TEXT.scape4Script(obj.getSemanticObject().getDisplayName()),25) + "');return false;\">" + obj.getSemanticObject().getDisplayName() + "</a>");
-                        out.println("</li>");
-                    }else
-                    {
-                        out.println("<li>" + item.getItemAware().getDisplayTitle(user.getLanguage()));
-                        out.println("</li>");
-                    }
-                }
-                out.println("</ul>");
-                out.println("</fieldset>");
-                out.println("<fieldset>");
-                SWBResourceURL urlbck = paramRequest.getRenderUrl();
-                urlbck.setParameter("suri", id);
-                urlbck.setParameter("act", "");
-                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlbck + "',this.domNode); return false;\">" + paramRequest.getLocaleString("btnBack") + "</button>"); //
-                out.println("</fieldset>");
-                out.println("</div>");
-            } else if ("pidetail".equals(action)) {
-                String pinsturi = request.getParameter("suripi");
-                GenericObject pigobj = ont.getGenericObject(pinsturi);
-                ProcessInstance pi = null;
-
-                if(pigobj instanceof ProcessInstance)
-                {
-                    pi = (ProcessInstance) pigobj;
-                }
-                if(null==pi)
-                {
-                    pi = ProcessInstance.ClassMgr.getProcessInstance(pinsturi, site);
-                }
-
-                out.println("<div class=\"swbform\">");
-                out.println("<fieldset>");
-                out.println("<legend>");
-                out.println(paramRequest.getLocaleString("procInstDetail"));
-                out.println("</legend>");
-
-                out.println("<table width=\"100%\">");
-
-                out.println("<tr>");
-                out.print("<th>"+paramRequest.getLocaleString("id")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("activity")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("class")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("creator")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("started")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("assigned")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("assignedDate")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("endedby")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("ended")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("action")+"</th>");
-                out.print("<th>"+paramRequest.getLocaleString("estatus")+"</th>");
-                out.print("<th>&nbsp;</th>");
-                out.println("</tr>");
-
-                //pi.getSemanticObject().printStatements();
-                
-                Iterator<FlowNodeInstance> actit = SWBComparator.sortByCreated(pi.listFlowNodeInstances());
-                while (actit.hasNext()) {
-                    FlowNodeInstance obj = actit.next();
-                    printActivityInstance(obj, out, paramRequest,0);
-                }
-                out.println("</table>");
-                out.println("</fieldset>");
-                out.println("<fieldset>");
-                SWBResourceURL urlbck = paramRequest.getRenderUrl();
-                urlbck.setParameter("suri", id);
-                urlbck.setParameter("act", "");
-                out.println("<button dojoType=\"dijit.form.Button\" onclick=\"submitUrl('" + urlbck + "',this.domNode); return false;\">" + paramRequest.getLocaleString("btnBack") + "</button>"); //
-                out.println("</fieldset>");
-                out.println("</div>");
             }
+            out.println(instances.toString());
+        }
+    }
+    
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String jsp = SWBPlatform.getContextPath()+"/swbadmin/jsp/process/admin/instanceView.jsp";
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        GenericObject go = (GenericObject)SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+        
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            if (null != go && go instanceof Process) {
+                Process p = (Process)go;
+                request.setAttribute(ATT_INSTANCES, SWBComparator.sortByCreated(p.listProcessInstances(), false));
+            }
+            rd.include(request, response);
+        } catch (IOException | ServletException sex) {
+            log.error("Error al obtener la vista del recurso", sex);
         }
     }
 
-    public String getStatusName(int status, SWBParamRequest paramRequest) throws SWBResourceException
-    {
-        String ret = "--";
-        if(status==ProcessInstance.STATUS_INIT)
-        {
-            ret=paramRequest.getLocaleString("stStarted");
-        }
-        else if(status==ProcessInstance.STATUS_ABORTED)
-        {
-            ret=paramRequest.getLocaleString("stAborted");
-        }
-        else if(status==ProcessInstance.STATUS_CLOSED)
-        {
-            ret=paramRequest.getLocaleString("stClosed");
-        }
-        else if(status==ProcessInstance.STATUS_OPEN)
-        {
-            ret=paramRequest.getLocaleString("stOpen");
-        }
-        else if(status==ProcessInstance.STATUS_PROCESSING)
-        {
-            ret=paramRequest.getLocaleString("stProcessing");
-        }
-        else if(status==ProcessInstance.STATUS_STOPED)
-        {
-            ret=paramRequest.getLocaleString("stStopped");
-        }
-
-        return ret;
-    }
-
-
-    public void printActivityInstance(FlowNodeInstance ai, PrintWriter out, SWBParamRequest paramRequest,int espacios) throws IOException, SWBResourceException {
-        out.println("<tr>");
-        String space = "";
-        if(espacios>0)
-        {
-            for(int i=0;i<(espacios-1);i++)
-            {
-                space += "==";
-            }
-            space += "=>";
-        }
-
-        out.print("<td>" + ai.getId()+"</td>");
-        out.print("<td>"+space+"<b>" + ai.getFlowNodeType().getTitle() + "</b>"+"</td>");
-        out.print("<td>"+ ai.getFlowNodeType().getClass().getSimpleName()+"</td>");
-        out.print("<td>");
-        if(ai.getCreator()!=null)
-        {
-            out.print("<a href=\"\" onclick=\"addNewTab('"+ai.getCreator().getURI()+"',null,'"+ai.getCreator().getLogin()+"'); return false;\">"+ai.getCreator().getFullName()+"</a>");
-        }
-        out.print("</td>");
-        out.print("<td>");
-        if(ai.getCreated()!=null)
-        {
-            out.print(sdf.format(ai.getCreated()));
-        }
-        out.print("<td>");
-        if(ai.getAssignedto()!=null)
-        {
-            out.print("<a href=\"\" onclick=\"addNewTab('"+ai.getAssignedto().getURI()+"',null,'"+ai.getAssignedto().getLogin()+"'); return false;\">"+ai.getAssignedto().getFullName()+"</a>");
-        }
-        out.print("</td>");
-        out.print("<td>");
-        if(ai.getAssigned()!=null)
-        {
-            out.print(sdf.format(ai.getAssigned()));
-        }
-        out.print("</td>");
-        out.print("<td>");
-        if(ai.getEndedby()!=null)
-        {
-            out.print("<a href=\"\" onclick=\"addNewTab('"+ai.getEndedby().getURI()+"',null,'"+ai.getEndedby().getLogin()+"'); return false;\">"+ai.getEndedby().getFullName()+"</a>");
-        }
-        out.print("</td>");
-        out.print("<td>");
-        if(ai.getEnded()!=null)
-        {
-            out.print(sdf.format(ai.getEnded()));
-        }
-        out.print("</td>");
-        out.print("<td>");
-        if(ai.getAction()!=null)
-        {
-            out.print(ai.getAction());
-        }
-        out.print("</td>");
-        out.print("<td><b>");
-        switch(ai.getStatus())
-        {
-            case FlowNodeInstance.STATUS_ABORTED:
-                out.print(paramRequest.getLocaleString("stAborted"));
-                break;
-            case FlowNodeInstance.STATUS_CLOSED:
-                out.print(paramRequest.getLocaleString("stClosed"));
-                break;
-            case FlowNodeInstance.STATUS_INIT:
-                out.print(paramRequest.getLocaleString("stStarted"));
-                break;
-            case FlowNodeInstance.STATUS_OPEN:
-                out.print(paramRequest.getLocaleString("stOpen"));
-                break;
-            case FlowNodeInstance.STATUS_PROCESSING:
-                out.print(paramRequest.getLocaleString("stProcessing"));
-                break;
-            case FlowNodeInstance.STATUS_STOPED:
-                out.print(paramRequest.getLocaleString("stStopped"));
-                break;
-        }
-        out.println("</b></td>");
-
-        out.println("<td>");
-        if(ai.getFlowNodeType() instanceof Task && (ai.getStatus()==FlowNodeInstance.STATUS_PROCESSING || ai.getStatus()==FlowNodeInstance.STATUS_OPEN))
-        {
-            // Validación por status de FlowNodeInstance en relacion a las acciones posibles a realizar
-            SWBResourceURL urlaccept = paramRequest.getActionUrl();
-            urlaccept.setParameter("act","accept");
-            urlaccept.setParameter("id",ai.getId());
-            urlaccept.setParameter("user", paramRequest.getUser().getLogin());
-            urlaccept.setParameter("suri",ai.getProcessInstance().getProcessType().getURI());
-            urlaccept.setParameter("suripi", ai.getProcessInstance().getURI());
-            urlaccept.setParameter("ract", "pidetail");
-
-            SWBResourceURL urlreject = paramRequest.getActionUrl();
-            urlreject.setParameter("act","reject");
-            urlreject.setParameter("id",ai.getId());
-            urlreject.setParameter("user", paramRequest.getUser().getLogin());
-            urlreject.setParameter("suri",ai.getProcessInstance().getProcessType().getURI());
-            urlreject.setParameter("suripi", ai.getProcessInstance().getURI());
-            urlreject.setParameter("ract", "pidetail");
-
-            out.println(" <a href=\"#\" onclick=\"submitUrl('" + urlaccept + "',this); return false;\">"+paramRequest.getLocaleString("accept")+"</a> <a href=\"#\" onclick=\"submitUrl('"+ urlreject + "',this); return false;\">"+paramRequest.getLocaleString("reject")+"</a></li>");
-        }
-        out.println("</td>");
-        out.println("</tr>");
-        if (ai instanceof SubProcessInstance) {
-            espacios++;
-            SubProcessInstance pi = (SubProcessInstance) ai;
-            Iterator<FlowNodeInstance> acit = SWBComparator.sortByCreated(pi.listFlowNodeInstances());
-            if (acit.hasNext()) {
-                while (acit.hasNext()) {
-                    FlowNodeInstance actinst = acit.next();
-                    printActivityInstance(actinst, out, paramRequest,espacios);
-                }
-            }
-        }
+    public static String getStatusName(int status, SWBParamRequest paramRequest) throws SWBResourceException {
+        if(status==ProcessInstance.STATUS_INIT) return paramRequest.getLocaleString("stStarted");
+        if(status==ProcessInstance.STATUS_ABORTED) return paramRequest.getLocaleString("stAborted");
+        if(status==ProcessInstance.STATUS_CLOSED) return paramRequest.getLocaleString("stClosed");
+        if(status==ProcessInstance.STATUS_OPEN) return paramRequest.getLocaleString("stOpen");
+        if(status==ProcessInstance.STATUS_PROCESSING) return paramRequest.getLocaleString("stProcessing");
+        if(status==ProcessInstance.STATUS_STOPED) return paramRequest.getLocaleString("stStopped");
+        return "--";
     }
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         User user = response.getUser();
-        String id = request.getParameter("suri");
-        String act = request.getParameter("act");
-        String ract = request.getParameter("ract");
-        org.semanticwb.process.model.Process process = null;
-        ProcessSite site = null;
-
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        GenericObject gobj = ont.getGenericObject(id);
-
-        if (act == null) {
-            act = "";
-        }
-
-        if (gobj instanceof org.semanticwb.process.model.Process) {
-            process = (org.semanticwb.process.model.Process) gobj;
-        } else {
-            return;
-        }
-
-        site = process.getProcessSite();
-        if (act.equals("rpi")) {
-
-            String pinst = request.getParameter("suripi");
-            ProcessInstance inst = ProcessInstance.ClassMgr.getProcessInstance(pinst, site);
-            inst.remove();
-        }
-        if (act.equals("cpi")) {
-
-            process = (org.semanticwb.process.model.Process) SemanticObject.createSemanticObject(id).createGenericInstance();
-            SWBProcessMgr.createProcessInstance(process, user);
-        }
-        if (act.equals("accept") || act.equals("reject")) {
-
-            String piid = request.getParameter("id");
-            FlowNodeInstance inst = FlowNodeInstance.ClassMgr.getFlowNodeInstance(piid, site);
-            inst.close(user, act);
-        }
-
-        if (id != null) {
-            response.setRenderParameter("suri", id);
-        }
-        if (ract != null) {
-            response.setRenderParameter("act", ract); //suripi
-        }
-        if (request.getParameter("suripi") != null) {
+        String act = response.getAction();
+        Process p = (Process) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+        
+        if (ACT_REMOVEALLPI.equals(act)) {
+            if (null != p) {
+                Iterator<ProcessInstance> instances = p.listProcessInstances();
+                while (instances.hasNext()) {
+                    ProcessInstance instance = instances.next();
+                    instance.remove();
+                }
+            }
+        } else if (ACT_REMOVEPI.equals(act)) {
+            if (null != p) {
+                ProcessInstance inst = ProcessInstance.ClassMgr.getProcessInstance(request.getParameter("suripi"), p.getProcessSite());
+                if (null != inst) {
+                    String removeArtifacts = request.getParameter("removeArtifacts");
+                    if (null != removeArtifacts) {
+                        //TODO: Remove associated data objects
+                    }
+                    inst.remove();
+                }
+            }
+        } else if (ACT_CREATEPI.equals(act)) {
+            if (null != p) {
+                SWBProcessMgr.createProcessInstance(p, user);
+            }
+        } else if (ACT_PROCESSTASK.equals(act)) {
+            System.out.println("Procesando Tarea");
+            if (null != p) {
+                FlowNodeInstance inst = FlowNodeInstance.ClassMgr.getFlowNodeInstance(request.getParameter("iid"), p.getProcessSite());
+                System.out.println("Task: "+inst);
+                if (null != inst) {
+                    String action = request.getParameter("act");
+                    inst.close(user, action);
+                }
+            }
             response.setRenderParameter("suripi", request.getParameter("suripi"));
         }
+        response.setRenderParameter("suri", request.getParameter("suri"));
     }
+
+    @Override
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        String mode = paramRequest.getMode();
+        if (MOD_DETAIL.equals(mode)) {
+            doDetail(request, response, paramRequest);
+        } else if (MOD_DATA.equals(mode)) {
+            doDataView(request, response, paramRequest);
+        } else {
+            super.processRequest(request, response, paramRequest);
+        }
+    }
+
 }
