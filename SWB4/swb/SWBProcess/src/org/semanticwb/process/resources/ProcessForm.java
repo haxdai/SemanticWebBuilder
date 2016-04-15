@@ -119,18 +119,13 @@ public class ProcessForm extends GenericResource {
             String btn = request.getParameter(ProcessForm.PARAM_BTNID);
             String label = request.getParameter("btnLabel");
             
-            if (label != null && label.trim().length() >0) {
-                if ("btnAccept".equals(btn)) {
-                    base.setAttribute("btnAcceptLabel", label);
-                }
-                if ("btnReject".equals(btn)) {
-                    base.setAttribute("btnRejectLabel", label);
-                }
-                if ("btnCancel".equals(btn)) {
-                    base.setAttribute("btnCancelLabel", label);
-                }
-                if ("btnSave".equals(btn)) {
-                    base.setAttribute("btnSaveLabel", label);
+            if (label != null && !label.isEmpty()) {
+                base.setAttribute(btn+"Label", label);
+                
+                try {
+                    base.updateAttributesToDB();
+                } catch (Exception e) {
+                    log.error("FormsBuilderResource - Error al actualizar las etiquetas de botones.",e);
                 }
                 response.setRenderParameter("status", "ok");
             }
