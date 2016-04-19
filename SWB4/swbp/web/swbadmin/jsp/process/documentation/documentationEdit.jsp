@@ -167,43 +167,47 @@
                                             <%
                                             if (se instanceof Referable) {
                                                 ref = (Referable) se;
-                                                rd = ref.getRefRepository().getRepositoryDirectory();
-                                            }
-                                            String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "--";
-                                            String idfile = ref.getRefRepository().getId();
-                                            RepositoryElement re = (RepositoryElement) ref.getRefRepository();
-                                            vi = ref.getRefRepository().getActualVersion();
-                                            SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
-                                            urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
-                                            urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
+                                                if (null != ref.getRefRepository()) {
+                                                    rd = ref.getRefRepository().getRepositoryDirectory();
+                                                    String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "--";
+                                                    String idfile = ref.getRefRepository().getId();
+                                                    RepositoryElement re = (RepositoryElement) ref.getRefRepository();
+                                                    vi = ref.getRefRepository().getActualVersion();
+                                                    SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
+                                                    urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
+                                                    urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
 
-                                            listvi = re.listVersions();
+                                                    listvi = re.listVersions();
 
-                                            if (re instanceof org.semanticwb.process.model.RepositoryFile) {
-                                                %><a href="<%= urlDownload%>"><%= titleref%></a><%
-                                            } else if (re instanceof RepositoryURL) {
-                                                %><a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%></a><%
-                                            }
-                                            %>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="urire" value="<%= re.getURI()%>">
-                                    <div class="form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-value">
-                                            <%
-                                            if (null != se) {
-                                                out.print(vi.getVersionValue());
-                                            } else {
-                                                %>
-                                                <select name="versionref" id="versionref" class="form-control" required="true">
-                                                    <% for (VersionInfo vit : listvi) {%>
-                                                    <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionValue()%></option>
-                                                    <%}%>
-                                                </select>
-                                                <%
+                                                    if (re instanceof org.semanticwb.process.model.RepositoryFile) {
+                                                        %><a href="<%= urlDownload%>"><%= titleref%></a><%
+                                                    } else if (re instanceof RepositoryURL) {
+                                                        %><a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%></a><%
+                                                    }
+                                                    %>
+                                                    <input type="hidden" name="urire" value="<%= re.getURI()%>">
+                                                    <div class="form-group">
+                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
+                                                            <label for=""><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
+                                                        </div>
+                                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-value">
+                                                            <%
+                                                            if (null != se) {
+                                                                out.print(vi.getVersionValue());
+                                                            } else {
+                                                                %>
+                                                                <select name="versionref" id="versionref" class="form-control" required="true">
+                                                                    <% for (VersionInfo vit : listvi) {%>
+                                                                    <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionValue()%></option>
+                                                                    <%}%>
+                                                                </select>
+                                                                <%
+                                                            }
+                                                            %>
+                                                        </div>
+                                                    </div>
+                                                    <%
+                                                }
                                             }
                                             %>
                                         </div>
@@ -228,14 +232,15 @@
                                         </div>
                                     </div>
                                     <%
-                                } else {
+                                } else if (null != rd) {
                                     %><input type="hidden" name="<%= semPropData.getName()%>" value="<%=rd.getURI() %>"/><%
                                 }
                             }
                         }
-                    }%>
-            </div>
-            <div class="modal-footer">
+                    }
+                    %>
+                </div>
+                <div class="modal-footer">
                 <input type="hidden" name="props" value="<%= dsi.getSecTypeDefinition().getVisibleProperties()%>">
                 <% if (read) {%>
                 <input type="hidden" name="read" value="<%= read%>">
