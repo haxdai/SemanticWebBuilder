@@ -94,7 +94,7 @@
 <%
     }%>
     </div>
-    
+    <%if (luser > 1){%>
 <div class="col-lg-3 col-lg-offset-0 col-md-3 col-md-offset-0 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
                     <a href="<%=addUrl%>" class="btn btn-block swbp-btn-block" data-toggle="modal" data-target="#modalDialog">
                         agregar archivo
@@ -105,6 +105,7 @@
                         agregar directorio
                     </a>   
                 </div>
+    <%}%>
 </div>
                         
 <hr>
@@ -199,7 +200,6 @@
                             RepositoryElement re = (RepositoryElement) go;
                             VersionInfo vi = re.getLastVersion();
                             if (vi != null) {
-                                if (luser > 0) {
                                     SWBResourceURL urlDownload = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
                                     urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
                                     urlDownload.setParameter("fid", go.getId());
@@ -209,12 +209,11 @@
                     <a <%=re instanceof RepositoryURL ? "target=\"_blank\"" : ""%> href="<%=re instanceof RepositoryFile ? urlDownload : vi.getVersionFile()%>"><%=title%></a>
                     </div>
                     <%
-                            }
                         }
                     } else if (go instanceof RepositoryDirectory) {
                     %>
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text">
-                    <a href="<%=((RepositoryDirectory) go).getUrl()%>" title="<%=paramRequest.getLocaleString("msgOpenFolder")%>"><%=title%></a>
+                    <a href="<%=((RepositoryDirectory) go).getUrl()%>" title="<%=paramRequest.getLocaleString("msgOpenFolder")%>"><%=title%> </a>
                     </div>
                     <%
                         }%>
@@ -225,9 +224,10 @@
                 </div>
                 
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 swbp-list-action">
-                    <a href="<%=propsUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%> col-xs-4 <%}else{%>col-xs-3<%}%> fa fa-info-circle" data-toggle="modal" data-target="#modalDialog"></a>
-                        <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%>
-                    <a href="<%=editUrl%>" title="<%=paramRequest.getLocaleString("msgInfo")%>" class="btn btn-default col-xs-4 fa fa-pencil" data-toggle="modal" data-target="#modalDialog"></a>
+                    <a href="<%=propsUrl%>" class="btn btn-default <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder"))) {%> col-xs-4 <%}else{%>col-xs-3<%}%> fa fa-info-circle" data-toggle="modal" data-target="#modalDialog"></a>
+                        <%if (type.equals(paramRequest.getLocaleString("lblFileTypeFolder")) && (((Traceable) go).getCreator() != null && ((Traceable) go).getCreator().equals(user) && luser == 2)
+                               || type.equals(paramRequest.getLocaleString("lblFileTypeFolder")) && luser == 3)  {%>
+                    <a href="<%=editUrl%>" class="btn btn-default col-xs-4 fa fa-pencil" data-toggle="modal" data-target="#modalDialog"></a>
                         <%}%>
                         <%if (luser == 3 || (((Traceable) go).getCreator() != null && ((Traceable) go).getCreator().equals(user) && luser > 1)) {
                                 boolean canDelete = true;
