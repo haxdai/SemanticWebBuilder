@@ -26,10 +26,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.*;
-import org.semanticwb.platform.SemanticClass;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 
@@ -52,7 +50,7 @@ public class ItemAwareMappingElement extends org.semanticwb.process.model.base.I
         GenericObject gen=obj.createGenericInstance();
         CatchMessageable catchmsg=(CatchMessageable)gen;
         
-        String action=((ActionCodeable)gen).getActionCode();
+        //String action=((ActionCodeable)gen).getActionCode();
 //        ThrowMessageable throwmsg=null;
 //        Iterator<SemanticObject> it3=obj.getModel().listSubjects(ActionCodeable.swp_actionCode, action);
 //        while (it3.hasNext())
@@ -230,7 +228,7 @@ public class ItemAwareMappingElement extends org.semanticwb.process.model.base.I
                 vals.add(semanticObject.getURI());
             }
 
-            String value = obj.getDisplayName(lang);
+            //String value = obj.getDisplayName(lang);
 
             if (mode.equals("edit") || mode.equals("create")) 
             {
@@ -270,10 +268,13 @@ public class ItemAwareMappingElement extends org.semanticwb.process.model.base.I
                                 ItemAwareMapping mapping=getItemAwareMapping(arr, itemAware);
                                 if(mapping!=null)selected=mapping.getRemoteItemAware().getShortURI();
 
-                                ret.append("<select name=\""+propName+"-"+itemAware.getId()+"\"");                            
+                                ret.append("<select name=\"").append(propName).append("-").append(itemAware.getId()).append("\"");                            
                                 if (DOJO) {
-                                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\""
-                                            + imsg + "\" value=\""+selected+"\"");
+                                    ret.append(" dojoType=\"dijit.form.FilteringSelect\" autoComplete=\"true\" invalidMessage=\"")
+                                        .append(imsg).append("\"");
+                                        if (!selected.isEmpty()) {
+                                            ret.append(" value=\"").append(selected).append("\"");
+                                        }
                                 }
                                 ret.append(">");
                                 ret.append("<option value=\"\"></option>");
