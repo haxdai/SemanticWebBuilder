@@ -110,7 +110,9 @@
                                             String inputfm = mgr.renderElement(request, sp, mode);
                                             inputfm = inputfm.replaceFirst(">", " id=\"" + sp.getName() + "\" " + (required ? "required" : "") + " class=\"form-control\">");
                                             inputfm = inputfm.replace("name=\"" + sp.getName() + "\"", "name=\"" + idprop + "\"");
-                                            inputfm = inputfm.replace(inputfm.substring(inputfm.indexOf("style"), (inputfm.indexOf("px;\"") + 4)), "");
+                                            if (inputfm.indexOf("style") > -1) {
+                                                inputfm = inputfm.replace(inputfm.substring(inputfm.indexOf("style"), (inputfm.indexOf("px;\"") + 4)), "");
+                                            }
                                             out.println(inputfm);
                                             %>
                                         </div>
