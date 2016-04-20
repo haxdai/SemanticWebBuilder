@@ -16,13 +16,8 @@
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     boolean isViewMode = (Boolean) request.getAttribute("isViewMode");
     boolean showStatus = (Boolean) request.getAttribute("showStatus");
-
-    SWBResourceURL commandUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
     String suri = request.getParameter("suri");
 
-    commandUrl.setMode(SVGModeler.MODE_GATEWAY);
-    commandUrl.setAction(SVGModeler.ACT_GETPROCESSJSON);
-    commandUrl.setParameter("suri", suri);
     SWBResourceURL exportUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
     exportUrl.setMode(SVGModeler.MODE_EXPORT);
     Process p = null;
@@ -33,6 +28,10 @@
     } else if (go.getSemanticObject().instanceOf(ProcessInstance.sclass)) {
         p = ((ProcessInstance)go).getProcessType();
     }
+    SWBResourceURL commandUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+    commandUrl.setParameter("suri", p.getURI());
+    commandUrl.setMode(SVGModeler.MODE_GATEWAY);
+    commandUrl.setAction(SVGModeler.ACT_GETPROCESSJSON);
     
     if (!isViewMode) {
         %>
@@ -73,13 +72,13 @@
     %>
     <form id="svgform" accept-charset="utf-8" method="post" action="<%=exportUrl%>">
         <input type="hidden" id="output_format" name="output_format" value="">
-        <input type="hidden" name="suri" value="<%=suri%>">
+        <input type="hidden" name="suri" value="<%=p.getURI()%>">
         <input type="hidden" id="data" name="data" value="">
         <input type="hidden" id="viewBox" name="viewBox" value="">
     </form>
     <%
     SWBResourceURL uploadUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-    uploadUrl.setMode(SVGModeler.MODE_GATEWAY).setAction(SVGModeler.ACT_LOADFILE).setParameter("suri", suri);
+    uploadUrl.setMode(SVGModeler.MODE_GATEWAY).setAction(SVGModeler.ACT_LOADFILE).setParameter("suri", p.getURI());
     %>
     <div class="overlay" id="overlayBackground">
         <div class="loadDialog">
@@ -177,7 +176,7 @@
     <script type="text/javascript">
         function callbackLoad(response) {
             Modeler.loadProcess(response);
-            parent.reloadTreeNodeByURI && parent.reloadTreeNodeByURI('<%=suri%>');
+            parent.reloadTreeNodeByURI && parent.reloadTreeNodeByURI('<%=p.getURI()%>');
             hideLoadDialog();
         };
 
@@ -224,11 +223,11 @@
         };
 
         <%
-        if (suri != null) {
+        if (p != null) {
             commandUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
             commandUrl.setMode(SVGModeler.MODE_GATEWAY);
             commandUrl.setAction(SVGModeler.ACT_GETPROCESSJSON);
-            commandUrl.setParameter("suri", suri);
+            commandUrl.setParameter("suri", p.getURI());
             %>
             function loadProcess() {
                 if (ToolKit && ToolKit !== null) {
@@ -242,7 +241,7 @@
             commandUrl = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
             commandUrl.setMode(SVGModeler.MODE_GATEWAY);
             commandUrl.setAction(SVGModeler.ACT_STOREPROCESS);
-            commandUrl.setParameter("suri", suri);
+            commandUrl.setParameter("suri", p.getURI());
             %>
             function storeProcess() {
                 var json = Modeler.getProcessJSON();
