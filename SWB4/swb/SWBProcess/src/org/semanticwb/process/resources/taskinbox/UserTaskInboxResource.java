@@ -1184,13 +1184,10 @@ public class UserTaskInboxResource extends org.semanticwb.process.resources.task
             //Verificar filtrado por grupo
             if (isFilterByGroup()) {
                 UserGroup iug = fni.getProcessInstance().getOwnerUserGroup();
-                UserGroup uug = user.getUserGroup();
 
-                if (iug != null && uug != null) { //Si la instancia y el usuario tienen grupo
-                    if (user.hasUserGroup(iug)) { //Si el usuario tiene el grupo de la instancia
-                        hasGroup = true;
-                    }
-                } else if (iug == null && uug == null) { //Si el proceso y el usuario no tienen grupo
+                if (iug == null) { //Si la instancia no tiene grupo, cualquiera la puede ver
+                    hasGroup = true;
+                } else if (user.hasUserGroup(iug)) { // la instancia tiene el mismo grupo que el usuario
                     hasGroup = true;
                 }
             } else {
