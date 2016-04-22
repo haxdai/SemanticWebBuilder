@@ -2794,7 +2794,7 @@ public class FacebookWall extends GenericResource {
                     "','" + profileData.getString("name") +
                     "'); return false;\"><img src=\"http://graph.facebook.com/" + userId + "/picture\"/></a>");
             if (postsData.has("name_tags") && !postsData.isNull("name_tags") &&
-                    postsData.getJSONObject("name_tags").isNull("data")) {
+                    !postsData.getJSONObject("name_tags").isNull("data")) {
                 writer.write(getHtmlForTags(postsData.getJSONObject("name_tags").getJSONArray("data"),
                         postsData.getString("name"), renderURL));
             } else if (postsData.has("name")) {
