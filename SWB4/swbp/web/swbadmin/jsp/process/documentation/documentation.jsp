@@ -270,6 +270,7 @@
                             String idDocSectionInstance = docSectionInstance.getId();
                             SWBResourceURL urlEdit = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("idp", idp);
                             SWBResourceURL urlTrace = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentationResource.MODE_TRACEABLE);
+                            SWBResourceURL urlRemove = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentationResource.MODE_VIEW_REMOVE);
                             SWBResourceURL urlAction = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE).setParameter("uridsi", uriDocSectionInstance);
                             SemanticClass cls = docSectionInstance.getSecTypeDefinition() != null && docSectionInstance.getSecTypeDefinition().getSectionType() != null ? docSectionInstance.getSecTypeDefinition().getSectionType().transformToSemanticClass() : null;
                             Iterator<SectionElement> itse = SWBComparator.sortSortableObject(docSectionInstance.listDocuSectionElementInstances());
@@ -330,6 +331,7 @@
                                                         }
 
                                                         if (se instanceof Referable) {
+
                                                             ref = (Referable) se;
                                                             if(ref.getRefRepository() != null){
                                                             repositoryDirec = ref.getRefRepository().getRepositoryDirectory();
@@ -382,11 +384,27 @@
                                                 </a>
                                                 <% }%>
                                                 <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
+                                                <%
+                                                if(se instanceof Referable){
+                                                Referable refSe = (Referable) se;                                               
+                                                RepositoryElement re = (RepositoryElement) refSe.getRefRepository();
+                                                String fileSe = refSe.getRefRepository().getURI();
+                                                if(re instanceof RepositoryURL){
+                                                    urlRemove.setParameter("link","t");
+                                                    }
+                                                    else if(re instanceof org.semanticwb.process.model.RepositoryFile){
+                                                    urlRemove.setParameter("link","f");
+                                                }
+                                                %>
+                                                    <a href="<%= urlRemove.setParameter("urise", uriSectionElement).setParameter("uridsi", uriDocSectionInstance).setParameter("title", se.getTitle()).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp).setParameter("fileSe",fileSe)%>" 
+                                                       class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-trash-o"></span></a>
+                                                <%}else{%>
                                                 <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
                                                    onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") + " " +se.getTitle() %>?'))
                                                                return false;">
                                                     <span class="fa fa-trash-o"></span>
                                                 </a>
+                                                <%}%>
                                             </td>
                                             </tr><% }%>
                                             </tbody>
