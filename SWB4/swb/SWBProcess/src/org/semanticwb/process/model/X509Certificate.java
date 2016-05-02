@@ -41,6 +41,7 @@ public class X509Certificate extends org.semanticwb.process.model.base.X509Certi
             
     static{
         swp_X509File.registerObserver(new SemanticObserver() {
+            @Override
             public void notify(SemanticObject obj, Object prop, String lang, String action) 
             {
                 try
@@ -53,7 +54,7 @@ public class X509Certificate extends org.semanticwb.process.model.base.X509Certi
             }
         });
     }
-    
+
     
     public X509Certificate(org.semanticwb.platform.SemanticObject base)
     {
