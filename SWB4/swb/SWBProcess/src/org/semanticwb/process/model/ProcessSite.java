@@ -24,14 +24,17 @@ package org.semanticwb.process.model;
 
 
 public class ProcessSite extends org.semanticwb.process.model.base.ProcessSiteBase 
-{
+{   
     public ProcessSite(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
         //Initialize ProcessObserver
         SWBPClassMgr.getClassLoader();
         ProcessObserver po=getProcessObserver();
-        Class cls=X509Certificate.class;
+        try {
+            //Force execution of static initializer to register propery observer
+            Class cls=Class.forName(X509Certificate.class.getCanonicalName());
+        } catch (ClassNotFoundException ex) {}
     }
 
     public synchronized ProcessObserver getProcessObserver()
