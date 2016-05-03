@@ -843,7 +843,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 /************************* BOTONES DE ACCIÓN RÁPIDA *************************/
 .swbp-raised-button {
     height: 48px;
-    background-color: $window-background;
+    //background-color: $window-background;
     padding: 0px;   
 }
 /************************* BOTONES EN BLOQUE *************************/
@@ -2386,7 +2386,7 @@ ul.swbp-btn-dropdown li a{
     background-color: $aborted-color;
 }
 .swbp-tray-info{
-    margin: 0px;
+    margin: 0px !important;
     border: solid 1px $border-color;
 }
 .swbp-tray-section{
@@ -2402,7 +2402,7 @@ ul.swbp-btn-dropdown li a{
 }
 
 .swbp-tray-action{
-    margin: 0px;
+    margin: 0px !important;
 
     a{
         background-color: $content-background;
@@ -2527,4 +2527,9 @@ select.form-control{
     text-transform: uppercase;
     padding: 0px;
     color: $black-color;
+}
+
+//General hack for other styles
+footer {
+    margin-top:30px;
 }
