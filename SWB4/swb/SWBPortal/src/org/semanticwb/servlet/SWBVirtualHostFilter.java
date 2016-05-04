@@ -33,7 +33,6 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.*;
-import net.fckeditor.connector.SWBConnectorServlet;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBPortal;
@@ -62,6 +61,7 @@ import org.semanticwb.servlet.internal.RobotFile;
 import org.semanticwb.servlet.internal.ShowFile;
 import org.semanticwb.servlet.internal.TreeSelectFormElement;
 import org.semanticwb.servlet.internal.Work;
+import cn.bluejoe.elfinder.servlet.SWBConnectorServlet;
 
 /* MAPS74 Dynamic Tracing - Requires Java SDK 7.0 y Solaris* /
 import com.sun.tracing.ProviderFactory;
@@ -176,7 +176,7 @@ public class SWBVirtualHostFilter implements Filter
                     }
                 }else
                 {
-                    _response.sendError(403, "No tiene permiso para accesar a la página " + _request.getRequestURI() + "... ");
+                    _response.sendError(403, "No tiene permiso para acceder a la página " + _request.getRequestURI() + "... ");
                     if(log.isDebugEnabled())log.debug("Distributor: SendError 403");                
                     return;
                 }
@@ -530,6 +530,10 @@ public class SWBVirtualHostFilter implements Filter
             InternalServlet FCKEditorConnector = new SWBConnectorServlet();
             intServlets.put("FCKEditorConnector", FCKEditorConnector);
             FCKEditorConnector.init(filterConfig.getServletContext());
+            
+            InternalServlet elFinderConnector = new SWBConnectorServlet();
+            intServlets.put("elFinderConnector", elFinderConnector);
+            elFinderConnector.init(filterConfig.getServletContext());
 
             InternalServlet frmprocess = new FrmProcess();
             intServlets.put("frmprocess", frmprocess);
