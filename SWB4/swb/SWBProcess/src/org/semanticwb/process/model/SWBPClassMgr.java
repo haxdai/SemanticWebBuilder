@@ -156,24 +156,32 @@ public class SWBPClassMgr
             if(cobj!=null)
             {
                 SemanticObject object=cobj.getSemanticObject();
-                try
-                {
-                    //System.out.println("Cargando clase "+item.getItemAware().getName()+" ...");
-                    Class clazz=getClassDefinition(object.getSemanticClass());
-                    //System.out.println("Obteniendo constructor...");
-                    Constructor c=clazz.getConstructor(SemanticObject.class);
-                    //System.out.println("Instanciando objeto...");
-                    Object instanceObject=c.newInstance(object);
-                    //System.out.println("Agregando variable "+varname+"="+instanceObject+" de tipo "+instanceObject.getClass());
-                    i.set(varname, instanceObject);
-                    //System.out.println("Variable "+ varname +" agregada");
-                }
-                catch(Exception cnfe)
-                {
-                    log.error("No se agrego variable "+varname+" a script relacionada con el objeto "+object.getURI()+" en la instancia de proceso "+instance.getURI(),cnfe);
+                if (null != object && null != object.getSemanticClass()) {
+                    try
+                    {
+                        //System.out.println("Cargando clase "+item.getItemAware().getName()+" ...");
+                        Class clazz=getClassDefinition(object.getSemanticClass());
+                        //System.out.println("Obteniendo constructor...");
+                        Constructor c=clazz.getConstructor(SemanticObject.class);
+                        if (null != c) {
+                            //System.out.println("Instanciando objeto...");
+                            Object instanceObject=c.newInstance(object);
+                            //System.out.println("Agregando variable "+varname+"="+instanceObject+" de tipo "+instanceObject.getClass());
+                            i.set(varname, instanceObject);
+                            //System.out.println("Variable "+ varname +" agregada");
+                        } else {
+                            log.error("No se pudo obtener constructor para la clase "+clazz+" al crear objeto para variable "+varname);
+                        }
+                    }
+                    catch(Exception cnfe)
+                    {
+                        log.error("No se agrego variable "+varname+" a script relacionada con el objeto "+object.getURI()+" en la instancia de proceso "+instance.getURI(),cnfe);
+                    }
+                } else {
+                    log.error("No se pudo recuperar SemanticObject de "+cobj+" para "+varname);
                 }
             } else {
-                System.out.println("No se pudo agregar objeto para "+varname);
+                log.error("No se pudo agregar objeto para "+varname);
             }
         }
     }
