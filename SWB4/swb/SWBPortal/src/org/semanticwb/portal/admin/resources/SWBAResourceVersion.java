@@ -186,12 +186,23 @@ public class SWBAResourceVersion extends GenericResource {
                             urle.setParameter("act", "edit_temp");
                             urle.setMode(SWBResourceURL.Mode_EDIT);
                             
+                            System.out.println("isInFlow:"+isInFlow);
+                            System.out.println("res.getPflowInstance():"+res.getPflowInstance());
+                            System.out.println("subject2flow:"+subject2flow);
+                            System.out.println("vio:"+vio);
+                            System.out.println("vio.isVersionAuthorized():"+vio.isVersionAuthorized());
+                            System.out.println("vio.getVersionNumber():"+vio.getVersionNumber());
+                            System.out.println("needAut:"+needAut);
+                            System.out.println("vanum:"+vanum);
+                            System.out.println("vlnum:"+vlnum);
+                            System.out.println("getFlowsToSendContent:"+pfmgr.getFlowsToSendContent(res).length);                                                        
+                            
                             if (subject2flow){ 
                                 if(isInFlow ) //|| needAut
                                 {
                                     out.println("<img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif\" border=\"0\" alt=\"version por autorizar, no editable.\" title=\"version por autorizar, no editable.\">");
                                 }
-                                else if(res.getPflowInstance()==null&&!isInFlow&&needAut&&!vio.isVersionAuthorized() && vlnum==vio.getVersionNumber() && vio.getVersionNumber()==vanum && vio.getVersionNumber()==1 && vlnum==vanum) // Version inicial
+                                else if(res.getPflowInstance()==null&&!isInFlow&&(!needAut||!res.isActive())&&!vio.isVersionAuthorized() && vlnum==vio.getVersionNumber() && vio.getVersionNumber()==vanum && vio.getVersionNumber()==1 && vlnum==vanum) // Version inicial
                                 {
                                     out.println("<a href=\"" + urle + "\" onclick=\"submitUrl('" + urle + "',this); return false;\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif\" border=\"0\" alt=\"editar version\" title=\"editar version\"></a>");
                                 }

@@ -116,6 +116,8 @@ public class Distributor implements InternalServlet
         Device dev=dparams.getUser().getDevice();
         String qs=request.getQueryString();
         
+        ret.append(page.getWebSiteId()); 
+        ret.append(":");
         ret.append(page.getId());        
         if(lang!=null)
         {
