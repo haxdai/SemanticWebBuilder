@@ -97,7 +97,9 @@ public class Activate extends org.semanticwb.model.base.ActivateBase
             if (!isInFlow && needAuthorization) {
                 disabled = true;
                 //send2Flow = true;
-            }                    
+            } 
+            if(res.isActive())disabled = false;
+            
         }
                         
 
