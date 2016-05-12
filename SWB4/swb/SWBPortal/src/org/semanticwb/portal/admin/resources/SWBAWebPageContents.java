@@ -605,24 +605,26 @@ public class SWBAWebPageContents extends GenericResource {
                 if (hmprop.get(Activeable.swb_active) != null) {
                     out.println("<td align=\"center\">");
                     boolean activo = false;
+                    
+                    SWBResourceURL urlu = paramRequest.getRenderUrl();
+                    urlu.setMode(Mode_Action);
+                    urlu.setParameter("suri", id);
+                    urlu.setParameter("sprop", idp);
+                    urlu.setParameter("sval", sobj.getURI());
+                    urlu.setParameter("act", "updstatus");
+                    
                     if (sobj.getBooleanProperty(Activeable.swb_active)) {
                         activo = true;
                         isInherit = false;
                     }
                     if (activeButton) {
-                        SWBResourceURL urlu = paramRequest.getRenderUrl();
-                        urlu.setMode(Mode_Action);
-                        urlu.setParameter("suri", id);
-                        urlu.setParameter("sprop", idp);
-                        urlu.setParameter("sval", sobj.getURI());
-                        urlu.setParameter("act", "updstatus");
                         if (canEdit) {
                             out.println("<input name=\"" + prop.getName() + sobj.getURI() + "\" type=\"checkbox\" value=\"1\" id=\"" + prop.getName() + sobj.getURI() + "\" onclick=\"showStatusURL('" + urlu + "&val='+this.checked,true);\"  " + (activo ? "checked='checked'" : "") + " />");
                         } else {
                             out.println("<input name=\"" + prop.getName() + sobj.getURI() + "\" type=\"checkbox\" value=\"1\" id=\"" + prop.getName() + sobj.getURI() + "\" " + (activo ? "checked='checked'" : "") + " disabled=\"true\" />");
                         }
                     } else {
-                        out.println("<input name=\"" + prop.getName() + sobj.getURI() + "\" type=\"checkbox\" value=\"1\" id=\"" + prop.getName() + sobj.getURI() + "\" " + (activo ? "checked='checked'" : "") + " disabled=\"true\">");
+                        out.println("<input name=\"" + prop.getName() + sobj.getURI() + "\" type=\"checkbox\" value=\"1\" id=\"" + prop.getName() + sobj.getURI() + "\" " + (activo ? "checked='checked'" : "") + " onclick=\"showStatusURL('" + urlu + "&val='+this.checked,true);this.disabled=true;\" "+(activo?"":"disabled=\"true\"")+">");
                     }
                     out.println("</td>");
                 }

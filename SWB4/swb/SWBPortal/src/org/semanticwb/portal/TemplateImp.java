@@ -114,6 +114,7 @@ public class TemplateImp extends Template
         objects.put("user", new User(null));
         objects.put("topic", new WebPage(null));
         objects.put("webpage", new WebPage(null));
+        objects.put("util", new SWBUtilTag());
         objects.put("request", HttpServletRequest.class);
         objects.put("response", HttpServletResponse.class);
         objects.put("webpath", SWBPlatform.getContextPath());

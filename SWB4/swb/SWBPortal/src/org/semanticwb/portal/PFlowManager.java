@@ -132,7 +132,7 @@ public class PFlowManager
         while (refs.hasNext())
         {
             PFlowRef ref = refs.next();
-            if (ref.isActive())
+            if (ref.isActive() && ref.getPflow().isActive())
             {
                 flows.add(ref.getPflow());
             }

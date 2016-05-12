@@ -147,7 +147,11 @@ public class SWBSessionObject implements HttpSessionBindingListener, Serializabl
             String key = it.next();
             Subject curr = mapa.get(key);
             User pcurr = (User)curr.getPrincipals().iterator().next();
-            Object ocurr = curr.getPrivateCredentials().iterator().next();
+            Object ocurr;
+            if (pcurr.isSigned())
+              ocurr = curr.getPrivateCredentials().iterator().next();
+            else
+                ocurr = new SWBCredentialFake();
             oos.writeObject(key);
             oos.writeObject(pcurr.getId());
             oos.writeObject(ocurr);
@@ -173,11 +177,14 @@ public class SWBSessionObject implements HttpSessionBindingListener, Serializabl
             Object cred = s.readObject();
             Subject act = new Subject();
             Principal p = SWBContext.getUserRepository(key).getUser(id);
-            act.getPrincipals().add(p);
-            act.getPrivateCredentials().add(cred);
+            if (null!=p) 
+                act.getPrincipals().add(p);
             try
             {
-                ((User) p).checkCredential(cred);
+                if (!(cred instanceof SWBCredentialFake)){
+                    ((User) p).checkCredential(cred);
+                    act.getPrivateCredentials().add(cred);
+                }
             } catch (java.security.GeneralSecurityException ex)
             {
                 log.error("Can't check credential, this shoudn't pass", ex);
@@ -210,3 +217,5 @@ public class SWBSessionObject implements HttpSessionBindingListener, Serializabl
     }
 
 }
+
+class SWBCredentialFake implements Serializable {}
