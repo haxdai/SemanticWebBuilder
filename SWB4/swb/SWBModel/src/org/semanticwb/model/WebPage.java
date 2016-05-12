@@ -243,12 +243,12 @@ public class WebPage extends WebPageBase
                 FriendlyURL friendlyURL = it.next();
                 if(friendlyURL.isOldURL())continue;
                 int a=1;
-                if(user!=null && friendlyURL.getLanguage()!=null)
+                if(friendlyURL.getLanguage()!=null)
                 {
                     if(friendlyURL.getLanguage().getId().equals(lang))a += 3;
                     else continue;
                 }
-                if(user!=null && friendlyURL.getCountry()!=null)
+                if(friendlyURL.getCountry()!=null)
                 {
                     if(friendlyURL.getCountry().getId().equals(country))a += 2;
                     else continue;
