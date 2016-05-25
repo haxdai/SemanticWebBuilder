@@ -178,34 +178,36 @@ if (!user.isSigned()) {
                 Iterator<ProcessGroup> itgroups = SWBComparator.sortByDisplayName(ProcessGroup.ClassMgr.listProcessGroups(paramRequest.getWebPage().getWebSite()), lang);
                 while (itgroups.hasNext()) {
                     ProcessGroup pgroup = itgroups.next();
-                    Iterator<Process> processes = SWBComparator.sortByDisplayName(pgroup.listProcesses(), lang);
-                    ArrayList<Process> alProcesses = new ArrayList<>();
+                    if (pgroup.isValid()) {
+                        Iterator<Process> processes = SWBComparator.sortByDisplayName(pgroup.listProcesses(), lang);
+                        ArrayList<Process> alProcesses = new ArrayList<>();
 
-                    while (processes.hasNext()) {
-                        Process process = processes.next();
-                        if (process.isValid()) {
-                            alProcesses.add(process);
+                        while (processes.hasNext()) {
+                            Process process = processes.next();
+                            if (process.isValid() && process.isExecutable()) {
+                                alProcesses.add(process);
+                            }
+                        }
+
+                        if (!alProcesses.isEmpty()) {
+                            processes = alProcesses.iterator();
+                            %>
+                            <optgroup label="<%=pgroup.getDisplayTitle(lang)%>">
+                                <%
+                                while (processes.hasNext()) {
+                                    Process process = processes.next();
+                                    String selected = "";
+                                    if (pFilter.equals(process.getId())) selected = "selected";
+                                        %>
+                                        <option value="<%=process.getId()%>" <%=selected%>><%=process.getDisplayTitle(lang)%></option>
+                                        <%
+                                }
+                                %>
+                            </optgroup>
+                            <%
                         }
                     }
-
-                    if (!alProcesses.isEmpty()) {
-                        processes = alProcesses.iterator();
-                %>
-                <optgroup label="<%=pgroup.getDisplayTitle(lang)%>">
-                    <%
-                    while (processes.hasNext()) {
-                        Process process = processes.next();
-                        String selected = "";
-                        if (pFilter.equals(process.getId())) selected = "selected";
-                    %>
-                    <option value="<%=process.getId()%>" <%=selected%>><%=process.getDisplayTitle(lang)%></option>
-                    <%
                 }
-                    %>
-                </optgroup>
-                <%
-            }
-        }
                 %>
             </select>
         </div>  
