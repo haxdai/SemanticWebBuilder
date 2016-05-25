@@ -22,8 +22,21 @@
             List<FileItem> multiparts = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : multiparts) {
                 if (!item.isFormField()) {
-                    String name = new File(item.getName()).getName();
-                    item.write(new File(SWBPortal.getWorkPath() + "/models/documenter/uploader/" + File.separator + name));
+                    String fname = new File(item.getName()).getName();
+                    if (fname.contains("\\")) {
+                        fname = fname.substring(fname.lastIndexOf("\\") + 1);
+                    } else if (fname.contains("/")) {
+                        fname = fname.substring(fname.lastIndexOf("/") + 1);
+                    }
+
+                    //Replace special characters in file name to avoid 404 when linking directly to file
+                    if (fname.lastIndexOf(".") > -1) {
+                        String tfname = fname.substring(0, fname.lastIndexOf("."));
+                        String tfext = fname.substring(fname.lastIndexOf("."), fname.length());
+
+                        fname = SWBUtils.TEXT.replaceSpecialCharacters(tfname, true) + tfext;
+                    }
+                    item.write(new File(SWBPortal.getWorkPath() + "/models/documenter/uploader/" + File.separator + fname));
 %>
 <script language="javascript" type="text/javascript">
     window.parent.window.jbImagesDialog.uploadFinish({
