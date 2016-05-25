@@ -69,42 +69,38 @@ if (null != docTemplate) {
                 <div class="form-group" id="divprocesess">
                     <label><h5><%=paramRequest.getLocaleString("lblPropScope")%>:</h5></label>
                     <div class="row">
-                        <%
-                        if (null != processes && !processes.isEmpty()) {
-                            %>
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <select multiple="multiple" size="5" name="procesess" id="demo2">
-                                    <%
-                                        for (Process process : processes) {
-                                            String titleProcess = process.getTitle();
-                                            String uriProcess = process.getURI();
-                                    %>    
-                                    <option value="<%= uriProcess%>" <% if (container != null && container.hasProcess(process)) { %> selected="true" <% }%>> <%= titleProcess%></option>
-                                    <%
-                                        }
-                                    %>
-                                </select>
-                                <script type="text/javascript">
-                                    var demo2 = $('#demo2').bootstrapDualListbox({
-                                        nonSelectedListLabel: 'Disponibles',
-                                        selectedListLabel: 'Asignados',
-                                        infoTextEmpty: 'No hay procesos',
-                                        filterTextClear: 'Borrar filtro',
-                                        preserveSelectionOnMove: 'moved',
-                                        infoTextFiltered: '{0} de {1}',
-                                        infoText: '',
-                                        moveSelectedLabel: 'Agregar seleccionado',
-                                        moveAllLabel: 'Agregar todos',
-                                        removeSelectedLabel: 'Quitar seleccionado',
-                                        removeAllLabel: 'Quitar todos',
-                                        filterPlaceHolder: 'Filtrar',
-                                        moveOnSelect: false
-                                    });
-                                </script>
-                            </div>
-                            <%
-                        }
-                        %>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <select multiple="multiple" size="5" name="procesess" id="demo2">
+                                <%
+                                if (null != processes && !processes.isEmpty()) {
+                                    for (Process process : processes) {
+                                        String titleProcess = process.getTitle();
+                                        String uriProcess = process.getURI();
+                                        %>    
+                                        <option value="<%= uriProcess%>" <% if (container != null && container.hasProcess(process)) { %> selected="true" <% }%>> <%= titleProcess%></option>
+                                        <%
+                                    }
+                                }
+                                %>
+                            </select>
+                            <script type="text/javascript">
+                                var demo2 = $('#demo2').bootstrapDualListbox({
+                                    nonSelectedListLabel: 'Disponibles',
+                                    selectedListLabel: 'Asignados',
+                                    infoTextEmpty: 'No hay procesos',
+                                    filterTextClear: 'Borrar filtro',
+                                    preserveSelectionOnMove: 'moved',
+                                    infoTextFiltered: '{0} de {1}',
+                                    infoText: '',
+                                    moveSelectedLabel: 'Agregar seleccionado',
+                                    moveAllLabel: 'Agregar todos',
+                                    removeSelectedLabel: 'Quitar seleccionado',
+                                    removeAllLabel: 'Quitar todos',
+                                    filterPlaceHolder: 'Filtrar',
+                                    moveOnSelect: false
+                                });
+                            </script>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
