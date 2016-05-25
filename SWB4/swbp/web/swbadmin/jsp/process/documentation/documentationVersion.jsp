@@ -4,6 +4,8 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="org.semanticwb.process.documentation.resources.SWPUserDocumentationResource"%>
 <%@page import="org.semanticwb.process.documentation.resources.SWPDocumentationResource"%>
@@ -46,7 +48,27 @@
             <div class="panel-heading text-center"><%= process.getTitle() != null ? process.getTitle() : ""%></div>
         </div>
         <%
-        Iterator<Documentation> it = SWBComparator.sortByCreated(Documentation.ClassMgr.listDocumentationByProcess(process), true);
+        List<Documentation> versions = SWBUtils.Collections.copyIterator(SWBComparator.sortByCreated(Documentation.ClassMgr.listDocumentationByProcess(process), true));
+        //TO REMOVE IN FUTURE VERSIONS---
+        Iterator<Documentation> it = versions.iterator();
+        boolean hasVersionNumbers = false;
+        while (it.hasNext()) {
+            Documentation documentation = it.next();
+            if (documentation.isActualVersion() && null != documentation.getVersionValue()) {
+                hasVersionNumbers = true;
+                break;
+            }
+        }
+        
+        if (!hasVersionNumbers) {
+            String vvalue = "";
+            for (Documentation doc : versions) {
+                doc.setVersionValue(Documentation.getNextVersionValue(vvalue));
+                vvalue = doc.getVersionValue();
+            }
+        }
+        //TO REMOVE IN FUTURE VERSIONS---
+        it = versions.iterator();
         if (it.hasNext()) {
             while (it.hasNext()) {
                 Documentation documentation = it.next();
@@ -62,7 +84,6 @@
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-list-action">
                         <%
-                            System.out.println("Actual: "+actual);
                         if (!actual) {
                             %><a href="<%= urlActive.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) %>" class="btn btn-default col-xs-4 fa fa-retweet" onclick="if (!confirm('¿Desea hacer versión <%= documentation.getVersionValue() %> la versión actual?')) return false;"></a><%
                         } else {
