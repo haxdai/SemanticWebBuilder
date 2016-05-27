@@ -70,6 +70,7 @@
         //TO REMOVE IN FUTURE VERSIONS---
         it = versions.iterator();
         if (it.hasNext()) {
+            SWBResourceURL urlTrace = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode(SWPDocumentationResource.MODE_TRACEABLE);
             while (it.hasNext()) {
                 Documentation documentation = it.next();
                 String desc = documentation.getVersionComment() == null? "" : documentation.getVersionComment();
@@ -90,7 +91,7 @@
                             %><a href="#" class="btn btn-default col-xs-4 fa fa-check-square-o active"></a><%
                         }
                         %>
-                        <a class="col-xs-4 btn btn-default fa fa-info-circle" role="button"></a>
+                        <a href="<%= urlTrace.setParameter("uritc", documentation.getURI())%>" class="col-xs-4 btn btn-default fa fa-info-circle" role="button" data-toggle="modal" data-target="#modalDialog"></a>
                         <a href="<%= !actual ? urlRemove.setParameter("uridoc", documentation.getURI()).setParameter("wp", request.getParameter("wp")).setParameter("_rid", request.getParameter("_rid")) : "#" %>" <%if (!actual) {%> onclick="if (!confirm('Eliminar versión?')) return false;" <%}%>
                             class="col-xs-4 btn btn-default fa fa-trash-o <%= actual ? "disabled" : "" %>">
                         </a>
