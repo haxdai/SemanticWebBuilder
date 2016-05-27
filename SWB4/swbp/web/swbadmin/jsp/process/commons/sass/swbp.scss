@@ -82,7 +82,7 @@
     background-color: $color-primaryLink;
     border-radius: 0px;
     margin: 6px 0px 6px 16px;
-    height: 36px;
+    //height: 36px;
     @include fontButton-Block;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
     -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
@@ -101,7 +101,7 @@
     border: solid 1px $window-background;
     color: $white-color;
     border-radius: 0px;
-    height: 36px;
+    //height: 36px;
     text-transform: uppercase;
     font-size: 12px;
 }
@@ -1759,7 +1759,7 @@ ul#relatedTab {
     }
     
     .panel-footer{
-        height: 36px;
+        //height: 36px;
         padding: 0PX;
         background-color: $content-background;
         border-top: solid 1px $border-color;
@@ -1930,7 +1930,7 @@ textarea.swbp-form-control{
     }  
     
     .panel-footer{
-        height: 36px;
+        //height: 36px;
         padding: 0PX;
         background-color: $content-background;
         border-top: solid 1px $border-color;
@@ -2145,7 +2145,7 @@ textarea.swbp-form-control{
 }
 
 .panel-footer{
-    height: 36px;
+    //height: 36px;
     padding: 0PX;
     background-color: $content-background;
     border-top: solid 1px $border-color;
@@ -2532,4 +2532,15 @@ select.form-control{
 //General hack for other styles
 footer {
     margin-top:30px;
+}
+
+.swbp-free-text {
+    * {
+        max-width: 100%;
+    }
+    
+    img {
+        width: 100%;
+        height: auto;
+    }
 }
