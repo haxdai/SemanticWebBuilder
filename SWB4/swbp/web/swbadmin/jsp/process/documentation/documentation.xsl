@@ -759,7 +759,7 @@
 
                     <xsl:for-each select="root/section">
                         <H4 id="{@idSection}"><xsl:value-of select="@title"/></H4>
-                                <HR></HR>
+                            <HR/>
                             <xsl:if test="@className != 'Activity' and @className != 'FreeText' and @className != 'Model'">
                                 <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
                                     <table id="table" class="table">
@@ -846,11 +846,13 @@
                                     </xsl:for-each>
                             </xsl:if>
                             <xsl:if test="@className = 'FreeText'">
-                                    <xsl:for-each select="instance">
+                                <xsl:for-each select="instance">
+                                    <div class="swbp-free-text">
                                         <p>
                                             <xsl:value-of select="." disable-output-escaping="yes"/>
                                         </p>
-                                    </xsl:for-each>
+                                    </div>
+                                </xsl:for-each>
                             </xsl:if>
                     </xsl:for-each>
            
