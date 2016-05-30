@@ -60,8 +60,27 @@
         </div>
         <%
     } else {
-        %>
-        <hr>
+        String filedoc = actualVersion.getDocWorkPath();
+        filedoc += "/index.html";
+        File file = new File(filedoc);
+
+        if (!file.exists()) {
+            %>
+            <div class="row swbp-pad">
+                <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
+                    <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                        <%= paramRequest.getLocaleString("lblBack") %>
+                    </a>
+                </div>
+            </div>
+            <hr>
+            <div class="alert alert-block alert-warning fade in">
+                <%= paramRequest.getLocaleString("msgNoDocFile") %>
+            </div>
+            <%
+        } else {
+            %>
+            <hr>
             <div class="panel panel-default swbp-panel-head">
                 <div class="panel-heading text-center"><%=process.getTitle()%> (<%= actualVersion.getVersionValue() %>)
                     <div class="pull-right">
@@ -69,9 +88,6 @@
                     </div>
                 </div>
                 <%
-                String filedoc = actualVersion.getDocWorkPath();//SWBPortal.getWorkPath() + process.getWorkPath() + "/docs/";
-                filedoc += "/index.html";
-                File file = new File(filedoc);
                 FileInputStream in = new FileInputStream(file);
                 out.print(SWBUtils.IO.readInputStream(in,"UTF-8"));
                 %>
@@ -215,5 +231,6 @@
                 <input type="hidden" id="taskSelected" name="taskSelected">
             </form>
             <%
+        }
     }
-    %>
+%>
