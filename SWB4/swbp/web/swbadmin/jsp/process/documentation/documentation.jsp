@@ -111,6 +111,7 @@
             urlAdminVersion.setParameter("idp", idp);
             String _rid = request.getParameter("_rid");
             urlAdminVersion.setParameter("wp", request.getParameter("wp"));
+            urlAdminVersion.setParameter("pg", request.getParameter("pg"));
             urlAdminVersion.setParameter("_rid", _rid);
 
             WebPage wpage = WebPage.ClassMgr.getWebPage(wp, site);  
