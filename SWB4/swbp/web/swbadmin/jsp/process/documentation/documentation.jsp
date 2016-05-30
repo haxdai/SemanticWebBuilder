@@ -288,134 +288,141 @@
                                     </div>
                                 </div>
                                 <%
-                                String[] propst = docSectionInstance.getSecTypeDefinition().getVisibleProperties().trim().split("\\|");
-
-                                if (!docSectionInstance.getSecTypeDefinition().getVisibleProperties().isEmpty() && propst.length > 0) {
-                                    List<String> listtitle = new ArrayList<>();
-                                    List<String> listid = new ArrayList<>();
-                                    for (String propt : propst) {
-                                        listtitle.add(propt.substring(0, propt.indexOf(";")));
-                                        listid.add(propt.substring(propt.indexOf(";") + 1, propt.length()));
-                                    }
+                                    
+                                if (!itse.hasNext()) {
                                     %>
-                                    <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">      
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <%if (!itse.hasNext()){%>
-                                                    <th><%=paramRequest.getLocaleString("lblNoData")%></th>
-                                                    <%}else{%>
-                                                    <% for (String title : listtitle) {%><th><%= title%></th><% }%>
-                                                    <th class="swbp-actions"><%=paramRequest.getLocaleString("lblActions")%></th>
-                                                    <%}%>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                    RepositoryDirectory repositoryDirec = null;
-                                                    Referable ref = null;
-                                                    while (itse.hasNext()) {
-                                                        SectionElement se = itse.next();
-                                                        String uriSectionElement = se.getURI();
-                                                        boolean isReference = false;
-                                                        if (se instanceof ElementReference) {
-                                                            ElementReference er = (ElementReference) se;
-                                                            if (er.getElementRef() == null) {
-                                                                docSectionInstance.removeDocuSectionElementInstance(er);
-                                                                er.remove();
-                                                                continue;
-                                                            }
-                                                            se = (SectionElement) er.getElementRef();
-                                                            er.setIndex(se.getIndex());
-                                                            isReference = true;
-                                                        }
-
-                                                        if (se instanceof Referable) {
-
-                                                            ref = (Referable) se;
-                                                            if(ref.getRefRepository() != null){
-                                                            repositoryDirec = ref.getRefRepository().getRepositoryDirectory();
-                                                                }
-                                                        }
-                                                %><tr id="trse<%= se.getId()%>"><%
-                                                    SWBFormMgr mgr = new SWBFormMgr(se.getSemanticObject(), null, SWBFormMgr.MODE_VIEW);
-                                                    for (String idprop : listid) {
-                                                        SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(idprop);
-                                                        out.print("<td data-title="+sp.getLabel(lang)+">");
-                                                        if (sp.getPropId().equals(Referable.swpdoc_file.getPropId())) {//Propiedad tipo archivo
-                                                            if(ref.getRefRepository() != null){
-                                                            String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "";
-                                                            String idfile = ref.getRefRepository().getId();
-                                                            SWBResourceURL urlDownload = new SWBResourceURLImp(request, repositoryDirec.getResource(), repositoryDirec, SWBResourceModes.UrlType_RENDER);
-                                                            urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
-                                                            urlDownload.setCallMethod(SWBResourceURL.Call_DIRECT);
-                                                            urlDownload.setParameter("fid", idfile);
-                                                            RepositoryElement re = (RepositoryElement) ref.getRefRepository();
-                                                            VersionInfo vi = ref.getVersion() != null ? ref.getVersion() : re.getLastVersion();
-                                                            urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
-                                                            if (re instanceof org.semanticwb.process.model.RepositoryFile) {%>
-                                            <a href="<%= urlDownload%>"><%= titleref%> <i class="fa fa-download"></i></a>
-                                                <% } else if (re instanceof RepositoryURL) {%>
-                                            <a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%> <i class="fa fa-external-link"></i></a>    
-                                                <% }
-                                                        }
-                                                        }
-                                                         else { //Propiedades de texto
-                                                            out.print(mgr.renderElement(request, sp, SWBFormMgr.MODE_VIEW));
-                                                        }
-                                                        out.print("</td>");
-                                                    }%>
-                                            <td data-title="<%=paramRequest.getLocaleString("lblActions")%>" class="swbp-action-table">
-                                                <%
-                                                    if (!isReference) {
-                                                %>
-                                                <a href="<%= urlEdit.setMode(SWPDocumentationResource.MODE_EDIT_INSTANTIABLE).setParameter("urise", uriSectionElement)%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("btnEdit")%>" data-toggle="modal" data-target="#modalDialog">
-                                                    <span class="fa fa-pencil"></span>
-                                                </a>
-                                                <%} else if (se.getDocumentSectionInst() != null
-                                                        && se.getDocumentSectionInst().getDocumentationInstance() != null
-                                                        && se.getDocumentSectionInst().getDocumentationInstance().getProcessRef() != null) {
-                                                    String captureUrl = paramRequest.getWebPage().getUrl(lang);
-                                                    Process pr = se.getDocumentSectionInst().getDocumentationInstance().getProcessRef();
-                                                %>
-                                                <a class="btn btn-default col-lg-4 col-md-4 fa fa-gears" href="<%= captureUrl + "?idp=" + pr.getId() + "&pg=" + pg + "&p=" + pag + "#" + se.getDocumentSectionInst().getId()%>" target="_blank"
-                                                   data-original-title="<%= pr.getTitle()%>"
-                                                   >
-                                                </a>
-                                                <% }%>
-                                                <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
-                                                <%
-                                                if(se instanceof Referable){
-                                                Referable refSe = (Referable) se;                                               
-                                                RepositoryElement re = (RepositoryElement) refSe.getRefRepository();
-                                                String fileSe = refSe.getRefRepository().getURI();
-                                                if(re instanceof RepositoryURL){
-                                                    urlRemove.setParameter("link","t");
-                                                    }
-                                                    else if(re instanceof org.semanticwb.process.model.RepositoryFile){
-                                                    urlRemove.setParameter("link","f");
-                                                }
-                                                %>
-                                                    <a href="<%= urlRemove.setParameter("urise", uriSectionElement).setParameter("uridsi", uriDocSectionInstance).setParameter("title", se.getTitle()).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp).setParameter("fileSe",fileSe)%>" 
-                                                       class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-trash-o"></span></a>
-                                                <%}else{%>
-                                                <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
-                                                   onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") + " " +se.getTitle() %>?'))
-                                                               return false;">
-                                                    <span class="fa fa-trash-o"></span>
-                                                </a>
-                                                <%}%>
-                                            </td>
-                                            </tr><% }%>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                    <p><%= paramRequest.getLocaleString("msgNoSecInfo") %></p>
                                     <%
-                                } else { //No hay propiedades visibles
-                                    %>
-                                    <div class="alert alert-block alert-warning">
-                                        <%=paramRequest.getLocaleString("msgNoSecInfo")%>
-                                    </div><%
+                                } else {
+                                    String[] propst = docSectionInstance.getSecTypeDefinition().getVisibleProperties().trim().split("\\|");
+
+                                    if (!docSectionInstance.getSecTypeDefinition().getVisibleProperties().isEmpty() && propst.length > 0) {
+                                        List<String> listtitle = new ArrayList<>();
+                                        List<String> listid = new ArrayList<>();
+                                        for (String propt : propst) {
+                                            listtitle.add(propt.substring(0, propt.indexOf(";")));
+                                            listid.add(propt.substring(propt.indexOf(";") + 1, propt.length()));
+                                        }
+                                        %>
+                                        <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">      
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <%if (!itse.hasNext()){%>
+                                                        <th><%=paramRequest.getLocaleString("lblNoData")%></th>
+                                                        <%}else{%>
+                                                        <% for (String title : listtitle) {%><th><%= title%></th><% }%>
+                                                        <th class="swbp-actions"><%=paramRequest.getLocaleString("lblActions")%></th>
+                                                        <%}%>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%
+                                                        RepositoryDirectory repositoryDirec = null;
+                                                        Referable ref = null;
+                                                        while (itse.hasNext()) {
+                                                            SectionElement se = itse.next();
+                                                            String uriSectionElement = se.getURI();
+                                                            boolean isReference = false;
+                                                            if (se instanceof ElementReference) {
+                                                                ElementReference er = (ElementReference) se;
+                                                                if (er.getElementRef() == null) {
+                                                                    docSectionInstance.removeDocuSectionElementInstance(er);
+                                                                    er.remove();
+                                                                    continue;
+                                                                }
+                                                                se = (SectionElement) er.getElementRef();
+                                                                er.setIndex(se.getIndex());
+                                                                isReference = true;
+                                                            }
+
+                                                            if (se instanceof Referable) {
+
+                                                                ref = (Referable) se;
+                                                                if(ref.getRefRepository() != null){
+                                                                repositoryDirec = ref.getRefRepository().getRepositoryDirectory();
+                                                                    }
+                                                            }
+                                                    %><tr id="trse<%= se.getId()%>"><%
+                                                        SWBFormMgr mgr = new SWBFormMgr(se.getSemanticObject(), null, SWBFormMgr.MODE_VIEW);
+                                                        for (String idprop : listid) {
+                                                            SemanticProperty sp = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(idprop);
+                                                            out.print("<td data-title="+sp.getLabel(lang)+">");
+                                                            if (sp.getPropId().equals(Referable.swpdoc_file.getPropId())) {//Propiedad tipo archivo
+                                                                if(ref.getRefRepository() != null){
+                                                                String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "";
+                                                                String idfile = ref.getRefRepository().getId();
+                                                                SWBResourceURL urlDownload = new SWBResourceURLImp(request, repositoryDirec.getResource(), repositoryDirec, SWBResourceModes.UrlType_RENDER);
+                                                                urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
+                                                                urlDownload.setCallMethod(SWBResourceURL.Call_DIRECT);
+                                                                urlDownload.setParameter("fid", idfile);
+                                                                RepositoryElement re = (RepositoryElement) ref.getRefRepository();
+                                                                VersionInfo vi = ref.getVersion() != null ? ref.getVersion() : re.getLastVersion();
+                                                                urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
+                                                                if (re instanceof org.semanticwb.process.model.RepositoryFile) {%>
+                                                <a href="<%= urlDownload%>"><%= titleref%> <i class="fa fa-download"></i></a>
+                                                    <% } else if (re instanceof RepositoryURL) {%>
+                                                <a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%> <i class="fa fa-external-link"></i></a>    
+                                                    <% }
+                                                            }
+                                                            }
+                                                             else { //Propiedades de texto
+                                                                out.print(mgr.renderElement(request, sp, SWBFormMgr.MODE_VIEW));
+                                                            }
+                                                            out.print("</td>");
+                                                        }%>
+                                                <td data-title="<%=paramRequest.getLocaleString("lblActions")%>" class="swbp-action-table">
+                                                    <%
+                                                        if (!isReference) {
+                                                    %>
+                                                    <a href="<%= urlEdit.setMode(SWPDocumentationResource.MODE_EDIT_INSTANTIABLE).setParameter("urise", uriSectionElement)%>" class="btn btn-default col-lg-4 col-md-4" title="<%=paramRequest.getLocaleString("btnEdit")%>" data-toggle="modal" data-target="#modalDialog">
+                                                        <span class="fa fa-pencil"></span>
+                                                    </a>
+                                                    <%} else if (se.getDocumentSectionInst() != null
+                                                            && se.getDocumentSectionInst().getDocumentationInstance() != null
+                                                            && se.getDocumentSectionInst().getDocumentationInstance().getProcessRef() != null) {
+                                                        String captureUrl = paramRequest.getWebPage().getUrl(lang);
+                                                        Process pr = se.getDocumentSectionInst().getDocumentationInstance().getProcessRef();
+                                                    %>
+                                                    <a class="btn btn-default col-lg-4 col-md-4 fa fa-gears" href="<%= captureUrl + "?idp=" + pr.getId() + "&pg=" + pg + "&p=" + pag + "#" + se.getDocumentSectionInst().getId()%>" target="_blank"
+                                                       data-original-title="<%= pr.getTitle()%>"
+                                                       >
+                                                    </a>
+                                                    <% }%>
+                                                    <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
+                                                    <%
+                                                    if(se instanceof Referable){
+                                                    Referable refSe = (Referable) se;                                               
+                                                    RepositoryElement re = (RepositoryElement) refSe.getRefRepository();
+                                                    String fileSe = refSe.getRefRepository().getURI();
+                                                    if(re instanceof RepositoryURL){
+                                                        urlRemove.setParameter("link","t");
+                                                        }
+                                                        else if(re instanceof org.semanticwb.process.model.RepositoryFile){
+                                                        urlRemove.setParameter("link","f");
+                                                    }
+                                                    %>
+                                                        <a href="<%= urlRemove.setParameter("urise", uriSectionElement).setParameter("uridsi", uriDocSectionInstance).setParameter("title", se.getTitle()).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp).setParameter("fileSe",fileSe)%>" 
+                                                           class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-trash-o"></span></a>
+                                                    <%}else{%>
+                                                    <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
+                                                       onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") + " " +se.getTitle() %>?'))
+                                                                   return false;">
+                                                        <span class="fa fa-trash-o"></span>
+                                                    </a>
+                                                    <%}%>
+                                                </td>
+                                                </tr><% }%>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <%
+                                    } else { //No hay propiedades visibles
+                                        %>
+                                        <div class="alert alert-block alert-warning">
+                                            <%= paramRequest.getLocaleString("msgNoSecInfo") %>
+                                        </div><%
+                                    }
                                 }
                             } else if (cls.equals(FreeText.sclass)) { //FreeText
                                 FreeText ft = (FreeText) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(docSectionInstance.getDocuSectionElementInstance().getURI()); 
@@ -543,7 +550,7 @@
                                     <table class="table">
                                         <thead>
                                             <tr>
-                                                <th><%=paramRequest.getLocaleString("lblTitle")%></th>
+                                                <th><%=paramRequest.getLocaleString("lblActivity")%></th>
                                                 <th><%=paramRequest.getLocaleString("lblDescription")%></th>
                                                 <th class="swbp-actions"><%=paramRequest.getLocaleString("lblActions")%></th>
                                             </tr>
