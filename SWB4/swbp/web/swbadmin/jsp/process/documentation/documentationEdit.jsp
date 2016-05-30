@@ -153,7 +153,7 @@
                                             <label for=""><%=paramRequest.getLocaleString("lblLink")%> *</label>
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                                            <input type="text" name="lfile" id="lfile" class="form-control" placeholder="http://"/>
+                                            <input type="url" name="lfile" id="lfile" class="form-control" placeholder="http://"/>
                                         </div>
                                     </div>
                                     <%
