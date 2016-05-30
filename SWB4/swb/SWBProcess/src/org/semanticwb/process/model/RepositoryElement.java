@@ -58,13 +58,17 @@ public class RepositoryElement extends org.semanticwb.process.model.base.Reposit
      * Obtiene la lista de elementos que conforman la jerarquía del elemento en el repositorio.
      * Se devuelven por defecto en la lista los ID de los directorios.
      * @param asNames indica si se devuelven en la lista los nombres de los elementos en lugar del ID.
+     * @param lang Idioma del usuario, por default "es".
      * @return Lista de elementos que conforman la jerarquía del elemento en el repositorio.
      */
-    public ArrayList getElementRepositoryPath(boolean asNames) {
+    public ArrayList getElementRepositoryPath(boolean asNames, String lang) {
         ArrayList<String> nodes = new ArrayList<>();
         RepositoryDirectory root = getRepositoryDirectory();
         while (null != root) {
-            nodes.add(asNames ? root.getTitle() : root.getId());
+            String title = root.getTitle(null != lang ? lang : "es");
+            if (null == title) title = root.getTitle();
+            
+            nodes.add(asNames ? title : root.getId());
             if (null != root.getParent() && root.getParent() instanceof RepositoryDirectory) {
                 root = (RepositoryDirectory) root.getParent();
             } else {
