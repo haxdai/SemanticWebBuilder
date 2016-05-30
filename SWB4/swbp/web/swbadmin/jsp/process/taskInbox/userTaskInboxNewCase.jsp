@@ -141,7 +141,7 @@ Iterator<String> keys = groups.keySet().iterator();
                     <div class="text-center"><%=paramRequest.getLocaleString("msgNoProcess")%></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><%=paramRequest.getLocaleString("btnCancel")%></button>
+                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
                 </div>
             <%
         }
