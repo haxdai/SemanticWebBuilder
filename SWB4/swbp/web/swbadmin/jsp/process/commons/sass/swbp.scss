@@ -1,4 +1,6 @@
 @import "_swbptheme.scss";
+@import "_breadcrumb.scss";
+@import "_table-responsive.scss";
 
 /************************* MIXINS SASS *************************/
 
@@ -616,7 +618,7 @@
         padding: 0px 16px 60px !important;
     }
     
-    .swbp-table-responsive{
+    .swbp-table-responsive {
         .table tbody tr{
              td[data-title]:before{
                 color: $color-primary;
@@ -1327,14 +1329,13 @@ ul#relatedTab {
     margin: 16px;
 }
 /************************* TABLA RESPONSIVA *************************/
-.shadow-z-1 {
+/*.shadow-z-1 {
     -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.12);
     -moz-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.12);
     box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.12);
-}
+}*/
 
 .swbp-table-responsive {
-    
     thead tr th {
         color: $color-primary;
         font-size: 14px;
@@ -2548,4 +2549,8 @@ footer {
 .checkbox-inline input[type=checkbox] {
     width: auto;
     height: auto;
+}
+
+div.table-responsive-vertical.shadow-z-1.swbp-table-responsive {
+   overflow: auto; 
 }
