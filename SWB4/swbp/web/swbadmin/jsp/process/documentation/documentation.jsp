@@ -308,12 +308,11 @@
                                             <table class="table">
                                                 <thead>
                                                     <tr>
-                                                        <%if (!itse.hasNext()){%>
-                                                        <th><%=paramRequest.getLocaleString("lblNoData")%></th>
-                                                        <%}else{%>
-                                                        <% for (String title : listtitle) {%><th><%= title%></th><% }%>
+                                                        <%
+                                                        for (String title : listtitle) {
+                                                            %><th><%= title%></th><%
+                                                        }%>
                                                         <th class="swbp-actions"><%=paramRequest.getLocaleString("lblActions")%></th>
-                                                        <%}%>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -392,25 +391,21 @@
                                                     <a href="<%= urlTrace.setParameter("uritc", se.getURI())%>" class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-info-circle"></span></a>
                                                     <%
                                                     if(se instanceof Referable){
-                                                    Referable refSe = (Referable) se;                                               
-                                                    RepositoryElement re = (RepositoryElement) refSe.getRefRepository();
-                                                    String fileSe = refSe.getRefRepository().getURI();
-                                                    if(re instanceof RepositoryURL){
-                                                        urlRemove.setParameter("link","t");
-                                                        }
-                                                        else if(re instanceof org.semanticwb.process.model.RepositoryFile){
-                                                        urlRemove.setParameter("link","f");
-                                                    }
-                                                    %>
-                                                        <a href="<%= urlRemove.setParameter("urise", uriSectionElement).setParameter("uridsi", uriDocSectionInstance).setParameter("title", se.getTitle()).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp).setParameter("fileSe",fileSe)%>" 
+                                                        Referable refSe = (Referable) se;
+                                                        String fileSe = refSe.getRefRepository().getURI();
+                                                        %>
+                                                        <a href="<%= urlRemove.setParameter("urise", uriSectionElement).setParameter("uridsi", uriDocSectionInstance).setParameter("title", (null == se.getTitle() ? "elemento" : se.getTitle())).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp).setParameter("fileSe",fileSe)%>" 
                                                            class="btn btn-default col-lg-4 col-md-4" data-toggle="modal" data-target="#modalDialog"><span class="fa fa-trash-o"></span></a>
-                                                    <%}else{%>
-                                                    <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
-                                                       onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") + " " +se.getTitle() %>?'))
-                                                                   return false;">
-                                                        <span class="fa fa-trash-o"></span>
-                                                    </a>
-                                                    <%}%>
+                                                        <%
+                                                    } else {
+                                                        %>
+                                                        <a href="<%= urlAction.setParameter("urise", uriSectionElement).setParameter("_rid", _rid).setParameter("idp", idp).setParameter("wp", wp)%>" class="btn btn-default col-lg-4 col-md-4"
+                                                           onclick="if (!confirm('<%= paramRequest.getLocaleString("msgDeletePrompt") %> <%= null == se.getTitle() ? "elemento" : se.getTitle() %>?'))
+                                                                       return false;">
+                                                            <span class="fa fa-trash-o"></span>
+                                                        </a>
+                                                        <%
+                                                    }%>
                                                 </td>
                                                 </tr><% }%>
                                                 </tbody>
@@ -649,6 +644,7 @@
                     tinymce.init({
                         selector: 'textarea.freetext',
                         entity_encoding : "raw",
+                        elementpath: false,
 
                         language: '<%=paramRequest.getUser().getLanguage()%>',
                         toolbar1: "save | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | \n\
