@@ -4,12 +4,18 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="java.util.Iterator"%>
+<%@page import="java.util.Collections"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="org.semanticwb.process.model.RepositoryDirectory"%>
+<%@page import="org.semanticwb.process.documentation.model.Referable"%>
+<%@page import="org.semanticwb.process.model.RepositoryElement"%>
 <%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
 <%@page import="org.semanticwb.model.Descriptiveable"%>
 <%@page import="org.semanticwb.model.Traceable"%>
 <%@page import="org.semanticwb.platform.SemanticObject"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     String uritc = request.getParameter("uritc") != null ? request.getParameter("uritc").toString() : "";
@@ -27,6 +33,7 @@
         String created = "--";
         String modified = "--";
         String modifiedby = "--";
+        String path = "";
         if (tr.getCreator() != null) {
             creator = tr.getCreator().getFullName();
         }
@@ -38,6 +45,21 @@
         }
         if (tr.getUpdated() != null) {
             modified = SWPUtils.DateFormatter.format(tr.getUpdated());
+        }
+        
+        if (tr instanceof Referable) {
+            RepositoryElement re = ((Referable)tr).getRefRepository();
+            if (null != re) {
+                ArrayList<String> elePAth = re.getElementRepositoryPath(true, null);
+                Collections.reverse(elePAth);
+
+                Iterator<String> its = elePAth.iterator();
+                while (its.hasNext()) {
+                    String v = its.next();
+                    path += v;
+                    if (its.hasNext()) path+= " > ";
+                }
+            }
         }
 %>
 <div class="modal-dialog">
@@ -73,6 +95,18 @@
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
                         <%= modified %>
                     </div>
+                    <%
+                    if (!path.isEmpty()) {
+                        %>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
+                            <%=paramRequest.getLocaleString("lblRepoPath")%>   
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
+                            <%= path %>
+                        </div>
+                        <%
+                    }
+                    %>
                 </div>
             </form>
         </div>
