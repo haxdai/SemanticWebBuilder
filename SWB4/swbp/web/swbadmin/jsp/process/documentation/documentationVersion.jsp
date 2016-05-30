@@ -38,7 +38,7 @@
         %>
         <div class="row swbp-pad">
             <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button pull-right">
-                <a href="<%=paramRequest.getWebPage().getUrl()%>?idp=<%= idp%>&wp=<%= request.getParameter("wp")%>&_rid=<%= request.getParameter("_rid")%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                <a href="<%=paramRequest.getWebPage().getUrl()%>?idp=<%= idp%>&wp=<%= request.getParameter("wp")%>&pg=<%= request.getParameter("pg")%>&_rid=<%= request.getParameter("_rid")%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
                     Regresar
                 </a>
             </div>
