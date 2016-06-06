@@ -296,16 +296,16 @@
 }
 
 #swbp-fondo-400{
-    @include fullBackground($window-background-400, "400-img.png");
+    @include fullBackground($background-color-main-active, "400-img.png");
 }
 #swbp-fondo-403{
-    @include fullBackground($window-background-400, "403-img.png");
+    @include fullBackground($background-color-main-active, "403-img.png");
 }
 #swbp-fondo-404{
-    @include fullBackground($window-background-400, "404-img.png");
+    @include fullBackground($background-color-main-active, "404-img.png");
 }
 #swbp-fondo-500{
-    @include fullBackground($window-background-400, "500-img.png");
+    @include fullBackground($background-color-main-active, "500-img.png");
 }
 #SWB-PROCESS{background-color: $background-color-main;}
 
