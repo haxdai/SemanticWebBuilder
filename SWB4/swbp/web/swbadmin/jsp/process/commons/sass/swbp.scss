@@ -1000,9 +1000,13 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     }
 }
 
-.swbp-bars{
+.swbp-bars {
     color: $border-color;
-    background-color: $process-colorBar !important;
+    
+    &:hover {
+        background-color: transparent !important;
+    }
+    //background-color: $process-colorBar !important;
     border: 0px;
     margin: 16px;
     
