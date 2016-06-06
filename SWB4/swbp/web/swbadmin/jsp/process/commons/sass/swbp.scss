@@ -6,7 +6,7 @@
 
 /************************ Fuentes ************************/
 @mixin fontPrimary{
-	color: $textColor-Primary;
+	color: $color-text-primary;
     font-size: 13px;
 }
 @mixin fontPrimary-Light {
@@ -22,13 +22,13 @@
     font-size: 13px;
 }
 @mixin fontLink{
-	color: $color-primaryLink;
+	color: $color-link;
     font-size: 13px;
 }
 @mixin fontHeadline {
     height: 48px;
     background-color: $content-background;
-    color: $navigationBar-color;
+    color: $background-color-main;
     font-size: 22px;
     padding: 10px 40px;
 }
@@ -70,7 +70,7 @@
 @mixin iconList {
   padding: 8px 0px 0px 0px;
   min-height: 36px;
-  color: $accentColor;
+  color: $color-highlight;
   font-size: 20px;
   text-align: center;
 }
@@ -81,7 +81,7 @@
 }
 /************************ Botones ************************/
 @mixin buttonRaised {
-    background-color: $color-primaryLink;
+    background-color: $color-link;
     border-radius: 0px;
     margin: 6px 0px 6px 16px;
     //height: 36px;
@@ -130,7 +130,7 @@
   right: 24px;
   text-decoration: none;
   color: $white-color;
-  background-color: $accentColor;
+  background-color: $color-highlight;
   font-size: 24px;
   width: 56px;
   height: 56px;
@@ -208,7 +208,7 @@
 /************************ Paneles ************************/
 @mixin panel-Title{
     min-height: 36px;
-    background-color: $panelHead-color;
+    background-color: $color-panel-head;
     border-radius: 0px;
     padding: 8px 16px;
     @include fontButton-Block;
@@ -307,7 +307,7 @@
 #swbp-fondo-500{
     @include fullBackground($window-background-400, "500-img.png");
 }
-#SWB-PROCESS{background-color: $navigationBar-color;}
+#SWB-PROCESS{background-color: $background-color-main;}
 
 .container{
     width: 100%;
@@ -585,7 +585,7 @@
     .swbp-brand-header {
         width: 80% !important;
         height: 48px !important; 
-        background-color: $process-color; 
+        background-color: $background-color-brand; 
         background-image: url(#{$imgPath}/background-menu-xs.png) !important;
         padding-top: 10px;
         
@@ -827,7 +827,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     margin: 24px 0px 0px 0px;
     
     span{
-    background-color: $iconLogin-color;
+    background-color: $color-panel-head;
     color: $white-color;
     @include border;
     }
@@ -836,7 +836,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         @include border;
         background-color: $content-background;
         height: 36px;
-        color: $iconLogin-color;
+        color: $color-panel-head;
     }    
 }
 .swbp-icon-fa {
@@ -853,12 +853,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     @include buttonRaised;
     
     &:active {
-        background-color: $color-primaryLink;
+        background-color: $color-link;
         
-        background-image: -webkit-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Chrome, Safari*/
-        background-image: -o-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Opera 11.6 to 12.0 */
-        background-image: -moz-radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Firefox 3.6 to 15 */
-        background-image: radial-gradient(circle, $color-primaryLink-Click 10%, $color-primaryLink 11%); /* Standard syntax */
+        background-image: -webkit-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Chrome, Safari*/
+        background-image: -o-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Opera 11.6 to 12.0 */
+        background-image: -moz-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Firefox 3.6 to 15 */
+        background-image: radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Standard syntax */
         background-repeat: no-repeat;
         -webkit-background-size: 1000% 1000%;
         background-size: 1000%;
@@ -867,12 +867,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     }
     
     &:hover{
-        background-color: $color-primaryLink;
+        background-color: $color-link;
         color: $white-color;
     }
     
     &:focus, &:active:focus{
-        background-color: $color-primaryLink-Click;
+        background-color: $color-link-active;
         color: $white-color;
         outline: 0px;
     }
@@ -883,7 +883,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 100%;
     height: 36px;
     text-align: center;
-    background-color: $navigationBar-color;
+    background-color: $background-color-main;
     line-height: 36px;
     position: absolute;
     bottom: 0;
@@ -903,7 +903,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 100%;
     height: 36px;
     text-align: center;
-    background-color: $navigationBar-color;
+    background-color: $background-color-main;
     @include fontMinimum;
     
     p{
@@ -913,7 +913,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 /************************* MENU PRINCIPAL *************************/
 .swbp-menu {
-    background-color: $navigationBar-color;
+    background-color: $background-color-main;
     padding: 0px;
     min-height: 100%;
     position: relative;
@@ -921,7 +921,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     .navbar {
         margin-bottom: 38px;
         border: 0px;
-        background-color: $process-color;
+        background-color: $background-color-brand;
         background-image: url(#{$imgPath}/background-menu.png);
     }    
     
@@ -932,14 +932,14 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .swbp-header-menu {
     width: 100%;
     height: 96px;
-    background-color: $process-color;
+    background-color: $background-color-brand;
     background-image: url(#{$imgPath}/background-menu-xs.png);
 }
 .swbp-brand-header {
     width: 100%;
     height: 96px;
     text-align: center;
-    background-color: $process-color;
+    background-color: $background-color-brand;
     background-image: url(#{$imgPath}/background-menu.png);
     
     img{
@@ -960,18 +960,18 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
             
             a {
                 padding: 0px;
-                background-color: $navigationBar-color;
+                background-color: $background-color-main;
                 color: $textColor-Secundary !important;
                 
                 &:hover {
-                    background-color: $navigationBar-colorActive !important;
+                    background-color: $background-color-main-active !important;
                     color: $white-color !important;
                 }                
             }
         } 
         
         li.active a {
-            background-color: $navigationBar-colorActive !important;
+            background-color: $background-color-main-active !important;
             color: $white-color !important;
         }        
     }   
@@ -987,7 +987,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     padding: 12px;
 }
 .swbp-footer-menu{
-    background-color: $navigationBar-color;
+    background-color: $background-color-main;
     height: 36px;
     text-align: center;
     bottom: 0;
@@ -1026,7 +1026,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     padding: 15px 15px 0px 0px;
     
     span.badge {
-        background-color: $color-primary-Click;
+        background-color: $color-primary-active;
         color: #fff;
         margin-left: 5px;
     }
@@ -1034,17 +1034,17 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .MENU-COLAPSABLE{
     ul{
         li.active {
-            background-color: $navigationBar-colorActive !important;
+            background-color: $background-color-main-active !important;
             color: $white-color !important;
             height: 48px;
         }
         
         li{
-            background-color: $navigationBar-color;
+            background-color: $background-color-main;
             height: 48px;
             
             &:hover{
-                background-color: $navigationBar-colorActive;
+                background-color: $background-color-main-active;
             }            
         }        
         
@@ -1072,7 +1072,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
          
         &:active{
             color: $white-color;
-            background-color: $color-primary-Click;
+            background-color: $color-primary-active;
             border: 0px;
             outline: 0px;
         }   
@@ -1082,7 +1082,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         }         
         &:focus{
             color: $white-color;
-            background-color: $color-primary-Click;
+            background-color: $color-primary-active;
             outline: 0px;
         }   
         &:active:focus{
@@ -1110,7 +1110,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     
     ul{
         margin: 0px;
-        background-color: $navigationBar-color;
+        background-color: $background-color-main;
         
         li{
             padding: 0px;
@@ -1119,11 +1119,11 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
                 height: 48px;
                 font-size: 20px;
                 color: $textColor-Secundary !important;
-                background-color: $navigationBar-color;
+                background-color: $background-color-main;
                 padding-top: 14px;
                  
                 &:hover, &:focus, &:active:focus{
-                    background-color: $navigationBar-colorActive !important;
+                    background-color: $background-color-main-active !important;
                     outline: 0px;
                     color: $white-color !important;
                 }
@@ -1131,7 +1131,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         }
         
         li.active a{
-            background-color: $navigationBar-colorActive !important;
+            background-color: $background-color-main-active !important;
             outline: 0px;
             color: $white-color !important;
         }   
@@ -1251,7 +1251,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         padding: 8px 16px;
         
         .pull-right a.accordion-toggle{
-            color: $color-primaryLink;
+            color: $color-link;
             text-decoration: none;
             
             &:focus{
@@ -1269,7 +1269,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         
         &:hover, &:active{
             background-color: $white-color;
-            color: $color-primaryLink;
+            color: $color-link;
             text-decoration: underline;
         }   
         
@@ -1296,7 +1296,7 @@ ul#relatedTab {
         @include border;
         
         &:hover, &:active, &:focus{
-            background-color: $color-primaryLink !important;
+            background-color: $color-link !important;
             color: $content-background;
             font-size: 13px;
             text-transform: uppercase;
@@ -1309,7 +1309,7 @@ ul#relatedTab {
     }  
     
     ul li.active a{
-        background-color: $color-primaryLink;
+        background-color: $color-link;
         color: $content-background;
         font-size: 13px;
         text-transform: uppercase;
@@ -1318,7 +1318,7 @@ ul#relatedTab {
         @include border;
         
         &:hover{
-            background-color: $color-primaryLink;
+            background-color: $color-link;
             color: $content-background;
             font-size: 13px;
             text-transform: uppercase;
@@ -1438,7 +1438,7 @@ ul#relatedTab {
     text-align: center;
     background-color: $content-background;
     min-height: 36px;
-    color: $accentColor;
+    color: $color-highlight;
 }
 .swbp-list-text{
     padding: 8px;
@@ -1596,24 +1596,24 @@ ul#relatedTab {
     @include buttonFloatAction-Gotop;
 
     &:active{
-        background-color: $accentColor-Click;
+        background-color: $color-highlight-active;
         color: $white-color;
-        background-image: -webkit-radial-gradient(circle, $accentColor-Click 10%, $accentColor 11%); /* Chrome, Safari*/
-        background-image: -o-radial-gradient(circle, $accentColor-Click 10%, $accentColor 11%); /* Opera 11.6 to 12.0 */
-        background-image: -moz-radial-gradient(circle, $accentColor-Click 10%, $accentColor 11%); /* Firefox 3.6 to 15 */
-        background-image: radial-gradient(circle, $accentColor-Click 10%, $accentColor 11%); /* Standard syntax */
+        background-image: -webkit-radial-gradient(circle, $color-highlight-active 10%, $color-highlight 11%); /* Chrome, Safari*/
+        background-image: -o-radial-gradient(circle, $color-highlight-active 10%, $color-highlight 11%); /* Opera 11.6 to 12.0 */
+        background-image: -moz-radial-gradient(circle, $color-highlight-active 10%, $color-highlight 11%); /* Firefox 3.6 to 15 */
+        background-image: radial-gradient(circle, $color-highlight-active 10%, $color-highlight 11%); /* Standard syntax */
         background-repeat: no-repeat;
         -webkit-background-size: 1000% 1000%;
         background-size: 1000%;
         outline: 0px;
     }
     &:hover{
-        background-color: $accentColor-Click;
+        background-color: $color-highlight-active;
         color: $white-color;
         text-decoration: none;
     }
     &:focus{
-        background-color: $accentColor-Click;
+        background-color: $color-highlight-active;
         color: $white-color;
         text-decoration: none;
         outline: 0px;
@@ -1710,7 +1710,7 @@ ul#relatedTab {
     @include buttonFloatAction-Card;
     
     &:hover, &:active, &:focus, &:active:focus{
-        background-color: $color-primary-Click;
+        background-color: $color-primary-active;
         color: $white-color;
         outline: 0px;
     }    
@@ -2038,7 +2038,7 @@ textarea.swbp-form-control{
     
     .swbp-list-icon{
         padding: 0px;
-        color: $accentColor;
+        color: $color-highlight;
         font-size: 20px;
         @include panelContainer;
     }  
@@ -2123,7 +2123,7 @@ textarea.swbp-form-control{
     @include buttonRaised-Secundary;
     
     &:hover, &:active, &:focus, &:active:focus{
-        background-color: $color-primary-Click;
+        background-color: $color-primary-active;
         border: solid 1px $window-background;
         color: $white-color;
         outline: 0px;
@@ -2137,7 +2137,7 @@ textarea.swbp-form-control{
     font-size: 13px;
     
     option{
-        color: $panelHead-color;
+        color: $color-panel-head;
     }    
 }
 .swbp-badge-in{
@@ -2200,7 +2200,7 @@ textarea.swbp-form-control{
         padding: 8px;
         background-color: $content-background;
         @include border;
-        color: $color-primaryLink;
+        color: $color-link;
         font-size: 12px;
         text-transform: uppercase;
         
@@ -2219,7 +2219,7 @@ textarea.swbp-form-control{
         text-transform: uppercase;
     }  
     .modal-header{
-        background-color: $color-primaryLink;
+        background-color: $color-link;
         color: $white-color;
         min-height: 36px;
         padding: 12px 16px;
@@ -2323,7 +2323,7 @@ textarea.swbp-form-control{
 /******************** BANDEJA ********************/
 .swbp-btn-filter{
     @include panelContainer;
-    color: $color-primaryLink;
+    color: $color-link;
     border-radius: 4px;
     height: 36px;
     text-transform: uppercase;
@@ -2331,7 +2331,7 @@ textarea.swbp-form-control{
     
     &:hover, &:active, &:focus, &:active:focus{
         @include panelContainer;
-        color: $color-primaryLink;
+        color: $color-link;
         outline: 0px;
         box-shadow: none;
     }    
@@ -2345,7 +2345,7 @@ ul.swbp-btn-dropdown li a{
     padding: 0px 20px;
     
     &:hover{
-        background-color: $color-primaryLink;
+        background-color: $color-link;
         color: $white-color;
     }    
 }
@@ -2354,7 +2354,7 @@ ul.swbp-btn-dropdown li a{
     background-color: $content-background;
     
     li.dropdown-header {
-        color: $color-primaryLink; 
+        color: $color-link; 
     }   
     
     li a{
@@ -2364,7 +2364,7 @@ ul.swbp-btn-dropdown li a{
         line-height: 1.8;
         
         &:hover{
-            color: $color-primaryLink;
+            color: $color-link;
             background-color: $white-color;
         } 
         
