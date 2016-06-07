@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.tracing.base;
 
 
-public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.ReadOnly,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Sortable,org.semanticwb.bsc.Committable,org.semanticwb.bsc.Help,org.semanticwb.bsc.Measurable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Referensable
+public abstract class SeriesBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Committable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Sortable,org.semanticwb.bsc.Measurable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.ReadOnly,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
 {
    /**
    * Interfaz que define un elemento que trabaja con instancias de Series

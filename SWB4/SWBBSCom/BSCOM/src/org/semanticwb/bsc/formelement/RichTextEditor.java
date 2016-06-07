@@ -11,8 +11,6 @@ import org.semanticwb.platform.SemanticProperty;
    * Uso del editor de texto rico de Dojo para la presentación del FormElement 
    */
 public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichTextEditorBase {
-    
-    
     /**
      * Realiza operaciones de registro de eventos en bit&cora
      */
@@ -52,23 +50,27 @@ public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichText
         if (mode == null) {
             mode = "view";
         }
+System.out.println("\nRichTextEditor rendering....");
+System.out.println(".......mode="+mode);
         if (mode.equals("edit") || mode.equals("create")) {
+System.out.println("1.......toReturn="+toReturn);
             toReturn = super.renderElement(request, obj, prop, propName, type, mode, lang);
         } else if (mode.equals("view")) {
+System.out.println("2.......toReturn="+toReturn);
             toReturn = (obj.getProperty(prop) == null || 
                     (obj.getProperty(prop) == null && "null".equals(obj.getProperty(prop)))
                     ? "" : obj.getProperty(prop));
             toReturn = SWBUtils.XML.replaceXMLTags(toReturn);
         } else if (mode.equals("inlineEdit")) {
             /*Al utilizar este modo, se debe incluir en el HTML las instrucciones 
-             * dojo.require del InlineEditBox. dijit._editor.plugins.AlwaysShowToolbar y dijit.form.Textarea, al menos*/
+             * dojo.require del InlineEditBox: dijit._editor.plugins.AlwaysShowToolbar y dijit.form.Textarea, al menos*/
             StringBuilder viewString = new StringBuilder(128);
             String value = (obj.getProperty(prop) == null || 
                     (obj.getProperty(prop) == null && "null".equals(obj.getProperty(prop)))
                     ? "" : obj.getProperty(prop));
-            
-            String objectId = obj.getSemanticClass().getClassCodeName() + obj.getId() +
-                    propName;
+System.out.println("value="+value);            
+            String objectId = obj.getSemanticClass().getClassCodeName()+"_"+obj.getId()+"_"+propName;
+System.out.println("objectId="+objectId);
             String url = (String) request.getAttribute("urlRequest");
             
             viewString.append("<script type=\"text/javascript\">\n");
@@ -86,10 +88,10 @@ public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichText
             viewString.append("        autoSave: false,\n");
             viewString.append("        editor: \"dijit.Editor\",\n");
             viewString.append("        renderAsHtml: true,\n");
-            viewString.append("        editorParams: {width: '80%', height: '80px', trim:true,");
+            viewString.append("        editorParams: {width: '100%', height: '80px', trim:true,");
             //El plugin dojox.editor.plugins.PasteFromWord es para dojo 1.5+
             viewString.append("required:true, extraPlugins:['dijit._editor.plugins.AlwaysShowToolbar', 'foreColor', 'hiliteColor']},\n"); //, Revisar funcionamiento: 'PasteFromWord'
-            viewString.append("        width: '80%',\n");
+            viewString.append("        width: '100%',\n");
             viewString.append("        onChange: function(value) {\n");
             viewString.append("          getSyncHtml('");
             viewString.append(url);
@@ -108,9 +110,9 @@ public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichText
             viewString.append("</script>\n");
             viewString.append("<div id=\"eb_");
             viewString.append(objectId);
-            viewString.append("\" class=\"swb-ile\">");
-            viewString.append(value);
-            viewString.append("</div>");
+            viewString.append("\" class=\"swb-ile\">\n");
+            viewString.append(value).append("\n");
+            viewString.append("</div>\n");
             toReturn = viewString.toString();
         }
         
@@ -129,6 +131,7 @@ public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichText
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, SemanticProperty prop) {
         super.process(request, obj, prop);
+System.out.println("--process 1.........................");
     }
 
     /**
@@ -141,7 +144,7 @@ public class RichTextEditor extends org.semanticwb.bsc.formelement.base.RichText
     @Override
     public void process(HttpServletRequest request, SemanticObject obj, 
                         SemanticProperty prop, String propName) {
-        
+System.out.println("--process 2.........................");
         String value = request.getParameter(propName);
         try {
             if (value != null && !value.isEmpty()) {

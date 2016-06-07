@@ -3,6 +3,7 @@ package org.semanticwb.bsc;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import org.semanticwb.SWBPortal;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.base.util.GenericFilterRule;
@@ -132,6 +133,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
             user = SWBContext.getAdminUser();
         }
         final String lang = user.getLanguage()==null?"es":user.getLanguage();
+        final Locale locale = new Locale(lang);
         
         Document  doc = SWBUtils.XML.getNewDocument();
         
@@ -141,20 +143,36 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         
         //title
         Element e = doc.createElement("title");
-        e.appendChild(doc.createTextNode(getDisplayTitle(lang)==null ? (getTitle()==null?"Desconocido":getTitle().replaceAll("['\n]", "")) : getDisplayTitle(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getDisplayTitle(lang)==null 
+                ? (getTitle()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getTitle().replaceAll("['\n]", "")) 
+                : getDisplayTitle(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //mission
         e = doc.createElement("mission");
-        e.appendChild(doc.createTextNode(getMission(lang)==null?(getMission()==null?"Desconocido":getMission().replaceAll("['\n]", "")):getMission(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getMission(lang)==null
+                ? (getMission()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getMission().replaceAll("['\n]", ""))
+                :getMission(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //vision
         e = doc.createElement("vision");
-        e.appendChild(doc.createTextNode(getVision(lang)==null?(getVision()==null?"Desconocido":getVision().replaceAll("['\n]", "")):getVision(lang).replaceAll("['\n]", "")));
+        e.appendChild(doc.createTextNode(getVision(lang)==null
+                ? (getVision()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getVision().replaceAll("['\n]", ""))
+                : getVision(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //logo
         e = doc.createElement("logo");
         Attr alt = doc.createAttribute("title");
-        alt.setValue(getDisplayDescription(lang)==null?(getDescription()==null?"Desconocido":getDescription()):getDisplayDescription(lang));
+        alt.setValue(getDisplayDescription(lang)==null
+                ? (getDescription()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getDescription())
+                : getDisplayDescription(lang));
         e.setAttributeNode(alt);
         Attr src = doc.createAttribute("src");
         if(getLogo()!=null) {
@@ -178,7 +196,11 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
             ep.appendChild(e);
             //title
             e = doc.createElement("title");
-            e.appendChild(doc.createTextNode(perspective.getDisplayTitle(lang)==null?(perspective.getTitle()==null?"Desconocido":perspective.getTitle().replaceAll("['\n]", "")):perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
+            e.appendChild(doc.createTextNode(perspective.getDisplayTitle(lang)==null
+                    ? (perspective.getTitle()==null
+                            ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                            : perspective.getTitle().replaceAll("['\n]", ""))
+                    : perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
             ep.appendChild(e);
             // lista de temas de esta perspectiva
             List<Theme> themes = perspective.listValidThemes();
@@ -194,7 +216,11 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                     ethemes.appendChild(etheme);
                     //title
                     e = doc.createElement("title");
-                    e.appendChild(doc.createTextNode(t.getDisplayTitle(lang)==null?(t.getTitle()==null?"Desconocido":t.getTitle().replaceAll("['\n]", "")):t.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                    e.appendChild(doc.createTextNode(t.getDisplayTitle(lang)==null
+                            ? (t.getTitle()==null
+                                    ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                    : t.getTitle().replaceAll("['\n]", ""))
+                            : t.getDisplayTitle(lang).replaceAll("['\n]", "")));
                     etheme.appendChild(e);
                     
                     //relaciones tema - tema
@@ -240,19 +266,31 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         eobj.appendChild(e);
                         //title
                         e = doc.createElement("title");
-                        e.appendChild(doc.createTextNode(o.getDisplayTitle(lang)==null?(o.getTitle()==null?"Desconocido":o.getTitle().replaceAll("['\n]", "")):o.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                        e.appendChild(doc.createTextNode(o.getDisplayTitle(lang)==null
+                                ? (o.getTitle()==null
+                                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                        : o.getTitle().replaceAll("['\n]", ""))
+                                : o.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         eobj.appendChild(e);
                         //sponsor
                         e = doc.createElement("sponsor");
                         //e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName().replaceAll("['\n]", "")));
-                        e.appendChild(doc.createTextNode(o.getSponsor()==null?"***" : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
+                        e.appendChild(doc.createTextNode(o.getSponsor()==null
+                                ? "***"
+                                : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
                         eobj.appendChild(e);
                         //frequency
                         e = doc.createElement("frequency");
                         if(o.getPeriodicity()==null) {
-                            e.appendChild(doc.createTextNode("Desconocido"));
+                            e.appendChild(doc.createTextNode(
+                                    SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                            ));
                         }else {
-                            e.appendChild(doc.createTextNode(o.getPeriodicity().getDisplayTitle(lang)==null?(o.getPeriodicity().getTitle()==null?"Desconocido":o.getPeriodicity().getTitle().replaceAll("['\n]", "")):o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
+                            e.appendChild(doc.createTextNode(o.getPeriodicity().getDisplayTitle(lang)==null
+                                    ? (o.getPeriodicity().getTitle()==null
+                                            ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                            : o.getPeriodicity().getTitle().replaceAll("['\n]", ""))
+                                    : o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
                         }
                         eobj.appendChild(e);
                         
@@ -299,7 +337,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         e = doc.createElement("diff");
                         e.setAttribute("id", diff.getURI());
                         e.setAttribute("orden", Integer.toString(diff.getIndex()));
-                        e.appendChild(doc.createTextNode(diff.getDisplayTitle(lang)==null?(diff.getTitle()==null?"Desconocido":diff.getTitle().replaceAll("['\n]", "")):diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                        e.appendChild(doc.createTextNode(diff.getDisplayTitle(lang)==null
+                                ? (diff.getTitle()==null
+                                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                        : diff.getTitle().replaceAll("['\n]", "")):diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         ediffgroup.appendChild(e);
                     }
                 }
@@ -316,9 +357,14 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                 e = doc.createElement("risk");
                 e.setAttribute("id", r.getId());
                 e.setAttribute("prefix", r.getPrefix());
-                e.setAttribute("likehood", Integer.toString(r.getFinAssessmentLikelihood()));
+System.out.println("r.likelihood="+r.getFinAssessmentLikelihood());
+                e.setAttribute("likehood", Float.toString(r.getFinAssessmentLikelihood()));
                 e.setAttribute("impact", Integer.toString(r.getFinAssessmentImpactLevel()));
-                e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null?(r.getTitle()==null?"Desconocido":r.getTitle().replaceAll("['\n]", "")):r.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null
+                        ? (r.getTitle()==null
+                                ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                : r.getTitle().replaceAll("['\n]", ""))
+                        : r.getDisplayTitle(lang).replaceAll("['\n]", "")));
                 erskgp.appendChild(e);
             }
         }
@@ -333,6 +379,8 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
             user = SWBContext.getAdminUser();
         }
         final String lang = user.getLanguage()==null?"es":user.getLanguage();
+        final Locale locale = new Locale(lang);
+        
         Document  doc = SWBUtils.XML.getNewDocument();
         
         Element eroot = doc.createElement("bsc");
@@ -342,38 +390,35 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
         //title
         Element e = doc.createElement("title");
         e.appendChild(doc.createTextNode(getDisplayTitle(lang)==null
-                ?(getTitle()==null?"Desconocido"
-                        :getTitle().replaceAll("['\n]", ""))
-                :
-                getDisplayTitle(lang).replaceAll("['\n]", "")));
+                ? (getTitle()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getTitle().replaceAll("['\n]", ""))
+                : getDisplayTitle(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //mission
         e = doc.createElement("mission");
         e.appendChild(doc.createTextNode(getMission(lang)==null
-                ?(getMission()==null?"Desconocido"
-                        :
-                        getMission().replaceAll("['\n]", ""))
-                :
-                getMission(lang).replaceAll("['\n]", "")));
+                ? (getMission()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getMission().replaceAll("['\n]", ""))
+                : getMission(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //vision
         e = doc.createElement("vision");
         e.appendChild(doc.createTextNode(getVision(lang)==null
-                ?(getVision()==null?"Desconocido"
-                        :
-                        getVision().replaceAll("['\n]", ""))
-                :
-                getVision(lang).replaceAll("['\n]", "")));
+                ? (getVision()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getVision().replaceAll("['\n]", ""))
+                : getVision(lang).replaceAll("['\n]", "")));
         eroot.appendChild(e);
         //logo
         e = doc.createElement("logo");
         Attr alt = doc.createAttribute("title");
         alt.setValue(getDisplayDescription(lang)==null
-                ?(getDescription()==null?"Desconocido"
-                        :
-                        getDescription().replaceAll("['\n]", ""))
-                :
-                getDisplayDescription(lang).replaceAll("['\n]", ""));
+                ? (getDescription()==null
+                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                        : getDescription().replaceAll("['\n]", ""))
+                : getDisplayDescription(lang).replaceAll("['\n]", ""));
         e.setAttributeNode(alt);
         Attr src = doc.createAttribute("src");
         src.setValue(getLogo());
@@ -398,12 +443,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
             //title
             e = doc.createElement("title");
             e.appendChild(doc.createTextNode(perspective.getDisplayTitle(lang)==null
-                    ?(perspective.getTitle()==null
-                            ?"Desconocido"
-                            :
-                            perspective.getTitle().replaceAll("['\n]", ""))
-                    :
-                    perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                    ? (perspective.getTitle()==null
+                            ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                            : perspective.getTitle().replaceAll("['\n]", ""))
+                    : perspective.getDisplayTitle(lang).replaceAll("['\n]", "")));
             ep.appendChild(e);
             
             // relaciones con otras perspectivas (perspectiva - perspectiva)
@@ -440,11 +483,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                     //title
                     e = doc.createElement("title");
                     e.appendChild(doc.createTextNode(t.getDisplayTitle(lang)==null
-                            ?(t.getTitle()==null?"Desconocido"
-                                    :
-                                    t.getTitle().replaceAll("['\n]", ""))
-                            :
-                            t.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                            ? (t.getTitle()==null
+                                    ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                    : t.getTitle().replaceAll("['\n]", ""))
+                            : t.getDisplayTitle(lang).replaceAll("['\n]", "")));
                     etheme.appendChild(e);
                     
                     //relaciones tema - tema
@@ -486,7 +528,11 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         existsObjectivesInPeriod = true;
                         
                         state = o.getState(period);
-                        color = state==null?"#a6a6a6":(state.getColorHex()==null?"#f912be":state.getColorHex());
+                        color = state==null
+                                ? "#a6a6a6"
+                                : (state.getColorHex()==null
+                                ? "#f912be"
+                                : state.getColorHex());
                         Element eobj = doc.createElement("obj");
                         eobj.setAttribute("id", o.getURI());
                         eobj.setAttribute("href", o.getEncodedURI());
@@ -500,20 +546,17 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         //title
                         e = doc.createElement("title");
                         e.appendChild(doc.createTextNode(o.getDisplayTitle(lang)==null
-                                ?(o.getTitle()==null
-                                        ?"Desconocido"
-                                        :
-                                        o.getTitle().replaceAll("['\n]", ""))
-                                :
-                                o.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                                ? (o.getTitle()==null
+                                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                        : o.getTitle().replaceAll("['\n]", ""))
+                                : o.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         eobj.appendChild(e);
                         //sponsor
                         e = doc.createElement("sponsor");
                         //e.appendChild(doc.createTextNode(o.getSponsor()==null?"Desconocido":o.getSponsor().getFullName()));
-                        e.appendChild(doc.createTextNode(o.getSponsor()==null?
-                                "***"
-                                :
-                                BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
+                        e.appendChild(doc.createTextNode(o.getSponsor()==null
+                                ? "***"
+                                : BSCUtils.BSCUser.getInitials(o.getSponsor(),"***")));
                         eobj.appendChild(e);
                         //frequency
                         e = doc.createElement("frequency");
@@ -521,12 +564,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                             e.appendChild(doc.createTextNode("Desconocido"));
                         }else {
                             e.appendChild(doc.createTextNode(o.getPeriodicity().getDisplayTitle(lang)==null
-                                    ?(o.getPeriodicity().getTitle()==null
-                                            ?"Desconocido"
-                                            :
-                                            o.getPeriodicity().getTitle().replaceAll("['\n]", ""))
-                                    :
-                                    o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
+                                    ? (o.getPeriodicity().getTitle()==null
+                                            ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                            : o.getPeriodicity().getTitle().replaceAll("['\n]", ""))
+                                    : o.getPeriodicity().getDisplayTitle(lang).replaceAll("['\n]", "")));
                         }
                         eobj.appendChild(e);
                         
@@ -577,12 +618,10 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                         e.setAttribute("id", diff.getURI());
                         e.setAttribute("orden", Integer.toString(diff.getIndex()));
                         e.appendChild(doc.createTextNode(diff.getDisplayTitle(lang)==null
-                                ?(diff.getTitle()==null
-                                        ?"Desconocido"
-                                        :
-                                        diff.getTitle().replaceAll("['\n]", ""))
-                                :
-                                diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                                ? (diff.getTitle()==null
+                                        ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                        : diff.getTitle().replaceAll("['\n]", ""))
+                                : diff.getDisplayTitle(lang).replaceAll("['\n]", "")));
                         ediffgroup.appendChild(e);
                     }
                 }
@@ -602,15 +641,13 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                 e = doc.createElement("risk");
                 e.setAttribute("id", r.getId());
                 e.setAttribute("prefix", r.getPrefix());
-                e.setAttribute("likehood", Integer.toString(r.getFinAssessmentLikelihood()));
+                e.setAttribute("likehood", Float.toString(r.getFinAssessmentLikelihood()));
                 e.setAttribute("impact", Integer.toString(r.getFinAssessmentImpactLevel()));
                 e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null
-                        ?(r.getTitle()==null
-                                ?"Desconocido"
-                                :
-                                r.getTitle().replaceAll("['\n]", ""))
-                        :
-                        r.getDisplayTitle(lang).replaceAll("['\n]", "")));
+                        ? (r.getTitle()==null
+                                ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
+                                : r.getTitle().replaceAll("['\n]", ""))
+                        : r.getDisplayTitle(lang).replaceAll("['\n]", "")));
                 rsksgroup.appendChild(e);
             }
         }
@@ -620,6 +657,8 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
 
     @Override
     public String getLogo() {
-        return super.getLogo()==null ? null : SWBPortal.getWebWorkPath() + getWorkPath() + "/" + super.getLogo();
+        return super.getLogo()==null
+                ? null
+                : SWBPortal.getWebWorkPath() + getWorkPath() + "/" + super.getLogo();
     }
 }

@@ -4,14 +4,14 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente. 
    */
-public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.UserGroupRefable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Detailed,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.Filterable,org.semanticwb.model.RuleRefable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.bsc.Summarized,org.semanticwb.model.Referensable,org.semanticwb.bsc.Attachmentable
+public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Trashable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.bsc.Summarized,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
 {
    /**
    * Permite seleccionar una alineación. Los posibles valores son Estrategia, Objetivo y Meta
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_selectingAlignment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#selectingAlignment");
    /**
-   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 1 al 10
+   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_finAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#finAssessmentLikelihood");
    /**
@@ -65,7 +65,7 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_classifRiskSpecifyOther=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#classifRiskSpecifyOther");
    /**
-   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 1 al 10
+   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_iniAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#iniAssessmentLikelihood");
    /**
@@ -444,20 +444,20 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
 
 /**
 * Gets the FinAssessmentLikelihood property
-* @return int with the FinAssessmentLikelihood
+* @return float with the FinAssessmentLikelihood
 */
-    public int getFinAssessmentLikelihood()
+    public float getFinAssessmentLikelihood()
     {
-        return getSemanticObject().getIntProperty(bsc_finAssessmentLikelihood);
+        return getSemanticObject().getFloatProperty(bsc_finAssessmentLikelihood);
     }
 
 /**
 * Sets the FinAssessmentLikelihood property
 * @param value long with the FinAssessmentLikelihood
 */
-    public void setFinAssessmentLikelihood(int value)
+    public void setFinAssessmentLikelihood(float value)
     {
-        getSemanticObject().setIntProperty(bsc_finAssessmentLikelihood, value);
+        getSemanticObject().setFloatProperty(bsc_finAssessmentLikelihood, value);
     }
 
 /**
@@ -886,20 +886,20 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
 
 /**
 * Gets the IniAssessmentLikelihood property
-* @return int with the IniAssessmentLikelihood
+* @return float with the IniAssessmentLikelihood
 */
-    public int getIniAssessmentLikelihood()
+    public float getIniAssessmentLikelihood()
     {
-        return getSemanticObject().getIntProperty(bsc_iniAssessmentLikelihood);
+        return getSemanticObject().getFloatProperty(bsc_iniAssessmentLikelihood);
     }
 
 /**
 * Sets the IniAssessmentLikelihood property
 * @param value long with the IniAssessmentLikelihood
 */
-    public void setIniAssessmentLikelihood(int value)
+    public void setIniAssessmentLikelihood(float value)
     {
-        getSemanticObject().setIntProperty(bsc_iniAssessmentLikelihood, value);
+        getSemanticObject().setFloatProperty(bsc_iniAssessmentLikelihood, value);
     }
 
 /**

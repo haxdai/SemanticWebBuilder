@@ -20,6 +20,8 @@ import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
+import static org.semanticwb.model.base.DescriptiveableBase.swb_description;
+import static org.semanticwb.model.base.DescriptiveableBase.swb_title;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticObserver;
 import org.semanticwb.platform.SemanticProperty;
@@ -28,6 +30,35 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
 {
     static
     {
+        /*swb_title.registerObserver(new SemanticObserver() {
+            @Override
+            public void notify(SemanticObject obj, Object prop, String lang, String action)
+            {                
+                System.out.println("\n\n--------objetivo...");
+                System.out.println("title="+obj.getProperty(swb_title));
+                System.out.println("1. description="+obj.getProperty(swb_description));
+                System.out.println("action="+action+", prop="+prop+",  lang="+lang);
+                if("SET".equalsIgnoreCase(action)) {
+                    if(obj.getProperty(swb_description)==null) {
+                        obj.setProperty(swb_description, obj.getProperty(swb_title), lang, false);
+                        System.out.println("2. description="+obj.getProperty(swb_description));
+                    }
+                }
+            }
+        });*/
+        /*swb_description.registerObserver(new SemanticObserver() {
+            @Override
+            public void notify(SemanticObject obj, Object prop, String lang, String action)
+            {
+                System.out.println("\n\n--------objetivo...");
+                System.out.println("title="+obj.getProperty(swb_title));
+                System.out.println("description="+obj.getProperty(swb_description));
+                System.out.println("action="+action+", prop="+prop+",  lang="+lang);
+                if("SET".equalsIgnoreCase(action)) {
+                }
+            }
+        });*/
+
         bsc_hasIndicator.registerObserver(new SemanticObserver() {
             @Override
             public void notify(SemanticObject obj, Object prop, String lang, String action)
@@ -377,10 +408,13 @@ public class Objective extends org.semanticwb.bsc.element.base.ObjectiveBase imp
         String iconClass;
         Period p = period;
         PeriodStatus ps;
+System.out.println("\n---\n p="+p.getTitle());
         while( p!=null ) {
             ps = getPeriodStatus(p);
             if(ps!=null && ps.getStatus()!=null) {
+System.out.println("status="+ps.getStatus().getTitle());
                 iconClass = ps.getStatus().getIconClass();
+System.out.println("iconClass="+iconClass);
                 return iconClass;
             }
             p = (Period)p.getPrevius();

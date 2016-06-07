@@ -1057,15 +1057,20 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
                 DetailViewManager.log.error("Al asignar permisos", swbe);
             }
         } else if ("updateProp".equals(action)) {
+System.out.println("--DetailViewManager...........");
             String objectUri = request.getParameter("suri");
             String propUri = request.getParameter("propUri");
             String propValue = request.getParameter("value");
+System.out.println("objectUri="+objectUri);
+System.out.println("propUri="+propUri);
+System.out.println("propValue="+propValue);
             SemanticObject semanticObject = objectUri != null ? SemanticObject.getSemanticObject(objectUri) : null;
             SemanticProperty semProp = org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty(propUri);
 
             if (semanticObject != null && propUri != null && propValue != null) {
                 String value = propValue;
                 if (semProp.isDate()) {
+System.out.println("Date");
                     try {
                         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy", new Locale(lang));
                         semanticObject.setDateProperty(semProp, format.parse(value));
@@ -1073,6 +1078,9 @@ public class DetailViewManager extends org.semanticwb.bsc.admin.resources.base.D
                         log.error(e);
                     }
                 } else if (semProp.isString()) {
+System.out.println("String");
+System.out.println("analisis "+semProp.getDomainClass());
+System.out.println("analisis "+semProp.getSemanticObject());
                     value = SWBUtils.XML.replaceXMLTags(propValue);
                     semanticObject.setProperty(semProp, value);
                 }
