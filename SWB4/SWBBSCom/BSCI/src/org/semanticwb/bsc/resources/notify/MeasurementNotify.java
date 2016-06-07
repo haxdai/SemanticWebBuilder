@@ -93,6 +93,9 @@ System.out.println("nearest Period="+p.getTitle());
                 continue;
             }
 System.out.println("previo para revisar="+p.getTitle());
+            if(indicator.getChampion()==null || indicator.getObjective()==null || indicator.getObjective().getSponsor()==null) {
+                continue;
+            }
 
 
 BSC bsc = indicator.getBSC();
@@ -124,7 +127,7 @@ System.out.println("inTime="+inTime+", isEvaluated="+isEvaluated);
                 try {
                     String body = getNotificationMsgFor(indicator, p, before, after, timeType);
 System.out.println("body="+body);
-                    //mail.setData(body);
+                    mail.setData(body);
                 }catch(Exception e) {
 System.out.println("un error......."+e);
                 }
@@ -190,10 +193,14 @@ System.out.println("---------------------------------------\n");
     private static SWBMail getSWBMail(Indicator indicator) {
         SWBMail mail = new SWBMail();
         mail.setContentType("HTML");
-        mail.setFromEmail("carlos.ramos@infotec.mx");
-        mail.setFromName("charlie");
-        mail.setSubject("testing hits");
-        mail.setData("<h3>testing hist.</h3><p>..indicador="+indicator.getTitle()+"</p><br> fecha:"+DateFormat.getDateInstance(DateFormat.FULL, new Locale("es")).format(new Date()));
+        //mail.setFromEmail("carlos.ramos@infotec.mx");
+        mail.setFromEmail(SWBPortal.getEnv("af/adminEmail"));
+        mail.setFromName("SWB Strategy");
+        mail.setSubject(indicator.getBSC().getDisplayTitle(indicator.getChampion().getLanguage()));
+        
+        String body;
+        body = "<h3>testing hist.</h3><p>..indicador="+indicator.getTitle()+"</p><br> fecha:"+DateFormat.getDateInstance(DateFormat.LONG, new Locale("es")).format(new Date());
+        mail.setData(body);
         InternetAddress ia;
 ArrayList<InternetAddress> addresses = null;
 List<String> emails;

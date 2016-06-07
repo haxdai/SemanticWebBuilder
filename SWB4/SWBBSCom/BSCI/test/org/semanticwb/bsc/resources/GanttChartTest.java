@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.bsc.resources.charts.GanttChart;
 import org.semanticwb.model.WebSite;
 import org.w3c.dom.Document;
 

@@ -462,8 +462,6 @@ public class CumulativeReport extends GenericResource implements ComponentExport
                             JSONObject objectiveData, indicatorData, seriesData, value;
                             JSONArray indicators, serieses, values;
                             
-                            DecimalFormat df = new DecimalFormat("#.##");
-                            
                             objectiveData = new JSONObject();
                             indicators = new JSONArray();
                             try {
@@ -478,7 +476,10 @@ public class CumulativeReport extends GenericResource implements ComponentExport
                                 indicator = indicatorItr.next();
                                 indicatorData = new JSONObject();
                                 
-                                if(indicator.getStar()==null || indicator.getStar().getFormat()==null) {
+                                if(indicator.getStar()==null || !indicator.getStar().isValid()) {
+                                    continue;
+                                }
+                                if(indicator.getStar().getFormat()==null) {
                                     try {
                                         indicatorData.put("format", paramRequest.getLocaleString("lblIndex"));
                                     }catch(JSONException jsone) {

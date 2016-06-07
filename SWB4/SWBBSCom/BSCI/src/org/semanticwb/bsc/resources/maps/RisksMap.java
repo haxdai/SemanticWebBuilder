@@ -48,7 +48,7 @@ public class RisksMap extends GenericResource {
     
     public static final String Action_UPDATE = "update";
     
-    public static final String WORD_SPACING = "14 14 14 14 14 14 14 14 14 14"; // dx para los ejes de coordenadas, excluyendo el 0
+    public static final String WORD_SPACING = "0 0 0 9 0 0 0 10 0 0 0 9 0 0 0 10 0 0 0 9 0 0 0 10 0 0 0 9 0 0 0 10 0 0 0 9 0 0 0 10 0 0 0 9 0"; // dx para los ejes de coordenadas, excluyendo el 0
     
     public static final int MARGEN_LEFT = 20; // Especifica el margen izquierdo del rectángulo de una perspectiva
     public static final int MARGEN_RIGHT = 10; // Especifica el margen derecho del rectángulo de una perspectiva
@@ -1422,7 +1422,9 @@ public class RisksMap extends GenericResource {
             return xpathe.getMessage();
         }
         
-        User user = SWBContext.getSessionUser(getResourceBase().getWebSite().getUserRepository().getId());
+        final BSC scorecard = (BSC)base.getWebSite();
+        
+        User user = SWBContext.getSessionUser(scorecard.getUserRepository().getId());
         String lang = user.getLanguage();
         String bundle = getClass().getName();
         Locale locale = new Locale(lang);
@@ -1518,8 +1520,8 @@ public class RisksMap extends GenericResource {
         y += HEADER_HEIGHT + MARGEN_TOP;
         int x_ = 0;
         int y_ = 0;
-        int w_ = 120;
-        int h_ = 120;
+        int w_ = 150;
+        int h_ = 150;
         
         SVGjs.append(" var x = "+x+";").append("\n");
         SVGjs.append(" var y = "+y+";").append("\n");
@@ -1530,33 +1532,17 @@ public class RisksMap extends GenericResource {
         SVGjs.append(" g.setAttributeNS(null,'transform','translate('+x+','+y+')');").append("\n");
         
         // Etiqueta "Mapa de riesgos XXX"
-        SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblRiskMap", locale)+"',"+w_+","+y_+","+HEADER_2+",'Verdana');").append("\n");
+System.out.println("bsc="+scorecard+" title="+scorecard.getTitle());
+System.out.println(" title lang="+scorecard.getTitle(lang));
+        SVGjs.append(" txt = createText('"
+                +SWBUtils.TEXT.getLocaleString(bundle, "lblRiskMap", locale)
+                +" "
+                +scorecard.getTitle()+"',"+w_+","+y_+","+HEADER_2+",'Verdana');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
-        SVGjs.append(" txt.setAttributeNS(null,'style','fill:##373737;font-family:tahoma,verdana,sans-serif');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#542F78;font-size:14px;font-weight:bold;');").append("\n");
         SVGjs.append(" g.appendChild(txt);").append("\n");
         //SVGjs.append(" y_ = y_ + "+(HEADER_2+BOX_SPACING_BOTTOM)).append("\n");
         y_ = y_+HEADER_2+PADDING_DOWN;
-        
-        // def eje de coordenadas
-        SVGjs.append(" txt = document.createElementNS(SVG_,'text');").append("\n");
-        SVGjs.append(" txt.setAttributeNS(null,'id','axis');").append("\n");
-        //SVGjs.append(" txt.setAttributeNS(null,'font-size',"+HEADER_3+");").append("\n");
-        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;font-size:"+HEADER_3+"px;');").append("\n");
-        SVGjs.append(" txt.setAttributeNS(null,'font-family','Verdana');").append("\n");
-        
-        SVGjs.append(" defs.appendChild(txt);").append("\n");
-        // Escala 0
-        SVGjs.append(" var text_node = document.createTextNode('0');").append("\n");
-        SVGjs.append(" var tspan_element = document.createElementNS(SVG_, 'tspan');").append("\n");
-        SVGjs.append(" tspan_element.appendChild(text_node);").append("\n");
-        SVGjs.append(" txt.appendChild(tspan_element);").append("\n");        
-        // Escala 1  2  3  4  5...
-        SVGjs.append(" text_node = document.createTextNode('12345678910');").append("\n");
-        SVGjs.append(" tspan_element = document.createElementNS(SVG_, 'tspan');").append("\n");
-        SVGjs.append(" tspan_element.setAttributeNS(null,'dx','"+WORD_SPACING+"');").append("\n");
-        SVGjs.append(" tspan_element.appendChild(text_node);").append("\n");
-        SVGjs.append(" txt.appendChild(tspan_element);").append("\n");
-        // Fin def eje de coordenadas
         
         // Cuadrantes
         SVGjs.append(" rect = createRect('quadrant_"+1+"_lg"+"',"+w_+","+h_+","+(x_)+","+y_+",0,0,'"+base.getAttribute("quadrant1Color","#0000FF")+"',1,'"+base.getAttribute("quadrant1Color","#0000FF")+"',1,1);").append("\n");
@@ -1568,31 +1554,59 @@ public class RisksMap extends GenericResource {
         SVGjs.append(" rect = createRect('quadrant_"+4+"_lg"+"',"+w_+","+h_+","+(x_+w_+1)+","+(y_+h_+1)+",0,0,'"+base.getAttribute("quadrant4Color","#F7FE2E")+"',1,'"+base.getAttribute("quadrant4Color","#F7FE2E")+"',1,1);").append("\n");
         SVGjs.append(" g.appendChild(rect);").append("\n");
         
-        // abscisas (valores de impacto)
+        // Inicia def eje X (Impacto)
+        SVGjs.append(" txt = document.createElementNS(SVG_,'text');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'id','axis_x');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;font-size:"+HEADER_3+"px;');").append("\n");
+        SVGjs.append(" defs.appendChild(txt);").append("\n");
+        // Escala 0 1 2 3 4 5...
+        SVGjs.append(" text_node = document.createTextNode('0 1 2 3 4 5 6 7 8 9 10');").append("\n");
+        SVGjs.append(" tspan_element = document.createElementNS(SVG_, 'tspan');").append("\n");
+        SVGjs.append(" tspan_element.setAttributeNS(null,'dx','0 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10');").append("\n");
+        SVGjs.append(" tspan_element.setAttributeNS(null,'style','fill:#373737;font-size:10px;font-weight:bold;');").append("\n");
+        SVGjs.append(" tspan_element.appendChild(text_node);").append("\n");
+        SVGjs.append(" txt.appendChild(tspan_element);").append("\n");
+        // Fin def eje X
+        // Abscisas (valores de impacto)
         SVGjs.append(" use = document.createElementNS(SVG_,'use');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'x','"+(x_)+"');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'y','"+(y_+2*h_+BOX_SPACING)+"');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'style','visibility:visible;fill:#000000');").append("\n");
-        SVGjs.append(" use.setAttributeNS(XLINK_,'xlink:href','#axis');").append("\n");
+        SVGjs.append(" use.setAttributeNS(XLINK_,'xlink:href','#axis_x');").append("\n");
         SVGjs.append(" g.appendChild(use);").append("\n");
         // Etiqueta "Impacto"
         SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblImpact", locale)+"',"+w_+","+(y_+2*h_+BOX_SPACING+HEADER_3)+","+HEADER_3+",'Verdana');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
-        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#542F78;font-size:12px;font-weight:bold;');").append("\n");
         SVGjs.append(" g.appendChild(txt);").append("\n");
         
+        
+        // Inicia def eje Y (probabilidad)
+        SVGjs.append(" txt = document.createElementNS(SVG_,'text');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'id','axis_y');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;font-size:"+HEADER_3+"px;');").append("\n");
+        SVGjs.append(" defs.appendChild(txt);").append("\n");
+        // Escala 0.0 0.1  0.2  0.3  0.4  0.5...
+        SVGjs.append(" text_node = document.createTextNode('0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0');").append("\n");
+        SVGjs.append(" tspan_element = document.createElementNS(SVG_, 'tspan');").append("\n");
+        SVGjs.append(" tspan_element.setAttributeNS(null,'dx','"+WORD_SPACING+"');").append("\n");
+        SVGjs.append(" tspan_element.setAttributeNS(null,'style','fill:#373737;font-size:10px;font-weight:bold;');").append("\n");
+        SVGjs.append(" tspan_element.appendChild(text_node);").append("\n");
+        SVGjs.append(" txt.appendChild(tspan_element);").append("\n");
+        // Fin def eje Y
         // Ordenadas (valores de probabilidad)
         SVGjs.append(" use = document.createElementNS(SVG_,'use');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'x','"+(x_+2*w_+HEADER_3)+"');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'y','"+(y_+2*h_+BOX_SPACING-HEADER_3)+"');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'style','visibility:visible;fill:#000000');").append("\n");
         SVGjs.append(" use.setAttributeNS(null,'transform','rotate(270,"+(x_+2*w_+HEADER_3)+","+(y_+2*h_+BOX_SPACING-HEADER_3)+")');").append("\n");
-        SVGjs.append(" use.setAttributeNS(XLINK_,'xlink:href','#axis');").append("\n");
+        SVGjs.append(" use.setAttributeNS(XLINK_,'xlink:href','#axis_y');").append("\n");
         SVGjs.append(" g.appendChild(use);").append("\n");
         // Etiqueta "Probabilidad"
         SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblProbability", locale)+"',"+(x_+2*w_+BOX_SPACING+HEADER_3)+","+h_+","+HEADER_3+",'Verdana');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#542F78;font-size:12px;font-weight:bold;');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'transform','rotate(270,"+(x_+2*w_+BOX_SPACING+HEADER_3)+","+h_+")');").append("\n");
         SVGjs.append(" g.appendChild(txt);").append("\n");
         
@@ -1607,9 +1621,10 @@ public class RisksMap extends GenericResource {
                 String rid = attrs.getNamedItem("id").getNodeValue();
                 String prefix = attrs.getNamedItem("prefix").getNodeValue();
                 int impact = Integer.parseInt(attrs.getNamedItem("impact").getNodeValue());
-                int likehood = Integer.parseInt(attrs.getNamedItem("likehood").getNodeValue());
-                //SVGjs.append(" pto = createCircle('"+rid+"',"+(impact*30)+","+(aux-likehood*30)+",6,'#000000',1,1,1,1);").append("\n");
-                SVGjs.append(" pto = createCircle('"+rid+"',"+(impact*24)+","+(aux-likehood*24)+",5,'#000000',1,'none',1,1);").append("\n");
+System.out.println("node value="+attrs.getNamedItem("likehood").getNodeValue());
+                float likehood = Float.parseFloat(attrs.getNamedItem("likehood").getNodeValue())*10;
+System.out.println("impact="+impact+"; prob="+likehood);
+                SVGjs.append(" pto = createCircle('"+rid+"',"+(impact*30)+","+(aux-likehood*30)+",5,'#000000',1,'none',1,1);").append("\n");
                 SVGjs.append(" pto.setAttributeNS(null,'id','"+prefix+" ("+impact+","+likehood+")');").append("\n");
                 SVGjs.append(" pto.addEventListener('mouseover', showTooltip, false);").append("\n");
                 SVGjs.append(" pto.addEventListener('mouseout', hideTooltip, false);").append("\n");
@@ -1669,9 +1684,9 @@ public class RisksMap extends GenericResource {
         SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblRiskDescription", locale)+"',x_,y_,"+HEADER_4+",'Verdana');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'style','fill:#373737;font-weight:bold;');").append("\n");
         SVGjs.append(" g.appendChild(txt);").append("\n");
-        SVGjs.append(" fixParagraphToWidth(txt,"+(4*w_)+",x_);").append("\n");
+        SVGjs.append(" fixParagraphToWidth(txt,"+(2.5*w_)+",x_);").append("\n");
         SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
-        SVGjs.append(" framingRect(rect,"+(4*w_)+",'#9370db',0.3,'#9370db',1,1,0,0);").append("\n");
+        SVGjs.append(" framingRect(rect,"+(2.5*w_)+",'#9370db',0.3,'#9370db',1,1,0,0);").append("\n");
         SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
         SVGjs.append(" x_ = x_ + rect.width.baseVal.value + "+PADDING_LEFT+";").append("\n");
         SVGjs.append(" if(rect.height.baseVal.value>h_) {").append("\n");
@@ -1712,7 +1727,7 @@ public class RisksMap extends GenericResource {
                 //String rid = attrs.getNamedItem("id").getNodeValue();
                 String prefix = attrs.getNamedItem("prefix").getNodeValue();
                 int impact = Integer.parseInt(attrs.getNamedItem("impact").getNodeValue());
-                int likehood = Integer.parseInt(attrs.getNamedItem("likehood").getNodeValue());
+                float likehood = Float.parseFloat(attrs.getNamedItem("likehood").getNodeValue());
                 String title = node.getFirstChild().getNodeValue();
                 // prefijo del riesgo
                 SVGjs.append(" x_ = 0;").append("\n");
@@ -1733,13 +1748,13 @@ public class RisksMap extends GenericResource {
                 SVGjs.append(" x_ = x_+rect.width.baseVal.value+"+PADDING_LEFT+";").append("\n");
                 SVGjs.append(" txt = createText('"+title+"',x_,y_,"+HEADER_3+",'Verdana');").append("\n");
                 SVGjs.append(" g.appendChild(txt);").append("\n");
-                SVGjs.append(" fixParagraphToWidth(txt,"+(4*w_)+",x_);").append("\n");
+                SVGjs.append(" fixParagraphToWidth(txt,"+(2.5*w_)+",x_);").append("\n");
                 SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
                 //SVGjs.append(" framingRect(rect,"+(4*w_)+",'#ffffff',0.3,'#ffffff',0.6,1,0,0);").append("\n");
                 if(isNone) {
-                    SVGjs.append(" framingRect(rect,"+(4*w_)+",'#ffffff',0.3,'#ffffff',1,1,0,0);").append("\n");
+                    SVGjs.append(" framingRect(rect,"+(2.5*w_)+",'#ffffff',0.3,'#ffffff',1,1,0,0);").append("\n");
                 }else {
-                    SVGjs.append(" framingRect(rect,"+(4*w_)+",'#b7b7b7',0.3,'#b7b7b7',1,1,0,0);").append("\n");
+                    SVGjs.append(" framingRect(rect,"+(2.5*w_)+",'#b7b7b7',0.3,'#b7b7b7',1,1,0,0);").append("\n");
                 }
                 SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
                 SVGjs.append(" if(rect.height.baseVal.value>h_) {").append("\n");

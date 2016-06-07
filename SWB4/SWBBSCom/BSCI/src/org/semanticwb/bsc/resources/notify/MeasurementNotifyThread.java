@@ -21,7 +21,7 @@ public class MeasurementNotifyThread extends TimerTask implements SWBAppObject {
     public static final int ONE_DAY = 1*24*60*ONE_MIN; // 1 día en milisegundos
     public static final int DEF_PERIOD = 60*1000;//1*ONE_DAY;    // Periodo de ejecución cada 1 día
     public static final int DEF_DELAY = 10*ONE_MIN;
-    public static final String START = "22:46";//"00:30"        // Iniciar hilo a las hh:mm
+    public static final String START = "23:14";//"00:30"        // Iniciar hilo a las hh:mm
     
     public MeasurementNotifyThread() {
     }
