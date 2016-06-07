@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Representa un archivo físico utilizado a manera de evidencia sobre la realización de alguna actividad. 
    */
-public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.SM,org.semanticwb.model.UserGroupRefable,org.semanticwb.bsc.Seasonable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Preference,org.semanticwb.bsc.Detailed,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Schedule,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Updateable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.model.Referensable,org.semanticwb.bsc.Attachmentable
+public abstract class DeliverableBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Schedule,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Trashable,org.semanticwb.bsc.SM,org.semanticwb.bsc.Updateable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.bsc.Preference,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Seasonable,org.semanticwb.bsc.Help
 {
    /**
    * Ruta del archivo físico asociado

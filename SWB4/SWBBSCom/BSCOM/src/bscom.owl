@@ -49,14 +49,6 @@
       </swb:Interface>
     </rdfs:subClassOf>
     <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Initiative"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <swb:Interface rdf:ID="Seasonable">
         <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBInterface"/>
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -71,6 +63,14 @@
         >Cualquier elemento BSC que se pueda programar con fechas de inicio y fin</rdfs:comment>
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Interface>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="Initiative"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
     </rdfs:subClassOf>
     <rdfs:subClassOf>
       <owl:Class rdf:ID="Detailed"/>
@@ -223,14 +223,6 @@
     </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="#Updateable"/>
     <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Objective"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <swb:Interface rdf:ID="Summarized">
         <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
         >Interfaz que define un elemento que puede mostrarse en una vista resumida</rdfs:comment>
@@ -238,6 +230,22 @@
         <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
       </swb:Interface>
     </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:ID="Serializable"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf rdf:resource="#BSCElement"/>
+    <swb:displayObject>
+      <swbxf:DisplayObject rdf:ID="do_Indicator">
+        <rdfs:label xml:lang="en">Indicator</rdfs:label>
+        <rdfs:label xml:lang="es">Indicador</rdfs:label>
+        <swbxf:dropMatchLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >2</swbxf:dropMatchLevel>
+        <swbxf:dragSupport rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
+        >true</swbxf:dragSupport>
+        <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >swbstrgyIconIndicator</swb:iconClass>
+      </swbxf:DisplayObject>
+    </swb:displayObject>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:allValuesFrom>
@@ -300,22 +308,6 @@
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf>
-      <owl:Class rdf:ID="Serializable"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="#BSCElement"/>
-    <swb:displayObject>
-      <swbxf:DisplayObject rdf:ID="do_Indicator">
-        <rdfs:label xml:lang="en">Indicator</rdfs:label>
-        <rdfs:label xml:lang="es">Indicador</rdfs:label>
-        <swbxf:dropMatchLevel rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >2</swbxf:dropMatchLevel>
-        <swbxf:dragSupport rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
-        >true</swbxf:dragSupport>
-        <swb:iconClass rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >swbstrgyIconIndicator</swb:iconClass>
-      </swbxf:DisplayObject>
-    </swb:displayObject>
     <rdfs:subClassOf rdf:resource="#Seasonable"/>
     <rdfs:subClassOf>
       <owl:Class rdf:about="#Committable"/>
@@ -343,6 +335,14 @@
     >true</swb:autogenId>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Define las características de un Indicador.</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="Objective"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Undeleteable"/>
   </owl:Class>
   <owl:Class rdf:ID="BooleanElement">
@@ -383,6 +383,14 @@
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="PeriodGroup"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
       <swb:Class rdf:ID="BSCAccessory">
         <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FilterableNode"/>
         <rdfs:label xml:lang="es">Accesorio BSC</rdfs:label>
@@ -409,14 +417,6 @@
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Período de medición.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="#Machinable"/>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="PeriodGroup"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >org.semanticwb.bsc.accessory</swb:classCodePackage>
     <swb:displayObject>
@@ -450,14 +450,6 @@
         >false</swbxf:dragSupport>
       </swbxf:DisplayObject>
     </swb:displayObject>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Agreement"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >org.semanticwb.bsc.tracing</swb:classCodePackage>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
@@ -475,13 +467,21 @@
       </swb:Interface>
     </rdfs:subClassOf>
     <rdfs:subClassOf>
-      <owl:Class rdf:about="#BSCTracing"/>
-    </rdfs:subClassOf>
-    <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
         <owl:allValuesFrom>
           <owl:Class rdf:ID="BSC"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Class rdf:about="#BSCTracing"/>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="Agreement"/>
         </owl:allValuesFrom>
       </owl:Restriction>
     </rdfs:subClassOf>
@@ -530,6 +530,8 @@
     <rdfs:label xml:lang="en">State</rdfs:label>
     <rdfs:subClassOf rdf:resource="#Sortable"/>
     <rdfs:subClassOf rdf:resource="#BSCAccessory"/>
+    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >org.semanticwb.bsc.accessory</swb:classCodePackage>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
@@ -557,8 +559,6 @@
         </owl:allValuesFrom>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >org.semanticwb.bsc.accessory</swb:classCodePackage>
     <swb:displayObject>
       <swbxf:DisplayObject rdf:ID="do_State">
         <rdfs:label xml:lang="en">State</rdfs:label>
@@ -689,6 +689,14 @@
   <owl:Class rdf:ID="Theme">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Los temas estratégicos agrupan objetivos con fines en común. A su vez, los temas están agrupados dentro de las perspectivas.</rdfs:comment>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="Perspective"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FilterableClass"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#RoleRefable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FilterableNode"/>
@@ -709,14 +717,6 @@
     >true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <rdfs:subClassOf rdf:resource="#Sortable"/>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Perspective"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <swb:classCodePackage rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >org.semanticwb.bsc</swb:classCodePackage>
@@ -784,13 +784,13 @@
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="#Summarized"/>
+    <rdfs:subClassOf rdf:resource="#Recognizable"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
         <owl:allValuesFrom rdf:resource="#Meeting"/>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="#Recognizable"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Define las características de un Acuerdo.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="#BSCElement"/>
@@ -812,6 +812,14 @@
   <owl:Class rdf:ID="Factor">
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+        <owl:allValuesFrom>
+          <owl:Class rdf:ID="Risk"/>
+        </owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
@@ -846,14 +854,6 @@
     </rdfs:subClassOf>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
     >Clase que define un factor de riesgo.</rdfs:comment>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-        <owl:allValuesFrom>
-          <owl:Class rdf:ID="Risk"/>
-        </owl:allValuesFrom>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="#BSCTracing"/>
     <swb:displayObject>
       <swbxf:DisplayObject rdf:ID="do_Factor">
@@ -878,6 +878,12 @@
   </owl:Class>
   <owl:Class rdf:about="#Initiative">
     <rdfs:subClassOf rdf:resource="#Status"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
+        <owl:allValuesFrom rdf:resource="#Deliverable"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="#Seasonable"/>
     <swb:displayObject>
       <swbxf:DisplayObject rdf:ID="do_Initiative">
@@ -893,12 +899,6 @@
     <rdfs:subClassOf rdf:resource="#Schedule"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
-        <owl:allValuesFrom rdf:resource="#Deliverable"/>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdfs:label xml:lang="es">Iniciativa</rdfs:label>
     <rdfs:subClassOf rdf:resource="#BSCElement"/>
     <rdfs:subClassOf rdf:resource="#Detailed"/>
@@ -1097,10 +1097,22 @@
     >org.semanticwb.bsc</swb:classCodePackage>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Descriptiveable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Activeable"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="#BSC"/>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#SWBClass"/>
     <swb:autogenId rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
     >true</swb:autogenId>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#UserGroupRefable"/>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+        <owl:allValuesFrom rdf:resource="#Theme"/>
+        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
     <swb:displayObject>
       <swbxf:DisplayObject rdf:ID="do_Perspective">
         <swbxf:dragSupport rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean"
@@ -1114,6 +1126,8 @@
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#RuleRefable"/>
     <rdfs:subClassOf rdf:resource="#Help"/>
     <rdfs:subClassOf rdf:resource="#Serializable"/>
+    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
+    <rdfs:subClassOf rdf:resource="#Recognizable"/>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
@@ -1145,23 +1159,9 @@
         </owl:allValuesFrom>
       </owl:Restriction>
     </rdfs:subClassOf>
-    <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Traceable"/>
-    <rdfs:subClassOf rdf:resource="#Recognizable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Trashable"/>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:allValuesFrom rdf:resource="#BSC"/>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#webPageParent"/>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdfs:subClassOf rdf:resource="#Sortable"/>
     <rdfs:subClassOf rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#FilterableClass"/>
-    <rdfs:subClassOf>
-      <owl:Restriction>
-        <owl:allValuesFrom rdf:resource="#Theme"/>
-        <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
-      </owl:Restriction>
-    </rdfs:subClassOf>
     <rdf:type rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#Class"/>
   </owl:Class>
   <owl:Class rdf:about="#Risk">
@@ -1207,14 +1207,14 @@
     <rdfs:subClassOf rdf:resource="#DepartmentOrganizable"/>
   </owl:Class>
   <owl:Class rdf:about="#Objective">
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >Define las características de un Objetivo estratégico.</rdfs:comment>
     <rdfs:subClassOf>
       <owl:Restriction>
         <owl:onProperty rdf:resource="http://www.semanticwebbuilder.org/swb4/ontology#hasWebPageChild"/>
         <owl:allValuesFrom rdf:resource="#Indicator"/>
       </owl:Restriction>
     </rdfs:subClassOf>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >Define las características de un Objetivo estratégico.</rdfs:comment>
     <rdfs:subClassOf rdf:resource="#Serializable"/>
     <rdfs:subClassOf rdf:resource="#PeriodStatusAssignable"/>
     <rdfs:subClassOf rdf:resource="#Causal"/>
@@ -3528,20 +3528,18 @@
     <rdfs:label xml:lang="en">Final assessment - Likelihood</rdfs:label>
     <rdfs:label xml:lang="es">Valoración final - Probabilidad de ocurrencia</rdfs:label>
     <rdfs:domain rdf:resource="#Risk"/>
-    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 1 al 10</rdfs:comment>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
     <swb:displayProperty>
       <swbxf:DisplayProperty rdf:ID="dp_finAssessmentLikelihood">
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >0.0:0.0|0.1:0.10|0.2:0.20|0.3:0.30|0.4:0.40|0.5:0.50|0.6:0.60|0.7:0.70|0.8:0.80|0.9:0.90|1.0:1.0</swbxf:propSelectValues>
         <rdfs:label xml:lang="es">Valoración final - Probabilidad de Ocurrencia</rdfs:label>
         <rdfs:label xml:lang="en">Final assessment – Likelihood</rdfs:label>
         <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >170</swb:index>
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >1:1|2:2|3:3|4:4|5:5|6:6|7:7|8:8|9:9|10:10</swbxf:propSelectValues>
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
       </swbxf:DisplayProperty>
     </swb:displayProperty>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <bsc:displayElement>
       <swbxf:DisplayProperty rdf:ID="dpbsc_finAssessmentLikelihood">
         <rdfs:label xml:lang="en">Final assessment – Likelihood</rdfs:label>
@@ -3550,9 +3548,11 @@
         >170</swb:index>
         <swbxf:formElement rdf:resource="#InLineSelectOne"/>
         <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >1:1|2:2|3:3|4:4|5:5|6:6|7:7|8:8|9:9|10:10</swbxf:propSelectValues>
+        >0.0:0.0|0.10:0.10|0.20:0.20|0.30:0.30|0.40:0.40|0.50:0.50|0.60:0.60|0.70:0.70|0.80:0.80|0.90:0.90|1.0:1.0</swbxf:propSelectValues>
       </swbxf:DisplayProperty>
     </bsc:displayElement>
+    <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+    >La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0</rdfs:comment>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="showRemove">
     <rdfs:domain>
@@ -3679,31 +3679,31 @@
     <rdfs:label xml:lang="en">Initial assessment - Likelihood</rdfs:label>
     <rdfs:label xml:lang="es">Valoración inicial - Probabilidad de ocurrencia</rdfs:label>
     <rdfs:domain rdf:resource="#Risk"/>
-    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-    >La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 1 al 10</rdfs:comment>
-    <swb:displayProperty>
-      <swbxf:DisplayProperty rdf:ID="dp_iniAssessmentLikelihood">
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >1:1|2:2|3:3|4:4|5:5|6:6|7:7|8:8|9:9|10:10</swbxf:propSelectValues>
-        <rdfs:label xml:lang="en">Iinitial assessment – Likelihood</rdfs:label>
-        <rdfs:label xml:lang="es">Valoración Inicial - Probabilidad de Ocurrencia</rdfs:label>
-        <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
-        >150</swb:index>
-        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
-      </swbxf:DisplayProperty>
-    </swb:displayProperty>
+    >La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0</rdfs:comment>
     <bsc:displayElement>
       <swbxf:DisplayProperty rdf:ID="dpbsc_iniAssessmentLikelihood">
         <rdfs:label xml:lang="en">Iinitial assessment – Likelihood</rdfs:label>
         <rdfs:label xml:lang="es">Valoración Inicial - Probabilidad de Ocurrencia</rdfs:label>
         <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
         >150</swb:index>
-        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
-        >1:1|2:2|3:3|4:4|5:5|6:6|7:7|8:8|9:9|10:10</swbxf:propSelectValues>
         <swbxf:formElement rdf:resource="#InLineSelectOne"/>
+        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >0.0:0.0|0.10:0.10|0.20:0.20|0.30:0.30|0.40:0.40|0.50:0.50|0.60:0.60|0.70:0.70|0.80:0.80|0.90:0.90|1.0:1.0</swbxf:propSelectValues>
       </swbxf:DisplayProperty>
     </bsc:displayElement>
+    <swb:displayProperty>
+      <swbxf:DisplayProperty rdf:ID="dp_iniAssessmentLikelihood">
+        <swbxf:formElement rdf:resource="http://www.semanticwebbuilder.org/swb4/xforms/ontology#selectOneModelWithBlank"/>
+        <rdfs:label xml:lang="en">Iinitial assessment – Likelihood</rdfs:label>
+        <rdfs:label xml:lang="es">Valoración Inicial - Probabilidad de Ocurrencia</rdfs:label>
+        <swb:index rdf:datatype="http://www.w3.org/2001/XMLSchema#int"
+        >150</swb:index>
+        <swbxf:propSelectValues rdf:datatype="http://www.w3.org/2001/XMLSchema#string"
+        >0.0:0.0|0.10:0.10|0.20:0.20|0.30:0.30|0.40:0.40|0.50:0.50|0.60:0.60|0.70:0.70|0.80:0.80|0.90:0.90|1.0:1.0</swbxf:propSelectValues>
+      </swbxf:DisplayProperty>
+    </swb:displayProperty>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
   </owl:DatatypeProperty>
   <owl:DatatypeProperty rdf:ID="valueMax">
     <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"

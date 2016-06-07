@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Clase que define el valor de un estado en un periodo. Ejemplo: Para el periodo "Enero 2013" - Estado "En Riesgo" 
    */
-public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.bsc.Help,org.semanticwb.model.FilterableNode,org.semanticwb.model.Referensable
+public abstract class PeriodStatusBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
 {
    /**
    * Un estado define la situación de una medición  en un indicador respecto de las metas de su objetivo.

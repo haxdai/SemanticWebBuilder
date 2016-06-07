@@ -72,7 +72,7 @@ public class TextAreaElement extends org.semanticwb.bsc.formelement.base.TextAre
             String objectId = obj.getSemanticClass().getClassCodeName() + obj.getId() +
                     propName;
             String url = (String) request.getAttribute("urlRequest");
-            
+System.out.println("\nTextareaElement rendering....");
             viewString.append("<script type=\"text/javascript\">\n");
             viewString.append("  <!--\n");
             viewString.append("    var iledit_");

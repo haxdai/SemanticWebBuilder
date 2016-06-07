@@ -4,7 +4,7 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define las características de un Acuerdo. 
    */
-public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.Searchable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Traceable,org.semanticwb.model.Trashable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.RoleRefable,org.semanticwb.bsc.Detailed,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableClass,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help,org.semanticwb.bsc.Summarized,org.semanticwb.model.Referensable,org.semanticwb.bsc.Attachmentable
+public abstract class AgreementBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Trashable,org.semanticwb.bsc.Summarized,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
 {
    /**
    * Superclase de todos los objetos con persistencia en SemanticWebBuilder
