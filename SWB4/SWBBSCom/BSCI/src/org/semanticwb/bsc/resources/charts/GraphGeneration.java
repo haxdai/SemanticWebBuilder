@@ -127,7 +127,7 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
             firstOutput.append("      <div class=\"centerSvg\">\n");
             firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"hGraph").append(SVG_ID).append("\" value=\"1\" onclick=\"showGraph(this);\" checked><label for=\"hGraph").append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblLandscape")).append("</label>\n");
-            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"vGraph").append(SVG_ID).append("\" value=\"2\" onclick=\"showGraph(this);\"><label for=\"vGraph").append(SVG_ID).append("\">");
+            firstOutput.append("       <input type=\"radio\" name=\"graphType\" id=\"vGraph").append(SVG_ID).append("\" value=\"2\" onclick=\"showGraph(this);\" ><label for=\"vGraph").append(SVG_ID).append("\">");
             firstOutput.append(paramRequest.getLocaleString("lblNarrow")).append("</label>\n");
             firstOutput.append("      </div>\n");
             firstOutput.append("     </div>\n");
@@ -175,7 +175,8 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                         output.append(period.getDisplayTitle(lang));
                         output.append("\", ");
                         try {
-                            if (measure.getValue() != 0) {
+                            if( !Float.isNaN(measure.getValue()) ) {
+                            //if (measure.getValue() != 0) {
                                 output.append("\"value\" : ");
                                 output.append(measure.getValue());
                             }
@@ -206,7 +207,7 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append(marginLeftH);
                 output.append(" })\n");
                 output.append("    .transitionDuration(250)\n");
-                output.append("    .showControls(true);\n");
+                output.append("    .showControls(true);\n");    /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
                 output.append("  chart.yAxis\n");
                 output.append("    .tickFormat(d3.format(',.2f'));\n");
                 output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
@@ -229,11 +230,11 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append(marginLeftV);
                 output.append(" })\n");
                 output.append("      .transitionDuration(350)\n");
-                output.append("      .reduceXTicks(true)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
+                output.append("      .reduceXTicks(false)\n");   /*If 'false', every single x-axis tick label will be rendered.*/
                 output.append("      .rotateLabels(");
                 output.append(rotateLabels);
                 output.append(")\n"); 
-                output.append("      .staggerLabels(true)\n");     /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
+                output.append("      .staggerLabels(true)\n");   /*Intercala etiquetas en el eje 1 arriba, 1 abajo.*/
                 output.append("      .showControls(true)\n");   /*Allow user to switch between 'Grouped' and 'Stacked' mode.*/
                 output.append("      .groupSpacing(0.1);\n");    /*Distance between each group of bars.*/
                 output.append("  chart2.yAxis\n");
@@ -241,12 +242,12 @@ public class GraphGeneration extends GenericAdmResource implements ComponentExpo
                 output.append("  return chart2;\n");
                 output.append("});\n");
                 output.append("  function showGraph(radioBtn) {\n");
-                output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
+                output.append("    if(radioBtn.value == 1 && radioBtn.checked) {\n");
                 output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
                 output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");
                 output.append("        .call(chart);\n");
-                output.append("    } else if (radioBtn.value == 2 && radioBtn.checked) {\n");
+                output.append("    }else if (radioBtn.value == 2 && radioBtn.checked) {\n");
                 output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
                 output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
                 output.append("        .datum(long_short_data)\n");

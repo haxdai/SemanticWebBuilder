@@ -9,6 +9,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.accessory.Period;
@@ -136,21 +139,36 @@ public class GraphPeriodStatus extends GenericAdmResource {
             Iterator<Period> periods = periodsLst.iterator();
             if(periods.hasNext())
             {
+                JSONObject objectiveData, value;
+                objectiveData = new JSONObject();
+                JSONArray values;
+                values = new JSONArray();
+                try {
+                    objectiveData.put("title", obj.getDisplayTitle(lang));
+                    objectiveData.put("key", paramRequest.getLocaleString("lblKey"));
+                    objectiveData.put("color", graphColor);
+                    objectiveData.put("values", values);
+                }catch(JSONException jsone) {
+                    
+                }
+                
+                
                 //output.append("<div>\n");
-                output.append("<script type=\"text/javascript\">\n");
-                output.append("long_short_data = [\n");
-                output.append("{");
-                //Se coloca el identificador de cada estado
-                output.append("  key: \"");
-                output.append("Estados de los periodos");
-                output.append("\" ,\n");
-                //Se coloca el color a utilizar para la grafica
-                output.append("  color: '");
-                output.append(graphColor);                          
-                output.append("',\n");
-                output.append("  values: [\n");
-                //Recorre los periodos y valores de los estatus para graficarlos
+                
+//                output.append("long_short_data = [\n");
+//                output.append("{");
+//                //Se coloca el identificador de cada estado
+//                output.append("  key: \"");
+//                output.append(paramRequest.getLocaleString("lblKey"));
+//                output.append("\" ,\n");
+//                //Se coloca el color a utilizar para la grafica
+//                output.append("  color: '");
+//                output.append(graphColor);                          
+//                output.append("',\n");
+//                output.append("  values: [\n");
+//                //Recorre los periodos y valores de los estatus para graficarlos
                 Period period;
+                State st;                
                 while(periods.hasNext())
                 {
                     period = periods.next();
@@ -158,20 +176,50 @@ public class GraphPeriodStatus extends GenericAdmResource {
                         break;
                     }
                     PeriodStatus ps = obj.getPeriodStatus(period);
-                    if(ps!=null && ps.getStatus()!=null) {
-                        State st = ps.getStatus();
-                        output.append("{");
-                        output.append(" \"label\" : \"");
-                        output.append(period.getTitle());
-                        output.append("\", ");
-                        output.append("\"value\" : ");
-                        output.append(st.getIndex());
-                        output.append("}");
-                        output.append(periods.hasNext()?",\n":"\n");
+                    if(ps==null || ps.getStatus()==null) {
+                        continue;
                     }
+                    
+                    //if(ps!=null && ps.getStatus()!=null) {
+                    st = ps.getStatus();
+                    value = new JSONObject();
+                    try {
+                        value.put("label", period.getDisplayTitle(lang));
+                        value.put("value", st.getIndex());
+                    }catch(JSONException jse) {
+                        continue;
+                    }
+                    
+//                    output.append("{");
+//                    output.append(" \"label\" : \"");
+//                    output.append(period.getTitle());
+//                    output.append("\", ");
+//                    output.append("\"value\" : ");
+//                    output.append(st.getIndex());
+//                    output.append("}");
+//                    output.append(periods.hasNext()?",\n":"\n");
+                    values.put(value);
+                    //}
                 }
-                output.append("  ]\n");
-                output.append("}];\n");
+//                output.append("  ]\n");
+//                output.append("}];\n");
+                output.append("<script type=\"text/javascript\">\n");
+output.append("var long_short_data = [\n");
+output.append("{ \"key\": \"Estados de los periodos\",\n");
+output.append("  \"color\": \"#f44336\",\n");
+output.append("  values: [\n");
+output.append("{ \"label\" : \"enero 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"febrero 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"marzo 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"abril 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"mayo 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"junio 2015\", \"value\" : 2},\n");
+output.append("{ \"label\" : \"julio 2015\", \"value\" : 3},\n");
+output.append("{ \"label\" : \"agosto 2015\", \"value\" : 1},\n");
+output.append("{ \"label\" : \"septiembre 2015\", \"value\" : 1},\n");
+output.append("{ \"label\" : \"octubre 2015\", \"value\" : 1}\n");
+output.append("  ]\n");
+output.append("}];\n");
                 output.append("var chart;\n");
                 output.append("var chart2;\n");
                 output.append("nv.addGraph(function() {\n");
@@ -191,10 +239,10 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("    .showControls(false);\n");
                 output.append("  chart.yAxis\n");
                 output.append("      .tickFormat(d3.format(',.2d'));\n");
-                output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
-                output.append("    .datum(long_short_data)\n");
-                output.append("    .call(chart);\n");
-                output.append("  nv.utils.windowResize(chart.update);\n");
+//                output.append("  d3.select('#").append(SVG_ID).append(" svg')\n");
+//                output.append("    .datum(long_short_data)\n");
+//                output.append("    .call(chart);\n");
+//                output.append("  nv.utils.windowResize(chart.update);\n");
                 output.append("  return chart;\n");
                 output.append("});\n");
                 output.append("nv.addGraph(function() {\n");
@@ -220,20 +268,35 @@ public class GraphPeriodStatus extends GenericAdmResource {
                 output.append("      .groupSpacing(0.1);\n");    //Distance between each group of bars.
                 output.append("  chart2.yAxis\n");
                 output.append("      .tickFormat(d3.format(',.2d'));\n");
+                
+                try {
+System.out.println("\n\nobjetivo="+objectiveData.toString(1));
+                }catch(JSONException jsone) {  
+                }
+output.append("console.log('jason=',eval('(' + '"+objectiveData.toString()+"' + ')'));\n");
+output.append("  d3.select('#").append(SVG_ID).append(" svg')");
+output.append(".datum(JSON.parse('['+'"+objectiveData.toString()+"'+']'))");
+output.append(".call(chart2);\n");
+output.append("  nv.utils.windowResize(chart2.update);\n");    
+                
+
                 output.append("  return chart2;\n");
                 output.append("});\n");
                 output.append("  function showGraph").append(SVG_ID).append("(radioBtn) {\n");
-                output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
+//                output.append("    if (radioBtn.value == 1 && radioBtn.checked) {\n");
+//                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
+//                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
+//                output.append("        .datum(long_short_data)\n");
+//                output.append("        .call(chart);\n");
+//                output.append("    }else if (radioBtn.value == 2 && radioBtn.checked) {\n");
                 output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
-                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
-                output.append("        .datum(long_short_data)\n");
-                output.append("        .call(chart);\n");
-                output.append("    }else if (radioBtn.value == 2 && radioBtn.checked) {\n");
-                output.append("      d3.select('#").append(SVG_ID).append(" svg g').remove();\n");
-                output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
-                output.append("        .datum(long_short_data)\n");
-                output.append("        .call(chart2);\n");
-                output.append("    }\n");
+                //try {
+                    output.append("      d3.select('#").append(SVG_ID).append(" svg')\n");
+                    output.append("        .datum(long_short_data)\n");
+                    output.append("        .call(chart2);\n");
+                //}catch(JSONException jsone) {
+                //}
+//                output.append("    }\n");
                 output.append("  }\n");
                 output.append("  </script>\n");
             }
