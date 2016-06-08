@@ -1,293 +1,14 @@
+@import "_mixins.scss";
 @import "_swbptheme.scss";
 @import "_breadcrumb.scss";
 @import "_table-responsive.scss";
 
-/************************* MIXINS SASS *************************/
-
-/************************ Fuentes ************************/
-@mixin fontPrimary{
-	color: $color-text-primary;
-    font-size: 13px;
-}
-@mixin fontPrimary-Light {
-    color: $white-color;
-    font-size: 13px;
-}
-@mixin fontPrimary-High {
-    color: $color-primary;
-    font-size: 13px;
-}
-@mixin fontSecundary {
-    color: $textColor-Secundary;
-    font-size: 13px;
-}
-@mixin fontLink{
-	color: $color-link;
-    font-size: 13px;
-}
-@mixin fontHeadline {
-    height: 48px;
-    background-color: $content-background;
-    color: $background-color-main;
-    font-size: 22px;
-    padding: 10px 40px;
-}
-@mixin fontTitle {
-  color: $color-primary;
-  font-size: 20px;
-  margin: 0px;
-}
-@mixin fontSubhead {
-  color: $color-primary;
-  font-size: 18px;
-  text-transform: uppercase;
-  margin: 22px 0px 14px;
-}
-@mixin fontCaption {
-  color: $textColor-Secundary;
-  font-size: 12px;
-}
-@mixin fontCaption-Button {
-  color: #979797;
-  font-size: 12px;
-  text-transform: uppercase;
-}
-@mixin fontButton-Block {
-  color: $white-color;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-@mixin  fontProperty{
-    color: $textColor-Secundary;
-    font-size: 11px;
-    font-style: italic;
-}
-@mixin fontMinimum{
-    color: $textColor-Secundary;
-    font-size: 10px;
-}
-/************************ Iconos ************************/
-@mixin iconList {
-  padding: 8px 0px 0px 0px;
-  min-height: 36px;
-  color: $color-highlight;
-  font-size: 20px;
-  text-align: center;
-}
-@mixin iconMenu{
-  height: 48px;
-  font-size: 24px;
-  padding-top: 12px;
-}
-/************************ Botones ************************/
-@mixin buttonRaised {
-    background-color: $color-link;
-    border-radius: 0px;
-    margin: 6px 0px 6px 16px;
-    //height: 36px;
-    @include fontButton-Block;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -webkit-background-size: 200% 200%;
-    background-size: 200%;
-    background-position: 50%;
-    -webkit-transition: all 0.4s; /* Chrome, Safari*/
-    -o-transition: all 0.4s;  /* Opera*/
-    -moz-transition: all 0.4s;  /* Firefox*/
-    transition: all 0.4s; /* Standard syntax */
-}
-@mixin buttonRaised-Secundary{
-    margin: 8px 0px;
-    background-color: $color-primary;
-    border: solid 1px $window-background;
-    color: $white-color;
-    border-radius: 0px;
-    //height: 36px;
-    text-transform: uppercase;
-    font-size: 12px;
-}
-@mixin buttonFloatAction-Card{
-    width: 48px;
-    height: 48px;
-    background-color: $color-primary;
-    position: absolute;
-    z-index: 11; 
-    top: 196px; 
-    left: 1; 
-    right: 20px; 
-    bottom: 0;
-    border-radius: 99px;
-    text-align: center;
-    color: $white-color;
-    padding-top: 11px;
-    font-size: 24px;
-    border: 0px;
-}
-@mixin buttonFloatAction-Gotop{
-  position: fixed;
-  bottom: 48px;
-  right: 24px;
-  text-decoration: none;
-  color: $white-color;
-  background-color: $color-highlight;
-  font-size: 24px;
-  width: 56px;
-  height: 56px;
-  padding: 16px;
-  display: none;
-  border-radius: 50px;
-  -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-  -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-  box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-  -webkit-background-size: 200% 200%;
-  background-size: 200%;
-  background-position: 50%;
-  -webkit-transition: all 0.4s; /* Chrome, Safari*/
-  -o-transition: all 0.4s;  /* Opera*/
-  -moz-transition: all 0.4s;  /* Firefox*/
-  transition: all 0.4s; /* Standard syntax */
-  z-index: 99;
-}
-@mixin buttonFlat{
-  @include fontCaption-Button;
-  background-color: $content-background;
-  height: 36px;
-  padding: 0px;
-  line-height: 3;
-  border-radius: 0px;
-}
-@mixin buttonFlat-Userbar{
-  @include fontCaption;
-  height: 36px;
-  border-radius: 0px;
-  background-color: $white-color;
-  border: 0px;
-  padding: 0px;
-}
-/************************ Imagenes ************************/
-@mixin img-Userbar{
-  height: 20px;
-  width: 20px;
-  margin-right: 4px;
-  border-radius: 50%;
-}
-@mixin img-Usercomment{
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-@mixin img-Captcha{
-  width: 155px;
-  height: 36px;
-}
-/************************ Distintivos/Badges ************************/
-@mixin badge{
-    display: inline-block;
-    min-width: 10px;
-    padding: 3px 7px;
-    font-weight: 700;
-    line-height: 1;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border-radius: 4px;
-    @include fontPrimary-Light;
-}
-/************************ Controles de selección ************************/
-@mixin  selectionControls{
-  padding-left: 18px;
-  height: 32px;
-  display: inline-block;
-  line-height: 18px;
-  background-repeat: no-repeat;
-  background-position: 0px 4px;
-  vertical-align: middle;
-  cursor: pointer;
-}
-/************************ Paneles ************************/
-@mixin panel-Title{
-    min-height: 36px;
-    background-color: $color-panel-head;
-    border-radius: 0px;
-    padding: 8px 16px;
-    @include fontButton-Block;
-}
-@mixin panelContainer{
-    background-color: $content-background;
-    border: solid 1px $border-color;
-}
-@mixin panelCollaboration{
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    -moz-box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    box-shadow: 0px 1px 4px 0px rgba(0,0,0,0.3);
-    @include border;
-    background-color: $content-background;
-    margin-bottom: 20px;
-}
-@mixin cardBackground{
-  height: 270px;
-  background-size: cover;
-  padding: 0px;
-  -webkit-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-  -moz-box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-  box-shadow: 0px 1px 6px 0px rgba(0,0,0,0.3);
-}
-/************************ Genéricos ************************/
-@mixin  hr{
-  border: 0;
-  border-top: solid 2px  $border-color;
-  margin-top: 0px;
-  margin-bottom: 16px;
-}
-@mixin border{
-  border: solid 1px $border-color;
-  border-radius: 0px;
-}
-@mixin input{
-  width: 100%;
-  height: 36px;
-  padding: 8px;
-  background-color: $content-background;
-  @include border;
-  @include fontLink;
-}
-@mixin inputFocus{
-  border-bottom: 0px;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
-  outline: 0px;
-  border: 0px;
-}
-@mixin textarea{
-    background-color: transparent;
-    border: 0px;
-    box-shadow: none;
-    border-bottom: solid 1px $border-color;
-    @include fontLink;
-}
-@mixin select{
-    height: 36px;
-    padding: 8px;
-    background-color: $content-background;
-    @include border;
-    @include fontLink;
-}
-@mixin fullBackground($color, $image) {
-    background: $color url($image) no-repeat center center fixed; 
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-/*****************************************************************/
-
 @font-face {
-    font-family: Roboto;
-    src: url(#{$fontPath}/Roboto/Roboto-Regular.ttf) format("truetype");
+    font-family: $font-main-family;
+    src: $font-main-url;
 }
  html, body{
-    font-family: Roboto;
+    font-family: $font-main-family;
     background-position: center center;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -296,18 +17,18 @@
 }
 
 #swbp-fondo-400{
-    @include fullBackground($background-color-main-active, "400-img.png");
+    @include fullBackground($color-background-main-active, "400-img.png");
 }
 #swbp-fondo-403{
-    @include fullBackground($background-color-main-active, "403-img.png");
+    @include fullBackground($color-background-main-active, "403-img.png");
 }
 #swbp-fondo-404{
-    @include fullBackground($background-color-main-active, "404-img.png");
+    @include fullBackground($color-background-main-active, "404-img.png");
 }
 #swbp-fondo-500{
-    @include fullBackground($background-color-main-active, "500-img.png");
+    @include fullBackground($color-background-main-active, "500-img.png");
 }
-#SWB-PROCESS{background-color: $background-color-main;}
+#SWB-PROCESS{background-color: $color-background-main;}
 
 .container{
     width: 100%;
@@ -358,7 +79,7 @@
     }
     .swbp-list-text {
         padding: 8px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         min-height: 36px;
         @include fontPrimary;
         max-height: 36px;
@@ -386,7 +107,7 @@
     }
     .swbp-list-text {
         padding: 8px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         min-height: 36px;
         @include fontPrimary;
         max-height: 36px;
@@ -461,8 +182,8 @@
     .swbp-table-responsive tbody tr{
 
         td {
-                border-bottom: solid 1px $border-color;
-                border-bottom: solid 1px $border-color;
+                border-bottom: solid 1px $color-border-main;
+                border-bottom: solid 1px $color-border-main;
                 border-top: 0px !important;
                 border-left: 0px !important;
                 border-right: 0px !important;
@@ -504,7 +225,7 @@
     }
     .swbp-list-text {
         padding: 8px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         min-height: 36px;
         @include fontPrimary;
         max-height: 36px;
@@ -696,7 +417,7 @@
     }
     
     .accion1 {
-        border-top: solid 1px $border-color !important;
+        border-top: solid 1px $color-border-main !important;
     }
     .swbp-row-table{
         margin-bottom:0px ;
@@ -764,7 +485,7 @@ hr {
     height: 100%;
 }
 .swbp-top{
-    background-color: $window-background;
+    background-color: $color-background-window;
 }
 .swbp-panel-body hr{
     @include hr;
@@ -834,7 +555,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
    
     input {
         @include border;
-        background-color: $content-background;
+        background-color: $color-background-content;
         height: 36px;
         color: $color-panel-head;
     }    
@@ -845,7 +566,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 /************************* BOTONES DE ACCIÓN RÁPIDA *************************/
 .swbp-raised-button {
     height: 48px;
-    //background-color: $window-background;
+    //background-color: $color-background-window;
     padding: 0px;   
 }
 /************************* BOTONES EN BLOQUE *************************/
@@ -883,7 +604,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 100%;
     height: 36px;
     text-align: center;
-    background-color: $background-color-main;
+    background-color: $color-background-main;
     line-height: 36px;
     position: absolute;
     bottom: 0;
@@ -903,7 +624,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 100%;
     height: 36px;
     text-align: center;
-    background-color: $background-color-main;
+    background-color: $color-background-main;
     @include fontMinimum;
     
     p{
@@ -913,7 +634,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 /************************* MENU PRINCIPAL *************************/
 .swbp-menu {
-    background-color: $background-color-main;
+    background-color: $color-background-main;
     padding: 0px;
     min-height: 100%;
     position: relative;
@@ -960,18 +681,18 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
             
             a {
                 padding: 0px;
-                background-color: $background-color-main;
-                color: $textColor-Secundary !important;
+                background-color: $color-background-main;
+                color: $color-text-highlight !important;
                 
                 &:hover {
-                    background-color: $background-color-main-active !important;
+                    background-color: $color-background-main-active !important;
                     color: $white-color !important;
                 }                
             }
         } 
         
         li.active a {
-            background-color: $background-color-main-active !important;
+            background-color: $color-background-main-active !important;
             color: $white-color !important;
         }        
     }   
@@ -987,7 +708,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     padding: 12px;
 }
 .swbp-footer-menu{
-    background-color: $background-color-main;
+    background-color: $color-background-main;
     height: 36px;
     text-align: center;
     bottom: 0;
@@ -1001,7 +722,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 
 .swbp-bars {
-    color: $border-color;
+    color: $color-border-main;
     
     &:hover {
         background-color: transparent !important;
@@ -1034,17 +755,17 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 .MENU-COLAPSABLE{
     ul{
         li.active {
-            background-color: $background-color-main-active !important;
+            background-color: $color-background-main-active !important;
             color: $white-color !important;
             height: 48px;
         }
         
         li{
-            background-color: $background-color-main;
+            background-color: $color-background-main;
             height: 48px;
             
             &:hover{
-                background-color: $background-color-main-active;
+                background-color: $color-background-main-active;
             }            
         }        
         
@@ -1110,7 +831,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     
     ul{
         margin: 0px;
-        background-color: $background-color-main;
+        background-color: $color-background-main;
         
         li{
             padding: 0px;
@@ -1118,12 +839,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
              a{
                 height: 48px;
                 font-size: 20px;
-                color: $textColor-Secundary !important;
-                background-color: $background-color-main;
+                color: $color-text-highlight !important;
+                background-color: $color-background-main;
                 padding-top: 14px;
                  
                 &:hover, &:focus, &:active:focus{
-                    background-color: $background-color-main-active !important;
+                    background-color: $color-background-main-active !important;
                     outline: 0px;
                     color: $white-color !important;
                 }
@@ -1131,7 +852,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         }
         
         li.active a{
-            background-color: $background-color-main-active !important;
+            background-color: $color-background-main-active !important;
             outline: 0px;
             color: $white-color !important;
         }   
@@ -1146,12 +867,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     @include fontHeadline;
     
     span {
-        color: $border-color;
+        color: $color-border-main;
     }    
 }
 /************************* CONTENIDO PRINCIPAL *************************/
 .swbp-contenido {
-    background-color: $window-background;
+    background-color: $color-background-window;
     min-height: 100%;
     padding: 0px 40px 24px 40px;
 }
@@ -1180,12 +901,12 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     width: 10%;
     height: 36px;
     @include panelContainer;
-    color: $textColor-Secundary;
+    color: $color-text-highlight;
     padding: 6px 12px;
 
     &:hover, &:active, &:focus, &:active:focus {
         background-color: $white-color;
-        border: solid 1px $border-color;
+        border: solid 1px $color-border-main;
         color: $color-primary;
         outline: 0px;
     }
@@ -1225,7 +946,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 /************************* PANEL BODY - INFORMACIÓN DEL PROCESO *************************/
 .swbp-panel-body{
     padding: 0px 32px 60px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     margin-top: 16px;
     
     p{
@@ -1237,14 +958,14 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 .swbp-panel-body-card{
     padding: 16px 32px;
-    background-color: $content-background;
+    background-color: $color-background-content;
 }
 /************************* PANEL ELEMENTOS RELACIONADOS *************************/
 .swbp-panel-related{
     margin-bottom: 16px;
     
     .panel-heading{
-        background-color: $content-background;
+        background-color: $color-background-content;
         @include fontLink;
         text-transform: uppercase;
         min-height: 36px;
@@ -1288,7 +1009,7 @@ ul#relatedTab {
     margin: 0px;
     
     ul li a{
-        background-color: $content-background;
+        background-color: $color-background-content;
         @include fontLink;
         text-transform: uppercase;
         min-height: 36px;
@@ -1297,7 +1018,7 @@ ul#relatedTab {
         
         &:hover, &:active, &:focus{
             background-color: $color-link !important;
-            color: $content-background;
+            color: $color-background-content;
             font-size: 13px;
             text-transform: uppercase;
             min-height: 36px;
@@ -1310,7 +1031,7 @@ ul#relatedTab {
     
     ul li.active a{
         background-color: $color-link;
-        color: $content-background;
+        color: $color-background-content;
         font-size: 13px;
         text-transform: uppercase;
         min-height: 36px;
@@ -1319,7 +1040,7 @@ ul#relatedTab {
         
         &:hover{
             background-color: $color-link;
-            color: $content-background;
+            color: $color-background-content;
             font-size: 13px;
             text-transform: uppercase;
             min-height: 36px;
@@ -1346,13 +1067,13 @@ ul#relatedTab {
         min-height: 36px;
         padding: 8px 16px;
         vertical-align: text-top;
-        border: solid 1px $border-color !important;
+        border: solid 1px $color-border-main !important;
     }    
     
     tbody tr {
         
         td {
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
             @include fontPrimary;
             padding: 8px 16px;
             vertical-align: middle;
@@ -1374,7 +1095,7 @@ ul#relatedTab {
             padding: 0px;
             border: 0px;
             line-height: 36px;
-            color: $textColor-Secundary;
+            color: $color-text-highlight;
             
             &:hover, &:focus, &:active{
                 background-color: $white-color;
@@ -1396,7 +1117,7 @@ ul#relatedTab {
             text-align: center;
             
             a{
-                color: $textColor-Secundary;
+                color: $color-text-highlight;
                 border: 0px;
                 font-size: 14px;
                 
@@ -1431,39 +1152,39 @@ ul#relatedTab {
 }
 .swbp-list-icon{
     @include iconList;
-    background-color: $content-background;
+    background-color: $color-background-content;
 }
 .swbp-list-number{
     padding: 8px 0px 0px 0px;
     text-align: center;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     color: $color-highlight;
 }
 .swbp-list-text{
     padding: 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     @include fontPrimary;
 }
 .swbp-list-date{
     padding: 10px 8px 8px 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     @include fontProperty;
     text-align: center;
 }
 .swbp-list-action{
     padding: 0px;
-    border: solid 1px $border-color;
+    border: solid 1px $color-border-main;
     
     a{
-        color: $textColor-Secundary;
-        background-color: $content-background;
+        color: $color-text-highlight;
+        background-color: $color-background-content;
         border: 0px;
         min-height: 36px;
         border-radius: 0px;
-        border-right: solid 1px $border-color;
+        border-right: solid 1px $color-border-main;
         padding: 0px;
         
         &:hover, &:active, &:focus, &:active:focus{
@@ -1484,9 +1205,9 @@ ul#relatedTab {
     text-transform: uppercase;
 }
 .btn-default[disabled], .btn-default[disabled]:hover, .btn-default[disabled]:focus, .btn-default[disabled]:active, .btn-default[disabled]:active:focus{
-    color: $border-color;
-    background-color: $content-background;
-    border-right: solid 1px $border-color;
+    color: $color-border-main;
+    background-color: $color-background-content;
+    border-right: solid 1px $color-border-main;
 }
 /** ELEMENTOS DE LISTA EN BLOQUES PARA TEXTOS LARGOS **/
 .swbp-block-list{
@@ -1496,7 +1217,7 @@ ul#relatedTab {
 }
 .swbp-block-title{
     padding: 0px;
-    border-right: solid 1px $border-color;
+    border-right: solid 1px $color-border-main;
 }
 .swbp-block-icon{
     @include iconList;
@@ -1510,8 +1231,8 @@ ul#relatedTab {
     padding: 0px;
     
     a{
-        color: $textColor-Secundary;
-        background-color: $content-background;
+        color: $color-text-highlight;
+        background-color: $color-background-content;
         border: 0px;
         min-height: 36px;
         border-radius: 0px;
@@ -1538,7 +1259,7 @@ ul#relatedTab {
 /************************* BREADCRUMS *************************/
 .swbp-breadcrumbs {
     min-height: 48px;
-    background-color: $window-background;
+    background-color: $color-background-window;
     padding: 0px;
     @include fontCaption; 
     
@@ -1639,7 +1360,7 @@ ul#relatedTab {
         li a{
             height: 32px;
             @include panelContainer;
-            color: $textColor-Secundary;
+            color: $color-text-highlight;
             text-align: center;
             width: 11.11%;
             margin-left: 0.01px;
@@ -1648,7 +1369,7 @@ ul#relatedTab {
                 background-color: $color-primary;
                 color: $white-color;
                 outline: 0px;
-                border: solid 1px $border-color;
+                border: solid 1px $color-border-main;
             }
 
         }    
@@ -1657,13 +1378,13 @@ ul#relatedTab {
             background-color: $color-primary;
             color: $white-color;
             outline: 0px;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
             
             &:focus{
                 background-color: $color-primary;
                 color: $white-color;
                 outline: 0px;
-                border: solid 1px $border-color;
+                border: solid 1px $color-border-main;
             }            
         }
             
@@ -1726,9 +1447,9 @@ ul#relatedTab {
     
     .panel-heading{
         padding: 0px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         border-radius: 0px;
-        border-bottom: solid 1px $border-color;
+        border-bottom: solid 1px $color-border-main;
     }    
     
     .property-user{
@@ -1766,8 +1487,8 @@ ul#relatedTab {
     .panel-footer{
         //height: 36px;
         padding: 0PX;
-        background-color: $content-background;
-        border-top: solid 1px $border-color;
+        background-color: $color-background-content;
+        border-top: solid 1px $color-border-main;
         border-radius: 0px;
     }
 }
@@ -1782,7 +1503,7 @@ ul#relatedTab {
                 background-color: $white-color;
                 color: $color-primary;
                 outline: 0px;
-                border: solid 1px $border-color;
+                border: solid 1px $color-border-main;
             }         
          
             .icon{
@@ -1803,7 +1524,7 @@ ul#relatedTab {
                 background-color: $white-color;
                 color: $color-primary;
                 outline: 0px;
-                border: solid 1px $border-color;
+                border: solid 1px $color-border-main;
             }        
     }    
 }
@@ -1886,9 +1607,9 @@ textarea.swbp-form-control{
     
     .panel-heading{
         padding: 16px 0px 0px 16px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         border-radius: 0px;
-        border-bottom: solid 1px $border-color;
+        border-bottom: solid 1px $color-border-main;
     }
 
     .swbp-comment-user{
@@ -1930,15 +1651,15 @@ textarea.swbp-form-control{
           } 
         
          .swbp-comment{
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
           } 
     }  
     
     .panel-footer{
         //height: 36px;
         padding: 0PX;
-        background-color: $content-background;
-        border-top: solid 1px $border-color;
+        background-color: $color-background-content;
+        border-top: solid 1px $color-border-main;
         border-radius: 0px;
     }    
 }
@@ -1954,7 +1675,7 @@ textarea.swbp-form-control{
             background-color: $white-color;
             color: $color-primary;
             outline: 0px;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
         }        
         
         .icon{
@@ -1975,7 +1696,7 @@ textarea.swbp-form-control{
             background-color: $white-color;
             color: $color-primary;
             outline: 0px;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
         }       
     }    
 }
@@ -2060,14 +1781,14 @@ textarea.swbp-form-control{
 
 .accion1 {
     @include panelContainer;
-    color: $textColor-Secundary;
+    color: $color-text-highlight;
     
     &:hover, &:active, &:focus, &:active:focus {
         background-color: $white-color;
         color: $color-primary;
         outline: 0px;
         box-shadow: none;
-        border: solid 1px $border-color;
+        border: solid 1px $color-border-main;
         margin-left: 1px;
     }   
     
@@ -2102,7 +1823,7 @@ textarea.swbp-form-control{
 
 .swbp-btn-inter{
     margin: 8px 0px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     @include border;
     @include fontCaption-Button;
     height: 36px;
@@ -2114,7 +1835,7 @@ textarea.swbp-form-control{
     &:hover, &:active, &:focus, &:active:focus{
         background-color: $white-color;
         color: $color-primary;
-        border: solid 1px $border-color;
+        border: solid 1px $color-border-main;
         outline: 0px;
     }
 }
@@ -2124,7 +1845,7 @@ textarea.swbp-form-control{
     
     &:hover, &:active, &:focus, &:active:focus{
         background-color: $color-primary-active;
-        border: solid 1px $window-background;
+        border: solid 1px $color-background-window;
         color: $white-color;
         outline: 0px;
     }
@@ -2132,7 +1853,7 @@ textarea.swbp-form-control{
 
 .swbp-select-multi{
     margin-bottom: 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     @include border;
     font-size: 13px;
     
@@ -2146,14 +1867,14 @@ textarea.swbp-form-control{
 }
 .swbp-badge-out{
     @include badge;
-    background-color: $textColor-Secundary;
+    background-color: $color-text-highlight;
 }
 
 .panel-footer{
     //height: 36px;
     padding: 0PX;
-    background-color: $content-background;
-    border-top: solid 1px $border-color;
+    background-color: $color-background-content;
+    border-top: solid 1px $color-border-main;
     border-radius: 0px;
 }
 
@@ -2167,7 +1888,7 @@ textarea.swbp-form-control{
             background-color: $white-color;
             color: $color-primary;
             outline: 0px;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
         } 
         
         .icon{
@@ -2198,7 +1919,7 @@ textarea.swbp-form-control{
     select{
         height: 36px;
         padding: 8px;
-        background-color: $content-background;
+        background-color: $color-background-content;
         @include border;
         color: $color-link;
         font-size: 12px;
@@ -2211,7 +1932,7 @@ textarea.swbp-form-control{
 }
 /******************** VENTANAS MODALES ********************/
 .swbp-modal{
-    background-color: $content-background;
+    background-color: $color-background-content;
     border-radius: 2px;
     
     H1{
@@ -2267,7 +1988,7 @@ textarea.swbp-form-control{
     }    
     
     .modal-footer{
-        border-top: solid 1px $border-color;
+        border-top: solid 1px $color-border-main;
         padding: 0px;
     }    
     
@@ -2278,7 +1999,7 @@ textarea.swbp-form-control{
             color: $color-primary;
             outline: 0px;
             background-color: $white-color;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
         }        
     } 
     
@@ -2351,15 +2072,15 @@ ul.swbp-btn-dropdown li a{
 }
 
 .swbp-filters ul{
-    background-color: $content-background;
+    background-color: $color-background-content;
     
     li.dropdown-header {
         color: $color-link; 
     }   
     
     li a{
-        background-color: $content-background;
-        color: $textColor-Secundary;
+        background-color: $color-background-content;
+        color: $color-text-highlight;
         min-height: 32px;
         line-height: 1.8;
         
@@ -2375,24 +2096,24 @@ ul.swbp-btn-dropdown li a{
 }
 
 .swbp-input-tray{
-    background-color: $content-background;
+    background-color: $color-background-content;
     margin: 0px 0px 10px 0px;
 }
 .swbp-tray-state-green{
     height: 3px;
-    background-color: $finished-color; 
+    background-color: $color-status-ok; 
 }
 .swbp-tray-state-red{
     height: 3px;
-    background-color: $pending-color;
+    background-color: $color-status-overdue;
 }
 .swbp-tray-state-blue{
     height: 3px;
-    background-color: $aborted-color;
+    background-color: $color-status-aborted;
 }
 .swbp-tray-info{
     margin: 0px !important;
-    border: solid 1px $border-color;
+    border: solid 1px $color-border-main;
 }
 .swbp-tray-section{
     min-height: 36px;
@@ -2410,16 +2131,16 @@ ul.swbp-btn-dropdown li a{
     margin: 0px !important;
 
     a{
-        background-color: $content-background;
+        background-color: $color-background-content;
         @include border;
-        color: $textColor-Secundary;
+        color: $color-text-highlight;
         min-height: 36px;
         padding: 10px 0px 0px 0px;
         
         &:hover, &:active, &:focus, &:active:focus{
             background-color: $white-color;
             color: $color-primary;
-            border: solid 1px $border-color;
+            border: solid 1px $color-border-main;
             outline: 0px;
         }        
         
@@ -2479,7 +2200,7 @@ select.form-control{
 }
 
 .swbp-tray-body-panel{
-    border: solid 1px $border-color;
+    border: solid 1px $color-border-main;
     border-top: 0px;
 }
 .swbp-footer-pagination{
@@ -2494,13 +2215,13 @@ select.form-control{
 /** MONITOREO V2 **/
 .swbp-tray-date{
     padding: 10px 8px 8px 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     @include fontProperty;
 }
 .swbp-tray-process{
     padding: 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     @include fontPrimary;
     text-transform: uppercase;
@@ -2508,19 +2229,19 @@ select.form-control{
 }
 .swbp-tray-task{
     padding: 8px;
-    background-color: $content-background;
+    background-color: $color-background-content;
     min-height: 36px;
     @include fontSecundary;
 }
 
 /******************** MONITOREO ********************/
 .swbp-input-monitor{
-    background-color: $content-background;
+    background-color: $color-background-content;
     margin: 0px 0px 10px 0px;
 }
 .swbp-monitor-info{
     margin: 0px;
-    border: solid 1px $border-color;
+    border: solid 1px $color-border-main;
 }
 .swbp-monitor-section{
     min-height: 36px;
