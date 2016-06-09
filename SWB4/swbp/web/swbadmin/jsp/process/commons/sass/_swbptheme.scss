@@ -4,10 +4,11 @@ $fontsPath: "./fonts";
 $font-main-url: url('#{$fontsPath}/Roboto/Roboto-Regular'), url('#{$fontsPath}/Roboto/Roboto-Regular.woff2') format('woff2'), url('#{$fontsPath}/Roboto/Roboto-Regular.woff') format('woff'), url('#{$fontsPath}/Roboto/Roboto-Regular.ttf') format('truetype');
 $font-main-family: 'Roboto', sans-serif;
 
+//Main colors
 $white-color: #fff;
 $black-color: #000;
 
-$background-color-brand: #40964a;
+$color-background-brand: #40964a;
 
 $color-primary: #09af9b;
 $color-primary-active: desaturate($color-primary, 6%);//#0ca892;
@@ -33,4 +34,14 @@ $color-panel-head: #7f94a3;
 $color-status-ok: #7cb342;
 $color-status-overdue: #e53935;
 $color-status-aborted: #1e88e5;
-$tableBg-color:$white-color;
+$color-background-table:$white-color;
+
+//Buttons
+$button-default-height :48px;
+$button-default-width :48px;
+
+//General breakpoints
+$breakpoint-xsmall: 580px;
+$breakpoint-small: 768px;
+$breakpoint-medium: 992px;
+$breakpoint-large: 1200px;
