@@ -107,7 +107,7 @@ border-bottom:solid 4px #C2B6D3;
 
 /*DOCUMENTO HORIZONTAL*/
 #containerV {
-width: 792px;
+width: 100%;
 min-height: 612px;
 margin: auto;
 /*border: solid 1px #CCC;*/
@@ -121,16 +121,17 @@ background-image: url(../images/purpleBar.png);
 background-repeat: no-repeat;
 }
 #logoSWBSV{
-width: 148px;
+width: 208px;
 height: 100px;
-background-color: #f7f7f7;
-background-image: url(../images/swbsLogo.png);
+/*background-color: #f7f7f7;*/
+background-color: #4D2673;
+background-image: url(../img/swb-strategy-logo.png);
 background-repeat: no-repeat;
 background-position: 50%;
 float: left;
 }
 #contentDocV{
-width: 764px;
+width: 100%;
 height: 484px;
 padding: 14px 0px 14px 0px;
 background-color: #fff;

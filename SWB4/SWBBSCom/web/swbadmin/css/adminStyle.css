@@ -212,6 +212,64 @@ border-color: #8e78bb !important;
 }
 
 
+/* color e imagen de fondo del árbol */
+.soria .dijitTreeRowHover {
+	background-image: url("../images/treeHover.png") !important;
+	background-repeat: repeat;
+	background-color: transparent !important;
+}
+.soria .dijitTreeRowSelected .dijitTreeLabel {
+        background:#c7bbdd;
+}
+/* color e imagen de fondo del árbol */
+
+/* margen de las opciones del menú */
+fieldset .dijitReset.dijitInline.dijitButtonNode {
+    background: url(../images/tabContainerSprite.gif) repeat-x scroll 0 -351px rgba(0, 0, 0, 0) !important;
+    border-radius:3px; border:1px solid #b1badf !important;
+}
+	
+fieldset .dijitReset.dijitInline.dijitButtonNode:hover {
+    background: url(../images/tabContainerSprite.gif) repeat-x scroll 0 -365px rgba(0, 0, 0, 0) !important;
+    border-radius:3px; border:1px solid #9b87c3 !important;
+}
+
+.dijitReset.dijitMenuItem { 
+    border-bottom: 5px solid #fff !important;
+}
+
+.soria .dijitMenuPassive .dijitMenuItemHover,
+.soria .dijitComboBoxMenu .dijitMenuItemHover,
+.soria .dijitMenuItemSelected {
+	background-color: #c7bbdd; 
+	color: #243C5F;
+}
+
+.dijitReset.dijitMenuItemHover { 
+    border-bottom: 5px solid #fff !important;
+}
+
+.dijitPopup.dijitMenuPopup {
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #5e478e;
+    border-radius: 0 0 3px 3px;
+    box-shadow: 4px 4px 10px #2e283a;
+    padding:5px !important;
+}
+
+.soria .dijitButtonHover .dijitButtonNode,
+.soria .dijitButtonNodeHover,
+.soria .dijitToggleButtonHover .dijitButtonNode,
+.soria .dijitDropDownButtonHover .dijitButtonNode,
+.soria .dijitButtonContentsHover,
+.soria .dijitUpArrowButtonHover,
+.soria .dijitDownArrowButtonHover {
+	background: url(../images/titleBar.png) 0px -3px !important;
+}
+/* margen de las opciones del menú */
+
+
+
 
 
 
