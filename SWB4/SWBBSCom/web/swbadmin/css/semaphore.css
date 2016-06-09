@@ -10,8 +10,24 @@
     background-repeat:no-repeat !important;    
     background: url(../icons/insuficiente.png);
     /*background-color:#AE0000;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-dangerU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;    
+    background: url(../icons/insuficienteU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-dangerW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;    
+    background: url(../icons/insuficienteW.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-caution {
     color:#000000 ;
@@ -19,8 +35,24 @@
     background-repeat:no-repeat !important;
     background: url(../icons/riesgo.png);
     /*background-color:#EC8D00;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-cautionU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/riesgoU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-cautionW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/riesgoW.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-goal {
     color:#000000 ;
@@ -28,8 +60,24 @@
     background-repeat:no-repeat !important;
     background: url(../icons/meta.png);
     /*background-color:#008200;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-goalU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/metaU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-goalW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/metaW.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-super {
     color:#000000 ;
@@ -37,8 +85,24 @@
     background-repeat:no-repeat !important;
     background: url(../icons/eximio.png);
 	/*background-color:#008200;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-superU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/eximioU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-superW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/eximioW.png);
+    /*padding-right: 22px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-unknown {
     color:#000000 ;
@@ -46,8 +110,24 @@
     background-repeat:no-repeat !important;
     background: url(../icons/desconocido.png);
     /*background-color:#006;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-unknownU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/desconocidoU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-unknownW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/desconocidoW.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-undefined {
     color:#000000 ;
@@ -55,11 +135,27 @@
     background-repeat:no-repeat !important;
     background: url(../icons/indefinido.png);
     /*background-color:#333;*/
-    padding-right: 22px;
-    padding-bottom: 5px;
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-undefinedU {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/indefinidoU.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
+}
+.swbstrgy-undefinedW {
+    color:#000000 ;
+    background-position:0px;
+    background-repeat:no-repeat !important;
+    background: url(../icons/indefinidoW.png);
+    /*padding-right: 2px;
+    padding-bottom: 5px;*/
 }
 .swbstrgy-semaphore {
-	padding:1px 1px 5px 20px;
+    padding:1px 1px 5px 20px;
 }
 /*
  Estados de semáforo para riesgos definidos como clases cuadrante
