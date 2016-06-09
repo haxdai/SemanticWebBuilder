@@ -3,17 +3,337 @@
 @import "_breadcrumb.scss";
 @import "_table-responsive.scss";
 
+//Roboto font face
+@import url($font-main-url);
 @font-face {
     font-family: $font-main-family;
-    src: $font-main-url;
+    //src: $font-main-url; //use local font url
 }
- html, body{
+
+html, body{
     font-family: $font-main-family;
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+    //background-position: center center;
+    //background-repeat: no-repeat;
+    //background-attachment: fixed;
+    //background-size: cover;
     height: 100%;
+}
+
+.swbp-body {
+    /*-------Document layout------*/
+    background-color: $color-background-main;
+    color: $color-text-primary;
+
+    .swbp-container {
+        width: 100%;
+        min-height: 100%;
+        position: relative;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+        color: $color-primary;
+        text-transform: uppercase;
+    }
+
+    h1.section-header {
+        padding-bottom: 9px;
+        padding-top: 15px;
+        border-bottom: 1px solid $color-border-main;
+    }
+
+    article {
+        padding: 0px 32px 60px;
+        background-color: $color-background-content;
+        margin-bottom: 30px;
+    }
+
+    section {
+        margin-bottom: 60px;
+    }
+
+    /*-----------SWBProcess header section-----------*/
+    .swbp-header {
+        background-color: $white-color;
+        box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
+        position: relative;
+        z-index: 3;
+        padding: 0px;
+        border: none;
+
+        div {
+            padding:0px !important;
+        }
+
+        .btn {
+            line-height: 3em;
+            @include buttonFlat-Userbar;
+             
+            &:active {
+                color: $white-color;
+                background-color: $color-primary-active;
+                border: 0px;
+            }
+
+            &:hover{
+                color: $white-color;
+                background-color: $color-primary;
+            }         
+
+            &:focus{
+                color: $white-color;
+                background-color: $color-primary-active;
+            }
+
+            span.fa {
+                font-size: 1.2em;
+            }
+
+            img {
+                @include img-Userbar;
+            }
+
+            @media (max-width: $breakpoint-small - 1) {
+                line-height: 2.8em;
+                text-align: left;
+                padding-left:24px;
+                font-size: 1em;
+            }
+        }
+    }
+
+    /*-----------SWBProcess page title section-----------*/
+    .swbp-page-title {
+        @include fontHeadline;
+        span {
+            color: $color-border-main;
+        }
+
+        @media (min-width: $breakpoint-small) and (max-width:$breakpoint-medium - 1) {
+            padding: 10px 24px 0px 24px !important;
+        }
+
+        @media (max-width: $breakpoint-small - 1) {
+            font-size: 1.4em;
+            padding: 6px 24px 0px 24px !important; 
+            height: 36px !important;
+            padding: 5px 16px 0px 16px !important;
+        }
+    }
+
+    /*-----------SWBProcess main content section-----------*/
+    .swbp-page-content {
+        background-color: $color-background-window;
+        min-height: 100%;
+        padding: 0px 40px 24px 40px;
+
+        @media (min-width:$breakpoint-small) and (max-width:$breakpoint-medium - 1) {
+            padding: 0px 24px 24px !important;
+        }
+        
+        @media (max-width:$breakpoint-medium - 1) {
+            padding: 0px 16px 16px !important;
+        }
+    }
+
+    /*-----------SWBProcess lateral menu-----------*/
+    .swbp-main-menu {
+        padding: 0px;
+
+        button.navbar-toggle { //hamburger button
+            border: none;
+            
+            &:hover, &:active, &:focus {
+                background-color: transparent !important;
+            }
+
+            span.icon-bar {
+                background-color: $white-color !important;
+                width: 26px;
+                height: 4px;
+                border-radius: 2px;
+            }
+        }
+
+        .navbar-default {
+            border-radius: 0;
+        }
+
+        .navbar {
+            border: 0px;
+            background-color: $color-background-brand;
+
+            ul.navbar-nav {
+                li:hover a {
+                    color: $white-color !important;
+                };
+
+                li.active a {
+                    color: $white-color !important;
+                }
+            }
+
+            @media (max-width:$breakpoint-small - 1) {
+                margin-bottom: 0px !important;
+            }
+        }
+
+        .swbp-brand-header { //Product logo container
+            position: relative;
+            width: 100%;
+            height: 96px;
+
+            @media (max-width:$breakpoint-small - 1) {
+                height: 48px;
+            }
+
+            .swbp-brand-logo { //Product logo
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                
+                text-align:center;
+                font: 0/0 a;
+
+
+                a {
+                    vertical-align: middle;
+                    display: inline-block;
+                    width:100%;
+                    height:100%;
+
+                    @media (max-width:$breakpoint-small - 1) {
+                        width: 30%;
+                    }
+
+                    img {
+                        width: 100%;
+                        height:100%;
+                        max-height: 100%;
+                        max-width: 100%;
+                    
+                        @media (max-width:$breakpoint-small - 1) {
+                            height:80%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .collapse {
+            padding: 0px;
+            
+            ul {
+                width: 100%;
+                li {
+                    background-color: $color-background-main;
+                    width: 100%;
+                    
+                    a {
+                        border:none;
+                        padding: 0px;
+                        background-color: $color-background-main;
+                        color: $color-text-highlight !important;
+                        
+                        &:hover {
+                            background-color: $color-background-main-active !important;
+                            color: $white-color !important;
+                        }
+                    }
+
+                    &.active, &:hover{
+                        background-color: $color-background-main-active;
+                    }
+
+                    @media (min-width:$breakpoint-small - 1) and (max-width:$breakpoint-medium - 1) {
+                        height: 96px !important;
+                        &.active {
+                            height: 96px !important;
+                        }
+                    }
+                }
+            }
+        }
+
+        footer {
+            background-color: $color-background-main;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            
+            p {
+                @include fontMinimum;
+            }
+        }
+    }
+
+    /*-----------SWBProcess header menu-----------*/
+    .swbp-main-menu-xs {
+        height: 48px;
+        padding: 0px;
+        
+        .navbar { border: 0px; }
+        
+        ul {
+            margin: 0px;
+            background-color: $color-background-main;
+            
+            li {
+                padding: 0px;
+                 a {
+                    height: 48px;
+                    font-size: 1.3em;
+                    color: $color-text-highlight;
+                    line-height: 1.7em;
+                     
+                    &:hover, &:focus, &:active:focus {
+                        background-color: $color-background-main-active;
+                        color: $white-color !important;
+                    }
+                }           
+            }
+            
+            li.active a {
+                background-color: $color-background-main-active !important;
+                color: $white-color !important;
+            }   
+        }    
+    }
+
+    /*-------Tables------*/
+    .swbp-table {
+        background-color: $color-background-table;
+
+        th {
+            color: $color-primary;
+            font-size: 14px;
+            min-height: 36px;
+            padding: 8px 16px;
+            vertical-align: text-top;
+            font-weight: bold;
+        }
+    }
+
+    /*-------Helper CSS classes------*/
+    .full-width {
+        width: 100%;
+    }
+
+    .full-height {
+        height: 100%;
+    }
+
+    .block-helper {
+        padding-top: 100%;
+    }
+
+    .block-helper-center {
+        display: inline-block;
+        vertical-align: middle;
+        height: 100%;
+    }
 }
 
 #swbp-fondo-400{
@@ -28,13 +348,7 @@
 #swbp-fondo-500{
     @include fullBackground($color-background-main-active, "500-img.png");
 }
-#SWB-PROCESS{background-color: $color-background-main;}
 
-.container{
-    width: 100%;
-    min-height: 100%;
-    position: relative;
-}
 .swbp-logo-400 {
     text-align: center;
     margin: 100px 0px;
@@ -67,9 +381,6 @@
 /*Escritorio grande - LG en Boostrap mayor a 1200px ***********************************************************/
 @media (min-width: 1200px){
     
-    h1{
-        color:blue;
-    }
     .swbp-align-icon{
         width: 14% !important;
     }
@@ -92,12 +403,7 @@
 /* Escritorio pequeño o tablet - MD en Boostrap del 992 al 1199px *********************************************/
 @media (min-width:992px) and (max-width:1199px){
     
-    h1{
-        color:red;
-    }
-    .swbp-footer-menu{
-        height: 50px !important;
-    }
+    
     .swbp-align-icon{
         width: 14% !important;
     }
@@ -119,26 +425,6 @@
     
 /* Tablet o smartphone - SM en Bootstrap del 768 al 991px *****************************************************/
 @media (min-width:768px) and (max-width:991px){
-    
-    h1{
-        color:green;
-    }
-    .swbp-brand-header img {
-        width: 100px !important;
-    }
-    
-    
-    .MENU-COLAPSABLE {
-        ul{
-            li.active {
-                height: 96px !important;
-            }
-            li {
-                height: 96px !important;
-            }
-        }
-    }    
-    
     .swbp-menu-text {
         text-align: center; 
         padding: 15px 0px 0px 0px !important;
@@ -146,15 +432,7 @@
     .swbp-menu-icon {
         font-size: 36px !important;
     }
-    .swbp-footer-menu{
-        height: 50px !important;
-    }
-    .swbp-titulo{
-        padding: 10px 24px 0px 24px !important;
-    }
-    .swbp-contenido {
-        padding: 0px 24px 24px !important;
-    }
+
     .swbp-list-element {
         margin-bottom: 6px!important;
     }
@@ -236,17 +514,7 @@
 }
 
 /* Smartphone - XS en Bootstrap del 0 al 767px *****************************************************************/
-@media (max-width:767px){  
-    
-    h1{
-        color:yellow;
-    }
-    H3{
-        font-size: 16px !important;
-    }
-    H4{
-        font-size: 16px !important; margin: 12px 0px !important;
-    }
+@media (max-width:767px) {
     p{
         font-size: 12px !important;
     }
@@ -276,59 +544,19 @@
         width: 260px; height: 100px;
         }
     }
-    
 
-    .swbp-menu{
-        min-height: inherit !important;
-        
-        .navbar {
-            margin-bottom: 0px !important;
-        }
-    }
-    .swbp-footer-menu {
-        position:relative;
-    }
-    .swbp-titulo {
-        font-size: 18px !important; 
-        padding: 6px 24px 0px 24px !important; 
-        height: 36px !important;
-        padding: 5px 16px 0px 16px !important;
-    }
-    .swbp-header-menu{
-        height: 48px !important;
-    }
     .swbp-bars{
         margin: 0px !important; 
         padding: 14px !important;
     }
     
-    
-    .swbp-brand-header {
-        width: 80% !important;
-        height: 48px !important; 
-        background-color: $background-color-brand; 
-        background-image: url(#{$imgPath}/background-menu-xs.png) !important;
-        padding-top: 10px;
-        
-        img {
-            padding-top: 0px !important;
-        }    
-        
-    }
-    
-    .swbp-btn-header button{
-        text-align: left; 
-        padding-left: 24px !important;
-    }
     .swbp-pad{
         padding: 0px !important;
     }
     .swbp-btn-block {
         margin: 6px 0px !important;
     }
-    .swbp-contenido {
-        padding: 0px 16px 16px !important;
-    }
+
     .swbp-toolbar-model {
         padding-left: 0% !important;
     }
@@ -443,37 +671,8 @@
 }
 /************************* GENERICOS *************************/
 
-H1{
-    @include fontPrimary-High;
-    margin: 8px 16px;
-    text-transform: uppercase;
-}
-
-H6{
-    @include fontLink;
-    margin: 16px 0px;
-}
-
 p{
     font-size: 14px;
-}
-
-.swbp-header-icon {
-    font-size: 16px;
-}
-
-H4{
-  @include fontSubhead;
-}
-
-H3{
-    font-size: 24px;
-}
-
-H5{
-    font-weight: bold;
-    color: $black-color;
-    margin: 16px 0px 10px;
 }
 
 hr {
@@ -484,9 +683,7 @@ hr {
 .swbp-height {
     height: 100%;
 }
-.swbp-top{
-    background-color: $color-background-window;
-}
+
 .swbp-panel-body hr{
     @include hr;
 }
@@ -565,7 +762,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 /************************* BOTONES DE ACCIÓN RÁPIDA *************************/
 .swbp-raised-button {
-    height: 48px;
+    height: $button-default-height;
     //background-color: $color-background-window;
     padding: 0px;   
 }
@@ -600,144 +797,24 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 }
 
 /************************* FOOTER *************************/
-.swbp-footer {
-    width: 100%;
-    height: 36px;
-    text-align: center;
-    background-color: $color-background-main;
-    line-height: 36px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    
-    p{
-        @include fontMinimum;
-        margin: 0px;
-    }
-}
+
 .swbp-espacio {
     padding-top: 36px;
     padding-bottom: 72px;
 }
-.swbp-footer-xs {
-    float: left;
-    width: 100%;
-    height: 36px;
-    text-align: center;
-    background-color: $color-background-main;
-    @include fontMinimum;
-    
-    p{
-    padding: 8px 0px 0px 0px;
-    }
-    
-}
-/************************* MENU PRINCIPAL *************************/
-.swbp-menu {
-    background-color: $color-background-main;
-    padding: 0px;
-    min-height: 100%;
-    position: relative;
-    
-    .navbar {
-        margin-bottom: 38px;
-        border: 0px;
-        background-color: $background-color-brand;
-        background-image: url(#{$imgPath}/background-menu.png);
-    }    
-    
-    .navbar-collapse {
-        border: 0px;
-    }    
-}
-.swbp-header-menu {
-    width: 100%;
-    height: 96px;
-    background-color: $background-color-brand;
-    background-image: url(#{$imgPath}/background-menu-xs.png);
-}
-.swbp-brand-header {
-    width: 100%;
-    height: 96px;
-    text-align: center;
-    background-color: $background-color-brand;
-    background-image: url(#{$imgPath}/background-menu.png);
-    
-    img{
-        display: inline;
-        padding-top: 16px;
-        width: 136px;
-    }       
-}
 
-.MENU-COLAPSABLE{
-    padding: 0px;   
-    
-    ul{
-        width: 100%;
-        
-        li {
-            width: 100%;
-            
-            a {
-                padding: 0px;
-                background-color: $color-background-main;
-                color: $color-text-highlight !important;
-                
-                &:hover {
-                    background-color: $color-background-main-active !important;
-                    color: $white-color !important;
-                }                
-            }
-        } 
-        
-        li.active a {
-            background-color: $color-background-main-active !important;
-            color: $white-color !important;
-        }        
-    }   
-}
+/************************* MENU PRINCIPAL *************************/
 
 .swbp-fa-menu:before {
     font-size: 24px;
     width: 48px;
-    height: 48px;
+    height: $button-default-height;
     text-align: center;
     display: inline-block;
     vertical-align: middle;
     padding: 12px;
 }
-.swbp-footer-menu{
-    background-color: $color-background-main;
-    height: 36px;
-    text-align: center;
-    bottom: 0;
-    left: 0;
-    position: fixed;
-    
-    p{
-    @include fontMinimum;
-    padding-top: 13px;
-    }
-}
 
-.swbp-bars {
-    color: $color-border-main;
-    
-    &:hover {
-        background-color: transparent !important;
-    }
-    //background-color: $process-colorBar !important;
-    border: 0px;
-    margin: 16px;
-    
-    span.icon-bar {
-        background-color: $white-color !important;
-        width: 26px;
-        height: 4px;
-        border-radius: 4px;
-    }   
-}
 /************************* MENU construído con columnas *************************/
 .swbp-menu-icon {
     @include iconMenu
@@ -752,130 +829,13 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
         margin-left: 5px;
     }
 }
-.MENU-COLAPSABLE{
-    ul{
-        li.active {
-            background-color: $color-background-main-active !important;
-            color: $white-color !important;
-            height: 48px;
-        }
-        
-        li{
-            background-color: $color-background-main;
-            height: 48px;
-            
-            &:hover{
-                background-color: $color-background-main-active;
-            }            
-        }        
-        
-    }
-    
-    ul.navbar-nav {
-        margin: 0px;
-    }    
-}
-/************************* HEADER *************************/
-.swbp-header {
-    height: auto;
-    background-color: $white-color;
-    -webkit-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    -moz-box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    box-shadow: 0px 2px 10px 0px rgba(0,0,0,0.12);
-    position: relative;
-    z-index: 3;
-}
-.swbp-btn-header{
-    padding: 0px;
-    
-     button{
-        @include buttonFlat-Userbar;
-         
-        &:active{
-            color: $white-color;
-            background-color: $color-primary-active;
-            border: 0px;
-            outline: 0px;
-        }   
-        &:hover{
-            color: $white-color;
-            background-color: $color-primary;
-        }         
-        &:focus{
-            color: $white-color;
-            background-color: $color-primary-active;
-            outline: 0px;
-        }   
-        &:active:focus{
-            outline: 0px;
-        }         
-    }   
-}
 
-.swbp-img-user {
-    @include img-Userbar;
-}
-/************************* MENU XS *************************/
-.MENU-COLAPSABLE-XS {
-    padding: 0px;
-    border: 0px;
-}
-.swbp-menu-xs {
-    height: 48px;
-    padding: 0px;
-    
-    .navbar{
-        margin-bottom: 0px;
-        border: 0px;
-    }    
-    
-    ul{
-        margin: 0px;
-        background-color: $color-background-main;
-        
-        li{
-            padding: 0px;
-            
-             a{
-                height: 48px;
-                font-size: 20px;
-                color: $color-text-highlight !important;
-                background-color: $color-background-main;
-                padding-top: 14px;
-                 
-                &:hover, &:focus, &:active:focus{
-                    background-color: $color-background-main-active !important;
-                    outline: 0px;
-                    color: $white-color !important;
-                }
-            }           
-        }
-        
-        li.active a{
-            background-color: $color-background-main-active !important;
-            outline: 0px;
-            color: $white-color !important;
-        }   
-    }    
-}
 /************************* TITULO *************************/
 .swbp-pad{
     padding: 0px 15px 0px 0px;
     margin: 0px;
 }
-.swbp-titulo {
-    @include fontHeadline;
-    
-    span {
-        color: $color-border-main;
-    }    
-}
-/************************* CONTENIDO PRINCIPAL *************************/
-.swbp-contenido {
-    background-color: $color-background-window;
-    min-height: 100%;
-    padding: 0px 40px 24px 40px;
-}
+
 /************************* ENCABEZADOS PANEL *************************/
 .swbp-panel-head{
     margin-bottom: 8px;
@@ -1050,9 +1010,9 @@ ul#relatedTab {
     }    
 }
 
-.swbp-contenido .swbp-panel-body h6{
+/*.swbp-contenido .swbp-panel-body h6{
     margin: 16px;
-}
+}*/
 /************************* TABLA RESPONSIVA *************************/
 /*.shadow-z-1 {
     -webkit-box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.12);
@@ -1106,7 +1066,7 @@ ul#relatedTab {
             }            
             
             span{
-                font-family: roboto;
+                font-family: $font-main-family;
             }           
             
         } 
@@ -1258,7 +1218,7 @@ ul#relatedTab {
 }
 /************************* BREADCRUMS *************************/
 .swbp-breadcrumbs {
-    min-height: 48px;
+    min-height: $button-default-height;
     background-color: $color-background-window;
     padding: 0px;
     @include fontCaption; 
@@ -1471,7 +1431,7 @@ ul#relatedTab {
             min-height: 24px;
             @include fontCaption;
             line-height: 2;
-            font-family: Roboto;
+            font-family: $font-main-family;
         }
     
     }
@@ -1639,7 +1599,7 @@ textarea.swbp-form-control{
         min-height: 24px;
         @include fontCaption;
         line-height: 2;
-        font-family: Roboto;
+        font-family: $font-main-family;
         }    
     }
     
@@ -2003,10 +1963,6 @@ textarea.swbp-form-control{
         }        
     } 
     
-    .table {
-        margin-bottom: 0px;
-    }  
-    
     select{
         @include select;
         
@@ -2152,7 +2108,7 @@ ul.swbp-btn-dropdown li a{
     }    
 }
 .swbp-tray-text{
-    font-family: Roboto;
+    font-family: $font-main-family;
     font-size: 12px;
     text-align: left;
     text-transform: uppercase;
