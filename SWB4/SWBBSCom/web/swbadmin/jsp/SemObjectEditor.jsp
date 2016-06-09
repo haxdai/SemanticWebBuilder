@@ -275,4 +275,3 @@ System.out.println("cls="+cls);
      }
 }catch(Exception e){e.printStackTrace();}
 %>
-<!-- a href="#" onclick="submitUrl('/swb/swb',this); return false;">click</a -->
