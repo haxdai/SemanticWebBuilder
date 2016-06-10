@@ -63,42 +63,6 @@ html, body{
         div {
             padding:0px !important;
         }
-
-        .btn {
-            line-height: 3em;
-            @include buttonFlat-Userbar;
-             
-            &:active {
-                color: $white-color;
-                background-color: $color-primary-active;
-                border: 0px;
-            }
-
-            &:hover{
-                color: $white-color;
-                background-color: $color-primary;
-            }         
-
-            &:focus{
-                color: $white-color;
-                background-color: $color-primary-active;
-            }
-
-            span.fa {
-                font-size: 1.2em;
-            }
-
-            img {
-                @include img-Userbar;
-            }
-
-            @media (max-width: $breakpoint-small - 1) {
-                line-height: 2.8em;
-                text-align: left;
-                padding-left:24px;
-                font-size: 1em;
-            }
-        }
     }
 
     /*-----------SWBProcess page title section-----------*/
@@ -138,6 +102,23 @@ html, body{
     /*-----------SWBProcess lateral menu-----------*/
     .swbp-main-menu {
         padding: 0px;
+
+        .swbp-menu-text {
+            text-align: left;
+            padding: 15px 15px 0px 0px;
+            
+            @media (min-width: $breakpoint-small) and (max-width: $breakpoint-medium) {
+                text-align: center;
+                padding-left: 15px;
+            }
+
+            span.badge {
+                background-color: $color-primary-active;
+                color: $white-color;
+                margin-left: 5px;
+            }
+        }
+
 
         button.navbar-toggle { //hamburger button
             border: none;
@@ -184,6 +165,7 @@ html, body{
 
             @media (max-width:$breakpoint-small - 1) {
                 height: 48px;
+                width:80%;
             }
 
             .swbp-brand-logo { //Product logo
@@ -229,7 +211,7 @@ html, body{
                 li {
                     background-color: $color-background-main;
                     width: 100%;
-                    
+
                     a {
                         border:none;
                         padding: 0px;
@@ -316,24 +298,74 @@ html, body{
         }
     }
 
+    /*--------Row of filters----------*/
+    .swbp-filters * {
+        text-transform: uppercase;
+        label {
+            color: $black-color;
+            padding: 1em 0;
+            font-size: 0.8em;
+            font-weight: normal;
+        }
+    }
+
     /*-------Helper CSS classes------*/
-    .full-width {
-        width: 100%;
+
+    .swbp-pad {
+        padding: 0px 15px 0px 0px;
+        margin: 0px;
     }
 
-    .full-height {
-        height: 100%;
+    .status-ok, .status-overdue, .status-aborted {
+        height: 3px;
     }
 
-    .block-helper {
-        padding-top: 100%;
+    .status-ok {
+        background-color: $color-status-ok;
     }
 
-    .block-helper-center {
-        display: inline-block;
-        vertical-align: middle;
-        height: 100%;
+    .status-overdue {
+        background-color: $color-status-overdue;
     }
+
+    .status-aborted {
+        background-color: $color-status-aborted;
+    }
+
+    .text-highlight {
+        color: $color-highlight;
+    }
+
+    @import "_panels.scss";
+    @import "_pagination.scss";
+    /*---------------Button styling----------------*/
+    @import "_buttons.scss";
+}
+
+.full-width {
+    width: 100%;
+}
+
+.full-height {
+    height: 100%;
+}
+
+.block-helper {
+    padding-top: 100%;
+}
+
+.block-helper-center {
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.no-margin {
+    margin:0;
+}
+
+.no-padding {
+    padding: 0 !important;
 }
 
 #swbp-fondo-400{
@@ -425,10 +457,6 @@ html, body{
     
 /* Tablet o smartphone - SM en Bootstrap del 768 al 991px *****************************************************/
 @media (min-width:768px) and (max-width:991px){
-    .swbp-menu-text {
-        text-align: center; 
-        padding: 15px 0px 0px 0px !important;
-    }
     .swbp-menu-icon {
         font-size: 36px !important;
     }
@@ -552,9 +580,6 @@ html, body{
     
     .swbp-pad{
         padding: 0px !important;
-    }
-    .swbp-btn-block {
-        margin: 6px 0px !important;
     }
 
     .swbp-toolbar-model {
@@ -761,40 +786,13 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
     display: table-ceLl;
 }
 /************************* BOTONES DE ACCIÓN RÁPIDA *************************/
-.swbp-raised-button {
+/*.swbp-raised-button {
     height: $button-default-height;
     //background-color: $color-background-window;
     padding: 0px;   
-}
+}*/
 /************************* BOTONES EN BLOQUE *************************/
-.swbp-btn-block {
-    @include buttonRaised;
-    
-    &:active {
-        background-color: $color-link;
-        
-        background-image: -webkit-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Chrome, Safari*/
-        background-image: -o-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Opera 11.6 to 12.0 */
-        background-image: -moz-radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Firefox 3.6 to 15 */
-        background-image: radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Standard syntax */
-        background-repeat: no-repeat;
-        -webkit-background-size: 1000% 1000%;
-        background-size: 1000%;
-        -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-        box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    }
-    
-    &:hover{
-        background-color: $color-link;
-        color: $white-color;
-    }
-    
-    &:focus, &:active:focus{
-        background-color: $color-link-active;
-        color: $white-color;
-        outline: 0px;
-    }
-}
+
 
 /************************* FOOTER *************************/
 
@@ -818,22 +816,6 @@ input[type=checkbox].css-checkbox:checked + label.css-label{
 /************************* MENU construído con columnas *************************/
 .swbp-menu-icon {
     @include iconMenu
-}
-.swbp-menu-text {
-    font-size: 14px;
-    padding: 15px 15px 0px 0px;
-    
-    span.badge {
-        background-color: $color-primary-active;
-        color: #fff;
-        margin-left: 5px;
-    }
-}
-
-/************************* TITULO *************************/
-.swbp-pad{
-    padding: 0px 15px 0px 0px;
-    margin: 0px;
 }
 
 /************************* ENCABEZADOS PANEL *************************/
@@ -1830,13 +1812,13 @@ textarea.swbp-form-control{
     background-color: $color-text-highlight;
 }
 
-.panel-footer{
+/*.panel-footer{
     //height: 36px;
     padding: 0PX;
     background-color: $color-background-content;
     border-top: solid 1px $color-border-main;
     border-radius: 0px;
-}
+}*/
 
 .swbp-panel-button{
     padding: 0px;
@@ -1863,33 +1845,6 @@ textarea.swbp-form-control{
     }    
 }
 
-/******************** REPOSITORIO ********************/
-.swbp-filters{
-    
-    label{
-        color: $black-color;
-        height: auto;
-        padding: 9px 0px;
-        font-size: 12px;
-        text-transform: uppercase;
-        font-weight: normal;
-        margin-bottom: 0px;
-    }   
-    
-    select{
-        height: 36px;
-        padding: 8px;
-        background-color: $color-background-content;
-        @include border;
-        color: $color-link;
-        font-size: 12px;
-        text-transform: uppercase;
-        
-        &:focus{
-            @include inputFocus;
-        }    
-    }    
-}
 /******************** VENTANAS MODALES ********************/
 .swbp-modal{
     background-color: $color-background-content;
@@ -2027,7 +1982,7 @@ ul.swbp-btn-dropdown li a{
     }    
 }
 
-.swbp-filters ul{
+/*.swbp-filters ul{
     background-color: $color-background-content;
     
     li.dropdown-header {
@@ -2049,7 +2004,7 @@ ul.swbp-btn-dropdown li a{
             font-weight: normal;
         }        
     }    
-}
+}*/
 
 .swbp-input-tray{
     background-color: $color-background-content;
