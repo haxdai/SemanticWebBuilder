@@ -45,16 +45,14 @@ if (navParams != null && navParams.length > 0) {
 }
 
 if (maxPages > 1) {
-    %>
-    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 swbp-pagination-title">
-        <%
-        if (showPageOfPage) {
-            %><%=paramRequest.getLocaleString("pagPage")%> <%=pageNum%> <%=paramRequest.getLocaleString("pagDelim")%> <%=maxPages%><%
-        }
+    if (showPageOfPage) {
         %>
-    </div>
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 swbp-pagination-number">
-        <ul class="pagination">
+        <span class="hidden-sm hidden-xs swbp-page-number"><small><%=paramRequest.getLocaleString("pagPage")%> <%=pageNum%> <%=paramRequest.getLocaleString("pagDelim")%> <%=maxPages%></small></span>
+        <%
+    }
+    %>
+    <nav class="pull-right">
+        <ul class="pagination swbp-pagination">
             <%
             int pagSlice = 5;
             int sliceIdx = 1;
@@ -96,7 +94,7 @@ if (maxPages > 1) {
             }
             %>
         </ul>
-    </div>
+    </nav>
     <%
 }
 %>
