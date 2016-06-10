@@ -1,0 +1,37 @@
+.panel.swbp-input-tray {
+    border-radius: 0 !important;
+    border:none;
+    color:$color-text-highlight;
+
+    .panel-heading, .panel-footer {
+        padding: 0;
+        border-radius:0;
+    }
+
+    .panel-heading {
+        border:none;
+        height:3px;
+    }
+
+    .panel-body {
+        padding-bottom: 0px;
+        border: 1px solid $color-border-main;
+        border-bottom:none;
+
+        .row {
+            min-height: 36px;
+        }
+
+        .swbp-tray-process-title {
+            text-transform: uppercase;
+            color: $black-color;
+            font-weight: bold;
+        }
+    }
+
+    .btn {
+        min-height: 36px;
+        padding-top: 10px;
+        font-size: 0.8em;
+    }
+}

@@ -1,0 +1,31 @@
+ul.swbp-pagination {
+    margin: 0;
+    li {
+        &.active {
+            a {
+                color: $white-color;
+                background-color: $color-primary;
+                border: 1px solid $color-primary;
+            }
+        }
+
+        a {
+            border: 1px solid $color-border-main;
+            color: $color-text-highlight;
+            background-color: $color-background-content;
+
+            &:hover {
+                color: $white-color;
+                background-color: $color-primary;
+                border: 1px solid $color-primary;
+            }
+        }
+    }
+}
+
+span.swbp-page-number {
+    float:left;
+    padding: 8px 0px 0px 18px;
+    color: $color-text-highlight;
+    font-style: italic;
+}
