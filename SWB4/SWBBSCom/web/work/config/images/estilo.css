@@ -1,0 +1,26 @@
+/* CSS Document */
+
+body {	margin: 0;	padding:0}
+#centrado {	text-align:center}
+/* ------------ html-gral -------- */
+#html-gral { margin-top:60px; margin-left:auto; margin-right:auto; width:550px;	height:480px; background:#369 url(fondo-login-light-app.jpg); font-family:Verdana, Arial, Helvetica, sans-serif;	color: #666666;	text-align:justify}
+#html-contenido{	padding-left:85px; padding-top:90px}
+#html-contenido h1{	text-align:left; padding-bottom:10px; font-size:30px; color:#522577; margin:15px 0 5px 125px;}
+#html-contenido p, #html-contenido h2{ font-size:16px;	padding-right:40px}
+#html-contenido form 	{ font-size:16px; padding-right: 70px; }
+#html-contenido label	{ color: #522577; display:inline-block; text-align:right; width:120px;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0;
+    margin: 0;
+    padding: 0;
+    text-align: right;}
+#html-contenido h2		{ font-size:20px;	font-weight:bold}
+#html-contenido ul		{ padding:0;	margin:0}
+#html-contenido li		{ margin: 20px 40px 10px 40px}
+#html-contenido li a	{ color: #336699}
+#usuario, #pass	{border: 1px solid #522577; width:255px; color:#522577; font-size:16px; font-weight:bold; height:18px; letter-spacing:1px; padding:5px; margin-bottom:15px;}
+#html-pie 	{ background:#060d14;	padding: 10px;	font-size:10px;	margin-top: 105px;	border-top: #FFFFFF 1px solid}
+#html-pie a { text-decoration:none;	color:#3d78b4}
+#semius 	{ position: absolute;	top: 355px;	left: inherit;	margin-left:530px;	margin-right:auto}
+.botonLogin { border:#522577 solid 1px; background:#522577; font-weight:bold; color:#FFF; margin: 5px 0 0 128px; padding:5px 20px; letter-spacing:1px;}
