@@ -157,7 +157,7 @@ if (!user.isSigned()) {
         %>
         <div class="row no-margin">
             <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12">
-                <a href="<%=createPiUrl%>" class="btn btn-block btn-block-swbp-action" data-toggle="modal" data-target="#modalDialog">Crear instancia</a>
+                <a href="<%=createPiUrl%>" class="btn btn-block btn-swbp-action" data-toggle="modal" data-target="#modalDialog">Crear instancia</a>
             </div>
         </div> 
         <hr>    
