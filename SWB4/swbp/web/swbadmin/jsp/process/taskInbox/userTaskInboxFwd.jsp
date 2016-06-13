@@ -70,10 +70,10 @@ if (fni != null) {
 SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxResource.MODE_FWD);
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close fa fa-close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%=paramRequest.getLocaleString("actFwd")%></h4>
+            <h5 class="modal-title"><%=paramRequest.getLocaleString("actFwd")%></h5>
         </div>
         <%if (tPartners != null && tPartners.hasNext()) {%>
             <form method="post" action="<%=forward%>" >
@@ -100,10 +100,10 @@ SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxReso
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6">
                         <span class="fa fa-hand-o-right fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%>
                     </button>
-                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                    <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
                         <span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%>
                     </button>
                     
