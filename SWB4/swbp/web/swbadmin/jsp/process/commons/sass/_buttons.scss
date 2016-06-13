@@ -10,6 +10,7 @@
 }
 
 .btn-default {
+    font-size: 0.9em;
     color: $color-text-highlight;
     background-color: $color-background-content;
     border: solid 1px $color-border-main;
@@ -20,7 +21,7 @@
     };
 }
 
-.btn-block-swbp-action {
+.btn-swbp-action {
     @include buttonRaised;
     
     &:active {
@@ -33,36 +34,29 @@
         color: $white-color;
     }
     
-    &:focus, &:active:focus{
+    &:focus, &:active:focus {
         background-color: $color-link-active;
         color: $white-color;
         outline: 0px;
     }
-
-    @media (max-width:$breakpoint-small - 1) {
-        margin: 6px 0px !important;
-    }
 }
 
-.btn-block-swbp-action-head {
+.btn-swbp-action-head {
     text-transform: none;
-    line-height: 3em;
-    @include buttonFlat-Userbar;
+    background-color: $white-color;
+    border: none;
+    color: $color-text-highlight;
+    line-height: 1.5em;
      
-    &:active {
+    &:active, &:focus {
         color: $white-color;
         background-color: $color-primary-active;
-        border: 0px;
+        //border: none;
     }
 
     &:hover{
         color: $white-color;
         background-color: $color-primary;
-    }         
-
-    &:focus{
-        color: $white-color;
-        background-color: $color-primary-active;
     }
 
     span.fa {
@@ -70,7 +64,9 @@
     }
 
     img {
-        @include img-Userbar;
+        max-height: 20px;
+        margin-right: 4px;
+        //@include img-Userbar;
     }
 
     @media (max-width: $breakpoint-small - 1) {
