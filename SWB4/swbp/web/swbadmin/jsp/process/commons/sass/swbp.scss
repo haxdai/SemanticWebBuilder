@@ -336,8 +336,14 @@ html, body{
         color: $color-highlight;
     }
 
+    code, pre {
+        color: $color-text-highlight;
+        background-color: $color-background-main;
+    }
+
     @import "_panels.scss";
     @import "_pagination.scss";
+    @import "_modals.scss";
     /*---------------Button styling----------------*/
     @import "_buttons.scss";
 }
@@ -366,6 +372,11 @@ html, body{
 
 .no-padding {
     padding: 0 !important;
+}
+
+.swbp-button-ribbon {
+    min-height: 42px;
+    margin-top: 15px;
 }
 
 #swbp-fondo-400{
@@ -523,9 +534,9 @@ html, body{
         margin-bottom: 16px;
     }
     
-    .swbp-modal .swbp-table-responsive tbody tr td textarea.swbp-form-control {
+    /*.swbp-modal .swbp-table-responsive tbody tr td textarea.swbp-form-control {
         text-align: right !important;
-    }
+    }*/
     .swbp-list-action{
         margin-bottom: 6px;
     }
@@ -679,19 +690,19 @@ html, body{
     .swbp-modal-property{
         text-align: left !important;
     }
-    .modal-dialog{
+    /*.modal-dialog{
         margin: 32px;
-    }
+    }*/
     .swbp-list-date{
         text-align: left !important;
     }
     .swbp-btn-filter {
         margin-top: 10px;
     }
-    .modal .modal-body .swbp-captcha img {
+    /*.modal .modal-body .swbp-captcha img {
         width: 100% !important; 
         height: 60px !important;
-    }
+    }*/
 
 }
 /************************* GENERICOS *************************/
@@ -1846,92 +1857,6 @@ textarea.swbp-form-control{
 }
 
 /******************** VENTANAS MODALES ********************/
-.swbp-modal{
-    background-color: $color-background-content;
-    border-radius: 2px;
-    
-    H1{
-        font-size: 14px;
-        text-transform: uppercase;
-    }  
-    .modal-header{
-        background-color: $color-link;
-        color: $white-color;
-        min-height: 36px;
-        padding: 12px 16px;
-    }
-    
-    button.close{
-        color: $white-color;
-        opacity: 1;
-        font-size: 16px;
-        background-color: transparent;
-        height: auto;
-        line-height: 1;
-        
-        &:hover, &:active, &:focus, &:active:focus{
-            color: $white-color;
-            background-color: transparent;
-            border: 0px;
-        }        
-    }  
-    
-    .modal-title{
-        @include fontButton-Block;
-    }    
-    
-    .modal-body{
-        @include fontPrimary;
-        padding: 16px;
-        
-        label.css-label{
-            padding-top: 9px;
-            padding-left: 24px !important;
-        } 
-        
-        form .form-group{
-            margin-bottom: 16px;
-        }        
-    }   
-    
-    input {
-        @include input;
-        
-        &:focus{
-            @include inputFocus;
-        }        
-    }    
-    
-    .modal-footer{
-        border-top: solid 1px $color-border-main;
-        padding: 0px;
-    }    
-    
-    button{
-        @include buttonFlat;
-
-        &:hover, &:active, &:focus, &:active:focus{
-            color: $color-primary;
-            outline: 0px;
-            background-color: $white-color;
-            border: solid 1px $color-border-main;
-        }        
-    } 
-    
-    select{
-        @include select;
-        
-        &:focus{
-            @include inputFocus;
-        }        
-    }  
-    
-    .swbp-table-responsive tbody tr td textarea.swbp-form-control {
-        text-align: left;
-    }    
-}
-
-
 .swbp-modal-property{
     color: $black-color;
     font-weight: bold;
@@ -1943,10 +1868,10 @@ textarea.swbp-form-control{
     height: auto;
     padding: 8px 16px;
 }
-.modal-footer .btn+.btn {
+/*.modal-footer .btn+.btn {
     margin-bottom: 0;
     margin-left: 0px;
-}
+}*/
 .swbp-modal-textarea textarea {
     border-radius: 4px;
     padding: 8px;
