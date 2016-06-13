@@ -72,7 +72,7 @@ SWBResourceURL forward = paramRequest.getActionUrl().setAction(UserTaskInboxReso
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-            <button type="button" class="close fa fa-close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h5 class="modal-title"><%=paramRequest.getLocaleString("actFwd")%></h5>
         </div>
         <%if (tPartners != null && tPartners.hasNext()) {%>
