@@ -57,10 +57,10 @@ while(startEvents.hasNext()) {
 Iterator<String> keys = groups.keySet().iterator();
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%=paramRequest.getLocaleString("createCase")%></h4>
+            <h5 class="modal-title"><%=paramRequest.getLocaleString("createCase")%></h5>
         </div>
         <%if (keys.hasNext()) {%>
             <div id="formContainer">
@@ -93,8 +93,8 @@ Iterator<String> keys = groups.keySet().iterator();
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%></button>
-                        <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
+                        <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnOk")%></button>
+                        <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
                     </div>
                 </form>
             </div>
