@@ -419,6 +419,7 @@ if (!user.isSigned()) {
                     </div>
                     <%
                 }
+                
                 String sort = sortType;
                 String filter = sFilter;
                 String pfilter = pFilter;
@@ -440,12 +441,14 @@ if (!user.isSigned()) {
                     pfilter = "";
                 }
                 %>
-                <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
-                    <jsp:param name="navUrlParams" value="<%=sort%>"/>
-                    <jsp:param name="navUrlParams" value="<%=filter%>"/>
-                    <jsp:param name="navUrlParams" value="<%=pfilter%>"/>
-                    <jsp:param name="showPageOfPage" value="true"/>
-                </jsp:include>
+                <div class="row no-margin">
+                    <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
+                        <jsp:param name="navUrlParams" value="<%=sort%>"/>
+                        <jsp:param name="navUrlParams" value="<%=filter%>"/>
+                        <jsp:param name="navUrlParams" value="<%=pfilter%>"/>
+                        <jsp:param name="showPageOfPage" value="true"/>
+                    </jsp:include>
+                </div>
                 <%
             } else {
                 %>
