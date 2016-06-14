@@ -1,0 +1,62 @@
+/************************* BREADCRUMS *************************/
+.swbp-breadcrumb {
+    background-color: transparent;
+
+    a, span {
+            color: $color-text-highlight;
+    }
+
+    //min-height: $button-default-height;
+    //background-color: $color-background-content;
+    //padding: 0px;
+    //@include fontCaption; 
+    
+    /*ol.breadcrumb {
+        margin-bottom: 0px;
+        background-color: transparent;
+        padding: 14px 24px 0px 0px;
+    } */   
+}
+
+/*.breadCrumbHolder {
+    margin: 0px;
+}
+
+.breadCrumb {
+    padding: 14px 10px 0px 0px;
+    border: 0px;
+    background: transparent;
+    height: auto;
+    
+    ul li{
+        height: auto;
+        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
+    }   
+    
+    ul li.first a
+    {
+        width:0px !important;
+        background:none;
+    }    
+    
+    ul li.last
+    {
+        background:none;
+    }    
+    
+    ol li{
+        height: auto;
+        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
+    } 
+    
+    ol li.first a
+    {
+        width:0px !important;
+        background:none;
+    }  
+    
+    ol li.last
+    {
+        background:none;
+    }    
+}*/
