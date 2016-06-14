@@ -58,40 +58,35 @@
 <%
     }
 } else {
-%>
-<div class="modal-dialog">
-    <div class="modal-content swbp-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%=paramRequest.getLocaleString("msgAltRenDirectory")%></h4>
-        </div>
+    %>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title"><%=paramRequest.getLocaleString("msgAltRenDirectory")%></h5>
+            </div>
             <%
-                if (re == null) {
-            %><%                    } else {
-            %>
-            <form method="post" id="formEditRepository" action="<%=actionURL%>" class="form-horizontal" role="form">
-                <div class="modal-body">
-                    <div class="row form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                            <label class="col-lg-5 control-label"><%= Descriptiveable.swb_title.getDisplayName(lang) %></label>
+            if (null != re) {
+                %>
+                <form method="post" id="formEditRepository" action="<%=actionURL%>" class="form-horizontal swbp-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><%= Descriptiveable.swb_title.getDisplayName(lang) %></label>
+                            <div class="col-sm-8">
+                                <input required type="text" name="titleRep" id="titleRep" errorMsg="Ingresar el título" value="<%=((Descriptiveable) re).getDisplayTitle(lang)%>" class="form-control"/>
+                            </div>
+                            <div id="container"></div>     
                         </div>
-                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                            <input required type="text" name="titleRep" id="titleRep" errorMsg="Ingresar el título" value="<%=((Descriptiveable) re).getDisplayTitle(lang)%>" class="form-control"/>
-                        </div>
-                            <div id="container">
-                            </div>     
+                        <input type="hidden" id="fid" name="fid" value="<%=fid%>">
                     </div>
-                    <input type="hidden" id="fid" name="fid" value="<%=fid%>">
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" id="savedtes"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("msgBTNSave")%></button>
-                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
-                        <span class="fa fa-arrow-left fa-fw"></span>Cancelar
-                    </button>
-                </div>
-            </form>
-            <%
-                }
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" id="savedtes"><span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgBTNSave")%></span></button>
+                        <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs">Cancelar</span>
+                        </button>
+                    </div>
+                </form>
+                <%
+            }
             %>
         </div>
     </div>
