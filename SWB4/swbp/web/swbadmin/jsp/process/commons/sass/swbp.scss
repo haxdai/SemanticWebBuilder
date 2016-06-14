@@ -344,6 +344,7 @@ html, body{
     @import "_pagination.scss";
     @import "_modals.scss";
     @import "_breadcrumbs.scss";
+    @import "_forms.scss";
     /*---------------Button styling----------------*/
     @import "_buttons.scss";
 }
@@ -1444,7 +1445,7 @@ ul#relatedTab {
     
 }
 
-textarea.swbp-form-control{
+/*textarea.swbp-form-control{
     border-radius: 0px;
     padding: 8px 16px;
     @include textarea;
@@ -1454,7 +1455,7 @@ textarea.swbp-form-control{
         -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
         box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
     }    
-}
+}*/
 
 .swbp-comment{
     padding: 16px;
@@ -1809,11 +1810,11 @@ textarea.swbp-form-control{
     padding: 8px 16px;
 }
 
-.swbp-modal-textarea textarea {
+/*.swbp-modal-textarea textarea {
     border-radius: 4px;
     padding: 8px;
     @include textarea;
-}
+}*/
 /******************** BANDEJA ********************/
 .swbp-btn-filter{
     @include panelContainer;
@@ -1931,13 +1932,13 @@ ul.swbp-btn-dropdown li a{
     text-transform: uppercase;
     padding: 0px;
 }
-select.form-control{
+/*select.form-control{
     @include select;
     
     &:focus{
         @include inputFocus;
     }    
-}
+}*/
 .panel.swbp-tray-chart{
     padding: 16px;
     background-color: transparent;
