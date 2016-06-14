@@ -332,8 +332,8 @@ if (!user.isSigned()) {
                     isFile = false;
                 });
                 
-                $("#fileSelect").show();
-                $("#linkSelect").hide();
+                isFile && $("#fileSelect").show();
+                isFile && $("#linkSelect").hide();
                 isFile && $("#ffile").attr("required", true);
             });
         })();
