@@ -69,56 +69,47 @@ if (!user.isSigned()) {
     if (re != null && re.getDisplayDescription(lang) != null) description = re.getDisplayDescription(lang);
     %>
     <div class="modal-dialog">
-        <div class="modal-content swbp-modal">
+        <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title"><%=paramRequest.getLocaleString("msgAdd")%>&nbsp;<%=re != null?paramRequest.getLocaleString("msgVersionOf")+" ":""%> <%=(re != null && re instanceof RepositoryURL)?paramRequest.getLocaleString("msgDocLink"):paramRequest.getLocaleString("msgFile")%></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title"><%=paramRequest.getLocaleString("msgAdd")%>&nbsp;<%=re != null?paramRequest.getLocaleString("msgVersionOf")+" ":""%> <%=(re != null && re instanceof RepositoryURL)?paramRequest.getLocaleString("msgDocLink"):paramRequest.getLocaleString("msgFile")%></h5>
             </div>
-            <form class="form-horizontal" id="fileForm" role="form" action="<%=createURL%>" method="post" enctype="multipart/form-data">
+            <form class="form-horizontal swbp-form" id="fileForm" role="form" action="<%=createURL%>" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <%
                     if (re != null) {
                         %><input type="hidden" name="fid" value="<%= re.getURI() %>"/><%
                     }%>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgTitle")%> *</label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgTitle")%> *</label>
+                        <div class="col-sm-8">
                             <input type="text" name="ftitle" id="ftitle" required value="<%=(re != null)?re.getDisplayTitle(lang):""%>" class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgDescription")%> *</label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-textarea">
-                            <textarea name="fdescription" id="fdescription" required rows="2" class="form-control swbp-form-control"><%=description%></textarea>
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgDescription")%> *</label>
+                        <div class="col-sm-8">
+                            <textarea name="fdescription" id="fdescription" required rows="2" class="form-control"><%=description%></textarea>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgComments")%></label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-textarea">
-                            <textarea name="fcomment" id="fcomment" rows="2" class="form-control swbp-form-control"><%=comments%></textarea>
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgComments")%></label>
+                        <div class="col-sm-8">
+                            <textarea name="fcomment" id="fcomment" rows="2" class="form-control"><%=comments%></textarea>
                         </div>
                     </div>
                     <%
                     if (re == null) {
                         %>
                         <div class="form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                            <label><%=paramRequest.getLocaleString("msgFileType")%></label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                      <input class="css-checkbox" type="radio" id="fileToggleRadio" checked name="hftype" value="file">
-                                      <label class="css-label" for="fileToggleRadio"><span><%=paramRequest.getLocaleString("msgFile")%></span></label>
-                                </div>
-                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                      <input class="css-checkbox" type="radio" id="urlToggleRadio" name="hftype" value="url"> 
-                                      <label class="css-label" for="urlToggleRadio"><%=paramRequest.getLocaleString("lblLink")%></label>
-                                </div>
+                            <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgFileType")%></label>
+                            <div class="col-sm-8">
+                                <label class="checkbox-inline">
+                                    <input type="radio" id="fileToggleRadio" checked name="hftype" value="file"/> <%=paramRequest.getLocaleString("msgFile")%>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="radio" id="urlToggleRadio" name="hftype" value="url"/> <%=paramRequest.getLocaleString("lblLink")%>
+                                </label>
                             </div>
                         </div>
                         <%
@@ -129,10 +120,8 @@ if (!user.isSigned()) {
                     if (re == null || (re != null && re instanceof RepositoryFile)) {
                         %>
                         <div id="fileSelect" class="form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                <label for=""><%=paramRequest.getLocaleString("msgFile")%> *</label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                            <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgFile")%> *</label>
+                            <div class="col-sm-8">
                                 <input type="file" name="ffile" id="ffile" class="form-control" />
                             </div>
                         </div>
@@ -145,11 +134,9 @@ if (!user.isSigned()) {
                             val = vi.getVersionFile();//vi.getVersionFile().startsWith("http://")?vi.getVersionFile().replace("http://", ""):vi.getVersionFile();
                         }
                         %>
-                        <div id="linkSelect" class="row form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                <label for=""><%=paramRequest.getLocaleString("lblLink")%> *</label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                        <div id="linkSelect" class="form-group">
+                            <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblLink")%> *</label>
+                            <div class="col-sm-8">
                                 <input type="text" name="extfile" id="extfile" value="<%=val%>" class="form-control" placeholder="http://"/>
                             </div>
                         </div>
@@ -160,10 +147,8 @@ if (!user.isSigned()) {
                     if (ititwstst.hasNext()) {
                         %>
                         <div class="form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                <label for=""><%=paramRequest.getLocaleString("msgTHStatus")%></label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">            
+                            <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgTHStatus")%></label>
+                            <div class="col-sm-8">            
                                 <select name="itemAwStatus" id="itemAwStatus" class="form-control">
                                     <option value="" <%=(actualStatus.equals("")?"selected":"")%>><%=paramRequest.getLocaleString("msgSelNone")%></option>
                                     <%
@@ -183,10 +168,8 @@ if (!user.isSigned()) {
                     if (re != null) {
                         %>
                         <div class="form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                <label for="" ><%=paramRequest.getLocaleString("msgVersion")%> *</label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">  
+                            <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgVersion")%> *</label>
+                            <div class="col-sm-8">  
                                 <select name="newVersion" id="itemAwStatus" class="form-control">
                                     <%
                                     float fver = Float.parseFloat(vi.getVersionValue());
@@ -204,8 +187,8 @@ if (!user.isSigned()) {
                     }%>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus fa-fw"></span><%=paramRequest.getLocaleString("msgAdd")%></button>
-                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("msgBTNCancel")%></button>
+                    <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgAdd")%></span></button>
+                    <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgBTNCancel")%></span></button>
                 </div>
             </form>
         </div>
