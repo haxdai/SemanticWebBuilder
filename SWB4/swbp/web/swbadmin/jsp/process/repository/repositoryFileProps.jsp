@@ -18,7 +18,7 @@
 <%@page import="org.semanticwb.process.model.RepositoryElement"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     User user = paramRequest.getUser();
@@ -69,102 +69,95 @@
 
     if (!user.isSigned()) {
         if (paramRequest.getCallMethod() == SWBParamRequest.Call_CONTENT) {
-%>
-<div class="alert alert-block alert-danger fade in">
-    <h4><span class="fa fa-ban"></span> <%=paramRequest.getLocaleString("msgNoAccessTitle")%></h4>
-    <p><%=paramRequest.getLocaleString("msgNoAccess")%></p>
-    <p>
-        <a class="btn btn-default" href="/login/<%=site.getId()%>/<%=paramRequest.getWebPage().getId()%>"><%=paramRequest.getLocaleString("btnLogin")%></a>
-    </p>
-</div>
-<%
-    }
-} else {
-%>
-<div class="modal-dialog">
-    <div class="modal-content swbp-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%=paramRequest.getLocaleString("msgDocProperties")%></h4>
-        </div>
-        <div class="modal-body">
-            <%
-                if (re == null) {
-            %><%                    } else {
-            %>
-            <form class="form-horizontal" role="form">
-                <div class="row">
-                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                     <%=paramRequest.getLocaleString("msgTitle")%>   
-                 </div>
-                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                     <%=((Descriptiveable) re).getDisplayTitle(lang)%>
-                 </div>
-                 <%if (re instanceof RepositoryElement) {%>
-                  <%
-                        SWBResourceURL urlDownload = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-                        urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
-                        urlDownload.setParameter("fid", re.getId());
-                        urlDownload.setParameter("verNum", "" + vi.getVersionNumber());
-                        String val = "";
-                        if (ver != null) {
-                            val = ver.getVersionFile();
-                        } else if (vi != null) {
-                            val = vi.getVersionFile();
-                        }
-                    %>
-                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                     <%=re instanceof RepositoryFile ? paramRequest.getLocaleString("msgFile") : paramRequest.getLocaleString("lblLink")%>
-                 </div>
-                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                    <%=val%>   
-                 </div>                
-                 <%}%>
-            
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                    <%=paramRequest.getLocaleString("msgDescription")%>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                    <%=((Descriptiveable) re).getDisplayDescription(lang) != null ? ((Descriptiveable) re).getDisplayDescription(lang) : ""%>&nbsp;
-                </div>
-             
-     
-                <%if (re instanceof RepositoryElement) {
-                        String comment = (vi != null ? vi.getVersionComment() : "");
-                        if (comment == null) {
-                            comment = "";
-                        }
-                %>
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                    <%=paramRequest.getLocaleString("msgComments")%>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                    <%=comment%>&nbsp;
-                </div>
-                <%}%>
-                
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                    <%=paramRequest.getLocaleString("msgVersionUser")%>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                    <%=((Traceable) re).getCreator() == null ? "" : ((Traceable) re).getCreator().getFullName()%>
-                </div>
-                
-                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                    <%=paramRequest.getLocaleString("msgLastDateModification")%>
-                </div>
-                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                    <%=((Traceable) re).getCreated() == null ? "" : format.format(((Traceable) re).getCreated())%>
-                </div>
+        %>
+            <div class="alert alert-block alert-danger fade in">
+                <h4><span class="fa fa-ban"></span> <%=paramRequest.getLocaleString("msgNoAccessTitle")%></h4>
+                <p><%=paramRequest.getLocaleString("msgNoAccess")%></p>
+                <p>
+                    <a class="btn btn-default" href="/login/<%=site.getId()%>/<%=paramRequest.getWebPage().getId()%>"><%=paramRequest.getLocaleString("btnLogin")%></a>
+                </p>
             </div>
-            </form>
-            <%
-                }
-            %>
+        <%
+        }
+    } else {
+        %>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title"><%=paramRequest.getLocaleString("msgDocProperties")%></h5>
+                </div>
+                <form class="form-horizontal swbp-form">
+                    <div class="modal-body">
+                        <%
+                        if (null != re) {
+                            String creator = "";
+                            String title = ((Descriptiveable) re).getDisplayTitle(lang) != null ? ((Descriptiveable) re).getDisplayTitle(lang) : "";
+                            String description = ((Descriptiveable) re).getDisplayDescription(lang) != null ? ((Descriptiveable) re).getDisplayDescription(lang) : "";
+                            String fileName = "";
+                            String vComments = "";
+                            String updated = "";
+                            SWBResourceURL urlDownload = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
+                            
+                            if (re instanceof RepositoryElement) {
+                                urlDownload.setMode(ProcessFileRepository.MODE_GETFILE);
+                                urlDownload.setParameter("fid", re.getId());
+                                urlDownload.setParameter("verNum", "" + vi.getVersionNumber());
+
+                                if (ver != null) {
+                                    fileName = ver.getVersionFile();
+                                    creator = ver.getCreator() != null ? ver.getCreator().getFullName() : ((Traceable)re).getCreator().getFullName();
+                                    vComments = ver.getVersionComment() != null ? ver.getVersionComment() : "";
+                                    updated = ver.getCreated() == null ? "" : format.format(ver.getCreated());
+                                } else if (vi != null) {
+                                    fileName = vi.getVersionFile();
+                                    creator = vi.getCreator() != null ? vi.getCreator().getFullName() : ((Traceable)re).getCreator().getFullName();
+                                    vComments = vi.getVersionComment() != null ? vi.getVersionComment() : "";
+                                    updated = vi.getCreated() == null ? "" : format.format(vi.getCreated());
+                                }
+                            }
+                            %>
+                            <div class="form-group">
+                                <label for="" class="col-sm-4 control-label"><%= paramRequest.getLocaleString("msgTitle") %></label>
+                                <div class="col-sm-8"><p class="form-control-static"><%= title %></p></div>
+                            </div>
+                            <%
+                            if (re instanceof RepositoryElement) {
+                                %>
+                                <div class="form-group">
+                                    <label for="" class="col-sm-4 control-label"><%= re instanceof RepositoryFile ? paramRequest.getLocaleString("msgFile") : paramRequest.getLocaleString("lblLink")%></label>
+                                    <div class="col-sm-8"><p class="form-control-static"><%= fileName %></p></div>
+                                </div>
+                                <%
+                            }
+                            %>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"><%= paramRequest.getLocaleString("msgDescription") %></label>
+                                <div class="col-sm-8"><p class="form-control-static"><%= description %>&nbsp;</p></div>
+                            </div>
+                            <%
+                            if (re instanceof RepositoryElement && !(re instanceof RepositoryDirectory)) {
+                                %>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label"><%= paramRequest.getLocaleString("msgComments") %></label>
+                                    <div class="col-sm-8"><p class="form-control-static"><%= vComments %>&nbsp;</p></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label"><%= paramRequest.getLocaleString("msgVersionUser") %></label>
+                                    <div class="col-sm-8"><p class="form-control-static"><%= creator %></p></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label"><%= paramRequest.getLocaleString("msgLastDateModification") %></label>
+                                    <div class="col-sm-8"><p class="form-control-static"><%= updated %></p></div>
+                                </div>
+                                <%
+                            }
+                        }
+                        %>
+                    </div>
+                </form>
+            </div>
         </div>
-       
-    </div>
-</div>
-<%
+        <%
     }
 %>
