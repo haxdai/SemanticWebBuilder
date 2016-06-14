@@ -30,40 +30,35 @@ if (!user.isSigned()) {
     SWBResourceURL createURL = paramRequest.getActionUrl().setAction(ProcessFileRepository.ACT_NEWFOLDER);
     %>
     <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
-        <div class="modal-header">
-            <h4 class="modal-title"><%=paramRequest.getLocaleString("msgCreateDirectory")%></h4>
-        </div>
-        <form id="folderAddForm" class="form-horizontal" role="form" action="<%=createURL%>" method="post">
-            <div class="modal-body">
-                <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgTitle")%> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                        <input id="ftitle" type="text" name="ftitle" class="form-control"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgID")%> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                        <input id="fid" type="text" name="fid" class="form-control"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("msgDescription")%></label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                        <textarea name="fdescription" id="fdescription" class="form-control swbp-form-control"></textarea>
-                    </div>
-                </div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h5 class="modal-title"><%=paramRequest.getLocaleString("msgCreateDirectory")%></h5>
             </div>
+            <form id="folderAddForm" class="form-horizontal swbp-form" role="form" action="<%=createURL%>" method="post">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgTitle")%> *</label>
+                        <div class="col-sm-8">
+                            <input id="ftitle" type="text" name="ftitle" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgID")%> *</label>
+                        <div class="col-sm-8">
+                            <input id="fid" type="text" name="fid" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("msgDescription")%></label>
+                        <div class="col-sm-8">
+                            <textarea name="fdescription" id="fdescription" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgAdd")%></span></button>
-                    <button type="button" data-dismiss="modal" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgBTNCancel")%></span></button>                  
+                    <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgAdd")%></span></button>
+                    <button type="button" data-dismiss="modal" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("msgBTNCancel")%></span></button>                  
                 </div>
             </form>
         </div>
