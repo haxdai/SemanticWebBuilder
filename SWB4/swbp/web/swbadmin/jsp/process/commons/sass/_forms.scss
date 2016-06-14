@@ -1,0 +1,39 @@
+.swbp-form {
+    label {
+        color: $black-color;
+        font-weight: bold;
+        
+        &.checkbox-inline {
+            font-weight: normal;
+        }
+    }
+
+    input, textarea, select {
+        border:1px solid transparent;
+        box-shadow: none;
+        border-radius: 0px;
+        transition: 0.3 ease;
+        border-bottom: 1px solid $color-border-main;
+        background-color: transparent;
+
+        &:focus {
+            border-bottom: 1px solid $color-link;
+        }
+    }
+
+    input[type=file] {
+        border: 1px solid transparent;
+    }
+
+    /*input[type=text], textarea {
+            border-radius: 0px;
+            box-shadow:none;
+            border:none;
+            border-bottom: 1px solid $color-border-main;
+            //transition: 0.5s ease;
+
+            /*&:focus {
+                    border-bottom: 1px solid $color-border-main;
+            }
+    }*/
+}
