@@ -1,5 +1,17 @@
 @import "_mixins.scss";
 
+.swbp-button-ribbon {
+    @media (max-width: $breakpoint-small) {
+        .btn {
+            display: block;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    }
+    min-height: 42px;
+    margin-top: 15px;
+}
+
 .btn {
     border-radius: 0px;
     text-transform: uppercase;
@@ -23,7 +35,8 @@
 
 .btn-swbp-action {
     @include buttonRaised;
-    
+    min-width: 200px;
+
     &:active {
         background-color: $color-link;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
