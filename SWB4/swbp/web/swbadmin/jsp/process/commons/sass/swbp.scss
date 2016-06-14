@@ -1,6 +1,5 @@
 @import "_mixins.scss";
 @import "_swbptheme.scss";
-@import "_breadcrumb.scss";
 @import "_table-responsive.scss";
 
 //Roboto font face
@@ -344,6 +343,7 @@ html, body{
     @import "_panels.scss";
     @import "_pagination.scss";
     @import "_modals.scss";
+    @import "_breadcrumbs.scss";
     /*---------------Button styling----------------*/
     @import "_buttons.scss";
 }
@@ -372,11 +372,6 @@ html, body{
 
 .no-padding {
     padding: 0 !important;
-}
-
-.swbp-button-ribbon {
-    min-height: 42px;
-    margin-top: 15px;
 }
 
 #swbp-fondo-400{
@@ -1209,62 +1204,7 @@ ul#relatedTab {
     padding: 10px 0px 0px 0px;
     text-transform: uppercase;
 }
-/************************* BREADCRUMS *************************/
-.swbp-breadcrumbs {
-    min-height: $button-default-height;
-    background-color: $color-background-window;
-    padding: 0px;
-    @include fontCaption; 
-    
-    ol.breadcrumb {
-        margin-bottom: 0px;
-        background-color: transparent;
-        padding: 14px 24px 0px 0px;
-    }    
-}
 
-.breadCrumbHolder {
-    margin: 0px;
-}
-
-.breadCrumb {
-    padding: 14px 10px 0px 0px;
-    border: 0px;
-    background: transparent;
-    height: auto;
-    
-    ul li{
-        height: auto;
-        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
-    }   
-    
-    ul li.first a
-    {
-        width:0px !important;
-        background:none;
-    }    
-    
-    ul li.last
-    {
-        background:none;
-    }    
-    
-    ol li{
-        height: auto;
-        background: url(#{$imgPath}/ChevronOverlayProcess.png) no-repeat 100% 0;
-    } 
-    
-    ol li.first a
-    {
-        width:0px !important;
-        background:none;
-    }  
-    
-    ol li.last
-    {
-        background:none;
-    }    
-}
 /************************* BOTON PARA SUBIR CON SCRIP *************************/
 .go-top {
     @include buttonFloatAction-Gotop;
@@ -1868,10 +1808,7 @@ textarea.swbp-form-control{
     height: auto;
     padding: 8px 16px;
 }
-/*.modal-footer .btn+.btn {
-    margin-bottom: 0;
-    margin-left: 0px;
-}*/
+
 .swbp-modal-textarea textarea {
     border-radius: 4px;
     padding: 8px;
