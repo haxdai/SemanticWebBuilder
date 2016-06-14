@@ -155,10 +155,8 @@ if (!user.isSigned()) {
             request.getSession(true).removeAttribute("processInstance");
         }
         %>
-        <div class="row no-margin swbp-button-ribbon">
-            <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 no-padding">
-                <a href="<%=createPiUrl%>" class="btn btn-block btn-swbp-action" data-toggle="modal" data-target="#modalDialog">Crear instancia</a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%=createPiUrl%>" class="btn btn-swbp-action" data-toggle="modal" data-target="#modalDialog">Crear instancia</a>
         </div> 
         <hr>    
         <div class="row form-group swbp-filters">
