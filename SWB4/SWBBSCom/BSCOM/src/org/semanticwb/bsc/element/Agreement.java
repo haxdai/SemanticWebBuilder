@@ -3,6 +3,7 @@ package org.semanticwb.bsc.element;
 import java.util.GregorianCalendar;
 import java.util.List;
 import org.semanticwb.SWBPortal;
+import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.accessory.Period;
 import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.parser.AgreementParser;
@@ -65,14 +66,16 @@ public class Agreement extends org.semanticwb.bsc.element.base.AgreementBase {
                     }
                     meetingType = meeting.getMeetingType() != null
                                 ? meeting.getMeetingType().toUpperCase() : "";
-                } catch (NumberFormatException nfe) {
+                }catch (NumberFormatException nfe) {
                     System.err.println("Error al formar numero de acuerdo con id: " +
                             agreement.getId() + ", " + nfe.getCause());
                     meetingIndex = 0;
                 }
                 java.util.GregorianCalendar systemDate = new java.util.GregorianCalendar();
                 int anio = systemDate.get(GregorianCalendar.YEAR) % 100;
-                prefix = agreement.getBSC().getTitle() + "-" +
+                
+                
+                prefix = SWBUtils.TEXT.replaceSpecialCharacters(agreement.getBSC().getTitle(), true) + "-" +
                          meetingType +
                         (meetingIndex > 9 ? "" : "0") + meetingIndex + "-" +
                         (agreementId > 9 ? "" : "0") + agreementId + "-" + anio;
