@@ -40,21 +40,13 @@ public class TextField extends org.semanticwb.bsc.formelement.base.TextFieldBase
             toReturn = super.renderElement(request, obj, prop, propName, type, mode, lang);
         } else if (mode.equals("view")) {
             StringBuilder viewString = new StringBuilder(128);
-//            String baseUrl = null;
-
+            
             GenericObject genObject = obj.createGenericInstance();
             SemanticClass rootClass = obj.getSemanticClass().getRootClass();
             viewString.append(obj.getProperty(prop));
             if (rootClass.equals(BSCElement.bsc_BSCElement)) {
                 if (request.getAttribute("pdf") == null) {
                     viewString.append("<a href=\"");
-//                    if (websiteId != null && request.getRequestURI().contains(websiteId)) {
-//                        baseUrl = request.getRequestURI().substring(0,
-//                                request.getRequestURI().indexOf(websiteId) + websiteId.length() + 1);
-//                    }
-//                    if (baseUrl != null) {
-//                        viewString.append(baseUrl);
-//                    }
                     viewString.append(request.getScheme()).append("://")
                             .append(request.getServerName()).append(":")
                             .append(request.getServerPort())
