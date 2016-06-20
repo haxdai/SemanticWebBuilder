@@ -47,12 +47,10 @@
     if (null == di) {
         String msg = null == process ? paramRequest.getLocaleString("msgModelError") : paramRequest.getLocaleString("lblNoDocumentation");
         %>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
-                    <%=paramRequest.getLocaleString("lblBack")%>
-                </a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                <%=paramRequest.getLocaleString("lblBack")%>
+            </a>
         </div>
         <hr>
         <div class="alert alert-block alert-warning fade in">
@@ -66,12 +64,10 @@
 
         if (!file.exists()) {
             %>
-            <div class="row swbp-pad">
-                <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                    <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
-                        <%= paramRequest.getLocaleString("lblBack") %>
-                    </a>
-                </div>
+            <div class="row no-margin swbp-button-ribbon text-right">
+                <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW).setParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP, idpg)%>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                    <%= paramRequest.getLocaleString("lblBack") %>
+                </a>
             </div>
             <hr>
             <div class="alert alert-block alert-warning fade in">
@@ -164,36 +160,10 @@
                         <%
                     }%>
 
-                    $("rect[class='task']").on("click", function() {
-                        //console.log($(this));
-                        //console.log($(this).attr('id'));
-                        var task = $(this), taskSelected = $('#taskSelected'), tab = $('#Activity');
-                        var colors = task.attr('style') ? task.attr('style').split(' ') : ' ';
-                        var idto = task.attr('id');
+                    $("rect[class~='task']").on("click", function() {
+                        var task = $(this), idto = task.attr('id');
                         idto = idto.substring((idto.lastIndexOf(":") + 1), idto.length);
-                        var liactivity = $('#liactivity' + idto);
-                        var ulchilds = $('#ulactivity').children('li');
-
-                        task.removeAttr('style');
-                        task.attr('style', colors[0] + '; ' + 'stroke:#00cc00;');
-                        if (taskSelected.attr('value') && taskSelected.attr('value') !== task.attr('id')) {
-                            var taskSelectedOld = $(document.getElementById(taskSelected.attr('value')));
-                            taskSelectedOld.attr('style', taskSelectedOld.attr('style')+';' + 'stroke:#79ADC8;');
-                        }
-                        taskSelected.attr('value', task.attr('id'));
-                        $('#myTab0 a[href="' + tab.attr('href') + '"]').tab('show');
-
-                        removeClassAct(liactivity);
-
-                        ulchilds.each(function() {
-                            var li = $(this);
-                            if (liactivity.attr('id') !== li.attr('id')) {
-                                li.removeClass('liselectedUDV');
-                            } else {
-                                li.addClass('liselectedUDV');
-                            }
-                        });
-                        $('html,body').animate({scrollTop: $("#liactivity" + idto).offset().top - 100}, 1000);
+                        $('html,body').animate({scrollTop: $("#" + idto).offset().top - 50}, 1000);
                     });
 
                     var viewBox = document.getElementById("modeler").getAttribute('viewBox');
