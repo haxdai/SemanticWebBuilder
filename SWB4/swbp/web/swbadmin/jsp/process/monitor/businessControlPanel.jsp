@@ -181,9 +181,11 @@
                             while (groups.hasNext()) {
                                 ProcessGroup group = groups.next();
                                 String selected = gFilter.equals(group.getId()) ? "selected" : "";
-                                %>
-                                <option value="<%=group.getId()%>" <%=selected%>><%=group.getDisplayTitle(lang)%></option>
-                                <%
+                                if (group.isValid()) {
+                                    %>
+                                    <option value="<%=group.getId()%>" <%=selected%>><%=group.getDisplayTitle(lang)%></option>
+                                    <%
+                                }
                             }
                             %>
                         </select>
