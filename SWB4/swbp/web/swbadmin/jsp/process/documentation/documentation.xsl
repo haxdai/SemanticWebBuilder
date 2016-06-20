@@ -262,7 +262,7 @@
             </xsl:if>
             <xsl:if test="@className = 'Activity'">
                 <xsl:for-each select="instance">
-                    <h5><xsl:value-of select="property" disable-output-escaping="yes"/></h5>
+                    <h5 id="{@id}"><xsl:value-of select="property" disable-output-escaping="yes"/></h5>
                     <p><xsl:value-of select="propertyd" disable-output-escaping="yes"/></p>
                     <!-- Si contiene elementos relacionados -->
                     <xsl:if test="@related = 'true'">
