@@ -25,26 +25,22 @@
     SWBResourceURL urlSave = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentTemplateResource.ACTION_DUPLICATE_TEMPLATE).setParameter("uritc", uritc);
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Duplicar plantilla</h4>
+            <h5 class="modal-title">Duplicar plantilla</h5>
         </div>
-        <form action="<%= urlSave %>" method="post" id="formdte" class="form-horizontal" role="form">
+        <form action="<%= urlSave %>" method="post" id="formdte" class="form-horizontal swbp-form">
             <div class="modal-body">
                 <div class="form-group" id="divtitletcd">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for="">Título *:</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                    <label for="" class="col-sm-3 control-label">Título *:</label>
+                    <div class="col-sm-8">
                         <input name="titletcd" id="titletcd" required value="<%= tc == null ? "" : tc.getTitle()%>" class="form-control"/>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for="">Versión *:</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                    <label for="" class="col-sm-3 control-label">Versión *:</label>
+                    <div class="col-sm-8">
                         <select name="versiontemp" class="form-control" required>
                             <option>Seleccione una versión</option>
                             <%
@@ -63,8 +59,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" id="savedtes"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
-                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
+                <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" id="savedtes">
+                    <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnSave")%></span>
+                </button>
+                <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                    <span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnCancel")%></span>
+                </button>
             </div>
         </form>
     </div>
