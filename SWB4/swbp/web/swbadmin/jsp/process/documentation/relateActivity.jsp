@@ -32,7 +32,7 @@
 <%@page import="org.semanticwb.process.documentation.resources.utils.SWPUtils"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute(SWPDocumentationResource.PARAM_REQUEST);
 
@@ -61,12 +61,12 @@
     boolean canSave = false;
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal" id="modalContent">
+    <div class="modal-content" id="modalContent">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><span class="fa fa-link"></span> <%= paramRequest.getLocaleString("lblRelated")%></h4>
+            <h5 class="modal-title"><%= paramRequest.getLocaleString("lblRelated")%></h5>
         </div>
-        <form method="post" action="<%= urlAction %>" id="formra">
+        <form method="post" class="form-horizontal swbp-form" action="<%= urlAction %>" id="formra">
             <div class="modal-body">
                 <%
                 if (!itdsi.hasNext()) {
@@ -86,7 +86,7 @@
                         if (elements.hasNext()) {
                             canSave = true;
                             %>
-                            <div class="panel panel-default swbp-panel-head">
+                            <div class="panel panel-default swbp-panel-head no-margin">
                                 <div class="panel-heading text-center"><%= dsinstance.getSecTypeDefinition().getTitle() %></div>
                             </div>
                             <%
@@ -142,11 +142,11 @@
                 <%
                 if (canSave) {
                     %>
-                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnSave")%></span></button>
+                    <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnSave")%></span></button>
                     <%
                 }
                 %>
-                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnCancel")%></span></button>
+                <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnCancel")%></span></button>
             </div>
         </form>
     </div>
