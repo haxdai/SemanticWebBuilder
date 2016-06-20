@@ -70,12 +70,12 @@
     }
     %>
     <div class="modal-dialog">
-        <div class="modal-content swbp-modal">
+        <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><%= action%></h4>
+                <h5 class="modal-title"><%= action%></h5>
             </div>
-            <form class="form-horizontal" method="POST" id="formSE" action="<%= urlAction %>" enctype="multipart/form-data">
+            <form class="form-horizontal swbp-form" method="POST" id="formSE" action="<%= urlAction %>" enctype="multipart/form-data">
                 <%out.print(mgr.getFormHiddens());%>
                 <div class="modal-body">
                     <%
@@ -92,20 +92,14 @@
                                 if (read) {
                                     mode = SWBFormMgr.MODE_VIEW;
                                     %>
-                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                                        <%= sp.getName() %>
-                                    </div>
-                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                                        <%= mgr.renderElement(request, sp, mode) %>
-                                    </div>
+                                    <label class="col-sm-4 control-label"><%= sp.getName() %></label>
+                                    <div class="col-sm-7"><%= mgr.renderElement(request, sp, mode) %></div>
                                     <%
                                 } else {
                                     %>
                                     <div class="form-group" id="div<%= sp.getName() %>">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%=titleprop%> <%if (required) {%>*<%}%></label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                        <label for="" class="col-sm-4 control-label"><%=titleprop%> <%if (required) {%>*<%}%></label>
+                                        <div class="col-sm-7">
                                             <%
                                             String inputfm = mgr.renderElement(request, sp, mode);
                                             inputfm = inputfm.replaceFirst(">", " id=\"" + sp.getName() + "\" " + (required ? "required" : "") + " class=\"form-control\">");
@@ -126,33 +120,25 @@
                                 if (se == null) {//Archivo nuevo
                                     %>
                                     <div class="form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label><%=paramRequest.getLocaleString("msgFileType")%></label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                                <input class="css-checkbox" type="radio" id="fileToggleRadio" checked name="hftype" value="file">
-                                                <label class="css-label" for="fileToggleRadio"><span><%=paramRequest.getLocaleString("msgFile")%></span></label>
-                                            </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                                <input class="css-checkbox" type="radio" id="urlToggleRadio" name="hftype" value="url"> 
-                                                <label class="css-label" for="urlToggleRadio"><%=paramRequest.getLocaleString("lblLink")%></label>
-                                            </div>
+                                        <label for="" class="col-sm-4 control-label"><%=paramRequest.getLocaleString("msgFileType")%></label>
+                                        <div class="col-sm-7">
+                                            <label class="checkbox-inline">
+                                                <input type="radio" id="fileToggleRadio" checked name="hftype" value="file"/> <%=paramRequest.getLocaleString("msgFile")%>
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input type="radio" id="urlToggleRadio" name="hftype" value="url"/> <%=paramRequest.getLocaleString("lblLink")%>
+                                            </label>
                                         </div>
                                     </div>
                                     <div id="fileSelect" class="form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%= titleprop%> *</label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <label class="col-sm-4 control-label"><%= titleprop%> *</label>
+                                        <div class="col-sm-7">
                                             <input type="file" id="ffile" name="ffile" required="true" class="form-control" />
                                         </div>
                                     </div>
                                     <div id="linkSelect" class="row form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%=paramRequest.getLocaleString("lblLink")%> *</label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                                        <label for="" class="col-sm-4 control-label"><%=paramRequest.getLocaleString("lblLink")%> *</label>
+                                        <div class="col-sm-7">
                                             <input type="url" name="lfile" id="lfile" class="form-control" placeholder="http://"/>
                                         </div>
                                     </div>
@@ -160,80 +146,74 @@
                                 } else { // Es edición 
                                     List<VersionInfo> listvi = null;
                                     VersionInfo vi = null;
-                                    %>
-                                    <div class="form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%= titleprop%></label>
-                                        </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-value">
-                                            <%
-                                            if (se instanceof Referable) {
-                                                ref = (Referable) se;
-                                                if (null != ref.getRefRepository()) {
-                                                    rd = ref.getRefRepository().getRepositoryDirectory();
-                                                    String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "--";
-                                                    String idfile = ref.getRefRepository().getId();
-                                                    RepositoryElement re = (RepositoryElement) ref.getRefRepository();
-                                                    vi = ref.getRefRepository().getActualVersion();
-                                                    SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
-                                                    urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
-                                                    urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
 
-                                                    listvi = re.listVersions();
+                                    if (se instanceof Referable) {
+                                        ref = (Referable) se;
+                                        if (null != ref.getRefRepository()) {
+                                            rd = ref.getRefRepository().getRepositoryDirectory();
+                                            String titleref = ref.getRefRepository().getTitle() != null ? ref.getRefRepository().getTitle() : "--";
+                                            String idfile = ref.getRefRepository().getId();
+                                            RepositoryElement re = (RepositoryElement) ref.getRefRepository();
+                                            vi = ref.getRefRepository().getActualVersion();
+                                            SWBResourceURL urlDownload = new SWBResourceURLImp(request, rd.getResource(), rd, SWBResourceModes.UrlType_RENDER);
+                                            urlDownload.setMode(ProcessFileRepository.MODE_GETFILE).setCallMethod(SWBResourceURL.Call_DIRECT).setParameter("fid", idfile);
+                                            urlDownload.setParameter("verNum", vi.getVersionNumber() + "");
 
+                                            listvi = re.listVersions();
+                                            %>
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-4 control-label"><%= titleprop%></label>
+                                                <div class="col-sm-7">
+                                                    <%
                                                     if (re instanceof org.semanticwb.process.model.RepositoryFile) {
-                                                        %><a href="<%= urlDownload%>"><%= titleref%></a><%
+                                                        %><p class="form-control-static"><a href="<%= urlDownload%>"><%= titleref%></a></p><%
                                                     } else if (re instanceof RepositoryURL) {
-                                                        %><a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%></a><%
+                                                        %><p class="form-control-static"><a href="<%= vi.getVersionFile()%>" target="_blank"><%= titleref%></a></p><%
                                                     }
                                                     %>
-                                                    <input type="hidden" name="urire" value="<%= re.getURI()%>">
-                                                    <div class="form-group">
-                                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                                            <label for=""><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
-                                                        </div>
-                                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12 swbp-modal-value">
-                                                            <%
-                                                            if (null != se) {
-                                                                out.print(vi.getVersionValue());
-                                                            } else {
-                                                                %>
-                                                                <select name="versionref" id="versionref" class="form-control" required="true">
-                                                                    <% for (VersionInfo vit : listvi) {%>
-                                                                    <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionValue()%></option>
-                                                                    <%}%>
-                                                                </select>
-                                                                <%
-                                                            }
-                                                            %>
-                                                        </div>
-                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="urire" value="<%= re.getURI()%>">
+                                            <div class="form-group">
+                                                <label for="" class="col-sm-4 control-label"><%= paramRequest.getLocaleString("lblVersionAct")%> *</label>
+                                                <div class="col-sm-7">
                                                     <%
-                                                }
+                                                    if (null != se) {
+                                                        %>
+                                                        <p class="form-control-static"><%=vi.getVersionValue()%></p>
+                                                        <%
+                                                    } else {
+                                                        %>
+                                                        <select name="versionref" id="versionref" class="form-control" required="true">
+                                                            <% for (VersionInfo vit : listvi) {%>
+                                                            <option value="<%= vit.getURI()%>" <%if (vi != null && vi.equals(vit)) {%> selected="true"<%}%>><%= vit.getVersionValue()%></option>
+                                                            <%}%>
+                                                        </select>
+                                                        <%
+                                                    }
+                                                    %>
+                                                </div>
+                                            </div>
+                                            <%
                                             }
-                                            %>
-                                        </div>
-                                    </div>
-                                    <%
-                                }
-                                SemanticProperty semPropData = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(DocumentSection.swpdoc_configData.getPropId());
-                                String configData = "";
-                                if (semPropData != null) configData = semPropData.getLabel(lang);
+                                        }
+                                    }
+                                    SemanticProperty semPropData = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticPropertyById(DocumentSection.swpdoc_configData.getPropId());
+                                    String configData = "";
+                                    if (semPropData != null) configData = semPropData.getLabel(lang);
 
-                                WebPage webpage = (WebPage) model.getWebPage("Repository");
-                                if (null == se) {
-                                    %>
-                                    <div class="form-group">
-                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                            <label for=""><%= configData %> *</label>
+                                    WebPage webpage = (WebPage) model.getWebPage("Repository");
+                                    if (null == se) {
+                                        %>
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-4 control-label"><%= configData %> *</label>
+                                            <div class="col-sm-7">
+                                                <select name="<%= semPropData.getName()%>" id="<%= semPropData.getName()%>" class="form-control" required>
+                                                    <%=getRepoOptions((RepositoryDirectory)webpage, null, "-") %>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
-                                            <select name="<%= semPropData.getName()%>" id="<%= semPropData.getName()%>" class="form-control" required>
-                                                <%=getRepoOptions((RepositoryDirectory)webpage, null, "-") %>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <%
+                                        <%
                                 } else if (null != rd) {
                                     %><input type="hidden" name="<%= semPropData.getName()%>" value="<%=rd.getURI() %>"/><%
                                 }
@@ -250,10 +230,16 @@
                 <input type="hidden" name="uridsi" value="<%= uridsi%>">
                 <input type="hidden" name="urise" value="<%= urise%>">
                 <%if (!related.equals("view")) {%>
-                <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnSave")%></button>
-                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button>
+                <button type="submit" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                    <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnSave")%></span>
+                </button>
+                <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                    <span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnCancel")%></span>
+                </button>
                     <% } else {
-                    %><button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-save fa-fw"></span><%=paramRequest.getLocaleString("btnCancel")%></button><%
+                    %><button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                        <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnCancel")%></span>
+                    </button><%
                         }%>
             </div>
         </form>
