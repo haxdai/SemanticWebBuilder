@@ -80,12 +80,8 @@
         
         if (itTemplateCont == null || !itTemplateCont.hasNext())  {
             %>
-            <div class="row swbp-pad">
-                <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                    <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block">
-                        Regresar
-                    </a>
-                </div>
+            <div class="row no-margin swbp-button-ribbon text-right">
+                <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-swbp-action">Regresar</a>
             </div>
             <hr>
             <div class="alert alert-block alert-warning fade in">
@@ -134,13 +130,9 @@
             urlZip.setParameter("urip", p.getURI());
             urlZip.setParameter("uridi", di.getURI());
             %>
-            <div class="row swbp-pad">
-                <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-                   <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-block swbp-btn-block">REGRESAR</a>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
-                     <a href="<%= templatesUrl%>" class="btn btn-block swbp-btn-block"><%=paramRequest.getLocaleString("lblAdminTemplates")%></a>
-                </div>
+            <div class="row no-margin swbp-button-ribbon text-right">
+                <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?pg=<%=idpg%>" class="btn btn-swbp-action">REGRESAR</a>
+                <a href="<%= templatesUrl%>" class="btn btn-swbp-action"><%=paramRequest.getLocaleString("lblAdminTemplates")%></a>
             </div>
             <hr>
             <%
