@@ -74,9 +74,10 @@
                 <%= paramRequest.getLocaleString("msgNoDocFile") %>
             </div>
             <%
-        } else {
+        } else {//TODO: remove modelerFrame references and integrate with swbp.scss
             %>
             <hr>
+            <link rel="stylesheet" href="/swbadmin/jsp/process/modeler/images/modelerFrame.css" />
             <div class="panel panel-default swbp-panel-head">
                 <div class="panel-heading text-center"><%=process.getTitle()%> (<%= actualVersion.getVersionValue() %>)
                     <div class="pull-right">
