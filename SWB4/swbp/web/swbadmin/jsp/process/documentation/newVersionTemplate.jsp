@@ -26,10 +26,10 @@
     SWBResourceURL newVersion = paramRequest.getActionUrl().setAction(SWPDocumentTemplateResource.ACTION_ADD_VERSION_TEMPLATE);
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%= null == dt ? "Agregar " : "Propiedades de " %>versión</h4>
+            <h5 class="modal-title"><%= null == dt ? "Agregar " : "Propiedades de " %>versión</h5>
         </div>
         <%
         if (null == tc) {
@@ -45,25 +45,21 @@
                 String vComments = isEdit ? lastVersion.getVersionComment() : "";
                 if (null == vComments) vComments = "";
                 %>
-                <form class="form-horizontal" action="<%= isEdit ? "#" : newVersion%>" id="formNV">
+                <form class="form-horizontal swbp-form" action="<%= isEdit ? "#" : newVersion%>" id="formNV">
                     <div class="modal-body">
                         <%
                         if (isEdit) {
                             %>
                             <div class="form-group">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                    <label for="">Creador de la versión</label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <input class="form-control disabled" disabled value="<%= dt.getCreator()!=null? dt.getCreator().getFullName() : "" %>"/>
+                                <label for="" class="col-sm-4 control-label">Creador de la versión</label>
+                                <div class="col-sm-7">
+                                    <p class="form-control-static"><%= dt.getCreator()!=null? dt.getCreator().getFullName() : "" %></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                    <label for="">Fecha de creación</label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                    <input class="form-control disabled" disabled value="<%= SWPUtils.DateFormatter.format(dt.getCreated()) %>"/>
+                                <label for="" class="col-sm-4 control-label">Fecha de creación</label>
+                                <div class="col-sm-7">
+                                    <p class="form-control-static"><%= SWPUtils.DateFormatter.format(dt.getCreated()) %></p>
                                 </div>
                             </div>
                             <%
@@ -71,10 +67,8 @@
                             %>
                             <input type="hidden" name="uritc" value="<%= tc.getURI() %>"/>
                             <div class="form-group">
-                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                    <label for="">Versión base *</label>
-                                </div>
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                                <label for="" class="col-sm-4 control-label">Versión base *</label>
+                                <div class="col-sm-7">
                                     <select name="uridtp" class="form-control" required>
                                         <option value="">Seleccione versión base</option>
                                         <%
@@ -91,11 +85,17 @@
                         }
                         %>
                         <div class="form-group">
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                                <label for="">Comentarios de la versión</label>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                                <textarea name="description" class="form-control swbp-form-control" <%= isEdit ? "disabled" : "" %>><% if(isEdit) out.print(vComments); %></textarea>
+                            <label for="" class="col-sm-4 control-label">Comentarios de la versión</label>
+                            <div class="col-sm-7">
+                                <%
+                                if (isEdit) {
+                                    %><p class="form-control-static"><%= vComments %></p><%
+                                } else {
+                                    %>
+                                    <textarea name="description" class="form-control"><%= vComments %></textarea>
+                                    <%
+                                }
+                                %>
                             </div>
                         </div>
                     </div>
@@ -103,9 +103,12 @@
                     if (!isEdit) {
                         %>
                         <div class="modal-footer">
-                            <button id="saveFormVersion" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
-                            <span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%></button>
-                            <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span>Cancelar</button>
+                            <button id="saveFormVersion" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
+                                <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnSave")%></span>
+                            </button>
+                            <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                                <span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs">Cancelar</span>
+                            </button>
                         </div>
                         <script>
                             (function() {
