@@ -93,7 +93,13 @@
              <div id="swbp-model-container">
                 <xsl:call-template name="svgmodeler"></xsl:call-template>
              </div>
-             <xsl:value-of select="root/colorTask" disable-output-escaping="yes"/>
+             <script>
+                 $(document).ready(function() {
+                    <xsl:for-each select="root/colorTask">
+                        $(document.getElementById('<xsl:value-of select="@id"/>')).attr("class", "task task-highlight-<xsl:value-of select="@color"/>");
+                    </xsl:for-each>
+                 });
+             </script>
             <script>
                 <xsl:text disable-output-escaping="yes"><![CDATA[var strJSON=]]></xsl:text><xsl:value-of select="root/model" disable-output-escaping="yes" /><xsl:text disable-output-escaping="yes"><![CDATA[;]]></xsl:text>
                 <xsl:text disable-output-escaping="yes">
