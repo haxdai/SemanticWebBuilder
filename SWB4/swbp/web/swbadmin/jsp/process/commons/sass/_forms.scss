@@ -8,7 +8,7 @@
         }
     }
 
-    input, textarea, select {
+    input, textarea, select:not([multiple]) {
         border:1px solid transparent;
         box-shadow: none;
         border-radius: 0px;
