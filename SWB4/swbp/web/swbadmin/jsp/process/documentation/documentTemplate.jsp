@@ -39,17 +39,13 @@
         SWBResourceURL createURL = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
         createURL.setMode(SWPDocumentTemplateResource.MODE_ADD_TEMPLATE);
         %>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-                <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>">
-                    <%=paramRequest.getLocaleString("lblBack")%>
-                </a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
-                <a href="<%= createURL %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblBack")%>" data-toggle="modal" data-target="#modalDialog">
-                    <%=paramRequest.getLocaleString("btnAddTemplate")%>
-                </a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%=paramRequest.getWebPage().getParent().getUrl(lang)%>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblBack")%>">
+                <%=paramRequest.getLocaleString("lblBack")%>
+            </a>
+            <a href="<%= createURL %>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblBack")%>" data-toggle="modal" data-target="#modalDialog">
+                <%=paramRequest.getLocaleString("btnAddTemplate")%>
+            </a>
         </div>
         <hr>
         <%            
