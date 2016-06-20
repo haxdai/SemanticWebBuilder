@@ -28,13 +28,9 @@
 
     if (tc != null) {
         %>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-                <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setParameter("uritc", tc.getURI()) %>" class="btn btn-block swbp-btn-block" >Volver a la plantilla</a>
-            </div>
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
-                <a href="<%= admVersion.setParameter("uritc", tc.getURI())%>" class="btn btn-block swbp-btn-block" data-toggle="modal" data-target="#modalDialog">Agregar versión</a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_EDIT).setParameter("uritc", tc.getURI()) %>" class="btn btn-swbp-action" >Volver a la plantilla</a>
+            <a href="<%= admVersion.setParameter("uritc", tc.getURI())%>" class="btn btn-swbp-action" data-toggle="modal" data-target="#modalDialog">Agregar versión</a>
         </div>
         <hr>
         <div class="panel panel-default swbp-panel-head">
