@@ -36,15 +36,13 @@
         String visibleProps = documentSection.getVisibleProperties();
         if (null == visibleProps) visibleProps = "";
         %>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button pull-right">
-                <a href="<%= viewUrl %>" class="btn btn-block swbp-btn-block" >Volver a la plantilla</a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%= viewUrl %>" class="btn btn-swbp-action">Volver a la plantilla</a>
         </div>
         <hr>
-        <div class="panel panel-default swbp-panel-head hidden-margin">
+        <div class="panel panel-default swbp-panel-head">
             <div class="panel-heading text-center"><%= documentSection.getTitle() %></div>
-            <form method="post" id="formesd" name="formesd" action="<%= urlSave %>">
+            <form method="post" id="formesd" name="formesd" action="<%= urlSave %>" class="form-horizontal swbp-form">
                 <input type="hidden" name="urids" value="<%= uriDocSection %>"/>
                 <div class="panel-body swbp-panel-body-card">
                     <div class="form-group" id="divtitletc">
@@ -118,9 +116,8 @@
                     }
                     %>
                 </div>
-                <div class="panel-footer swbp-mup">
-                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-6 swbp-panel-button pull-right">
-                        <button id="savedtes" class="btn btn-block" type="submit">
+                <div class="panel-footer text-right">
+                        <button id="savedtes" class="btn btn-default" type="submit">
                             <span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%>
                         </button>
                     </div>
