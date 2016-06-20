@@ -61,57 +61,45 @@
                 }
             }
         }
-%>
-<div class="modal-dialog">
-    <div class="modal-content swbp-modal">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%= title %></h4>
-        </div>
-        <div class="modal-body">
-            <form class="form-horizontal" role="form">
-                <div class="row">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                        <%=paramRequest.getLocaleString("lblCreator")%>   
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                        <%= creator %>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                        <%=paramRequest.getLocaleString("lblCreated")%>   
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                        <%= created %>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                        <%=paramRequest.getLocaleString("lblModifier")%>   
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                        <%= modifiedby %>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                        <%=paramRequest.getLocaleString("lblModified")%>   
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                        <%= modified %>
-                    </div>
-                    <%
-                    if (!path.isEmpty()) {
-                        %>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 swbp-modal-property">
-                            <%=paramRequest.getLocaleString("lblRepoPath")%>   
+        %>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h5 class="modal-title"><%= title %></h5>
+                </div>
+                <form class="form-horizontal swbp-form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblCreator")%></label>
+                            <div class="col-sm-8"><p class="form-control-static"><%= creator %></p></div>
                         </div>
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 swbp-modal-value">
-                            <%= path %>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblCreated")%></label>
+                            <div class="col-sm-8"><p class="form-control-static"><%= created %></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblModifier")%></label>
+                            <div class="col-sm-8"><p class="form-control-static"><%= modifiedby %></p></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblModified")%></label>
+                            <div class="col-sm-8"><p class="form-control-static"><%= modified %></p></div>
                         </div>
                         <%
-                    }
-                    %>
-                </div>
-            </form>
+                        if (!path.isEmpty()) {
+                            %>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label"><%=paramRequest.getLocaleString("lblRepoPath")%></label>
+                                <div class="col-sm-8"><p class="form-control-static"><%= path %></p></div>
+                            </div>
+                            <%
+                        }
+                        %>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
-</div>
-<%
+        <%
     }
 %>
