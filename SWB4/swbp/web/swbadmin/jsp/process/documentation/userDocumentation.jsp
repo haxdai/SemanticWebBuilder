@@ -34,78 +34,69 @@
     }
 %>
 <%
-    SWBParamRequest paramRequest = request.getAttribute(SWPUserDocumentationResource.PARAM_REQUEST) != null ? (SWBParamRequest) request.getAttribute(SWPUserDocumentationResource.PARAM_REQUEST) : null;
-    WebSite model = paramRequest.getWebPage().getWebSite();
-    User user = paramRequest.getUser();
-    String lang = user.getLanguage();
-    WebPage webpage = paramRequest.getWebPage();
-    Role docRole = webpage.getWebSite().getUserRepository().getRole(paramRequest.getResourceBase().getAttribute("docRole"));//TODO: Hacer cnfigurable el rol
-    Role adminRole = webpage.getWebSite().getUserRepository().getRole("admin");//TODO: Hacer cnfigurable el rol
-    Resource base = paramRequest.getResourceBase();
-    List<Descriptiveable> list = request.getAttribute(SWPUserDocumentationResource.LIST_PROCESSES) != null ? (List<Descriptiveable>) request.getAttribute(SWPUserDocumentationResource.LIST_PROCESSES) : null;
-    
-    String idpg = request.getParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP) != null ? request.getParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP) : null;
-    ProcessGroup group1 = (ProcessGroup) ProcessGroup.ClassMgr.getProcessGroup(idpg, model);
-    
-    SWBResourceURL urlDoc = paramRequest.getRenderUrl().setMode(SWPUserDocumentationResource.MODE_VIEW_DOCUMENTATION);
-    String pag = request.getParameter("p") != null ? request.getParameter("p") : "";
-    WebPage templatesPage = webpage.getWebSite().getWebPage(base.getAttribute("templatePage"));
-    WebPage contentsPage = webpage.getWebSite().getWebPage(base.getAttribute("contentPage"));
-    if (null == templatesPage) templatesPage = webpage;
-    if (null == contentsPage) contentsPage = webpage;
-        
-    boolean isDocumenter = user.hasRole(docRole) || user.hasRole(adminRole);
-%>
-<div class="row swbp-pad">
-    <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 swbp-breadcrumbs">
-        <%
-        ArrayList<ProcessGroup> nPath = getNavPath(model, group1);
-        if (!nPath.isEmpty()) {
-            Collections.reverse(nPath);
-            %>
-                <div class="breadCrumbHolder module">
-                    <div id="breadCrumb2" class="breadCrumb module">
-                        <ol id="breadcrumbs-1a">
-                            <li><a class="fa fa-file-text first" href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>="> </a></li>
-                            <%
-                            for (ProcessGroup _pg : nPath) {
-                                String cssClass = "";
-                                if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
-                                    cssClass = "active";
-                                }
-                                %>
-                                <li class="<%= cssClass %>"><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
-                                <%
-                            }
-                            %>
-                        </ol>
-                    </div>
-                </div>
+SWBParamRequest paramRequest = request.getAttribute(SWPUserDocumentationResource.PARAM_REQUEST) != null ? (SWBParamRequest) request.getAttribute(SWPUserDocumentationResource.PARAM_REQUEST) : null;
+WebSite model = paramRequest.getWebPage().getWebSite();
+User user = paramRequest.getUser();
+String lang = user.getLanguage();
+WebPage webpage = paramRequest.getWebPage();
+Role docRole = webpage.getWebSite().getUserRepository().getRole(paramRequest.getResourceBase().getAttribute("docRole"));//TODO: Hacer cnfigurable el rol
+Role adminRole = webpage.getWebSite().getUserRepository().getRole("admin");//TODO: Hacer cnfigurable el rol
+Resource base = paramRequest.getResourceBase();
+List<Descriptiveable> list = request.getAttribute(SWPUserDocumentationResource.LIST_PROCESSES) != null ? (List<Descriptiveable>) request.getAttribute(SWPUserDocumentationResource.LIST_PROCESSES) : null;
 
-            <%
-        }
-        %>
-    </div>
+String idpg = request.getParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP) != null ? request.getParameter(SWPUserDocumentationResource.PARAM_PROCESSGROUP) : null;
+ProcessGroup group1 = (ProcessGroup) ProcessGroup.ClassMgr.getProcessGroup(idpg, model);
+
+SWBResourceURL urlDoc = paramRequest.getRenderUrl().setMode(SWPUserDocumentationResource.MODE_VIEW_DOCUMENTATION);
+String pag = request.getParameter("p") != null ? request.getParameter("p") : "";
+WebPage templatesPage = webpage.getWebSite().getWebPage(base.getAttribute("templatePage"));
+WebPage contentsPage = webpage.getWebSite().getWebPage(base.getAttribute("contentPage"));
+if (null == templatesPage) templatesPage = webpage;
+if (null == contentsPage) contentsPage = webpage;
+
+boolean isDocumenter = user.hasRole(docRole) || user.hasRole(adminRole);
+%>
+<div class="row no-margin swbp-button-ribbon text-right">
     <%
     if (isDocumenter) {
         %>
-        <div class="col-lg-3 col-lg-offset-0 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a href="<%= templatesPage.getUrl() %>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-block swbp-btn-block" title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>">
-                <%=paramRequest.getLocaleString("lblAdminTemplates")%>
-            </a>
-        </div>
+        <a href="<%= templatesPage.getUrl() %>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>">
+            <%=paramRequest.getLocaleString("lblAdminTemplates")%>
+        </a>
         <%
-    }%>
+    }
+    %>
 </div>
-<hr>
+<hr/>
 <%
-    if (list.isEmpty()) {
-        %>
-        <div class="alert alert-block alert-warning">
-            <p>No hay elementos para mostrar</p>
-        </div>
+ArrayList<ProcessGroup> nPath = getNavPath(model, group1);
+if (!nPath.isEmpty()) {
+    Collections.reverse(nPath);
+    %>
+    <ol class="breadcrumb swbp-breadcrumb">
+        <li><span class="fa fa-file-text"></span></li>
         <%
-    } else {
+        for (ProcessGroup _pg : nPath) {
+            String cssClass = "";
+            if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
+                cssClass = "active";
+            }
+            %>
+            <li <%= cssClass.isEmpty() ? "" : "class=\"active\""%>><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
+            <%
+        }
+        %>
+    </ol>
+    <%
+}
+
+if (list.isEmpty()) {
+    %>
+    <div class="alert alert-block alert-warning">
+        <p>No hay elementos para mostrar</p>
+    </div>
+    <%
+} else {
     //Sort by language, then by type
     Collections.sort(list, new SWBComparator(lang));
     Collections.sort(list, new Comparator<Descriptiveable>() {
@@ -133,9 +124,9 @@
                         <div class="col-lg-8 col-md-8 hidden-sm hidden-xs swbp-list-action-text">Ver</div>
                     </a>
                     <%
-                    if (isDocumenter) { 
+                    if (isDocumenter) {
                         Process p = (Process)desc;
-                        %> 
+                        %>
                         <a class="btn btn-default col-lg-6 col-md-6 col-sm-6 col-xs-6" role="button" href="<%= contentsPage.getUrl() %>?idp=<%= p.getId() %>&_rid=<%=paramRequest.getResourceBase().getId()%>&wp=<%=paramRequest.getWebPage().getId()%>&<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%=idpg%>&p=<%= pag %>">
                         <%
                     } else{
