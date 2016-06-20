@@ -339,6 +339,23 @@ html, body{
         color: $color-text-highlight;
         background-color: $color-background-main;
     }
+    
+    /*-------task highlight colors-----------*/
+    .task-highlight-428bca {
+        fill: #428bca !important;
+    }
+    .task-highlight-5cb85c {
+        fill: #5cb85c !important;
+    }
+    .task-highlight-5bc0de {
+        fill: #5bc0de !important;
+    }
+    .task-highlight-f0ad4e {
+        fill: #f0ad4e !important;
+    }
+    .task-highlight-d9534f {
+        fill: #d9534f !important;
+    }
 
     @import "_panels.scss";
     @import "_pagination.scss";
