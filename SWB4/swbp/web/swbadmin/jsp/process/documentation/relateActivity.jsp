@@ -141,10 +141,9 @@
                 <input type="hidden" name="urise" value="<%= urise%>">
                 <%
                 if (canSave) {
-                %>
-                    <button type="submit" onclick="saveSE('formra', '', 'modalDialog');
-                return  false;" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnSave")%></span></button>
-                <%
+                    %>
+                    <button type="submit" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6"><span class="fa fa-plus"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnSave")%></span></button>
+                    <%
                 }
                 %>
                 <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left"></span><span class="hidden-xs"> <%=paramRequest.getLocaleString("btnCancel")%></span></button>
@@ -153,10 +152,10 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
+    $(document).ready(function() {
         $("#formra").on("submit", function(evt) {
             var theForm = evt.target;
-           $.ajax({
+            $.ajax({
                 url: $(theForm).attr('action'),
                 cache: false,
                 data: $(theForm).serialize(),
@@ -167,7 +166,8 @@
                         window.location.reload();
                     }
                 }
-            }); 
+            });
+            evt.preventDefault();
         });
     });
 </script>
