@@ -34,10 +34,10 @@
     }
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Agregar sección</h4>
+            <h5 class="modal-title">Agregar sección</h5>
         </div>
         <%
         if (null == docTemplate) {
@@ -58,23 +58,19 @@
                 if (sectionType.getURI().equals(Activity.sclass.getURI())) hasActivity = true;
             }
             %>
-            <form class="form-horizontal" action="<%= act %>" id="formNDS">
+            <form class="form-horizontal swbp-form" action="<%= act %>" id="formNDS">
                 <input type="hidden" name="uridt" value="<%= docTemplate.getURI() %>"/>
                 <div class="modal-body">
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                            <label for="">Título: *</label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                        <label for="" class="col-sm-4 control-label">Título: *</label>
+                        <div class="col-sm-7">
                             <input name="titleSection" id="titltitleSectione" type="text" required class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                            <label for="" class="col-lg-3 control-label"><%=paramRequest.getLocaleString("lblSecType")%>*:</label>
-                        </div>
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                            <select  required name="dstype" id="dstype" class="form-control">
+                        <label for="" class="col-sm-4 control-label"><%=paramRequest.getLocaleString("lblSecType")%>*:</label>
+                        <div class="col-sm-7">
+                            <select required name="dstype" id="dstype" class="form-control">
                                 <option value="">Seleccione un tipo</option>
                                 <%
                                 Iterator<SemanticClass> itSemCls = SWBComparator.sortByDisplayName(SectionElement.sclass.listSubClasses(), lang);
@@ -100,9 +96,12 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button id="saveFormVersion" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
-                    <span class="fa fa-save fa-fw"></span> <%=paramRequest.getLocaleString("btnSave")%></button>
-                    <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span>Cancelar</button>
+                    <button id="saveFormVersion" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
+                        <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%=paramRequest.getLocaleString("btnSave")%></span>
+                    </button>
+                    <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                        <span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs">Cancelar</span>
+                    </button>
                 </div>
             </form>
             <script>
