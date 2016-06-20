@@ -296,6 +296,12 @@ html, body{
             font-weight: bold;
         }
     }
+    
+    .table {
+        .btn-default {
+            background-color: $white-color !important;
+        }
+    }
 
     /*--------Row of filters----------*/
     .swbp-filters * {
