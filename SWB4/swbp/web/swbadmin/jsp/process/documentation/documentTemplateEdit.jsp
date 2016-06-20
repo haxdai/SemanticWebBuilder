@@ -44,18 +44,14 @@ if (null != docTemplate) {
     SWBResourceURL viewVersion = paramRequest.getRenderUrl().setMode(SWPDocumentTemplateResource.MODE_VIEW_VERSION);
     %>
     <script src="<%= SWBPlatform.getContextPath()%>/swbadmin/jsp/process/documentation/js/jquery.bootstrap-duallistbox.min.js"></script>
-    <div class="row swbp-pad">
-        <div class="col-lg-3 col-lg-offset-6 col-md-3 col-md-offset-6 col-sm-4 col-sm-offset-4 col-xs-12 swbp-raised-button">
-            <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-block swbp-btn-block" >Volver a la lista</a>
-        </div>
-        <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button">
-            <a href="<%= viewVersion.setParameter("uritc", container.getURI()) %>" class="btn btn-block swbp-btn-block">Versiones</a>
-        </div>
+    <div class="row no-margin swbp-button-ribbon text-right">
+        <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-swbp-action" >Volver a la lista</a>
+        <a href="<%= viewVersion.setParameter("uritc", container.getURI()) %>" class="btn btn-swbp-action">Versiones</a>
     </div>
     <hr>
-<div class="panel panel-default swbp-panel-head hidden-margin">
-    <div class="panel-heading text-center"><%= container.getTitle() %></div>
-        <form method="post" id="formTemplate" action="<%= action.setAction(SWBResourceURL.Action_EDIT)%>" class="form-horizontal" role="form">
+    <div class="panel panel-default swbp-panel-head">
+        <div class="panel-heading text-center"><%= container.getTitle() %></div>
+        <form method="post" id="formTemplate" action="<%= action.setAction(SWBResourceURL.Action_EDIT)%>" class="form-horizontal swbp-form" role="form">
             <input type="hidden" name="uridt" value="<%= docTemplate.getURI() %>"/>
             <div class="panel-body swbp-panel-body-card">
                 <div class="form-group" id="divtitletc">
@@ -107,10 +103,8 @@ if (null != docTemplate) {
                     <label>
                         <h5><%=paramRequest.getLocaleString("lblSections")%></h5>
                     </label>
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-5 col-xs-12 pull-right">
-                            <a href="<%= url.setMode(SWPDocumentTemplateResource.MODE_ADD_DOCUMENT_SECTION).setParameter("uridt", docTemplate.getURI()).setParameter("uritc", docTemplate.getURI()) %>" data-toggle="modal" data-target="#modalDialog" class="btn btn-default btn-block swbp-btn-inter2" role="button">Agregar sección</a>
-                        </div>
+                    <div class="row no-margin text-right">
+                        <a href="<%= url.setMode(SWPDocumentTemplateResource.MODE_ADD_DOCUMENT_SECTION).setParameter("uridt", docTemplate.getURI()).setParameter("uritc", docTemplate.getURI()) %>" data-toggle="modal" data-target="#modalDialog" class="btn btn-default swbp-btn-inter2" role="button">Agregar sección</a>
                     </div>
                 </div>
                 <%
@@ -175,10 +169,8 @@ if (null != docTemplate) {
                 %>
                 <div class="form-group" id="guardaCambios"></div>
             </div>
-            <div class="panel-footer swbp-mup">
-                <div class="col-lg-2 col-lg-offset-10 col-md-2 col-md-offset-10 col-sm-3 col-sm-offset-9 col-xs-6 swbp-panel-button">
-                    <button type="submit" class="btn btn-block"><span class="fa fa-save fa-fw"></span><%= paramRequest.getLocaleString("btnSave")%></button>
-                </div>
+            <div class="panel-footer text-right">
+                <button type="submit" class="btn btn-default"><span class="fa fa-save fa-fw"></span><%= paramRequest.getLocaleString("btnSave")%></button>
             </div>
         </form>
 </div>
