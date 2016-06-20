@@ -1,7 +1,7 @@
 package org.semanticwb.bsc.tracing.base;
 
 
-public abstract class MeasureBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
+public abstract class MeasureBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.Filterable,org.semanticwb.model.FilterableNode,org.semanticwb.model.Traceable,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Help,org.semanticwb.model.Trashable
 {
     public static final org.semanticwb.platform.SemanticProperty bsc_value=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#value");
     public static final org.semanticwb.platform.SemanticClass bsc_Series=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Series");
@@ -11,6 +11,7 @@ public abstract class MeasureBase extends org.semanticwb.bsc.tracing.BSCTracing 
    */
     public static final org.semanticwb.platform.SemanticClass bsc_PeriodStatus=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#PeriodStatus");
     public static final org.semanticwb.platform.SemanticProperty bsc_evaluation=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#evaluation");
+    public static final org.semanticwb.platform.SemanticProperty bsc_literal=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#literal");
     public static final org.semanticwb.platform.SemanticClass bsc_Measure=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Measure");
    /**
    * The semantic class that represents the currentObject
@@ -355,5 +356,23 @@ public abstract class MeasureBase extends org.semanticwb.bsc.tracing.BSCTracing 
              ret=(org.semanticwb.bsc.tracing.PeriodStatus)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the Literal property
+* @return String with the Literal
+*/
+    public String getLiteral()
+    {
+        return getSemanticObject().getProperty(bsc_literal);
+    }
+
+/**
+* Sets the Literal property
+* @param value long with the Literal
+*/
+    public void setLiteral(String value)
+    {
+        getSemanticObject().setProperty(bsc_literal, value);
     }
 }
