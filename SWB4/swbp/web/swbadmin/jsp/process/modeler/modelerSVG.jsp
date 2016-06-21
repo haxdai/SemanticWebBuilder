@@ -24,6 +24,11 @@
         .callactivity, .callactivity_o {
             stroke-width:2px;
         }
+        
+        .callactivity_s {
+            fill:url(#linearGradientTask);
+            stroke:#79adc8;
+        }
 
         .eventsubTask, .eventsubTask_o {
             stroke-dasharray:6,4;
@@ -31,6 +36,11 @@
 
         .task_o, .callactivity_o, .eventsubTask_o {
             stroke:#2cff20;
+        }
+        
+        .task_s, callactivity_s, eventsubTask_s {
+            fill:url(#linearGradientTask);
+            stroke:#79adc8;
         }
 
         .transactionSquare {
@@ -217,6 +227,10 @@
         <linearGradient id="linearGradientTask" x1="100%" y1="0%" x2="100%" y2="100%">
             <stop offset="10%" style="stop-color:#ffffff;stop-opacity:1" />
             <stop offset="100%" style="stop-color:#c1d3e1;stop-opacity:1" />
+        </linearGradient>
+        <linearGradient id="linearGradientHighlightTask" x1="100%" y1="0%" x2="100%" y2="100%">
+            <stop offset="10%" style="stop-color:#ffffff;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e1acac;stop-opacity:1" />
         </linearGradient>
         <linearGradient id="linearGradientIntermediateEvent" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="10%" style="stop-color:#ffffff;stop-opacity:1" />
