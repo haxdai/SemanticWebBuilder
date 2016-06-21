@@ -58,11 +58,10 @@
             <%
         } else {
             %>
-            <div class="row swbp-pad">
-                <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 swbp-raised-button pull-right">
-                    <a href="" onclick="window.history.go(-1); return false;" class="btn btn-block swbp-btn-block">Regresar</a>
-                </div>
+            <div class="row no-margin swbp-button-ribbon text-right">
+                <a href="" onclick="window.history.go(-1); return false;" class="btn btn-swbp-action">Regresar</a>
             </div>
+            <hr/>
             <div id="swbp-model-container">
                 <jsp:include page="modelerSVG.jsp" flush="true"/>
             </div>
