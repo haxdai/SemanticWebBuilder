@@ -21,7 +21,7 @@
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     WebSite site = paramRequest.getWebPage().getWebSite();
@@ -69,8 +69,8 @@
     optsUrl1.setParameter("sf", String.valueOf(FlowNodeInstance.STATUS_PROCESSING));
     String pNum = request.getParameter("p");
     String suri = request.getParameter("suri");
-    String suriInstance = request.getParameter("suriInstance");
-    ProcessInstance instance = (ProcessInstance) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(suriInstance);
+    //String suriInstance = request.getParameter("suriInstance");
+    //ProcessInstance instance = (ProcessInstance) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(suriInstance);
     String engine = "d3";//harcoded to always use D3
     
     boolean showGraphs = false;
@@ -127,7 +127,7 @@
 } else {
     ArrayList<ProcessInstance> tinstancesPI = (ArrayList<ProcessInstance>) request.getAttribute("instances");
     SWBResourceURL viewUrl = paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW);
-    int maxPages = (Integer) request.getAttribute("maxPages"); //SÃ³lo viene si se invoca como contenido
+    int maxPages = (Integer) request.getAttribute("maxPages"); //Sólo viene si se invoca como contenido
 
     if (pNum != null && !pNum.trim().equals("")) {
         pageNum = Integer.valueOf(pNum);
@@ -141,16 +141,14 @@
         %><script>window.location = '<%=viewUrl%>';</script><%
     } else {
         %>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                <a class="btn btn-block swbp-btn-block" href="<%=viewUrl%>">Regresar</a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a class="btn btn-swbp-action" href="<%=viewUrl%>">Regresar</a>
         </div> 
         <hr>
         <%
         if (tinstancesPI != null && !tinstancesPI.isEmpty() && showGraphs) {
         %>
-            <div class="row hidden-margin">
+            <div class="row no-margin">
                 <%
                 if (engine.equals("google")) {
                     %><jsp:include page="/swbadmin/jsp/process/taskInbox/userTaskInboxGoogleGraphs.jsp" flush="true"/><%
@@ -164,8 +162,8 @@
         
         if (tinstancesPI != null && !tinstancesPI.isEmpty()) {
             %>
-            <div class="panel panel-default swbp-panel-head hidden-margin">
-                <div class="panel-heading text-center"><%=paramRequest.getLocaleString("lblInstances")%></div>
+            <div class="panel panel-default swbp-panel-head no-margin">
+                <div class="panel-heading text-center"><%=paramRequest.getLocaleString("lblInstances")%> - <%= p.getTitle() %></div>
                 <div class="panel-body swbp-panel-body-card swbp-tray-body-panel">
                     <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">   
                         <table class="table">
@@ -241,55 +239,46 @@
                     </div>
                 </div>
             </div>
-    <div class="panel-footer swbp-footer-pagination">
-        <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12 swbp-pagination-title"><%=paramRequest.getLocaleString("pagPage")%> <%=pageNum%> <%=paramRequest.getLocaleString("pagDelim")%> <%=maxPages%></div>
-        <%if (maxPages > 1) {%>
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12 swbp-pagination-number">
-            <ul class="pagination">
-                <%
-                    int pagSlice = 5;
-                    int sliceIdx = 1;
-                    int start = 1;
-                    int end = pagSlice * sliceIdx;
+            <%
+            String suriinstance = "";
+            String suriparam = "";
+            String sort = "";
+            String filter = "";
+            String pfilter = "";
+            String pg = "1";
+            
+            if (null != request.getParameter("suriInstance")) {
+                suriinstance = "suriinstance|"+request.getParameter("suriInstance");
+            }
+            if (null != suri) {
+                suriparam = "suri|"+suri;
+            }
+            
+            if (sortType != null && !sortType.isEmpty()) {
+                sort = "sort|"+sortType;
+            }
 
-                    if (pageNum > end) {
-                        do {
-                            sliceIdx++;
-                            end = pagSlice * sliceIdx;
-                        } while (pageNum > end);
-                    }
-                    end = pagSlice * sliceIdx;
+            if (sFilter != null && !sFilter.isEmpty()) {
+                filter = "sf|"+sFilter;
+            }
 
-                    if (end > maxPages) {
-                        end = maxPages;
-                    }
-
-                    start = (end - pagSlice) + 1;
-                    if (start < 1) {
-                        start = 1;
-                    }
-
-                    SWBResourceURL nav = paramRequest.getRenderUrl();
-                    nav.setParameter("suri", suri);
-
-                    if (sliceIdx != 1) {
-                %><li><a href="<%=nav.setParameter("p", String.valueOf(pageNum - 1))%>">&laquo;</a></li><%
-                          }
-
-                          for (int k = start; k <= end; k++) {
-                    %>
-                <li <%=(k == pageNum ? "class=\"active\"" : "")%>><a href="<%=nav.setParameter("p", String.valueOf(k))%>"><%=k%></a></li>
-                    <%
-                        }
-
-                        if (end < maxPages) {
-                    %><li><a href="<%=nav.setParameter("p", String.valueOf(pageNum + 1))%>">&raquo;</a></li><%
-                                                  }
-                                              }%>
-            </ul>
-        </div>
-    </div>
-</div>
+            if (pFilter != null && !pFilter.isEmpty()) {
+                pfilter = "pf|"+pFilter;
+            }
+            
+            if (null != pNum && !pNum.isEmpty()) {
+                pg = "p|"+pNum;
+            }
+            %>
+            <jsp:include page="/swbadmin/jsp/process/commons/pagination.jsp" flush="true">
+                <jsp:param name="navUrlParams" value="<%=suriinstance%>"/>
+                <jsp:param name="navUrlParams" value="<%=suriparam%>"/>
+                <jsp:param name="navUrlParams" value="<%=sort%>"/>
+                <jsp:param name="navUrlParams" value="<%=filter%>"/>
+                <jsp:param name="navUrlParams" value="<%=pfilter%>"/>
+                <jsp:param name="navUrlParams" value="<%=pg%>"/>
+                <jsp:param name="showPageOfPage" value="true"/>
+            </jsp:include>
 <%
 } else {
 %>
