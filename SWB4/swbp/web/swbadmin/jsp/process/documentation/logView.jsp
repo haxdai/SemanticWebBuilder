@@ -4,6 +4,8 @@
     Author     : carlos.alvarez
 --%>
 
+<%@page import="org.semanticwb.process.documentation.model.Documentation"%>
+<%@page import="org.semanticwb.process.documentation.model.base.DocumentationBase"%>
 <%@page import="java.util.Iterator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="java.util.ArrayList"%>
@@ -26,6 +28,15 @@
         Traceable tr = null;
         Descriptiveable des = (Descriptiveable) semObj.createGenericInstance();
         title = des.getTitle() != null ? des.getTitle() : "--";
+        
+        if (semObj.instanceOf(Documentation.swpdoc_Documentation)) {
+            Documentation doc = (Documentation) semObj.createGenericInstance();
+            if (null != doc.getProcess() && null != doc.getProcess().getTitle()) {
+                title = doc.getProcess().getTitle();
+                if (null != doc.getVersionValue()) title = title + " - " + doc.getVersionValue();
+            }
+        }
+        
         if (semObj.instanceOf(Traceable.swb_Traceable)) {
             tr = (Traceable) semObj.createGenericInstance();
         }
