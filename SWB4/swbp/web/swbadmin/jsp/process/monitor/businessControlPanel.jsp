@@ -166,13 +166,13 @@
     } else {
         if (paramRequest.getMode().equals(paramRequest.Mode_VIEW)) {
             %>
-            <div class="row swbp-pad">&nbsp;</div>
+            <br>
             <div class="row form-group swbp-filters">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 ">
                     <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
                         <label for="">Mostrar:</label>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 no-padding">
                         <select id="groupSelect" class="form-control">
                             <option value="-1" <%=gFilter.equals("") ? "selected" : ""%>><%=paramRequest.getLocaleString("allGroups")%></option>
                             <%
@@ -195,13 +195,13 @@
                     <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
                         <label for="">Ordenar:</label>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 no-padding">
                          <select id="sortSelect" class="form-control">
-                             <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortDate")%>">
+                             <optgroup label="<%=paramRequest.getLocaleString("sortDate")%>">
                                  <option value="1" <%= sortType.equals("1")?"selected":"" %>><%=paramRequest.getLocaleString("sortLatest")%></option>
                                 <option value="2" <%= sortType.equals("2")?"selected":"" %>><%=paramRequest.getLocaleString("sortOldest")%></option>
                             </optgroup>
-                            <optgroup class="dropdown-header" label="<%=paramRequest.getLocaleString("sortProcess")%>">  
+                            <optgroup label="<%=paramRequest.getLocaleString("sortProcess")%>">  
                                 <option value="3" <%= sortType.equals("3")?"selected":"" %>><%=paramRequest.getLocaleString("sortNameAsc")%></option>
                                 <option value="4" <%= sortType.equals("4")?"selected":"" %>><%=paramRequest.getLocaleString("sortNameDes")%></option>
                             </optgroup>
@@ -212,7 +212,7 @@
                     <div class="col-lg-4 col-md-4 hidden-sm hidden-xs text-right">
                         <label for="">Filtrar:</label>
                     </div>
-                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 hidden-padding dropdown">
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 no-padding">
                         <select id="statusSelect" class="form-control">
                             <option value="-1" <%= sFilter.equals("-1")?"selected":"" %>><%=paramRequest.getLocaleString("allStatus")%></option>
                             <option value="1" <%= sFilter.equals("1")?"selected":"" %>><%=paramRequest.getLocaleString("lblProcessing")%></option>
@@ -225,7 +225,7 @@
                 <%
                 if (null != pinstances && !pinstances.isEmpty()) {
                     %>
-                    <div class="panel panel-default swbp-panel-head hidden-margin">
+                    <div class="panel panel-default swbp-panel-head no-margin">
                         <div class="panel-heading text-center">Instancias de procesos</div>
                         <div class="panel-body swbp-panel-body-card swbp-tray-body-panel">
                             <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
