@@ -72,7 +72,10 @@ if (!user.isSigned()) {
         %><script>window.location='<%=viewUrl%>';</script><%
     } else {
         %>
-        <h2><a class="btn" title="Regresar" href="<%=viewUrl%>"><span class="fa fa-reply"></span></a><%=p.getTitle()%></h2>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a class="btn btn-swbp-action" title="Regresar" href="<%=viewUrl%>">Regresar</a>
+        </div>
+        <hr/>
         <%
         if (tinstances != null && !tinstances.isEmpty()) {
             %>
