@@ -15,7 +15,7 @@
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <%@page import="org.semanticwb.model.WebSite"%>
 <%@page import="org.semanticwb.portal.api.SWBParamRequest"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     String urise = request.getParameter("urise") != null ? request.getParameter("urise") : "";
@@ -28,7 +28,7 @@
     WebPage wpage = paramRequest.getWebPage();
     //DocumentSectionInstance dsi = (DocumentSectionInstance) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(uridsi);
     SWBResourceURL urlUpload = paramRequest.getActionUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setAction(SWPDocumentationResource.ACTION_UPLOAD_PICTURE).setParameter("urise", java.net.URLEncoder.encode(urise, "UTF-8"));
-    final String fullHostname = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() != 80? ":" + request.getServerPort():"");
+    //final String fullHostname = request.getScheme() + "://" + request.getServerName() + (request.getServerPort() != 80? ":" + request.getServerPort():"");
 %>
 <div class="modal-dialog">
     <div class="modal-content">
@@ -54,16 +54,18 @@
         tinymce.init({
             selector: '#description_<%= sei.getId() %>',
             entity_encoding : "raw",
+            elementpath: false,
+            
             save_enablewhendirty: false,
             language: '<%=paramRequest.getUser().getLanguage()%>',
             toolbar: "save | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image table | undo redo code | forecolor backcolor emoticons ",
             menubar: false,
+            save_enablewhendirty: false,
             force_br_newlines: true,
             paste_data_images: true,
             force_p_newlines: true,
-            relative_urls : false,
-            remove_script_host : false,
-            document_base_url : '<%= fullHostname %>',
+            relative_urls: true,
+            remove_script_host: false,
             height: 500,
             plugins: [
                 " fullpage save advlist table contextmenu link image textcolor code paste"
