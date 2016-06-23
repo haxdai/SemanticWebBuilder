@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.StringTokenizer;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.xpath.XPath;
@@ -24,10 +25,13 @@ import org.semanticwb.SWBUtils;
 import org.semanticwb.bsc.BSC;
 import static org.semanticwb.bsc.PDFExportable.Mode_StreamPDF;
 import static org.semanticwb.bsc.PDFExportable.Mode_StreamPNG;
+import org.semanticwb.bsc.element.Risk;
+import org.semanticwb.model.DisplayProperty;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBParamRequest;
@@ -1397,6 +1401,7 @@ public class RisksMap extends GenericResource {
                     e.setAttribute("prefix", attrs.getNamedItem("prefix").getNodeValue());
                     e.setAttribute("likehood", attrs.getNamedItem("likehood").getNodeValue());
                     e.setAttribute("impact", attrs.getNamedItem("impact").getNodeValue());
+                    e.setAttribute("alignmentDescription", attrs.getNamedItem("alignmentDescription").getNodeValue());
                     e.appendChild(map.createTextNode(node.getFirstChild().getNodeValue()));
                     riskgroup.appendChild(e);
                 }
@@ -1448,9 +1453,9 @@ public class RisksMap extends GenericResource {
         SVGjs.append(" svg.setAttributeNS(null,'onload','init(evt)');").append("\n");
         
         String parentId = base.getAttribute("parentId");
-        if(parentId==null) {
+        if (parentId==null) {
             SVGjs.append(" document.body.appendChild(svg);").append("\n");
-        }else {
+        } else {
             SVGjs.append(" var parentId = dojo.byId('"+parentId+"');").append("\n");
             SVGjs.append(" if(parentId) {").append("\n");
             SVGjs.append("   parentId.appendChild(svg);").append("\n");
@@ -1474,7 +1479,7 @@ public class RisksMap extends GenericResource {
         // Encabezado del mapa
         expression = "/riskmap/header";
         node = (Node) xPath.compile(expression).evaluate(map, XPathConstants.NODE);
-        if(node!=null && node.getNodeType()==Node.ELEMENT_NODE) {
+        if (node!=null && node.getNodeType()==Node.ELEMENT_NODE) {
             SVGjs.append(" g = document.createElementNS(SVG_,'g');").append("\n");
             SVGjs.append(" svg.appendChild(g);").append("\n");
             
@@ -1526,14 +1531,12 @@ public class RisksMap extends GenericResource {
         SVGjs.append(" var x = "+x+";").append("\n");
         SVGjs.append(" var y = "+y+";").append("\n");
         
-        // Gráfica de riestos
+        // Gráfica de riesgos
         SVGjs.append(" g = document.createElementNS(SVG_,'g');").append("\n");
         SVGjs.append(" svg.appendChild(g);").append("\n");
         SVGjs.append(" g.setAttributeNS(null,'transform','translate('+x+','+y+')');").append("\n");
         
         // Etiqueta "Mapa de riesgos XXX"
-System.out.println("bsc="+scorecard+" title="+scorecard.getTitle());
-System.out.println(" title lang="+scorecard.getTitle(lang));
         SVGjs.append(" txt = createText('"
                 +SWBUtils.TEXT.getLocaleString(bundle, "lblRiskMap", locale)
                 +" "
@@ -1559,10 +1562,27 @@ System.out.println(" title lang="+scorecard.getTitle(lang));
         SVGjs.append(" txt.setAttributeNS(null,'id','axis_x');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'style','fill:#5d5d5d;font-size:"+HEADER_3+"px;');").append("\n");
         SVGjs.append(" defs.appendChild(txt);").append("\n");
-        // Escala 0 1 2 3 4 5...
-        SVGjs.append(" text_node = document.createTextNode('0 1 2 3 4 5 6 7 8 9 10');").append("\n");
+        
+        // Escala, de acuerdo a los valores de la ontologia
+        String[] xLabels = this.getXAxisLabels();
+        StringBuilder abscissaLabels = new StringBuilder(16);
+        StringBuilder abscissaPosition = new StringBuilder(32);
+        int formerValue = 0;
+        for (String label : xLabels) {
+            abscissaLabels.append(label.charAt(label.length() - 1));
+            abscissaLabels.append(' ');
+            int value = Integer.parseInt("" + label.split(":")[0]);
+            int position = value * 30 - formerValue * 30;
+            if (formerValue > 0) {
+                position -= 10;
+            }
+            abscissaPosition.append(position);
+            abscissaPosition.append(" 0 ");
+            formerValue = value;
+        }
+        SVGjs.append(" text_node = document.createTextNode('").append(abscissaLabels).append("');").append("\n");//valores anteriores: 0 1 2 3 4 5 6 7 8 9 10
         SVGjs.append(" tspan_element = document.createElementNS(SVG_, 'tspan');").append("\n");
-        SVGjs.append(" tspan_element.setAttributeNS(null,'dx','0 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10');").append("\n");
+        SVGjs.append(" tspan_element.setAttributeNS(null,'dx','").append(abscissaPosition).append("');").append("\n");//posiciones anteriores: 0 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10 10  *** 60 0 80 0 50 0 50 0 20 0
         SVGjs.append(" tspan_element.setAttributeNS(null,'style','fill:#373737;font-size:10px;font-weight:bold;');").append("\n");
         SVGjs.append(" tspan_element.appendChild(text_node);").append("\n");
         SVGjs.append(" txt.appendChild(tspan_element);").append("\n");
@@ -1579,7 +1599,19 @@ System.out.println(" title lang="+scorecard.getTitle(lang));
         SVGjs.append(" txt.setAttributeNS(null,'text-anchor','middle');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'style','fill:#542F78;font-size:12px;font-weight:bold;');").append("\n");
         SVGjs.append(" g.appendChild(txt);").append("\n");
-        
+        // Adicion de las descripciones de todos los puntos (arriba) marcados en el eje X
+        int index = 0;
+        for (String label : xLabels) {
+            index++;
+            String[] labelComps = label.split(":");
+            String lblDesc = labelComps[2] + " = " + labelComps[1];
+            SVGjs.append(" txt = createText('").append(lblDesc).append("',")
+                    .append(w_ / 2).append(",").append((y_ + 2 * h_ + (BOX_SPACING * (index + 1)) + HEADER_3))
+                    .append(",").append(HEADER_3).append(",'Verdana');").append("\n");
+            SVGjs.append(" txt.setAttributeNS(null,'text-anchor','start');").append("\n");
+            SVGjs.append(" txt.setAttributeNS(null,'style','fill:#542F78;font-size:12px;font-weight:bold;');").append("\n");
+            SVGjs.append(" g.appendChild(txt);").append("\n");
+        }
         
         // Inicia def eje Y (probabilidad)
         SVGjs.append(" txt = document.createElementNS(SVG_,'text');").append("\n");
@@ -1621,11 +1653,18 @@ System.out.println(" title lang="+scorecard.getTitle(lang));
                 String rid = attrs.getNamedItem("id").getNodeValue();
                 String prefix = attrs.getNamedItem("prefix").getNodeValue();
                 int impact = Integer.parseInt(attrs.getNamedItem("impact").getNodeValue());
-System.out.println("node value="+attrs.getNamedItem("likehood").getNodeValue());
                 float likehood = Float.parseFloat(attrs.getNamedItem("likehood").getNodeValue())*10;
-System.out.println("impact="+impact+"; prob="+likehood);
-                SVGjs.append(" pto = createCircle('"+rid+"',"+(impact*30)+","+(aux-likehood*30)+",5,'#000000',1,'none',1,1);").append("\n");
-                SVGjs.append(" pto.setAttributeNS(null,'id','"+prefix+" ("+impact+","+likehood+")');").append("\n");
+                String impactLbl = null;
+                //Para mostrar la etiqueta del impacto correspondiente al valor asignado
+                for (String label : xLabels) {
+                    if (label.startsWith(String.valueOf(impact))) {
+                        impactLbl = label.split(":")[1];
+                        break;
+                    }
+                }
+                SVGjs.append(" pto = createCircle('").append(rid).append("',").append((impact*30)).append(",").append((aux-likehood*30)).append(",5,'#000000',1,'none',1,1);").append("\n");
+                SVGjs.append(" pto.setAttributeNS(null,'id','").append(prefix).append(" (").append(null != impactLbl ? impactLbl : impact).append(", ").append(likehood).append(")');").append("\n");
+                SVGjs.append(" pto.setAttributeNS(null,'style','fill:#373737;');").append("\n");
                 SVGjs.append(" pto.addEventListener('mouseover', showTooltip, false);").append("\n");
                 SVGjs.append(" pto.addEventListener('mouseout', hideTooltip, false);").append("\n");
                 SVGjs.append("").append("\n");
@@ -1692,6 +1731,21 @@ System.out.println("impact="+impact+"; prob="+likehood);
         SVGjs.append(" if(rect.height.baseVal.value>h_) {").append("\n");
         SVGjs.append("   h_ = rect.height.baseVal.value;").append("\n");
         SVGjs.append(" }").append("\n");
+        
+        // estrategia
+        SVGjs.append(" txt = createText('").append(SWBUtils.TEXT.getLocaleString(bundle, "lblStrategy", locale))
+                .append("',x_,y_,").append(HEADER_4).append(",'Verdana');").append("\n");
+        SVGjs.append(" txt.setAttributeNS(null,'style','fill:#373737;font-weight:bold;');").append("\n");
+        SVGjs.append(" g.appendChild(txt);").append("\n");
+        SVGjs.append(" fixParagraphToWidth(txt,").append(2*w_).append(",x_);").append("\n");
+        SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
+        SVGjs.append(" framingRect(rect,").append(2*w_).append(",'#9370db',0.3,'#9370db',1,1,0,0);").append("\n");
+        SVGjs.append(" g.insertBefore(rect,txt);").append("\n");
+        SVGjs.append(" x_ = x_ + rect.width.baseVal.value + ").append(PADDING_LEFT).append(";").append("\n");
+        SVGjs.append(" if (rect.height.baseVal.value > h_) {").append("\n");
+        SVGjs.append("   h_ = rect.height.baseVal.value;").append("\n");
+        SVGjs.append(" }").append("\n");
+        
         // Impacto
         SVGjs.append(" txt = createText('"+SWBUtils.TEXT.getLocaleString(bundle, "lblImpact", locale)+"',x_,y_,"+HEADER_4+",'Verdana');").append("\n");
         SVGjs.append(" txt.setAttributeNS(null,'style','fill:#373737;font-weight:bold;');").append("\n");
@@ -1728,7 +1782,9 @@ System.out.println("impact="+impact+"; prob="+likehood);
                 String prefix = attrs.getNamedItem("prefix").getNodeValue();
                 int impact = Integer.parseInt(attrs.getNamedItem("impact").getNodeValue());
                 float likehood = Float.parseFloat(attrs.getNamedItem("likehood").getNodeValue());
+                String alignmentDesc = attrs.getNamedItem("alignmentDescription").getNodeValue();
                 String title = node.getFirstChild().getNodeValue();
+                
                 // prefijo del riesgo
                 SVGjs.append(" x_ = 0;").append("\n");
                 SVGjs.append(" y_ = y_ + h_ + "+PADDING_LEFT+";").append("\n");
@@ -1760,9 +1816,36 @@ System.out.println("impact="+impact+"; prob="+likehood);
                 SVGjs.append(" if(rect.height.baseVal.value>h_) {").append("\n");
                 SVGjs.append("   h_ = rect.height.baseVal.value;").append("\n");
                 SVGjs.append(" }").append("\n");
+                
+                //Elemento ligado a la estrategia
+                SVGjs.append(" x_ = x_+rect.width.baseVal.value+").append(PADDING_LEFT).append(";").append("\n");
+                SVGjs.append(" txt = createText('").append(alignmentDesc).append("', x_, y_, ").append(HEADER_3).append(", 'Verdana');").append("\n");
+                SVGjs.append(" g.appendChild(txt);").append("\n");
+                SVGjs.append(" fixParagraphToWidth(txt, ").append(2 * w_).append(", x_);").append("\n");
+                SVGjs.append(" rect = getBBoxAsRectElement(txt);").append("\n");
+                if (isNone) {
+                    SVGjs.append(" framingRect(rect, ").append(2 * w_).append(", '#ffffff', 0.3, '#ffffff', 1, 1, 0, 0);").append("\n");
+                } else {
+                    SVGjs.append(" framingRect(rect, ").append(2 * w_).append(", '#b7b7b7', 0.3, '#b7b7b7', 1, 1, 0, 0);").append("\n");
+                }
+                SVGjs.append(" g.insertBefore(rect, txt);").append("\n");
+                SVGjs.append(" if (rect.height.baseVal.value > h_) {").append("\n");
+                SVGjs.append("   h_ = rect.height.baseVal.value;").append("\n");
+                SVGjs.append(" }").append("\n");
+                
+                
                 // impacto del riesgo
-                SVGjs.append(" x_ = x_+rect.width.baseVal.value+"+PADDING_LEFT+";").append("\n");
-                SVGjs.append(" txt = createText('"+impact+"',x_,y_,"+HEADER_3+",'Verdana');").append("\n");
+                String impactLbl = null;
+                //Para mostrar la etiqueta del impacto correspondiente al valor asignado
+                for (String label : xLabels) {
+                    if (label.startsWith(String.valueOf(impact))) {
+                        impactLbl = label.split(":")[1];
+                        break;
+                    }
+                }
+                
+                SVGjs.append(" x_ = x_+rect.width.baseVal.value+").append(PADDING_LEFT).append(";").append("\n");
+                SVGjs.append(" txt = createText('").append(null != impactLbl ? impactLbl : impact).append("',x_,y_,").append(HEADER_3).append(",'Verdana');").append("\n");
                 //SVGjs.append(" txt.setAttributeNS(null,'text-anchor','end');").append("\n");
                 SVGjs.append(" g.appendChild(txt);").append("\n");
                 SVGjs.append(" fixParagraphToWidth(txt,"+w_+",x_);").append("\n");
@@ -1823,8 +1906,8 @@ System.out.println("impact="+impact+"; prob="+likehood);
         SVGjs.append("   pto.x = evt.target.cx.baseVal.value;").append("\n");
         SVGjs.append("   pto.y = evt.target.cy.baseVal.value;").append("\n");
         SVGjs.append("   pto = pto.matrixTransform(matx);").append("\n");
-        SVGjs.append("   tooltip.setAttributeNS(null,'x',pto.x+10);").append("\n");
-        SVGjs.append("   tooltip.setAttributeNS(null,'y',pto.y+5);").append("\n");        
+        SVGjs.append("   tooltip.setAttributeNS(null,'x',pto.x);").append("\n");
+        SVGjs.append("   tooltip.setAttributeNS(null,'y',pto.y-10);").append("\n");        
         SVGjs.append("   tooltip.textContent = evt.target.getAttribute('id');").append("\n");
         SVGjs.append("   tooltip.setAttributeNS(null,'visibility','visible');").append("\n");
         SVGjs.append(" }").append("\n");
@@ -2072,5 +2155,19 @@ System.out.println("impact="+impact+"; prob="+likehood);
         }
         return val;
     }
-      
+    
+    private String[] getXAxisLabels() {
+        
+        String[] labels = null;
+        SemanticObject so = Risk.bsc_finAssessmentImpactLevel.getDisplayProperty();
+        DisplayProperty dProp = new DisplayProperty(so);
+        String options = dProp.getDisplaySelectValues("es");
+        labels = options.split("\\|");
+        int initial = 65;
+        
+        for (int i = 0; i < labels.length; i++) {
+            labels[i] = labels[i] + ":" + (char)(initial + i);
+        }
+        return labels;
+    }
 }
