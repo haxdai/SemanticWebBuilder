@@ -41,15 +41,13 @@ if (!user.isSigned()) {
     }
 } else {
     %>
-    <div class="row swbp-pad">
-        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a href="<%=paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_VIEW)%>" class="btn btn-block swbp-btn-block"><%=paramRequest.getLocaleString("btnBack")%></a>
-        </div>
+    <div class="row no-margin swbp-button-ribbon text-right">
+        <a href="<%=paramRequest.getRenderUrl().setMode(SWBParamRequest.Mode_VIEW)%>" class="btn btn-swbp-action"><%=paramRequest.getLocaleString("btnBack")%></a>
     </div>
     <hr/>
     <div class="panel panel-default swbp-panel-head">
-                  <div class="panel-heading text-center"><%=paramRequest.getLocaleString("msgVerHistoryTitle")%></div>
-            </div>
+        <div class="panel-heading text-center"><%=paramRequest.getLocaleString("msgVerHistoryTitle")%> - <%= rf.getTitle() %></div>
+    </div>
     <%
     if (!files.isEmpty()) {
         Iterator<VersionInfo> it = files.iterator();
@@ -60,8 +58,8 @@ if (!user.isSigned()) {
                     <%
                     while (it.hasNext()) {
                         VersionInfo vi = it.next();
-                        String modifier = "--";
-                        if (vi.getCreator() != null && vi.getCreator().getFullName().length() > 0) modifier = vi.getCreator().getFullName();
+                        //String modifier = "--";
+                        //if (vi.getCreator() != null && vi.getCreator().getFullName().length() > 0) modifier = vi.getCreator().getFullName();
 
                         SWBResourceURL propsUrl = paramRequest.getRenderUrl().setCallMethod(SWBParamRequest.Call_DIRECT);
                         propsUrl.setMode(ProcessFileRepository.MODE_PROPS);
