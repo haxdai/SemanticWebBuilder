@@ -54,6 +54,26 @@
     }
 }
 
+.btn-swbp-action-float {
+    @include floatButton (50px, 20);
+    color: $color-text-highlight;
+    background-color: $color-background-content;
+    
+    .fa {
+        line-height: 2em;
+        font-size: 1.5em;
+    }
+}
+
+.swbp-img-card {
+    .btn-swbp-action-float {
+        color: $white-color;
+        background-color: $color-primary;
+        right: 25px;
+        bottom: 20px;
+    }
+}
+
 .btn-swbp-action-head {
     text-transform: none;
     background-color: $white-color;
