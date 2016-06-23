@@ -128,6 +128,8 @@ public class RiskBoard extends GenericResource
         StringBuilder output = new StringBuilder(512);
         String exportType = request.getParameter("type");
         User user = paramRequest.getUser();
+        boolean hasFactors = false;
+        boolean hasControls = false;
 
         if (exportType == null) {
             output.append(this.getStylesString());
@@ -139,6 +141,13 @@ public class RiskBoard extends GenericResource
         for (Determinant det : detList) {
             determinants[cont] = det;
             cont++;
+        }
+        
+        if (!((BSC)website).listValidFactors().isEmpty()) {
+            hasFactors = true;
+            if (!((BSC)website).listValidControls().isEmpty()) {
+                hasControls = true;
+            }
         }
         output.append("<div class=\"panel panel-default\">");
         if (mode != null && mode.equalsIgnoreCase("edit")) {
@@ -158,6 +167,7 @@ public class RiskBoard extends GenericResource
             output.append("\n  dojo.require(\"dojox.layout.ContentPane\");");
             output.append("\n  dojo.require(\"dojox.editor.plugins.PasteFromWord\");");
             output.append("\n  dojo.require(\"dijit.InlineEditBox\");");
+            output.append("\n  dojo.require(\"dijit.form.Select\");");
             output.append("\n  dojo.require(\"dijit.form.Textarea\");");
             output.append("\n  dojo.require(\"dijit.form.DateTextBox\");");
             output.append("\n  dojo.require(\"dijit.Editor\");");
@@ -201,8 +211,8 @@ public class RiskBoard extends GenericResource
         output.append("<div class=\"table-responsive\">");
 
         output.append("<table >\n");
-        output.append(this.createTableHeading(determinants));
-        output.append(this.createTableBody(determinants, website, mode, request, paramRequest));
+        output.append(this.createTableHeading(determinants, hasFactors, hasControls));
+        output.append(this.createTableBody(determinants, website, mode, request, paramRequest, hasFactors, hasControls));
         output.append("</table>\n");
         output.append("</div>");
 
@@ -217,40 +227,49 @@ public class RiskBoard extends GenericResource
      * muestra el tablero de riesgos
      *
      * @param determinants conjunto de objetos {@code Determinant} utilizado en
-     * la generaci&oacute;n del encabezado
+     *                     la generaci&oacute;n del encabezado
+     * @param hasFactors indica si existen factores validos relacionados al BSC actual
+     * @param hasControls indica si existen controles validos relacionados al BSC actual
      * @return un {@code String} que contiene el c&oacute;digo HTML del
      * encabezado del tablero de riesgos
      */
-    private String createTableHeading(Determinant[] determinants) {
+    private String createTableHeading(Determinant[] determinants, boolean hasFactors, boolean hasControls) {
 
         StringBuilder data = new StringBuilder(256);
+        short colspanRiskEval = (short) (hasFactors ? 10 : 6);
 
         data.append("  <thead>\n");
         data.append("    <tr>\n");
-        data.append("      <th colspan=\"16\" class=\"swbstrgy-risk-hc-1\">I. EVALUACI&Oacute;N DE RIESGOS</th>\n");
-        data.append("      <th colspan=\"");
-        data.append(6 + determinants.length);
-        data.append("\" class=\"swbstrgy-risk-hc-2\">II. EVALUACI&Oacute;N DE CONTROLES</th>\n");
+        data.append("      <th colspan=\"").append(colspanRiskEval).append("\" class=\"swbstrgy-risk-hc-1\">I. EVALUACI&Oacute;N DE RIESGOS</th>\n");
+        if (hasControls) {
+            data.append("      <th colspan=\"");
+            data.append(6 + determinants.length);
+            data.append("\" class=\"swbstrgy-risk-hc-2\">II. EVALUACI&Oacute;N DE CONTROLES</th>\n");
+        }
         data.append("      <th colspan=\"2\" class=\"swbstrgy-risk-hc-3\">III. VALORACI&Oacute;N DE RIESGOS VS. CONTROLES</th>\n");
         data.append("      <th class=\"swbstrgy-risk-hc-4\">IV. MAPA DE RIESGOS</th>\n");
         data.append("      <th colspan=\"3\" class=\"swbstrgy-risk-hc-5\">V. ESTRATEGIAS Y ACCIONES</th>\n");
         data.append("    </tr>\n");
         data.append("    <tr class=\"swbstrgy-risk-sh-1\">\n");
         data.append("      <th rowspan=\"2\">No. de Riesgo</th>\n");
-        data.append("      <th rowspan=\"2\">Unidad Administrativa</th>\n");
+        //data.append("      <th rowspan=\"2\">Unidad Administrativa</th>\n");
         data.append("      <th colspan=\"2\">Alineaci&oacute;n a Estrategias, Objetivos o Metas Institucionales</th>\n");
         data.append("      <th rowspan=\"2\">RIESGO</th>\n");
-        data.append("      <th rowspan=\"2\">Nivel de decisi&oacute;n del Riesgo</th>\n");
-        data.append("      <th colspan=\"2\">Clasificaci&oacute;n del Riesgo</th>\n");
-        data.append("      <th colspan=\"4\">FACTOR</th>\n");
+        //data.append("      <th rowspan=\"2\">Nivel de decisi&oacute;n del Riesgo</th>\n");
+        data.append("      <th>Clasificaci&oacute;n del Riesgo</th>\n");  // colspan=\"2\"
+        if (hasFactors) {
+            data.append("      <th colspan=\"4\">FACTOR</th>\n");
+        }
         data.append("      <th rowspan=\"2\">Posibles efectos del Riesgo</th>\n");
-        data.append("      <th colspan=\"3\">Valoraci&oacute;n Inicial</th>\n");
-        data.append("      <th rowspan=\"2\">&iquest;Tiene controles?</th>\n");
-        data.append("      <th colspan=\"3\">CONTROL</th>\n");
-        data.append("      <th colspan=\"");
-        data.append(1 + determinants.length);
-        data.append("\">Determinaci&oacute;n de Suficiencia o Deficiencia del control</th>\n");
-        data.append("      <th rowspan=\"2\">Riesgo controlado Suficientemente</th>\n");
+        //data.append("      <th colspan=\"3\">Valoraci&oacute;n Inicial</th>\n");
+        if (hasControls) {
+            data.append("      <th rowspan=\"2\">&iquest;Tiene controles?</th>\n");
+            data.append("      <th colspan=\"3\">CONTROL</th>\n");
+            data.append("      <th colspan=\"");
+            data.append(1 + determinants.length);
+            data.append("\">Determinaci&oacute;n de Suficiencia o Deficiencia del control</th>\n");
+            data.append("      <th rowspan=\"2\">Riesgo controlado Suficientemente</th>\n");
+        }
         data.append("      <th colspan=\"2\">Valoraci&oacute;n final</th>\n");
         data.append("      <th rowspan=\"2\">Ubicaci&oacute;n en cuadrantes</th>\n");
         data.append("      <th rowspan=\"2\">Estrategia para administrar el Riesgo</th>\n");
@@ -261,23 +280,27 @@ public class RiskBoard extends GenericResource
         data.append("      <th>Selecci&oacute;n</th>\n");
         data.append("      <th>Descripci&oacute;n</th>\n");
         data.append("      <th>Selecci&oacute;n</th>\n");
-        data.append("      <th>Especificar Otro</th>\n");
-        data.append("      <th>No. de Factor</th>\n");
-        data.append("      <th>Descripci&oacute;n</th>\n");
-        data.append("      <th>Clasificaci&oacute;n</th>\n");
-        data.append("      <th>Tipo</th>\n");
-        data.append("      <th>Grado Impacto</th>\n");
-        data.append("      <th>Probabilidad Ocurrencia</th>\n");
-        data.append("      <th>Cuadrante</th>\n");
-        data.append("      <th>No.</th>\n");
-        data.append("      <th>Descripci&oacute;n</th>\n");
-        data.append("      <th>Tipo</th>\n");
-        for (Determinant det : determinants) {
-            data.append("      <th>");
-            data.append(det.getTitle());
-            data.append("</th>\n");
+        //data.append("      <th>Especificar Otro</th>\n");
+        if (hasFactors) {
+            data.append("      <th>No. de Factor</th>\n");
+            data.append("      <th>Descripci&oacute;n</th>\n");
+            data.append("      <th>Clasificaci&oacute;n</th>\n");
+            data.append("      <th>Tipo</th>\n");
         }
-        data.append("      <th>Resultado de la determinaci&oacute;n del Control</th>\n");
+//        data.append("      <th>Grado Impacto</th>\n");
+//        data.append("      <th>Probabilidad Ocurrencia</th>\n");
+//        data.append("      <th>Cuadrante</th>\n");
+        if (hasControls) {
+            data.append("      <th>No.</th>\n");
+            data.append("      <th>Descripci&oacute;n</th>\n");
+            data.append("      <th>Tipo</th>\n");
+            for (Determinant det : determinants) {
+                data.append("      <th>");
+                data.append(det.getTitle());
+                data.append("</th>\n");
+            }
+            data.append("      <th>Resultado de la determinaci&oacute;n del Control</th>\n");
+        }
         data.append("      <th>Grado de Impacto</th>\n");
         data.append("      <th>Probabilidad de Ocurrencia</th>\n");
         data.append("    </tr>\n");
@@ -301,17 +324,19 @@ public class RiskBoard extends GenericResource
      * o {@literal edit}
      * @param request la petici&oacute;n HTTP enviada por el cliente
      * @param paramRequest objeto por el que se accede a varios objetos
+     * @param hasFactors indica si existen factores validos relacionados al BSC actual
+     * @param hasControls indica si existen controles validos relacionados al BSC actual
      * exclusivos de SWB
      * @return un {@code String}
      */
     private String createTableBody(Determinant[] determinants, WebSite website, String mode, HttpServletRequest request,
-            SWBParamRequest paramRequest) {
+            SWBParamRequest paramRequest, boolean hasFactors, boolean hasControls) {
 
         StringBuilder data = new StringBuilder(256);
-//        String fields = "Risk.prefix|Risk.area|Risk.elementRelated|Risk.elementInstanceRelated|Risk.title" +
-//                "|Risk.riskLeveldecision|Risk.classificationRisk|Risk.classifRiskSpecifyOther|Factor.prefix" +
-//                "|Factor.title|Factor.classificationFactor|Factor.factorType|Risk.possibleEffectsRisk" +
-//                "|Risk.iniAssessmentImpactLevel|Risk.iniAssessmentLikelihood|Risk.calculateQuadrant|Factor.isControlRelated" +
+//        String fields = "Risk.prefix|Risk.elementRelated|Risk.elementInstanceRelated|Risk.title" +   //Risk.area|
+//                "|Risk.classificationRisk|Factor.prefix|Factor.title|Factor.classificationFactor" +                          //|Risk.riskLeveldecision|Risk.classifRiskSpecifyOther
+//                "|Factor.factorType|Risk.possibleEffectsRisk" +
+//                "|Factor.isControlRelated" +                                                      //|Risk.iniAssessmentImpactLevel|Risk.iniAssessmentLikelihood|Risk.calculateQuadrant
 //                "|Control.prefix|Control.title|Control.controlType|DeterminantValue.isDeterminant" +
 //                "|Control.calculateDetermination|Risk.calculateControled|Risk.finAssessmentImpactLevel" +
 //                "|Risk.finAssessmentLikelihood|Risk.calculateQuadrant|Risk.stratManageRisk|Action.title" +
@@ -351,21 +376,23 @@ public class RiskBoard extends GenericResource
             Control formerControl = null;
             HashMap<Determinant, DeterminantValue> determValues = new HashMap<Determinant, DeterminantValue>(8);
 
-            Iterator<Factor> factorIt = risk.listValidFactorsByPrefix();
-            while (factorIt != null && factorIt.hasNext()) {
-                Factor factor = factorIt.next();
-                Iterator<Control> controlIt = factor.listValidControlsByPrefix();  //listControls()
-                int controlCount = 0;
-                while (controlIt != null && controlIt.hasNext()) {
-                    Control control = controlIt.next();
-                    rows[ctrlRowCount][0] = factor.getSemanticObject();
-                    rows[ctrlRowCount][1] = control.getSemanticObject();
-                    ctrlRowCount++;
-                    controlCount++;
-                }
-                if (controlCount == 0) {
-                    rows[ctrlRowCount][0] = factor.getSemanticObject();
-                    ctrlRowCount++;
+            if (hasFactors) {
+                Iterator<Factor> factorIt = risk.listValidFactorsByPrefix();
+                while (factorIt != null && factorIt.hasNext()) {
+                    Factor factor = factorIt.next();
+                    Iterator<Control> controlIt = factor.listValidControlsByPrefix();  //listControls()
+                    int controlCount = 0;
+                    while (controlIt != null && controlIt.hasNext()) {
+                        Control control = controlIt.next();
+                        rows[ctrlRowCount][0] = factor.getSemanticObject();
+                        rows[ctrlRowCount][1] = control.getSemanticObject();
+                        ctrlRowCount++;
+                        controlCount++;
+                    }
+                    if (controlCount == 0) {
+                        rows[ctrlRowCount][0] = factor.getSemanticObject();
+                        ctrlRowCount++;
+                    }
                 }
             }
 
@@ -373,9 +400,9 @@ public class RiskBoard extends GenericResource
             data.append(spanRiskTextCenteredTd);
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_prefix, lang, mode));
             data.append(tdEnclosing);
-            data.append(spanRiskTd);
-            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_area, lang, mode));
-            data.append(tdEnclosing);
+//            data.append(spanRiskTd);
+//            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_area, lang, mode));
+//            data.append(tdEnclosing);
             data.append(spanRiskTd);
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_elementRelated, lang, mode));
             data.append(tdEnclosing);
@@ -385,161 +412,168 @@ public class RiskBoard extends GenericResource
             data.append(spanRiskTd);
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.swb_title, lang, mode));
             data.append(tdEnclosing);
-            data.append(spanRiskTd);
-            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_riskLeveldecision, lang, mode));
-            data.append(tdEnclosing);
+//            data.append(spanRiskTd);
+//            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_riskLeveldecision, lang, mode));
+//            data.append(tdEnclosing);
             data.append(spanRiskTd);
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_classificationRisk, lang, mode));
             data.append(tdEnclosing);
-            data.append(spanRiskTd);
-            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_classifRiskSpecifyOther, lang, mode));
-            data.append(tdEnclosing);
+//            data.append(spanRiskTd);
+//            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_classifRiskSpecifyOther, lang, mode));
+//            data.append(tdEnclosing);
 
-            //Se agregan las propiedades del Factor
-            if (rows[0][0] != null) {
-                formerFactor = (Factor) rows[0][0].getGenericInstance();
-                factorSpan = this.calculateRowSpan(null, formerFactor);
-                spanFactorTd = "      <td" + (factorSpan > 1 ? " rowspan=\"" + factorSpan + "\"" : "");
-                int index = 0;
-                for (SemanticProperty property : factorFields) {
-                    data.append(spanFactorTd);
-                    if (index == 0) {
-                        data.append(" class=\"gen-center\"");
+            if (hasFactors) {
+                //Se agregan las propiedades del Factor
+                if (rows[0][0] != null) {
+                    formerFactor = (Factor) rows[0][0].getGenericInstance();
+                    factorSpan = this.calculateRowSpan(null, formerFactor);
+                    spanFactorTd = "      <td" + (factorSpan > 1 ? " rowspan=\"" + factorSpan + "\"" : "");
+                    int index = 0;
+                    for (SemanticProperty property : factorFields) {
+                        data.append(spanFactorTd);
+                        if (index == 0) {
+                            data.append(" class=\"gen-center\"");
+                        }
+                        data.append(">\n");
+                        data.append(this.renderPropertyValue(request, formerFactor.getSemanticObject(), property, lang, mode));
+                        data.append(tdEnclosing);
+                        index++;
                     }
-                    data.append(">\n");
-                    data.append(this.renderPropertyValue(request, formerFactor.getSemanticObject(), property, lang, mode));
-                    data.append(tdEnclosing);
-                    index++;
+                } else {
+                    //si no hay factores
+                    data.append("      <td></td><td></td><td></td><td></td>");
                 }
-            } else {
-                //si no hay factores
-                data.append("      <td></td><td></td><td></td><td></td>");
             }
 
             data.append(spanRiskTd);
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_possibleEffectsRisk, lang, mode));
             data.append(tdEnclosing);
-            data.append(spanRiskTextCenteredTd);
-            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_iniAssessmentImpactLevel, lang, mode));
-            data.append(tdEnclosing);
-            data.append(spanRiskTextCenteredTd);
-            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_iniAssessmentLikelihood, lang, mode));
-            data.append(tdEnclosing);
+//            data.append(spanRiskTextCenteredTd);
+//            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_iniAssessmentImpactLevel, lang, mode));
+//            data.append(tdEnclosing);
+//            data.append(spanRiskTextCenteredTd);
+//            data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_iniAssessmentLikelihood, lang, mode));
+//            data.append(tdEnclosing);
+//
+//            String quadrantLabel = null;
+//            short quadrant = risk.calculateQuadrant(true);
+//            switch (quadrant) {
+//                case 1:
+//                    quadrantLabel = "I";
+//                    break;
+//                case 2:
+//                    quadrantLabel = "II";
+//                    break;
+//                case 3:
+//                    quadrantLabel = "III";
+//                    break;
+//                case 4:
+//                    quadrantLabel = "IV";
+//                    break;
+//                default:
+//                    quadrantLabel = "";
+//            }
+//            data.append(spanRiskStyledTd);
+//            data.append(" class=\"cuadrante");
+//            data.append(quadrant);
+//            data.append(" gen-center\"");
+//            data.append(closeTdTag);
+//            data.append(quadrantLabel);
+//            data.append(tdEnclosing);
 
-            String quadrantLabel = null;
-            short quadrant = risk.calculateQuadrant(true);
-            switch (quadrant) {
-                case 1:
-                    quadrantLabel = "I";
-                    break;
-                case 2:
-                    quadrantLabel = "II";
-                    break;
-                case 3:
-                    quadrantLabel = "III";
-                    break;
-                case 4:
-                    quadrantLabel = "IV";
-                    break;
-            }
-            data.append(spanRiskStyledTd);
-            data.append(" class=\"cuadrante");
-            data.append(quadrant);
-            data.append(" gen-center\"");
-            data.append(closeTdTag);
-            data.append(quadrantLabel);
-            data.append(tdEnclosing);
-
-            spanFactorTd = "      <td" + (factorSpan > 1 ? " rowspan=\"" + factorSpan + "\"" : "")
-                    + " class=\"gen-center\">\n";
-            if (formerFactor != null) {
-                data.append(spanFactorTd);
-                data.append(formerFactor.isControlRelated() ? "SI" : "NO");
-            } else {
-                data.append("      <td class=\"gen-center\">NO");
-            }
-            data.append(tdEnclosing);
-            //se agregan las propiedades del Control
-            if (rows[0][1] != null) {
-                formerControl = (Control) rows[0][1].getGenericInstance();
-                for (SemanticProperty property : controlFields) {
-                    data.append(simpleTd);
-                    data.append(this.renderPropertyValue(request, formerControl.getSemanticObject(), property, lang, mode));
-                    data.append(tdEnclosing);
-                }
-            } else {
-                data.append("      <td></td><td></td><td></td>");
-            }
-
-            if (formerControl != null) {
-                Iterator<DeterminantValue> determIt = formerControl.listDeterminantValues();
-                while (determIt != null && determIt.hasNext()) {
-                    DeterminantValue value = determIt.next();
-                    determValues.put(value.getDeterminant(), value);
-                }
-            }
-            for (Determinant det : determinants) {
-                if (formerControl != null) {
-                    DeterminantValue value = determValues.get(det);
-                    if (value == null) {
-                        value = DeterminantValue.ClassMgr.createDeterminantValue(website);
-                        value.setDeterminant(det);
-                        formerControl.addDeterminantValue(value);
-                    }
-                    data.append(simpleTextCenteredTd);
-                    data.append(this.renderPropertyValue(request, value.getSemanticObject(),
-                            DeterminantValue.bsc_isDeterminant, lang, mode));
-                    data.append(tdEnclosing);
+            if (hasControls) {
+                spanFactorTd = "      <td" + (factorSpan > 1 ? " rowspan=\"" + factorSpan + "\"" : "")
+                        + " class=\"gen-center\">\n";
+                if (formerFactor != null) {
+                    data.append(spanFactorTd);
+                    data.append(formerFactor.isControlRelated() ? "SI" : "NO");
                 } else {
-                    data.append("      <td>&nbsp;</td>");
+                    data.append("      <td class=\"gen-center\">NO");
                 }
+                data.append(tdEnclosing);
+                //se agregan las propiedades del Control
+                if (rows[0][1] != null) {
+                    formerControl = (Control) rows[0][1].getGenericInstance();
+                    for (SemanticProperty property : controlFields) {
+                        data.append(simpleTd);
+                        data.append(this.renderPropertyValue(request, formerControl.getSemanticObject(), property, lang, mode));
+                        data.append(tdEnclosing);
+                    }
+                } else {
+                    data.append("      <td></td><td></td><td></td>");
+                }
+                
+                if (formerControl != null) {
+                    Iterator<DeterminantValue> determIt = formerControl.listDeterminantValues();
+                    while (determIt != null && determIt.hasNext()) {
+                        DeterminantValue value = determIt.next();
+                        determValues.put(value.getDeterminant(), value);
+                    }
+                }
+                for (Determinant det : determinants) {
+                    if (formerControl != null) {
+                        DeterminantValue value = determValues.get(det);
+                        if (value == null) {
+                            value = DeterminantValue.ClassMgr.createDeterminantValue(website);
+                            value.setDeterminant(det);
+                            formerControl.addDeterminantValue(value);
+                        }
+                        data.append(simpleTextCenteredTd);
+                        data.append(this.renderPropertyValue(request, value.getSemanticObject(),
+                                DeterminantValue.bsc_isDeterminant, lang, mode));
+                        data.append(tdEnclosing);
+                    } else {
+                        data.append("      <td>&nbsp;</td>");
+                    }
+                }
+                data.append(simpleTd);
+                if (formerControl != null) {
+                    data.append(formerControl.calculateDetermination() ? "Suficiente" : "Deficiente");
+                } else {
+                    data.append("      &nbsp;");
+                }
+                boolean isRiskControled = risk.calculateControled();
+                data.append(tdEnclosing);
+                data.append(spanRiskStyledTd);
+                if (isRiskControled) {
+                    data.append(" class=\"riesgoControlado gen-center\"");
+                } else {
+                    data.append(" class=\"riesgoNoControlado gen-center\"");
+                }
+                data.append(closeTdTag);
+                data.append(isRiskControled ? "SI" : "NO");
+                data.append(tdEnclosing);
             }
-            data.append(simpleTd);
-            if (formerControl != null) {
-                data.append(formerControl.calculateDetermination() ? "Suficiente" : "Deficiente");
-            } else {
-                data.append("      &nbsp;");
-            }
-            boolean isRiskControled = risk.calculateControled();
-            data.append(tdEnclosing);
-            data.append(spanRiskStyledTd);
-            if (isRiskControled) {
-                data.append(" class=\"riesgoControlado gen-center\"");
-            } else {
-                data.append(" class=\"riesgoNoControlado gen-center\"");
-            }
-            data.append(closeTdTag);
-            data.append(isRiskControled ? "SI" : "NO");
-            data.append(tdEnclosing);
 
             /*realizar llamado a validateAssessment() para saber si marcar en rojo estas dos celdas*/
-            short initialValue = (short) risk.getIniAssessmentImpactLevel();
-            short finalValue = (short) risk.getFinAssessmentImpactLevel();
-            boolean validAssessment = this.validateAssessment(initialValue, finalValue, isRiskControled);
-            if (validAssessment) {
+//            short initialValue = (short) risk.getIniAssessmentImpactLevel();
+//            short finalValue = (short) risk.getFinAssessmentImpactLevel();
+//            boolean validAssessment = this.validateAssessment(initialValue, finalValue, isRiskControled);
+//            if (validAssessment) {
                 data.append(spanRiskTextCenteredTd);
-            } else {
-                data.append(spanRiskStyledTd);
-                data.append(" class=\"noValido gen-center\"");
-                data.append(closeTdTag);
-            }
+//            } else {
+//                data.append(spanRiskStyledTd);
+//                data.append(" class=\"noValido gen-center\"");
+//                data.append(closeTdTag);
+//            }
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_finAssessmentImpactLevel, lang, mode));
             data.append(tdEnclosing);
-            initialValue = (short) risk.getIniAssessmentLikelihood();
-            finalValue = (short) risk.getFinAssessmentLikelihood();
-            validAssessment = this.validateAssessment(initialValue, finalValue, isRiskControled);
-            if (validAssessment) {
+//            initialValue = (short) risk.getIniAssessmentLikelihood();
+//            finalValue = (short) risk.getFinAssessmentLikelihood();
+//            validAssessment = this.validateAssessment(initialValue, finalValue, isRiskControled);
+//            if (validAssessment) {
                 data.append(spanRiskTextCenteredTd);
-            } else {
-                data.append(spanRiskStyledTd);
-                data.append(" class=\"noValido gen-center\"");
-                data.append(closeTdTag);
-            }
+//            } else {
+//                data.append(spanRiskStyledTd);
+//                data.append(" class=\"noValido gen-center\"");
+//                data.append(closeTdTag);
+//            }
             data.append(this.renderPropertyValue(request, risk.getSemanticObject(), Risk.bsc_finAssessmentLikelihood, lang, mode));
             data.append(tdEnclosing);
 
+            String quadrantLabel = null;
+            short quadrant = risk.calculateQuadrant(false);
             quadrantLabel = null;
-            quadrant = risk.calculateQuadrant(false);
             switch (quadrant) {
                 case 1:
                     quadrantLabel = "I";
@@ -553,6 +587,8 @@ public class RiskBoard extends GenericResource
                 case 4:
                     quadrantLabel = "IV";
                     break;
+                default:
+                    quadrantLabel = "";
             }
             data.append(spanRiskStyledTd);
             data.append(" class=\"cuadrante");
@@ -1128,21 +1164,21 @@ public class RiskBoard extends GenericResource
      * @return {@code true} en caso de que el valor final sea correcto,
      * {@code false} de lo contrario
      */
-    private boolean validateAssessment(int initialValue, int finalValue, boolean riskControled) {
-
-        boolean validation = true;
-
-        if (finalValue > initialValue) {
-            validation = false;
-        }
-        if (riskControled && finalValue >= initialValue) {
-            validation = false;
-        }
-        if (!riskControled && finalValue != initialValue) {
-            validation = false;
-        }
-        return validation;
-    }
+//    private boolean validateAssessment(int initialValue, int finalValue, boolean riskControled) {
+//
+//        boolean validation = true;
+//
+//        if (finalValue > initialValue) {
+//            validation = false;
+//        }
+//        if (riskControled && finalValue >= initialValue) {
+//            validation = false;
+//        }
+//        if (!riskControled && finalValue != initialValue) {
+//            validation = false;
+//        }
+//        return validation;
+//    }
 
     /**
      * Distribuye las peticiones recibidas entre los diferentes modos de vista

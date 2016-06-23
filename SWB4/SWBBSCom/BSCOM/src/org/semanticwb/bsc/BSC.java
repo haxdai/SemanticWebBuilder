@@ -14,6 +14,8 @@ import org.semanticwb.bsc.accessory.State;
 import org.semanticwb.bsc.element.Initiative;
 import org.semanticwb.bsc.element.Objective;
 import org.semanticwb.bsc.element.Risk;
+import org.semanticwb.bsc.tracing.Control;
+import org.semanticwb.bsc.tracing.Factor;
 import org.semanticwb.bsc.utils.BSCUtils;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
@@ -124,6 +126,42 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
                                                                         }            
                                                                     });
         return validRisks;
+    }
+
+    /**
+     * Entrega un listado de los factores que son v&aacute;lidos dentro del contexto de SWB
+     * @return el conjunto de factores que est&aacue;n activos, no han sido eliminados y no han expirado (si aplica)
+     */
+    public List<Factor> listValidFactors() {
+        List<Factor> validFactors = SWBUtils.Collections.filterIterator(listFactors(),
+                new GenericFilterRule<Factor>() {
+                    @Override
+                    public boolean filter(Factor f) {
+                        if (f == null) {
+                            return true;
+                        }
+                        return !f.isValid();
+                    }            
+                });
+        return validFactors;
+    }
+    
+    /**
+     * Entrega un listado de los controles que son v&aacute;lidos dentro del contexto de SWB
+     * @return el conjunto de controles que est&aacue;n activos, no han sido eliminados y no han expirado (si aplica)
+     */
+    public List<Control> listValidControls() {
+        List<Control> validControls = SWBUtils.Collections.filterIterator(listControls(),
+                new GenericFilterRule<Control>() {
+                    @Override
+                    public boolean filter(Control c) {
+                        if (c == null) {
+                            return true;
+                        }
+                        return !c.isValid();
+                    }            
+                });
+        return validControls;
     }
     
     public Document getDom()
@@ -360,6 +398,7 @@ public class BSC extends org.semanticwb.bsc.base.BSCBase
 System.out.println("r.likelihood="+r.getFinAssessmentLikelihood());
                 e.setAttribute("likehood", Float.toString(r.getFinAssessmentLikelihood()));
                 e.setAttribute("impact", Integer.toString(r.getFinAssessmentImpactLevel()));
+                e.setAttribute("alignmentDescription", r.getSelectingAlignmentDescr() != null ? r.getSelectingAlignmentDescr().replaceAll("['\n]", "") : "");
                 e.appendChild(doc.createTextNode(r.getDisplayTitle(lang)==null
                         ? (r.getTitle()==null
                                 ? SWBUtils.TEXT.getLocaleString("locale_swbstrategy_util","lblUnknown", locale)
