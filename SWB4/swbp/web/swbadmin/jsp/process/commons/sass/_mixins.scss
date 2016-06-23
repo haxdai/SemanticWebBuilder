@@ -1,5 +1,15 @@
 /************************* MIXINS SASS *************************/
 
+@mixin floatButton ($btnsize, $zindex) {
+    position: absolute;
+    width: $btnsize;
+    height: $btnsize;
+    border: none;
+    border-radius: 50%;
+    z-index: $zindex;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+}
+
 /************************ Fuentes ************************/
 @mixin rippleEffect {
   background-image: radial-gradient(circle, $color-link-active 10%, $color-link 11%); /* Standard syntax */
