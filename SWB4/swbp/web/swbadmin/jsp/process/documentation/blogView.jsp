@@ -52,10 +52,8 @@ if (action != null && action.equals("viewPost")) {
         isTheAuthor = thread.getCreator().getURI().equals(user.getURI());
     }
     %>
-    <div class="row swbp-pad">
-        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-block swbp-btn-block" >Regresar al blog</a>
-        </div>
+    <div class="row no-margin swbp-button-ribbon text-right">
+        <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-swbp-action" >Regresar al blog</a>
     </div>
     <hr/>
     <div class="panel panel-default swbp-panel-blog">
@@ -204,15 +202,11 @@ if (action != null && action.equals("viewPost")) {
     }
 } else {
     %>
-    <div class="row swbp-pad">
+    <div class="row no-margin swbp-button-ribbon text-right">
         <%
         if (isforumAdmin || !onlyAdminCreate) {
             urlthread.setMode("addThread");
-            %>
-            <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-                <a href="<%= urlthread %>" class="btn btn-block swbp-btn-block">Agregar entrada</a>
-            </div>
-            <%
+            %><a href="<%= urlthread %>" class="btn btn-swbp-action">Agregar entrada</a><%
         }
         %>
     </div>
@@ -259,39 +253,34 @@ if (action != null && action.equals("viewPost")) {
                 String title = thread.getDisplayTitle(lang);
                 if (title == null) title = "--";
                 %>
-                <div class="panel panel-default swbp-panel-blog">
-                    <div class="panel-heading">
-                        <h2 class="panel-title"><%=title%></h2>
-                        <div class="row hidden-margin">
-                            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 property-user">
-                                Por <span><%=autor%></span> el <%=SWBUtils.TEXT.getStrDate(thread.getCreated(),lang, "dd/mm/yyyy - hh:mm:ss")%>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 text-center property fa fa-comment">
-                                <span><%=thread.getReplyCount()%></span> <span class="hidden-sm hidden-xs">comentarios</span>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-6 text-center property fa fa-eye">
-                                <span><%= thread.getViewCount() %></span> <span class="hidden-sm hidden-xs">vistas</span>
+                <div class="panel swbp-input-tray">
+                    <div class="panel-body">
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading"><%= title %></h4>
+                                <small><i><%=autor%></i> - <%=SWBUtils.TEXT.getStrDate(thread.getCreated(),lang, "dd/mm/yyyy - hh:mm:ss")%></small>
+                                <%
+                                if(showThreadBody) {
+                                    String body = SWBUtils.TEXT.replaceAll(thread.getBody(),"\n","<br>");
+                                    if (body.length() > 300) {
+                                        body = SWBUtils.TEXT.cropText(body, 600);
+                                    }
+                                    %>
+                                    <hr>
+                                    <p><%=body%></p>
+                                    <%
+                                }
+                                %>
+                                <p class="text-right">
+                                    <span class="fa fa-comment-o fa-fw"></span><%=thread.getReplyCount()%>
+                                    <span class="fa fa-eye fa-fw"></span><%= thread.getViewCount() %>
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <%
-                    if(showThreadBody) {
-                        %>
-                        <div class="panel-body">
-                            <%
-                            String body = SWBUtils.TEXT.replaceAll(thread.getBody(),"\n","<br>");
-                            if (body.length() > 300) {
-                                body = SWBUtils.TEXT.cropText(body, 600);
-                            }
-                            %>
-                            <p><%=body%></p>
-                        </div>
-                        <%
-                    }
-                    %>
                     <div class="panel-footer">
-                        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-panel-blog-button">
-                            <a class="btn btn-block" href="<%=url%>" role="button">Continuar leyendo</a>
+                        <div class="row no-margin">
+                            <a class="btn btn-default col-xs-12" href="<%=url%>" role="button">Seguir leyendo</a>
                         </div>
                     </div>
                 </div>
