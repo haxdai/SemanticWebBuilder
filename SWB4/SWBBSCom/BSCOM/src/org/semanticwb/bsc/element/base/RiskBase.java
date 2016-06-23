@@ -4,42 +4,51 @@ package org.semanticwb.bsc.element.base;
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente. 
    */
-public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.bsc.Recognizable,org.semanticwb.model.Referensable,org.semanticwb.bsc.ActionAssignable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Trashable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.bsc.Summarized,org.semanticwb.model.FilterableClass,org.semanticwb.model.Filterable,org.semanticwb.bsc.Attachmentable,org.semanticwb.bsc.DepartmentOrganizable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Searchable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
+public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement implements org.semanticwb.model.UserGroupRefable,org.semanticwb.bsc.InitiativeAssignable,org.semanticwb.bsc.Detailed,org.semanticwb.model.Descriptiveable,org.semanticwb.bsc.Recognizable,org.semanticwb.bsc.Help,org.semanticwb.model.Activeable,org.semanticwb.model.Filterable,org.semanticwb.model.Traceable,org.semanticwb.bsc.Summarized,org.semanticwb.model.RoleRefable,org.semanticwb.model.Trashable,org.semanticwb.model.Searchable,org.semanticwb.model.Referensable,org.semanticwb.model.FilterableClass,org.semanticwb.bsc.Attachmentable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.ActionAssignable,org.semanticwb.model.RuleRefable
 {
    /**
-   * Permite seleccionar una alineación. Los posibles valores son Estrategia, Objetivo y Meta
+   * Clase que define un factor de riesgo.
    */
-    public static final org.semanticwb.platform.SemanticProperty bsc_selectingAlignment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#selectingAlignment");
-   /**
-   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_finAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#finAssessmentLikelihood");
+    public static final org.semanticwb.platform.SemanticClass bsc_Factor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Factor");
+    public static final org.semanticwb.platform.SemanticProperty bsc_hasFactor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#hasFactor");
    /**
    * Define mediante una descripción la selección de alineación
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_selectingAlignmentDescr=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#selectingAlignmentDescr");
+   /**
+   * Elemento BSC(Entregable, Objetivo, Iniciativa o Indicador) relacionado a un riesgo
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_elementRelated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#elementRelated");
+   /**
+   * Permite seleccionar una alineación. Los posibles valores son Estrategia, Objetivo y Meta
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_selectingAlignment=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#selectingAlignment");
     public static final org.semanticwb.platform.SemanticClass bsc_BSCElement=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#BSCElement");
     public static final org.semanticwb.platform.SemanticProperty bsc_elementInstanceRelated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#elementInstanceRelated");
-   /**
-   * Define los posibles efectos del Riesgo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_possibleEffectsRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#possibleEffectsRisk");
-   /**
-   * Se evalúa en función de la magnitud de los efectos identificados y registrados en el apartado de, en caso de materializarse el Riesgo (10 al de mayor y 1 al de menor magnitud).
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_finAssessmentImpactLevel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#finAssessmentImpactLevel");
-   /**
-   * Se evalúa en función de la magnitud de los efectos identificados y registrados en el apartado de, en caso de materializarse el Riesgo (10 al de mayor y 1 al de menor magnitud).
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_iniAssessmentImpactLevel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#iniAssessmentImpactLevel");
    /**
    * Utilizado para relacionar el año de creación del riesgo
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_yearRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#yearRisk");
    /**
+   * Define los posibles efectos del Riesgo
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_possibleEffectsRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#possibleEffectsRisk");
+   /**
    * Define la clasificación de un Riesgo.
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_classificationRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#classificationRisk");
+   /**
+   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_finAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#finAssessmentLikelihood");
+   /**
+   * Se evalúa en función de la magnitud de los efectos identificados y registrados en el apartado de, en caso de materializarse el Riesgo (10 al de mayor y 1 al de menor magnitud).
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_finAssessmentImpactLevel=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#finAssessmentImpactLevel");
+   /**
+   * Son las opciones para administrar cada Riesgo identificado, basadas en su valoración respecto a controles que permiten tomar decisiones y determinar las acciones de control
+   */
+    public static final org.semanticwb.platform.SemanticProperty bsc_stratManageRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#stratManageRisk");
    /**
    * Un usuario es una persona que tiene relación con el portal a través de un método de acceso.
    */
@@ -49,34 +58,9 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_riskResponsible=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#riskResponsible");
    /**
-   * Son las opciones para administrar cada Riesgo identificado, basadas en su valoración respecto a controles que permiten tomar decisiones y determinar las acciones de control
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_stratManageRisk=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#stratManageRisk");
-   /**
    * Define si un riesgo es controlado suficientemente dependiendo si existen controles para cada factor y si cada uno de los Controles son Suficientes
    */
     public static final org.semanticwb.platform.SemanticProperty bsc_riskControlledSufficiently=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#riskControlledSufficiently");
-   /**
-   * Define el nivel de desición del Riesgo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_riskLeveldecision=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#riskLeveldecision");
-   /**
-   * En caso de que ninguna clasificación del Riesgo corresponda al Riesgo definido, este campo permite especifica otra clasficación mediante su descripción
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_classifRiskSpecifyOther=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#classifRiskSpecifyOther");
-   /**
-   * La escala de valor deberá relacionar con los factores de riesgos señalados. Los riesgos deben evaluarse en una escala de valor del 0.10 al 1.0
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_iniAssessmentLikelihood=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#iniAssessmentLikelihood");
-   /**
-   * Elemento BSC(Entregable, Objetivo, Iniciativa o Indicador) relacionado a un riesgo
-   */
-    public static final org.semanticwb.platform.SemanticProperty bsc_elementRelated=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#elementRelated");
-   /**
-   * Clase que define un factor de riesgo.
-   */
-    public static final org.semanticwb.platform.SemanticClass bsc_Factor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass("http://www.semanticwebbuilder.org/swb4/bsc#Factor");
-    public static final org.semanticwb.platform.SemanticProperty bsc_hasFactor=org.semanticwb.SWBPlatform.getSemanticMgr().getVocabulary().getSemanticProperty("http://www.semanticwebbuilder.org/swb4/bsc#hasFactor");
    /**
    * Define un riesgo que puede presentarse mediante un elemento del BSC: Objetivo, Entregable, Iniciativa o Indicador. Un riesgo tambien puede presentarse independientemente.
    */
@@ -156,75 +140,6 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
             return (getRisk(id, model)!=null);
         }
        /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined ModifiedBy
-       * @param value ModifiedBy of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByModifiedBy(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined ElementInstanceRelated
-       * @param value ElementInstanceRelated of the type org.semanticwb.bsc.element.BSCElement
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_elementInstanceRelated, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined ElementInstanceRelated
-       * @param value ElementInstanceRelated of the type org.semanticwb.bsc.element.BSCElement
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_elementInstanceRelated,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined RuleRef
-       * @param value RuleRef of the type org.semanticwb.model.RuleRef
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRuleRef(org.semanticwb.model.RuleRef value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
        * Gets all org.semanticwb.bsc.element.Risk with a determined UserGroupRef
        * @param value UserGroupRef of the type org.semanticwb.model.UserGroupRef
        * @param model Model of the org.semanticwb.bsc.element.Risk
@@ -245,121 +160,6 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
         public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByUserGroupRef(org.semanticwb.model.UserGroupRef value)
         {
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasUserGroupRef,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Initiative
-       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByInitiative(org.semanticwb.bsc.element.Initiative value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasInitiative, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Initiative
-       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByInitiative(org.semanticwb.bsc.element.Initiative value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasInitiative,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Attachments
-       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined RiskResponsible
-       * @param value RiskResponsible of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRiskResponsible(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_riskResponsible, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined RiskResponsible
-       * @param value RiskResponsible of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRiskResponsible(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_riskResponsible,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined Creator
-       * @param value Creator of the type org.semanticwb.model.User
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByCreator(org.semanticwb.model.User value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined MitigationAction
-       * @param value MitigationAction of the type org.semanticwb.bsc.tracing.MitigationAction
-       * @param model Model of the org.semanticwb.bsc.element.Risk
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByMitigationAction(org.semanticwb.bsc.tracing.MitigationAction value,org.semanticwb.model.SWBModel model)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasMitigationAction, value.getSemanticObject(),sclass));
-            return it;
-        }
-       /**
-       * Gets all org.semanticwb.bsc.element.Risk with a determined MitigationAction
-       * @param value MitigationAction of the type org.semanticwb.bsc.tracing.MitigationAction
-       * @return Iterator with all the org.semanticwb.bsc.element.Risk
-       */
-
-        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByMitigationAction(org.semanticwb.bsc.tracing.MitigationAction value)
-        {
-            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasMitigationAction,value.getSemanticObject(),sclass));
             return it;
         }
        /**
@@ -386,6 +186,121 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
             return it;
         }
        /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Initiative
+       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByInitiative(org.semanticwb.bsc.element.Initiative value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasInitiative, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Initiative
+       * @param value Initiative of the type org.semanticwb.bsc.element.Initiative
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByInitiative(org.semanticwb.bsc.element.Initiative value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasInitiative,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByModifiedBy(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined ModifiedBy
+       * @param value ModifiedBy of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByModifiedBy(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_modifiedBy,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByAttachments(org.semanticwb.bsc.catalogs.Attachment value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Attachments
+       * @param value Attachments of the type org.semanticwb.bsc.catalogs.Attachment
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByAttachments(org.semanticwb.bsc.catalogs.Attachment value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasAttachments,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByCreator(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_creator, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined Creator
+       * @param value Creator of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByCreator(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_creator,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined ElementInstanceRelated
+       * @param value ElementInstanceRelated of the type org.semanticwb.bsc.element.BSCElement
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_elementInstanceRelated, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined ElementInstanceRelated
+       * @param value ElementInstanceRelated of the type org.semanticwb.bsc.element.BSCElement
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_elementInstanceRelated,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
        * Gets all org.semanticwb.bsc.element.Risk with a determined RoleRef
        * @param value RoleRef of the type org.semanticwb.model.RoleRef
        * @param model Model of the org.semanticwb.bsc.element.Risk
@@ -408,6 +323,75 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
             org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRoleRef,value.getSemanticObject(),sclass));
             return it;
         }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined MitigationAction
+       * @param value MitigationAction of the type org.semanticwb.bsc.tracing.MitigationAction
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByMitigationAction(org.semanticwb.bsc.tracing.MitigationAction value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_hasMitigationAction, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined MitigationAction
+       * @param value MitigationAction of the type org.semanticwb.bsc.tracing.MitigationAction
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByMitigationAction(org.semanticwb.bsc.tracing.MitigationAction value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_hasMitigationAction,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRuleRef(org.semanticwb.model.RuleRef value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined RuleRef
+       * @param value RuleRef of the type org.semanticwb.model.RuleRef
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRuleRef(org.semanticwb.model.RuleRef value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(swb_hasRuleRef,value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined RiskResponsible
+       * @param value RiskResponsible of the type org.semanticwb.model.User
+       * @param model Model of the org.semanticwb.bsc.element.Risk
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRiskResponsible(org.semanticwb.model.User value,org.semanticwb.model.SWBModel model)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(model.getSemanticObject().getModel().listSubjectsByClass(bsc_riskResponsible, value.getSemanticObject(),sclass));
+            return it;
+        }
+       /**
+       * Gets all org.semanticwb.bsc.element.Risk with a determined RiskResponsible
+       * @param value RiskResponsible of the type org.semanticwb.model.User
+       * @return Iterator with all the org.semanticwb.bsc.element.Risk
+       */
+
+        public static java.util.Iterator<org.semanticwb.bsc.element.Risk> listRiskByRiskResponsible(org.semanticwb.model.User value)
+        {
+            org.semanticwb.model.GenericIterator<org.semanticwb.bsc.element.Risk> it=new org.semanticwb.model.GenericIterator(value.getSemanticObject().getModel().listSubjectsByClass(bsc_riskResponsible,value.getSemanticObject(),sclass));
+            return it;
+        }
     }
 
     public static RiskBase.ClassMgr getRiskClassMgr()
@@ -422,60 +406,6 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     public RiskBase(org.semanticwb.platform.SemanticObject base)
     {
         super(base);
-    }
-
-/**
-* Gets the SelectingAlignment property
-* @return String with the SelectingAlignment
-*/
-    public String getSelectingAlignment()
-    {
-        return getSemanticObject().getProperty(bsc_selectingAlignment);
-    }
-
-/**
-* Sets the SelectingAlignment property
-* @param value long with the SelectingAlignment
-*/
-    public void setSelectingAlignment(String value)
-    {
-        getSemanticObject().setProperty(bsc_selectingAlignment, value);
-    }
-
-/**
-* Gets the FinAssessmentLikelihood property
-* @return float with the FinAssessmentLikelihood
-*/
-    public float getFinAssessmentLikelihood()
-    {
-        return getSemanticObject().getFloatProperty(bsc_finAssessmentLikelihood);
-    }
-
-/**
-* Sets the FinAssessmentLikelihood property
-* @param value long with the FinAssessmentLikelihood
-*/
-    public void setFinAssessmentLikelihood(float value)
-    {
-        getSemanticObject().setFloatProperty(bsc_finAssessmentLikelihood, value);
-    }
-
-/**
-* Gets the SelectingAlignmentDescr property
-* @return String with the SelectingAlignmentDescr
-*/
-    public String getSelectingAlignmentDescr()
-    {
-        return getSemanticObject().getProperty(bsc_selectingAlignmentDescr);
-    }
-
-/**
-* Sets the SelectingAlignmentDescr property
-* @param value long with the SelectingAlignmentDescr
-*/
-    public void setSelectingAlignmentDescr(String value)
-    {
-        getSemanticObject().setProperty(bsc_selectingAlignmentDescr, value);
     }
 
 /**
@@ -498,114 +428,87 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
         getSemanticObject().setProperty(bsc_prefix, value,false);
     }
    /**
-   * Sets the value for the property ElementInstanceRelated
-   * @param value ElementInstanceRelated to set
+   * Gets all the org.semanticwb.bsc.tracing.Factor
+   * @return A GenericIterator with all the org.semanticwb.bsc.tracing.Factor
    */
 
-    public void setElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value)
+    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> listFactors()
     {
+        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor>(getSemanticObject().listObjectProperties(bsc_hasFactor));
+    }
+
+   /**
+   * Gets true if has a Factor
+   * @param value org.semanticwb.bsc.tracing.Factor to verify
+   * @return true if the org.semanticwb.bsc.tracing.Factor exists, false otherwise
+   */
+    public boolean hasFactor(org.semanticwb.bsc.tracing.Factor value)
+    {
+        boolean ret=false;
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(bsc_elementInstanceRelated, value.getSemanticObject());
-        }else
-        {
-            removeElementInstanceRelated();
+           ret=getSemanticObject().hasObjectProperty(bsc_hasFactor,value.getSemanticObject());
         }
+        return ret;
     }
    /**
-   * Remove the value for ElementInstanceRelated property
+   * Adds a Factor
+   * @param value org.semanticwb.bsc.tracing.Factor to add
    */
 
-    public void removeElementInstanceRelated()
+    public void addFactor(org.semanticwb.bsc.tracing.Factor value)
     {
-        getSemanticObject().removeProperty(bsc_elementInstanceRelated);
+        getSemanticObject().addObjectProperty(bsc_hasFactor, value.getSemanticObject());
+    }
+   /**
+   * Removes all the Factor
+   */
+
+    public void removeAllFactor()
+    {
+        getSemanticObject().removeProperty(bsc_hasFactor);
+    }
+   /**
+   * Removes a Factor
+   * @param value org.semanticwb.bsc.tracing.Factor to remove
+   */
+
+    public void removeFactor(org.semanticwb.bsc.tracing.Factor value)
+    {
+        getSemanticObject().removeObjectProperty(bsc_hasFactor,value.getSemanticObject());
     }
 
    /**
-   * Gets the ElementInstanceRelated
-   * @return a org.semanticwb.bsc.element.BSCElement
+   * Gets the Factor
+   * @return a org.semanticwb.bsc.tracing.Factor
    */
-    public org.semanticwb.bsc.element.BSCElement getElementInstanceRelated()
+    public org.semanticwb.bsc.tracing.Factor getFactor()
     {
-         org.semanticwb.bsc.element.BSCElement ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_elementInstanceRelated);
+         org.semanticwb.bsc.tracing.Factor ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasFactor);
          if(obj!=null)
          {
-             ret=(org.semanticwb.bsc.element.BSCElement)obj.createGenericInstance();
+             ret=(org.semanticwb.bsc.tracing.Factor)obj.createGenericInstance();
          }
          return ret;
     }
 
 /**
-* Gets the PossibleEffectsRisk property
-* @return String with the PossibleEffectsRisk
+* Gets the SelectingAlignmentDescr property
+* @return String with the SelectingAlignmentDescr
 */
-    public String getPossibleEffectsRisk()
+    public String getSelectingAlignmentDescr()
     {
-        return getSemanticObject().getProperty(bsc_possibleEffectsRisk);
+        return getSemanticObject().getProperty(bsc_selectingAlignmentDescr);
     }
 
 /**
-* Sets the PossibleEffectsRisk property
-* @param value long with the PossibleEffectsRisk
+* Sets the SelectingAlignmentDescr property
+* @param value long with the SelectingAlignmentDescr
 */
-    public void setPossibleEffectsRisk(String value)
+    public void setSelectingAlignmentDescr(String value)
     {
-        getSemanticObject().setProperty(bsc_possibleEffectsRisk, value);
-    }
-
-/**
-* Gets the FinAssessmentImpactLevel property
-* @return int with the FinAssessmentImpactLevel
-*/
-    public int getFinAssessmentImpactLevel()
-    {
-        return getSemanticObject().getIntProperty(bsc_finAssessmentImpactLevel);
-    }
-
-/**
-* Sets the FinAssessmentImpactLevel property
-* @param value long with the FinAssessmentImpactLevel
-*/
-    public void setFinAssessmentImpactLevel(int value)
-    {
-        getSemanticObject().setIntProperty(bsc_finAssessmentImpactLevel, value);
-    }
-
-/**
-* Gets the IniAssessmentImpactLevel property
-* @return int with the IniAssessmentImpactLevel
-*/
-    public int getIniAssessmentImpactLevel()
-    {
-        return getSemanticObject().getIntProperty(bsc_iniAssessmentImpactLevel);
-    }
-
-/**
-* Sets the IniAssessmentImpactLevel property
-* @param value long with the IniAssessmentImpactLevel
-*/
-    public void setIniAssessmentImpactLevel(int value)
-    {
-        getSemanticObject().setIntProperty(bsc_iniAssessmentImpactLevel, value);
-    }
-
-/**
-* Gets the YearRisk property
-* @return int with the YearRisk
-*/
-    public int getYearRisk()
-    {
-        return getSemanticObject().getIntProperty(bsc_yearRisk);
-    }
-
-/**
-* Sets the YearRisk property
-* @param value long with the YearRisk
-*/
-    public void setYearRisk(int value)
-    {
-        getSemanticObject().setIntProperty(bsc_yearRisk, value);
+        getSemanticObject().setProperty(bsc_selectingAlignmentDescr, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.element.Initiative
@@ -674,149 +577,77 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     }
 
 /**
-* Gets the ClassificationRisk property
-* @return String with the ClassificationRisk
+* Gets the ElementRelated property
+* @return String with the ElementRelated
 */
-    public String getClassificationRisk()
+    public String getElementRelated()
     {
-        return getSemanticObject().getProperty(bsc_classificationRisk);
+        return getSemanticObject().getProperty(bsc_elementRelated);
     }
 
 /**
-* Sets the ClassificationRisk property
-* @param value long with the ClassificationRisk
+* Sets the ElementRelated property
+* @param value long with the ElementRelated
 */
-    public void setClassificationRisk(String value)
+    public void setElementRelated(String value)
     {
-        getSemanticObject().setProperty(bsc_classificationRisk, value);
+        getSemanticObject().setProperty(bsc_elementRelated, value);
+    }
+
+/**
+* Gets the SelectingAlignment property
+* @return String with the SelectingAlignment
+*/
+    public String getSelectingAlignment()
+    {
+        return getSemanticObject().getProperty(bsc_selectingAlignment);
+    }
+
+/**
+* Sets the SelectingAlignment property
+* @param value long with the SelectingAlignment
+*/
+    public void setSelectingAlignment(String value)
+    {
+        getSemanticObject().setProperty(bsc_selectingAlignment, value);
     }
    /**
-   * Sets the value for the property RiskResponsible
-   * @param value RiskResponsible to set
+   * Sets the value for the property ElementInstanceRelated
+   * @param value ElementInstanceRelated to set
    */
 
-    public void setRiskResponsible(org.semanticwb.model.User value)
+    public void setElementInstanceRelated(org.semanticwb.bsc.element.BSCElement value)
     {
         if(value!=null)
         {
-            getSemanticObject().setObjectProperty(bsc_riskResponsible, value.getSemanticObject());
+            getSemanticObject().setObjectProperty(bsc_elementInstanceRelated, value.getSemanticObject());
         }else
         {
-            removeRiskResponsible();
+            removeElementInstanceRelated();
         }
     }
    /**
-   * Remove the value for RiskResponsible property
+   * Remove the value for ElementInstanceRelated property
    */
 
-    public void removeRiskResponsible()
+    public void removeElementInstanceRelated()
     {
-        getSemanticObject().removeProperty(bsc_riskResponsible);
+        getSemanticObject().removeProperty(bsc_elementInstanceRelated);
     }
 
    /**
-   * Gets the RiskResponsible
-   * @return a org.semanticwb.model.User
+   * Gets the ElementInstanceRelated
+   * @return a org.semanticwb.bsc.element.BSCElement
    */
-    public org.semanticwb.model.User getRiskResponsible()
+    public org.semanticwb.bsc.element.BSCElement getElementInstanceRelated()
     {
-         org.semanticwb.model.User ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_riskResponsible);
+         org.semanticwb.bsc.element.BSCElement ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_elementInstanceRelated);
          if(obj!=null)
          {
-             ret=(org.semanticwb.model.User)obj.createGenericInstance();
+             ret=(org.semanticwb.bsc.element.BSCElement)obj.createGenericInstance();
          }
          return ret;
-    }
-
-/**
-* Gets the StratManageRisk property
-* @return String with the StratManageRisk
-*/
-    public String getStratManageRisk()
-    {
-        return getSemanticObject().getProperty(bsc_stratManageRisk);
-    }
-
-/**
-* Sets the StratManageRisk property
-* @param value long with the StratManageRisk
-*/
-    public void setStratManageRisk(String value)
-    {
-        getSemanticObject().setProperty(bsc_stratManageRisk, value);
-    }
-
-/**
-* Gets the Area property
-* @return String with the Area
-*/
-    public String getArea()
-    {
-        return getSemanticObject().getProperty(bsc_area);
-    }
-
-/**
-* Sets the Area property
-* @param value long with the Area
-*/
-    public void setArea(String value)
-    {
-        getSemanticObject().setProperty(bsc_area, value);
-    }
-
-/**
-* Gets the RiskControlledSufficiently property
-* @return String with the RiskControlledSufficiently
-*/
-    public String getRiskControlledSufficiently()
-    {
-        return getSemanticObject().getProperty(bsc_riskControlledSufficiently);
-    }
-
-/**
-* Sets the RiskControlledSufficiently property
-* @param value long with the RiskControlledSufficiently
-*/
-    public void setRiskControlledSufficiently(String value)
-    {
-        getSemanticObject().setProperty(bsc_riskControlledSufficiently, value);
-    }
-
-/**
-* Gets the RiskLeveldecision property
-* @return String with the RiskLeveldecision
-*/
-    public String getRiskLeveldecision()
-    {
-        return getSemanticObject().getProperty(bsc_riskLeveldecision);
-    }
-
-/**
-* Sets the RiskLeveldecision property
-* @param value long with the RiskLeveldecision
-*/
-    public void setRiskLeveldecision(String value)
-    {
-        getSemanticObject().setProperty(bsc_riskLeveldecision, value);
-    }
-
-/**
-* Gets the ClassifRiskSpecifyOther property
-* @return String with the ClassifRiskSpecifyOther
-*/
-    public String getClassifRiskSpecifyOther()
-    {
-        return getSemanticObject().getProperty(bsc_classifRiskSpecifyOther);
-    }
-
-/**
-* Sets the ClassifRiskSpecifyOther property
-* @param value long with the ClassifRiskSpecifyOther
-*/
-    public void setClassifRiskSpecifyOther(String value)
-    {
-        getSemanticObject().setProperty(bsc_classifRiskSpecifyOther, value);
     }
    /**
    * Gets all the org.semanticwb.bsc.tracing.MitigationAction
@@ -885,104 +716,167 @@ public abstract class RiskBase extends org.semanticwb.bsc.element.BSCElement imp
     }
 
 /**
-* Gets the IniAssessmentLikelihood property
-* @return float with the IniAssessmentLikelihood
+* Gets the YearRisk property
+* @return int with the YearRisk
 */
-    public float getIniAssessmentLikelihood()
+    public int getYearRisk()
     {
-        return getSemanticObject().getFloatProperty(bsc_iniAssessmentLikelihood);
+        return getSemanticObject().getIntProperty(bsc_yearRisk);
     }
 
 /**
-* Sets the IniAssessmentLikelihood property
-* @param value long with the IniAssessmentLikelihood
+* Sets the YearRisk property
+* @param value long with the YearRisk
 */
-    public void setIniAssessmentLikelihood(float value)
+    public void setYearRisk(int value)
     {
-        getSemanticObject().setFloatProperty(bsc_iniAssessmentLikelihood, value);
+        getSemanticObject().setIntProperty(bsc_yearRisk, value);
     }
 
 /**
-* Gets the ElementRelated property
-* @return String with the ElementRelated
+* Gets the PossibleEffectsRisk property
+* @return String with the PossibleEffectsRisk
 */
-    public String getElementRelated()
+    public String getPossibleEffectsRisk()
     {
-        return getSemanticObject().getProperty(bsc_elementRelated);
+        return getSemanticObject().getProperty(bsc_possibleEffectsRisk);
     }
 
 /**
-* Sets the ElementRelated property
-* @param value long with the ElementRelated
+* Sets the PossibleEffectsRisk property
+* @param value long with the PossibleEffectsRisk
 */
-    public void setElementRelated(String value)
+    public void setPossibleEffectsRisk(String value)
     {
-        getSemanticObject().setProperty(bsc_elementRelated, value);
+        getSemanticObject().setProperty(bsc_possibleEffectsRisk, value);
+    }
+
+/**
+* Gets the ClassificationRisk property
+* @return String with the ClassificationRisk
+*/
+    public String getClassificationRisk()
+    {
+        return getSemanticObject().getProperty(bsc_classificationRisk);
+    }
+
+/**
+* Sets the ClassificationRisk property
+* @param value long with the ClassificationRisk
+*/
+    public void setClassificationRisk(String value)
+    {
+        getSemanticObject().setProperty(bsc_classificationRisk, value);
+    }
+
+/**
+* Gets the FinAssessmentLikelihood property
+* @return float with the FinAssessmentLikelihood
+*/
+    public float getFinAssessmentLikelihood()
+    {
+        return getSemanticObject().getFloatProperty(bsc_finAssessmentLikelihood);
+    }
+
+/**
+* Sets the FinAssessmentLikelihood property
+* @param value long with the FinAssessmentLikelihood
+*/
+    public void setFinAssessmentLikelihood(float value)
+    {
+        getSemanticObject().setFloatProperty(bsc_finAssessmentLikelihood, value);
+    }
+
+/**
+* Gets the FinAssessmentImpactLevel property
+* @return int with the FinAssessmentImpactLevel
+*/
+    public int getFinAssessmentImpactLevel()
+    {
+        return getSemanticObject().getIntProperty(bsc_finAssessmentImpactLevel);
+    }
+
+/**
+* Sets the FinAssessmentImpactLevel property
+* @param value long with the FinAssessmentImpactLevel
+*/
+    public void setFinAssessmentImpactLevel(int value)
+    {
+        getSemanticObject().setIntProperty(bsc_finAssessmentImpactLevel, value);
+    }
+
+/**
+* Gets the StratManageRisk property
+* @return String with the StratManageRisk
+*/
+    public String getStratManageRisk()
+    {
+        return getSemanticObject().getProperty(bsc_stratManageRisk);
+    }
+
+/**
+* Sets the StratManageRisk property
+* @param value long with the StratManageRisk
+*/
+    public void setStratManageRisk(String value)
+    {
+        getSemanticObject().setProperty(bsc_stratManageRisk, value);
     }
    /**
-   * Gets all the org.semanticwb.bsc.tracing.Factor
-   * @return A GenericIterator with all the org.semanticwb.bsc.tracing.Factor
+   * Sets the value for the property RiskResponsible
+   * @param value RiskResponsible to set
    */
 
-    public org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor> listFactors()
+    public void setRiskResponsible(org.semanticwb.model.User value)
     {
-        return new org.semanticwb.model.GenericIterator<org.semanticwb.bsc.tracing.Factor>(getSemanticObject().listObjectProperties(bsc_hasFactor));
-    }
-
-   /**
-   * Gets true if has a Factor
-   * @param value org.semanticwb.bsc.tracing.Factor to verify
-   * @return true if the org.semanticwb.bsc.tracing.Factor exists, false otherwise
-   */
-    public boolean hasFactor(org.semanticwb.bsc.tracing.Factor value)
-    {
-        boolean ret=false;
         if(value!=null)
         {
-           ret=getSemanticObject().hasObjectProperty(bsc_hasFactor,value.getSemanticObject());
+            getSemanticObject().setObjectProperty(bsc_riskResponsible, value.getSemanticObject());
+        }else
+        {
+            removeRiskResponsible();
         }
-        return ret;
     }
    /**
-   * Adds a Factor
-   * @param value org.semanticwb.bsc.tracing.Factor to add
+   * Remove the value for RiskResponsible property
    */
 
-    public void addFactor(org.semanticwb.bsc.tracing.Factor value)
+    public void removeRiskResponsible()
     {
-        getSemanticObject().addObjectProperty(bsc_hasFactor, value.getSemanticObject());
-    }
-   /**
-   * Removes all the Factor
-   */
-
-    public void removeAllFactor()
-    {
-        getSemanticObject().removeProperty(bsc_hasFactor);
-    }
-   /**
-   * Removes a Factor
-   * @param value org.semanticwb.bsc.tracing.Factor to remove
-   */
-
-    public void removeFactor(org.semanticwb.bsc.tracing.Factor value)
-    {
-        getSemanticObject().removeObjectProperty(bsc_hasFactor,value.getSemanticObject());
+        getSemanticObject().removeProperty(bsc_riskResponsible);
     }
 
    /**
-   * Gets the Factor
-   * @return a org.semanticwb.bsc.tracing.Factor
+   * Gets the RiskResponsible
+   * @return a org.semanticwb.model.User
    */
-    public org.semanticwb.bsc.tracing.Factor getFactor()
+    public org.semanticwb.model.User getRiskResponsible()
     {
-         org.semanticwb.bsc.tracing.Factor ret=null;
-         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_hasFactor);
+         org.semanticwb.model.User ret=null;
+         org.semanticwb.platform.SemanticObject obj=getSemanticObject().getObjectProperty(bsc_riskResponsible);
          if(obj!=null)
          {
-             ret=(org.semanticwb.bsc.tracing.Factor)obj.createGenericInstance();
+             ret=(org.semanticwb.model.User)obj.createGenericInstance();
          }
          return ret;
+    }
+
+/**
+* Gets the RiskControlledSufficiently property
+* @return String with the RiskControlledSufficiently
+*/
+    public String getRiskControlledSufficiently()
+    {
+        return getSemanticObject().getProperty(bsc_riskControlledSufficiently);
+    }
+
+/**
+* Sets the RiskControlledSufficiently property
+* @param value long with the RiskControlledSufficiently
+*/
+    public void setRiskControlledSufficiently(String value)
+    {
+        getSemanticObject().setProperty(bsc_riskControlledSufficiently, value);
     }
 
    /**
