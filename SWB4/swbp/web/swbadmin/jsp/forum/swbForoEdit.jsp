@@ -77,7 +77,7 @@
                 <div class="form-group">
                     <label for="" class="col-sm-3 control-label"><%="Captcha *:"%></label>
                     <div class="col-sm-8">
-                        <img class="img-responsive" src="<%= SWBPlatform.getContextPath() + "/swbadmin/jsp/securecode.jsp" %>" id="imgseccode" width="155" height="65"/>
+                        <img src="<%= SWBPlatform.getContextPath() + "/swbadmin/jsp/securecode.jsp" %>" id="imgseccode" width="155" height="65"/>
                         <input type="text" name="cmnt_seccode" class="form-control" required/>
                     </div>
                 </div>
