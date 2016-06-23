@@ -208,10 +208,14 @@ public class ProcessFileRepository extends GenericResource {
         }
         
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        //System.out.println("Nivel de permisos: "+getLevelUser(paramRequest.getUser()));
         try {
+            int luser = getLevelUser(paramRequest.getUser());
             request.setAttribute("paramRequest", paramRequest);
-            request.setAttribute("files", listFiles(request, paramRequest));
-            request.setAttribute("luser", getLevelUser(paramRequest.getUser()));
+            if (luser > 0) {
+                request.setAttribute("files", listFiles(request, paramRequest));
+            }
+            request.setAttribute("luser", luser);
             request.setAttribute("path", folderPath);
             rd.include(request, response);
         } catch (Exception ex) {
@@ -410,96 +414,46 @@ public class ProcessFileRepository extends GenericResource {
      * @return Entero que representa el nivel de permisos del usuario.
      */
     public int getLevelUser(User user) {
-        int level = 0;
-
-        if (null == user) {
-            return level;
-        }
-
+        if (null == user) return 0;
+        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         Resource base = getResourceBase();
 
-        String uriView = base.getAttribute(LVL_VIEW, "0");
-        String uriModify = base.getAttribute(LVL_MODIFY, "0");
-        String uriAdmin = base.getAttribute(LVL_ADMIN, "0");
-
-        SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         GenericObject gobj = null;
-        try {
-            gobj = ont.getGenericObject(uriAdmin);
-        } catch (Exception e) {
-            //log.error("Errror getLevelUser()",e);
-        }
-
         UserGroup ugrp = null;
         Role urole = null;
-
-        if (!uriAdmin.equals("0")) {
-            if (gobj != null) {
-                if (gobj instanceof UserGroup) {
-                    ugrp = (UserGroup) gobj;
-                    if (user.hasUserGroup(ugrp)) {
-                        level = 3;
-                    }
-                } else if (gobj instanceof Role) {
-                    urole = (Role) gobj;
-                    if (user.hasRole(urole)) {
-                        level = 3;
-                    }
-                }
-            } else {
-                level = 3;
-            }
-        } else {
-            level = 3;
-        }
-
-        if (level == 0) {
-            if (!uriModify.equals("0")) {
-                gobj = ont.getGenericObject(uriModify);
-                if (gobj != null) {
-                    if (gobj instanceof UserGroup) {
-                        ugrp = (UserGroup) gobj;
-                        if (user.hasUserGroup(ugrp)) {
-                            level = 2;
-                        }
-                    } else if (gobj instanceof Role) {
-                        urole = (Role) gobj;
-                        if (user.hasRole(urole)) {
-                            level = 2;
-                        }
-                    }
-                } else {
-                    level = 2;
-                }
-            } else {
-                level = 2;
-            }
-        }
-
-        if (level == 0) {
-            if (!uriView.equals("0")) {
-                gobj = ont.getGenericObject(uriView);
-                if (gobj != null) {
-                    if (gobj instanceof UserGroup) {
-                        ugrp = (UserGroup) gobj;
-                        if (user.hasUserGroup(ugrp)) {
-                            level = 1;
-                        }
-                    } else if (gobj instanceof Role) {
-                        urole = (Role) gobj;
-                        if (user.hasRole(urole)) {
-                            level = 1;
-                        }
-                    }
-                } else {
-                    level = 1;
-                }
-            } else {
-                level = 1;
-            }
-        }
-
-        return level;
+        
+        gobj = ont.getGenericObject(base.getAttribute(LVL_ADMIN));
+        if (null != gobj && gobj instanceof UserGroup) ugrp = (UserGroup)gobj;
+        if (null != gobj && gobj instanceof Role) urole = (Role)gobj;
+        
+        //Si no hay rol o grupo para administrar, todos pueden administrar (nivel 3)
+        if (null == ugrp && null == urole) return 3;
+        //Revisar permisos del usuario
+        if (user.hasUserGroup(ugrp) || user.hasRole(urole)) return 3;
+        
+        //El usuario no puede administrar, revisar si puede modificar
+        ugrp = null; urole = null;
+        gobj = ont.getGenericObject(base.getAttribute(LVL_MODIFY));
+        if (null != gobj && gobj instanceof UserGroup) ugrp = (UserGroup)gobj;
+        if (null != gobj && gobj instanceof Role) urole = (Role)gobj;
+        
+        //Si no hay rol o grupo para modificar, todos pueden modificar (nivel 2)
+        if (null == ugrp && null == urole) return 2;
+        //Revisar permisos del usuario
+        if (user.hasUserGroup(ugrp) || user.hasRole(urole)) return 2;
+        
+        //El usuario no puede modificar, revisar si puede ver
+        ugrp = null; urole = null;
+        gobj = ont.getGenericObject(base.getAttribute(LVL_VIEW));
+        if (null != gobj && gobj instanceof UserGroup) ugrp = (UserGroup)gobj;
+        if (null != gobj && gobj instanceof Role) urole = (Role)gobj;
+        
+        //Si no hay rol o grupo para ver, todos pueden ver (nivel 1)
+        if (null == ugrp && null == urole) return 1;
+        //Revisar permisos del usuario
+        if (user.hasUserGroup(ugrp) || user.hasRole(urole)) return 1;
+        
+        return 0; //Sin permisos
     }
 
     @Override
