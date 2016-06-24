@@ -35,7 +35,6 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
      * Realiza operaciones de registro de eventos en bit&cora
      */
     private static final Logger log = SWBUtils.getLogger(Ordinal.class);
-
     /**
      * La constante Mode_VIEW.
      */
@@ -289,12 +288,18 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 toReturn.append("\n        return true;");
                 toReturn.append("\n    }");
 
-                toReturn.append("\n    function showDialog" + valueStr + "(url, title) {");
+                toReturn.append("\n    function showDialog"
+                        + valueStr
+                        + "(url, title) {");
                 toReturn.append("\n         dojo.xhrGet({");
                 toReturn.append("\n             url: url,");
                 toReturn.append("\n             load: function(response, ioArgs) {");
-                toReturn.append("\n                  dijit.byId('swbDialogImp" + valueStr + "').attr('content', response);");
-                toReturn.append("\n                  dijit.byId('swbDialog" + valueStr + "').show();");
+                toReturn.append("\n                  dijit.byId('swbDialogImp"
+                        + valueStr
+                        + "').attr('content', response);");
+                toReturn.append("\n                  dijit.byId('swbDialog"
+                        + valueStr
+                        + "').show();");
                 toReturn.append("\n                  setDialogTitle(title);");
                 toReturn.append("\n                  return response;");
                 toReturn.append("\n             },");
@@ -312,11 +317,15 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 toReturn.append("\n</style>");
 
                 toReturn.append("\n<div dojoType=\"dijit.Dialog\" class=\"clsDialog col-lg-12 co-md-12 col-sm-12 col-xs-12 swb-ventana-dialogo \" ");//class=\"soria\"
-                toReturn.append("id=\"swbDialog" + valueStr + "\" title=\"Agregar\" >\n");
+                toReturn.append("id=\"swbDialog");
+                toReturn.append(valueStr);
+                toReturn.append("\" title=\"Agregar\" >\n");
                 toReturn.append("\n<div class=\"panelDialog panelDialog-default\">");
                 toReturn.append("\n<div class=\"swb-panel-cuerpo\">");
                 toReturn.append("  <div dojoType=\"dojox.layout.ContentPane\" class=\"soria\" ");
-                toReturn.append("id=\"swbDialogImp" + valueStr + "\" executeScripts=\"true\">\n");
+                toReturn.append("id=\"swbDialogImp");
+                toReturn.append(valueStr);
+                toReturn.append("\" executeScripts=\"true\">\n");
                 toReturn.append("    Cargando...\n");
                 toReturn.append("  </div>\n");
                 toReturn.append("  </div>\n");
@@ -324,7 +333,11 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 toReturn.append("</div>\n");
 
                 if ("true".equals(usrWithGrants)) {
-                    toReturn.append("<a href=\"#\" id=\"link" + valueStr + "\" class=\"swb-url-lista detalle-archivos\" onclick=\"showDialog" + valueStr + "('");
+                    toReturn.append("<a href=\"#\" id=\"link");
+                    toReturn.append(valueStr);
+                    toReturn.append("\" class=\"swb-url-lista detalle-archivos\" onclick=\"showDialog");
+                    toReturn.append(valueStr);
+                    toReturn.append("('");
                     toReturn.append(urlAddFE.setContentType("text/html; charset=UTF-8"));
                     toReturn.append("', '");
                     toReturn.append(nomClass);
@@ -335,7 +348,9 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                     toReturn.append("\n</a>");
                 }
                 toReturn.append("<br/>");
-                toReturn.append("\n<div class=\"table-responsive\" id=\"swbform" + valueStr + "\">");
+                toReturn.append("\n<div class=\"table-responsive\" id=\"swbform");
+                toReturn.append(valueStr);
+                toReturn.append("\">");
                 if (itAnalysis != null && itAnalysis.hasNext()) {
                     toReturn.append(listAnalysis(itAnalysis, suri, obj, prop, type,
                             mode, lang, usrWithGrants, valueStr, pc_a));
@@ -425,7 +440,9 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             toReturn.append("\n                     dijit.byId('swbDialogAnalysis').hide();");
             toReturn.append("\n                     processUrlAnalysis('");
             toReturn.append(urlFE.setContentType("text/html; charset=UTF-8"));
-            toReturn.append("', 'swbform" + valueStr + "');");
+            toReturn.append("', 'swbform");
+            toReturn.append(valueStr);
+            toReturn.append("');");
 //            toReturn.append("\n                     dijit.byId('swbDialog2Analysis').show();");
             toReturn.append("\n                 }");
         } else {
@@ -433,7 +450,9 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             toReturn.append("\n                     dijit.byId('swbDialogRecommendation').hide();");
             toReturn.append("\n                     processUrlRecommendation('");
             toReturn.append(urlFE.setContentType("text/html; charset=UTF-8"));
-            toReturn.append("', 'swbform" + valueStr + "');");
+            toReturn.append("', 'swbform");
+            toReturn.append(valueStr);
+            toReturn.append("');");
 //            toReturn.append("\n                      dijit.byId('swbDialog2Recommendation').show();");
             toReturn.append("\n                 }");
         }
@@ -513,7 +532,11 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             toReturn.append("</div>");
         }
         String objectId = Analysis.sclass.getClassCodeName() + "_" + "analysis";
-        toReturn.append("<input type=\"hidden\" name=\"" + objectId + "\" value=\"\" id=\"" + objectId + "\" >");//dojoType=\"dijit.form.Texbox\"
+        toReturn.append("<input type=\"hidden\" name=\"");
+        toReturn.append(objectId);
+        toReturn.append("\" value=\"\" id=\"");
+        toReturn.append(objectId);
+        toReturn.append("\" >");
         toReturn.append("<div>\n");
         toReturn.append("   <div>\n");
         toReturn.append("          <button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"pull-right swb-boton-enviar\" ");//btn btn-default pull-right swb-boton-enviar
@@ -593,7 +616,11 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             toReturn.append("</div>");
         }
         String objectId = Recommendation.sclass.getClassCodeName() + "_" + "recommendations";
-        toReturn.append("<input type=\"hidden\" name=\"" + objectId + "\" value=\"\" id=\"" + objectId + "\" >");//dojoType=\"dijit.form.Texbox\"
+        toReturn.append("<input type=\"hidden\" name=\"");
+        toReturn.append(objectId);
+        toReturn.append("\" value=\"\" id=\"");
+        toReturn.append(objectId);
+        toReturn.append("\" >");
 
         toReturn.append("<div>\n");
         toReturn.append("   <div>\n");
@@ -765,7 +792,11 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 toReturn.append("</div>");
             }
             String objectId = Analysis.sclass.getClassCodeName() + "_" + "analysis";
-            toReturn.append("<input type=\"hidden\" name=\"" + objectId + "\" value=\"\" id=\"" + objectId + "\" >");//dojoType=\"dijit.form.Texbox\"
+            toReturn.append("<input type=\"hidden\" name=\"");
+            toReturn.append(objectId);
+            toReturn.append("\" value=\"\" id=\"");
+            toReturn.append(objectId);
+            toReturn.append("\" >");
 
             toReturn.append("<div>\n");
             toReturn.append("   <div>\n");
@@ -853,7 +884,11 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 toReturn.append("</div>");
             }
             String objectId = Recommendation.sclass.getClassCodeName() + "_" + "recommendations";
-            toReturn.append("<input type=\"hidden\" name=\"" + objectId + "\" value=\"\" id=\"" + objectId + "\" >");//dojoType=\"dijit.form.Texbox\"
+            toReturn.append("<input type=\"hidden\" name=\"");
+            toReturn.append(objectId);
+            toReturn.append("\" value=\"\" id=\"");
+            toReturn.append(objectId);
+            toReturn.append("\" >");
 
             toReturn.append("<div>\n");
             toReturn.append("   <div>\n");
@@ -1110,7 +1145,9 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 urlRemove.setParameter("obj", suri);
                 urlRemove.setParameter("usrWithGrants", usrWithGrants);
                 toReturn.append("\n<td class=\"swb-td-accion\">");
-                toReturn.append("\n<a href=\"#linkRecommendation\" onclick=\"showDialog" + valueStr + "('");
+                toReturn.append("\n<a href=\"#linkRecommendation\" onclick=\"showDialog");
+                toReturn.append(valueStr);
+                toReturn.append("('");
                 toReturn.append(urlEdit.setContentType("text/html; charset=UTF-8"));
                 toReturn.append("', '");
                 toReturn.append(Recommendation.sclass.getDisplayName(lang));
@@ -1139,10 +1176,26 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
         String url2 = urlFE.setParameter("viewLessRec", "true").setContentType("text/html; charset=UTF-8").toString();
         toReturn.append("<ul class=\"list-inline\">");
         if ((pageCurrent / 3) > 1) {
-            toReturn.append("<li><a href=\"#linkRecommendation\" onclick=\"javascript:processUrlRecommendation('" + url2 + "','swbform" + valueStr + "')\" title=\"" + getLocaleString("viewLess", lang) + "\">" + getLocaleString("viewLess", lang) + "</a></li>");
+            toReturn.append("<li><a href=\"#linkRecommendation\" onclick=\"javascript:processUrlRecommendation('");
+            toReturn.append(url2);
+            toReturn.append("','swbform");
+            toReturn.append(valueStr);
+            toReturn.append("')\" title=\"");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("</a></li>");
         }
         if (setRecommendations.size() > pageCurrent) {
-            toReturn.append("<li><a href=\"#linkRecommendation\" onclick=\"javascript:processUrlRecommendation('" + url + "','swbform" + valueStr + "')\" title=\"" + getLocaleString("viewMore", lang) + "\">" + getLocaleString("viewMore", lang) + "</a></li>");
+            toReturn.append("<li><a href=\"#linkRecommendation\" onclick=\"javascript:processUrlRecommendation('");
+            toReturn.append(url);
+            toReturn.append("','swbform");
+            toReturn.append(valueStr);
+            toReturn.append("')\" title=\"");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("</a></li>");
         }
         toReturn.append("</ul>");
         return toReturn.toString();
@@ -1210,7 +1263,9 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
                 urlRemove.setParameter("obj", suri);
                 urlRemove.setParameter("usrWithGrants", usrWithGrants);
                 toReturn.append("\n<td class=\"swb-td-accion\">");
-                toReturn.append("\n<a href=\"#linkAnalysis\" onclick=\"showDialog" + valueStr + "('");
+                toReturn.append("\n<a href=\"#linkAnalysis\" onclick=\"showDialog");
+                toReturn.append(valueStr);
+                toReturn.append("('");
                 toReturn.append(urlEdit.setContentType("text/html; charset=UTF-8"));
                 toReturn.append("', '");
                 toReturn.append(Analysis.sclass.getDisplayName(lang));
@@ -1239,11 +1294,27 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
         String url2 = urlFE.setParameter("viewLessAn", "true").setContentType("text/html; charset=UTF-8").toString();
         toReturn.append("<ul class=\"list-inline\">");
         if ((pageCurrent / 3) > 1) {
-            toReturn.append("<li><a href=\"#linkAnalysis\" onclick=\"javascript:processUrlAnalysis('" + url2 + "','swbform" + valueStr + "')\" title=\"" + getLocaleString("viewLess", lang) + "\">" + getLocaleString("viewLess", lang) + "</a></li>");
+            toReturn.append("<li><a href=\"#linkAnalysis\" onclick=\"javascript:processUrlAnalysis('");
+            toReturn.append(url2);
+            toReturn.append("','swbform");
+            toReturn.append(valueStr);
+            toReturn.append("')\" title=\"");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("</a></li>");
         }
 
         if (setAnalysis.size() > pageCurrent) {
-            toReturn.append("<li><a href=\"#linkAnalysis\" onclick=\"javascript:processUrlAnalysis('" + url + "','swbform" + valueStr + "')\" title=\"" + getLocaleString("viewMore", lang) + "\">" + getLocaleString("viewMore", lang) + "</a></li>");
+            toReturn.append("<li><a href=\"#linkAnalysis\" onclick=\"javascript:processUrlAnalysis('");
+            toReturn.append(url);
+            toReturn.append("','swbform");
+            toReturn.append(valueStr);
+            toReturn.append("')\" title=\"");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("</a></li>");
         }
         toReturn.append("</ul>");
 
