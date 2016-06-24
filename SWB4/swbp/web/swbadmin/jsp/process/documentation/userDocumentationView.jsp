@@ -80,7 +80,7 @@
             <link rel="stylesheet" href="/swbadmin/jsp/process/modeler/images/modelerFrame.css" />
             <div class="panel panel-default swbp-panel-head">
                 <div class="panel-heading text-center"><%=process.getTitle()%> (<%= actualVersion.getVersionValue() %>)
-                    <div class="pull-right">
+                    <div class="pull-right hidden-print">
                         <a class="accordion-toggle fa fa-bars fa-lg" data-toggle="collapse" data-parent="#UniqueName" href="#SWBP-MENU-PROCESO"></a>  
                     </div>
                 </div>
