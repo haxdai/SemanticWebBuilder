@@ -1354,7 +1354,7 @@ ul#relatedTab {
     }    
 }
 /******************** BLOG ********************/
-.swbp-panel-blog{
+/*.swbp-panel-blog{
     @include panelCollaboration;
 
     h2{
@@ -1408,7 +1408,7 @@ ul#relatedTab {
         border-top: solid 1px $color-border-main;
         border-radius: 0px;
     }
-}
+}*/
 
 .swbp-panel-blog-button{
     padding: 0px;
@@ -1444,28 +1444,6 @@ ul#relatedTab {
                 border: solid 1px $color-border-main;
             }        
     }    
-}
-
-.swbp-blog-post-comment{
-    padding: 16px;
-    @include panelContainer;
-
-    form{
-        
-        .form-group{
-            margin-bottom: 16px;
-        }   
-        
-        label {
-            margin-bottom: 0px;
-
-            h6{
-                padding: 9px 0px;
-                margin: 0px 0px 7px;
-            }    
-        }        
-    }
-    
 }
 
 /*textarea.swbp-form-control{
