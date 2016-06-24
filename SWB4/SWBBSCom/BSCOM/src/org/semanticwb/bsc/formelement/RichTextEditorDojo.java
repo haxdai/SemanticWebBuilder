@@ -14,7 +14,7 @@ public class RichTextEditorDojo extends org.semanticwb.bsc.formelement.base.Rich
     /**
      * Realiza operaciones de registro de eventos en bit&cora
      */
-    private static final Logger log = SWBUtils.getLogger(Ordinal.class);
+    private static Logger log = SWBUtils.getLogger(Ordinal.class);
 
     public RichTextEditorDojo(org.semanticwb.platform.SemanticObject base) {
         super(base);
@@ -81,9 +81,7 @@ public class RichTextEditorDojo extends org.semanticwb.bsc.formelement.base.Rich
             viewString.append("        height: \"100%\",\n");
             viewString.append("extraPlugins:[ 'foreColor', 'hiliteColor'],\n"); //, Revisar funcionamiento: 'PasteFromWord'
             viewString.append("        onChange: function(value) {\n");
-            viewString.append("          document.getElementById('");
-            viewString.append(objectId);
-            viewString.append("').value=arguments[0];");
+            viewString.append("          document.getElementById('" + objectId + "').value=arguments[0];");
             viewString.append("        }\n");
 
             viewString.append("      }, 'eb_");
@@ -92,13 +90,9 @@ public class RichTextEditorDojo extends org.semanticwb.bsc.formelement.base.Rich
             viewString.append("      iledit_");
             viewString.append(objectId);
             viewString.append(".startup();\n");
-
-            viewString.append("          document.getElementById('");
-            viewString.append(objectId);
-            viewString.append("').value='");
-            viewString.append(value);
-            viewString.append("';");
-
+            viewString.append("          var data = '" + value.replaceAll("\\n", "") + "';");
+            viewString.append("          document.getElementById('" + objectId + "').value=data;");
+            
             viewString.append("    });\n ");
             viewString.append("-->\n");
             viewString.append("</script>\n");
