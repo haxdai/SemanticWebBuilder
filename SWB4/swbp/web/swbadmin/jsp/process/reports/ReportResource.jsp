@@ -19,21 +19,12 @@
 <%
     SWBParamRequest paramRequest = (SWBParamRequest) request.getAttribute("paramRequest");
     SWBResourceURL url = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT);
-    //SWBResourceURL urlViewReport = paramRequest.getRenderUrl();
-    //boolean isSaveOnSystem = Boolean.parseBoolean(request.getAttribute("isSaveOnSystem").toString());
     SWBResourceURL urlAction = paramRequest.getActionUrl();
-    //Integer pageElements = Integer.parseInt(request.getAttribute("pageElements").toString());
-    //Integer modeExport = Integer.parseInt(request.getAttribute("modeExport").toString());
     Iterator<Report> report = Report.ClassMgr.listReports(paramRequest.getWebPage().getWebSite());
     SWBResourceURL urlDialog = paramRequest.getRenderUrl().setMode("dialog").setCallMethod(SWBResourceURL.Call_DIRECT);
-    //WebPage wpage = paramRequest.getWebPage();
-    //SWBResourceURL URSUrl = paramRequest.getRenderUrl().setMode("URSReport").setCallMethod(SWBResourceURL.Call_DIRECT);
-    //SWBResourceURL TRSUrl = paramRequest.getRenderUrl().setMode("TRSReport").setCallMethod(SWBResourceURL.Call_DIRECT);
     %>
-    <div class="row swb-pad">
-        <div class="col-lg-3 col-lg-offset-9 col-md-4 col-md-offset-8 col-sm-4 col-sm-offset-8 col-xs-12 swbp-raised-button">
-            <a class="btn btn-block swbp-btn-block" href="<%=url.setMode("add")%>" data-toggle="modal" data-target="#modalDialog"><%=paramRequest.getLocaleString("add")%></a>
-        </div>
+    <div class="row no-margin swbp-button-ribbon text-right">
+        <a class="btn btn-swbp-action" href="<%=url.setMode("add")%>" data-toggle="modal" data-target="#modalDialog"><%=paramRequest.getLocaleString("add")%></a>
     </div>
     <hr/>
     <%
@@ -48,11 +39,11 @@
                 %>
                 <div class="swbp-list-element">
                     <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 swbp-list-title">
-                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-10 swbp-list-text"><%= rp.getTitle() %></div>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 swbp-list-text"><%= rp.getTitle() %></div>
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 swbp-list-action">
-                        <a href="<%=urlDialog%>" class="btn btn-default col-xs-4 fa fa-download" data-toggle="modal" data-target="#modalDialog"></a>
-                        <a href="<%=url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", rp.getId())%>" class="btn btn-default col-xs-4 fa fa-wrench"></a>
+                        <a href="<%= rp.listColumnReports().hasNext() ? urlDialog : "#"%>" class="btn btn-default col-xs-4 fa fa-download" data-toggle="modal" data-target="#modalDialog" <%= rp.listColumnReports().hasNext() ? "" : "disabled" %>></a>
+                        <a href="<%= url.setMode(SWBResourceURL.Mode_EDIT).setParameter("idReport", rp.getId()) %>" class="btn btn-default col-xs-4 fa fa-pencil"></a>
                         <a href="<%=urlAction.setAction(SWBResourceURL.Action_REMOVE).setParameter("idReport", rp.getURI())%>" class="btn btn-default col-xs-4 fa fa-trash-o" onclick="if (!confirm('<%=paramRequest.getLocaleString("remove") + " " + paramRequest.getLocaleString("report")%>?'))return false;"></a>
                     </div>
                 </div>
