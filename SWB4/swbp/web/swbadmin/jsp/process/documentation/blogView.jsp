@@ -195,17 +195,18 @@ if (action != null && action.equals("viewPost")) {
         }
     }
 } else {
-    %>
-    <div class="row no-margin swbp-button-ribbon text-right">
-        <%
-        if (isforumAdmin || !onlyAdminCreate) {
-            urlthread.setMode("addThread");
-            %><a href="<%= urlthread %>" class="btn btn-swbp-action">Agregar entrada</a><%
-        }
+    if (isforumAdmin || !onlyAdminCreate) {
+        urlthread.setMode("addThread");
         %>
-    </div>
-    <hr>
-    <%
+        <div class="row no-margin swbp-button-ribbon text-right">        
+            <a href="<%= urlthread %>" class="btn btn-swbp-action">Agregar entrada</a>
+        </div>
+        <hr>
+        <%
+    } else {
+        %><br><%
+    }
+
     url.setMode(url.Mode_VIEW);
     url.setAction("viewPost");
     url.setParameter("addView", "1");
