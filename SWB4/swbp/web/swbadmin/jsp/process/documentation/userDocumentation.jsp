@@ -55,35 +55,35 @@ if (null == templatesPage) templatesPage = webpage;
 if (null == contentsPage) contentsPage = webpage;
 
 boolean isDocumenter = user.hasRole(docRole) || user.hasRole(adminRole);
-%>
-<div class="row no-margin swbp-button-ribbon text-right">
-    <%
-    if (isDocumenter) {
-        %>
+if (isDocumenter) {
+    %>
+    <div class="row no-margin swbp-button-ribbon text-right">
         <a href="<%= templatesPage.getUrl() %>?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= idpg %>" class="btn btn-swbp-action" title="<%=paramRequest.getLocaleString("lblAdminTemplates")%>">
             <%=paramRequest.getLocaleString("lblAdminTemplates")%>
         </a>
-        <%
-    }
-    %>
-</div>
-<hr/>
+    </div>
+    <hr/>
+    <%
+} else {
+    %><br><%
+}
+%>
+
 <ol class="breadcrumb swbp-breadcrumb">
     <li><a href="<%= paramRequest.getRenderUrl() %>"><span class="fa fa-file-text"></span></a></li>
     <%
     ArrayList<ProcessGroup> nPath = getNavPath(model, group1);
     if (!nPath.isEmpty()) {
         Collections.reverse(nPath);
-            for (ProcessGroup _pg : nPath) {
-                String cssClass = "";
-                if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
-                    cssClass = "active";
-                }
-                %>
-                <li <%= cssClass.isEmpty() ? "" : "class=\"active\""%>><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
-                <%
+        for (ProcessGroup _pg : nPath) {
+            String cssClass = "";
+            if (_pg.getURI().equals(idpg) || nPath.size() == 1) {
+                cssClass = "active";
             }
-
+            %>
+            <li <%= cssClass.isEmpty() ? "" : "class=\"active\""%>><a href="?<%= SWPUserDocumentationResource.PARAM_PROCESSGROUP %>=<%= _pg.getId() %>"><%= _pg.getTitle() %></a></li>
+            <%
+        }
     }
     %>
 </ol>
