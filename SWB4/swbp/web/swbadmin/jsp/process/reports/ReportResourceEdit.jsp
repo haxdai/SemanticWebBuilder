@@ -52,51 +52,37 @@
     if (null != report) {
         %>
         <script src="<%= SWBPlatform.getContextPath()%>/swbadmin/jsp/process/documentation/js/jquery.bootstrap-duallistbox.min.js"></script>
-        <div class="row swbp-pad">
-            <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 pull-right">
-                <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-block swbp-btn-block">Regresar</a>
-            </div>
+        <div class="row no-margin swbp-button-ribbon text-right">
+            <a href="<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>" class="btn btn-swbp-action">Regresar</a>
         </div>
         <hr/>
-        <div class="panel panel-default swbp-panel-head hidden-margin">
+        <div class="panel panel-default swbp-panel-head no-margin">
             <div class="panel-heading text-center"><%= obj.getTitle() %></div>
         </div>
-        <form action="<%= urlAction.setAction(SWBResourceURL.Action_EDIT) %>" methid="post" class="form-horizontal">
+        <form action="<%= urlAction.setAction(SWBResourceURL.Action_EDIT) %>" methid="post" class="form-horizontal swbp-form">
             <input type="hidden" name="idReport" value="<%= report.getId() %>" />
             <div class="panel-body swbp-panel-body-card">
                 <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%= paramRequest.getLocaleString("title") %> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                        <input type="text" name="title" id="title" class="form-control" value="<%= obj.getTitle() %>" required >
-                    </div>
+                    <label for=""><h5><%= paramRequest.getLocaleString("title") %> *</h5></label>
+                    <input type="text" name="title" id="title" class="form-control" value="<%= obj.getTitle() %>" required >
                 </div>
                 <div class="row form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("process")%> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
-                        <select class="form-control" name="processName">
-                            <%
-                                Iterator<Process> processes = SWBComparator.sortByDisplayName(Process.ClassMgr.listProcesses(paramRequest.getWebPage().getWebSite()), lang);
-                                while (processes.hasNext()) {
-                                    Process p = processes.next();
-                                    if (p.isValid() && user.haveAccess(p)) {
-                                        %><option value="<%= p.getURI() %>" <% if (obj.getProcessName().getURI().equals(p.getURI())) { %> selected <% } %>><%= p.getTitle() %></option><%
-                                    }
-                                }
-                            %>
-                        </select>
-                    </div>
+                    <label for=""><h5><%=paramRequest.getLocaleString("process")%> *</h5></label>
+                    <select class="form-control" name="processName">
+                        <%
+                        Iterator<Process> processes = SWBComparator.sortByDisplayName(Process.ClassMgr.listProcesses(paramRequest.getWebPage().getWebSite()), lang);
+                        while (processes.hasNext()) {
+                            Process p = processes.next();
+                            if (p.isValid() && user.haveAccess(p)) {
+                                %><option value="<%= p.getURI() %>" <% if (obj.getProcessName().getURI().equals(p.getURI())) { %> selected <% } %>><%= p.getTitle() %></option><%
+                            }
+                        }
+                        %>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%= paramRequest.getLocaleString("pagingSize") %></label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                        <input type="text" name="pagingSize" class="form-control" placeholder="<%=paramRequest.getLocaleString("pagingSize")%>" value="<%= obj.getPagingSize() %>"/>
-                    </div>
+                    <label for=""><h5><%= paramRequest.getLocaleString("pagingSize") %></h5></label>
+                    <input type="text" name="pagingSize" class="form-control" placeholder="<%=paramRequest.getLocaleString("pagingSize")%>" value="<%= obj.getPagingSize() %>"/>
                 </div>
                 <div class="form-group">
                     <label><h5>Columnas</h5></label>
@@ -142,18 +128,16 @@
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="col-lg-2 col-lg-offset-10 col-md-2 col-md-offset-10 col-sm-3 col-sm-offset-9 col-xs-6 swbp-panel-button">
-                    <button type="submit" class="btn btn-block">Guardar</button>
-                </div>
+            <div class="panel-footer text-right">
+                <button type="submit" class="btn btn-default"><span class="fa fa-save fa-fw"></span>Guardar</button>
             </div>
         </form>
         <%
         if (!conf.isEmpty()) {
             %>
-            <div class="panel panel-default swbp-panel-head hidden-margin">
+            <div class="panel panel-default swbp-panel-head no-margin">
                 <div class="panel-heading text-center">Configuración de columnas</div>
-                <form method="post" action="<%=urlAction.setAction("updateColumn")%>" class="form-horizontal">
+                <form method="post" action="<%=urlAction.setAction("updateColumn")%>" class="form-horizontal swbp-form">
                     <input type="hidden" name="idReport" value="<%= obj.getId() %>"/>
                     <div class="panel-body swbp-panel-body-card">
                         <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
@@ -204,10 +188,8 @@
                             </table>
                         </div>
                     </div>
-                    <div class="panel-footer swbp-mup">
-                        <div class="col-lg-2 col-lg-offset-10 col-md-2 col-md-offset-10 col-sm-3 col-sm-offset-9 col-xs-6 swbp-panel-button">
-                            <button type="submit" class="btn btn-block">Actualizar columnas</button>
-                        </div>
+                    <div class="panel-footer text-right">
+                        <button type="submit" class="btn btn-default">Actualizar columnas</button>
                     </div>
                 </form>
             </div>
