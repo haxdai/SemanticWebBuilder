@@ -61,8 +61,10 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
  *
  * @author jose.jimenez
  */
-public class RiskBoard extends GenericResource
-{
+public class RiskBoard extends GenericResource {
+    
+    
+    /** Realiza operaciones en la bit&aacute;cora de eventos */
     private static final Logger log = SWBUtils.getLogger(GenericSemResource.class);
 
     /**
