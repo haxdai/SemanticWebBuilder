@@ -1638,8 +1638,8 @@ public class RiskBoard extends GenericResource
                 formMgr.addProperty(Initiative.bsc_investmentAmount);
                 formMgr.addProperty(Initiative.bsc_percentageProgress);
                 formMgr.addProperty(Initiative.bsc_totalInvestment);
-                formMgr.addProperty(Initiative.bsc_hasAnalysis);
-                formMgr.addProperty(Initiative.bsc_hasRecommendation);
+//                formMgr.addProperty(Initiative.bsc_hasAnalysis);
+//                formMgr.addProperty(Initiative.bsc_hasRecommendation);
                 formMgr.addProperty(Initiative.bsc_actualEnd);
                 formMgr.addProperty(Initiative.bsc_actualStart);
                 formMgr.addProperty(Initiative.bsc_estimatedEnd);
