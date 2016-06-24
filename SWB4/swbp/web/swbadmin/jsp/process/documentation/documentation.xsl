@@ -26,14 +26,14 @@
             <xsl:when test="root/@export='true'"><!--output process title header-->
                 <div class="panel panel-default swbp-panel-head">
                     <div class="panel-heading text-center"><xsl:value-of select="root/@title"/>
-                        <div class="pull-right">
+                        <div class="pull-right hidden-print">
                             <a class="accordion-toggle fa fa-bars fa-lg" data-toggle="collapse" data-parent="#UniqueName" href="#SWBP-MENU-PROCESO"></a>  
                         </div>
                     </div>
                 </div>
             </xsl:when>
         </xsl:choose>
-        <div id="SWBP-MENU-PROCESO" class="panel-collapse collapse">
+        <div id="SWBP-MENU-PROCESO" class="panel-collapse collapse hidden-print">
             <div class="list-group">
                 <xsl:if test="root/model">
                     <a href="#swbp-modelo" class="list-group-item active">Modelo</a>
@@ -59,7 +59,7 @@
         <xsl:if test="root/model"><!-- add model section and diagram -->
             <h4 id="swbp-modelo">MODELO</h4>
             <hr/>
-            <div class="btn-toolbar" role="toolbar">
+            <div class="btn-toolbar hidden-print" role="toolbar">
                 <div class="btn-group swbp-toolbar-model">
                     <a href="#" class="btn btn-default swbp-button-tool" onclick="zoomin();return false;"><span class="fa fa-search-plus fa-lg"></span></a>
                     <a href="#" class="btn btn-default swbp-button-tool" onclick="zoomout();return false;"><span class="fa fa-search-minus fa-lg"></span></a>
