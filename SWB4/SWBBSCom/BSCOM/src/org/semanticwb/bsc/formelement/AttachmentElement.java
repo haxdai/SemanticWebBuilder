@@ -2,6 +2,8 @@ package org.semanticwb.bsc.formelement;
 
 import java.net.URLDecoder;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
@@ -31,7 +33,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
     /**
      * Realiza operaciones en la bitacora de eventos.
      */
-    private static Logger log = SWBUtils.getLogger(AttachmentElement.class);
+    private static final Logger log = SWBUtils.getLogger(AttachmentElement.class);
     /**
      * La constante Mode_VIEW.
      */
@@ -248,13 +250,13 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
             toReturn.append("</div>");
         }
         toReturn.append("<div>\n");
-        toReturn.append("   <div>\n");//pull-right
+        toReturn.append("   <div>\n");
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-enviar\" type=\"submit\" ");
         toReturn.append("name=\"enviar\" >");
         toReturn.append(getLocaleString("send", lang));
         toReturn.append("</button>");
         toReturn.append("</div>");
-        toReturn.append("   <div>\n");//pull-right
+        toReturn.append("   <div>\n");
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-cancelar\" ");
         toReturn.append("onclick=\"dijit.byId('swbDialog').hide()\">");
         toReturn.append(getLocaleString("cancel", lang));
@@ -300,7 +302,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
             Attachmentable element = null;
             if (semObj != null && semObj.createGenericInstance() instanceof Attachmentable) {
                 element = (Attachmentable) semObj.createGenericInstance();
-                Iterator<Attachment> itAttachments = element.listAttachmentses();
+                List litAttach = SWBUtils.Collections.copyIterator(element.listAttachmentses());
                 FormElementURL urlAddFE = getRenderURL(obj, prop, type, mode, lang);
                 urlAddFE.setParameter("modeTmp", Mode_ADD);
                 urlAddFE.setParameter("usrWithGrants", usrWithGrants);
@@ -308,6 +310,13 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 urlFE.setParameter("modeTmp", Mode_RELOAD);
                 urlFE.setParameter("suri", suri);
                 urlFE.setParameter("usrWithGrants", usrWithGrants);
+                int pageCurrent = 1;
+                int pc_att = pageCurrent * 3;
+                if (litAttach.size() > pc_att) {
+                    pageCurrent++;
+                }
+                request.getSession(true).setAttribute("pc_att", pageCurrent);
+
                 toReturn.append("\n<script type=\"text/javascript\">");
                 toReturn.append("\n  dojo.require(\"dijit.Dialog\");");
                 toReturn.append("\n  dojo.require(\"dijit.form.TextBox\");");
@@ -356,7 +365,6 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("\n                 processUrl('");
                 toReturn.append(urlFE.setContentType("text/html; charset=UTF-8"));
                 toReturn.append("', 'swbform');");
-                toReturn.append("\n                 dijit.byId('swbDialog2').show();");
                 toReturn.append("\n             },");
                 toReturn.append("\n             error: function(error) {");
                 toReturn.append("\n                 alert('Error: ', error);");
@@ -382,7 +390,6 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("\n               processUrl('");
                 toReturn.append(urlFE.setContentType("text/html; charset=UTF-8"));
                 toReturn.append("', 'swbform');");
-                toReturn.append("\n                 dijit.byId('swbDialog2').show();");
                 toReturn.append("\n             }");
                 toReturn.append("\n        },");
                 toReturn.append("\n        error: function(response)");
@@ -473,7 +480,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("</div>\n");
 
                 if ("true".equals(usrWithGrants)) {
-                    toReturn.append("<a href=\"#\" class=\"swb-url-lista detalle-archivos\" onclick=\"showDialog('");
+                    toReturn.append("<a href=\"#\" id=\"linkAttach\" class=\"swb-url-lista detalle-archivos\" onclick=\"showDialog('");
                     toReturn.append(urlAddFE.setContentType("text/html; charset=UTF-8"));
                     toReturn.append("', '");
                     toReturn.append(Attachment.sclass.getDisplayName(lang));
@@ -485,9 +492,9 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 }
                 toReturn.append("<br/>");
                 toReturn.append("\n<div class=\"table-responsive\" id=\"swbform\">");
-                if (itAttachments.hasNext()) {
-                    toReturn.append(listAttachment(itAttachments, suri, obj, prop, type,
-                            mode, lang, usrWithGrants));
+                if (!litAttach.isEmpty()) {
+                    toReturn.append(listAttachment(litAttach.iterator(), suri, obj, prop, type,
+                            mode, lang, usrWithGrants, pc_att));
                 }
                 toReturn.append("\n</div>");
             }
@@ -568,13 +575,13 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
         }
 
         toReturn.append("<div>\n");
-        toReturn.append("   <div>\n");//pull-right
+        toReturn.append("   <div>\n");
         toReturn.append("          <button dojoType=\"dijit.form.Button\" type=\"submit\" class=\"pull-right swb-boton-enviar\" ");//btn btn-default pull-right swb-boton-enviar
         toReturn.append("name=\"enviar\" >");
         toReturn.append(getLocaleString("send", lang));
         toReturn.append("</button>");
         toReturn.append("    </div>\n");
-        toReturn.append("   <div>\n");//pull-right
+        toReturn.append("   <div>\n");
         toReturn.append("          <button dojoType=\"dijit.form.Button\" class=\"pull-right swb-boton-cancelar\" ");
         toReturn.append("onclick=\"dijit.byId('swbDialog').hide()\">");
         toReturn.append(getLocaleString("cancel", lang));
@@ -613,14 +620,32 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
         String usrWithGrants = (String) request.getAttribute("usrWithGrants") == null
                 ? (String) request.getParameter("usrWithGrants")
                 : (String) request.getAttribute("usrWithGrants");
+        int pc_att = 0;
         if (suri != null) {
             SemanticObject semObj = SemanticObject.getSemanticObject(URLDecoder.decode(suri));
             Attachmentable element = null;
             if (semObj != null && semObj.createGenericInstance() instanceof Attachmentable) {
                 element = (Attachmentable) semObj.createGenericInstance();
-                Iterator<Attachment> itAttachments = element.listAttachmentses();
-                toReturn.append(listAttachment(itAttachments, suri, obj, prop, type, mode,
-                        lang, usrWithGrants));
+                List litAttach = SWBUtils.Collections.copyIterator(element.listAttachmentses());
+                String viewLess = (String) request.getParameter("viewLess");
+                int pageCurrent;
+                try {
+                    pageCurrent = (Integer) request.getSession(true).getAttribute("pc_att");
+                } catch (Exception e) {
+                    pageCurrent = 1;
+                }
+                if ((viewLess != null && viewLess.equals("true")
+                        || (!litAttach.isEmpty() && (litAttach.size() / 3) == 1
+                        && litAttach.size() % 3 == 0))) {
+                    pageCurrent = 1;
+                }
+                pc_att = pageCurrent * 3;
+                if (litAttach.size() > pc_att) {
+                    pageCurrent++;
+                }
+                request.getSession(true).setAttribute("pc_att", pageCurrent);
+                toReturn.append(listAttachment(litAttach.iterator(), suri, obj, prop, type, mode,
+                        lang, usrWithGrants, pc_att));
             }
         }
         return toReturn.toString();
@@ -647,12 +672,17 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
      */
     private String listAttachment(Iterator<Attachment> itAttachments, String suri,
             SemanticObject obj, SemanticProperty prop, String type, String mode, String lang,
-            String usrWithGrants) {
+            String usrWithGrants, int pageCurrent) {
         StringBuilder toReturn = new StringBuilder();
+        FormElementURL urlFE = getRenderURL(obj, prop, type, mode, lang);
+        urlFE.setParameter("modeTmp", Mode_RELOAD);
+        urlFE.setParameter("suri", suri);
+        urlFE.setParameter("usrWithGrants", usrWithGrants);
         toReturn.append("\n<table class=\"tabla-detalle table\">");
-        itAttachments = SWBComparator.sortByCreated(itAttachments, false);
+        Set setAttach = SWBComparator.sortByLastUpdateSet(itAttachments, false);
+        itAttachments = setAttach.iterator();
         toReturn.append("<tbody>");
-        while (itAttachments.hasNext()) {
+        for (int i = pageCurrent; i > 0 && itAttachments.hasNext(); i--) {
             Attachment attachment = itAttachments.next();
             toReturn.append("\n<tr>");
             toReturn.append("\n<td>");
@@ -679,11 +709,6 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 urlEdit.setParameter("svalAttach", attachment.getId());
                 urlEdit.setParameter("usrWithGrants", usrWithGrants);
 
-                FormElementURL urlFE = getRenderURL(obj, prop, type, mode, lang);
-                urlFE.setParameter("modeTmp", Mode_RELOAD);
-                urlFE.setParameter("suri", suri);
-                urlFE.setParameter("usrWithGrants", usrWithGrants);
-
                 FormElementURL urlRemove = getProcessURL(obj, prop);
                 urlRemove.setParameter("_action", Action_REMOVE);
                 urlRemove.setParameter("suriAttach", attachment.getURI());
@@ -698,7 +723,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
                 toReturn.append("');\">");
                 toReturn.append("<span class=\"glyphicon glyphicon-pencil\"></span>");
                 toReturn.append("\n</a>");
-                toReturn.append("\n<a href=\"#\" onclick=\"if(confirm(\'");
+                toReturn.append("\n<a href=\"#linkAttach\" onclick=\"if(confirm(\'");
                 toReturn.append("¿");
                 toReturn.append(getLocaleString("alertDeleteElement", lang));
                 toReturn.append(" \\'");
@@ -718,6 +743,26 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
         }
         toReturn.append("</tbody>");
         toReturn.append("\n</table>");
+        toReturn.append("<ul class=\"list-inline\">");
+        if ((pageCurrent / 3) > 1) {
+            toReturn.append("<li><a href=\"#linkAttach\" onclick=\"javascript:processUrl('");
+            toReturn.append(urlFE.setParameter("viewLess", "true").setContentType("text/html; charset=UTF-8"));
+            toReturn.append("','swbform')\" title=\"");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewLess", lang));
+            toReturn.append("</a></li>");
+        }
+        if (setAttach.size() > pageCurrent) {
+            toReturn.append("<li><a href=\"#linkAttach\" onclick=\"javascript:processUrl('");
+            toReturn.append(urlFE.setParameter("viewLess", "false").setContentType("text/html; charset=UTF-8"));
+            toReturn.append("','swbform')\" title=\"");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("\">");
+            toReturn.append(getLocaleString("viewMore", lang));
+            toReturn.append("</a></li>");
+        }
+        toReturn.append("</ul>");
         return toReturn.toString();
     }
 
@@ -743,8 +788,7 @@ public class AttachmentElement extends org.semanticwb.bsc.formelement.base.Attac
             SemanticProperty prop, String propName, String type, String mode, String lang) {
         StringBuilder html = new StringBuilder();
         Attachmentable element;
-        if(obj.getGenericInstance() instanceof Attachmentable)
-        {
+        if (obj.getGenericInstance() instanceof Attachmentable) {
             element = (Attachmentable) obj.getGenericInstance();
             Iterator<Attachment> itAttachments = element.listAttachmentses();
             html.append("<div class=\"table-responsive\">").append("\n");
