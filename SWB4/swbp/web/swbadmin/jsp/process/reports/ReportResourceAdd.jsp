@@ -25,53 +25,49 @@
     SWBResourceURL urlAction = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_ADD);
 %>
 <div class="modal-dialog">
-    <div class="modal-content swbp-modal">
+    <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title"><%= paramRequest.getLocaleString("add") %></h4>
+            <h5 class="modal-title"><%= paramRequest.getLocaleString("add") %></h5>
         </div>
-        <form id="addReportForm" action="<%=urlAction%>" method="post" class="form-horizontal">
+        <form id="addReportForm" action="<%=urlAction%>" method="post" class="form-horizontal swbp-form">
             <div class="modal-body">
                 <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%= paramRequest.getLocaleString("title") %> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
+                    <label for="" class="col-sm-3 control-label"><%= paramRequest.getLocaleString("title") %> *</label>
+                    <div class="col-sm-8">
                         <input type="text" name="title" id="title" class="form-control" required >
                     </div>
                 </div>
-                <div class="row form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-2 col-xs-12 swbp-modal-property">
-                        <label for=""><%=paramRequest.getLocaleString("process")%> *</label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-10 col-xs-12">
+                <div class="form-group">
+                    <label for="" class="col-sm-3 control-label"><%=paramRequest.getLocaleString("process")%> *</label>
+                    <div class="col-sm-8">
                         <select class="form-control" name="processName">
                             <%
-                                Iterator<Process> processes = SWBComparator.sortByDisplayName(Process.ClassMgr.listProcesses(paramRequest.getWebPage().getWebSite()), lang);
-                                while (processes.hasNext()) {
-                                    Process p = processes.next();
-                                    if (p.isValid() && user.haveAccess(p)) {
-                                        %><option value="<%= p.getURI() %>"><%= p.getTitle() %></option><%
-                                    }
+                            Iterator<Process> processes = SWBComparator.sortByDisplayName(Process.ClassMgr.listProcesses(paramRequest.getWebPage().getWebSite()), lang);
+                            while (processes.hasNext()) {
+                                Process p = processes.next();
+                                if (p.isValid() && user.haveAccess(p)) {
+                                    %><option value="<%= p.getURI() %>"><%= p.getTitle() %></option><%
                                 }
+                            }
                             %>
                         </select>
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 swbp-modal-property">
-                        <label for=""><%= paramRequest.getLocaleString("pagingSize") %></label>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12">
-                        <input type="text" name="pagingSize" class="form-control" placeholder="<%=paramRequest.getLocaleString("pagingSize")%>" />
+                    <label for="" class="col-sm-3 control-label"><%= paramRequest.getLocaleString("pagingSize") %></label>
+                    <div class="col-sm-8">
+                        <input type="text" name="pagingSize" class="form-control" />
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
-                    <span class="fa fa-save fa-fw"></span> <%= paramRequest.getLocaleString("save") %>
+                <button class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" type="submit">
+                    <span class="fa fa-save fa-fw"></span><span class="hidden-xs"><%= paramRequest.getLocaleString("save") %></span>
                 </button>
-                <button type="button" class="btn pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal"><span class="fa fa-arrow-left fa-fw"></span>Cancelar</button>
+                <button type="button" class="btn btn-default pull-right col-lg-3 col-md-3 col-sm-6 col-xs-6" data-dismiss="modal">
+                    <span class="fa fa-arrow-left fa-fw"></span><span class="hidden-xs">Cancelar</span>
+                </button>
             </div>
         </form>
     </div>
