@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.text.ParsePosition;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
@@ -149,7 +150,7 @@ public class MeasuresManager extends GenericAdmResource {
             out.println("  </tr>");
             out.println(" </thead>");
             out.println(" <tbody>");
-            Format format = series.getFormat();
+            /*Format format = series.getFormat();
             Locale locale;
             try {
                 locale = new Locale(format.getLanguage().getId().toLowerCase(), format.getCountry().getId().toUpperCase());
@@ -162,7 +163,7 @@ public class MeasuresManager extends GenericAdmResource {
                 formatter.applyPattern(format.getFormatPattern());
             }catch(Exception iae) {
                 formatter.applyPattern(getResourceBase().getAttribute("defaultFormatPattern", Default_FORMAT_PATTERN));
-            }
+            }*/
             
             final Committable committable = (Committable)series;
             final boolean canEdit;
@@ -178,27 +179,49 @@ public class MeasuresManager extends GenericAdmResource {
             Measure measure;
             String value, iconClass, statusTitle, title;
             Period period;
-            SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);            
+            SWBResourceURL urlr = paramRequest.getActionUrl().setAction(SWBResourceURL.Action_REMOVE);
+System.out.println("\n\n°°°°°°°°°°°°°°°°°°°°°°°°°°°°°");
             while(measurablesPeriods.hasNext())
             {
                 period = measurablesPeriods.next();
                 measure = series.getMeasure(period);
                 if(measure == null) {
+System.out.println("1...view");
                     measure = Measure.ClassMgr.createMeasure(period.getBSC());
                     series.addMeasure(measure);
                     PeriodStatus ps = PeriodStatus.ClassMgr.createPeriodStatus(period.getBSC());
                     ps.setPeriod(period);
                     ps.setStatus(sm.getMinimumState());
                     measure.setEvaluation(ps);
-                    //measure.setValue(0);
                     measure.setValue(Float.NaN);
+//measure.setLiteral(Float.toString(Float.NaN));
                 }else {
-                    // Valida que el estado asignado a la medición aún este asignado al indicador. Sino, lo elimina de la medición.
+System.out.println("2...view");
+//measure.setLiteral(Float.toString(measure.getValue()));
+                    /*
+                        Valida que el estado asignado a la medición aún este asignado
+                        al indicador. Sino, lo elimina de la medición.
+                    */
                     if(!sm.hasState(measure.getEvaluation().getStatus())) {
                         measure.getEvaluation().removeStatus();
                     }
                 }
-                value = Float.isNaN(measure.getValue())?"":formatter.format(measure.getValue());
+                
+                DecimalFormat formatter = getFormat(series);
+                if(Float.isNaN(measure.getValue()) && measure.getLiteral()!=null) {
+                    value = measure.getLiteral();
+                }else if(!Float.isNaN(measure.getValue())) {
+                    value = formatter.format(measure.getValue());
+                }else {
+                    value = "";
+                }
+System.out.println("value="+value+";");
+                /*value = measure.getLiteral()==null
+                        ?
+                        Float.isNaN(measure.getValue())?measure.getLiteral():formatter.format(measure.getValue())
+                        :
+                        measure.getLiteral();*/
+                
                 //String iconClass, statusTitle;
                 try {
                     statusTitle = measure.getEvaluation().getStatus().getTitle(user.getLanguage())==null?measure.getEvaluation().getStatus().getTitle():measure.getEvaluation().getStatus().getTitle(user.getLanguage());
@@ -314,7 +337,7 @@ public class MeasuresManager extends GenericAdmResource {
         }
         else
         {
-            Format format = series.getFormat();
+            /*Format format = series.getFormat();
             Locale locale;
             try {
                 locale = new Locale(format.getLanguage().getId().toLowerCase(), format.getCountry().getId().toUpperCase());
@@ -327,7 +350,8 @@ public class MeasuresManager extends GenericAdmResource {
                 formatter.applyPattern(format.getFormatPattern());
             }catch(Exception iae) {
                 formatter.applyPattern(getResourceBase().getAttribute("defaultFormatPattern", Default_FORMAT_PATTERN));
-            }
+            }*/
+            DecimalFormat formatter = getFormat(series);
 
             String pid, val;
             BSC bsc = (BSC) semanticObj.getModel().getModelObject().getGenericInstance();
@@ -350,19 +374,26 @@ public class MeasuresManager extends GenericAdmResource {
                 PeriodStatus ps;
                 while(measurablesPeriods.hasNext())
                 {
+System.out.println("\n................");
                     period = measurablesPeriods.next();
+System.out.print("period="+period.getTitle());
                     val = request.getParameter(period.getId())==null?"":request.getParameter(period.getId());
+System.out.println("; val="+val);
                     measure = series.getMeasure(period);
+System.out.println("measure="+measure);
                     if(measure == null) {
                         measure = Measure.ClassMgr.createMeasure(bsc);
                         series.addMeasure(measure);
                         ps = PeriodStatus.ClassMgr.createPeriodStatus(bsc);
                         ps.setPeriod(period);
                         measure.setEvaluation(ps);
+System.out.println("if");
                     }
                     if(val.isEmpty()) {
+System.out.println("val empty");
                         //measure.setValue(0F);
                         measure.setValue(Float.NaN);
+                        measure.setLiteral("");
                         //measure.getEvaluation().setStatus(null);
                         measure.getEvaluation().setStatus(series.getSm().getMinimumState());
                         series.getSm().updateAppraisal(period);
@@ -371,14 +402,23 @@ public class MeasuresManager extends GenericAdmResource {
                     try {
                         float value = Float.parseFloat(val);
                         measure.setValue(value);
-                        //measure.setValue(BSCUtils.Formats.round(value, 2).floatValue());
+                        measure.setLiteral(formatter.format(measure.getValue()));
+System.out.println("1.getValue="+measure.getValue());
+System.out.println("1.getLiteral="+measure.getLiteral());
                     }catch(NumberFormatException nfe) {
                         try {
                             Number value = formatter.parse(val);
+System.out.println("2.number="+value);
+System.out.println("2.value.floatValue()="+value.floatValue());
                             measure.setValue(value.floatValue());
+                            measure.setLiteral(formatter.format(measure.getValue()));
+System.out.println("2.getValue="+measure.getValue());
+System.out.println("2.getLiteral="+measure.getLiteral());
                         }catch(ParseException pe) {
                             measure.setValue(Float.NaN);
-                            log.error("NaN asignado en el periodo "+period.getTitle()+" del Sm "+series.getSm());
+                            measure.setLiteral(SWBUtils.XML.replaceXMLChars(val));
+System.out.println("3.getValue="+measure.getValue());
+System.out.println("3.getLiteral="+measure.getLiteral());
                         }
                     }finally {
                         measure.evaluate();
@@ -388,5 +428,24 @@ public class MeasuresManager extends GenericAdmResource {
                 response.setRenderParameter("statmsg", response.getLocaleString("msgUpdtOk"));
             } //if
         } //else
+    }
+    
+    private DecimalFormat getFormat(final Series series) {
+        DecimalFormat formatter = null;
+        Format format = series.getFormat();
+        Locale locale;
+        try {
+            locale = new Locale(format.getLanguage().getId().toLowerCase(), format.getCountry().getId().toUpperCase());
+        }catch(Exception e) {
+            locale = new Locale("es","MX");
+        }
+        NumberFormat numFormat = NumberFormat.getNumberInstance(locale);
+        formatter = (DecimalFormat)numFormat;
+        try {
+            formatter.applyPattern(format.getFormatPattern());
+        }catch(Exception iae) {
+            formatter.applyPattern(getResourceBase().getAttribute("defaultFormatPattern", Default_FORMAT_PATTERN));
+        }
+        return formatter;
     }
 }
