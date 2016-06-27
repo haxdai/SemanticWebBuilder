@@ -4,6 +4,7 @@ package org.semanticwb.bsc.resources;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
@@ -122,8 +123,12 @@ public class DataTableResource extends GenericResource implements ComponentExpor
         out.println("</tr>");
         out.println("</thead>");
         out.println("<tbody>");
+        
+        Measure measure;
+        String value;
         Period period;
         boolean inTime;
+System.out.println("\n\n*-*-*-*-*-*-*-*-*-*\nvista");
         while(periods.hasNext()) {
             period = periods.next();
             inTime = isInMeasurementTime(period);
@@ -161,7 +166,17 @@ public class DataTableResource extends GenericResource implements ComponentExpor
             // 5.- Series
             for(Series series:serieses) {
                 out.println("<td class=\"dt-td\">");
-                String value = series.getMeasure(period)==null?QUESTION_MARK:series.getFormatter().format(series.getMeasure(period).getValue());
+                measure = series.getMeasure(period);
+                //String value = series.getMeasure(period)==null?QUESTION_MARK:series.getFormatter().format(series.getMeasure(period).getValue());
+                if(measure==null) {
+                    value = QUESTION_MARK;
+                }else if(Float.isNaN(measure.getValue()) && measure.getLiteral()!=null) {
+                    value = measure.getLiteral();
+                }else if(!Float.isNaN(measure.getValue())) {
+                    value = series.getFormatter().format(measure.getValue());
+                }else {
+                    value = QUESTION_MARK;
+                }
                 if(inTime && !series.isReadOnly() && userCanEdit()) {
                     SWBResourceURL url = paramRequest.getActionUrl();
                     url.setAction(SWBResourceURL.Action_EDIT);
