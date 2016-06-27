@@ -21,7 +21,6 @@
 var oEditor = window.parent.InnerDialogLoaded() ;
 
 window.onload = function() {
-
 	document.body.style.padding = '0px' ;
 
 	// First of all, translate the dialog box texts
@@ -47,27 +46,18 @@ window.onload = function() {
     var urlToRequest = oEditor.FCK.LinkedField.form["urlForProperties"].value;
     xmlhttp.open("GET", urlToRequest, true);
     xmlhttp.send();
-    /*
-    var dataSet = [
-                        {name: "Prop1", uri: "bsc:prop1"},
-                        {name: "Prop2", uri: "bsc:prop2"},
-                        {name: "Prop3", uri: "bsc:prop3"},
-                        {name: "Prop4", uri: "bsc:prop4"},
-                        {name: "Prop5", uri: "bsc:prop5"}
-                    ];
-    */
-
-	window.parent.SetOkButton( true ) ;
-	window.parent.SetAutoSize( true ) ;	
+    window.parent.SetOkButton(true);
+    window.parent.SetAutoSize(true);
 }
 
-function Ok()
-{
-	var selectObj = document.getElementById( 'propertiesSet' ) ;
-
-	if ( selectObj.selectedIndex > 0 ) {
+function Ok() {
+    var selectObj = document.getElementById( 'propertiesSet' ) ;
+    if (selectObj.selectedIndex > 0) {
         var imageUrl = oEditor.FCKPlugins.Items['insertHtmlCode'].Path + 'insertHtmlCode_icon.png';
-		oEditor.FCK.InsertHtml( "<img src='" + imageUrl + "' type='semanticProperty' title='" + selectObj[selectObj.selectedIndex].text + "' tagProp='" + selectObj[selectObj.selectedIndex].value + "'/>" ) ;
+        if (imageUrl.indexOf("/swbadmin") > -1) {
+            imageUrl = imageUrl.substring(imageUrl.indexOf("/swbadmin"), imageUrl.length);
+        }
+        oEditor.FCK.InsertHtml( "<img src='" + imageUrl + "' type='semanticProperty' title='" + selectObj[selectObj.selectedIndex].text + "' tagProp='" + selectObj[selectObj.selectedIndex].value + "'/>" ) ;
     }
 	return true ;
 }
