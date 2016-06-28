@@ -231,98 +231,102 @@
         <h4 id="{@idSection}"><xsl:value-of select="@title"/></h4>
             <hr/>
             <xsl:if test="@className != 'Activity' and @className != 'FreeText' and @className != 'Model'">
-                <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
-                    <table id="table" class="table">
-                        <thead>
-                            <tr>
-                            <xsl:for-each select="instance">
-                                <xsl:if test="@count = 1">
-                                    <xsl:for-each select="property">
-                                        <th>
-                                            <xsl:value-of select="@title"/>
-                                        </th>
-                                    </xsl:for-each>
-                                </xsl:if>
-                            </xsl:for-each>
-                            </tr>
-                        </thead>
-                        <xsl:for-each select="instance">
-                            <tbody>
-                            <tr>
-                                <xsl:for-each select="property">
-                                    <td data-title="{@title}">
-                                        <xsl:value-of select="." disable-output-escaping="yes"/>
-                                    </td>
+                <xsl:if test="instance">
+                    <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                        <table id="table" class="table">
+                            <thead>
+                                <tr>
+                                <xsl:for-each select="instance">
+                                    <xsl:if test="@count = 1">
+                                        <xsl:for-each select="property">
+                                            <th>
+                                                <xsl:value-of select="@title"/>
+                                            </th>
+                                        </xsl:for-each>
+                                    </xsl:if>
                                 </xsl:for-each>
-                            </tr>
-                            </tbody>
-                        </xsl:for-each>
-                    </table>
-                </div>
+                                </tr>
+                            </thead>
+                            <xsl:for-each select="instance">
+                                <tbody>
+                                <tr>
+                                    <xsl:for-each select="property">
+                                        <td data-title="{@title}">
+                                            <xsl:value-of select="." disable-output-escaping="yes"/>
+                                        </td>
+                                    </xsl:for-each>
+                                </tr>
+                                </tbody>
+                            </xsl:for-each>
+                        </table>
+                    </div>
+                </xsl:if>
             </xsl:if>
             <xsl:if test="@className = 'Activity'">
-                <xsl:for-each select="instance">
-                    <h5 id="{@id}"><xsl:value-of select="property" disable-output-escaping="yes"/></h5>
-                    <p><xsl:value-of select="propertyd" disable-output-escaping="yes"/></p>
-                    <!-- Si contiene elementos relacionados -->
-                    <xsl:if test="@related = 'true'">
-                        <a data-toggle="collapse" data-parent="#liactivity{property/@id}" href="#colact{@id}" aria-expanded="true" aria-controls="collapseOne">     
-                        <h6>ELEMENTOS RELACIONADOS</h6> 
-                        </a>                          
-                        <div class="row panel-collapse in swbp-related" id="colact{@id}">
-                            <div class="col-lg-2">
-                                <ul id="relatedTab" class="nav nav-pills nav-stacked">
+                <xsl:if test="instance">
+                    <xsl:for-each select="instance">
+                        <h5 id="{@id}"><xsl:value-of select="property" disable-output-escaping="yes"/></h5>
+                        <p><xsl:value-of select="propertyd" disable-output-escaping="yes"/></p>
+                        <!-- Si contiene elementos relacionados -->
+                        <xsl:if test="@related = 'true'">
+                            <a data-toggle="collapse" data-parent="#liactivity{property/@id}" href="#colact{@id}" aria-expanded="true" aria-controls="collapseOne">     
+                            <h6>ELEMENTOS RELACIONADOS</h6> 
+                            </a>                          
+                            <div class="row panel-collapse in swbp-related" id="colact{@id}">
+                                <div class="col-lg-2">
+                                    <ul id="relatedTab" class="nav nav-pills nav-stacked">
+                                        <xsl:for-each select="documentSection">
+                                            <li>
+                                                <a data-toggle="tab" href="#{@url}" id="{@className}">
+                                                    <xsl:value-of select="@title"/>
+                                                </a>
+                                            </li>
+                                        </xsl:for-each>
+                                    </ul>
+                                </div>
+                                <div class="tab-content col-lg-10">
                                     <xsl:for-each select="documentSection">
-                                        <li>
-                                            <a data-toggle="tab" href="#{@url}" id="{@className}">
-                                                <xsl:value-of select="@title"/>
-                                            </a>
-                                        </li>
-                                    </xsl:for-each>
-                                </ul>
-                            </div>
-                            <div class="tab-content col-lg-10">
-                                <xsl:for-each select="documentSection">
-                                    <div id="{@url}" class="tab-pane">
-                                        <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
-                                            <table id="table" class="table">
-                                                <thead>
-                                                    <xsl:for-each select="related">
-                                                        <xsl:if test="@count = 0">
-                                                            <xsl:for-each select="relatedprop">
-                                                                <th>
-                                                                    <xsl:value-of select="@title"/>
-                                                                </th>
-                                                            </xsl:for-each>
-                                                        </xsl:if>
-                                                    </xsl:for-each>
-                                                </thead>
-                                                <xsl:for-each select="related">
-                                                    <tr>
-                                                        <xsl:for-each select="relatedprop">
-                                                            <td data-title="{@title}">
-                                                                <xsl:value-of select="." disable-output-escaping="yes"/>
-                                                            </td>
+                                        <div id="{@url}" class="tab-pane">
+                                            <div class="table-responsive-vertical shadow-z-1 swbp-table-responsive">
+                                                <table id="table" class="table">
+                                                    <thead>
+                                                        <xsl:for-each select="related">
+                                                            <xsl:if test="@count = 0">
+                                                                <xsl:for-each select="relatedprop">
+                                                                    <th>
+                                                                        <xsl:value-of select="@title"/>
+                                                                    </th>
+                                                                </xsl:for-each>
+                                                            </xsl:if>
                                                         </xsl:for-each>
-                                                    </tr>
-                                                </xsl:for-each>
-                                            </table>
+                                                    </thead>
+                                                    <xsl:for-each select="related">
+                                                        <tr>
+                                                            <xsl:for-each select="relatedprop">
+                                                                <td data-title="{@title}">
+                                                                    <xsl:value-of select="." disable-output-escaping="yes"/>
+                                                                </td>
+                                                            </xsl:for-each>
+                                                        </tr>
+                                                    </xsl:for-each>
+                                                </table>
+                                            </div>
                                         </div>
-                                    </div>
-                                </xsl:for-each>
-                            </div>
-                        </div>   
-                    </xsl:if>
-                </xsl:for-each>
+                                    </xsl:for-each>
+                                </div>
+                            </div>   
+                        </xsl:if>
+                    </xsl:for-each>
+                </xsl:if>
             </xsl:if>
             <xsl:if test="@className = 'FreeText'">
-                <xsl:for-each select="instance">
-                    <div class="swbp-free-text">
-                        <p>
+                <xsl:if test="instance">
+                    <xsl:for-each select="instance">
+                        <div class="swbp-free-text">
                             <xsl:value-of select="." disable-output-escaping="yes"/>
-                        </p>
-                    </div>
-                </xsl:for-each>
+                        </div>
+                    </xsl:for-each>
+                </xsl:if>
             </xsl:if>
     </xsl:template>
     
