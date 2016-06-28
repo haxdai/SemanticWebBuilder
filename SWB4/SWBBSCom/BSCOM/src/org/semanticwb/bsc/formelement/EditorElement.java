@@ -2,9 +2,11 @@ package org.semanticwb.bsc.formelement;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import org.semanticwb.Logger;
@@ -1104,6 +1106,7 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             SemanticObject obj, SemanticProperty prop, String type, String mode, String lang,
             String usrWithGrants, String valueStr, int pageCurrent) {
         StringBuilder toReturn = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss", new Locale(lang));
         FormElementURL urlFE = new FormElementURL(this, obj, prop, FormElementURL.URLTYPE_RENDER, type, mode, lang);//getRenderURL(obj, prop, type, mode, lang);
         urlFE.setParameter("modeTmp", Mode_RELOAD_RECOMMENDATION);
         urlFE.setParameter("suri", suri);
@@ -1120,7 +1123,7 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
 
             toReturn.append("\n<td>");
             toReturn.append(recommendation.getUpdated() == null ? ""
-                    : SWBUtils.TEXT.getStrDate(recommendation.getUpdated(), "es", "dd/mm/yyyy hh:mm:ss"));
+                    : sdf.format(recommendation.getUpdated()));
             toReturn.append("\n</td>");
 
             toReturn.append("\n<td>");
@@ -1226,6 +1229,7 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             SemanticObject obj, SemanticProperty prop, String type, String mode, String lang,
             String usrWithGrants, String valueStr, int pageCurrent) {
         StringBuilder toReturn = new StringBuilder();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss", new Locale(lang));
         toReturn.append("\n<table class=\"tabla-detalle table\">");
         Set setAnalysis = SWBComparator.sortByLastUpdateSet(itAnalysis, false);
         itAnalysis = setAnalysis.iterator();
@@ -1241,7 +1245,7 @@ public class EditorElement extends org.semanticwb.bsc.formelement.base.EditorEle
             toReturn.append("\n<tr>");
             toReturn.append("\n<td>");
             toReturn.append(analysis.getUpdated() == null ? ""
-                    : SWBUtils.TEXT.getStrDate(analysis.getUpdated(), "es", "dd/mm/yyyy hh:mm:ss"));
+                    : sdf.format(analysis.getUpdated()));
             toReturn.append("\n</td>");
             toReturn.append("\n<td>");
             toReturn.append(analysis.getAnalysis() == null ? ""
