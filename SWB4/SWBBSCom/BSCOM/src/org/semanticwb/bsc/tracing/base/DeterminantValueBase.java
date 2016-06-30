@@ -4,7 +4,7 @@ package org.semanticwb.bsc.tracing.base;
    /**
    * Permite almacenar los valores que pueden tomar los determinantes definidos para conocer si son suficientes o no los controles de un riesgo 
    */
-public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.RoleRefable,org.semanticwb.model.Traceable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Referensable,org.semanticwb.model.Trashable,org.semanticwb.model.Filterable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.FilterableNode,org.semanticwb.bsc.Help
+public abstract class DeterminantValueBase extends org.semanticwb.bsc.tracing.BSCTracing implements org.semanticwb.model.Referensable,org.semanticwb.bsc.Help,org.semanticwb.model.UserGroupRefable,org.semanticwb.model.Activeable,org.semanticwb.model.Descriptiveable,org.semanticwb.model.FilterableNode,org.semanticwb.model.RoleRefable,org.semanticwb.model.RuleRefable,org.semanticwb.model.Filterable,org.semanticwb.model.Trashable,org.semanticwb.model.Traceable
 {
    /**
    * Gestiona la información de un control en un Riesgo.
