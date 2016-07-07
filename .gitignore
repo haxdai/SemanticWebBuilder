@@ -1,0 +1,8 @@
+#/SWB4/swb/nbproject/private/
+#/SWB4/swb/SWBPortal/nbproject/private/
+#/SWB4/swb/SWBPortal/build/
+#/SWB4/swb/SWBTripleStore/dist/
+#/SWB4/swb/SWBNLP/dist/
+build
+dist
+private

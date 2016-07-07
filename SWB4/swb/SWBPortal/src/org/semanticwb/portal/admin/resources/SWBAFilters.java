@@ -30,10 +30,20 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.*;
 import java.util.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.Activeable;
 
 import org.semanticwb.model.AdminFilter;
 import org.semanticwb.model.FilterableClass;
@@ -41,20 +51,20 @@ import org.semanticwb.model.FilterableNode;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.HerarquicalNode;
 import org.semanticwb.model.Resource;
-import org.semanticwb.model.ResourceCollection;
-import org.semanticwb.model.ResourceCollectionCategory;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.model.base.ActiveableBase;
 import org.semanticwb.platform.SWBObjectFilter;
 import org.semanticwb.platform.SemanticClass;
 
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticProperty;
 import org.semanticwb.portal.admin.resources.wbtree.SWBTreeExt;
+import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 // TODO: Auto-generated Javadoc
@@ -108,6 +118,22 @@ public class SWBAFilters extends SWBATree
     {
     }
 
+    @Override
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+        String action = response.getAction();
+        if (SWBResourceURL.Action_REMOVE.equals(action)) {
+            UserRepository map = SWBContext.getAdminRepository();
+            AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), map);
+            if (null != filter) filter.remove();
+            
+            if (null != request.getParameter("suri")) {
+                response.setRenderParameter("suri", request.getParameter("suri"));
+            }
+        } else {
+            super.processAction(request, response);
+        }
+    }
+    
     /**
      * Gets the locale string.
      *
@@ -143,7 +169,7 @@ public class SWBAFilters extends SWBATree
         if (paramRequest.getMode().equals("gateway"))
         {
             doGateway(request, response, paramRequest);
-        } else
+        } else 
         {
             super.processRequest(request, response, paramRequest);
         }
@@ -235,7 +261,7 @@ public class SWBAFilters extends SWBATree
             } else if (cmd.equals("getSemanticClass"))
             {
                 SemanticClass scls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClassById(id);
-                addSemanticClass(user, scls, res, true);
+                addSemanticClass(user, scls, res);
             } else
             {
                 boolean ret = false;
@@ -349,28 +375,28 @@ public class SWBAFilters extends SWBATree
      * @return the menus
      * @return
      */
-    public Document getMenus(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document getMenus(User user)
     {
-        WebSite map = SWBContext.getAdminWebSite();
+        WebSite map = SWBContext.getAdminWebSite(); //Obtiene sitio admin
         Document docres = null;
         try
         {
-            docres = SWBUtils.XML.getNewDocument();
-            Element res = docres.createElement("res");
+            docres = SWBUtils.XML.getNewDocument(); //Crea nuevo documento
+            Element res = docres.createElement("res"); //Crea nodo res
             docres.appendChild(res);
-            WebPage topic = map.getWebPage("WBAd_Menus");
-            if (user.haveAccess(topic) && topic.isActive())
+            WebPage topic = map.getWebPage("WBAd_Menus");//Se obtiene contenedor de menus en la administración
+            if (user.haveAccess(topic) && topic.isActive()) //Se verifica acceso
             {
-                Element etopic = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);
-                etopic.setAttribute("topicmap", map.getId());
+                Element etopic = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);//Agrega datos del menú
+                etopic.setAttribute("topicmap", map.getId());//Agrega ID del sitio de admin
 
                 //TODO: AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
                 boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
                 etopic.setAttribute("canModify", String.valueOf(canModify));
-                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());
-                etopic.setAttribute("icon", "hijov");
+                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());//Agregar función para llamar en refresh
+                etopic.setAttribute("icon", "hijov");//Agregar icono
 
-                getMenus(map, etopic, topic, user);
+                getMenus(map, etopic, topic, user);//HAcerlo recursivo
 
             }
         } catch (Exception e)
@@ -398,13 +424,13 @@ public class SWBAFilters extends SWBATree
         {
             SemanticClass cls2 = (SemanticClass) it.next();
             {
-                addSemanticClass(user, cls2, etopic, true);
+                addSemanticClass(user, cls2, etopic);
             }
         }
     }
 
     /**
-     * Gets the elements.
+     * Obtiene los elementos de la configuración de vista del recurso.
      *
      * @param cmd the cmd
      * @param src the src
@@ -414,7 +440,7 @@ public class SWBAFilters extends SWBATree
      * @return the elements
      * @return
      */
-    public Document getElements(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document getElements(User user)
     {
 
         WebSite map = SWBContext.getAdminWebSite();
@@ -783,6 +809,170 @@ public class SWBAFilters extends SWBATree
         }
         return false;
     }
+    
+    private void getDirectoriesJSON(JSONArray ret, File root) {
+        if (null != root && root.exists()) {
+            if (root.isDirectory()) {
+                String appPath = SWBUtils.getApplicationPath();
+
+                String rootPath = appPath;
+                if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1);
+                if (rootPath.equals(root.getAbsolutePath())) { //App root folder
+                    rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length());
+                    JSONObject obj = new JSONObject();
+                    try {
+                        obj.put("id", rootPath);
+                        obj.put("name", rootPath);
+                        ret.put(obj);
+                    } catch (JSONException jsex) {
+                        log.error("Error al obtener el json de comportamientos");
+                    }
+                } else {
+                    rootPath = root.getAbsolutePath().substring(appPath.length());
+                }
+                
+                if (rootPath.contains("//")) rootPath = rootPath.replace("//", "/");
+                if (rootPath.contains("\\")) rootPath = rootPath.replace('\\', '/');
+                rootPath = rootPath.replace("/",".");
+                
+                File [] childs = root.listFiles();
+                for (File f : childs) {
+                    if (f.isDirectory()) {
+                        JSONObject obj = new JSONObject();
+                        String path = f.getAbsolutePath().substring(appPath.length());
+                        path = path.replace("//", "/");
+                        path = path.replace('\\', '/');
+                        path = path.replace("/",".");
+                        try {
+                            obj.put("id", path);
+                            obj.put("parent", rootPath);
+                            obj.put("name", f.getName());
+                            ret.put(obj);
+                        } catch (JSONException jsex) {
+                            log.error("Error al obtener el json de comportamientos");
+                        }
+                        
+                        getDirectoriesJSON(ret, f);
+                    }
+                }
+            }
+        }
+    }
+    
+    private void getMenusJSON(JSONArray ret, WebPage root, User user) {
+        WebSite map = SWBContext.getAdminWebSite();
+        String lang = "es";
+        if (null != user && null != user.getLanguage()) lang = user.getLanguage();
+        if (null == root) {
+            root = map.getWebPage("WBAd_Menus");
+        }
+        
+        if (null != root && user.haveAccess(root) && root.isActive()) {
+            if ("WBAd_mnu_PopUp".equals(root.getId())) {
+                Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
+                while (it.hasNext()) {
+                    SemanticClass scls = (SemanticClass) it.next();
+                    JSONObject obj = new JSONObject();
+                    try {
+                        //obj.put("access",2);
+                        obj.put("id", scls.getClassId());
+                        obj.put("reload", "getTopic.SC|" + scls.getClassId());
+                        obj.put("topicmap", map.getId());
+                        obj.put("parent", "WBAd_mnu_PopUp");
+                        obj.put("name", scls.getDisplayName(lang));
+                        ret.put(obj);
+                        
+                        //Add
+                        obj = new JSONObject();
+                        obj.put("id", scls.getClassId()+";add");
+                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|add");
+                        obj.put("topicmap", map.getId());
+                        obj.put("parent", scls.getClassId());
+                        obj.put("name", getLocaleString("add", lang));
+                        ret.put(obj);
+                        
+                        //Edit
+                        obj = new JSONObject();
+                        obj.put("id", scls.getClassId()+";edit");
+                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|edit");
+                        obj.put("topicmap", map.getId());
+                        obj.put("parent", scls.getClassId());
+                        obj.put("name", getLocaleString("edit", lang));
+                        ret.put(obj);
+                        
+                        //Remove
+                        obj = new JSONObject();
+                        obj.put("id", scls.getClassId()+";delete");
+                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|delete");
+                        obj.put("topicmap", map.getId());
+                        obj.put("parent", scls.getClassId());
+                        obj.put("name", getLocaleString("delete", lang));
+                        ret.put(obj);
+                        
+                        //Activate
+                        if (scls.isSubClass(Activeable.swb_Activeable)) {
+                            obj = new JSONObject();
+                            obj.put("id", scls.getClassId()+";active");
+                            obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
+                            obj.put("topicmap", map.getId());
+                            obj.put("parent", scls.getClassId());
+                            obj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
+                            ret.put(obj);
+                        }
+                    } catch (JSONException jsex) {
+                        log.error("Error al obtener el json de comportamientos");
+                    }
+                }
+            } else {
+                Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
+                while(childs.hasNext()) {
+                    WebPage child = childs.next();
+                    JSONObject obj = new JSONObject();
+                    try {
+                        //obj.put("access",2);
+                        obj.put("id", child.getId());
+                        obj.put("canModify", true);
+                        obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
+                        obj.put("topicmap", map.getId());
+                        obj.put("parent", root.getId());
+                        obj.put("name", child.getDisplayName(user.getLanguage()));
+                        ret.put(obj);
+                    } catch (JSONException jsex) {
+                        log.error("Error al obtener el json de comportamientos");
+                    }
+                    getMenusJSON(ret, child, user);
+                }
+            }
+        }
+    }
+    
+    private void getViewsJSON(JSONArray ret, WebPage root, User user) {
+        WebSite map = SWBContext.getAdminWebSite();
+        if (null == root) {
+            root = map.getWebPage("ObjectBehavior");
+        } 
+        
+        if (null != root && user.haveAccess(root) && root.isActive()) {
+            Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
+            while(childs.hasNext()) {
+                WebPage child = childs.next();
+                JSONObject obj = new JSONObject();
+                try {
+                    //obj.put("access",2);
+                    obj.put("id", child.getId());
+                    obj.put("canModify", true);
+                    obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
+                    obj.put("topicmap", map.getId());
+                    obj.put("parent", root.getId());
+                    obj.put("name", child.getDisplayName(user.getLanguage()));
+                    ret.put(obj);
+                } catch (JSONException jsex) {
+                    log.error("Error al obtener el json de comportamientos");
+                }
+                getViewsJSON(ret, child, user);
+            }
+        }
+    }
 
     /**
      * Do gateway.
@@ -796,60 +986,90 @@ public class SWBAFilters extends SWBATree
     @Override
     public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        ServletInputStream in = request.getInputStream();
-        Document dom = SWBUtils.XML.xmlToDom(in);
-        if (!dom.getFirstChild().getNodeName().equals("req"))
-        {
-            response.sendError(404, request.getRequestURI());
-            return;
-        }
-        String cmd = null;
-        if (dom.getElementsByTagName("cmd").getLength() > 0)
-        {
-            cmd = dom.getElementsByTagName("cmd").item(0).getFirstChild().getNodeValue();
-        }
-
-        if (cmd == null)
-        {
-            response.sendError(404, request.getRequestURI());
-            return;
-        }
         String ret = "";
-
-        try
-        {
-            Document res = null;
-
-            if (cmd.equals("update"))
-            {
-                res = updateFilter(cmd, dom, paramRequest.getUser(), request, response);
-            } else if (cmd.equals("getElements"))
-            {
-                res = getElements(cmd, dom, paramRequest.getUser(), request, response);
-            } else if (cmd.equals("getMenus"))
-            {
-                res = getMenus(cmd, dom, paramRequest.getUser(), request, response);
-            } else if (cmd.equals("getFilter"))
-            {
-                res = getFilter(cmd, dom, paramRequest.getUser(), request, response);
-            } else
-            {
-                res = getService(cmd, dom, paramRequest.getUser(), request, response);
-            }
-            if (res == null)
-            {
-                ret = SWBUtils.XML.domToXml(getError(3));
-            } else
-            {
-                ret = SWBUtils.XML.domToXml(res, true);
-            }
-
-        } catch (Exception e)
-        {
-            log.error(e);
+        String action = paramRequest.getAction();
+        WebSite map = SWBContext.getAdminWebSite();
+        
+        if ("getElements".equals(action)) {
+            JSONArray dt = new JSONArray();
+            getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
+            ret = dt.toString();
+        } else if ("getMenus".equals(action)) {
+            JSONArray dt = new JSONArray();
+            getMenusJSON(dt, map.getWebPage("WBAd_Menus"), paramRequest.getUser());
+            ret = dt.toString();
+        } else if ("getDirectories".equals(action)) {
+            JSONArray dt = new JSONArray();
+            getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
+            ret = dt.toString();
         }
-        out.print(new String(ret.getBytes()));
+        out.print(ret);
+//        ServletInputStream in = request.getInputStream();
+//        Document dom = SWBUtils.XML.xmlToDom(in);//parsear dom
+//        //System.out.println("-----dogatewway call-------");
+//        //System.out.println(SWBUtils.XML.domToXml(dom));
+//        if (!dom.getFirstChild().getNodeName().equals("req"))//no hay petición de acción
+//        {
+//            response.sendError(404, request.getRequestURI());
+//            return;
+//        }
+//        String cmd = null;
+//        if (dom.getElementsByTagName("cmd").getLength() > 0)
+//        {
+//            cmd = dom.getElementsByTagName("cmd").item(0).getFirstChild().getNodeValue();
+//        }
+//
+//        if (cmd == null)//No hay petición de acción
+//        {
+//            response.sendError(404, request.getRequestURI());
+//            return;
+//        }
+//        String ret = "";
+//        if ("getElementsJSON".equals(cmd)) {
+//            response.setContentType("application/json");
+//            WebSite map = SWBContext.getAdminWebSite();
+//            JSONArray dt = new JSONArray();
+//            getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
+//            ret = dt.toString();
+//        } else {
+//            try
+//            {
+//                Document res = null;
+//
+//                if (cmd.equals("update"))
+//                {
+//                    res = updateFilter(dom);
+//                } else if (cmd.equals("getElements"))
+//                {
+//                    res = getElements(paramRequest.getUser());
+//                } else if (cmd.equals("getMenus"))
+//                {
+//                    res = getMenus(paramRequest.getUser());
+//                } else if (cmd.equals("getFilter"))
+//                {
+//                    res = getFilter(dom);
+//                } else
+//                {
+//                    res = getService(cmd, dom, paramRequest.getUser(), request, response);
+//                }
+//                if (res == null)
+//                {
+//                    ret = SWBUtils.XML.domToXml(getError(3));
+//                } else
+//                {
+//                    ret = SWBUtils.XML.domToXml(res, true);
+//                }
+//
+//            } catch (Exception e)
+//            {
+//                log.error(e);
+//            }
+//        }
+        //System.out.println("-----dogatewway response-------");
+        //System.out.println(ret);
+        //out.print(new String(ret.getBytes()));//Escribir respuesta
 
     }
 
@@ -885,7 +1105,7 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    public Document add(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document add(Document src)
     {
         //SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
         Document doc = null;
@@ -949,7 +1169,7 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    public Document update(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document update(Document src)
     {
         UserRepository aws = SWBContext.getAdminRepository();
         Document doc = null;
@@ -1039,7 +1259,7 @@ public class SWBAFilters extends SWBATree
      * @return the filter
      * @return
      */
-    public Document getFilter(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document getFilter(Document src)
     {
 
         UserRepository map = SWBContext.getAdminRepository();
@@ -1122,17 +1342,17 @@ public class SWBAFilters extends SWBATree
      * @param response the response
      * @return return an updated dom document
      */
-    public Document updateFilter(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+    public Document updateFilter(Document src)
     {
         if (src.getElementsByTagName("filter").getLength() > 0)
         {
             Element efilter = (Element) src.getElementsByTagName("filter").item(0);
             if (efilter.getAttribute("id") == null || efilter.getAttribute("id").equals(""))
             {
-                return add(cmd, src, user, request, response);
+                return add(src);
             } else
             {
-                return update(cmd, src, user, request, response);
+                return update(src);
             }
         }
         return null;
@@ -1151,205 +1371,23 @@ public class SWBAFilters extends SWBATree
      * @throws IOException Signals that an I/O exception has occurred.
      */
     @Override
-    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-
-        UserRepository map = SWBContext.getAdminRepository();
-        User user = paramRequest.getUser();
-        PrintWriter out = response.getWriter();
-
-        out.println("<script type=\"text/javascript\">");
-        out.println("  dojo.require(\"dijit.layout.SplitContainer\");");
-        out.println("  dojo.require(\"dijit.layout.ContentPane\");");
-        out.println("</script>");
-
-        String act = "view";
-        if (request.getParameter("act") != null)
-        {
-            act = request.getParameter("act");
+        
+        String jsp = "/swbadmin/jsp/SWBAFilters/view.jsp";
+        GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+        if (null != gobj && gobj instanceof AdminFilter) {
+            jsp = "/swbadmin/jsp/SWBAFilters/edit.jsp";
         }
-
-        AdminFilter admfilter = null;
-        String id = null;
-        id = request.getParameter("id");
-        String suri = request.getParameter("suri");
-        if (null != suri)
-        {
-            act = "edit";
-            GenericObject go = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(suri);
-            if (go instanceof AdminFilter)
-            {
-                admfilter = (AdminFilter) go;
-                id = admfilter.getId();
-            }
-        }
-
-        if (act.equals("remove") && id != null)
-        {
-            //  TODO:
-            // Borrar filtros aplicados a los usuarios
-            //WebSite mapadmin=SWBContext.getAdminWebSite();
-//            UserRepository repository=mapadmin.getUserRepository();
-//            Iterator<User> users=repository.listUsers();
-//            while(users.hasNext())
-//            {
-//                User recuser=users.next();
-//
-//            }
-
-            AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(id, map);
-            filter.remove();
-            act = "view";
-        } else if (act.equals("add"))
-        {
-
-            SWBResourceURL url = paramRequest.getRenderUrl();
-            url.setMode("gateway");
-            url.setCallMethod(url.Call_DIRECT);
-            out.println("<div class=\"swbform\">");
-            out.println("<fieldset>");
-            out.println("<div class=\"applet\">");
-            out.println("<applet id=\"editfilter\" name=\"editfilter\" code=\"applets.filters.EditFilter.class\" codebase=\"" + SWBPlatform.getContextPath() + "/\" ARCHIVE=\"swbadmin/lib/SWBAplEditFilters.jar, swbadmin/lib/SWBAplCommons.jar\" WIDTH=\"100%\" HEIGHT=\"450\">");
-            out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
-            out.println("<param name =\"cgipath\" value=\"" + url + "\">");
-            out.println("<param name =\"locale\" value=\"" + user.getLanguage() + "\">");
-            out.println("<param name =\"tm\" value=\"" + map.getId() + "\">");
-            url = paramRequest.getRenderUrl();
-            url.setMode(url.Mode_VIEW);
-            out.println("<param name =\"location\" value=\"" + url + "\">");
-            out.println("</applet>");
-            out.println("</div>");
-            out.println("</fieldset>");
-//            out.println("<fieldset>");
-//            SWBResourceURL urlb = paramRequest.getRenderUrl();
-//            urlb.setParameter("act", "view");
-//            out.println("<input type=\"button\" name=\"bckButton\" onclick=\"submitUrl('" + urlb + "',this); return false;\" value=\"" + paramRequest.getLocaleString("btnCancel") + "\">");
-//            out.println("</fieldset>");
-            out.println("</div>");
-            out.println("\r\n<script>\r\n");
-            out.println("\r\nfunction doView(){\r\n");
-            url = paramRequest.getRenderUrl();
-            url.setMode(url.Mode_VIEW);
-            out.println("location='" + url + "';\r\n");
-            out.println("\r\n}\r\n");
-            out.println("</script>\r\n");
-        } else if (act.equals("edit") && id != null)
-        {
-            out.println("<div class=\"swbform\">");
-            out.println("<fieldset>");
-            out.println("<div class=\"applet\">");
-            out.println("<applet id=\"editfilter\" name=\"editfilter\" code=\"applets.filters.EditFilter.class\" codebase=\"" + SWBPlatform.getContextPath() + "/\" ARCHIVE=\"swbadmin/lib/SWBAplEditFilters.jar, swbadmin/lib/SWBAplCommons.jar\" WIDTH=\"100%\" HEIGHT=\"450\">");
-            SWBResourceURL url = paramRequest.getRenderUrl();
-            url.setMode("gateway");
-            url.setCallMethod(url.Call_DIRECT);
-            out.println("<param name=\"jsess\" value=\"" + request.getSession().getId() + "\">");
-            out.println("<param name =\"idfilter\" value=\"" + id + "\">");
-            out.println("<param name =\"cgipath\" value=\"" + url + "\">");
-            out.println("<param name =\"locale\" value=\"" + user.getLanguage() + "\">");
-            out.println("<param name =\"tm\" value=\"" + map.getId() + "\">");
-            url = paramRequest.getRenderUrl();
-            url.setMode(url.Mode_VIEW);
-            out.println("<param name =\"location\" value=\"" + url + "\">");
-            out.println("</applet>");
-            out.println("</div>");
-            out.println("</fieldset>");
-//            out.println("<fieldset>");
-//            SWBResourceURL urlb = paramRequest.getRenderUrl();
-//            urlb.setParameter("act", "view");
-//            out.println("<input type=\"button\" name=\"bckButton\" onclick=\"submitUrl('" + urlb + "',this); return false;\" value=\"" + paramRequest.getLocaleString("btnCancel") + "\">");
-//            out.println("</fieldset>");
-            out.println("</div>");
-            out.println("\r\n<script>\r\n");
-            out.println("\r\nfunction doView(){\r\n");
-            url = paramRequest.getRenderUrl();
-            url.setMode(url.Mode_VIEW);
-            out.println("location='" + url + "';\r\n");
-            out.println("\r\n}\r\n");
-            out.println("</script>\r\n");
-        }
-        if (act.equals("view"))
-        {
-            SWBResourceURL url = paramRequest.getRenderUrl();
-            url.setMode(url.Mode_VIEW);
-            //url.setCallMethod(url.Call_DIRECT);   
-            out.println("<div class=\"swbform\">");
-            out.println("<fieldset>");
-            out.println("<table width=\"100%\" cellpadding=\"10\" cellspacing=\"0\">");
-            out.println("<tr>");
-
-            out.println("<th colspan=\"2\" align=\"center\">");
-            out.println(paramRequest.getLocaleString("msgAction"));
-            out.println("</th>");
-
-            out.println("<th>");
-            out.println(paramRequest.getLocaleString("msgIdentifier"));
-            out.println("</th>");
-
-            out.println("<th >");
-            out.println(paramRequest.getLocaleString("msgFilter"));
-            out.println("</th>");
-
-            out.println("<th >");
-            out.println(paramRequest.getLocaleString("msgDescription"));
-            out.println("</th>");
-
-            out.println("</tr>");
-
-//            String rowColor="";
-//            boolean cambiaColor = true;
-            Iterator<AdminFilter> filters = AdminFilter.ClassMgr.listAdminFilters(map);
-            while (filters.hasNext())
-            {
-                AdminFilter filter = filters.next();
-
-                out.println("<tr >");     //bgcolor=\""+rowColor+"\"
-
-                out.println("<td  colspan=\"2\" align=\"center\">");
-
-                SWBResourceURL urlRemove = paramRequest.getRenderUrl();
-                urlRemove.setParameter("act", "remove");
-                urlRemove.setParameter("id", filter.getId());
-                out.println("<a href=\"#\" onclick=\"if(confirm('" + paramRequest.getLocaleString("msgAlertShureRemoveFilter") + "?') ) submitUrl('" + urlRemove.toString() + "',this);return false;\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif\" border=\"0\" title=\"" + paramRequest.getLocaleString("msgLinkRemove") + "\"></a>&nbsp;");
-
-                SWBResourceURL urlEdit = paramRequest.getRenderUrl();
-                urlEdit.setParameter("act", "edit");
-                urlEdit.setParameter("id", filter.getId());
-                out.println("<a href=\"#\"  onclick=\"addNewTab('" + filter.getURI() + "','" + SWBPlatform.getContextPath() + "/swbadmin/jsp/objectTab.jsp" + "','" + filter.getDisplayTitle(user.getLanguage()) + "');return false;\"><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif\" border=\"0\" title=\"" + paramRequest.getLocaleString("msgLinkEdit") + "\"></a>"); //onclick=\"submitUrl('"+urlchoose+"',this); return false;\"
-                //out.println("<a href=\"#\" onclick=\"submitUrl('" + urlEdit.toString() + "',this); return false;\" ><img src=\"" + SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif\" border=\"0\" title=\"" + paramRequest.getLocaleString("msgLinkEdit") + "\"></a>");
-
-                out.println("</td>");
-
-                out.println("<td >");
-                out.println(filter.getId());
-                out.println("</td>");
-
-                out.println("<td >");
-                out.println(filter.getDisplayTitle(user.getLanguage()));
-                out.println("</td>");
-
-                out.println("<td >");
-                out.println(filter.getDisplayDescription(user.getLanguage()) != null ? filter.getDisplayDescription(user.getLanguage()) : "");
-                out.println("</td>");
-
-                out.println("</tr>");
-            }
-            out.println("</table>");
-            out.println("</fieldset>");
-            out.println("<fieldset>");
-            Resource base = getResourceBase();
-//            out.println("<form id=\"" + base.getId() + "/addAdminFilter\" action=\"" + url + "\">");
-//            out.println("<button dojoType=\"dijit.form.Button\" name=\"op\" onclick=\"submitForm('" + getResourceBase().getId() + "/addAdminFilter'); return false;\">" + paramRequest.getLocaleString("msgBtnAdd") + "</button>");
-//            //out.println("<input type=\"submit\" name=\"op\" value=\""+paramRequest.getLocaleString("msgBtnAdd")+"\">");
-//            out.println("<input type=\"hidden\" name=\"act\" value=\"add\">");
-//            out.println("</form>");
-            String urlAddNew = SWBPlatform.getContextPath() + "/swbadmin/jsp/SemObjectEditor.jsp";
-            urlAddNew += "?scls=" + AdminFilter.sclass.getEncodedURI() + "&sref=" + map.getEncodedURI() + "&reloadTab=true";
-            out.println("<button dojoType=\"dijit.form.Button\" onclick=\"showDialog('" + urlAddNew + "',' " + AdminFilter.sclass.getDisplayName(user.getLanguage()) + "'); reloadTab('" + base.getURI() + "'); return false;\">" + paramRequest.getLocaleString("msgBtnAdd") + "</button>");
-            out.println("</fieldset>");
-            out.println("</div>");
+        
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (ServletException sex) {
+            log.error("SWBAFilters - Error including view", sex);
         }
     }
 
@@ -1823,7 +1861,7 @@ public class SWBAFilters extends SWBATree
      * @param node the node
      * @param addChilds the add childs
      */
-    protected void addSemanticClass(User user, SemanticClass sc, Element node, boolean addChilds)
+    protected void addSemanticClass(User user, SemanticClass sc, Element node)
     //public void addSemanticObject(JSONArray arr, SemanticObject obj, boolean addChilds, boolean addDummy, String lang) throws JSONException
     {
         //System.out.println("addSemanticClass:"+sc+" "+node);
