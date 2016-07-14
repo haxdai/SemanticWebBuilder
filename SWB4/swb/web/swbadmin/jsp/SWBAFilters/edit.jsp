@@ -1,3 +1,15 @@
+<%@page import="org.semanticwb.model.WebPage"%>
+<%@page import="org.semanticwb.model.User"%>
+<%@page import="org.semanticwb.platform.SemanticObject"%>
+<%@page import="org.semanticwb.model.SWBModel"%>
+<%@page import="org.semanticwb.model.UserRepository"%>
+<%@page import="org.semanticwb.model.SWBContext"%>
+<%@page import="org.semanticwb.model.SWBComparator"%>
+<%@page import="org.semanticwb.model.WebSite"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="org.json.JSONException"%>
+<%@page import="org.json.JSONObject"%>
+<%@page import="org.json.JSONArray"%>
 <%@page import="java.io.File"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
@@ -12,7 +24,7 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
         display: none !important;
     }
     
-    #myTree > .soria .dijitTreeIcon {
+    /*#myTree > .soria .dijitTreeIcon {
       display:none !important;
     }
 
@@ -27,11 +39,12 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
     #myTree .soria .dijitTreeRowSelected .dijitTreeLabel {
       background: none !important;
       outline: 0 !important;
-    }
+    }*/
 
 </style>
 <div id="mainPanel" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
     <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre sitios" data-dojo-props="selected:true">
+        <div id="serverTree"></div>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre menus">
         <div id="menuTree"></div>
@@ -143,11 +156,12 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
                 
                 return {};
             };
-            
         
             xhr("<%= data %>", {
                 handleAs: "json"
-            }).then(function(_data){
+            }).then(function(_data) {
+                console.log("getElements");
+                console.log(_data);
                 _data && _data.push({id:'ObjectBehavior', name:'Comportamientos'});
                 new TreeWidget(_data, 'viewTree', 'ObjectBehavior');
             }, function(err){
@@ -156,7 +170,9 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
             
             xhr("<%= data.setAction("getMenus") %>", {
                 handleAs: "json"
-            }).then(function(_data){
+            }).then(function(_data) {
+                console.log("getMenus");
+                console.log(_data);
                 _data && _data.push({id:'WBAd_Menus', name:'Menus'});
                 new TreeWidget(_data, 'menuTree', 'WBAd_Menus');
             }, function(err){
@@ -166,7 +182,21 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
             xhr("<%= data.setAction("getDirectories") %>", {
                 handleAs: "json"
             }).then(function(_data) {
+                console.log("getDirectories");
+                console.log(_data);
                 new TreeWidget(_data, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName() %>');
+            }, function(err){
+                console.log("error");
+            });
+            
+            xhr("<%= data.setAction("getServer") %>", {
+                handleAs: "json"
+            }).then(function(_data) {
+                console.log("getServer");
+                console.log(_data);
+                //_data && _data.push({id:'ObjectBehavior', name:'Comportamientos'});
+                new TreeWidget(_data, 'serverTree', 'Server');
+                //console.log(_data);
             }, function(err){
                 console.log("error");
             });

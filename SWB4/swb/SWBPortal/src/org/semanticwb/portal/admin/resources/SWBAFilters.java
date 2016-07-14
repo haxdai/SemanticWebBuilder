@@ -53,6 +53,7 @@ import org.semanticwb.model.HerarquicalNode;
 import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
+import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
@@ -631,7 +632,7 @@ public class SWBAFilters extends SWBATree
                 e.initTree(user, res, isFilter);
             }
 
-            addServerFilter(user, res, isFilter, getAllNodes(nodesFilter));
+            addServerFilter(user, res, getAllNodes(nodesFilter));
 
         } catch (Exception e)
         {
@@ -810,6 +811,73 @@ public class SWBAFilters extends SWBATree
         return false;
     }
     
+    private JSONObject createNodeObject(String id, String name, String reload, String parent) throws JSONException {
+        JSONObject ret = new JSONObject();
+
+        if (null != id) ret.put("id", id);
+        if (null != name) ret.put("name", name);
+        if (null != reload) ret.put("reload", reload);
+        if (null != parent) ret.put("parent", parent);
+        return ret;
+    }
+    
+    
+    private JSONArray getServerJSON(User user) {
+        JSONObject server = null;
+        JSONArray ret = new JSONArray();
+        String lang = "es";
+        if (null != user && null != user.getLanguage()) lang = user.getLanguage();
+        
+        //Add server node
+        try {
+             server = new JSONObject("{\"name\":\"Server\", \"id\":\"Server\",\"access\":2, \"reload\":\"getServer\"}");
+             ret.put(server);
+        } catch (JSONException jsex) {
+            log.error("Error creating server JSON object", jsex);
+        }
+
+        //Add websites
+        Iterator<WebSite> sites = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
+        while (sites.hasNext()) {
+            WebSite site = sites.next();
+            if (!site.isDeleted()) {
+                try {
+                    JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
+                    ret.put(siteobj);
+                } catch (JSONException jsex) {
+                    System.out.println("Error creating server JSON object"+jsex);
+                }
+
+                Iterator<SemanticObject> hierarchicalnodes = SWBComparator.sortSemanticObjects(site.getSemanticObject().getSemanticClass().listHerarquicalNodes());
+                while (hierarchicalnodes.hasNext()) {
+                    SemanticObject node = hierarchicalnodes.next();
+                    
+                    try {
+                        JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
+                        ret.put(nodeobj);
+                    } catch (JSONException jsex) {
+                        log.error("Error creating node object for hierarchical node", jsex);
+                    }
+                }
+
+                Iterator<SWBModel> submodels = SWBComparator.sortSemanticObjects(site.listSubModels());
+                while (submodels.hasNext()) {
+                    SWBModel submodel = submodels.next();
+                    if (null != submodel && submodel.getSemanticObject().instanceOf(UserRepository.sclass)) {
+                        try {
+                            JSONObject submodelobj = createNodeObject(submodel.getURI(), submodel.getSemanticObject().getDisplayName(lang), "getSemanticObject."+submodel.getURI(), site.getURI());
+                            ret.put(submodelobj);
+                        } catch (JSONException jsex) {
+                            log.error("Error creating node object for submodel node", jsex);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ret;
+    }
+    
     private void getDirectoriesJSON(JSONArray ret, File root) {
         if (null != root && root.exists()) {
             if (root.isDirectory()) {
@@ -819,10 +887,8 @@ public class SWBAFilters extends SWBATree
                 if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1);
                 if (rootPath.equals(root.getAbsolutePath())) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length());
-                    JSONObject obj = new JSONObject();
                     try {
-                        obj.put("id", rootPath);
-                        obj.put("name", rootPath);
+                        JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
                         ret.put(obj);
                     } catch (JSONException jsex) {
                         log.error("Error al obtener el json de comportamientos");
@@ -838,15 +904,12 @@ public class SWBAFilters extends SWBATree
                 File [] childs = root.listFiles();
                 for (File f : childs) {
                     if (f.isDirectory()) {
-                        JSONObject obj = new JSONObject();
                         String path = f.getAbsolutePath().substring(appPath.length());
                         path = path.replace("//", "/");
                         path = path.replace('\\', '/');
                         path = path.replace("/",".");
                         try {
-                            obj.put("id", path);
-                            obj.put("parent", rootPath);
-                            obj.put("name", f.getName());
+                            JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
                             ret.put(obj);
                         } catch (JSONException jsex) {
                             log.error("Error al obtener el json de comportamientos");
@@ -872,51 +935,51 @@ public class SWBAFilters extends SWBATree
                 Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
                 while (it.hasNext()) {
                     SemanticClass scls = (SemanticClass) it.next();
-                    JSONObject obj = new JSONObject();
                     try {
+                        JSONObject obj = createNodeObject(scls.getClassId(), scls.getDisplayName(lang), "getTopic.SC|" + scls.getClassId(), "WBAd_mnu_PopUp");
                         //obj.put("access",2);
-                        obj.put("id", scls.getClassId());
-                        obj.put("reload", "getTopic.SC|" + scls.getClassId());
+                        //obj.put("id", scls.getClassId());
+                        //obj.put("reload", "getTopic.SC|" + scls.getClassId());
                         obj.put("topicmap", map.getId());
-                        obj.put("parent", "WBAd_mnu_PopUp");
-                        obj.put("name", scls.getDisplayName(lang));
+                        //obj.put("parent", "WBAd_mnu_PopUp");
+                        //obj.put("name", scls.getDisplayName(lang));
                         ret.put(obj);
                         
                         //Add
-                        obj = new JSONObject();
-                        obj.put("id", scls.getClassId()+";add");
-                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|add");
+                        obj = createNodeObject(scls.getClassId()+";add", getLocaleString("add", lang), "getTopic.SCA|" + scls.getClassId()+"|add", scls.getClassId());
+                        //obj.put("id", scls.getClassId()+";add");
+                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|add");
                         obj.put("topicmap", map.getId());
-                        obj.put("parent", scls.getClassId());
-                        obj.put("name", getLocaleString("add", lang));
+                        //obj.put("parent", scls.getClassId());
+                        //obj.put("name", getLocaleString("add", lang));
                         ret.put(obj);
                         
                         //Edit
-                        obj = new JSONObject();
-                        obj.put("id", scls.getClassId()+";edit");
-                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|edit");
+                        obj = createNodeObject(scls.getClassId()+";edit", getLocaleString("edit", lang), "getTopic.SCA|" + scls.getClassId()+"|edit", scls.getClassId());
+                        //obj.put("id", scls.getClassId()+";edit");
+                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|edit");
                         obj.put("topicmap", map.getId());
-                        obj.put("parent", scls.getClassId());
-                        obj.put("name", getLocaleString("edit", lang));
+                        //obj.put("parent", scls.getClassId());
+                        //obj.put("name", getLocaleString("edit", lang));
                         ret.put(obj);
                         
                         //Remove
-                        obj = new JSONObject();
-                        obj.put("id", scls.getClassId()+";delete");
-                        obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|delete");
+                        obj = createNodeObject(scls.getClassId()+";delete", getLocaleString("delete", lang), "getTopic.SCA|" + scls.getClassId()+"|delete", scls.getClassId());
+                        //obj.put("id", scls.getClassId()+";delete");
+                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|delete");
                         obj.put("topicmap", map.getId());
-                        obj.put("parent", scls.getClassId());
-                        obj.put("name", getLocaleString("delete", lang));
+                        //obj.put("parent", scls.getClassId());
+                        //obj.put("name", getLocaleString("delete", lang));
                         ret.put(obj);
                         
                         //Activate
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
-                            obj = new JSONObject();
-                            obj.put("id", scls.getClassId()+";active");
-                            obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
+                            obj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", scls.getClassId());
+                            //obj.put("id", scls.getClassId()+";active");
+                            //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
                             obj.put("topicmap", map.getId());
-                            obj.put("parent", scls.getClassId());
-                            obj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
+                            //obj.put("parent", scls.getClassId());
+                            //obj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
                             ret.put(obj);
                         }
                     } catch (JSONException jsex) {
@@ -927,15 +990,15 @@ public class SWBAFilters extends SWBATree
                 Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
                 while(childs.hasNext()) {
                     WebPage child = childs.next();
-                    JSONObject obj = new JSONObject();
                     try {
+                        JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
                         //obj.put("access",2);
-                        obj.put("id", child.getId());
+                        //obj.put("id", child.getId());
                         obj.put("canModify", true);
-                        obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
+                        //obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
                         obj.put("topicmap", map.getId());
-                        obj.put("parent", root.getId());
-                        obj.put("name", child.getDisplayName(user.getLanguage()));
+                        //obj.put("parent", root.getId());
+                        //obj.put("name", child.getDisplayName(user.getLanguage()));
                         ret.put(obj);
                     } catch (JSONException jsex) {
                         log.error("Error al obtener el json de comportamientos");
@@ -956,15 +1019,15 @@ public class SWBAFilters extends SWBATree
             Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
             while(childs.hasNext()) {
                 WebPage child = childs.next();
-                JSONObject obj = new JSONObject();
                 try {
+                    JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
                     //obj.put("access",2);
-                    obj.put("id", child.getId());
+                    //obj.put("id", child.getId());
                     obj.put("canModify", true);
-                    obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
+                    //obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
                     obj.put("topicmap", map.getId());
-                    obj.put("parent", root.getId());
-                    obj.put("name", child.getDisplayName(user.getLanguage()));
+                    //obj.put("parent", root.getId());
+                    //obj.put("name", child.getDisplayName(user.getLanguage()));
                     ret.put(obj);
                 } catch (JSONException jsex) {
                     log.error("Error al obtener el json de comportamientos");
@@ -1003,6 +1066,9 @@ public class SWBAFilters extends SWBATree
         } else if ("getDirectories".equals(action)) {
             JSONArray dt = new JSONArray();
             getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
+            ret = dt.toString();
+        } else if ("getServer".equals(action)) {
+            JSONArray dt = getServerJSON(paramRequest.getUser());
             ret = dt.toString();
         }
         out.print(ret);
@@ -1497,7 +1563,7 @@ public class SWBAFilters extends SWBATree
      * @param isFilter the is filter
      * @param objfilters the objfilters
      */
-    protected void addServerFilter(User user, Element res, boolean isFilter, Set<String> objfilters)
+    protected void addServerFilter(User user, Element res, Set<String> objfilters)
     {
 
         int access = 2;
@@ -1509,7 +1575,7 @@ public class SWBAFilters extends SWBATree
         root.setAttribute("access", "" + access);
 
         //WebSites
-        Iterator<WebSite> it = sortIterator(SWBContext.listWebSites());
+        Iterator<WebSite> it = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
         while (it.hasNext())
         {
             WebSite tm = it.next();
