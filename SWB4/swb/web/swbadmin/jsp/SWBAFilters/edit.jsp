@@ -17,7 +17,8 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getElements");
+SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getFilter");
+data.setParameter("suri", request.getParameter("suri"));
 %>
 <style>
     .noIcon {
@@ -56,7 +57,12 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
         <div id="filesTree"></div>
     </div>
     <script type="dojo/method">
-        require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr) {            
+        require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 'dojox/widget/Standby'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy) {            
+            var standby = new StandBy({target: "mainPanel"});
+            document.body.appendChild(standby.domNode);
+            standby.startup();
+            standby.show();
+        
             function TreeWidget (treeData, placeHolder, rootId) {
                 var store, model;
                 
@@ -156,47 +162,25 @@ SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.C
                 
                 return {};
             };
-        
+            
             xhr("<%= data %>", {
                 handleAs: "json"
             }).then(function(_data) {
-                console.log("getElements");
                 console.log(_data);
-                _data && _data.push({id:'ObjectBehavior', name:'Comportamientos'});
-                new TreeWidget(_data, 'viewTree', 'ObjectBehavior');
-            }, function(err){
-                console.log("error");
-            });
-            
-            xhr("<%= data.setAction("getMenus") %>", {
-                handleAs: "json"
-            }).then(function(_data) {
-                console.log("getMenus");
-                console.log(_data);
-                _data && _data.push({id:'WBAd_Menus', name:'Menus'});
-                new TreeWidget(_data, 'menuTree', 'WBAd_Menus');
-            }, function(err){
-                console.log("error");
-            });
-            
-            xhr("<%= data.setAction("getDirectories") %>", {
-                handleAs: "json"
-            }).then(function(_data) {
-                console.log("getDirectories");
-                console.log(_data);
-                new TreeWidget(_data, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName() %>');
-            }, function(err){
-                console.log("error");
-            });
-            
-            xhr("<%= data.setAction("getServer") %>", {
-                handleAs: "json"
-            }).then(function(_data) {
-                console.log("getServer");
-                console.log(_data);
-                //_data && _data.push({id:'ObjectBehavior', name:'Comportamientos'});
-                new TreeWidget(_data, 'serverTree', 'Server');
-                //console.log(_data);
+                //Create server tree
+                _data.sites && new TreeWidget(_data.sites, 'serverTree', 'Server');
+                
+                //Create menues tree
+                _data.menus && _data.menus.push({id:'WBAd_Menus', name:'Menus'});
+                _data.menus && new TreeWidget(_data.menus, 'menuTree', 'WBAd_Menus');
+                
+                //Create behaviours tree
+                _data.elements && _data.elements.push({id:'ObjectBehavior', name:'Comportamientos'});
+                _data.elements && new TreeWidget(_data.elements, 'viewTree', 'ObjectBehavior');
+                
+                //Create files tree
+                _data.dirs && new TreeWidget(_data.dirs, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName() %>');
+                standby.hide();
             }, function(err){
                 console.log("error");
             });

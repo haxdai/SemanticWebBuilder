@@ -1055,21 +1055,47 @@ public class SWBAFilters extends SWBATree
         String action = paramRequest.getAction();
         WebSite map = SWBContext.getAdminWebSite();
         
-        if ("getElements".equals(action)) {
-            JSONArray dt = new JSONArray();
-            getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
-            ret = dt.toString();
-        } else if ("getMenus".equals(action)) {
-            JSONArray dt = new JSONArray();
-            getMenusJSON(dt, map.getWebPage("WBAd_Menus"), paramRequest.getUser());
-            ret = dt.toString();
-        } else if ("getDirectories".equals(action)) {
-            JSONArray dt = new JSONArray();
-            getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
-            ret = dt.toString();
-        } else if ("getServer".equals(action)) {
-            JSONArray dt = getServerJSON(paramRequest.getUser());
-            ret = dt.toString();
+        if ("getFilter".equals(action)) { 
+            //TODO: Obtener info del filtro almacenado en XML, transformarla a JSON
+            //Conciliar y devolver la configuración en paths para expansión y selección
+            JSONObject _ret = new JSONObject();
+            SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
+            if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
+                AdminFilter af = (AdminFilter)obj.createGenericInstance();
+                System.out.println("----");
+                System.out.println(af.getXml());
+                System.out.println("----");
+                
+                try {
+                    _ret.put("filterId", af.getURI());
+                    
+                    //Put elements
+                    JSONArray dt = new JSONArray();
+                    getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
+                    _ret.put("elements", dt);
+                    
+                    //Put menus
+                    dt = new JSONArray();
+                    getMenusJSON(dt, map.getWebPage("WBAd_Menus"), paramRequest.getUser());
+                    _ret.put("menus", dt);
+                    
+                    //Put directories
+                    dt = new JSONArray();
+                    getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
+                    _ret.put("dirs", dt);
+                    
+                    //Put sites
+                    dt = new JSONArray();
+                    dt = getServerJSON(paramRequest.getUser());
+                    _ret.put("sites", dt);
+                    
+                } catch (JSONException jsex) {
+                    log.error("Error al generar JSON del componente", jsex);
+                }
+                
+            }
+            
+            ret = _ret.toString();
         }
         out.print(ret);
 //        ServletInputStream in = request.getInputStream();
