@@ -25,39 +25,37 @@ data.setParameter("suri", request.getParameter("suri"));
         display: none !important;
     }
     
-    /*#myTree > .soria .dijitTreeIcon {
-      display:none !important;
+    .adminFilterTree .dijitTreeRowSelected .dijitTreeLabel {
+        background: none !important;
+        outline: none !important;
     }
-
-    #myTree .soria .dijitTree:focus {
-      outline: 0;
+    
+    .adminFilterTree .dijitTreeNodeFocused .dijitTreeLabel {
+        background: none !important;
+        outline: none !important;
     }
-
-    #myTree .soria .dijitTreeLabel:focus {
-      outline: 0;
+    
+    .styleChecked {
+        color: darkblue;
+        font-style: italic;
+        font-weight: bold !important;
     }
-
-    #myTree .soria .dijitTreeRowSelected .dijitTreeLabel {
-      background: none !important;
-      outline: 0 !important;
-    }*/
-
 </style>
 <div id="mainPanel" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
     <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre sitios" data-dojo-props="selected:true">
-        <div id="serverTree"></div>
+        <div class="adminFilterTree" id="serverTree"></div>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre menus">
-        <div id="menuTree"></div>
+        <div class="adminFilterTree" id="menuTree"></div>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" title="Configuración de vista">
-        <div id="viewTree"></div>
+        <div class="adminFilterTree" id="viewTree"></div>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" title="Documentos del servidor">
-        <div id="filesTree"></div>
+        <div class="adminFilterTree" id="filesTree"></div>
     </div>
     <script type="dojo/method">
-        require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 'dojox/widget/Standby'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy) {            
+        require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 'dojox/widget/Standby', 'dojo/topic'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic) {
             var standby = new StandBy({target: "mainPanel"});
             document.body.appendChild(standby.domNode);
             standby.startup();
@@ -104,10 +102,13 @@ data.setParameter("suri", request.getParameter("suri"));
                     }*/
 
                     dojo.connect(cb, "onChange", function(obj) {
+                        topic.publish("my/topic", tnode);
                         if (obj) {
+                            dojo.addClass(tnode.labelNode, "styleChecked");
                             console.log("Must disable node childs and call filter update");
                             console.log(tnode.getChildren());
                         } else {
+                            dojo.removeClass(tnode.labelNode, "styleChecked");
                             console.log("Must enable node childs and call filter update");
                             console.log(tnode.getChildren());
                         }
@@ -181,6 +182,11 @@ data.setParameter("suri", request.getParameter("suri"));
                 //Create files tree
                 _data.dirs && new TreeWidget(_data.dirs, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName() %>');
                 standby.hide();
+                
+                topic.subscribe("my/topic", function(args) {
+                    console.log("----");
+                    console.log(args);
+                });
             }, function(err){
                 console.log("error");
             });
