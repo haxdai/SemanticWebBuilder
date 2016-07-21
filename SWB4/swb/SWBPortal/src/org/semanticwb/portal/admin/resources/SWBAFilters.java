@@ -30,12 +30,6 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.*;
 import java.util.*;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,7 +44,6 @@ import org.semanticwb.model.FilterableClass;
 import org.semanticwb.model.FilterableNode;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.HerarquicalNode;
-import org.semanticwb.model.Resource;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
@@ -58,7 +51,6 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.model.base.ActiveableBase;
 import org.semanticwb.platform.SWBObjectFilter;
 import org.semanticwb.platform.SemanticClass;
 
@@ -203,10 +195,12 @@ public class SWBAFilters extends SWBATree
             if (cmd.equals("getServer"))
             {
                 addServer(user, res);
-            } else if (cmd.equals("getDirectories"))
-            {
-                getDirectories(user, res, src);
-            } else if (cmd.equals("getGlobal"))
+            } 
+//            else if (cmd.equals("getDirectories"))
+//            {
+//                getDirectories(user, res, src);
+//            } 
+            else if (cmd.equals("getGlobal"))
             {
                 addGlobal(user, res, PARCIAL_ACCESS);
             } else if (cmd.equals("getTopicMap"))
@@ -286,7 +280,6 @@ public class SWBAFilters extends SWBATree
             log.error(e);
             return getError(3);
         }
-        //RevisaNodo(dom.getFirstChild());
         return dom;
     }
 
@@ -725,90 +718,6 @@ public class SWBAFilters extends SWBATree
     {
         Document doc = initTree(user, src);
         return doc;
-    }
-
-    /**
-     * Checks if is name valid.
-     *
-     * @param e the e
-     * @return true, if is name valid
-     * @return
-     */
-    public boolean isNameValid(Element e)
-    {
-
-        for (int i = 0; i < namevalids.length; i++)
-        {
-            if (e.getNodeName().equals(namevalids[i]))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Revisa nodo.
-     *
-     * @param ele the ele
-     */
-    public void RevisaNodo(Node ele)
-    {
-        ArrayList<Node> vnodes = new ArrayList<Node>();
-        NodeList nodes = ele.getChildNodes();
-        for (int i = 0; i < nodes.getLength(); i++)
-        {
-            vnodes.add(nodes.item(i));
-        }
-        for (int i = 0; i < vnodes.size(); i++)
-        {
-            if (vnodes.get(i) instanceof Element)
-            {
-                Element e = (Element) vnodes.get(i);
-                if (!isNameValid(e) || !isValid(e.getAttribute("reload")))
-                {
-                    ele.removeChild((Node) vnodes.get(i));
-                } else
-                {
-                    RevisaNodo(e);
-                }
-            } else
-            {
-                RevisaNodo((Node) vnodes.get(i));
-            }
-        }
-    }
-
-    /**
-     * Checks if is valid.
-     *
-     * @param path the path
-     * @return true, if is valid
-     * @return
-     */
-    public boolean isValid(String path)
-    {
-        if (path == null)
-        {
-
-            return true;
-        }
-        StringTokenizer st = new StringTokenizer(path, ".");
-        if (st.countTokens() > 0)
-        {
-            String pathinit = st.nextToken();
-            for (int i = 0; i < pathValids.length; i++)
-            {
-                if (pathinit.equals(pathValids[i]))
-                {
-                    return true;
-                }
-            }
-        } else
-        {
-            return true;
-        }
-        return false;
     }
     
     private JSONObject createNodeObject(String id, String name, String reload, String parent) throws JSONException {
@@ -1509,50 +1418,30 @@ public class SWBAFilters extends SWBATree
      * @param src the src
      * @return the directories
      */
-    public void getDirectories(User user, Element res, Document src)
-    {
-        String path = SWBUtils.getApplicationPath();
-        if (src.getElementsByTagName("path").getLength() > 0)
-        {
-            Element epath = (Element) src.getElementsByTagName("path").item(0);
-            Text etext = (Text) epath.getFirstChild();
-            path = etext.getNodeValue();
-            path = SWBUtils.getApplicationPath() + path;
-            path = path.replace("//", "/");
-        }
-        File apppath = new File(path);
-        if (apppath.isDirectory() && apppath.exists())
-        {
-            Element dir = addNode("dir", "", apppath.getName(), res);
-            String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
-            path = apppath.getAbsolutePath().substring(startPath.length());
-            path = path.replace('\\', '/');
-            path = path.replace("//", "/");
-            dir.setAttribute("path", path);
-            dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(apppath)));
-            getDirectories(dir, apppath);
-        }
-    }
-
-    /**
-     * Checks for subdirectories.
-     *
-     * @param fdir the fdir
-     * @return true, if successful
-     */
-    public boolean hasSubdirectories(File fdir)
-    {
-        File[] dirs = fdir.listFiles();
-        for (int i = 0; i < dirs.length; i++)
-        {
-            File file = dirs[i];
-            if (file.isDirectory())
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+//    public void getDirectories(User user, Element res, Document src)
+//    {
+//        String path = SWBUtils.getApplicationPath();
+//        if (src.getElementsByTagName("path").getLength() > 0)
+//        {
+//            Element epath = (Element) src.getElementsByTagName("path").item(0);
+//            Text etext = (Text) epath.getFirstChild();
+//            path = etext.getNodeValue();
+//            path = SWBUtils.getApplicationPath() + path;
+//            path = path.replace("//", "/");
+//        }
+//        File apppath = new File(path);
+//        if (apppath.isDirectory() && apppath.exists())
+//        {
+//            Element dir = addNode("dir", "", apppath.getName(), res);
+//            String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
+//            path = apppath.getAbsolutePath().substring(startPath.length());
+//            path = path.replace('\\', '/');
+//            path = path.replace("//", "/");
+//            dir.setAttribute("path", path);
+//            //dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(apppath)));
+//            getDirectories(dir, apppath);
+//        }
+//    }
 
     /**
      * Gets the directories.
@@ -1561,25 +1450,25 @@ public class SWBAFilters extends SWBATree
      * @param fdir the fdir
      * @return the directories
      */
-    public void getDirectories(Element edir, File fdir)
-    {
-        File[] dirs = fdir.listFiles();
-        Arrays.sort(dirs, new FileComprator());
-        for (int i = 0; i < dirs.length; i++)
-        {
-            File file = dirs[i];
-            if (file.isDirectory())
-            {
-                Element dir = addNode("dir", "", file.getName(), edir);
-                String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
-                String path = file.getAbsolutePath().substring(startPath.length());
-                path = path.replace("//", "/");
-                path = path.replace('\\', '/');
-                dir.setAttribute("path", path);
-                dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(file)));
-            }
-        }
-    }
+//    public void getDirectories(Element edir, File fdir)
+//    {
+//        File[] dirs = fdir.listFiles();
+//        Arrays.sort(dirs, new FileComprator());
+//        for (int i = 0; i < dirs.length; i++)
+//        {
+//            File file = dirs[i];
+//            if (file.isDirectory())
+//            {
+//                Element dir = addNode("dir", "", file.getName(), edir);
+//                String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
+//                String path = file.getAbsolutePath().substring(startPath.length());
+//                path = path.replace("//", "/");
+//                path = path.replace('\\', '/');
+//                dir.setAttribute("path", path);
+//                dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(file)));
+//            }
+//        }
+//    }
 
     /**
      * Adds the server filter.
