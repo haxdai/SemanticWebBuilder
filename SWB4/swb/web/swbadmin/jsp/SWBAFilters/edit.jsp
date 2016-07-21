@@ -40,7 +40,13 @@ data.setParameter("suri", request.getParameter("suri"));
         font-style: italic;
         font-weight: bold !important;
     }
+    
+    .styleHighlight {
+        font-style: italic;
+        font-weight: bold !important;
+    }
 </style>
+<div data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave', showLabel: false" type="button"></div>
 <div id="mainPanel" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
     <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre sitios" data-dojo-props="selected:true">
         <div class="adminFilterTree" id="serverTree"></div>
@@ -66,7 +72,7 @@ data.setParameter("suri", request.getParameter("suri"));
                 
                 function createTreeNode(args) {
                     var tnode, cb;
-                    //console.log("creating "+args.label);
+                    
                     var getChilds = function(item) {
                         var ret = [], ch = store.getChildren(item);
                         dojo.forEach(ch, function (child) {
@@ -91,9 +97,61 @@ data.setParameter("suri", request.getParameter("suri"));
                     
                     tnode.toggleCheckBoxState = function(val, recurse) {
                         var _val = val || false;
-                        _val && cb.set("disabled", _val);
+                        cb.set("disabled", _val);
                     };
-                   
+                    
+                    tnode.disableChilds = function() {
+                        if (this.isExpanded) {
+                            var childs = this.getChildren();
+                            if (childs.length) {
+                              dojo.forEach(childs, function (child) {
+                                  child.toggleCheckbox(false);
+                                  child.toggleCheckBoxState(true);
+                                  dojo.removeClass(child.labelNode, "styleChecked");
+                                  dojo.removeClass(child.labelNode, "styleHighlight");
+                                  var theItem = child.item;
+                                  theItem.enabled="false";
+                                  store.put(theItem);
+                                  child.disableChilds();
+                              });
+                          }
+                        }
+                    };
+                    
+                    tnode.enableChilds = function() {
+                        if (this.isExpanded) {
+                            var childs = this.getChildren();
+                            if (childs.length) {
+                              dojo.forEach(childs, function (child) {
+                                  child.toggleCheckBoxState(false);
+                                  child.enableChilds();
+                                  var theItem = child.item;
+                                  theItem.enabled="true";
+                                  store.put(theItem);
+                              });
+                          }
+                        }
+                    };
+                    
+                    tnode.highlightParents = function(val) {
+                        var parentId = tnode.item.parent || false, parent;
+                        var enable = val || false;
+                        
+                        parent = parentId && this.tree._itemNodesMap[parentId];
+                        if (parent && parent.length) {
+                            parent = parent[0];
+                            enable ? dojo.addClass(parent.labelNode, "styleHighlight") : dojo.removeClass(parent.labelNode, "styleHighlight");
+                        }
+                        
+                        while (parentId) {
+                            parentId = parent.item.parent || false;
+                            parent = this.tree._itemNodesMap[parentId];
+                            if (parent && parent.length) {
+                                parent = parent[0];
+                                enable ? dojo.addClass(parent.labelNode, "styleHighlight") : dojo.removeClass(parent.labelNode, "styleHighlight");
+                            }
+                        }
+                    };
 
                     /*if (tnode.item.isActive) {
                       cb.set("checked", true);
@@ -101,18 +159,8 @@ data.setParameter("suri", request.getParameter("suri"));
                       //tnode.set("focusable", false);
                     }*/
 
-                    dojo.connect(cb, "onChange", function(obj) {
-                        topic.publish("my/topic", tnode);
-                        if (obj) {
-                            dojo.addClass(tnode.labelNode, "styleChecked");
-                            console.log("Must disable node childs and call filter update");
-                            console.log(tnode.getChildren());
-                        } else {
-                            dojo.removeClass(tnode.labelNode, "styleChecked");
-                            console.log("Must enable node childs and call filter update");
-                            console.log(tnode.getChildren());
-                        }
-                        //cb.set("disabled", true);
+                    dojo.connect(cb, "onClick", function(obj) {
+                        topic.publish("adminFilter/nodechange", {node: tnode, state: obj.target.checked});
                     });
 
                     return tnode;
@@ -137,22 +185,13 @@ data.setParameter("suri", request.getParameter("suri"));
                     
                     var ret = new Tree({
                         model: model,
-                        getIconClass: function(item,opened) {
+                        getIconClass: function(item, opened) {
                             return "noIcon";
                         },
                         getRowClass: function(item,opened) {},
                         _createTreeNode: createTreeNode,
-                        onOpen: function(item, node) { 
-                            if (node.isCheckboxActive()) {
-                                //Check childs
-                                var childs = node.getChildren();
-                                if (childs.length) {
-                                    dojo.forEach(childs, function (child) {
-                                        child.toggleCheckbox(false);
-                                        child.toggleCheckBoxState(true);
-                                    });
-                                }
-                            }
+                        onOpen: function(_item, _node) {
+                            topic.publish("adminFilter/nodeexpand", {node: _node, item: _item});
                         }
                     });
                     
@@ -167,7 +206,6 @@ data.setParameter("suri", request.getParameter("suri"));
             xhr("<%= data %>", {
                 handleAs: "json"
             }).then(function(_data) {
-                console.log(_data);
                 //Create server tree
                 _data.sites && new TreeWidget(_data.sites, 'serverTree', 'Server');
                 
@@ -183,9 +221,19 @@ data.setParameter("suri", request.getParameter("suri"));
                 _data.dirs && new TreeWidget(_data.dirs, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName() %>');
                 standby.hide();
                 
-                topic.subscribe("my/topic", function(args) {
-                    console.log("----");
-                    console.log(args);
+                topic.subscribe("adminFilter/nodechange", function(args) {
+                    var state = args.state || false;
+                    if (args.node) {
+                        state ? args.node.disableChilds() : args.node.enableChilds();
+                        state ? dojo.addClass(args.node.labelNode, "styleChecked") : dojo.removeClass(args.node.labelNode, "styleChecked");
+                        state && dojo.removeClass(args.node.labelNode, "styleHighlight");
+                        args.node.highlightParents(state);
+                    }
+                });
+                topic.subscribe("adminFilter/nodeexpand", function(args) {
+                    if (args.node.isCheckboxActive()) {
+                        args.node.disableChilds();
+                    }
                 });
             }, function(err){
                 console.log("error");
