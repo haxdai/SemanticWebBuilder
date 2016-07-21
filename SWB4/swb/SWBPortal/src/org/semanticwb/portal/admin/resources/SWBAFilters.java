@@ -125,10 +125,18 @@ public class SWBAFilters extends SWBATree
         } else if ("updateFilter".equals(action)) {
             BufferedReader reader = request.getReader();
             String line = null;
+            StringBuilder body = new StringBuilder();
             while((line = reader.readLine()) != null) {
-                System.out.println("-"+line);
+                body.append(line);
             }
             reader.close();
+            //System.out.println(body.toString());
+            try {
+                JSONObject payload = new JSONObject(body.toString());
+                //System.out.println(payload.toString(2));
+            } catch (JSONException jsex) {
+                log.error("Error getting response body");
+            }
         } else {
             super.processAction(request, response);
         }
