@@ -81,18 +81,18 @@ public class SWBAFilters extends SWBATree
     /**
      * The Constant pathValids.
      */
-    static final String[] pathValids =
-    {
-        "getSemanticObject", "getGlobal", "getTemplates", "getServer", "getResources", "getResourceTypes", "getSysResources", "getTopic", "getTemplateGroup", "getUserRep", "getRules", "getPFlows", "getLanguages", "getDevices", "getMDTables", "getDnss", "getTopicMap", "getUserReps", "getCamps", "getCamp", "getCntResources", "getSemanticClass"
-    };
+//    static final String[] pathValids =
+//    {
+//        "getSemanticObject", "getGlobal", "getTemplates", "getServer", "getResources", "getResourceTypes", "getSysResources", "getTopic", "getTemplateGroup", "getUserRep", "getRules", "getPFlows", "getLanguages", "getDevices", "getMDTables", "getDnss", "getTopicMap", "getUserReps", "getCamps", "getCamp", "getCntResources", "getSemanticClass"
+//    };
 
     /**
      * The Constant namevalids.
      */
-    static final String[] namevalids =
-    {
-        "node", "config", "icons", "icon", "res", "events", "willExpand", "Template"
-    };
+//    static final String[] namevalids =
+//    {
+//        "node", "config", "icons", "icon", "res", "events", "willExpand", "Template"
+//    };
 
     /**
      * The hmclass.
@@ -102,14 +102,12 @@ public class SWBAFilters extends SWBATree
     /**
      * The jsondom.
      */
-    private Document jsondom = null;
+//    private Document jsondom = null;
 
     /**
      * Creates a new instance of WBAFilters.
      */
-    public SWBAFilters()
-    {
-    }
+    public SWBAFilters() {}
 
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
@@ -487,168 +485,168 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    @Override
-    public Document initTree(User user, Document src)
-    {
-        Document doc = initTree(user, src, false);
-        return doc;
-    }
+//    @Override
+//    public Document initTree(User user, Document src)
+//    {
+//        Document doc = initTree(user, src, false);
+//        return doc;
+//    }
 
     /* (non-Javadoc)
      * @see org.semanticwb.portal.admin.resources.SWBATree#initTree(org.semanticwb.model.User, org.w3c.dom.Document, boolean)
      */
-    @Override
-    public Document initTree(User user, Document src, boolean isFilter)
-    {
-        Document dom = null;
-        try
-        {
-            dom = SWBUtils.XML.getNewDocument();
-            Element res = dom.createElement("res");
-            dom.appendChild(res);
-            //config
-            Element config = addNode("config", "config", "Config", res);
-
-            Element icons = addNode("icons", "icons", "Icons", config);
-
-            /*Element icon = addNode("icon", "sitev", "Site", icons);
-             icon.setAttribute("path", "images/icon-sitioa.gif");
-             icon = addNode("icon", "siter", "Site", icons);
-             icon.setAttribute("path", "images/icon-sitior.gif");
-             icon = addNode("icon", "hijor", "Topic", icons);
-             icon.setAttribute("path", "images/icon-pagwebr.gif");
-             icon = addNode("icon", "hijov", "Topic", icons);
-             icon.setAttribute("path", "images/icon-pagweba.gif"); //icon-foldera.gif
-             //icon.setAttribute("path","images/icon-foldera.gif");
-             icon = addNode("icon", "homer", "Topic", icons);
-             icon.setAttribute("path", "images/i_home_rojo.gif");
-             icon = addNode("icon", "homev", "Topic", icons);
-             icon.setAttribute("path", "images/i_home_verde.gif");
-             icon = addNode("icon", "virtual", "Topic", icons);
-             icon.setAttribute("path", "images/ico_virtual.gif");
-
-             icon = addNode("icon", "folder", "Folder", icons);
-             icon.setAttribute("path", "images/icon-foldera.gif");
-             icon = addNode("icon", "root", "Root", icons);
-             icon.setAttribute("path", "images/icon-foldera.gif");
-             icon = addNode("icon", "menu", "Menu", icons);
-             icon.setAttribute("path", "images/icon-pagweba.gif");//
-             icon = addNode("icon", "global", "Global", icons);
-             icon.setAttribute("path", "images/icon-servera.gif");
-             ///////
-             icon = addNode("icon", "devices", "Devices", icons);
-             icon.setAttribute("path", "images/f_dispositivos.gif");
-             icon = addNode("icon", "device", "Device", icons);
-             icon.setAttribute("path", "images/i_dispositivo.gif");
-             icon = addNode("icon", "dnss", "DNS", icons);
-             icon.setAttribute("path", "images/f_dns.gif");
-             icon = addNode("icon", "dns", "DNS", icons);
-             icon.setAttribute("path", "images/i_dns.gif");
-             icon = addNode("icon", "resources", "Resources", icons);
-             icon.setAttribute("path", "images/f_estrategias.gif");
-             icon = addNode("icon", "resourcetype", "ResourceType", icons);
-             icon.setAttribute("path", "images/f_resourcetype.gif");
-             icon = addNode("icon", "sysresources", "SysResources", icons);
-             icon.setAttribute("path", "images/f_sistema.gif");
-             icon = addNode("icon", "resourcer", "Resource", icons);
-             icon.setAttribute("path", "images/i_recurso_rojo.gif");
-             icon = addNode("icon", "resourcev", "Resource", icons);
-             icon.setAttribute("path", "images/i_recurso_verde.gif");
-
-             ////////////////////
-
-             icon = addNode("icon", "flows", "Flows", icons);
-             icon.setAttribute("path", "images/f_flujos.gif");
-             icon = addNode("icon", "flow", "Flow", icons);
-             icon.setAttribute("path", "images/i_flujo.gif");
-
-             /////////////////
-
-             icon = addNode("icon", "languages", "Languages", icons);
-             icon.setAttribute("path", "images/f_idioma.gif");
-             icon = addNode("icon", "language", "Language", icons);
-             icon.setAttribute("path", "images/i_idioma.gif");
-             icon = addNode("icon", "metadatas", "Metadatas", icons);
-             icon.setAttribute("path", "images/f_metadatos.gif");
-             icon = addNode("icon", "metadata", "Metadata", icons);
-             icon.setAttribute("path", "images/i_metadata.gif");
-             icon = addNode("icon", "camps", "Camps", icons);
-             icon.setAttribute("path", "images/f_camp.gif");
-             icon = addNode("icon", "campv", "Camp", icons);
-             icon.setAttribute("path", "images/i_camp.gif");
-             icon = addNode("icon", "campr", "Camp", icons);
-             icon.setAttribute("path", "images/i_camp_r.gif");
-             icon = addNode("icon", "templates", "Templates", icons);
-             icon.setAttribute("path", "images/f_plantillas.gif");
-             icon = addNode("icon", "templater", "Template", icons);
-             icon.setAttribute("path", "images/i_plantilla_rojo.gif");
-             icon = addNode("icon", "templatev", "Template", icons);
-             icon.setAttribute("path", "images/i_plantilla_verde.gif");
-             icon = addNode("icon", "rules", "Rules", icons);
-             icon.setAttribute("path", "images/f_reglas.gif");
-             icon = addNode("icon", "rule", "Rule", icons);
-             icon.setAttribute("path", "images/i_regla.gif");
-             icon = addNode("icon", "userreps", "UserReps", icons);
-             icon.setAttribute("path", "images/f_usuarios.gif");
-             icon = addNode("icon", "userrep", "UserRep", icons);
-             icon.setAttribute("path", "images/i_repositoriousuarios.gif");
-             icon = addNode("icon", "role", "Role", icons);
-             icon.setAttribute("path", "images/i_rol.gif");
-
-             ///////////////////////////
-
-             //menus
-             icon = addNode("icon", "trans", "Transparent", icons);
-             icon.setAttribute("path", "images/trans.gif");
-
-             //////////////////
-
-             icon = addNode("icon", "refresh", "Refresh", icons);
-             icon.setAttribute("path", "images/refresh.gif");
-             icon = addNode("icon", "edit", "Edit", icons);
-             icon.setAttribute("path", "images/edit.gif");
-             icon = addNode("icon", "remove", "Remove", icons);
-             icon.setAttribute("path", "images/remove.gif");
-             icon = addNode("icon", "add", "Add", icons);
-             icon.setAttribute("path", "images/add.gif");
-             icon = addNode("icon", "active", "Active", icons);
-             icon.setAttribute("path", "images/active.gif");
-             icon = addNode("icon", "unactive", "Unactive", icons);
-             icon.setAttribute("path", "images/unactive.gif");
-             icon = addNode("icon", "trash", "Trash", icons);
-             icon.setAttribute("path", "images/papelera.gif");
-             icon = addNode("icon", "catalog", "Catalog", icons);
-             icon.setAttribute("path", "images/catalogo.gif");//icon-pagweba.gif*/
-            Set<SemanticObject> nodesFilter = new HashSet<SemanticObject>();
-
-            NodeList ids = src.getElementsByTagName("id");
-            if (ids.getLength() == 1)
-            {
-                String id = ((Element) ids.item(0)).getTextContent();
-                String tm = ((Element) src.getElementsByTagName("tm").item(0)).getTextContent();
-                UserRepository site = UserRepository.ClassMgr.getUserRepository(tm);
-                if (site != null && id != null)
-                {
-                    nodesFilter = getNodesInFilter(id, site);
-                }
-            }
-
-            Iterator it = ext.iterator();
-            while (it.hasNext())
-            {
-                SWBTreeExt e = (SWBTreeExt) it.next();
-                e.initTree(user, res, isFilter);
-            }
-
-            addServerFilter(user, res, getAllNodes(nodesFilter));
-
-        } catch (Exception e)
-        {
-            log.error(e);
-            return getError(3);
-        }
-        return dom;
-    }
+//    @Override
+//    public Document initTree(User user, Document src, boolean isFilter)
+//    {
+//        Document dom = null;
+//        try
+//        {
+//            dom = SWBUtils.XML.getNewDocument();
+//            Element res = dom.createElement("res");
+//            dom.appendChild(res);
+//            //config
+//            Element config = addNode("config", "config", "Config", res);
+//
+//            Element icons = addNode("icons", "icons", "Icons", config);
+//
+//            /*Element icon = addNode("icon", "sitev", "Site", icons);
+//             icon.setAttribute("path", "images/icon-sitioa.gif");
+//             icon = addNode("icon", "siter", "Site", icons);
+//             icon.setAttribute("path", "images/icon-sitior.gif");
+//             icon = addNode("icon", "hijor", "Topic", icons);
+//             icon.setAttribute("path", "images/icon-pagwebr.gif");
+//             icon = addNode("icon", "hijov", "Topic", icons);
+//             icon.setAttribute("path", "images/icon-pagweba.gif"); //icon-foldera.gif
+//             //icon.setAttribute("path","images/icon-foldera.gif");
+//             icon = addNode("icon", "homer", "Topic", icons);
+//             icon.setAttribute("path", "images/i_home_rojo.gif");
+//             icon = addNode("icon", "homev", "Topic", icons);
+//             icon.setAttribute("path", "images/i_home_verde.gif");
+//             icon = addNode("icon", "virtual", "Topic", icons);
+//             icon.setAttribute("path", "images/ico_virtual.gif");
+//
+//             icon = addNode("icon", "folder", "Folder", icons);
+//             icon.setAttribute("path", "images/icon-foldera.gif");
+//             icon = addNode("icon", "root", "Root", icons);
+//             icon.setAttribute("path", "images/icon-foldera.gif");
+//             icon = addNode("icon", "menu", "Menu", icons);
+//             icon.setAttribute("path", "images/icon-pagweba.gif");//
+//             icon = addNode("icon", "global", "Global", icons);
+//             icon.setAttribute("path", "images/icon-servera.gif");
+//             ///////
+//             icon = addNode("icon", "devices", "Devices", icons);
+//             icon.setAttribute("path", "images/f_dispositivos.gif");
+//             icon = addNode("icon", "device", "Device", icons);
+//             icon.setAttribute("path", "images/i_dispositivo.gif");
+//             icon = addNode("icon", "dnss", "DNS", icons);
+//             icon.setAttribute("path", "images/f_dns.gif");
+//             icon = addNode("icon", "dns", "DNS", icons);
+//             icon.setAttribute("path", "images/i_dns.gif");
+//             icon = addNode("icon", "resources", "Resources", icons);
+//             icon.setAttribute("path", "images/f_estrategias.gif");
+//             icon = addNode("icon", "resourcetype", "ResourceType", icons);
+//             icon.setAttribute("path", "images/f_resourcetype.gif");
+//             icon = addNode("icon", "sysresources", "SysResources", icons);
+//             icon.setAttribute("path", "images/f_sistema.gif");
+//             icon = addNode("icon", "resourcer", "Resource", icons);
+//             icon.setAttribute("path", "images/i_recurso_rojo.gif");
+//             icon = addNode("icon", "resourcev", "Resource", icons);
+//             icon.setAttribute("path", "images/i_recurso_verde.gif");
+//
+//             ////////////////////
+//
+//             icon = addNode("icon", "flows", "Flows", icons);
+//             icon.setAttribute("path", "images/f_flujos.gif");
+//             icon = addNode("icon", "flow", "Flow", icons);
+//             icon.setAttribute("path", "images/i_flujo.gif");
+//
+//             /////////////////
+//
+//             icon = addNode("icon", "languages", "Languages", icons);
+//             icon.setAttribute("path", "images/f_idioma.gif");
+//             icon = addNode("icon", "language", "Language", icons);
+//             icon.setAttribute("path", "images/i_idioma.gif");
+//             icon = addNode("icon", "metadatas", "Metadatas", icons);
+//             icon.setAttribute("path", "images/f_metadatos.gif");
+//             icon = addNode("icon", "metadata", "Metadata", icons);
+//             icon.setAttribute("path", "images/i_metadata.gif");
+//             icon = addNode("icon", "camps", "Camps", icons);
+//             icon.setAttribute("path", "images/f_camp.gif");
+//             icon = addNode("icon", "campv", "Camp", icons);
+//             icon.setAttribute("path", "images/i_camp.gif");
+//             icon = addNode("icon", "campr", "Camp", icons);
+//             icon.setAttribute("path", "images/i_camp_r.gif");
+//             icon = addNode("icon", "templates", "Templates", icons);
+//             icon.setAttribute("path", "images/f_plantillas.gif");
+//             icon = addNode("icon", "templater", "Template", icons);
+//             icon.setAttribute("path", "images/i_plantilla_rojo.gif");
+//             icon = addNode("icon", "templatev", "Template", icons);
+//             icon.setAttribute("path", "images/i_plantilla_verde.gif");
+//             icon = addNode("icon", "rules", "Rules", icons);
+//             icon.setAttribute("path", "images/f_reglas.gif");
+//             icon = addNode("icon", "rule", "Rule", icons);
+//             icon.setAttribute("path", "images/i_regla.gif");
+//             icon = addNode("icon", "userreps", "UserReps", icons);
+//             icon.setAttribute("path", "images/f_usuarios.gif");
+//             icon = addNode("icon", "userrep", "UserRep", icons);
+//             icon.setAttribute("path", "images/i_repositoriousuarios.gif");
+//             icon = addNode("icon", "role", "Role", icons);
+//             icon.setAttribute("path", "images/i_rol.gif");
+//
+//             ///////////////////////////
+//
+//             //menus
+//             icon = addNode("icon", "trans", "Transparent", icons);
+//             icon.setAttribute("path", "images/trans.gif");
+//
+//             //////////////////
+//
+//             icon = addNode("icon", "refresh", "Refresh", icons);
+//             icon.setAttribute("path", "images/refresh.gif");
+//             icon = addNode("icon", "edit", "Edit", icons);
+//             icon.setAttribute("path", "images/edit.gif");
+//             icon = addNode("icon", "remove", "Remove", icons);
+//             icon.setAttribute("path", "images/remove.gif");
+//             icon = addNode("icon", "add", "Add", icons);
+//             icon.setAttribute("path", "images/add.gif");
+//             icon = addNode("icon", "active", "Active", icons);
+//             icon.setAttribute("path", "images/active.gif");
+//             icon = addNode("icon", "unactive", "Unactive", icons);
+//             icon.setAttribute("path", "images/unactive.gif");
+//             icon = addNode("icon", "trash", "Trash", icons);
+//             icon.setAttribute("path", "images/papelera.gif");
+//             icon = addNode("icon", "catalog", "Catalog", icons);
+//             icon.setAttribute("path", "images/catalogo.gif");//icon-pagweba.gif*/
+//            Set<SemanticObject> nodesFilter = new HashSet<SemanticObject>();
+//
+//            NodeList ids = src.getElementsByTagName("id");
+//            if (ids.getLength() == 1)
+//            {
+//                String id = ((Element) ids.item(0)).getTextContent();
+//                String tm = ((Element) src.getElementsByTagName("tm").item(0)).getTextContent();
+//                UserRepository site = UserRepository.ClassMgr.getUserRepository(tm);
+//                if (site != null && id != null)
+//                {
+//                    nodesFilter = getNodesInFilter(id, site);
+//                }
+//            }
+//
+//            Iterator it = ext.iterator();
+//            while (it.hasNext())
+//            {
+//                SWBTreeExt e = (SWBTreeExt) it.next();
+//                e.initTree(user, res, isFilter);
+//            }
+//
+//            addServerFilter(user, res, getAllNodes(nodesFilter));
+//
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//            return getError(3);
+//        }
+//        return dom;
+//    }
 
     /**
      * Gets the all nodes.
@@ -656,28 +654,28 @@ public class SWBAFilters extends SWBATree
      * @param nodesFilter the nodes filter
      * @return the all nodes
      */
-    private Set<String> getAllNodes(Set<SemanticObject> nodesFilter)
-    {
-        Set<String> getAllNodes = new HashSet<String>();
-        for (SemanticObject obj : nodesFilter)
-        {
-            Iterator<SemanticObject> parents = obj.listHerarquicalParents();
-            while (parents.hasNext())
-            {
-                SemanticObject parent = parents.next();
-                getAllNodes.add(parent.getURI());
-                HashSet<SemanticObject> parentToFind = new HashSet<SemanticObject>();
-                parentToFind.add(parent);
-                Set<String> newparents = getAllNodes(parentToFind);
-                if (!newparents.isEmpty())
-                {
-                    getAllNodes.addAll(newparents);
-                }
-
-            }
-        }
-        return getAllNodes;
-    }
+//    private Set<String> getAllNodes(Set<SemanticObject> nodesFilter)
+//    {
+//        Set<String> getAllNodes = new HashSet<String>();
+//        for (SemanticObject obj : nodesFilter)
+//        {
+//            Iterator<SemanticObject> parents = obj.listHerarquicalParents();
+//            while (parents.hasNext())
+//            {
+//                SemanticObject parent = parents.next();
+//                getAllNodes.add(parent.getURI());
+//                HashSet<SemanticObject> parentToFind = new HashSet<SemanticObject>();
+//                parentToFind.add(parent);
+//                Set<String> newparents = getAllNodes(parentToFind);
+//                if (!newparents.isEmpty())
+//                {
+//                    getAllNodes.addAll(newparents);
+//                }
+//
+//            }
+//        }
+//        return getAllNodes;
+//    }
 
     /**
      * Gets the nodes in filter.
@@ -686,39 +684,39 @@ public class SWBAFilters extends SWBATree
      * @param map the map
      * @return the nodes in filter
      */
-    private Set<SemanticObject> getNodesInFilter(String id, UserRepository map)
-    {
-        Set<SemanticObject> getNodesInFilter = new HashSet<SemanticObject>();
-        AdminFilter admfilter = AdminFilter.ClassMgr.getAdminFilter(id, map);
-        if (admfilter != null && admfilter.getXml() != null)
-        {
-            Document exmlfilter = SWBUtils.XML.xmlToDom(admfilter.getXml());
-            if (exmlfilter != null)
-            {
-                NodeList nodes = exmlfilter.getElementsByTagName("sites");
-                for (int i = 0; i < nodes.getLength(); i++)
-                {
-                    Element sites = (Element) nodes.item(i);
-                    NodeList nodesFilter = sites.getElementsByTagName("node");
-                    for (int j = 0; j < nodesFilter.getLength(); j++)
-                    {
-                        Element obj = (Element) nodesFilter.item(j);
-                        String idObj = obj.getAttribute("id");
-                        if (idObj != null)
-                        {
-                            SemanticObject objFilter = SemanticObject.createSemanticObject(idObj);
-                            if (objFilter != null)
-                            {
-                                getNodesInFilter.add(objFilter);
-                            }
-                        }
-
-                    }
-                }
-            }
-        }
-        return getNodesInFilter;
-    }
+//    private Set<SemanticObject> getNodesInFilter(String id, UserRepository map)
+//    {
+//        Set<SemanticObject> getNodesInFilter = new HashSet<SemanticObject>();
+//        AdminFilter admfilter = AdminFilter.ClassMgr.getAdminFilter(id, map);
+//        if (admfilter != null && admfilter.getXml() != null)
+//        {
+//            Document exmlfilter = SWBUtils.XML.xmlToDom(admfilter.getXml());
+//            if (exmlfilter != null)
+//            {
+//                NodeList nodes = exmlfilter.getElementsByTagName("sites");
+//                for (int i = 0; i < nodes.getLength(); i++)
+//                {
+//                    Element sites = (Element) nodes.item(i);
+//                    NodeList nodesFilter = sites.getElementsByTagName("node");
+//                    for (int j = 0; j < nodesFilter.getLength(); j++)
+//                    {
+//                        Element obj = (Element) nodesFilter.item(j);
+//                        String idObj = obj.getAttribute("id");
+//                        if (idObj != null)
+//                        {
+//                            SemanticObject objFilter = SemanticObject.createSemanticObject(idObj);
+//                            if (objFilter != null)
+//                            {
+//                                getNodesInFilter.add(objFilter);
+//                            }
+//                        }
+//
+//                    }
+//                }
+//            }
+//        }
+//        return getNodesInFilter;
+//    }
 
     /**
      * Inits the tree filter.
@@ -728,12 +726,12 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    @Override
-    public Document initTreeFilter(User user, Document src)
-    {
-        Document doc = initTree(user, src);
-        return doc;
-    }
+//    @Override
+//    public Document initTreeFilter(User user, Document src)
+//    {
+//        Document doc = initTree(user, src);
+//        return doc;
+//    }
     
     private JSONObject createNodeObject(String id, String name, String reload, String parent) throws JSONException {
         JSONObject ret = new JSONObject();
@@ -861,49 +859,28 @@ public class SWBAFilters extends SWBATree
                     SemanticClass scls = (SemanticClass) it.next();
                     try {
                         JSONObject obj = createNodeObject(scls.getClassId(), scls.getDisplayName(lang), "getTopic.SC|" + scls.getClassId(), "WBAd_mnu_PopUp");
-                        //obj.put("access",2);
-                        //obj.put("id", scls.getClassId());
-                        //obj.put("reload", "getTopic.SC|" + scls.getClassId());
                         obj.put("topicmap", map.getId());
-                        //obj.put("parent", "WBAd_mnu_PopUp");
-                        //obj.put("name", scls.getDisplayName(lang));
                         ret.put(obj);
                         
                         //Add
                         obj = createNodeObject(scls.getClassId()+";add", getLocaleString("add", lang), "getTopic.SCA|" + scls.getClassId()+"|add", scls.getClassId());
-                        //obj.put("id", scls.getClassId()+";add");
-                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|add");
                         obj.put("topicmap", map.getId());
-                        //obj.put("parent", scls.getClassId());
-                        //obj.put("name", getLocaleString("add", lang));
                         ret.put(obj);
                         
                         //Edit
                         obj = createNodeObject(scls.getClassId()+";edit", getLocaleString("edit", lang), "getTopic.SCA|" + scls.getClassId()+"|edit", scls.getClassId());
-                        //obj.put("id", scls.getClassId()+";edit");
-                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|edit");
                         obj.put("topicmap", map.getId());
-                        //obj.put("parent", scls.getClassId());
-                        //obj.put("name", getLocaleString("edit", lang));
                         ret.put(obj);
                         
                         //Remove
                         obj = createNodeObject(scls.getClassId()+";delete", getLocaleString("delete", lang), "getTopic.SCA|" + scls.getClassId()+"|delete", scls.getClassId());
-                        //obj.put("id", scls.getClassId()+";delete");
-                        //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|delete");
                         obj.put("topicmap", map.getId());
-                        //obj.put("parent", scls.getClassId());
-                        //obj.put("name", getLocaleString("delete", lang));
                         ret.put(obj);
                         
                         //Activate
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
                             obj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", scls.getClassId());
-                            //obj.put("id", scls.getClassId()+";active");
-                            //obj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
                             obj.put("topicmap", map.getId());
-                            //obj.put("parent", scls.getClassId());
-                            //obj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
                             ret.put(obj);
                         }
                     } catch (JSONException jsex) {
@@ -916,13 +893,8 @@ public class SWBAFilters extends SWBATree
                     WebPage child = childs.next();
                     try {
                         JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
-                        //obj.put("access",2);
-                        //obj.put("id", child.getId());
                         obj.put("canModify", true);
-                        //obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
                         obj.put("topicmap", map.getId());
-                        //obj.put("parent", root.getId());
-                        //obj.put("name", child.getDisplayName(user.getLanguage()));
                         ret.put(obj);
                     } catch (JSONException jsex) {
                         log.error("Error al obtener el json de comportamientos");
@@ -945,13 +917,8 @@ public class SWBAFilters extends SWBATree
                 WebPage child = childs.next();
                 try {
                     JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
-                    //obj.put("access",2);
-                    //obj.put("id", child.getId());
                     obj.put("canModify", true);
-                    //obj.put("reload", "getTopic." + map.getId() + "." + child.getId());
                     obj.put("topicmap", map.getId());
-                    //obj.put("parent", root.getId());
-                    //obj.put("name", child.getDisplayName(user.getLanguage()));
                     ret.put(obj);
                 } catch (JSONException jsex) {
                     log.error("Error al obtener el json de comportamientos");
@@ -959,6 +926,112 @@ public class SWBAFilters extends SWBATree
                 getViewsJSON(ret, child, user);
             }
         }
+    }
+    
+    private JSONObject getJSONFilter(Document dom) {
+        JSONObject ret = new JSONObject();
+        //Process sites json
+        NodeList nodes = dom.getElementsByTagName("sites");
+        if (null != nodes && nodes.getLength() > 0) {
+            JSONArray sites = new JSONArray();
+            Element root = (Element) nodes.item(0);
+            nodes = root.getElementsByTagName("node");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element enode = (Element) nodes.item(i);
+                String idObj = enode.getAttribute("id");
+                if (null != idObj) {
+                    SemanticObject objFilter = SemanticObject.createSemanticObject(idObj);
+                    if (null != objFilter) {
+                        String path = enode.getAttribute("path");
+                        String reload = enode.getAttribute("reload");
+                        String tmap = enode.getAttribute("topicmap");
+                        
+                        try {
+                            JSONObject e = createNodeObject(idObj, objFilter.getDisplayName("es"), reload, null);
+                            e.put("path", path);
+                            e.put("topicmap", tmap);
+                            sites.put(e);
+                        } catch (JSONException jsex) {}
+                    }
+                }
+            }
+            
+            try {
+                ret.put("sites", sites);
+            } catch (JSONException jsex) {}
+        }
+        
+        nodes = dom.getElementsByTagName("menus");
+        if (null != nodes && nodes.getLength() > 0) {
+            JSONArray menus = new JSONArray();
+            Element root = (Element) nodes.item(0);
+            nodes = root.getElementsByTagName("node");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element enode = (Element) nodes.item(i);
+                String idObj = enode.getAttribute("id");
+                String tmap = enode.getAttribute("topicmap");
+                String path = enode.getAttribute("path");
+                String reload = enode.getAttribute("reload");
+                
+                try {
+                    JSONObject e = createNodeObject(idObj, null, reload, null);
+                    e.put("path", path);
+                    e.put("topicmap", tmap);
+                    menus.put(e);
+                } catch (JSONException jsex) {}
+            }
+            
+            try {
+                ret.put("menus", menus);
+            } catch (JSONException jsex) {}
+        }
+        
+        nodes = dom.getElementsByTagName("dirs");
+        if (null != nodes && nodes.getLength() > 0) {
+            JSONArray dirs = new JSONArray();
+            Element root = (Element) nodes.item(0);
+            nodes = root.getElementsByTagName("dir");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element enode = (Element) nodes.item(i);
+                String path = enode.getAttribute("path");
+                
+                try {
+                    JSONObject e = createNodeObject(path.replace("/","."), null, null, null);
+                    e.put("path", path);
+                    dirs.put(e);
+                } catch (JSONException jsex) {}
+            }
+            
+            try {
+                ret.put("dirs", dirs);
+            } catch (JSONException jsex) {}
+        }
+        nodes = dom.getElementsByTagName("elements");
+        if (null != nodes && nodes.getLength() > 0) {
+            JSONArray elements = new JSONArray();
+            Element root = (Element) nodes.item(0);
+            nodes = root.getElementsByTagName("node");
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Element enode = (Element) nodes.item(i);
+                String idObj = enode.getAttribute("id");
+                String tmap = enode.getAttribute("topicmap");
+                String path = enode.getAttribute("path");
+                String reload = enode.getAttribute("reload");
+                
+                try {
+                    JSONObject e = createNodeObject(idObj, null, reload, null);
+                    e.put("path", path);
+                    e.put("topicmap", tmap);
+                    elements.put(e);
+                } catch (JSONException jsex) {}
+            }
+            
+            try {
+                ret.put("elements", elements);
+            } catch (JSONException jsex) {}
+        }
+        
+        return ret;
     }
 
     /**
@@ -979,16 +1052,21 @@ public class SWBAFilters extends SWBATree
         String action = paramRequest.getAction();
         WebSite map = SWBContext.getAdminWebSite();
         
-        if ("getFilter".equals(action)) { 
+        if ("getFilter".equals(action)) {
             //TODO: Obtener info del filtro almacenado en XML, transformarla a JSON
             //Conciliar y devolver la configuración en paths para expansión y selección
             JSONObject _ret = new JSONObject();
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
-                System.out.println("----");
-                System.out.println(af.getXml());
-                System.out.println("----");
+                JSONObject filterObject = getJSONFilter(af.getDom());
+                
+                try {
+                    System.out.println(filterObject.toString(2));
+                } catch (JSONException jsex) {}
+                //System.out.println("----");
+                //System.out.println(af.getXml());
+                //System.out.println("----");
                 
                 try {
                     _ret.put("filterId", af.getURI());
@@ -1092,23 +1170,23 @@ public class SWBAFilters extends SWBATree
     /* (non-Javadoc)
      * @see org.semanticwb.portal.admin.resources.SWBATree#getService(java.lang.String, org.w3c.dom.Document, org.semanticwb.model.User, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-    @Override
-    public Document getService(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
-    {
-        if (cmd.equals("initTree"))
-        {
-            return initTree(user, src);
-        } else if (cmd.equals("initTreeFilter"))
-        {
-            return initTreeFilter(user, src);
-        } else if (cmd.startsWith("getPath."))
-        {
-            return getPath(user, src, cmd.substring("getPath.".length()));
-        } else
-        {
-            return getDocument(user, src, cmd);
-        }
-    }
+//    @Override
+//    public Document getService(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
+//    {
+//        if (cmd.equals("initTree"))
+//        {
+//            return initTree(user, src);
+//        } else if (cmd.equals("initTreeFilter"))
+//        {
+//            return initTreeFilter(user, src);
+//        } else if (cmd.startsWith("getPath."))
+//        {
+//            return getPath(user, src, cmd.substring("getPath.".length()));
+//        } else
+//        {
+//            return getDocument(user, src, cmd);
+//        }
+//    }
 
     /**
      * Adds the.
@@ -1678,35 +1756,35 @@ public class SWBAFilters extends SWBATree
      * @param parent the parent
      * @return the path
      */
-    private List<SemanticObject> getPath(SemanticObject child, SemanticObject parent)
-    {
-        ArrayList<SemanticObject> getPath = new ArrayList<SemanticObject>();
-        if (child.hasHerarquicalParents())
-        {
-            Iterator<SemanticObject> hps = child.listHerarquicalParents();
-
-            while (hps.hasNext())
-            {
-                SemanticObject hp = hps.next();
-
-                if (hp.getURI().equals(parent.getURI()))
-                {
-
-                    getPath.add(parent);
-                } else
-                {
-                    List<SemanticObject> path = getPath(hp, parent);
-                    if (path != null && !path.isEmpty())
-                    {
-                        getPath.add(hp);
-                        getPath.addAll(path);
-                    }
-                }
-            }
-        }
-
-        return getPath;
-    }
+//    private List<SemanticObject> getPath(SemanticObject child, SemanticObject parent)
+//    {
+//        ArrayList<SemanticObject> getPath = new ArrayList<SemanticObject>();
+//        if (child.hasHerarquicalParents())
+//        {
+//            Iterator<SemanticObject> hps = child.listHerarquicalParents();
+//
+//            while (hps.hasNext())
+//            {
+//                SemanticObject hp = hps.next();
+//
+//                if (hp.getURI().equals(parent.getURI()))
+//                {
+//
+//                    getPath.add(parent);
+//                } else
+//                {
+//                    List<SemanticObject> path = getPath(hp, parent);
+//                    if (path != null && !path.isEmpty())
+//                    {
+//                        getPath.add(hp);
+//                        getPath.addAll(path);
+//                    }
+//                }
+//            }
+//        }
+//
+//        return getPath;
+//    }
 
     /**
      * Adds the semantic object filter.
