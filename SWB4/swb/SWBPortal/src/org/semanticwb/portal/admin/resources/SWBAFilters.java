@@ -122,6 +122,13 @@ public class SWBAFilters extends SWBATree
             if (null != request.getParameter("suri")) {
                 response.setRenderParameter("suri", request.getParameter("suri"));
             }
+        } else if ("updateFilter".equals(action)) {
+            BufferedReader reader = request.getReader();
+            String line = null;
+            while((line = reader.readLine()) != null) {
+                System.out.println("-"+line);
+            }
+            reader.close();
         } else {
             super.processAction(request, response);
         }
