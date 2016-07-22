@@ -928,7 +928,7 @@ public class SWBAFilters extends SWBATree
         }
     }
     
-    private JSONObject getJSONFilter(Document dom) {
+    private JSONObject getJSONFilter(Document dom) throws JSONException {
         JSONObject ret = new JSONObject();
         //Process sites json
         NodeList nodes = dom.getElementsByTagName("sites");
@@ -946,19 +946,15 @@ public class SWBAFilters extends SWBATree
                         String reload = enode.getAttribute("reload");
                         String tmap = enode.getAttribute("topicmap");
                         
-                        try {
-                            JSONObject e = createNodeObject(idObj, objFilter.getDisplayName("es"), reload, null);
-                            e.put("path", path);
-                            e.put("topicmap", tmap);
-                            sites.put(e);
-                        } catch (JSONException jsex) {}
+                        JSONObject e = createNodeObject(idObj, objFilter.getDisplayName("es"), reload, null);
+                        e.put("path", path);
+                        e.put("topicmap", tmap);
+                        sites.put(e);
                     }
                 }
             }
             
-            try {
-                ret.put("sites", sites);
-            } catch (JSONException jsex) {}
+            ret.put("sites", sites);
         }
         
         nodes = dom.getElementsByTagName("menus");
@@ -973,17 +969,13 @@ public class SWBAFilters extends SWBATree
                 String path = enode.getAttribute("path");
                 String reload = enode.getAttribute("reload");
                 
-                try {
-                    JSONObject e = createNodeObject(idObj, null, reload, null);
-                    e.put("path", path);
-                    e.put("topicmap", tmap);
-                    menus.put(e);
-                } catch (JSONException jsex) {}
+                JSONObject e = createNodeObject(idObj, null, reload, null);
+                e.put("path", path);
+                e.put("topicmap", tmap);
+                menus.put(e);
             }
             
-            try {
-                ret.put("menus", menus);
-            } catch (JSONException jsex) {}
+            ret.put("menus", menus);
         }
         
         nodes = dom.getElementsByTagName("dirs");
@@ -995,17 +987,14 @@ public class SWBAFilters extends SWBATree
                 Element enode = (Element) nodes.item(i);
                 String path = enode.getAttribute("path");
                 
-                try {
-                    JSONObject e = createNodeObject(path.replace("/","."), null, null, null);
-                    e.put("path", path);
-                    dirs.put(e);
-                } catch (JSONException jsex) {}
+                JSONObject e = createNodeObject(path.replace("/","."), null, null, null);
+                e.put("path", path);
+                dirs.put(e);
             }
             
-            try {
-                ret.put("dirs", dirs);
-            } catch (JSONException jsex) {}
+            ret.put("dirs", dirs);
         }
+        
         nodes = dom.getElementsByTagName("elements");
         if (null != nodes && nodes.getLength() > 0) {
             JSONArray elements = new JSONArray();
@@ -1017,18 +1006,14 @@ public class SWBAFilters extends SWBATree
                 String tmap = enode.getAttribute("topicmap");
                 String path = enode.getAttribute("path");
                 String reload = enode.getAttribute("reload");
-                
-                try {
-                    JSONObject e = createNodeObject(idObj, null, reload, null);
-                    e.put("path", path);
-                    e.put("topicmap", tmap);
-                    elements.put(e);
-                } catch (JSONException jsex) {}
+
+                JSONObject e = createNodeObject(idObj, null, reload, null);
+                e.put("path", path);
+                e.put("topicmap", tmap);
+                elements.put(e);
             }
             
-            try {
-                ret.put("elements", elements);
-            } catch (JSONException jsex) {}
+            ret.put("elements", elements);
         }
         
         return ret;
@@ -1059,9 +1044,9 @@ public class SWBAFilters extends SWBATree
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
-                JSONObject filterObject = getJSONFilter(af.getDom());
                 
                 try {
+                    JSONObject filterObject = getJSONFilter(af.getDom());
                     System.out.println(filterObject.toString(2));
                 } catch (JSONException jsex) {}
                 //System.out.println("----");
