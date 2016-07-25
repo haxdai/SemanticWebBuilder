@@ -29,7 +29,6 @@ import org.semanticwb.portal.api.SWBParamRequest;
 import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.*;
 import java.util.*;
-import java.util.ArrayList;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -77,32 +76,12 @@ public class SWBAFilters extends SWBATree
      * The log.
      */
     private Logger log = SWBUtils.getLogger(SWBAFilters.class);
-
-    /**
-     * The Constant pathValids.
-     */
-//    static final String[] pathValids =
-//    {
-//        "getSemanticObject", "getGlobal", "getTemplates", "getServer", "getResources", "getResourceTypes", "getSysResources", "getTopic", "getTemplateGroup", "getUserRep", "getRules", "getPFlows", "getLanguages", "getDevices", "getMDTables", "getDnss", "getTopicMap", "getUserReps", "getCamps", "getCamp", "getCntResources", "getSemanticClass"
-//    };
-
-    /**
-     * The Constant namevalids.
-     */
-//    static final String[] namevalids =
-//    {
-//        "node", "config", "icons", "icon", "res", "events", "willExpand", "Template"
-//    };
+    static final String [] actions = {"add", "edit", "delete"};
 
     /**
      * The hmclass.
      */
     private HashMap hmclass = null;
-
-    /**
-     * The jsondom.
-     */
-//    private Document jsondom = null;
 
     /**
      * Creates a new instance of WBAFilters.
@@ -476,331 +455,77 @@ public class SWBAFilters extends SWBATree
         }
         return docres;
     }
-
-    /**
-     * Inits the tree.
-     *
-     * @param user the user
-     * @param src the src
-     * @return the document
-     * @return
-     */
-//    @Override
-//    public Document initTree(User user, Document src)
-//    {
-//        Document doc = initTree(user, src, false);
-//        return doc;
-//    }
-
-    /* (non-Javadoc)
-     * @see org.semanticwb.portal.admin.resources.SWBATree#initTree(org.semanticwb.model.User, org.w3c.dom.Document, boolean)
-     */
-//    @Override
-//    public Document initTree(User user, Document src, boolean isFilter)
-//    {
-//        Document dom = null;
-//        try
-//        {
-//            dom = SWBUtils.XML.getNewDocument();
-//            Element res = dom.createElement("res");
-//            dom.appendChild(res);
-//            //config
-//            Element config = addNode("config", "config", "Config", res);
-//
-//            Element icons = addNode("icons", "icons", "Icons", config);
-//
-//            /*Element icon = addNode("icon", "sitev", "Site", icons);
-//             icon.setAttribute("path", "images/icon-sitioa.gif");
-//             icon = addNode("icon", "siter", "Site", icons);
-//             icon.setAttribute("path", "images/icon-sitior.gif");
-//             icon = addNode("icon", "hijor", "Topic", icons);
-//             icon.setAttribute("path", "images/icon-pagwebr.gif");
-//             icon = addNode("icon", "hijov", "Topic", icons);
-//             icon.setAttribute("path", "images/icon-pagweba.gif"); //icon-foldera.gif
-//             //icon.setAttribute("path","images/icon-foldera.gif");
-//             icon = addNode("icon", "homer", "Topic", icons);
-//             icon.setAttribute("path", "images/i_home_rojo.gif");
-//             icon = addNode("icon", "homev", "Topic", icons);
-//             icon.setAttribute("path", "images/i_home_verde.gif");
-//             icon = addNode("icon", "virtual", "Topic", icons);
-//             icon.setAttribute("path", "images/ico_virtual.gif");
-//
-//             icon = addNode("icon", "folder", "Folder", icons);
-//             icon.setAttribute("path", "images/icon-foldera.gif");
-//             icon = addNode("icon", "root", "Root", icons);
-//             icon.setAttribute("path", "images/icon-foldera.gif");
-//             icon = addNode("icon", "menu", "Menu", icons);
-//             icon.setAttribute("path", "images/icon-pagweba.gif");//
-//             icon = addNode("icon", "global", "Global", icons);
-//             icon.setAttribute("path", "images/icon-servera.gif");
-//             ///////
-//             icon = addNode("icon", "devices", "Devices", icons);
-//             icon.setAttribute("path", "images/f_dispositivos.gif");
-//             icon = addNode("icon", "device", "Device", icons);
-//             icon.setAttribute("path", "images/i_dispositivo.gif");
-//             icon = addNode("icon", "dnss", "DNS", icons);
-//             icon.setAttribute("path", "images/f_dns.gif");
-//             icon = addNode("icon", "dns", "DNS", icons);
-//             icon.setAttribute("path", "images/i_dns.gif");
-//             icon = addNode("icon", "resources", "Resources", icons);
-//             icon.setAttribute("path", "images/f_estrategias.gif");
-//             icon = addNode("icon", "resourcetype", "ResourceType", icons);
-//             icon.setAttribute("path", "images/f_resourcetype.gif");
-//             icon = addNode("icon", "sysresources", "SysResources", icons);
-//             icon.setAttribute("path", "images/f_sistema.gif");
-//             icon = addNode("icon", "resourcer", "Resource", icons);
-//             icon.setAttribute("path", "images/i_recurso_rojo.gif");
-//             icon = addNode("icon", "resourcev", "Resource", icons);
-//             icon.setAttribute("path", "images/i_recurso_verde.gif");
-//
-//             ////////////////////
-//
-//             icon = addNode("icon", "flows", "Flows", icons);
-//             icon.setAttribute("path", "images/f_flujos.gif");
-//             icon = addNode("icon", "flow", "Flow", icons);
-//             icon.setAttribute("path", "images/i_flujo.gif");
-//
-//             /////////////////
-//
-//             icon = addNode("icon", "languages", "Languages", icons);
-//             icon.setAttribute("path", "images/f_idioma.gif");
-//             icon = addNode("icon", "language", "Language", icons);
-//             icon.setAttribute("path", "images/i_idioma.gif");
-//             icon = addNode("icon", "metadatas", "Metadatas", icons);
-//             icon.setAttribute("path", "images/f_metadatos.gif");
-//             icon = addNode("icon", "metadata", "Metadata", icons);
-//             icon.setAttribute("path", "images/i_metadata.gif");
-//             icon = addNode("icon", "camps", "Camps", icons);
-//             icon.setAttribute("path", "images/f_camp.gif");
-//             icon = addNode("icon", "campv", "Camp", icons);
-//             icon.setAttribute("path", "images/i_camp.gif");
-//             icon = addNode("icon", "campr", "Camp", icons);
-//             icon.setAttribute("path", "images/i_camp_r.gif");
-//             icon = addNode("icon", "templates", "Templates", icons);
-//             icon.setAttribute("path", "images/f_plantillas.gif");
-//             icon = addNode("icon", "templater", "Template", icons);
-//             icon.setAttribute("path", "images/i_plantilla_rojo.gif");
-//             icon = addNode("icon", "templatev", "Template", icons);
-//             icon.setAttribute("path", "images/i_plantilla_verde.gif");
-//             icon = addNode("icon", "rules", "Rules", icons);
-//             icon.setAttribute("path", "images/f_reglas.gif");
-//             icon = addNode("icon", "rule", "Rule", icons);
-//             icon.setAttribute("path", "images/i_regla.gif");
-//             icon = addNode("icon", "userreps", "UserReps", icons);
-//             icon.setAttribute("path", "images/f_usuarios.gif");
-//             icon = addNode("icon", "userrep", "UserRep", icons);
-//             icon.setAttribute("path", "images/i_repositoriousuarios.gif");
-//             icon = addNode("icon", "role", "Role", icons);
-//             icon.setAttribute("path", "images/i_rol.gif");
-//
-//             ///////////////////////////
-//
-//             //menus
-//             icon = addNode("icon", "trans", "Transparent", icons);
-//             icon.setAttribute("path", "images/trans.gif");
-//
-//             //////////////////
-//
-//             icon = addNode("icon", "refresh", "Refresh", icons);
-//             icon.setAttribute("path", "images/refresh.gif");
-//             icon = addNode("icon", "edit", "Edit", icons);
-//             icon.setAttribute("path", "images/edit.gif");
-//             icon = addNode("icon", "remove", "Remove", icons);
-//             icon.setAttribute("path", "images/remove.gif");
-//             icon = addNode("icon", "add", "Add", icons);
-//             icon.setAttribute("path", "images/add.gif");
-//             icon = addNode("icon", "active", "Active", icons);
-//             icon.setAttribute("path", "images/active.gif");
-//             icon = addNode("icon", "unactive", "Unactive", icons);
-//             icon.setAttribute("path", "images/unactive.gif");
-//             icon = addNode("icon", "trash", "Trash", icons);
-//             icon.setAttribute("path", "images/papelera.gif");
-//             icon = addNode("icon", "catalog", "Catalog", icons);
-//             icon.setAttribute("path", "images/catalogo.gif");//icon-pagweba.gif*/
-//            Set<SemanticObject> nodesFilter = new HashSet<SemanticObject>();
-//
-//            NodeList ids = src.getElementsByTagName("id");
-//            if (ids.getLength() == 1)
-//            {
-//                String id = ((Element) ids.item(0)).getTextContent();
-//                String tm = ((Element) src.getElementsByTagName("tm").item(0)).getTextContent();
-//                UserRepository site = UserRepository.ClassMgr.getUserRepository(tm);
-//                if (site != null && id != null)
-//                {
-//                    nodesFilter = getNodesInFilter(id, site);
-//                }
-//            }
-//
-//            Iterator it = ext.iterator();
-//            while (it.hasNext())
-//            {
-//                SWBTreeExt e = (SWBTreeExt) it.next();
-//                e.initTree(user, res, isFilter);
-//            }
-//
-//            addServerFilter(user, res, getAllNodes(nodesFilter));
-//
-//        } catch (Exception e)
-//        {
-//            log.error(e);
-//            return getError(3);
-//        }
-//        return dom;
-//    }
-
-    /**
-     * Gets the all nodes.
-     *
-     * @param nodesFilter the nodes filter
-     * @return the all nodes
-     */
-//    private Set<String> getAllNodes(Set<SemanticObject> nodesFilter)
-//    {
-//        Set<String> getAllNodes = new HashSet<String>();
-//        for (SemanticObject obj : nodesFilter)
-//        {
-//            Iterator<SemanticObject> parents = obj.listHerarquicalParents();
-//            while (parents.hasNext())
-//            {
-//                SemanticObject parent = parents.next();
-//                getAllNodes.add(parent.getURI());
-//                HashSet<SemanticObject> parentToFind = new HashSet<SemanticObject>();
-//                parentToFind.add(parent);
-//                Set<String> newparents = getAllNodes(parentToFind);
-//                if (!newparents.isEmpty())
-//                {
-//                    getAllNodes.addAll(newparents);
-//                }
-//
-//            }
-//        }
-//        return getAllNodes;
-//    }
-
-    /**
-     * Gets the nodes in filter.
-     *
-     * @param id the id
-     * @param map the map
-     * @return the nodes in filter
-     */
-//    private Set<SemanticObject> getNodesInFilter(String id, UserRepository map)
-//    {
-//        Set<SemanticObject> getNodesInFilter = new HashSet<SemanticObject>();
-//        AdminFilter admfilter = AdminFilter.ClassMgr.getAdminFilter(id, map);
-//        if (admfilter != null && admfilter.getXml() != null)
-//        {
-//            Document exmlfilter = SWBUtils.XML.xmlToDom(admfilter.getXml());
-//            if (exmlfilter != null)
-//            {
-//                NodeList nodes = exmlfilter.getElementsByTagName("sites");
-//                for (int i = 0; i < nodes.getLength(); i++)
-//                {
-//                    Element sites = (Element) nodes.item(i);
-//                    NodeList nodesFilter = sites.getElementsByTagName("node");
-//                    for (int j = 0; j < nodesFilter.getLength(); j++)
-//                    {
-//                        Element obj = (Element) nodesFilter.item(j);
-//                        String idObj = obj.getAttribute("id");
-//                        if (idObj != null)
-//                        {
-//                            SemanticObject objFilter = SemanticObject.createSemanticObject(idObj);
-//                            if (objFilter != null)
-//                            {
-//                                getNodesInFilter.add(objFilter);
-//                            }
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-//        return getNodesInFilter;
-//    }
-
-    /**
-     * Inits the tree filter.
-     *
-     * @param user the user
-     * @param src the src
-     * @return the document
-     * @return
-     */
-//    @Override
-//    public Document initTreeFilter(User user, Document src)
-//    {
-//        Document doc = initTree(user, src);
-//        return doc;
-//    }
     
+    /**
+     * Crea un objeto JSON con las propiedades proporcionadas.
+     * @param id ID del objeto
+     * @param name Nombre del objeto
+     * @param reload Atributo reload del objeto
+     * @param parent Padre del objeto en el árbol
+     * @return Objeto JSON con las propiedades especificadas.
+     * @throws JSONException 
+     */
     private JSONObject createNodeObject(String id, String name, String reload, String parent) throws JSONException {
         JSONObject ret = new JSONObject();
 
-        if (null != id) ret.put("id", id);
-        if (null != name) ret.put("name", name);
-        if (null != reload) ret.put("reload", reload);
-        if (null != parent) ret.put("parent", parent);
+        if (null != id && !id.isEmpty()) ret.put("id", id);
+        if (null != name && !name.isEmpty()) ret.put("name", name);
+        if (null != reload && !reload.isEmpty()) ret.put("reload", reload);
+        if (null != parent && !parent.isEmpty()) ret.put("parent", parent);
         return ret;
     }
     
-    
-    private JSONArray getServerJSON(User user) {
+    /**
+     * Obtiene el JSON correspondiente a la pestaña Filtros sobre sitios del recurso.
+     * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
+     */
+    private JSONArray getServerJSON(User user) throws JSONException {
         JSONObject server = null;
         JSONArray ret = new JSONArray();
         String lang = "es";
         if (null != user && null != user.getLanguage()) lang = user.getLanguage();
         
         //Add server node
-        try {
-             server = new JSONObject("{\"name\":\"Server\", \"id\":\"Server\",\"access\":2, \"reload\":\"getServer\"}");
-             ret.put(server);
-        } catch (JSONException jsex) {
-            log.error("Error creating server JSON object", jsex);
-        }
+        server = new JSONObject("{\"name\":\"Server\", \"id\":\"Server\",\"access\":2, \"reload\":\"getServer\"}");
+        ret.put(server);
 
         //Add websites
         Iterator<WebSite> sites = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
         while (sites.hasNext()) {
             WebSite site = sites.next();
             if (!site.isDeleted()) {
-                try {
-                    JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
-                    ret.put(siteobj);
-                } catch (JSONException jsex) {
-                    System.out.println("Error creating server JSON object"+jsex);
-                }
+                JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
+                ret.put(siteobj);
 
                 Iterator<SemanticObject> hierarchicalnodes = SWBComparator.sortSemanticObjects(site.getSemanticObject().getSemanticClass().listHerarquicalNodes());
                 while (hierarchicalnodes.hasNext()) {
                     SemanticObject node = hierarchicalnodes.next();
-                    
-                    try {
-                        JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
-                        ret.put(nodeobj);
-                    } catch (JSONException jsex) {
-                        log.error("Error creating node object for hierarchical node", jsex);
-                    }
+                    JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
+                    ret.put(nodeobj);
                 }
 
                 Iterator<SWBModel> submodels = SWBComparator.sortSemanticObjects(site.listSubModels());
                 while (submodels.hasNext()) {
                     SWBModel submodel = submodels.next();
                     if (null != submodel && submodel.getSemanticObject().instanceOf(UserRepository.sclass)) {
-                        try {
-                            JSONObject submodelobj = createNodeObject(submodel.getURI(), submodel.getSemanticObject().getDisplayName(lang), "getSemanticObject."+submodel.getURI(), site.getURI());
-                            ret.put(submodelobj);
-                        } catch (JSONException jsex) {
-                            log.error("Error creating node object for submodel node", jsex);
-                        }
+                        JSONObject submodelobj = createNodeObject(submodel.getURI(), submodel.getSemanticObject().getDisplayName(lang), "getSemanticObject."+submodel.getURI(), site.getURI());
+                        ret.put(submodelobj);
                     }
                 }
+                
+                //TODO: Add webpage structure
             }
         }
 
         return ret;
     }
     
-    private void getDirectoriesJSON(JSONArray ret, File root) {
+    /**
+     * Obtiene el JSON correspondiente a la pestaña Documentos del Servidor del recurso. Los datos provienen de la lista de carpetas de la ruta de la aplicación.
+     * @param ret Arreglo de objetos JSON con el resultado del recorrido por las carpetas.
+     * @param root Directorio que será la raíz del recorrido.
+     */
+    private void getDirectoriesJSON(JSONArray ret, File root) throws JSONException {
         if (null != root && root.exists()) {
             if (root.isDirectory()) {
                 String appPath = SWBUtils.getApplicationPath();
@@ -809,12 +534,8 @@ public class SWBAFilters extends SWBATree
                 if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1);
                 if (rootPath.equals(root.getAbsolutePath())) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length());
-                    try {
-                        JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
-                        ret.put(obj);
-                    } catch (JSONException jsex) {
-                        log.error("Error al obtener el json de comportamientos");
-                    }
+                    JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
+                    ret.put(obj);
                 } else {
                     rootPath = root.getAbsolutePath().substring(appPath.length());
                 }
@@ -830,12 +551,8 @@ public class SWBAFilters extends SWBATree
                         path = path.replace("//", "/");
                         path = path.replace('\\', '/');
                         path = path.replace("/",".");
-                        try {
-                            JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
-                            ret.put(obj);
-                        } catch (JSONException jsex) {
-                            log.error("Error al obtener el json de comportamientos");
-                        }
+                        JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
+                        ret.put(obj);
                         
                         getDirectoriesJSON(ret, f);
                     }
@@ -844,7 +561,13 @@ public class SWBAFilters extends SWBATree
         }
     }
     
-    private void getMenusJSON(JSONArray ret, WebPage root, User user) {
+    /**
+     * Obtiene el JSON correspondiente a la pestaña Configuración de MEnus del recurso. Los datos provienen de los menus y submenus definidos en los objetos en el sitio de administración.
+     * @param ret Arreglo de objetos JSON con el resultado del recorrido por los menus.
+     * @param root Página Web que será la raíz del recorrido.
+     * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
+     */
+    private void getMenusJSON(JSONArray ret, WebPage root, User user) throws JSONException {
         WebSite map = SWBContext.getAdminWebSite();
         String lang = "es";
         if (null != user && null != user.getLanguage()) lang = user.getLanguage();
@@ -862,22 +585,12 @@ public class SWBAFilters extends SWBATree
                         obj.put("topicmap", map.getId());
                         ret.put(obj);
                         
-                        //Add
-                        obj = createNodeObject(scls.getClassId()+";add", getLocaleString("add", lang), "getTopic.SCA|" + scls.getClassId()+"|add", scls.getClassId());
-                        obj.put("topicmap", map.getId());
-                        ret.put(obj);
+                        for (String act : actions) {
+                            obj = createNodeObject(scls.getClassId()+";"+act, getLocaleString(act, lang), "getTopic.SCA|" + scls.getClassId()+"|"+act, scls.getClassId());
+                            obj.put("topicmap", map.getId());
+                            ret.put(obj);
+                        }
                         
-                        //Edit
-                        obj = createNodeObject(scls.getClassId()+";edit", getLocaleString("edit", lang), "getTopic.SCA|" + scls.getClassId()+"|edit", scls.getClassId());
-                        obj.put("topicmap", map.getId());
-                        ret.put(obj);
-                        
-                        //Remove
-                        obj = createNodeObject(scls.getClassId()+";delete", getLocaleString("delete", lang), "getTopic.SCA|" + scls.getClassId()+"|delete", scls.getClassId());
-                        obj.put("topicmap", map.getId());
-                        ret.put(obj);
-                        
-                        //Activate
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
                             obj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", scls.getClassId());
                             obj.put("topicmap", map.getId());
@@ -905,6 +618,12 @@ public class SWBAFilters extends SWBATree
         }
     }
     
+    /**
+     * Obtiene el JSON correspondiente a la pestaña Configuración de Vista del recurso. Los datos provienen de los comportamientos asociados a los objetos en el sitio de administración.
+     * @param ret Arreglo de objetos JSON con el resultado del recorrido por los comportamientos.
+     * @param root Página Web que será la raíz del recorrido.
+     * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
+     */
     private void getViewsJSON(JSONArray ret, WebPage root, User user) {
         WebSite map = SWBContext.getAdminWebSite();
         if (null == root) {
@@ -928,92 +647,70 @@ public class SWBAFilters extends SWBATree
         }
     }
     
-    private JSONObject getJSONFilter(Document dom) throws JSONException {
-        JSONObject ret = new JSONObject();
-        //Process sites json
-        NodeList nodes = dom.getElementsByTagName("sites");
-        if (null != nodes && nodes.getLength() > 0) {
-            JSONArray sites = new JSONArray();
-            Element root = (Element) nodes.item(0);
-            nodes = root.getElementsByTagName("node");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element enode = (Element) nodes.item(i);
-                String idObj = enode.getAttribute("id");
-                if (null != idObj) {
-                    SemanticObject objFilter = SemanticObject.createSemanticObject(idObj);
-                    if (null != objFilter) {
-                        String path = enode.getAttribute("path");
-                        String reload = enode.getAttribute("reload");
-                        String tmap = enode.getAttribute("topicmap");
-                        
-                        JSONObject e = createNodeObject(idObj, objFilter.getDisplayName("es"), reload, null);
-                        e.put("path", path);
-                        e.put("topicmap", tmap);
-                        sites.put(e);
-                    }
-                }
-            }
-            
-            ret.put("sites", sites);
-        }
+    /**
+     * Obtiene un arreglo de objetos JSON con los hijos de un nodo XML. Cada hijo contiene los atributos correspondientes, de acuerdo al XML.
+     * @param nodeName Nombre del tag de los nodos hijos.
+     * @param root Elemento raíz a partir del cual obtener los hijos.
+     * @return Arreglo con objetos JSON para cada hijo llamado "nodeName" del nodo "root".
+     * @throws JSONException 
+     */
+    JSONArray getNodeElements(String nodeName, Element root) throws JSONException {
+        JSONArray ret = new JSONArray();
+        NodeList nodes = root.getElementsByTagName(nodeName);
         
-        nodes = dom.getElementsByTagName("menus");
-        if (null != nodes && nodes.getLength() > 0) {
-            JSONArray menus = new JSONArray();
-            Element root = (Element) nodes.item(0);
-            nodes = root.getElementsByTagName("node");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element enode = (Element) nodes.item(i);
-                String idObj = enode.getAttribute("id");
-                String tmap = enode.getAttribute("topicmap");
-                String path = enode.getAttribute("path");
-                String reload = enode.getAttribute("reload");
-                
-                JSONObject e = createNodeObject(idObj, null, reload, null);
-                e.put("path", path);
-                e.put("topicmap", tmap);
-                menus.put(e);
-            }
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element enode = (Element) nodes.item(i);
+            String idObj = enode.getAttribute("id");
+            String path = enode.getAttribute("path");
+            String reload = enode.getAttribute("reload");
+            String tmap = enode.getAttribute("topicmap");
             
-            ret.put("menus", menus);
-        }
-        
-        nodes = dom.getElementsByTagName("dirs");
-        if (null != nodes && nodes.getLength() > 0) {
-            JSONArray dirs = new JSONArray();
-            Element root = (Element) nodes.item(0);
-            nodes = root.getElementsByTagName("dir");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element enode = (Element) nodes.item(i);
-                String path = enode.getAttribute("path");
-                
-                JSONObject e = createNodeObject(path.replace("/","."), null, null, null);
-                e.put("path", path);
-                dirs.put(e);
-            }
-            
-            ret.put("dirs", dirs);
-        }
-        
-        nodes = dom.getElementsByTagName("elements");
-        if (null != nodes && nodes.getLength() > 0) {
-            JSONArray elements = new JSONArray();
-            Element root = (Element) nodes.item(0);
-            nodes = root.getElementsByTagName("node");
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Element enode = (Element) nodes.item(i);
-                String idObj = enode.getAttribute("id");
-                String tmap = enode.getAttribute("topicmap");
-                String path = enode.getAttribute("path");
-                String reload = enode.getAttribute("reload");
+            if ("dir".equals(nodeName)) idObj = path.replace("/",".");
 
-                JSONObject e = createNodeObject(idObj, null, reload, null);
-                e.put("path", path);
-                e.put("topicmap", tmap);
-                elements.put(e);
-            }
+            JSONObject e = createNodeObject(idObj, null, reload, null);
+            if (!path.isEmpty()) e.put("path", path);
+            if (!tmap.isEmpty()) e.put("topicmap", tmap);
+            ret.put(e);
+        }
+        
+        return ret;
+    }
+    
+    /**
+     * Obtiene la configuración del filtro en formato JSON para su conciliación con los datos para el árbol.
+     * @param filter Filtro de administración.
+     * @return Objeto JSON con la configuración del filtro.
+     */
+    private JSONObject getJSONFilter(AdminFilter filter) throws JSONException {
+        JSONObject ret = new JSONObject();
+        
+        if (null != filter)  {
+            Document dom = filter.getDom();
             
-            ret.put("elements", elements);
+            NodeList nodes = dom.getElementsByTagName("sites");
+            if (null != nodes && nodes.getLength() > 0) {
+                JSONArray sites = getNodeElements("node", (Element) nodes.item(0));
+                ret.put("sites", sites);
+            }
+
+            nodes = dom.getElementsByTagName("menus");
+            if (null != nodes && nodes.getLength() > 0) {
+                JSONArray menus = getNodeElements("node", (Element) nodes.item(0));
+                ret.put("menus", menus);
+            }
+
+            nodes = dom.getElementsByTagName("dirs");
+            if (null != nodes && nodes.getLength() > 0) {
+                JSONArray dirs = getNodeElements("dir", (Element) nodes.item(0));
+                ret.put("dirs", dirs);
+            }
+
+            nodes = dom.getElementsByTagName("elements");
+            if (null != nodes && nodes.getLength() > 0) {                
+                Element root = (Element) nodes.item(0);
+                JSONArray elements = getNodeElements("node", root);
+                ret.put("elements", elements);
+            }
         }
         
         return ret;
@@ -1046,12 +743,9 @@ public class SWBAFilters extends SWBATree
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
                 
                 try {
-                    JSONObject filterObject = getJSONFilter(af.getDom());
-                    System.out.println(filterObject.toString(2));
+                    JSONObject filterObject = getJSONFilter(af);
+                    //System.out.println(filterObject.toString(2));
                 } catch (JSONException jsex) {}
-                //System.out.println("----");
-                //System.out.println(af.getXml());
-                //System.out.println("----");
                 
                 try {
                     _ret.put("filterId", af.getURI());
@@ -1085,93 +779,7 @@ public class SWBAFilters extends SWBATree
             ret = _ret.toString();
         }
         out.print(ret);
-//        ServletInputStream in = request.getInputStream();
-//        Document dom = SWBUtils.XML.xmlToDom(in);//parsear dom
-//        //System.out.println("-----dogatewway call-------");
-//        //System.out.println(SWBUtils.XML.domToXml(dom));
-//        if (!dom.getFirstChild().getNodeName().equals("req"))//no hay petición de acción
-//        {
-//            response.sendError(404, request.getRequestURI());
-//            return;
-//        }
-//        String cmd = null;
-//        if (dom.getElementsByTagName("cmd").getLength() > 0)
-//        {
-//            cmd = dom.getElementsByTagName("cmd").item(0).getFirstChild().getNodeValue();
-//        }
-//
-//        if (cmd == null)//No hay petición de acción
-//        {
-//            response.sendError(404, request.getRequestURI());
-//            return;
-//        }
-//        String ret = "";
-//        if ("getElementsJSON".equals(cmd)) {
-//            response.setContentType("application/json");
-//            WebSite map = SWBContext.getAdminWebSite();
-//            JSONArray dt = new JSONArray();
-//            getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
-//            ret = dt.toString();
-//        } else {
-//            try
-//            {
-//                Document res = null;
-//
-//                if (cmd.equals("update"))
-//                {
-//                    res = updateFilter(dom);
-//                } else if (cmd.equals("getElements"))
-//                {
-//                    res = getElements(paramRequest.getUser());
-//                } else if (cmd.equals("getMenus"))
-//                {
-//                    res = getMenus(paramRequest.getUser());
-//                } else if (cmd.equals("getFilter"))
-//                {
-//                    res = getFilter(dom);
-//                } else
-//                {
-//                    res = getService(cmd, dom, paramRequest.getUser(), request, response);
-//                }
-//                if (res == null)
-//                {
-//                    ret = SWBUtils.XML.domToXml(getError(3));
-//                } else
-//                {
-//                    ret = SWBUtils.XML.domToXml(res, true);
-//                }
-//
-//            } catch (Exception e)
-//            {
-//                log.error(e);
-//            }
-//        }
-        //System.out.println("-----dogatewway response-------");
-        //System.out.println(ret);
-        //out.print(new String(ret.getBytes()));//Escribir respuesta
-
     }
-
-    /* (non-Javadoc)
-     * @see org.semanticwb.portal.admin.resources.SWBATree#getService(java.lang.String, org.w3c.dom.Document, org.semanticwb.model.User, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-//    @Override
-//    public Document getService(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response)
-//    {
-//        if (cmd.equals("initTree"))
-//        {
-//            return initTree(user, src);
-//        } else if (cmd.equals("initTreeFilter"))
-//        {
-//            return initTreeFilter(user, src);
-//        } else if (cmd.startsWith("getPath."))
-//        {
-//            return getPath(user, src, cmd.substring("getPath.".length()));
-//        } else
-//        {
-//            return getDocument(user, src, cmd);
-//        }
-//    }
 
     /**
      * Adds the.
@@ -1489,66 +1097,6 @@ public class SWBAFilters extends SWBATree
     }
 
     /**
-     * Gets the directories.
-     *
-     * @param user the user
-     * @param res the res
-     * @param src the src
-     * @return the directories
-     */
-//    public void getDirectories(User user, Element res, Document src)
-//    {
-//        String path = SWBUtils.getApplicationPath();
-//        if (src.getElementsByTagName("path").getLength() > 0)
-//        {
-//            Element epath = (Element) src.getElementsByTagName("path").item(0);
-//            Text etext = (Text) epath.getFirstChild();
-//            path = etext.getNodeValue();
-//            path = SWBUtils.getApplicationPath() + path;
-//            path = path.replace("//", "/");
-//        }
-//        File apppath = new File(path);
-//        if (apppath.isDirectory() && apppath.exists())
-//        {
-//            Element dir = addNode("dir", "", apppath.getName(), res);
-//            String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
-//            path = apppath.getAbsolutePath().substring(startPath.length());
-//            path = path.replace('\\', '/');
-//            path = path.replace("//", "/");
-//            dir.setAttribute("path", path);
-//            //dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(apppath)));
-//            getDirectories(dir, apppath);
-//        }
-//    }
-
-    /**
-     * Gets the directories.
-     *
-     * @param edir the edir
-     * @param fdir the fdir
-     * @return the directories
-     */
-//    public void getDirectories(Element edir, File fdir)
-//    {
-//        File[] dirs = fdir.listFiles();
-//        Arrays.sort(dirs, new FileComprator());
-//        for (int i = 0; i < dirs.length; i++)
-//        {
-//            File file = dirs[i];
-//            if (file.isDirectory())
-//            {
-//                Element dir = addNode("dir", "", file.getName(), edir);
-//                String startPath = new File(SWBUtils.getApplicationPath()).getAbsolutePath();
-//                String path = file.getAbsolutePath().substring(startPath.length());
-//                path = path.replace("//", "/");
-//                path = path.replace('\\', '/');
-//                dir.setAttribute("path", path);
-//                dir.setAttribute("hasChild", String.valueOf(hasSubdirectories(file)));
-//            }
-//        }
-//    }
-
-    /**
      * Adds the server filter.
      *
      * @param user the user
@@ -1733,43 +1281,6 @@ public class SWBAFilters extends SWBATree
             }
         }
     }
-
-    /**
-     * Gets the path.
-     *
-     * @param child the child
-     * @param parent the parent
-     * @return the path
-     */
-//    private List<SemanticObject> getPath(SemanticObject child, SemanticObject parent)
-//    {
-//        ArrayList<SemanticObject> getPath = new ArrayList<SemanticObject>();
-//        if (child.hasHerarquicalParents())
-//        {
-//            Iterator<SemanticObject> hps = child.listHerarquicalParents();
-//
-//            while (hps.hasNext())
-//            {
-//                SemanticObject hp = hps.next();
-//
-//                if (hp.getURI().equals(parent.getURI()))
-//                {
-//
-//                    getPath.add(parent);
-//                } else
-//                {
-//                    List<SemanticObject> path = getPath(hp, parent);
-//                    if (path != null && !path.isEmpty())
-//                    {
-//                        getPath.add(hp);
-//                        getPath.addAll(path);
-//                    }
-//                }
-//            }
-//        }
-//
-//        return getPath;
-//    }
 
     /**
      * Adds the semantic object filter.
@@ -2128,6 +1639,16 @@ public class SWBAFilters extends SWBATree
 
         }
     }
-
     
+    
+    /**
+     * Transforma los datos del árbol de filtro de administración a formato XML para su almacenamiento en el objeto.
+     * @param treeData JSON con la selección de nodos en el árbol de la vista.
+     * @return Cadena XML que representa la configuración del árbol a escribir en el objeto del filtro.
+     */
+    private String getXMLTreeData(JSONObject treeData) {
+        StringBuilder ret = new StringBuilder();
+        
+        return ret.toString();
+    }
 }
