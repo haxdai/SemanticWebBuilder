@@ -489,6 +489,8 @@ public class SWBAFilters extends GenericResource
         Iterator<WebSite> sites = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
         while (sites.hasNext()) {
             WebSite site = sites.next();
+            if (site.getId().equals(SWBContext.getAdminWebSite().getId()) || site.getId().equals(SWBContext.getGlobalWebSite().getId())) continue;//Ignore admin website
+            
             if (!site.isDeleted()) {
                 JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
                 siteobj.put("path","server|"+site.getURI());
@@ -514,23 +516,19 @@ public class SWBAFilters extends GenericResource
                 
                 //TODO: Add webpage structure recursively
                 WebPage page = site.getHomePage();
-                JSONObject nodeobj = createNodeObject(page.getURI(), site.getTitle(lang), "getSemanticObject."+page.getURI(), site.getURI());
-                nodeobj.put("path", siteobj.get("path")+"|"+page.getURI());
-                ret.put(nodeobj);
-                
-                JSONArray pages = new JSONArray();
-                Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(page.listChilds());
-                while(childs.hasNext()) {
-                    WebPage child = childs.next();
-                    
-                    nodeobj = createNodeObject(child.getURI(), child.getTitle(lang), "getSemanticObject."+child.getURI(), page.getURI());
-                    nodeobj.put("path", siteobj.get("path")+"|"+page.getURI()+"|"+child.getURI());
-                    getMenusJSON(pages, page, user);
-                }
-                
-                for (int i = 0; i < pages.length(); i++) {
-                    JSONObject item = pages.getJSONObject(i);
-                    ret.put(item);
+                if (null != page) {
+                    JSONObject nodeobj = new JSONObject();//createNodeObject(page.getURI(), site.getTitle(lang), "getSemanticObject."+page.getURI(), site.getURI());
+                    nodeobj.put("id", page.getURI());
+                    nodeobj.put("name", page.getDisplayName(lang));
+                    nodeobj.put("parent", site.getURI());
+                    nodeobj.put("path", siteobj.get("path")+"|"+page.getURI());
+                    nodeobj.put("topicmap", site.getURI());
+                    ret.put(nodeobj);
+
+                    JSONArray pages = getWebPageChilds(nodeobj, user, false);
+                    for (int i = 0; i < pages.length(); i++) {
+                        ret.put(pages.getJSONObject(i));
+                    }
                 }
             }
         }
@@ -580,89 +578,144 @@ public class SWBAFilters extends GenericResource
     }
     
     /**
-     * Obtiene el JSON correspondiente a la pestaña Configuración de MEnus del recurso. Los datos provienen de los menus y submenus definidos en los objetos en el sitio de administración.
-     * @param ret Arreglo de objetos JSON con el resultado del recorrido por los menus.
-     * @param root Página Web que será la raíz del recorrido.
-     * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
+     * Obtiene la lista de hijos de una Página Web, abstraida en un objeto JSON.
+     * @param root objeto JSON con los datos de una página Web.
+     * @param user Usuario para hacer validaciones de acceso.
+     * @return Arreglo de objetos JSON con los hijos de la página Web abstraída en el objeto JSON.
+     * @throws JSONException 
      */
-    private void getMenusJSON(JSONArray ret, WebPage root, User user) throws JSONException {
-        WebSite map = SWBContext.getAdminWebSite();
+    private JSONArray getWebPageChilds(JSONObject root, User user, boolean activeChilds) throws JSONException {
         String lang = "es";
+        JSONArray ret = new JSONArray();
+        SemanticObject obj = SemanticObject.createSemanticObject(root.getString("id"));
         if (null != user && null != user.getLanguage()) lang = user.getLanguage();
-        if (null == root) {
-            root = map.getWebPage("WBAd_Menus");
-        }
         
-        if (null != root && user.haveAccess(root) && root.isActive()) {
-            if ("WBAd_mnu_PopUp".equals(root.getId())) {
-                Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
-                while (it.hasNext()) {
-                    SemanticClass scls = (SemanticClass) it.next();
-                    try {
-                        JSONObject obj = createNodeObject(scls.getClassId(), scls.getDisplayName(lang), "getTopic.SC|" + scls.getClassId(), "WBAd_mnu_PopUp");
-                        obj.put("topicmap", map.getId());
-                        ret.put(obj);
-                        
+        if (obj.instanceOf(WebPage.sclass)) {
+            WebPage _root = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(root.getString("id"));
+            boolean add = null != root && user.haveAccess(_root) && (activeChilds && _root.isActive()) || !activeChilds;
+
+            if (add) { //TODO: Revisar, en esta condición pasan los eliminados
+                if ("WBAd_mnu_PopUp".equals(_root.getId())) {
+                    Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
+                    while (it.hasNext()) {
+                        SemanticClass scls = (SemanticClass) it.next();
+                        JSONObject cobj = new JSONObject();
+                        cobj.put("id", scls.getClassId());
+                        cobj.put("name", scls.getDisplayName(lang));
+                        cobj.put("reload", "getTopic.SC|" + scls.getClassId());
+                        cobj.put("topicmap", _root.getWebSiteId());
+                        cobj.put("parent", _root.getURI());
+                        ret.put(cobj);
+
                         for (String act : actions) {
-                            obj = createNodeObject(scls.getClassId()+";"+act, getLocaleString(act, lang), "getTopic.SCA|" + scls.getClassId()+"|"+act, scls.getClassId());
-                            obj.put("topicmap", map.getId());
-                            ret.put(obj);
+                            cobj = new JSONObject();
+                            cobj.put("id", scls.getClassId()+";"+act);
+                            cobj.put("name", getLocaleString(act, lang));
+                            cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|"+act);
+                            cobj.put("topicmap", _root.getWebSiteId());
+                            cobj.put("parent", scls.getClassId());
+                            ret.put(cobj);
                         }
-                        
+
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
-                            obj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", scls.getClassId());
-                            obj.put("topicmap", map.getId());
-                            ret.put(obj);
+                            cobj = new JSONObject();
+                            cobj.put("id", scls.getClassId()+";active");
+                            cobj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
+                            cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
+                            cobj.put("topicmap", _root.getWebSiteId());
+                            cobj.put("parent", scls.getClassId());
+                            ret.put(cobj);
                         }
-                    } catch (JSONException jsex) {
-                        log.error("Error al obtener el json de comportamientos");
                     }
-                }
-            } else {
-                Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
-                while(childs.hasNext()) {
-                    WebPage child = childs.next();
-                    try {
-                        JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
-                        obj.put("canModify", true);
-                        obj.put("topicmap", map.getId());
-                        ret.put(obj);
-                    } catch (JSONException jsex) {
-                        log.error("Error al obtener el json de comportamientos");
+                } else {
+                    Iterator<WebPage> childs = _root.listChilds();
+                    while (childs.hasNext()) {
+                        //Add child node
+                        WebPage child = childs.next();
+                        add = user.haveAccess(child) && !child.isDeleted() && !child.isHidden() && (activeChilds && child.isActive()) || !activeChilds;
+                        
+                        if (add) {
+                            JSONObject cobj = new JSONObject();
+                            cobj.put("id", child.getURI());
+                            cobj.put("name", child.getDisplayName(lang));
+                            cobj.put("parent", _root.getURI());
+                            cobj.put("topicmap", _root.getWebSiteId());
+
+                            String path = root.optString("path");
+                            if (null != path && !path.isEmpty()) {
+                                path = path + "|" + child.getURI();
+                            } else {
+                                path = child.getURI();
+                            }
+                            cobj.put("path", path);
+                            ret.put(cobj);
+
+                            //Add childs recursively
+                            JSONArray recChilds = getWebPageChilds(cobj, user, activeChilds);
+                            for (int i = 0; i < recChilds.length(); i++) {
+                                ret.put(recChilds.get(i));
+                            }
+                        }
                     }
-                    getMenusJSON(ret, child, user);
                 }
             }
         }
+        
+        return ret;
+    }
+    
+    /**
+     * Obtiene el JSON correspondiente a la pestaña Configuración de MEnus del recurso. Los datos provienen de los menus y submenus definidos en los objetos en el sitio de administración.
+     * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
+     */
+    private JSONArray getMenusJSON(User user) throws JSONException {
+        JSONArray ret = new JSONArray();
+        WebSite map = SWBContext.getAdminWebSite();
+        WebPage _root = map.getWebPage("WBAd_Menus");
+        
+        if (null != _root && user.haveAccess(_root) && _root.isActive()) {
+            //Add root object
+            JSONObject root = new JSONObject();
+            root.put("id", _root.getURI());
+            root.put("name", "Menus");
+            root.put("path", _root.getURI());
+            root.put("topicmap", map.getURI());
+            ret.put(root);
+            
+            JSONArray childs = getWebPageChilds(root, user, true);
+            for (int i = 0; i < childs.length(); i++) {
+                ret.put(childs.get(i));
+            }
+        }
+        
+        return ret;
     }
     
     /**
      * Obtiene el JSON correspondiente a la pestaña Configuración de Vista del recurso. Los datos provienen de los comportamientos asociados a los objetos en el sitio de administración.
-     * @param ret Arreglo de objetos JSON con el resultado del recorrido por los comportamientos.
-     * @param root Página Web que será la raíz del recorrido.
      * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
      */
-    private void getViewsJSON(JSONArray ret, WebPage root, User user) {
+    private JSONArray getViewsJSON(User user) throws JSONException {
+        JSONArray ret = new JSONArray();
         WebSite map = SWBContext.getAdminWebSite();
-        if (null == root) {
-            root = map.getWebPage("ObjectBehavior");
-        } 
+        WebPage _root = map.getWebPage("ObjectBehavior");
         
-        if (null != root && user.haveAccess(root) && root.isActive()) {
-            Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(root.listChilds(null != user.getLanguage() ? user.getLanguage() : "es", true, false, false, null)); //getSortChild();
-            while(childs.hasNext()) {
-                WebPage child = childs.next();
-                try {
-                    JSONObject obj = createNodeObject(child.getId(), child.getDisplayName(user.getLanguage()), "getTopic." + map.getId() + "." + child.getId(), root.getId());
-                    obj.put("canModify", true);
-                    obj.put("topicmap", map.getId());
-                    ret.put(obj);
-                } catch (JSONException jsex) {
-                    log.error("Error al obtener el json de comportamientos");
-                }
-                getViewsJSON(ret, child, user);
+        if (null != _root && user.haveAccess(_root) && _root.isActive()) {
+            //Add root object
+            JSONObject root = new JSONObject();
+            root.put("id", _root.getURI());
+            root.put("name", "Comportamientos");
+            root.put("path", _root.getURI());
+            root.put("topicmap", map.getURI());
+            ret.put(root);
+            
+            JSONArray childs = getWebPageChilds(root, user, true);
+            for (int i = 0; i < childs.length(); i++) {
+                ret.put(childs.get(i));
             }
         }
+        
+        return ret;
     }
     
     /**
@@ -761,35 +814,29 @@ public class SWBAFilters extends GenericResource
                 
                 try {
                     JSONObject filterObject = getJSONFilter(af);
-                    System.out.println("----filter config----");
-                    System.out.println(filterObject.toString(2));
+                    //System.out.println("----filter config----");
+                    //System.out.println(filterObject.toString(2));
                 } catch (JSONException jsex) {}
                 
                 try {
                     _ret.put("filterId", af.getURI());
                     
                     //Put elements
-                    JSONArray dt = new JSONArray();
-                    getViewsJSON(dt, map.getWebPage("ObjectBehavior"), paramRequest.getUser());
-                    _ret.put("elements", dt);
+                    _ret.put("elements", getViewsJSON(paramRequest.getUser()));
                     
                     //Put menus
-                    dt = new JSONArray();
-                    getMenusJSON(dt, map.getWebPage("WBAd_Menus"), paramRequest.getUser());
-                    _ret.put("menus", dt);
+                    _ret.put("menus", getMenusJSON(paramRequest.getUser()));
                     
                     //Put directories
-                    dt = new JSONArray();
+                    JSONArray dt = new JSONArray();
                     getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
                     _ret.put("dirs", dt);
                     
                     //Put sites
-                    dt = new JSONArray();
-                    dt = getServerJSON(paramRequest.getUser());
-                    _ret.put("sites", dt);
+                    _ret.put("sites", getServerJSON(paramRequest.getUser()));
                     
-                    System.out.println("\n\n----tree data----");
-                    System.out.println(_ret.get("sites").toString());
+                    //System.out.println("\n\n----tree data----");
+                    //System.out.println(_ret.get("sites").toString());
                     
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
