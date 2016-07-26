@@ -40,9 +40,7 @@ import org.semanticwb.model.Activeable;
 
 import org.semanticwb.model.AdminFilter;
 import org.semanticwb.model.FilterableClass;
-import org.semanticwb.model.FilterableNode;
 import org.semanticwb.model.GenericObject;
-import org.semanticwb.model.HerarquicalNode;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
@@ -50,12 +48,10 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
-import org.semanticwb.platform.SWBObjectFilter;
 import org.semanticwb.platform.SemanticClass;
 
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticProperty;
-import org.semanticwb.portal.admin.resources.wbtree.SWBTreeExt;
+import org.semanticwb.portal.api.GenericResource;
 import org.semanticwb.portal.api.SWBActionResponse;
 import org.semanticwb.portal.api.SWBResourceURL;
 
@@ -69,7 +65,7 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author Victor Lorenzana
  */
-public class SWBAFilters extends SWBATree
+public class SWBAFilters extends GenericResource
 {
 
     /**
@@ -163,117 +159,117 @@ public class SWBAFilters extends SWBATree
     /* (non-Javadoc)
      * @see org.semanticwb.portal.admin.resources.SWBATree#getDocument(org.semanticwb.model.User, org.w3c.dom.Document, java.lang.String)
      */
-    @Override
-    public Document getDocument(User user, Document src, String act)
-    {
-        Document dom = null;
-        try
-        {
-            dom = SWBUtils.XML.getNewDocument();
-            Element res = dom.createElement("res");
-            dom.appendChild(res);
-
-            String cmd = null;
-            String id = null;
-            int ind = act.indexOf('.');
-            if (ind > 0)
-            {
-                cmd = act.substring(0, ind);
-                id = act.substring(ind + 1);
-            } else
-            {
-                cmd = act;
-            }
-            if (cmd.equals("getServer"))
-            {
-                addServer(user, res);
-            } 
-//            else if (cmd.equals("getDirectories"))
+//    @Override
+//    public Document getDocument(User user, Document src, String act)
+//    {
+//        Document dom = null;
+//        try
+//        {
+//            dom = SWBUtils.XML.getNewDocument();
+//            Element res = dom.createElement("res");
+//            dom.appendChild(res);
+//
+//            String cmd = null;
+//            String id = null;
+//            int ind = act.indexOf('.');
+//            if (ind > 0)
 //            {
-//                getDirectories(user, res, src);
+//                cmd = act.substring(0, ind);
+//                id = act.substring(ind + 1);
+//            } else
+//            {
+//                cmd = act;
+//            }
+//            if (cmd.equals("getServer"))
+//            {
+//                addServer(user, res);
 //            } 
-            else if (cmd.equals("getGlobal"))
-            {
-                addGlobal(user, res, PARCIAL_ACCESS);
-            } else if (cmd.equals("getTopicMap"))
-            {
-                WebSite tm = SWBContext.getWebSite(id);
-                addTopicMap(user, tm, res, PARCIAL_ACCESS);
-            } else if (cmd.equals("getTopic"))
-            {
-                String tmid = id.substring(0, id.indexOf('.'));
-                String tpid = id.substring(id.indexOf('.') + 1);
-                WebPage tp = SWBContext.getWebSite(tmid).getWebPage(tpid);
-                addTopic(user, tp, res);
-            } else if (cmd.equals("getSemanticObject"))
-            {
-                if (id.startsWith("HN|"))
-                {
-                    StringTokenizer st = new StringTokenizer(id, "|");
-                    st.nextToken();
-                    String ouri = st.nextToken();
-                    String nuri = st.nextToken();
-                    if (ouri != null && nuri != null)
-                    {
-                        SemanticObject obj = SemanticObject.createSemanticObject(ouri);
-                        SemanticObject nobj = SemanticObject.createSemanticObject(nuri);
-                        HerarquicalNode node = new HerarquicalNode(nobj);
-                        addHerarquicalNodeFilter(user, node, obj, res);
-                    }
-                } else
-                {
-                    SemanticObject obj = SemanticObject.createSemanticObject(id);
-                    Element node = addSemanticObjectFilter(user, obj, res, null);
-
-                    Iterator<SemanticObject> it = obj.listHerarquicalChilds();
-
-                    Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
-                    while (it2.hasNext())
-                    {
-                        SemanticObject ch = it2.next();
-                        //String icon=SWBContext.UTILS.getIconClass(ch);
-                        Element childElement = addNode("node", ch.getURI(), ch.getDisplayName(user.getLanguage()), node);
-                        childElement.setAttribute("reload", "getSemanticObject." + ch.getURI());
-                        //childElement.setAttribute("icon", icon);
-                        Iterator<SemanticObject> childs = ch.listHerarquicalChilds();
-                        if (childs.hasNext())
-                        {
-                            Element events = addNode("events", "events", "Events", childElement);
-                            Element event = addNode("willExpand", "willExpand", "WillExpand", events);
-                            event.setAttribute("action", "reload");
-                        }
-                    }
-                }
-
-            } else if (cmd.equals("getSemanticClass"))
-            {
-                SemanticClass scls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClassById(id);
-                addSemanticClass(user, scls, res);
-            } else
-            {
-                boolean ret = false;
-                Iterator itex = ext.iterator();
-                while (itex.hasNext())
-                {
-                    SWBTreeExt e = (SWBTreeExt) itex.next();
-                    ret = e.executeCommand(user, res, cmd, id);
-                    if (ret)
-                    {
-                        break;
-                    }
-                }
-                if (!ret)
-                {
-                    return getError(2);
-                }
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-            return getError(3);
-        }
-        return dom;
-    }
+////            else if (cmd.equals("getDirectories"))
+////            {
+////                getDirectories(user, res, src);
+////            } 
+//            else if (cmd.equals("getGlobal"))
+//            {
+//                addGlobal(user, res, PARCIAL_ACCESS);
+//            } else if (cmd.equals("getTopicMap"))
+//            {
+//                WebSite tm = SWBContext.getWebSite(id);
+//                addTopicMap(user, tm, res, PARCIAL_ACCESS);
+//            } else if (cmd.equals("getTopic"))
+//            {
+//                String tmid = id.substring(0, id.indexOf('.'));
+//                String tpid = id.substring(id.indexOf('.') + 1);
+//                WebPage tp = SWBContext.getWebSite(tmid).getWebPage(tpid);
+//                addTopic(user, tp, res);
+//            } else if (cmd.equals("getSemanticObject"))
+//            {
+//                if (id.startsWith("HN|"))
+//                {
+//                    StringTokenizer st = new StringTokenizer(id, "|");
+//                    st.nextToken();
+//                    String ouri = st.nextToken();
+//                    String nuri = st.nextToken();
+//                    if (ouri != null && nuri != null)
+//                    {
+//                        SemanticObject obj = SemanticObject.createSemanticObject(ouri);
+//                        SemanticObject nobj = SemanticObject.createSemanticObject(nuri);
+//                        HerarquicalNode node = new HerarquicalNode(nobj);
+//                        addHerarquicalNodeFilter(user, node, obj, res);
+//                    }
+//                } else
+//                {
+//                    SemanticObject obj = SemanticObject.createSemanticObject(id);
+//                    Element node = addSemanticObjectFilter(user, obj, res, null);
+//
+//                    Iterator<SemanticObject> it = obj.listHerarquicalChilds();
+//
+//                    Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
+//                    while (it2.hasNext())
+//                    {
+//                        SemanticObject ch = it2.next();
+//                        //String icon=SWBContext.UTILS.getIconClass(ch);
+//                        Element childElement = addNode("node", ch.getURI(), ch.getDisplayName(user.getLanguage()), node);
+//                        childElement.setAttribute("reload", "getSemanticObject." + ch.getURI());
+//                        //childElement.setAttribute("icon", icon);
+//                        Iterator<SemanticObject> childs = ch.listHerarquicalChilds();
+//                        if (childs.hasNext())
+//                        {
+//                            Element events = addNode("events", "events", "Events", childElement);
+//                            Element event = addNode("willExpand", "willExpand", "WillExpand", events);
+//                            event.setAttribute("action", "reload");
+//                        }
+//                    }
+//                }
+//
+//            } else if (cmd.equals("getSemanticClass"))
+//            {
+//                SemanticClass scls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClassById(id);
+//                addSemanticClass(user, scls, res);
+//            } else
+//            {
+//                boolean ret = false;
+//                Iterator itex = ext.iterator();
+//                while (itex.hasNext())
+//                {
+//                    SWBTreeExt e = (SWBTreeExt) itex.next();
+//                    ret = e.executeCommand(user, res, cmd, id);
+//                    if (ret)
+//                    {
+//                        break;
+//                    }
+//                }
+//                if (!ret)
+//                {
+//                    return getError(2);
+//                }
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//            return getError(3);
+//        }
+//        return dom;
+//    }
 
     /**
      * Adds the herarquical node filter.
@@ -283,33 +279,33 @@ public class SWBAFilters extends SWBATree
      * @param obj the obj
      * @param ele the ele
      */
-    public void addHerarquicalNodeFilter(User user, HerarquicalNode node, SemanticObject obj, Element ele)
-    {
-        SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(node.getHClass().getURI());
-        String pf = node.getPropertyFilter();
-
-        Element jobj = addNode("node", node.getURI(), node.getDisplayTitle(user.getLanguage()), ele);
-        jobj.setAttribute("reload", "getSemanticObject." + "HN|" + obj.getURI() + "|" + node.getURI());
-        jobj.setAttribute("icon", node.getIconClass());
-
-        if (cls.isSubClass(FilterableNode.swb_FilterableNode))
-        {
-            Iterator<SemanticObject> it = SWBObjectFilter.filter(SWBComparator.sortSemanticObjects(user.getLanguage(), obj.getModel().listInstancesOfClass(cls)), pf);
-
-            while (it.hasNext())
-            {
-                SemanticObject so = it.next();
-                try
-                {
-                    addSemanticObjectFilter(user, so, jobj, null);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-            }
-
-        }
-    }
+//    public void addHerarquicalNodeFilter(User user, HerarquicalNode node, SemanticObject obj, Element ele)
+//    {
+//        SemanticClass cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(node.getHClass().getURI());
+//        String pf = node.getPropertyFilter();
+//
+//        Element jobj = addNode("node", node.getURI(), node.getDisplayTitle(user.getLanguage()), ele);
+//        jobj.setAttribute("reload", "getSemanticObject." + "HN|" + obj.getURI() + "|" + node.getURI());
+//        jobj.setAttribute("icon", node.getIconClass());
+//
+//        if (cls.isSubClass(FilterableNode.swb_FilterableNode))
+//        {
+//            Iterator<SemanticObject> it = SWBObjectFilter.filter(SWBComparator.sortSemanticObjects(user.getLanguage(), obj.getModel().listInstancesOfClass(cls)), pf);
+//
+//            while (it.hasNext())
+//            {
+//                SemanticObject so = it.next();
+//                try
+//                {
+//                    addSemanticObjectFilter(user, so, jobj, null);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//            }
+//
+//        }
+//    }
 
     /**
      * Gets the menus.
@@ -320,35 +316,35 @@ public class SWBAFilters extends SWBATree
      * @param user the user
      * @return the menus
      */
-    public void getMenus(WebSite map, Element etopic, WebPage root, User user)
-    {
-
-        if ("WBAd_mnu_PopUp".equals(root.getId()))
-        {
-            getSubMenus(map, etopic, root, user);
-        } else
-        {
-            Iterator<WebPage> childs = root.listChilds(user.getLanguage(), true, false, false, null); //getSortChild();
-
-            while (childs.hasNext())
-            {
-                WebPage topic = childs.next();
-                if (user.haveAccess(topic) && topic.isActive())
-                {
-                    Element etp = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), etopic);
-                    etp.setAttribute("topicmap", map.getId());
-
-                    //TODO: AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
-                    boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
-                    etp.setAttribute("canModify", String.valueOf(canModify));
-                    etp.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());
-                    etp.setAttribute("icon", "hijov");
-
-                    getMenus(map, etp, topic, user);
-                }
-            }
-        }
-    }
+//    public void getMenus(WebSite map, Element etopic, WebPage root, User user)
+//    {
+//
+//        if ("WBAd_mnu_PopUp".equals(root.getId()))
+//        {
+//            getSubMenus(map, etopic, root, user);
+//        } else
+//        {
+//            Iterator<WebPage> childs = root.listChilds(user.getLanguage(), true, false, false, null); //getSortChild();
+//
+//            while (childs.hasNext())
+//            {
+//                WebPage topic = childs.next();
+//                if (user.haveAccess(topic) && topic.isActive())
+//                {
+//                    Element etp = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), etopic);
+//                    etp.setAttribute("topicmap", map.getId());
+//
+//                    //TODO: AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
+//                    boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
+//                    etp.setAttribute("canModify", String.valueOf(canModify));
+//                    etp.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());
+//                    etp.setAttribute("icon", "hijov");
+//
+//                    getMenus(map, etp, topic, user);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Gets the menus.
@@ -361,36 +357,36 @@ public class SWBAFilters extends SWBATree
      * @return the menus
      * @return
      */
-    public Document getMenus(User user)
-    {
-        WebSite map = SWBContext.getAdminWebSite(); //Obtiene sitio admin
-        Document docres = null;
-        try
-        {
-            docres = SWBUtils.XML.getNewDocument(); //Crea nuevo documento
-            Element res = docres.createElement("res"); //Crea nodo res
-            docres.appendChild(res);
-            WebPage topic = map.getWebPage("WBAd_Menus");//Se obtiene contenedor de menus en la administración
-            if (user.haveAccess(topic) && topic.isActive()) //Se verifica acceso
-            {
-                Element etopic = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);//Agrega datos del menú
-                etopic.setAttribute("topicmap", map.getId());//Agrega ID del sitio de admin
-
-                //TODO: AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
-                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
-                etopic.setAttribute("canModify", String.valueOf(canModify));
-                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());//Agregar función para llamar en refresh
-                etopic.setAttribute("icon", "hijov");//Agregar icono
-
-                getMenus(map, etopic, topic, user);//HAcerlo recursivo
-
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-        }
-        return docres;
-    }
+//    public Document getMenus(User user)
+//    {
+//        WebSite map = SWBContext.getAdminWebSite(); //Obtiene sitio admin
+//        Document docres = null;
+//        try
+//        {
+//            docres = SWBUtils.XML.getNewDocument(); //Crea nuevo documento
+//            Element res = docres.createElement("res"); //Crea nodo res
+//            docres.appendChild(res);
+//            WebPage topic = map.getWebPage("WBAd_Menus");//Se obtiene contenedor de menus en la administración
+//            if (user.haveAccess(topic) && topic.isActive()) //Se verifica acceso
+//            {
+//                Element etopic = addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);//Agrega datos del menú
+//                etopic.setAttribute("topicmap", map.getId());//Agrega ID del sitio de admin
+//
+//                //TODO: AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
+//                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2Menu4Filter(user, topic);
+//                etopic.setAttribute("canModify", String.valueOf(canModify));
+//                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());//Agregar función para llamar en refresh
+//                etopic.setAttribute("icon", "hijov");//Agregar icono
+//
+//                getMenus(map, etopic, topic, user);//HAcerlo recursivo
+//
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//        }
+//        return docres;
+//    }
 
     /**
      * Gets the sub menus.
@@ -401,19 +397,19 @@ public class SWBAFilters extends SWBATree
      * @param user the user
      * @return the sub menus
      */
-    public void getSubMenus(WebSite map, Element etopic, WebPage root, User user)
-    {
-
-        String lang = user.getLanguage();
-        Iterator<SemanticClass> it = FilterableClass.swb_FilterableClass.listSubClasses(true);
-        while (it.hasNext())
-        {
-            SemanticClass cls2 = (SemanticClass) it.next();
-            {
-                addSemanticClass(user, cls2, etopic);
-            }
-        }
-    }
+//    public void getSubMenus(WebSite map, Element etopic, WebPage root, User user)
+//    {
+//
+//        String lang = user.getLanguage();
+//        Iterator<SemanticClass> it = FilterableClass.swb_FilterableClass.listSubClasses(true);
+//        while (it.hasNext())
+//        {
+//            SemanticClass cls2 = (SemanticClass) it.next();
+//            {
+//                addSemanticClass(user, cls2, etopic);
+//            }
+//        }
+//    }
 
     /**
      * Obtiene los elementos de la configuración de vista del recurso.
@@ -426,35 +422,35 @@ public class SWBAFilters extends SWBATree
      * @return the elements
      * @return
      */
-    public Document getElements(User user)
-    {
-
-        WebSite map = SWBContext.getAdminWebSite();
-        Document docres = null;
-        try
-        {
-            docres = SWBUtils.XML.getNewDocument();
-            Element res = docres.createElement("res");
-            docres.appendChild(res);
-            WebPage topic = map.getWebPage("ObjectBehavior");
-            if (user.haveAccess(topic) && topic.isActive())
-            {
-                Element etopic = this.addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);
-                etopic.setAttribute("topicmap", map.getId());
-                etopic.setAttribute("reload", "getTopicMap." + map.getId());
-                etopic.setAttribute("access", "2"); // todo:
-                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
-                etopic.setAttribute("canModify", String.valueOf(canModify));
-                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());
-                etopic.setAttribute("icon", "folder");
-                getMenus(map, etopic, topic, user); // carga la lista de comportamientos definidos en el sitio de administración
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-        }
-        return docres;
-    }
+//    public Document getElements(User user)
+//    {
+//
+//        WebSite map = SWBContext.getAdminWebSite();
+//        Document docres = null;
+//        try
+//        {
+//            docres = SWBUtils.XML.getNewDocument();
+//            Element res = docres.createElement("res");
+//            docres.appendChild(res);
+//            WebPage topic = map.getWebPage("ObjectBehavior");
+//            if (user.haveAccess(topic) && topic.isActive())
+//            {
+//                Element etopic = this.addNode("topic", topic.getId(), topic.getDisplayName(user.getLanguage()), res);
+//                etopic.setAttribute("topicmap", map.getId());
+//                etopic.setAttribute("reload", "getTopicMap." + map.getId());
+//                etopic.setAttribute("access", "2"); // todo:
+//                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
+//                etopic.setAttribute("canModify", String.valueOf(canModify));
+//                etopic.setAttribute("reload", "getTopic." + map.getId() + "." + topic.getId());
+//                etopic.setAttribute("icon", "folder");
+//                getMenus(map, etopic, topic, user); // carga la lista de comportamientos definidos en el sitio de administración
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//        }
+//        return docres;
+//    }
     
     /**
      * Crea un objeto JSON con las propiedades proporcionadas.
@@ -495,12 +491,14 @@ public class SWBAFilters extends SWBATree
             WebSite site = sites.next();
             if (!site.isDeleted()) {
                 JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
+                siteobj.put("path","server|"+site.getURI());
                 ret.put(siteobj);
 
                 Iterator<SemanticObject> hierarchicalnodes = SWBComparator.sortSemanticObjects(site.getSemanticObject().getSemanticClass().listHerarquicalNodes());
                 while (hierarchicalnodes.hasNext()) {
                     SemanticObject node = hierarchicalnodes.next();
                     JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
+                    nodeobj.put("path", getPath(node, true));
                     ret.put(nodeobj);
                 }
 
@@ -509,11 +507,31 @@ public class SWBAFilters extends SWBATree
                     SWBModel submodel = submodels.next();
                     if (null != submodel && submodel.getSemanticObject().instanceOf(UserRepository.sclass)) {
                         JSONObject submodelobj = createNodeObject(submodel.getURI(), submodel.getSemanticObject().getDisplayName(lang), "getSemanticObject."+submodel.getURI(), site.getURI());
+                        submodelobj.put("path", siteobj.get("path")+"|"+submodel.getURI());
                         ret.put(submodelobj);
                     }
                 }
                 
-                //TODO: Add webpage structure
+                //TODO: Add webpage structure recursively
+                WebPage page = site.getHomePage();
+                JSONObject nodeobj = createNodeObject(page.getURI(), site.getTitle(lang), "getSemanticObject."+page.getURI(), site.getURI());
+                nodeobj.put("path", siteobj.get("path")+"|"+page.getURI());
+                ret.put(nodeobj);
+                
+                JSONArray pages = new JSONArray();
+                Iterator<WebPage> childs = SWBComparator.sortSemanticObjects(page.listChilds());
+                while(childs.hasNext()) {
+                    WebPage child = childs.next();
+                    
+                    nodeobj = createNodeObject(child.getURI(), child.getTitle(lang), "getSemanticObject."+child.getURI(), page.getURI());
+                    nodeobj.put("path", siteobj.get("path")+"|"+page.getURI()+"|"+child.getURI());
+                    getMenusJSON(pages, page, user);
+                }
+                
+                for (int i = 0; i < pages.length(); i++) {
+                    JSONObject item = pages.getJSONObject(i);
+                    ret.put(item);
+                }
             }
         }
 
@@ -725,9 +743,8 @@ public class SWBAFilters extends SWBATree
      * @throws SWBResourceException the sWB resource exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    @Override
-    public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
+    //@Override
+    public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         String ret = "";
@@ -744,7 +761,8 @@ public class SWBAFilters extends SWBATree
                 
                 try {
                     JSONObject filterObject = getJSONFilter(af);
-                    //System.out.println(filterObject.toString(2));
+                    System.out.println("----filter config----");
+                    System.out.println(filterObject.toString(2));
                 } catch (JSONException jsex) {}
                 
                 try {
@@ -770,6 +788,9 @@ public class SWBAFilters extends SWBATree
                     dt = getServerJSON(paramRequest.getUser());
                     _ret.put("sites", dt);
                     
+                    System.out.println("\n\n----tree data----");
+                    System.out.println(_ret.get("sites").toString());
+                    
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }
@@ -792,58 +813,58 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    public Document add(Document src)
-    {
-        //SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-        Document doc = null;
-        try
-        {
-            doc = SWBUtils.XML.getNewDocument();
-            Element res = doc.createElement("res");
-            doc.appendChild(res);
-            if (src.getElementsByTagName("filter").getLength() > 0)
-            {
-                Element efilter = (Element) src.getElementsByTagName("filter").item(0);
-                String description = "";
-                if (efilter.getElementsByTagName("description").getLength() > 0)
-                {
-                    Element edescription = (Element) efilter.getElementsByTagName("description").item(0);
-                    org.w3c.dom.Text etext = (org.w3c.dom.Text) edescription.getFirstChild();
-                    description = etext.getNodeValue();
-                }
-                String name = efilter.getAttribute("name");
-                UserRepository aws = SWBContext.getAdminRepository();
-                AdminFilter filter = AdminFilter.ClassMgr.createAdminFilter(aws);
-                filter.setTitle(name);
-                filter.setDescription(description);
-
-                Document xmlfilter = SWBUtils.XML.getNewDocument();
-                Element newnode = (Element) xmlfilter.importNode(efilter, true);
-                xmlfilter.appendChild(newnode);
-                filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
-                try
-                {
-                    //filter.create();
-                    newnode.setAttribute("id", String.valueOf(filter.getId()));
-                    filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
-                    //filter.update();
-                    addElement("filter", String.valueOf(filter.getId()), res);
-                    return doc;
-                } catch (Exception afe)
-                {
-                    addElement("err", afe.getMessage(), res);
-                    log.error(afe);
-                }
-            } else
-            {
-                addElement("err", "The element filter was not found", res);
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-        }
-        return doc;
-    }
+//    public Document add(Document src)
+//    {
+//        //SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
+//        Document doc = null;
+//        try
+//        {
+//            doc = SWBUtils.XML.getNewDocument();
+//            Element res = doc.createElement("res");
+//            doc.appendChild(res);
+//            if (src.getElementsByTagName("filter").getLength() > 0)
+//            {
+//                Element efilter = (Element) src.getElementsByTagName("filter").item(0);
+//                String description = "";
+//                if (efilter.getElementsByTagName("description").getLength() > 0)
+//                {
+//                    Element edescription = (Element) efilter.getElementsByTagName("description").item(0);
+//                    org.w3c.dom.Text etext = (org.w3c.dom.Text) edescription.getFirstChild();
+//                    description = etext.getNodeValue();
+//                }
+//                String name = efilter.getAttribute("name");
+//                UserRepository aws = SWBContext.getAdminRepository();
+//                AdminFilter filter = AdminFilter.ClassMgr.createAdminFilter(aws);
+//                filter.setTitle(name);
+//                filter.setDescription(description);
+//
+//                Document xmlfilter = SWBUtils.XML.getNewDocument();
+//                Element newnode = (Element) xmlfilter.importNode(efilter, true);
+//                xmlfilter.appendChild(newnode);
+//                filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
+//                try
+//                {
+//                    //filter.create();
+//                    newnode.setAttribute("id", String.valueOf(filter.getId()));
+//                    filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
+//                    //filter.update();
+//                    addElement("filter", String.valueOf(filter.getId()), res);
+//                    return doc;
+//                } catch (Exception afe)
+//                {
+//                    addElement("err", afe.getMessage(), res);
+//                    log.error(afe);
+//                }
+//            } else
+//            {
+//                addElement("err", "The element filter was not found", res);
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//        }
+//        return doc;
+//    }
 
     /**
      * Update.
@@ -856,58 +877,58 @@ public class SWBAFilters extends SWBATree
      * @return the document
      * @return
      */
-    public Document update(Document src)
-    {
-        UserRepository aws = SWBContext.getAdminRepository();
-        Document doc = null;
-        try
-        {
-            doc = SWBUtils.XML.getNewDocument();
-            Element res = doc.createElement("res");
-            doc.appendChild(res);
-            if (src.getElementsByTagName("filter").getLength() > 0)
-            {
-                Element efilter = (Element) src.getElementsByTagName("filter").item(0);
-//                String description = "";
-//                if (efilter.getElementsByTagName("description").getLength() > 0) {
-//                    Element edescription = (Element) efilter.getElementsByTagName("description").item(0);
-//                    org.w3c.dom.Text etext = (org.w3c.dom.Text) edescription.getFirstChild();
-//                    description = etext.getNodeValue();
+//    public Document update(Document src)
+//    {
+//        UserRepository aws = SWBContext.getAdminRepository();
+//        Document doc = null;
+//        try
+//        {
+//            doc = SWBUtils.XML.getNewDocument();
+//            Element res = doc.createElement("res");
+//            doc.appendChild(res);
+//            if (src.getElementsByTagName("filter").getLength() > 0)
+//            {
+//                Element efilter = (Element) src.getElementsByTagName("filter").item(0);
+////                String description = "";
+////                if (efilter.getElementsByTagName("description").getLength() > 0) {
+////                    Element edescription = (Element) efilter.getElementsByTagName("description").item(0);
+////                    org.w3c.dom.Text etext = (org.w3c.dom.Text) edescription.getFirstChild();
+////                    description = etext.getNodeValue();
+////                }
+////                String name = efilter.getAttribute("name");
+//                //AdminFilter filter=AdminFilter.getAdminFilter(efilter.getAttribute("id"),efilter.getAttribute("topicmap"));
+//                AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(efilter.getAttribute("id"), aws);
+////                filter.setTitle(name);
+////                filter.setDescription(description);
+//                //filter.setTopicMapId(efilter.getAttribute("topicmap"));
+//                Document xmlfilter = SWBUtils.XML.getNewDocument();
+//
+//                Element newnode = (Element) xmlfilter.importNode(efilter, true);
+//                xmlfilter.appendChild(newnode);
+//
+//                filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
+//                try
+//                {
+//                    newnode.setAttribute("id", String.valueOf(filter.getId()));
+//                    filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
+////                    filter.update();
+//                    addElement("filter", String.valueOf(filter.getId()), res);
+//                } catch (Exception afe)
+//                {
+//
+//                    addElement("err", afe.getMessage(), res);
+//                    log.error(afe);
 //                }
-//                String name = efilter.getAttribute("name");
-                //AdminFilter filter=AdminFilter.getAdminFilter(efilter.getAttribute("id"),efilter.getAttribute("topicmap"));
-                AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(efilter.getAttribute("id"), aws);
-//                filter.setTitle(name);
-//                filter.setDescription(description);
-                //filter.setTopicMapId(efilter.getAttribute("topicmap"));
-                Document xmlfilter = SWBUtils.XML.getNewDocument();
-
-                Element newnode = (Element) xmlfilter.importNode(efilter, true);
-                xmlfilter.appendChild(newnode);
-
-                filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
-                try
-                {
-                    newnode.setAttribute("id", String.valueOf(filter.getId()));
-                    filter.setXml(SWBUtils.XML.domToXml(xmlfilter));
-//                    filter.update();
-                    addElement("filter", String.valueOf(filter.getId()), res);
-                } catch (Exception afe)
-                {
-
-                    addElement("err", afe.getMessage(), res);
-                    log.error(afe);
-                }
-            } else
-            {
-                addElement("err", "The element filter was not found", res);
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-        }
-        return doc;
-    }
+//            } else
+//            {
+//                addElement("err", "The element filter was not found", res);
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//        }
+//        return doc;
+//    }
 
     /**
      * Gets the path.
@@ -915,24 +936,21 @@ public class SWBAFilters extends SWBATree
      * @param obj the obj
      * @return the path
      */
-    private String getPath(SemanticObject obj)
-    {
+    private String getPath(SemanticObject obj, boolean hnode) {
         String getPath = "";
-        Iterator<SemanticObject> parents = obj.listHerarquicalParents();
-        if (parents.hasNext())
-        {
-            SemanticObject parent = parents.next();
-            String pathnew = getPath(parent);
-            if (pathnew.equals(""))
-            {
-                getPath = parent.getURI();
-            } else
-            {
-                getPath = pathnew + "|" + parent.getURI();
+        if (hnode) {
+            Iterator<SemanticObject> parents = obj.listHerarquicalParents();
+            if (parents.hasNext()) {
+                SemanticObject parent = parents.next();
+                String pathnew = getPath(parent, true);
+                if (pathnew.equals("")) {
+                    getPath = parent.getURI();
+                } else {
+                    getPath = pathnew + "|" + parent.getURI();
+                }
             }
         }
         return getPath;
-
     }
 
     /**
@@ -946,78 +964,78 @@ public class SWBAFilters extends SWBATree
      * @return the filter
      * @return
      */
-    public Document getFilter(Document src)
-    {
-
-        UserRepository map = SWBContext.getAdminRepository();
-        Document docres = null;
-        try
-        {
-            docres = SWBUtils.XML.getNewDocument();
-            Element res = docres.createElement("res");
-            docres.appendChild(res);
-            if (src.getElementsByTagName("id").getLength() > 0)
-            {
-                Element eid = (Element) src.getElementsByTagName("id").item(0);
-                org.w3c.dom.Text etext = (org.w3c.dom.Text) eid.getFirstChild();
-                String id = etext.getNodeValue();
-                AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(id, map);
-                Document exmlfilter = SWBUtils.XML.xmlToDom(filter.getXml());
-                if (exmlfilter != null)
-                {
-                    Node node = docres.importNode(exmlfilter.getFirstChild(), true);
-                    res.appendChild(node);
-                    NodeList nodes = docres.getElementsByTagName("node");
-                    for (int i = 0; i < nodes.getLength(); i++)
-                    {
-                        Element enode = (Element) nodes.item(i);
-                        String topicid = enode.getAttribute("id");
-                        String path = topicid;
-                        //String topicmap = enode.getAttribute("topicmap");
-
-                        SemanticObject obj = SemanticObject.createSemanticObject(topicid);
-                        if (obj != null)
-                        {
-                            String newpath = getPath(obj);
-                            if (!newpath.equals(""))
-                            {
-                                path = getPath(obj) + "|" + path;
-                            }
-                        }
-
-
-                        /*SemanticObject objModel=SemanticObject.createSemanticObject(topicmap);
-                         if(objModel!=null)
-                         {
-                         GenericObject gomodel=objModel.createGenericInstance();
-                         if(gomodel instanceof SWBModel)
-                         {
-                         SemanticObject obj=SemanticObject.createSemanticObject(id);
-                         Iter obj.listHerarquicalParents();
-                         }
-                            
-                         }*/
-                        /*
-                         WebSite topicMap = SWBContext.getWebSite(topicmap);
-                         if (topicMap != null) {
-                         WebPage topic = topicMap.getWebPage(topicid);
-                         if (topic != null) {
-                         while (topic.getParent() != null) {
-                         path = topic.getParent().getId() + "|" + path;
-                         topic = topic.getParent();
-                         }
-                         }
-                         }*/
-                        enode.setAttribute("path", path);
-                    }
-                }
-            }
-        } catch (Exception e)
-        {
-            log.error(e);
-        }
-        return docres;
-    }
+//    public Document getFilter(Document src)
+//    {
+//
+//        UserRepository map = SWBContext.getAdminRepository();
+//        Document docres = null;
+//        try
+//        {
+//            docres = SWBUtils.XML.getNewDocument();
+//            Element res = docres.createElement("res");
+//            docres.appendChild(res);
+//            if (src.getElementsByTagName("id").getLength() > 0)
+//            {
+//                Element eid = (Element) src.getElementsByTagName("id").item(0);
+//                org.w3c.dom.Text etext = (org.w3c.dom.Text) eid.getFirstChild();
+//                String id = etext.getNodeValue();
+//                AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(id, map);
+//                Document exmlfilter = SWBUtils.XML.xmlToDom(filter.getXml());
+//                if (exmlfilter != null)
+//                {
+//                    Node node = docres.importNode(exmlfilter.getFirstChild(), true);
+//                    res.appendChild(node);
+//                    NodeList nodes = docres.getElementsByTagName("node");
+//                    for (int i = 0; i < nodes.getLength(); i++)
+//                    {
+//                        Element enode = (Element) nodes.item(i);
+//                        String topicid = enode.getAttribute("id");
+//                        String path = topicid;
+//                        //String topicmap = enode.getAttribute("topicmap");
+//
+//                        SemanticObject obj = SemanticObject.createSemanticObject(topicid);
+//                        if (obj != null)
+//                        {
+//                            String newpath = getPath(obj,false);
+//                            if (!newpath.equals(""))
+//                            {
+//                                path = getPath(obj, false) + "|" + path;
+//                            }
+//                        }
+//
+//
+//                        /*SemanticObject objModel=SemanticObject.createSemanticObject(topicmap);
+//                         if(objModel!=null)
+//                         {
+//                         GenericObject gomodel=objModel.createGenericInstance();
+//                         if(gomodel instanceof SWBModel)
+//                         {
+//                         SemanticObject obj=SemanticObject.createSemanticObject(id);
+//                         Iter obj.listHerarquicalParents();
+//                         }
+//                            
+//                         }*/
+//                        /*
+//                         WebSite topicMap = SWBContext.getWebSite(topicmap);
+//                         if (topicMap != null) {
+//                         WebPage topic = topicMap.getWebPage(topicid);
+//                         if (topic != null) {
+//                         while (topic.getParent() != null) {
+//                         path = topic.getParent().getId() + "|" + path;
+//                         topic = topic.getParent();
+//                         }
+//                         }
+//                         }*/
+//                        enode.setAttribute("path", path);
+//                    }
+//                }
+//            }
+//        } catch (Exception e)
+//        {
+//            log.error(e);
+//        }
+//        return docres;
+//    }
 
     /**
      * Add or update the filter resource configuration.
@@ -1029,21 +1047,21 @@ public class SWBAFilters extends SWBATree
      * @param response the response
      * @return return an updated dom document
      */
-    public Document updateFilter(Document src)
-    {
-        if (src.getElementsByTagName("filter").getLength() > 0)
-        {
-            Element efilter = (Element) src.getElementsByTagName("filter").item(0);
-            if (efilter.getAttribute("id") == null || efilter.getAttribute("id").equals(""))
-            {
-                return add(src);
-            } else
-            {
-                return update(src);
-            }
-        }
-        return null;
-    }
+//    public Document updateFilter(Document src)
+//    {
+//        if (src.getElementsByTagName("filter").getLength() > 0)
+//        {
+//            Element efilter = (Element) src.getElementsByTagName("filter").item(0);
+//            if (efilter.getAttribute("id") == null || efilter.getAttribute("id").equals(""))
+//            {
+//                return add(src);
+//            } else
+//            {
+//                return update(src);
+//            }
+//        }
+//        return null;
+//    }
 
     /**
      * User View of the SWBAFilters Resource; it shows a resource filter
@@ -1084,17 +1102,17 @@ public class SWBAFilters extends SWBATree
      * @param obj the obj
      * @return boolean, true if semantic object have Herarquical nodes or False.
      */
-    public boolean hasHerarquicalNodes(SemanticObject obj)
-    {
-        boolean ret = false;
-        Iterator<SemanticObject> it = obj.getSemanticClass().listHerarquicalNodes();
-        if (it.hasNext())
-        {
-            ret = true;
-        }
-
-        return ret;
-    }
+//    public boolean hasHerarquicalNodes(SemanticObject obj)
+//    {
+//        boolean ret = false;
+//        Iterator<SemanticObject> it = obj.getSemanticClass().listHerarquicalNodes();
+//        if (it.hasNext())
+//        {
+//            ret = true;
+//        }
+//
+//        return ret;
+//    }
 
     /**
      * Adds the server filter.
@@ -1104,51 +1122,51 @@ public class SWBAFilters extends SWBATree
      * @param isFilter the is filter
      * @param objfilters the objfilters
      */
-    protected void addServerFilter(User user, Element res, Set<String> objfilters)
-    {
-
-        int access = 2;
-        hmclass = new HashMap();
-        //tree nodes
-        Element root = addNode("node", "server", "Server", res);
-        root.setAttribute("reload", "getServer");
-        root.setAttribute("icon", "global");
-        root.setAttribute("access", "" + access);
-
-        //WebSites
-        Iterator<WebSite> it = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
-        while (it.hasNext())
-        {
-            WebSite tm = it.next();
-            if (!tm.isDeleted())
-            {
-                try
-                {
-                    addSemanticObjectFilter(user, tm.getSemanticObject(), root, objfilters);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-            }
-        }
-
-        Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
-        while (it2.hasNext())
-        {
-            UserRepository tm = it2.next();
-            if (tm.getParentWebSite() == null)
-            {
-                try
-                {
-                    addSemanticObjectFilter(user, tm.getSemanticObject(), root, objfilters);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-            }
-        }
-
-    }
+//    protected void addServerFilter(User user, Element res, Set<String> objfilters)
+//    {
+//
+//        int access = 2;
+//        hmclass = new HashMap();
+//        //tree nodes
+//        Element root = addNode("node", "server", "Server", res);
+//        root.setAttribute("reload", "getServer");
+//        root.setAttribute("icon", "global");
+//        root.setAttribute("access", "" + access);
+//
+//        //WebSites
+//        Iterator<WebSite> it = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
+//        while (it.hasNext())
+//        {
+//            WebSite tm = it.next();
+//            if (!tm.isDeleted())
+//            {
+//                try
+//                {
+//                    addSemanticObjectFilter(user, tm.getSemanticObject(), root, objfilters);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//            }
+//        }
+//
+//        Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
+//        while (it2.hasNext())
+//        {
+//            UserRepository tm = it2.next();
+//            if (tm.getParentWebSite() == null)
+//            {
+//                try
+//                {
+//                    addSemanticObjectFilter(user, tm.getSemanticObject(), root, objfilters);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//            }
+//        }
+//
+//    }
 
     /**
      * Add server to dom document.
@@ -1157,59 +1175,59 @@ public class SWBAFilters extends SWBATree
      * @param res the res
      * @param isFilter the is filter
      */
-    @Override
-    protected void addServer(User user, Element res, boolean isFilter)
-    {
-
-        int access = 2;
-        hmclass = new HashMap();
-        //tree nodes
-        Element root = addNode("node", "server", "Server", res); //Servr por tma.getWebPage("WBAd_sys_Server").getDisplayName(user.getLanguage())
-        root.setAttribute("reload", "getServer");
-        root.setAttribute("icon", "global");
-        root.setAttribute("access", "" + access);
-
-        //WebSites
-        Iterator<WebSite> it = sortIterator(SWBContext.listWebSites());
-        while (it.hasNext())
-        {
-            //topicmap
-            WebSite tm = it.next();
-            if (!tm.isDeleted())
-            {
-                try
-                {
-                    addSemanticObject(user, tm.getSemanticObject(), root, false);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-                //addTopicMap(user, tm, root, access, false, isFilter);
-            }
-        }
-
-        Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
-        while (it2.hasNext())
-        {
-            UserRepository tm = it2.next();
-            if (tm.getParentWebSite() == null)
-            {
-                try
-                {
-                    addSemanticObject(user, tm.getSemanticObject(), root, false);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-            }
-        }
-
-//        Iterator itex = ext.iterator();
-//        while (itex.hasNext()) {
-//            SWBTreeExt e = (SWBTreeExt) itex.next();
-//            e.addServer(user, root, isFilter);
+//    @Override
+//    protected void addServer(User user, Element res, boolean isFilter)
+//    {
+//
+//        int access = 2;
+//        hmclass = new HashMap();
+//        //tree nodes
+//        Element root = addNode("node", "server", "Server", res); //Servr por tma.getWebPage("WBAd_sys_Server").getDisplayName(user.getLanguage())
+//        root.setAttribute("reload", "getServer");
+//        root.setAttribute("icon", "global");
+//        root.setAttribute("access", "" + access);
+//
+//        //WebSites
+//        Iterator<WebSite> it = sortIterator(SWBContext.listWebSites());
+//        while (it.hasNext())
+//        {
+//            //topicmap
+//            WebSite tm = it.next();
+//            if (!tm.isDeleted())
+//            {
+//                try
+//                {
+//                    addSemanticObject(user, tm.getSemanticObject(), root, false);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//                //addTopicMap(user, tm, root, access, false, isFilter);
+//            }
 //        }
-    }
+//
+//        Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
+//        while (it2.hasNext())
+//        {
+//            UserRepository tm = it2.next();
+//            if (tm.getParentWebSite() == null)
+//            {
+//                try
+//                {
+//                    addSemanticObject(user, tm.getSemanticObject(), root, false);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//            }
+//        }
+//
+////        Iterator itex = ext.iterator();
+////        while (itex.hasNext()) {
+////            SWBTreeExt e = (SWBTreeExt) itex.next();
+////            e.addServer(user, root, isFilter);
+////        }
+//    }
 
     /**
      * Adds the herarquical nodes.
@@ -1218,15 +1236,15 @@ public class SWBAFilters extends SWBATree
      * @param obj the obj
      * @param ele the ele
      */
-    public void addHerarquicalNodes(User user, SemanticObject obj, Element ele)
-    {
-        Iterator<SemanticObject> it = SWBComparator.sortSortableObject(obj.getSemanticClass().listHerarquicalNodes());
-        while (it.hasNext())
-        {
-            HerarquicalNode node = new HerarquicalNode(it.next());
-            addHerarquicalNode(user, node, obj, ele, false);
-        }
-    }
+//    public void addHerarquicalNodes(User user, SemanticObject obj, Element ele)
+//    {
+//        Iterator<SemanticObject> it = SWBComparator.sortSortableObject(obj.getSemanticClass().listHerarquicalNodes());
+//        while (it.hasNext())
+//        {
+//            HerarquicalNode node = new HerarquicalNode(it.next());
+//            addHerarquicalNode(user, node, obj, ele, false);
+//        }
+//    }
 
     /**
      * Adds the herarquical node.
@@ -1237,50 +1255,50 @@ public class SWBAFilters extends SWBATree
      * @param ele the ele
      * @param addChilds the add childs
      */
-    public void addHerarquicalNode(User user, HerarquicalNode node, SemanticObject obj, Element ele, boolean addChilds)
-    {
-        addChilds = true;
-        SemanticClass cls = null;
-        if (node.getHClass() != null)
-        {
-            cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(node.getHClass().getURI());
-        }
-        String pf = node.getPropertyFilter();
-
-        Element jobj = addNode("node", node.getURI(), node.getDisplayTitle(user.getLanguage()), ele);
-        jobj.setAttribute("reload", "getSemanticObject." + "HN|" + obj.getURI() + "|" + node.getURI());
-        jobj.setAttribute("icon", node.getIconClass());
-        //jobj.setAttribute("icon", "homev");
-
-        if (cls != null && cls.isSubClass(FilterableNode.swb_FilterableNode))
-        {
-            Iterator<SemanticObject> it = SWBObjectFilter.filter(SWBComparator.sortSemanticObjects(user.getLanguage(), obj.getModel().listInstancesOfClass(cls)), pf);
-            if (addChilds)
-            {
-                while (it.hasNext())
-                {
-                    SemanticObject so = it.next();
-                    try
-                    {
-                        addSemanticObject(user, so, jobj, false);
-                    } catch (Exception e)
-                    {
-                        log.error(e);
-                    }
-                }
-            }
-        }
-
-        if (cls == null)
-        {
-            Iterator<HerarquicalNode> it = node.listHerarquicalNodes();
-            while (it.hasNext())
-            {
-                HerarquicalNode node2 = it.next();
-                addHerarquicalNode(user, node2, obj, jobj, false);
-            }
-        }
-    }
+//    public void addHerarquicalNode(User user, HerarquicalNode node, SemanticObject obj, Element ele, boolean addChilds)
+//    {
+//        addChilds = true;
+//        SemanticClass cls = null;
+//        if (node.getHClass() != null)
+//        {
+//            cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(node.getHClass().getURI());
+//        }
+//        String pf = node.getPropertyFilter();
+//
+//        Element jobj = addNode("node", node.getURI(), node.getDisplayTitle(user.getLanguage()), ele);
+//        jobj.setAttribute("reload", "getSemanticObject." + "HN|" + obj.getURI() + "|" + node.getURI());
+//        jobj.setAttribute("icon", node.getIconClass());
+//        //jobj.setAttribute("icon", "homev");
+//
+//        if (cls != null && cls.isSubClass(FilterableNode.swb_FilterableNode))
+//        {
+//            Iterator<SemanticObject> it = SWBObjectFilter.filter(SWBComparator.sortSemanticObjects(user.getLanguage(), obj.getModel().listInstancesOfClass(cls)), pf);
+//            if (addChilds)
+//            {
+//                while (it.hasNext())
+//                {
+//                    SemanticObject so = it.next();
+//                    try
+//                    {
+//                        addSemanticObject(user, so, jobj, false);
+//                    } catch (Exception e)
+//                    {
+//                        log.error(e);
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (cls == null)
+//        {
+//            Iterator<HerarquicalNode> it = node.listHerarquicalNodes();
+//            while (it.hasNext())
+//            {
+//                HerarquicalNode node2 = it.next();
+//                addHerarquicalNode(user, node2, obj, jobj, false);
+//            }
+//        }
+//    }
 
     /**
      * Adds the semantic object filter.
@@ -1291,53 +1309,53 @@ public class SWBAFilters extends SWBATree
      * @param nodesInFilter the nodes in filter
      * @return the element
      */
-    protected Element addSemanticObjectFilter(User user, SemanticObject obj, Element node, Set<String> nodesInFilter)
-    {
-
-        Element events = null;
-        Element event = null;
-        Element jobj = addNode("node", obj.getURI(), obj.getDisplayName(user.getLanguage()), node);
-        jobj.setAttribute("reload", "getSemanticObject." + obj.getURI());
-        if (hasHerarquicalNodes(obj))
-        {
-            addHerarquicalNodes(user, obj, jobj);
-
-        }
-        if ((nodesInFilter != null && nodesInFilter.contains(obj.getURI())) || obj.instanceOf(WebSite.sclass))
-        {
-            //Agrega todos los nodos hijos
-            if (nodesInFilter != null && nodesInFilter.contains(obj.getURI()))
-            {
-                nodesInFilter.remove(obj.getURI());
-            }
-
-            Iterator<SemanticObject> it = obj.listHerarquicalChilds();
-            Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
-            while (it2.hasNext())
-            {
-                SemanticObject ch = it2.next();
-                if (ch.instanceOf(FilterableNode.swb_FilterableNode))
-                {
-                    try
-                    {
-                        addSemanticObjectFilter(user, ch, jobj, nodesInFilter);
-                    } catch (Exception e)
-                    {
-                        log.error(e);
-                    }
-                }
-            }
-        } else
-        {
-
-            events = addNode("events", "events", "Events", jobj);
-            event = addNode("willExpand", "willExpand", "WillExpand", events);
-            event.setAttribute("action", "reload");
-
-        }
-        return jobj;
-
-    }
+//    protected Element addSemanticObjectFilter(User user, SemanticObject obj, Element node, Set<String> nodesInFilter)
+//    {
+//
+//        Element events = null;
+//        Element event = null;
+//        Element jobj = addNode("node", obj.getURI(), obj.getDisplayName(user.getLanguage()), node);
+//        jobj.setAttribute("reload", "getSemanticObject." + obj.getURI());
+//        if (hasHerarquicalNodes(obj))
+//        {
+//            addHerarquicalNodes(user, obj, jobj);
+//
+//        }
+//        if ((nodesInFilter != null && nodesInFilter.contains(obj.getURI())) || obj.instanceOf(WebSite.sclass))
+//        {
+//            //Agrega todos los nodos hijos
+//            if (nodesInFilter != null && nodesInFilter.contains(obj.getURI()))
+//            {
+//                nodesInFilter.remove(obj.getURI());
+//            }
+//
+//            Iterator<SemanticObject> it = obj.listHerarquicalChilds();
+//            Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
+//            while (it2.hasNext())
+//            {
+//                SemanticObject ch = it2.next();
+//                if (ch.instanceOf(FilterableNode.swb_FilterableNode))
+//                {
+//                    try
+//                    {
+//                        addSemanticObjectFilter(user, ch, jobj, nodesInFilter);
+//                    } catch (Exception e)
+//                    {
+//                        log.error(e);
+//                    }
+//                }
+//            }
+//        } else
+//        {
+//
+//            events = addNode("events", "events", "Events", jobj);
+//            event = addNode("willExpand", "willExpand", "WillExpand", events);
+//            event.setAttribute("action", "reload");
+//
+//        }
+//        return jobj;
+//
+//    }
 
     /**
      * Add web site to dom document.
@@ -1347,81 +1365,81 @@ public class SWBAFilters extends SWBATree
      * @param node the node
      * @param addChilds the add childs
      */
-    protected void addSemanticObject(User user, SemanticObject obj, Element node, boolean addChilds)
-    {
-        addChilds = true;                             //siempre agrega hijos
-        //System.out.println("addSemanticObject");
-        Element events = null;
-        Element event = null;
-        SemanticObject aux = null;
-
-        boolean hasChilds = false;
-        SemanticClass cls = obj.getSemanticClass();
-
-        //Active
-        boolean active = false;
-        SemanticProperty activeprop = cls.getProperty("active");
-        if (activeprop != null)
-        {
-            active = obj.getBooleanProperty(activeprop);
-        }
-
-        //String icon=SWBContext.UTILS.getIconClass(obj);
-        Element jobj = addNode("node", obj.getURI(), obj.getDisplayName(user.getLanguage()), node);
-        jobj.setAttribute("reload", "getSemanticObject." + obj.getURI());
-        //jobj.setAttribute("icon", icon);
-        //jobj.setAttribute("icon", "homev");
-
-        hasChilds = hasHerarquicalNodes(obj);
-        if (addChilds || !hasChilds)
-        {
-            addHerarquicalNodes(user, obj, jobj);
-
-            Iterator<SemanticObject> it = obj.listHerarquicalChilds();
-            if (addChilds)
-            {
-                Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
-                while (it2.hasNext())
-                {
-                    SemanticObject ch = it2.next();
-                    if (ch.instanceOf(FilterableNode.swb_FilterableNode))
-                    {
-                        try
-                        {
-                            addSemanticObject(user, ch, jobj, false);
-                        } catch (Exception e)
-                        {
-                            log.error(e);
-                        }
-                    }
-                }
-            } else
-            {
-                while (it.hasNext())
-                {
-                    SemanticObject ch = it.next();
-                    if (ch.instanceOf(FilterableNode.swb_FilterableNode))
-                    {
-                        hasChilds = true;
-                        aux = ch;
-                        break;
-                    }
-                }
-            }
-        }
-        if (hasChilds && !addChilds)
-        {
-            if (aux != null)
-            {
-                Element child = addNode("node", aux.getId(), aux.getDisplayName(user.getLanguage()), jobj);
-                child.setAttribute("icon", "menu");
-            }
-
-            events = addNode("events", "events", "Events", jobj);
-            event = addNode("willExpand", "willExpand", "WillExpand", events);
-            event.setAttribute("action", "reload");
-        }
-    }
+//    protected void addSemanticObject(User user, SemanticObject obj, Element node, boolean addChilds)
+//    {
+//        addChilds = true;                             //siempre agrega hijos
+//        //System.out.println("addSemanticObject");
+//        Element events = null;
+//        Element event = null;
+//        SemanticObject aux = null;
+//
+//        boolean hasChilds = false;
+//        SemanticClass cls = obj.getSemanticClass();
+//
+//        //Active
+//        boolean active = false;
+//        SemanticProperty activeprop = cls.getProperty("active");
+//        if (activeprop != null)
+//        {
+//            active = obj.getBooleanProperty(activeprop);
+//        }
+//
+//        //String icon=SWBContext.UTILS.getIconClass(obj);
+//        Element jobj = addNode("node", obj.getURI(), obj.getDisplayName(user.getLanguage()), node);
+//        jobj.setAttribute("reload", "getSemanticObject." + obj.getURI());
+//        //jobj.setAttribute("icon", icon);
+//        //jobj.setAttribute("icon", "homev");
+//
+//        hasChilds = hasHerarquicalNodes(obj);
+//        if (addChilds || !hasChilds)
+//        {
+//            addHerarquicalNodes(user, obj, jobj);
+//
+//            Iterator<SemanticObject> it = obj.listHerarquicalChilds();
+//            if (addChilds)
+//            {
+//                Iterator<SemanticObject> it2 = SWBComparator.sortSemanticObjects(user.getLanguage(), it);
+//                while (it2.hasNext())
+//                {
+//                    SemanticObject ch = it2.next();
+//                    if (ch.instanceOf(FilterableNode.swb_FilterableNode))
+//                    {
+//                        try
+//                        {
+//                            addSemanticObject(user, ch, jobj, false);
+//                        } catch (Exception e)
+//                        {
+//                            log.error(e);
+//                        }
+//                    }
+//                }
+//            } else
+//            {
+//                while (it.hasNext())
+//                {
+//                    SemanticObject ch = it.next();
+//                    if (ch.instanceOf(FilterableNode.swb_FilterableNode))
+//                    {
+//                        hasChilds = true;
+//                        aux = ch;
+//                        break;
+//                    }
+//                }
+//            }
+//        }
+//        if (hasChilds && !addChilds)
+//        {
+//            if (aux != null)
+//            {
+//                Element child = addNode("node", aux.getId(), aux.getDisplayName(user.getLanguage()), jobj);
+//                child.setAttribute("icon", "menu");
+//            }
+//
+//            events = addNode("events", "events", "Events", jobj);
+//            event = addNode("willExpand", "willExpand", "WillExpand", events);
+//            event.setAttribute("action", "reload");
+//        }
+//    }
 
     /**
      * Add web site to dom document.
@@ -1431,40 +1449,40 @@ public class SWBAFilters extends SWBATree
      * @param node the node
      * @param addChilds the add childs
      */
-    protected void addSemanticClass(User user, SemanticClass sc, Element node)
-    //public void addSemanticObject(JSONArray arr, SemanticObject obj, boolean addChilds, boolean addDummy, String lang) throws JSONException
-    {
-        //System.out.println("addSemanticClass:"+sc+" "+node);
-        String lang = user.getLanguage();
-
-        Element classele = addNode("topic", sc.getClassId(), sc.getDisplayName(user.getLanguage()), node);
-        classele.setAttribute("reload", "getTopic.SC|" + sc.getClassId());
-        classele.setAttribute("icon", "sitev");
-        classele.setAttribute("topicmap", "SWBAdmin");
-
-        Element etp = this.addNode("topic", sc.getClassId() + ";" + "add", getLocaleString("add", lang), classele);
-        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "add");
-        etp.setAttribute("topicmap", "SWBAdmin");
-        //etp.setAttribute("icon", "menu");
-
-        etp = this.addNode("topic", sc.getClassId() + ";" + "edit", getLocaleString("edit", lang), classele);
-        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "edit");
-        etp.setAttribute("topicmap", "SWBAdmin");
-        //etp.setAttribute("icon", "menu");
-
-        etp = this.addNode("topic", sc.getClassId() + ";" + "delete", getLocaleString("delete", lang), classele);
-        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "delete");
-        etp.setAttribute("topicmap", "SWBAdmin");
-        //etp.setAttribute("icon", "menu");
-
-        if (sc.isSubClass(org.semanticwb.model.Activeable.swb_Activeable))
-        {
-            Element etp4 = this.addNode("topic", sc.getClassId() + ";" + "active", getLocaleString("active", lang) + "/" + getLocaleString("unactive", lang), classele);
-            etp4.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "active");
-            etp4.setAttribute("topicmap", "SWBAdmin");
-            //etp4.setAttribute("icon", "menu");
-        }
-    }
+//    protected void addSemanticClass(User user, SemanticClass sc, Element node)
+//    //public void addSemanticObject(JSONArray arr, SemanticObject obj, boolean addChilds, boolean addDummy, String lang) throws JSONException
+//    {
+//        //System.out.println("addSemanticClass:"+sc+" "+node);
+//        String lang = user.getLanguage();
+//
+//        Element classele = addNode("topic", sc.getClassId(), sc.getDisplayName(user.getLanguage()), node);
+//        classele.setAttribute("reload", "getTopic.SC|" + sc.getClassId());
+//        classele.setAttribute("icon", "sitev");
+//        classele.setAttribute("topicmap", "SWBAdmin");
+//
+//        Element etp = this.addNode("topic", sc.getClassId() + ";" + "add", getLocaleString("add", lang), classele);
+//        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "add");
+//        etp.setAttribute("topicmap", "SWBAdmin");
+//        //etp.setAttribute("icon", "menu");
+//
+//        etp = this.addNode("topic", sc.getClassId() + ";" + "edit", getLocaleString("edit", lang), classele);
+//        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "edit");
+//        etp.setAttribute("topicmap", "SWBAdmin");
+//        //etp.setAttribute("icon", "menu");
+//
+//        etp = this.addNode("topic", sc.getClassId() + ";" + "delete", getLocaleString("delete", lang), classele);
+//        etp.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "delete");
+//        etp.setAttribute("topicmap", "SWBAdmin");
+//        //etp.setAttribute("icon", "menu");
+//
+//        if (sc.isSubClass(org.semanticwb.model.Activeable.swb_Activeable))
+//        {
+//            Element etp4 = this.addNode("topic", sc.getClassId() + ";" + "active", getLocaleString("active", lang) + "/" + getLocaleString("unactive", lang), classele);
+//            etp4.setAttribute("reload", "getTopic.SCA|" + sc.getClassId() + "|" + "active");
+//            etp4.setAttribute("topicmap", "SWBAdmin");
+//            //etp4.setAttribute("icon", "menu");
+//        }
+//    }
 
     /**
      * Add web site to dom document.
@@ -1476,83 +1494,83 @@ public class SWBAFilters extends SWBATree
      * @param loadChild the load child
      * @param isFilter the is filter
      */
-    @Override
-    protected void addTopicMap(User user, WebSite tm, Element root, int access, boolean loadChild, boolean isFilter)
-    {
-        //System.out.println("addTopicMap");
-//        if (access != FULL_ACCESS) {
-//            access = 2; //AdmFilterMgr.getInstance().haveAccess2TopicMap(user, tm.getId());
-//            if (access == NO_ACCESS) {
-//                return;
+//    @Override
+//    protected void addTopicMap(User user, WebSite tm, Element root, int access, boolean loadChild, boolean isFilter)
+//    {
+//        //System.out.println("addTopicMap");
+////        if (access != FULL_ACCESS) {
+////            access = 2; //AdmFilterMgr.getInstance().haveAccess2TopicMap(user, tm.getId());
+////            if (access == NO_ACCESS) {
+////                return;
+////            }
+////        }
+//
+//        Element topicmap = addNode("node", tm.getId(), tm.getDisplayTitle(user.getLanguage()), root);
+//        topicmap.setAttribute("reload", "getTopicMap." + tm.getId());
+//        topicmap.setAttribute("access", "" + access);
+//        if (tm.isActive())
+//        {
+//            topicmap.setAttribute("icon", "sitev");
+//        } else
+//        {
+//            topicmap.setAttribute("icon", "siter");
+//        }
+//
+//        Iterator<String> its = hmclass.keySet().iterator();
+//        while (its.hasNext())
+//        {
+//            String sclass = its.next();
+//            if (!sclass.equals("WebSite") && !sclass.equals("WebPage"))
+//            {
+//                SemanticClass sc = (SemanticClass) hmclass.get(sclass);
+//
+//                Element classele = this.addNode("node", sc.getClassId(), sc.getName(), topicmap);
+//                classele.setAttribute("topicmap", tm.getId());
+//                classele.setAttribute("reload", "getTopic." + tm.getId() + "." + sc.getClassId());
+//                classele.setAttribute("access", "" + access);
+//                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
+//                classele.setAttribute("canModify", String.valueOf(canModify));
+//                classele.setAttribute("icon", "hijov");
+//
+//                Iterator<SemanticObject> itso = tm.getSemanticObject().getModel().listInstancesOfClass(sc);
+//                while (itso.hasNext())
+//                {
+//                    SemanticObject so = itso.next();
+//                    Element ele = addNode("node", so.getId(), so.getDisplayName(user.getLanguage()), classele);
+//                    ele.setAttribute("topicmap", sc.getClassId());
+//                    ele.setAttribute("reload", "getTopic." + tm.getId() + "." + sc.getClassId() + "." + so.getId());
+//                    ele.setAttribute("access", "" + access);
+//                    canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
+//                    ele.setAttribute("canModify", String.valueOf(canModify));
+//                    ele.setAttribute("icon", "hijov");
+//
+//                    //System.out.println("---"+so.getDisplayName(user.getLanguage()));
+//                }
 //            }
 //        }
-
-        Element topicmap = addNode("node", tm.getId(), tm.getDisplayTitle(user.getLanguage()), root);
-        topicmap.setAttribute("reload", "getTopicMap." + tm.getId());
-        topicmap.setAttribute("access", "" + access);
-        if (tm.isActive())
-        {
-            topicmap.setAttribute("icon", "sitev");
-        } else
-        {
-            topicmap.setAttribute("icon", "siter");
-        }
-
-        Iterator<String> its = hmclass.keySet().iterator();
-        while (its.hasNext())
-        {
-            String sclass = its.next();
-            if (!sclass.equals("WebSite") && !sclass.equals("WebPage"))
-            {
-                SemanticClass sc = (SemanticClass) hmclass.get(sclass);
-
-                Element classele = this.addNode("node", sc.getClassId(), sc.getName(), topicmap);
-                classele.setAttribute("topicmap", tm.getId());
-                classele.setAttribute("reload", "getTopic." + tm.getId() + "." + sc.getClassId());
-                classele.setAttribute("access", "" + access);
-                boolean canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
-                classele.setAttribute("canModify", String.valueOf(canModify));
-                classele.setAttribute("icon", "hijov");
-
-                Iterator<SemanticObject> itso = tm.getSemanticObject().getModel().listInstancesOfClass(sc);
-                while (itso.hasNext())
-                {
-                    SemanticObject so = itso.next();
-                    Element ele = addNode("node", so.getId(), so.getDisplayName(user.getLanguage()), classele);
-                    ele.setAttribute("topicmap", sc.getClassId());
-                    ele.setAttribute("reload", "getTopic." + tm.getId() + "." + sc.getClassId() + "." + so.getId());
-                    ele.setAttribute("access", "" + access);
-                    canModify = true; //AdmFilterMgr.getInstance().haveAccess2System4Filter(user, topic);
-                    ele.setAttribute("canModify", String.valueOf(canModify));
-                    ele.setAttribute("icon", "hijov");
-
-                    //System.out.println("---"+so.getDisplayName(user.getLanguage()));
-                }
-            }
-        }
-        if (loadChild)
-        {
-            Iterator itex = ext.iterator();
-            while (itex.hasNext())
-            {
-                SWBTreeExt e = (SWBTreeExt) itex.next();
-                e.addTopicMap(user, topicmap, tm, access, isFilter);
-            }
-
-            // Para cargar Home y sus WebPages
-            if (!tm.getId().equals(SWBContext.WEBSITE_GLOBAL))
-            {
-                WebPage tp = tm.getHomePage();
-                try
-                {
-                    addTopic(user, tp, topicmap);
-                } catch (Exception e)
-                {
-                    log.error(e);
-                }
-            }
-        }
-    }
+//        if (loadChild)
+//        {
+//            Iterator itex = ext.iterator();
+//            while (itex.hasNext())
+//            {
+//                SWBTreeExt e = (SWBTreeExt) itex.next();
+//                e.addTopicMap(user, topicmap, tm, access, isFilter);
+//            }
+//
+//            // Para cargar Home y sus WebPages
+//            if (!tm.getId().equals(SWBContext.WEBSITE_GLOBAL))
+//            {
+//                WebPage tp = tm.getHomePage();
+//                try
+//                {
+//                    addTopic(user, tp, topicmap);
+//                } catch (Exception e)
+//                {
+//                    log.error(e);
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Add web pages to dom document.
@@ -1561,84 +1579,84 @@ public class SWBAFilters extends SWBATree
      * @param tp the tp
      * @param res the res
      */
-    @Override
-    protected void addTopic(User user, WebPage tp, Element res)
-    {
-        Element events = null;
-        Element event = null;
-
-        Element topic = addNode("node", tp.getId(), tp.getDisplayName(user.getLanguage()), res);
-        topic.setAttribute("reload", "getTopic." + tp.getWebSiteId() + "." + tp.getId());
-        if (tp.isActive())
-        {
-            if (tp == tp.getWebSite().getHomePage())
-            {
-                topic.setAttribute("icon", "homev");
-            } else
-            {
-                topic.setAttribute("icon", "hijov");
-            }
-        } else
-        {
-            if (tp == tp.getWebSite().getHomePage())
-            {
-                topic.setAttribute("icon", "homer");
-            } else
-            {
-                topic.setAttribute("icon", "hijor");
-            }
-        }
-
-        //child
-        Iterator it = tp.listChilds(user.getLanguage(), true, false, false, null); //getSortChild(false);
-        while (it.hasNext())
-        {
-            WebPage tp2 = (WebPage) it.next();
-            Element child = addNode("node", tp2.getId(), tp2.getDisplayName(user.getLanguage()), topic);
-            child.setAttribute("reload", "getTopic." + tp2.getWebSiteId() + "." + tp2.getId());
-
-            //revisar; se agregó para ver lo de los iconos
-            child.setAttribute("access", "2");
-            child.setAttribute("canModify", "true");
-            ///
-            if (!tp2.getParent().getId().equals(tp.getId())) //virtual
-            {
-                child.setAttribute("icon", "virtual");
-                child.setAttribute("alt", "Virtual Section");
-            } else
-            {
-                if (tp2.isActive())
-                {
-                    child.setAttribute("icon", "hijov");
-                } else
-                {
-                    child.setAttribute("icon", "hijor");
-                }
-
-                //have child
-                Iterator it2 = tp2.listChilds(user.getLanguage(), true, false, false, null); //getSortChild(false);
-                if (it2.hasNext())
-                {
-                    WebPage tp3 = (WebPage) it2.next();
-                    Element child2 = addNode("node", tp3.getId(), tp3.getDisplayName(user.getLanguage()), child);
-                    child2.setAttribute("icon", "menu");
-                    //TODO: Se puso para ver si se mostraban los iconos
-                    child2.setAttribute("access", "2");
-                    child2.setAttribute("canModify", "true");
-                    child.appendChild(child2);
-                } else
-                {
-                    child.setAttribute("action", "showurl=" + tp2.getUrl());
-                    //child.setAttribute("target","work");
-                }
-                //events
-                events = addNode("events", "events", "Events", child);
-                event = addNode("willExpand", "willExpand", "WillExpand", events);
-                event.setAttribute("action", "reload");
-            }
-
-        }
-    }
+//    @Override
+//    protected void addTopic(User user, WebPage tp, Element res)
+//    {
+//        Element events = null;
+//        Element event = null;
+//
+//        Element topic = addNode("node", tp.getId(), tp.getDisplayName(user.getLanguage()), res);
+//        topic.setAttribute("reload", "getTopic." + tp.getWebSiteId() + "." + tp.getId());
+//        if (tp.isActive())
+//        {
+//            if (tp == tp.getWebSite().getHomePage())
+//            {
+//                topic.setAttribute("icon", "homev");
+//            } else
+//            {
+//                topic.setAttribute("icon", "hijov");
+//            }
+//        } else
+//        {
+//            if (tp == tp.getWebSite().getHomePage())
+//            {
+//                topic.setAttribute("icon", "homer");
+//            } else
+//            {
+//                topic.setAttribute("icon", "hijor");
+//            }
+//        }
+//
+//        //child
+//        Iterator it = tp.listChilds(user.getLanguage(), true, false, false, null); //getSortChild(false);
+//        while (it.hasNext())
+//        {
+//            WebPage tp2 = (WebPage) it.next();
+//            Element child = addNode("node", tp2.getId(), tp2.getDisplayName(user.getLanguage()), topic);
+//            child.setAttribute("reload", "getTopic." + tp2.getWebSiteId() + "." + tp2.getId());
+//
+//            //revisar; se agregó para ver lo de los iconos
+//            child.setAttribute("access", "2");
+//            child.setAttribute("canModify", "true");
+//            ///
+//            if (!tp2.getParent().getId().equals(tp.getId())) //virtual
+//            {
+//                child.setAttribute("icon", "virtual");
+//                child.setAttribute("alt", "Virtual Section");
+//            } else
+//            {
+//                if (tp2.isActive())
+//                {
+//                    child.setAttribute("icon", "hijov");
+//                } else
+//                {
+//                    child.setAttribute("icon", "hijor");
+//                }
+//
+//                //have child
+//                Iterator it2 = tp2.listChilds(user.getLanguage(), true, false, false, null); //getSortChild(false);
+//                if (it2.hasNext())
+//                {
+//                    WebPage tp3 = (WebPage) it2.next();
+//                    Element child2 = addNode("node", tp3.getId(), tp3.getDisplayName(user.getLanguage()), child);
+//                    child2.setAttribute("icon", "menu");
+//                    //TODO: Se puso para ver si se mostraban los iconos
+//                    child2.setAttribute("access", "2");
+//                    child2.setAttribute("canModify", "true");
+//                    child.appendChild(child2);
+//                } else
+//                {
+//                    child.setAttribute("action", "showurl=" + tp2.getUrl());
+//                    //child.setAttribute("target","work");
+//                }
+//                //events
+//                events = addNode("events", "events", "Events", child);
+//                event = addNode("willExpand", "willExpand", "WillExpand", events);
+//                event.setAttribute("action", "reload");
+//            }
+//
+//        }
+//    }
     
     
     /**
