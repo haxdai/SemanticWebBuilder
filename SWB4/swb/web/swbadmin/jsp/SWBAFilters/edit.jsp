@@ -220,17 +220,16 @@ save.setParameter("suri", request.getParameter("suri"));
                 }).then(function(_data) {
                     //Create server tree
                     if (_data.sites) server = new TreeWidget(_data.sites, 'serverTree', 'Server');
-                    server.getSelectedItems();
+                    //server.getSelectedItems();
                     //Create menues tree
                     if (_data.menus) {
-                        _data.menus.push({id:'WBAd_Menus', name:'Menus'});
-                        menus = new TreeWidget(_data.menus, 'menuTree', 'WBAd_Menus');
+                        //_data.menus.push({id:'WBAd_Menus', name:'Menus'});
+                        menus = new TreeWidget(_data.menus, 'menuTree', 'http://www.semanticwb.org/SWBAdmin#WebPage:WBAd_Menus');
                     }
                 
                     //Create behaviours tree
                     if (_data.elements) {
-                        _data.elements.push({id:'ObjectBehavior', name:'Comportamientos'});
-                        behave = new TreeWidget(_data.elements, 'viewTree', 'ObjectBehavior');
+                        behave = new TreeWidget(_data.elements, 'viewTree', 'http://www.semanticwb.org/SWBAdmin#WebPage:ObjectBehavior');
                     }
                 
                     //Create files tree
@@ -239,7 +238,7 @@ save.setParameter("suri", request.getParameter("suri"));
                     }
                     standby.hide();
                 }, function(err){
-                    console.log("error");
+                    alert("Ha ocurrido un error. Intente nuevamente.");
                 });
                 
                 topic.subscribe("adminFilter/nodechange", function(args) {
