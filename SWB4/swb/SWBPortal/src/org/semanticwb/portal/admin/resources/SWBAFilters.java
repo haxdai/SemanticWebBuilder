@@ -522,6 +522,7 @@ public class SWBAFilters extends GenericResource
                     nodeobj.put("name", page.getDisplayName(lang));
                     nodeobj.put("parent", site.getURI());
                     nodeobj.put("path", siteobj.get("path")+"|"+page.getURI());
+                    nodeobj.put("reload", "getTopic." + page.getWebSiteId()+"."+page.getId());
                     nodeobj.put("topicmap", site.getURI());
                     ret.put(nodeobj);
 
@@ -596,6 +597,7 @@ public class SWBAFilters extends GenericResource
 
             if (add) { //TODO: Revisar, en esta condición pasan los eliminados
                 if ("WBAd_mnu_PopUp".equals(_root.getId())) {
+                    String rootPath = _root.getParent().getURI()+"|"+_root.getURI();
                     Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
                     while (it.hasNext()) {
                         SemanticClass scls = (SemanticClass) it.next();
@@ -605,6 +607,7 @@ public class SWBAFilters extends GenericResource
                         cobj.put("reload", "getTopic.SC|" + scls.getClassId());
                         cobj.put("topicmap", _root.getWebSiteId());
                         cobj.put("parent", _root.getURI());
+                        cobj.put("path", rootPath + "|" + scls.getClassId());
                         ret.put(cobj);
 
                         for (String act : actions) {
@@ -614,6 +617,7 @@ public class SWBAFilters extends GenericResource
                             cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|"+act);
                             cobj.put("topicmap", _root.getWebSiteId());
                             cobj.put("parent", scls.getClassId());
+                            cobj.put("path", rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";"+act);
                             ret.put(cobj);
                         }
 
@@ -624,6 +628,7 @@ public class SWBAFilters extends GenericResource
                             cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
                             cobj.put("topicmap", _root.getWebSiteId());
                             cobj.put("parent", scls.getClassId());
+                            cobj.put("path", rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";active");
                             ret.put(cobj);
                         }
                     }
@@ -639,6 +644,7 @@ public class SWBAFilters extends GenericResource
                             cobj.put("id", child.getURI());
                             cobj.put("name", child.getDisplayName(lang));
                             cobj.put("parent", _root.getURI());
+                            cobj.put("reload", "getTopic." + child.getWebSiteId()+"."+child.getId());
                             cobj.put("topicmap", _root.getWebSiteId());
 
                             String path = root.optString("path");
@@ -672,13 +678,14 @@ public class SWBAFilters extends GenericResource
         JSONArray ret = new JSONArray();
         WebSite map = SWBContext.getAdminWebSite();
         WebPage _root = map.getWebPage("WBAd_Menus");
-        
+
         if (null != _root && user.haveAccess(_root) && _root.isActive()) {
             //Add root object
             JSONObject root = new JSONObject();
             root.put("id", _root.getURI());
             root.put("name", "Menus");
             root.put("path", _root.getURI());
+            root.put("reload", "getTopic." + _root.getWebSiteId()+"."+_root.getId());
             root.put("topicmap", map.getURI());
             ret.put(root);
             
@@ -786,6 +793,44 @@ public class SWBAFilters extends GenericResource
         
         return ret;
     }
+    
+    /**
+     * Concila la información contenida en la configuración del filtro con la del despliegue en la vista de árbol.
+     * @param filter
+     * @param treeData
+     * @return
+     * @throws JSONException 
+     */
+    private JSONObject getMergedFilter(AdminFilter filter, JSONObject treeData) throws JSONException {
+        JSONObject ret = treeData;
+        JSONObject filterData = getJSONFilter(filter);
+        
+        HashMap<String, JSONObject> objTable = new HashMap<>();
+        JSONArray src = filterData.getJSONArray("menus");
+        for (int i = 0; i < src.length(); i++) {
+            JSONObject item = src.getJSONObject(i);
+            objTable.put(item.getString("id"), item);
+        }
+
+        src = ret.getJSONArray("menus");
+        for (int i = 0; i < src.length(); i++) {
+            JSONObject item = src.getJSONObject(i);
+            String id = item.getString("id");
+            WebPage wp = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(id);
+            if (null != wp) id = wp.getId();
+            
+            if (objTable.containsKey(id)) {
+                item.put("selected", true);
+            }
+        }
+        
+        //System.out.println("---conciliando menus---");
+        //System.out.println(ret.getJSONArray("menus").toString(2));
+        //System.out.println("-----------------------");
+        //System.out.println(filterData.getJSONArray("menus").toString(2));
+
+        return ret;
+    }
 
     /**
      * Do gateway.
@@ -802,7 +847,7 @@ public class SWBAFilters extends GenericResource
         PrintWriter out = response.getWriter();
         String ret = "";
         String action = paramRequest.getAction();
-        WebSite map = SWBContext.getAdminWebSite();
+        //WebSite map = SWBContext.getAdminWebSite();
         
         if ("getFilter".equals(action)) {
             //TODO: Obtener info del filtro almacenado en XML, transformarla a JSON
@@ -811,12 +856,6 @@ public class SWBAFilters extends GenericResource
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
-                
-                try {
-                    JSONObject filterObject = getJSONFilter(af);
-                    //System.out.println("----filter config----");
-                    //System.out.println(filterObject.toString(2));
-                } catch (JSONException jsex) {}
                 
                 try {
                     _ret.put("filterId", af.getURI());
@@ -835,9 +874,9 @@ public class SWBAFilters extends GenericResource
                     //Put sites
                     _ret.put("sites", getServerJSON(paramRequest.getUser()));
                     
-                    //System.out.println("\n\n----tree data----");
-                    //System.out.println(_ret.get("sites").toString());
-                    
+                    JSONObject result = getMergedFilter(af, _ret);
+                    System.out.println("-----conciliado------");
+                    System.out.println(result.getJSONArray("menus").toString(2));
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }

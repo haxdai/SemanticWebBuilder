@@ -78,13 +78,13 @@ save.setParameter("suri", request.getParameter("suri"));
                 document.body.appendChild(standby.domNode);
                 standby.startup();
                 standby.show();
-        
+
                 function TreeWidget (treeData, placeHolder, rootId) {
                     var store, model;
                 
                     function createTreeNode(args) {
                         var tnode, cb;
-
+                        
                         tnode = new dijit._TreeNode(args);
                         tnode.labelNode.innerHTML = args.label;
                         cb = new dijit.form.CheckBox();
@@ -166,6 +166,11 @@ save.setParameter("suri", request.getParameter("suri"));
                             console.log(theItem);
                             obj.stopPropagation()
                         });
+                        
+                        if(args.item.selected) {
+                            tnode.toggleCheckbox(args.item.selected);
+                            topic.publish("adminFilter/nodechange", {node: tnode, state: args.item.selected});
+                        }
 
                         return tnode;
                     };
@@ -223,6 +228,7 @@ save.setParameter("suri", request.getParameter("suri"));
                     //server.getSelectedItems();
                     //Create menues tree
                     if (_data.menus) {
+                        //console.log(_data.menus);
                         //_data.menus.push({id:'WBAd_Menus', name:'Menus'});
                         menus = new TreeWidget(_data.menus, 'menuTree', 'http://www.semanticwb.org/SWBAdmin#WebPage:WBAd_Menus');
                     }
