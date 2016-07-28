@@ -226,6 +226,7 @@ save.setParameter("suri", request.getParameter("suri"));
                     xhr("<%= data%>", {
                         handleAs: "json"
                     }).then(function(_data) {
+                        console.log(_data.paths);
                         //Create server tree
                         if (_data.sites) server = new TreeWidget(_data.sites, 'serverTree', 'Server');
                         //server.getSelectedItems();

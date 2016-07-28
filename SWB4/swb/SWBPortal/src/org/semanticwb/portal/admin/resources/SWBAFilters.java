@@ -40,7 +40,9 @@ import org.semanticwb.model.Activeable;
 
 import org.semanticwb.model.AdminFilter;
 import org.semanticwb.model.FilterableClass;
+import org.semanticwb.model.FilterableNode;
 import org.semanticwb.model.GenericObject;
+import org.semanticwb.model.HerarquicalNode;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.SWBModel;
@@ -48,6 +50,7 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SWBObjectFilter;
 import org.semanticwb.platform.SemanticClass;
 
 import org.semanticwb.platform.SemanticObject;
@@ -185,7 +188,7 @@ public class SWBAFilters extends GenericResource {
                 while (hierarchicalnodes.hasNext()) {
                     SemanticObject node = hierarchicalnodes.next();
                     JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
-                    nodeobj.put("path", getPath(node, true));
+                    nodeobj.put("path", "server|"+site.getURI()+"|"+node.getURI());
                     ret.put(nodeobj);
                 }
 
@@ -254,7 +257,10 @@ public class SWBAFilters extends GenericResource {
                         path = path.replace("//", "/");
                         path = path.replace('\\', '/');
                         path = path.replace("/",".");
+                        
                         JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
+                        if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
+                        obj.put("path", path.replace(".", "|"));
                         ret.put(obj);
                         
                         getDirectoriesJSON(ret, f);
@@ -460,6 +466,8 @@ public class SWBAFilters extends GenericResource {
         
         if (null != filter)  {
             Document dom = filter.getDom();
+            System.out.println("-----dom filter------");
+            System.out.println(SWBUtils.XML.domToXml(dom));
             
             NodeList nodes = dom.getElementsByTagName("sites");
             if (null != nodes && nodes.getLength() > 0) {
@@ -498,7 +506,8 @@ public class SWBAFilters extends GenericResource {
      * @param elements Lista de objetos a buscar
      * @throws JSONException 
      */
-    private void matchElements(HashMap<String, JSONObject> treeData, JSONArray elements, boolean tryAsWebPage) throws JSONException {
+    private JSONArray matchElements(HashMap<String, JSONObject> treeData, JSONArray elements, boolean tryAsWebPage) throws JSONException {
+        JSONArray paths = new JSONArray();
         for (int i = 0; i < elements.length(); i++) {
             JSONObject item = elements.getJSONObject(i);
             String id = item.getString("id");
@@ -511,8 +520,11 @@ public class SWBAFilters extends GenericResource {
             
             if (treeData.containsKey(id)) {
                 item.put("selected", true);
+                System.out.println("Pushing "+id+" to path");
+                paths.put(item.optString("path"));
             }
         }
+        return paths;
     }
     
     /**
@@ -526,6 +538,7 @@ public class SWBAFilters extends GenericResource {
     private void getMergedFilter(AdminFilter filter, JSONObject treeData) throws JSONException {
         JSONObject ret = treeData;
         JSONObject filterData = getJSONFilter(filter);
+        JSONArray paths = ret.getJSONArray("paths");
         
         HashMap<String, JSONObject> objTable = new HashMap<>();
         JSONArray src = filterData.getJSONArray("menus");
@@ -534,7 +547,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString("id"), item);
         }
 
-        matchElements(objTable, ret.getJSONArray("menus"), true);
+        paths.put(matchElements(objTable, ret.getJSONArray("menus"), true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("sites");
@@ -543,7 +556,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString("id"), item);
         }
         
-        matchElements(objTable, ret.getJSONArray("sites"), false);
+        paths.put(matchElements(objTable, ret.getJSONArray("sites"), false));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("elements");
@@ -552,7 +565,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString("id"), item);
         }
         
-        matchElements(objTable, ret.getJSONArray("elements"), true);
+        paths.put(matchElements(objTable, ret.getJSONArray("elements"), true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("dirs");
@@ -561,8 +574,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString("id"), item);
         }
         
-        matchElements(objTable, ret.getJSONArray("dirs"), false);
-
+        paths.put(matchElements(objTable, ret.getJSONArray("dirs"), false));
     }
 
     /**
@@ -589,6 +601,7 @@ public class SWBAFilters extends GenericResource {
                 
                 try {
                     _ret.put("filterId", af.getURI());
+                    _ret.put("paths", new JSONArray());
                     
                     //Put elements
                     _ret.put("elements", getViewsJSON(paramRequest.getUser()));
@@ -614,30 +627,6 @@ public class SWBAFilters extends GenericResource {
             ret = _ret.toString();
         }
         out.print(ret);
-    }
-
-    /**
-     * Obtiene la ruta de los ancestros del {@link SemanticObject} epecificado como una cadena separada por pipes.
-     *<p>
-     * Gets a pipe-delimited string with the ancestor list from a {@link SemanticObject}.
-     * @param obj source object
-     * @return pipe-delimited string with the ancestor list
-     */
-    private String getPath(SemanticObject obj, boolean hnode) {
-        String getPath = "";
-        if (hnode) {
-            Iterator<SemanticObject> parents = obj.listHerarquicalParents();
-            if (parents.hasNext()) {
-                SemanticObject parent = parents.next();
-                String pathnew = getPath(parent, true);
-                if (pathnew.equals("")) {
-                    getPath = parent.getURI();
-                } else {
-                    getPath = pathnew + "|" + parent.getURI();
-                }
-            }
-        }
-        return getPath;
     }
 
     /**
