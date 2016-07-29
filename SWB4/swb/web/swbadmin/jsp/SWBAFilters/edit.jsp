@@ -182,7 +182,7 @@ save.setParameter("suri", request.getParameter("suri"));
                             store = new Memory({
                                 data: treeData,
                                 getChildren: function(object) {
-                                    return this.query({parent: object.id});
+                                    return this.query({parent: object.uuid});
                                 },
                                 getSelectedChilds: function() {
                                     return this.query({selected: true});
@@ -191,7 +191,7 @@ save.setParameter("suri", request.getParameter("suri"));
 
                             model = new ObjectStoreModel({
                                 store: store,
-                                query: {id: rootId},
+                                query: {uuid: rootId},
                                 labelAttr: "name",
                                 mayHaveChildren: function(item) {
                                     return model.store.getChildren(item).total > 0;
@@ -257,7 +257,7 @@ save.setParameter("suri", request.getParameter("suri"));
                             state ? args.node.disableChilds() : args.node.enableChilds();
                             state ? dojo.addClass(args.node.labelNode, "styleChecked") : dojo.removeClass(args.node.labelNode, "styleChecked");
                             state && dojo.removeClass(args.node.labelNode, "styleHighlight");
-                            args.node.highlightParents(state);    
+                            //args.node.highlightParents(state);    
                         }
                     });
                     topic.subscribe("adminFilter/nodeexpand", function(args) {

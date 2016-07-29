@@ -45,7 +45,6 @@ import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.HerarquicalNode;
 import org.semanticwb.model.SWBComparator;
 import org.semanticwb.model.SWBContext;
-import org.semanticwb.model.SWBModel;
 import org.semanticwb.model.User;
 import org.semanticwb.model.UserRepository;
 import org.semanticwb.model.WebPage;
@@ -149,12 +148,134 @@ public class SWBAFilters extends GenericResource {
      */
     private JSONObject createNodeObject(String id, String name, String reload, String parent) throws JSONException {
         JSONObject ret = new JSONObject();
-
-        if (null != id && !id.isEmpty()) ret.put("id", id);
-        if (null != name && !name.isEmpty()) ret.put("name", name);
-        if (null != reload && !reload.isEmpty()) ret.put("reload", reload);
-        if (null != parent && !parent.isEmpty()) ret.put("parent", parent);
+        
+        ret.put(TreenodeFields.UID, UUID.randomUUID().toString());
+        if (null != id && !id.isEmpty()) ret.put(TreenodeFields.ID, id);
+        if (null != name && !name.isEmpty()) ret.put(TreenodeFields.NAME, name);
+        if (null != reload && !reload.isEmpty()) ret.put(TreenodeFields.RELOAD, reload);
+        if (null != parent && !parent.isEmpty()) ret.put(TreenodeFields.PARENT, parent);
         return ret;
+    }
+    
+    /**
+     * Agrega un nodo semántico a los datos del árbol
+     * @param ret ArrayList con los resultados
+     * @param obj Objeto a agregar
+     * @param user Usuario
+     * @param root Objeto raíz para mantener jerarquía
+     * @param addChilds No se usa, se sobreeescribe en el método
+     * @throws JSONException 
+     */
+    protected void addSemanticObject(ArrayList<JSONObject> ret, SemanticObject obj, User user, JSONObject root, boolean addChilds) throws JSONException {
+        addChilds = true;
+        boolean hasChilds = false;
+        JSONObject jobj = createNodeObject(obj.getURI(), obj.getDisplayName(user.getLanguage()), "getSemanticObject."+obj.getURI(), root.getString(TreenodeFields.UID));
+        jobj.put(TreenodeFields.PATH, root.get(TreenodeFields.PATH)+"|"+obj.getURI());
+        ret.add(jobj);
+       
+        hasChilds = obj.getSemanticClass().listHerarquicalNodes().hasNext();
+        if (addChilds || !hasChilds) {
+            addHierarchicalNodes(ret, obj, user, jobj);
+
+            if (addChilds) {
+                Iterator<SemanticObject> it = SWBComparator.sortSemanticObjects(user.getLanguage(), obj.listHerarquicalChilds());
+                while (it.hasNext()) {
+                    SemanticObject ch = it.next();
+                    if (ch.instanceOf(FilterableNode.swb_FilterableNode)) {
+                        addSemanticObject(ret, ch, user, jobj, false);
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Agrega un nodo jerárquico a los datos del árbol.
+     * @param ret ArrayList con los resultados
+     * @param node Nodo jerárquico
+     * @param obj Objeto semántico de referencia del modelo (WebSite)
+     * @param user Usuario
+     * @param root Objeto raíz para mantener la jerarquía
+     * @throws JSONException 
+     */
+    private void addHerarquicalNode(ArrayList<JSONObject> ret, HerarquicalNode node, SemanticObject obj, User user, JSONObject root) throws JSONException {
+        SemanticClass cls = null;
+        String pf = node.getPropertyFilter();
+        if (node.getHClass() != null) cls = SWBPlatform.getSemanticMgr().getVocabulary().getSemanticClass(node.getHClass().getURI());
+        
+        JSONObject hnode = createNodeObject(node.getURI(), node.getDisplayTitle(user.getLanguage()), "getSemanticObject.HN|" + obj.getURI() + "|" + node.getURI(), root.getString(TreenodeFields.UID));
+        hnode.put(TreenodeFields.PATH, root.get(TreenodeFields.PATH)+"|"+node.getURI());
+        ret.add(hnode);
+
+        //Si tiene clase, debe tener instancias abajo
+        if (cls != null && cls.isSubClass(FilterableNode.swb_FilterableNode)) {
+            Iterator<SemanticObject> it = SWBObjectFilter.filter(SWBComparator.sortSemanticObjects(user.getLanguage(), obj.getModel().listInstancesOfClass(cls)), pf);
+            while (it.hasNext()) {
+                SemanticObject so = it.next();
+                addSemanticObject(ret, so, user, hnode, false);
+            }
+        }
+
+        //Si no tiene clase es un nodo intermedio
+        if (cls == null) {
+            Iterator<HerarquicalNode> it = node.listHerarquicalNodes();
+            while (it.hasNext()) {
+                HerarquicalNode node2 = it.next();
+                addHerarquicalNode(ret, node2, obj, user, hnode);
+            }
+        }
+    }
+    
+    /**
+     * Agrega los nodos jerárquicos de un sitio Web.
+     * @param ret ArrayList con los resultados
+     * @param obj SemanticObject del sitio Web
+     * @param user Usuario
+     * @param root Objeto raíz para mantener jerarquía
+     * @throws JSONException 
+     */
+    private void addHierarchicalNodes(ArrayList<JSONObject> ret, SemanticObject obj, User user, JSONObject root) throws JSONException {
+        Iterator<SemanticObject> it = SWBComparator.sortSortableObject(obj.getSemanticClass().listHerarquicalNodes());
+        while (it.hasNext()) {
+            HerarquicalNode node = new HerarquicalNode(it.next());
+            addHerarquicalNode(ret, node, obj, user, root);
+        }
+    }
+    
+    /**
+     * Agrega un objeto semántico a los datos del árbol para configuración del filtro.
+     * @param ret ArrayList con los datos resultantes
+     * @param obj SemanticObject
+     * @param user Usuario
+     * @param root Nodo raíz para mantener la jerarquía
+     * @throws JSONException 
+     */
+    private void addSemanticObjectFilter(ArrayList<JSONObject> ret, SemanticObject obj, User user, JSONObject root) throws JSONException {
+        JSONObject node = createNodeObject(obj.getURI(), obj.getDisplayName(user.getLanguage()), "getSemanticObject."+obj.getURI(), root.getString(TreenodeFields.UID));
+        node.put(TreenodeFields.PATH,root.get(TreenodeFields.PATH)+"|"+obj.getURI());
+        ret.add(node);
+        if (obj.getSemanticClass().listHerarquicalNodes().hasNext()) {
+            addHierarchicalNodes(ret, obj, user, node);
+        }
+        
+        if (obj.instanceOf(WebSite.sclass)) {
+            //Agrega todos los nodos hijos
+            Iterator<SemanticObject> it = SWBComparator.sortSemanticObjects(user.getLanguage(), obj.listHerarquicalChilds());
+            while (it.hasNext()) {
+                SemanticObject ch = it.next();
+                if (ch.instanceOf(FilterableNode.swb_FilterableNode)) {
+                    addSemanticObjectFilter(ret, ch, user, node);
+                }
+            }
+        }
+        
+        if (obj.instanceOf(WebPage.sclass)) {
+            //Agregar webpages
+            JSONArray pages = getWebPageChilds(node, user, false);
+            for (int i = 0; i < pages.length(); i++) {
+                ret.add(pages.getJSONObject(i));
+            }
+        }
     }
     
     /**
@@ -164,61 +285,37 @@ public class SWBAFilters extends GenericResource {
      * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
      */
     private JSONArray getServerJSON(User user) throws JSONException {
+        //Dios se apiade de quien tenga que mantener este método y los métodos que llama
         JSONObject server = null;
         JSONArray ret = new JSONArray();
-        String lang = "es";
-        if (null != user && null != user.getLanguage()) lang = user.getLanguage();
         
         //Add server node
-        server = new JSONObject("{\"name\":\"Server\", \"id\":\"Server\",\"access\":2, \"reload\":\"getServer\"}");
+        server = createNodeObject("Server", "Server", "getServer", null);
+        server.put(TreenodeFields.ACCESS, 2);
+        server.put(TreenodeFields.PATH, "Server");
+        server.put(TreenodeFields.UID, "Server");
         ret.put(server);
 
         //Add websites
-        Iterator<WebSite> sites = SWBComparator.sortSemanticObjects(SWBContext.listWebSites());
-        while (sites.hasNext()) {
-            WebSite site = sites.next();
-            if (site.getId().equals(SWBContext.getAdminWebSite().getId()) || site.getId().equals(SWBContext.getGlobalWebSite().getId())) continue;//Ignore admin website
-            
+        ArrayList<JSONObject> elements = new ArrayList<>();
+        Iterator<WebSite> it = SWBComparator.sortSortableObject(SWBContext.listWebSites());
+        while (it.hasNext()) {
+            WebSite site = it.next();
             if (!site.isDeleted()) {
-                JSONObject siteobj = createNodeObject(site.getURI(), site.getDisplayTitle(lang), "getSemanticObject."+site.getURI(), "Server");
-                siteobj.put("path","server|"+site.getURI());
-                ret.put(siteobj);
-
-                Iterator<SemanticObject> hierarchicalnodes = SWBComparator.sortSemanticObjects(site.getSemanticObject().getSemanticClass().listHerarquicalNodes());
-                while (hierarchicalnodes.hasNext()) {
-                    SemanticObject node = hierarchicalnodes.next();
-                    JSONObject nodeobj = createNodeObject(node.getURI(), node.getDisplayName(lang), "getSemanticObject."+node.getURI(), site.getURI());
-                    nodeobj.put("path", "server|"+site.getURI()+"|"+node.getURI());
-                    ret.put(nodeobj);
-                }
-
-                Iterator<SWBModel> submodels = SWBComparator.sortSemanticObjects(site.listSubModels());
-                while (submodels.hasNext()) {
-                    SWBModel submodel = submodels.next();
-                    if (null != submodel && submodel.getSemanticObject().instanceOf(UserRepository.sclass)) {
-                        JSONObject submodelobj = createNodeObject(submodel.getURI(), submodel.getSemanticObject().getDisplayName(lang), "getSemanticObject."+submodel.getURI(), site.getURI());
-                        submodelobj.put("path", siteobj.get("path")+"|"+submodel.getURI());
-                        ret.put(submodelobj);
-                    }
-                }
-                
-                WebPage page = site.getHomePage();
-                if (null != page) {
-                    JSONObject nodeobj = new JSONObject();//createNodeObject(page.getURI(), site.getTitle(lang), "getSemanticObject."+page.getURI(), site.getURI());
-                    nodeobj.put("id", page.getURI());
-                    nodeobj.put("name", page.getDisplayName(lang));
-                    nodeobj.put("parent", site.getURI());
-                    nodeobj.put("path", siteobj.get("path")+"|"+page.getURI());
-                    nodeobj.put("reload", "getTopic." + page.getWebSiteId()+"."+page.getId());
-                    nodeobj.put("topicmap", site.getURI());
-                    ret.put(nodeobj);
-
-                    JSONArray pages = getWebPageChilds(nodeobj, user, false);
-                    for (int i = 0; i < pages.length(); i++) {
-                        ret.put(pages.getJSONObject(i));
-                    }
-                }
+                addSemanticObjectFilter(elements, site.getSemanticObject(), user, server);
             }
+        }
+
+        Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
+        while (it2.hasNext()) {
+            UserRepository urep = it2.next();
+            if (urep.getParentWebSite() == null) {
+                addSemanticObjectFilter(elements, urep.getSemanticObject(), user, server);
+            }
+        }
+        
+        for (JSONObject o : elements) {
+            ret.put(o);
         }
 
         return ret;
@@ -241,6 +338,7 @@ public class SWBAFilters extends GenericResource {
                 if (rootPath.equals(root.getAbsolutePath())) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length());
                     JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
+                    obj.put(TreenodeFields.UID, rootPath);//Override UUID
                     ret.put(obj);
                 } else {
                     rootPath = root.getAbsolutePath().substring(appPath.length());
@@ -259,6 +357,7 @@ public class SWBAFilters extends GenericResource {
                         path = path.replace("/",".");
                         
                         JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
+                        obj.put(TreenodeFields.UID, path);//Override UUID
                         if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
                         obj.put("path", path.replace(".", "|"));
                         ret.put(obj);
@@ -282,11 +381,11 @@ public class SWBAFilters extends GenericResource {
     private JSONArray getWebPageChilds(JSONObject root, User user, boolean activeChilds) throws JSONException {
         String lang = "es";
         JSONArray ret = new JSONArray();
-        SemanticObject obj = SemanticObject.createSemanticObject(root.getString("id"));
+        SemanticObject obj = SemanticObject.createSemanticObject(root.getString(TreenodeFields.ID));
         if (null != user && null != user.getLanguage()) lang = user.getLanguage();
         
-        if (obj.instanceOf(WebPage.sclass)) {
-            WebPage _root = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(root.getString("id"));
+        if (null != obj && obj.instanceOf(WebPage.sclass)) {
+            WebPage _root = (WebPage) obj.createGenericInstance();
             boolean add = null != root && user.haveAccess(_root) && (activeChilds && _root.isActive()) || !activeChilds;
 
             if (add) { //TODO: Revisar, en esta condición pasan los eliminados
@@ -295,35 +394,23 @@ public class SWBAFilters extends GenericResource {
                     Iterator<SemanticClass> it = SWBComparator.sortSemanticObjects(FilterableClass.swb_FilterableClass.listSubClasses(true));
                     while (it.hasNext()) {
                         SemanticClass scls = (SemanticClass) it.next();
-                        JSONObject cobj = new JSONObject();
-                        cobj.put("id", scls.getClassId());
-                        cobj.put("name", scls.getDisplayName(lang));
-                        cobj.put("reload", "getTopic.SC|" + scls.getClassId());
-                        cobj.put("topicmap", _root.getWebSiteId());
-                        cobj.put("parent", _root.getURI());
-                        cobj.put("path", rootPath + "|" + scls.getClassId());
+                        JSONObject cobj = createNodeObject(scls.getClassId(), scls.getDisplayName(lang), "getTopic.SC|" + scls.getClassId(), root.getString(TreenodeFields.UID));
+                        cobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
+                        cobj.put(TreenodeFields.PATH, rootPath + "|" + scls.getClassId());
                         ret.put(cobj);
 
                         for (String act : actions) {
-                            cobj = new JSONObject();
-                            cobj.put("id", scls.getClassId()+";"+act);
-                            cobj.put("name", getLocaleString(act, lang));
-                            cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|"+act);
-                            cobj.put("topicmap", _root.getWebSiteId());
-                            cobj.put("parent", scls.getClassId());
-                            cobj.put("path", rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";"+act);
-                            ret.put(cobj);
+                            JSONObject actobj = createNodeObject(scls.getClassId()+";"+act, getLocaleString(act, lang), "getTopic.SCA|" + scls.getClassId()+"|"+act, cobj.getString(TreenodeFields.UID));
+                            actobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
+                            actobj.put(TreenodeFields.PATH, rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";"+act);
+                            ret.put(actobj);
                         }
 
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
-                            cobj = new JSONObject();
-                            cobj.put("id", scls.getClassId()+";active");
-                            cobj.put("name", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang));
-                            cobj.put("reload", "getTopic.SCA|" + scls.getClassId()+"|active");
-                            cobj.put("topicmap", _root.getWebSiteId());
-                            cobj.put("parent", scls.getClassId());
-                            cobj.put("path", rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";active");
-                            ret.put(cobj);
+                            JSONObject actobj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", cobj.getString(TreenodeFields.UID));
+                            actobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
+                            actobj.put(TreenodeFields.PATH, rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";active");
+                            ret.put(actobj);
                         }
                     }
                 } else {
@@ -334,20 +421,16 @@ public class SWBAFilters extends GenericResource {
                         add = user.haveAccess(child) && !child.isDeleted() && !child.isHidden() && (activeChilds && child.isActive()) || !activeChilds;
                         
                         if (add) {
-                            JSONObject cobj = new JSONObject();
-                            cobj.put("id", child.getURI());
-                            cobj.put("name", child.getDisplayName(lang));
-                            cobj.put("parent", _root.getURI());
-                            cobj.put("reload", "getTopic." + child.getWebSiteId()+"."+child.getId());
-                            cobj.put("topicmap", _root.getWebSiteId());
+                            JSONObject cobj = createNodeObject(child.getURI(), child.getDisplayName(lang), "getTopic." + child.getWebSiteId()+"."+child.getId(), root.getString(TreenodeFields.UID));
+                            cobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
 
-                            String path = root.optString("path");
+                            String path = root.optString(TreenodeFields.PATH);
                             if (null != path && !path.isEmpty()) {
                                 path = path + "|" + child.getURI();
                             } else {
                                 path = child.getURI();
                             }
-                            cobj.put("path", path);
+                            cobj.put(TreenodeFields.PATH, path);
                             ret.put(cobj);
 
                             //Add childs recursively
@@ -377,12 +460,10 @@ public class SWBAFilters extends GenericResource {
 
         if (null != _root && user.haveAccess(_root) && _root.isActive()) {
             //Add root object
-            JSONObject root = new JSONObject();
-            root.put("id", _root.getURI());
-            root.put("name", "Menus");
-            root.put("path", _root.getURI());
-            root.put("reload", "getTopic." + _root.getWebSiteId()+"."+_root.getId());
-            root.put("topicmap", map.getURI());
+            JSONObject root = createNodeObject(_root.getURI(), "Menus", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
+            root.put(TreenodeFields.PATH, _root.getURI());
+            root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
+            root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
             JSONArray childs = getWebPageChilds(root, user, true);
@@ -407,11 +488,10 @@ public class SWBAFilters extends GenericResource {
         
         if (null != _root && user.haveAccess(_root) && _root.isActive()) {
             //Add root object
-            JSONObject root = new JSONObject();
-            root.put("id", _root.getURI());
-            root.put("name", "Comportamientos");
-            root.put("path", _root.getURI());
-            root.put("topicmap", map.getURI());
+            JSONObject root = createNodeObject(_root.getURI(), "Comportamientos", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
+            root.put(TreenodeFields.PATH, _root.getURI());
+            root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
+            root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
             JSONArray childs = getWebPageChilds(root, user, true);
@@ -438,16 +518,16 @@ public class SWBAFilters extends GenericResource {
         
         for (int i = 0; i < nodes.getLength(); i++) {
             Element enode = (Element) nodes.item(i);
-            String idObj = enode.getAttribute("id");
-            String path = enode.getAttribute("path");
-            String reload = enode.getAttribute("reload");
-            String tmap = enode.getAttribute("topicmap");
+            String idObj = enode.getAttribute(TreenodeFields.ID);
+            String path = enode.getAttribute(TreenodeFields.PATH);
+            String reload = enode.getAttribute(TreenodeFields.RELOAD);
+            String tmap = enode.getAttribute(TreenodeFields.TOPICMAP);
             
             if ("dir".equals(nodeName)) idObj = path.replace("/",".");
 
             JSONObject e = createNodeObject(idObj, null, reload, null);
-            if (!path.isEmpty()) e.put("path", path);
-            if (!tmap.isEmpty()) e.put("topicmap", tmap);
+            if (!path.isEmpty()) e.put(TreenodeFields.PATH, path);
+            if (!tmap.isEmpty()) e.put(TreenodeFields.TOPICMAP, tmap);
             ret.put(e);
         }
         
@@ -466,33 +546,37 @@ public class SWBAFilters extends GenericResource {
         
         if (null != filter)  {
             Document dom = filter.getDom();
-            System.out.println("-----dom filter------");
-            System.out.println(SWBUtils.XML.domToXml(dom));
+            //System.out.println("-----dom filter------");
+            //System.out.println(SWBUtils.XML.domToXml(dom));
+            JSONArray sites = new JSONArray();
+            JSONArray menus = new JSONArray();
+            JSONArray dirs = new JSONArray();
+            JSONArray elements = new JSONArray();
             
             NodeList nodes = dom.getElementsByTagName("sites");
             if (null != nodes && nodes.getLength() > 0) {
-                JSONArray sites = getNodeElements("node", (Element) nodes.item(0));
-                ret.put("sites", sites);
+                sites = getNodeElements("node", (Element) nodes.item(0));
             }
 
             nodes = dom.getElementsByTagName("menus");
             if (null != nodes && nodes.getLength() > 0) {
-                JSONArray menus = getNodeElements("node", (Element) nodes.item(0));
-                ret.put("menus", menus);
+                menus = getNodeElements("node", (Element) nodes.item(0));
             }
 
             nodes = dom.getElementsByTagName("dirs");
             if (null != nodes && nodes.getLength() > 0) {
-                JSONArray dirs = getNodeElements("dir", (Element) nodes.item(0));
-                ret.put("dirs", dirs);
+                dirs = getNodeElements("dir", (Element) nodes.item(0));
             }
 
             nodes = dom.getElementsByTagName("elements");
             if (null != nodes && nodes.getLength() > 0) {                
                 Element root = (Element) nodes.item(0);
-                JSONArray elements = getNodeElements("node", root);
-                ret.put("elements", elements);
+                elements = getNodeElements("node", root);
             }
+            ret.put("sites", sites);
+            ret.put("menus", menus);
+            ret.put("dirs", dirs);
+            ret.put("elements", elements);
         }
         
         return ret;
@@ -510,7 +594,7 @@ public class SWBAFilters extends GenericResource {
         JSONArray paths = new JSONArray();
         for (int i = 0; i < elements.length(); i++) {
             JSONObject item = elements.getJSONObject(i);
-            String id = item.getString("id");
+            String id = item.getString(TreenodeFields.ID);
             
             //TODO: Se tiene que hacer esto porque el XML actualmente almacena ID en lugar de URI
             if (tryAsWebPage) {
@@ -520,8 +604,8 @@ public class SWBAFilters extends GenericResource {
             
             if (treeData.containsKey(id)) {
                 item.put("selected", true);
-                System.out.println("Pushing "+id+" to path");
-                paths.put(item.optString("path"));
+                //System.out.println("Pushing "+id+" to path");
+                paths.put(item.optString(TreenodeFields.PATH));
             }
         }
         return paths;
@@ -544,7 +628,7 @@ public class SWBAFilters extends GenericResource {
         JSONArray src = filterData.getJSONArray("menus");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString("id"), item);
+            objTable.put(item.getString(TreenodeFields.ID), item);
         }
 
         paths.put(matchElements(objTable, ret.getJSONArray("menus"), true));
@@ -553,7 +637,7 @@ public class SWBAFilters extends GenericResource {
         src = filterData.getJSONArray("sites");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString("id"), item);
+            objTable.put(item.getString(TreenodeFields.ID), item);
         }
         
         paths.put(matchElements(objTable, ret.getJSONArray("sites"), false));
@@ -562,7 +646,7 @@ public class SWBAFilters extends GenericResource {
         src = filterData.getJSONArray("elements");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString("id"), item);
+            objTable.put(item.getString(TreenodeFields.ID), item);
         }
         
         paths.put(matchElements(objTable, ret.getJSONArray("elements"), true));
@@ -571,7 +655,7 @@ public class SWBAFilters extends GenericResource {
         src = filterData.getJSONArray("dirs");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString("id"), item);
+            objTable.put(item.getString(TreenodeFields.ID), item);
         }
         
         paths.put(matchElements(objTable, ret.getJSONArray("dirs"), false));
@@ -671,5 +755,29 @@ public class SWBAFilters extends GenericResource {
         StringBuilder ret = new StringBuilder();
         
         return ret.toString();
+    }
+    
+    /**
+     * Clase estática con los campos usados en el procesamiento de los filtros.
+     */
+    public static class TreenodeFields {
+        //Usado para identificar los nodos en el árbol de la vista
+        public static String UID = "uuid";
+        //ID del objeto asociado en el modelo para la vista
+        public static String ID = "id";
+        //ID del padre del nodo en el árbol de vista
+        public static String PARENT = "parent";
+        //Ruta del nodo, para fines de almacenar el filtro
+        public static String PATH = "path";
+        //Atributo reload, para fines de almacenar el filtro
+        public static String RELOAD = "reload";
+        //Nombre del nodo en la vista del árbol
+        public static String NAME = "name";
+        //Indica si el nodo debe estar seleccionado al inicializar la vista
+        public static String SELECTED = "selected";
+        //Atributo access, para fines de almacenar el filtro
+        public static String ACCESS = "access";
+        //Atributo topicmap, para fines de almacenar el filtro
+        public static String TOPICMAP = "topicmap";
     }
 }
