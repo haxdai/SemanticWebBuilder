@@ -101,7 +101,7 @@ public class SWBAFilters extends GenericResource {
             //System.out.println(body.toString());
             try {
                 JSONObject payload = new JSONObject(body.toString());
-                //System.out.println(payload.toString(2));
+                System.out.println(payload.toString(2));
             } catch (JSONException jsex) {
                 log.error("Error getting response body");
             }
@@ -604,8 +604,7 @@ public class SWBAFilters extends GenericResource {
             
             if (treeData.containsKey(id)) {
                 item.put("selected", true);
-                //System.out.println("Pushing "+id+" to path");
-                paths.put(item.optString(TreenodeFields.PATH));
+                paths.put(item.optString(TreenodeFields.UID));
             }
         }
         return paths;
@@ -730,13 +729,13 @@ public class SWBAFilters extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        
+        //TODO: Para eficientar, almacenar en memoria los objetos que no cambian desde que se inicia el servidor (menus, comportamientos)
         String jsp = "/swbadmin/jsp/SWBAFilters/view.jsp";
         GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
         if (null != gobj && gobj instanceof AdminFilter) {
             jsp = "/swbadmin/jsp/SWBAFilters/edit.jsp";
         }
-        
+
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
         try {
             request.setAttribute("paramRequest", paramRequest);
@@ -751,10 +750,11 @@ public class SWBAFilters extends GenericResource {
      * @param treeData JSON con la selección de nodos en el árbol de la vista.
      * @return Cadena XML que representa la configuración del árbol a escribir en el objeto del filtro.
      */
-    private String getXMLTreeData(JSONObject treeData) {
-        StringBuilder ret = new StringBuilder();
+    private String getXMLFilterData(JSONObject treeData) {
+        Document ret = SWBUtils.XML.getNewDocument();
+        //Element root = ret.createElement(tagName)
         
-        return ret.toString();
+        return SWBUtils.XML.domToXml(ret);
     }
     
     /**
