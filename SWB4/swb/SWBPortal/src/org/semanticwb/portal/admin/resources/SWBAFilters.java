@@ -82,28 +82,43 @@ public class SWBAFilters extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
+        UserRepository map = SWBContext.getAdminRepository();
+        AdminFilter af = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), map);
+        
         if (SWBResourceURL.Action_REMOVE.equals(action)) {
-            UserRepository map = SWBContext.getAdminRepository();
-            AdminFilter filter = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), map);
-            if (null != filter) filter.remove();
-            
+            if (null != af) af.remove();
             if (null != request.getParameter("suri")) {
                 response.setRenderParameter("suri", request.getParameter("suri"));
             }
         } else if ("updateFilter".equals(action)) {
-            BufferedReader reader = request.getReader();
-            String line = null;
-            StringBuilder body = new StringBuilder();
-            while((line = reader.readLine()) != null) {
-                body.append(line);
-            }
-            reader.close();
-            //System.out.println(body.toString());
-            try {
-                JSONObject payload = new JSONObject(body.toString());
-                System.out.println(payload.toString(2));
-            } catch (JSONException jsex) {
-                log.error("Error getting response body");
+            if (null != af) {
+                //System.out.println("------Updating filter "+af.getId()+"------");
+                //System.out.println("-----dom filter------");
+                //System.out.println(SWBUtils.XML.domToXml(af.getDom()));
+                BufferedReader reader = request.getReader();
+                String line = null;
+                StringBuilder body = new StringBuilder();
+                while((line = reader.readLine()) != null) {
+                    body.append(line);
+                }
+                reader.close();
+                String res = null;
+                try {
+                    JSONObject payload = new JSONObject(body.toString());
+                    res = getXMLFilterData(payload);
+                    //System.out.println("------payload XML------");
+                    //System.out.println(res);
+                    //System.out.println(payload.toString(2));
+                } catch (JSONException jsex) {
+                    log.error("Error getting response body", jsex);
+                }
+
+                if (null != res) af.setXml(res);
+                //System.out.println("-------Filter data after save -------");
+                //System.out.println(SWBUtils.XML.domToXml(af.getDom()));
+                if (null != request.getParameter("suri")) {
+                    response.setRenderParameter("suri", request.getParameter("suri"));
+                }
             }
         } else {
             super.processAction(request, response);
@@ -172,7 +187,7 @@ public class SWBAFilters extends GenericResource {
         JSONObject jobj = createNodeObject(obj.getURI(), obj.getDisplayName(user.getLanguage()), "getSemanticObject."+obj.getURI(), root.getString(TreenodeFields.UID));
         jobj.put(TreenodeFields.PATH, root.get(TreenodeFields.PATH)+"|"+obj.getURI());
         ret.add(jobj);
-       
+
         hasChilds = obj.getSemanticClass().listHerarquicalNodes().hasNext();
         if (addChilds || !hasChilds) {
             addHierarchicalNodes(ret, obj, user, jobj);
@@ -285,15 +300,15 @@ public class SWBAFilters extends GenericResource {
      * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
      */
     private JSONArray getServerJSON(User user) throws JSONException {
-        //Dios se apiade de quien tenga que mantener este método y los métodos que llama
+        //Si crees en Dios, pide que se apiade de quien tenga que mantener este método y los métodos que llama
         JSONObject server = null;
         JSONArray ret = new JSONArray();
         
         //Add server node
-        server = createNodeObject("Server", "Server", "getServer", null);
+        server = createNodeObject("server", "Server", "getServer", null);
         server.put(TreenodeFields.ACCESS, 2);
-        server.put(TreenodeFields.PATH, "Server");
-        server.put(TreenodeFields.UID, "Server");
+        server.put(TreenodeFields.PATH, "server");
+        //server.put(TreenodeFields.UID, "Server");
         ret.put(server);
 
         //Add websites
@@ -359,7 +374,7 @@ public class SWBAFilters extends GenericResource {
                         JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
                         obj.put(TreenodeFields.UID, path);//Override UUID
                         if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
-                        obj.put("path", path.replace(".", "|"));
+                        //obj.put(TreenodeFields.PATH, path.replace(".", "|"));
                         ret.put(obj);
                         
                         getDirectoriesJSON(ret, f);
@@ -462,7 +477,7 @@ public class SWBAFilters extends GenericResource {
             //Add root object
             JSONObject root = createNodeObject(_root.getURI(), "Menus", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
             root.put(TreenodeFields.PATH, _root.getURI());
-            root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
+            //root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
@@ -490,7 +505,7 @@ public class SWBAFilters extends GenericResource {
             //Add root object
             JSONObject root = createNodeObject(_root.getURI(), "Comportamientos", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
             root.put(TreenodeFields.PATH, _root.getURI());
-            root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
+            //root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
@@ -546,7 +561,7 @@ public class SWBAFilters extends GenericResource {
         
         if (null != filter)  {
             Document dom = filter.getDom();
-            //System.out.println("-----dom filter------");
+            //System.out.println("-----dom filter on load------");
             //System.out.println(SWBUtils.XML.domToXml(dom));
             JSONArray sites = new JSONArray();
             JSONArray menus = new JSONArray();
@@ -687,18 +702,33 @@ public class SWBAFilters extends GenericResource {
                     _ret.put("paths", new JSONArray());
                     
                     //Put elements
-                    _ret.put("elements", getViewsJSON(paramRequest.getUser()));
+                    JSONArray nodes = getViewsJSON(paramRequest.getUser());
+                    _ret.put("elements", nodes);
+                    if (nodes.length() > 0) {
+                        _ret.put("elementsRoot", nodes.getJSONObject(0).getString(TreenodeFields.UID));
+                    }
                     
                     //Put menus
-                    _ret.put("menus", getMenusJSON(paramRequest.getUser()));
+                    nodes = getMenusJSON(paramRequest.getUser());
+                    _ret.put("menus", nodes);
+                    if (nodes.length() > 0) {
+                        _ret.put("menusRoot", nodes.getJSONObject(0).getString(TreenodeFields.UID));
+                    }
                     
                     //Put directories
-                    JSONArray dt = new JSONArray();
-                    getDirectoriesJSON(dt, new File(SWBUtils.getApplicationPath()));
-                    _ret.put("dirs", dt);
+                    nodes = new JSONArray();
+                    getDirectoriesJSON(nodes, new File(SWBUtils.getApplicationPath()));
+                    _ret.put("dirs", nodes);
+                    if (nodes.length() > 0) {
+                        _ret.put("dirsRoot", nodes.getJSONObject(0).getString(TreenodeFields.UID));
+                    }
                     
                     //Put sites
-                    _ret.put("sites", getServerJSON(paramRequest.getUser()));
+                    nodes = getServerJSON(paramRequest.getUser());
+                    _ret.put("sites", nodes);
+                    if (nodes.length() > 0) {
+                        _ret.put("sitesRoot", nodes.getJSONObject(0).getString(TreenodeFields.UID));
+                    }
                     
                     getMergedFilter(af, _ret);
                 } catch (JSONException jsex) {
@@ -746,14 +776,114 @@ public class SWBAFilters extends GenericResource {
     }
     
     /**
+     * Llena un nodo del DOM con las propiedades del elemento en el filtro.
+     * @param element Nodo a llenar
+     * @param obj Objeto JSON con las propiedades del elemento.
+     * @param changeURIS Indica si las URIs en ID y PATH deberán cambiarse por IDs. Esto se debe a que el filtro utiliza IDs en lugar de URIS.
+     * @throws JSONException 
+     */
+    private void populateDOMNode(Element element, JSONObject obj, boolean changeURIS) throws JSONException {
+        String id =  obj.optString(TreenodeFields.ID, null);
+        String reload =  obj.optString(TreenodeFields.RELOAD, null);
+        String path =  obj.optString(TreenodeFields.PATH, null);
+        String topicmap =  obj.optString(TreenodeFields.TOPICMAP, null);
+        SemanticObject aux = null;
+        
+        if (changeURIS && !"dir".equals(element.getNodeName())) {
+            aux = SemanticObject.createSemanticObject(id);
+            if (null != aux) {
+                id = aux.getId();
+            }
+
+            if (null != path && !path.isEmpty()) {
+                if (path.contains("|")) {
+                    String ancestors [] = path.split("\\|");
+                    for (int j = 0; j < ancestors.length; j++) {
+                        aux = SemanticObject.createSemanticObject(ancestors[j]);
+                        if (null != aux) {
+                            ancestors[j] = aux.getId();
+                        }
+                    }
+                    path = String.join("|", Arrays.asList(ancestors));
+                } else {
+                    aux = SemanticObject.createSemanticObject(path);
+                    path = aux.getId();
+                }
+            }
+        }
+        
+        if ("dir".equals(element.getNodeName())) {
+            path = id.replace(".", "/");
+        }
+
+        if (null != id && !"dir".equals(element.getNodeName())) element.setAttribute(TreenodeFields.ID, id);
+        if (null != reload) element.setAttribute(TreenodeFields.RELOAD, reload);
+        if (null != path) element.setAttribute(TreenodeFields.PATH, path);
+        if (null != topicmap) element.setAttribute(TreenodeFields.TOPICMAP, topicmap);
+    }
+    
+    /**
      * Transforma los datos del árbol de filtro de administración a formato XML para su almacenamiento en el objeto.
      * @param treeData JSON con la selección de nodos en el árbol de la vista.
      * @return Cadena XML que representa la configuración del árbol a escribir en el objeto del filtro.
      */
-    private String getXMLFilterData(JSONObject treeData) {
+    private String getXMLFilterData(JSONObject treeData) throws JSONException {
         Document ret = SWBUtils.XML.getNewDocument();
-        //Element root = ret.createElement(tagName)
+        Element root = ret.createElement("filter");
         
+        //Obtener comportamientos. Siempre son WebPages
+        Element eleNode = ret.createElement("elements");
+        JSONArray nodes = treeData.optJSONArray("elements");
+        if (null != nodes) {
+            for (int i = 0; i < nodes.length(); i++) {
+                JSONObject node = nodes.getJSONObject(i);
+                Element ele = ret.createElement("node");
+                populateDOMNode(ele, node, true);
+                eleNode.appendChild(ele);
+            }
+        }
+        root.appendChild(eleNode);
+        
+        //Obtener sitios
+        Element siteNode = ret.createElement("sites");
+        nodes = treeData.optJSONArray("server");
+        if (null != nodes) {
+            for (int i = 0; i < nodes.length(); i++) {
+                JSONObject node = nodes.getJSONObject(i);
+                Element ele = ret.createElement("node");
+                populateDOMNode(ele, node, false);
+                siteNode.appendChild(ele);
+            }
+        }
+        root.appendChild(siteNode);
+        
+        //Obtener menus
+        Element menuNode = ret.createElement("menus");
+        nodes = treeData.optJSONArray("menus");
+        if (null != nodes) {
+            for (int i = 0; i < nodes.length(); i++) {
+                JSONObject node = nodes.getJSONObject(i);
+                Element ele = ret.createElement("node");
+                populateDOMNode(ele, node, true);
+                menuNode.appendChild(ele);
+            }
+        }
+        root.appendChild(menuNode);
+
+        //Obtener directorios
+        Element dirNode = ret.createElement("dirs");
+        nodes = treeData.optJSONArray("dirs");
+        if (null != nodes) {
+            for (int i = 0; i < nodes.length(); i++) {
+                JSONObject node = nodes.getJSONObject(i);
+                Element ele = ret.createElement("dir");
+                populateDOMNode(ele, node, false);
+                dirNode.appendChild(ele);
+            }
+        }
+        root.appendChild(dirNode);
+        
+        ret.appendChild(root);
         return SWBUtils.XML.domToXml(ret);
     }
     

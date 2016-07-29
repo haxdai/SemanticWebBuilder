@@ -1,27 +1,20 @@
-<%@page import="org.semanticwb.model.WebPage"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.platform.SemanticObject"%>
-<%@page import="org.semanticwb.model.SWBModel"%>
-<%@page import="org.semanticwb.model.UserRepository"%>
-<%@page import="org.semanticwb.model.SWBContext"%>
-<%@page import="org.semanticwb.model.SWBComparator"%>
-<%@page import="org.semanticwb.model.WebSite"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="org.json.JSONException"%>
-<%@page import="org.json.JSONObject"%>
-<%@page import="org.json.JSONArray"%>
-<%@page import="java.io.File"%>
 <%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="java.io.File"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
+<%@page import="org.semanticwb.model.AdminFilter"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
+AdminFilter af = (AdminFilter) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+String resID = af.getId();
+
 SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getFilter");
 data.setParameter("suri", request.getParameter("suri"));
 
 SWBResourceURL save = paramRequest.getActionUrl().setAction("updateFilter");
 save.setParameter("suri", request.getParameter("suri"));
+save.setParameter("id", resID);
 %>
 <style>
     .noIcon {
@@ -54,7 +47,7 @@ save.setParameter("suri", request.getParameter("suri"));
         <div data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'" type="button">Guardar filtro
             <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
                 require(['dojo/topic'], function(topic) {
-                    topic.publish("adminFilter/update");
+                    topic.publish("adminFilter_<%= resID %>/update");
                     evt.preventDefault();
                     evt.stopPropagation();
                 });
@@ -62,26 +55,27 @@ save.setParameter("suri", request.getParameter("suri"));
         </div>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
-        <div id="mainPanel" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
+        <div id="mainPanel_<%= resID %>" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
             <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre sitios" data-dojo-props="selected:true">
-                <div class="adminFilterTree" id="serverTree"></div>
+                <div class="adminFilterTree" id="serverTree_<%= resID %>"></div>
             </div>
             <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre menus">
-                <div class="adminFilterTree" id="menuTree"></div>
+                <div class="adminFilterTree" id="menuTree_<%= resID %>"></div>
             </div>
-            <div data-dojo-type="dijit/layout/ContentPane" title="ConfiguraciÃ³n de vista">
-                <div class="adminFilterTree" id="viewTree"></div>
+            <div data-dojo-type="dijit/layout/ContentPane" title="Configuración de vista">
+                <div class="adminFilterTree" id="viewTree_<%= resID %>"></div>
             </div>
             <div data-dojo-type="dijit/layout/ContentPane" title="Documentos del servidor">
-                <div class="adminFilterTree" id="filesTree"></div>
+                <div class="adminFilterTree" id="filesTree_<%= resID %>"></div>
             </div>
             <script type="dojo/method">
                 require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 'dojox/widget/Standby', 'dojo/topic'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic) {
-                    var standby = new StandBy({target: "mainPanel"});
+                    var standby = new StandBy({target: "mainPanel_<%= resID %>"});
                     document.body.appendChild(standby.domNode);
                     standby.startup();
                     standby.show();
 
+                    //TODO: Mover la función de creación de árboles a una biblioteca para que el navegador no almacene la definición varias veces
                     function TreeWidget (treeData, placeHolder, rootId) {
                         var store, model;
 
@@ -162,7 +156,7 @@ save.setParameter("suri", request.getParameter("suri"));
 
                             dojo.connect(cb, "onClick", function(obj) {
                                 tnode.toggleCheckbox(obj.target.checked);
-                                topic.publish("adminFilter/nodechange", {node: tnode, state: obj.target.checked});
+                                topic.publish("adminFilter_<%= resID %>/nodechange", {node: tnode, state: obj.target.checked});
                                 var theItem = tnode.item;
                                 theItem.selected=obj.target.checked;
                                 store.put(theItem);
@@ -172,7 +166,7 @@ save.setParameter("suri", request.getParameter("suri"));
 
                             if(args.item.selected) {
                                 tnode.toggleCheckbox(args.item.selected);
-                                topic.publish("adminFilter/nodechange", {node: tnode, state: args.item.selected});
+                                topic.publish("adminFilter_<%= resID %>/nodechange", {node: tnode, state: args.item.selected});
                             }
 
                             return tnode;
@@ -206,7 +200,7 @@ save.setParameter("suri", request.getParameter("suri"));
                                 getRowClass: function(item,opened) {},
                                 _createTreeNode: createTreeNode,
                                 onOpen: function(_item, _node) {
-                                    topic.publish("adminFilter/nodeexpand", {node: _node, item: _item});
+                                    topic.publish("adminFilter_<%= resID %>/nodeexpand", {node: _node, item: _item});
                                 },
                                 getSelectedItems: function() {
                                     return store.getSelectedChilds();
@@ -221,68 +215,65 @@ save.setParameter("suri", request.getParameter("suri"));
                         return {};
                     };
 
-                    var server, menus, dirs, behave;
+                    var server_<%= resID %>, menus_<%= resID %>, dirs_<%= resID %>, behave_<%= resID %>;
 
                     xhr("<%= data%>", {
                         handleAs: "json"
                     }).then(function(_data) {
                         console.log(_data.paths);
                         //Create server tree
-                        if (_data.sites) server = new TreeWidget(_data.sites, 'serverTree', 'Server');
-                        //server.getSelectedItems();
+                        if (_data.sites) server_<%= resID %> = new TreeWidget(_data.sites, 'serverTree_<%= resID %>', _data.sitesRoot);
                         //Create menues tree
                         if (_data.menus) {
-                            //console.log(_data.menus);
-                            //_data.menus.push({id:'WBAd_Menus', name:'Menus'});
-                            menus = new TreeWidget(_data.menus, 'menuTree', 'http://www.semanticwb.org/SWBAdmin#WebPage:WBAd_Menus');
+                            menus_<%= resID %> = new TreeWidget(_data.menus, 'menuTree_<%= resID %>', _data.menusRoot);
                         }
 
                         //Create behaviours tree
                         if (_data.elements) {
-                            behave = new TreeWidget(_data.elements, 'viewTree', 'http://www.semanticwb.org/SWBAdmin#WebPage:ObjectBehavior');
+                            behave_<%= resID %> = new TreeWidget(_data.elements, 'viewTree_<%= resID %>', _data.elementsRoot);
                         }
 
                         //Create files tree
                         if (_data.dirs) {
-                            dirs = new TreeWidget(_data.dirs, 'filesTree', '<%= (new File(SWBUtils.getApplicationPath())).getName()%>');
+                            dirs_<%= resID %> = new TreeWidget(_data.dirs, 'filesTree_<%= resID %>', _data.dirsRoot);
                         }
                         standby.hide();
                     }, function(err){
                         alert("Ha ocurrido un error. Intente nuevamente.");
                     });
 
-                    topic.subscribe("adminFilter/nodechange", function(args) {
+                    topic.subscribe("adminFilter_<%= resID %>/nodechange", function(args) {
                         var state = args.state || false;
                         if (args.node) {
                             state ? args.node.disableChilds() : args.node.enableChilds();
                             state ? dojo.addClass(args.node.labelNode, "styleChecked") : dojo.removeClass(args.node.labelNode, "styleChecked");
                             state && dojo.removeClass(args.node.labelNode, "styleHighlight");
-                            //args.node.highlightParents(state);    
+                            args.node.isExpanded && args.node.highlightParents(state);    
                         }
                     });
-                    topic.subscribe("adminFilter/nodeexpand", function(args) {
+                    topic.subscribe("adminFilter_<%= resID %>/nodeexpand", function(args) {
                         if (args.node.isCheckboxActive()) {
                             args.node.disableChilds();
                         }
                     });
-                    topic.subscribe("adminFilter/update", function(args) {
-                        var xhrhttp = new XMLHttpRequest(), payload = {};
+                    topic.subscribe("adminFilter_<%= resID %>/update", function(args) {
+                        var xhrhttp = new XMLHttpRequest(), payload = {id: <%= af.getId() %>};
                         xhrhttp.open("POST", '<%= save %>', true);
                         xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
 
-                        if (server.getSelectedItems().total > 0) {
-                            payload.server = server.getSelectedItems();
+                        if (server_<%= resID %>.getSelectedItems().total > 0) {
+                            payload.server = server_<%= resID %>.getSelectedItems();
                         }
-                        if (menus.getSelectedItems().total > 0) {
-                            payload.menus = menus.getSelectedItems();
+                        if (menus_<%= resID %>.getSelectedItems().total > 0) {
+                            payload.menus = menus_<%= resID %>.getSelectedItems();
                         }
-                        if (behave.getSelectedItems().total > 0) {
-                            payload.behave = behave.getSelectedItems();
+                        if (behave_<%= resID %>.getSelectedItems().total > 0) {
+                            payload.elements = behave_<%= resID %>.getSelectedItems();
                         }
-                        if (dirs.getSelectedItems().total > 0) {
-                            payload.dirs = dirs.getSelectedItems();
+                        if (dirs_<%= resID %>.getSelectedItems().total > 0) {
+                            payload.dirs = dirs_<%= resID %>.getSelectedItems();
                         }
-
+                        console.log(payload);
                         xhrhttp.send(JSON.stringify(payload));
                         xhrhttp.onreadystatechange = function() {
                             if (xhrhttp.readyState == 4 && xhrhttp.status == 200) {
