@@ -106,8 +106,8 @@ public class SWBAFilters extends GenericResource {
                 try {
                     JSONObject payload = new JSONObject(body.toString());
                     res = getXMLFilterData(payload);
-                    //System.out.println("------payload XML------");
-                    //System.out.println(res);
+                    System.out.println("------payload XML------");
+                    System.out.println(res);
                     //System.out.println(payload.toString(2));
                 } catch (JSONException jsex) {
                     log.error("Error getting response body", jsex);
@@ -342,42 +342,49 @@ public class SWBAFilters extends GenericResource {
      * Gets the JSON data for the Server Documents tab.
      * @param ret Arreglo de objetos JSON con el resultado del recorrido por las carpetas.
      * @param root Directorio que será la raíz del recorrido.
+     * @param parentUID UUID del directorio padre para conservar jerarquía en el árbol de la vista.
      */
-    private void getDirectoriesJSON(JSONArray ret, File root) throws JSONException {
-        if (null != root && root.exists()) {
-            if (root.isDirectory()) {
-                String appPath = SWBUtils.getApplicationPath();
+    private void getDirectoriesJSON(JSONArray ret, File root, String parentUID) throws JSONException {
+        if (null != root && root.exists()) { //Verifica que el archivo existe
+            if (root.isDirectory()) { //Sólo se listan directorios
+                String appPath = SWBUtils.getApplicationPath(); //App path. i.e. /Users/xxx/apache-tomcat/webapps/ROOT
 
                 String rootPath = appPath;
-                if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1);
+                if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1); //Trim trailing slash
                 if (rootPath.equals(root.getAbsolutePath())) { //App root folder
-                    rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length());
+                    rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length()); //App folder name
                     JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
-                    obj.put(TreenodeFields.UID, rootPath);//Override UUID
+                    //obj.put(TreenodeFields.UID, rootPath);//Override UUID
+                    obj.put(TreenodeFields.PATH, rootPath);
                     ret.put(obj);
+                    parentUID = obj.getString(TreenodeFields.UID);
                 } else {
                     rootPath = root.getAbsolutePath().substring(appPath.length());
                 }
                 
+                //Normalize path separator
                 if (rootPath.contains("//")) rootPath = rootPath.replace("//", "/");
                 if (rootPath.contains("\\")) rootPath = rootPath.replace('\\', '/');
-                rootPath = rootPath.replace("/",".");
+                //rootPath = rootPath.replace("/",".");
+                
+                //System.out.println("rootPath: "+rootPath);
                 
                 File [] childs = root.listFiles();
                 for (File f : childs) {
                     if (f.isDirectory()) {
-                        String path = f.getAbsolutePath().substring(appPath.length());
+                        String path = f.getAbsolutePath().substring(appPath.length()); //Remove part of app path
                         path = path.replace("//", "/");
                         path = path.replace('\\', '/');
-                        path = path.replace("/",".");
+                        //System.out.println("child path: "+path);
+                        //String id = path.replace("/",".");
                         
-                        JSONObject obj = createNodeObject(path, f.getName(), null, rootPath);
-                        obj.put(TreenodeFields.UID, path);//Override UUID
-                        if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
-                        //obj.put(TreenodeFields.PATH, path.replace(".", "|"));
+                        JSONObject obj = createNodeObject(path, f.getName(), null, parentUID);
+                        //obj.put(TreenodeFields.UID, id);//Override UUID
+                        obj.put(TreenodeFields.PATH, path);
+                        //if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
                         ret.put(obj);
                         
-                        getDirectoriesJSON(ret, f);
+                        getDirectoriesJSON(ret, f, obj.getString(TreenodeFields.UID));
                     }
                 }
             }
@@ -605,12 +612,12 @@ public class SWBAFilters extends GenericResource {
      * @param elements Lista de objetos a buscar
      * @throws JSONException 
      */
-    private JSONArray matchElements(HashMap<String, JSONObject> treeData, JSONArray elements, boolean tryAsWebPage) throws JSONException {
+    private JSONArray matchElements(HashMap<String, JSONObject> treeData, JSONArray elements, String idProperty, boolean tryAsWebPage) throws JSONException {
         JSONArray paths = new JSONArray();
         for (int i = 0; i < elements.length(); i++) {
             JSONObject item = elements.getJSONObject(i);
-            String id = item.getString(TreenodeFields.ID);
-            
+            String id = item.getString(idProperty);
+            //System.out.println("Matching ");
             //TODO: Se tiene que hacer esto porque el XML actualmente almacena ID en lugar de URI
             if (tryAsWebPage) {
                 WebPage wp = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(id);
@@ -645,16 +652,16 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.ID), item);
         }
 
-        paths.put(matchElements(objTable, ret.getJSONArray("menus"), true));
+        paths.put(matchElements(objTable, ret.getJSONArray("menus"), TreenodeFields.ID, true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("sites");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString(TreenodeFields.ID), item);
+            objTable.put(item.getString(TreenodeFields.PATH), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("sites"), false));
+        paths.put(matchElements(objTable, ret.getJSONArray("sites"), TreenodeFields.PATH, false));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("elements");
@@ -663,16 +670,16 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.ID), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("elements"), true));
+        paths.put(matchElements(objTable, ret.getJSONArray("elements"), TreenodeFields.ID, true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("dirs");
         for (int i = 0; i < src.length(); i++) {
             JSONObject item = src.getJSONObject(i);
-            objTable.put(item.getString(TreenodeFields.ID), item);
+            objTable.put(item.getString(TreenodeFields.PATH), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("dirs"), false));
+        paths.put(matchElements(objTable, ret.getJSONArray("dirs"), TreenodeFields.PATH, false));
     }
 
     /**
@@ -717,7 +724,7 @@ public class SWBAFilters extends GenericResource {
                     
                     //Put directories
                     nodes = new JSONArray();
-                    getDirectoriesJSON(nodes, new File(SWBUtils.getApplicationPath()));
+                    getDirectoriesJSON(nodes, new File(SWBUtils.getApplicationPath()), null);
                     _ret.put("dirs", nodes);
                     if (nodes.length() > 0) {
                         _ret.put("dirsRoot", nodes.getJSONObject(0).getString(TreenodeFields.UID));
@@ -846,7 +853,7 @@ public class SWBAFilters extends GenericResource {
         
         //Obtener sitios
         Element siteNode = ret.createElement("sites");
-        nodes = treeData.optJSONArray("server");
+        nodes = treeData.optJSONArray("sites");
         if (null != nodes) {
             for (int i = 0; i < nodes.length(); i++) {
                 JSONObject node = nodes.getJSONObject(i);
