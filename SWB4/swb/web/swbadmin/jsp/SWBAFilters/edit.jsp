@@ -42,17 +42,9 @@ save.setParameter("id", resID);
         font-weight: bold !important;
     }
 </style>
-<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
+<div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
     <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
-        <div data-dojo-type="dijit/form/Button" data-dojo-props="iconClass:'dijitEditorIcon dijitEditorIconSave'" type="button">Guardar filtro
-            <script type="dojo/on" data-dojo-event="click" data-dojo-args="evt">
-                require(['dojo/topic'], function(topic) {
-                    topic.publish("adminFilter_<%= resID %>/update");
-                    evt.preventDefault();
-                    evt.stopPropagation();
-                });
-            </script>
-        </div>
+        <button id="saveButton_<%= resID %>" type="button"></button>
     </div>
     <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
         <div id="mainPanel_<%= resID %>" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
@@ -69,8 +61,52 @@ save.setParameter("id", resID);
                 <div class="adminFilterTree" id="filesTree_<%= resID %>"></div>
             </div>
             <script type="dojo/method">
-                require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 'dojox/widget/Standby', 'dojo/topic'], function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic) {
-                    var standby = new StandBy({target: "mainPanel_<%= resID %>"});
+                require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 
+                    'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
+                    'dojox/widget/Standby', 'dojo/topic', 'dijit/form/Button'],
+                function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button) {
+                    var server_<%= resID %>, menus_<%= resID %>, dirs_<%= resID %>, behave_<%= resID %>;
+                    var saveButton_<%= resID %>;
+                       
+                    function busy(val) {
+                        if (saveButton_<%= resID %>) {
+                            saveButton_<%= resID %>.set("disabled", val);
+                        }
+                    }
+    
+                    saveButton_<%= resID %> = new Button({
+                        label: "Guardar Filtro",
+                        iconClass:'dijitEditorIcon dijitEditorIconSave',
+                        onClick: function(evt) {
+                            var payload = {id: '<%= af.getId() %>'}, xhrhttp = new XMLHttpRequest();
+                            xhrhttp.open("POST", '<%= save %>', true);
+                            xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                            busy(true);
+                            
+                            if (server_<%= resID %>.getSelectedItems().total > 0) {
+                                payload.sites = server_<%= resID %>.getSelectedItems();
+                            }
+                            if (menus_<%= resID %>.getSelectedItems().total > 0) {
+                                payload.menus = menus_<%= resID %>.getSelectedItems();
+                            }
+                            if (behave_<%= resID %>.getSelectedItems().total > 0) {
+                                payload.elements = behave_<%= resID %>.getSelectedItems();
+                            }
+
+                            if (dirs_<%= resID %>.getSelectedItems().total > 0) {
+                                payload.dirs = dirs_<%= resID %>.getSelectedItems();
+                            }
+                            //console.log(payload);
+                            xhrhttp.send(JSON.stringify(payload));
+                            xhrhttp.onreadystatechange = function() {
+                                if (xhrhttp.readyState == 4 && xhrhttp.status == 200) {
+                                  busy(false);
+                                }
+                            };
+                        }
+                    }, "saveButton_<%= resID %>").startup();
+                    
+                    var standby = new StandBy({target: "container_<%= resID %>"});
                     document.body.appendChild(standby.domNode);
                     standby.startup();
                     standby.show();
@@ -104,18 +140,17 @@ save.setParameter("id", resID);
                                 if (this.isExpanded) {
                                     var childs = this.getChildren();
                                     if (childs.length) {
-                                      dojo.forEach(childs, function (child) {
-                                          child.toggleCheckbox(false);
-                                          child.toggleCheckBoxState(true);
-                                          dojo.removeClass(child.labelNode, "styleChecked");
-                                          dojo.removeClass(child.labelNode, "styleHighlight");
-                                          var theItem = child.item;
-                                          theItem.enabled=false;
-                                          theItem.selected=false;
-                                          store.put(theItem);
-                                          child.disableChilds();
-                                      });
-                                  }
+                                        dojo.forEach(childs, function (child) {
+                                            child.toggleCheckbox(false);
+                                            child.toggleCheckBoxState(true);
+                                            dojo.removeClass(child.labelNode, "styleChecked");
+                                            dojo.removeClass(child.labelNode, "styleHighlight");
+                                            child.item.selected=false;
+                                            child.item.enabled=false;
+                                            store.put(child.item);
+                                            child.disableChilds();
+                                        });
+                                    }
                                 }
                             };
 
@@ -123,14 +158,13 @@ save.setParameter("id", resID);
                                 if (this.isExpanded) {
                                     var childs = this.getChildren();
                                     if (childs.length) {
-                                      dojo.forEach(childs, function (child) {
-                                          child.toggleCheckBoxState(false);
-                                          child.enableChilds();
-                                          var theItem = child.item;
-                                          theItem.enabled=true;
-                                          store.put(theItem);
-                                      });
-                                  }
+                                        dojo.forEach(childs, function (child) {
+                                            child.item.enabled = true;
+                                            store.put(child.item);
+                                            child.toggleCheckBoxState(false);
+                                            child.enableChilds();
+                                        });
+                                    }
                                 }
                             };
 
@@ -156,17 +190,19 @@ save.setParameter("id", resID);
 
                             dojo.connect(cb, "onClick", function(obj) {
                                 tnode.toggleCheckbox(obj.target.checked);
-                                topic.publish("adminFilter_<%= resID %>/nodechange", {node: tnode, state: obj.target.checked});
-                                var theItem = tnode.item;
-                                theItem.selected=obj.target.checked;
-                                store.put(theItem);
-                                console.log(theItem);
+                                tnode.item.selected=obj.target.checked;
+                                store.put(tnode.item);
+                                obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
+                                //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
+                                //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
                                 obj.stopPropagation()
                             });
 
                             if(args.item.selected) {
+                                args.item.enabled = true;
+                                store.put(args.item);
                                 tnode.toggleCheckbox(args.item.selected);
-                                topic.publish("adminFilter_<%= resID %>/nodechange", {node: tnode, state: args.item.selected});
+                                args.item.selected ? tnode.disableChilds() : tnode.enableChilds();
                             }
 
                             return tnode;
@@ -175,6 +211,7 @@ save.setParameter("id", resID);
                         if (treeData && treeData.length) {
                             store = new Memory({
                                 data: treeData,
+                                idProperty: "uuid",
                                 getChildren: function(object) {
                                     return this.query({parent: object.uuid});
                                 },
@@ -189,6 +226,27 @@ save.setParameter("id", resID);
                                 labelAttr: "name",
                                 mayHaveChildren: function(item) {
                                     return model.store.getChildren(item).total > 0;
+                                },
+                                getItemPath: function(id) {
+                                    var ret = [], parent = undefined, query;
+                                    query = this.store.query({uuid: id});
+                                    
+                                    if (query.total === 1) {
+                                        parent = query[0];
+                                    }
+                                    
+                                    while (parent) {
+                                        ret.push(parent.uuid);
+                                        query = this.store.query({uuid: parent.parent});
+                                    
+                                        if (query.total === 1) {
+                                            parent = query[0];
+                                        } else {
+                                            parent = undefined;
+                                        }
+                                    }
+
+                                    return ret.reverse();
                                 }
                             });
 
@@ -200,7 +258,10 @@ save.setParameter("id", resID);
                                 getRowClass: function(item,opened) {},
                                 _createTreeNode: createTreeNode,
                                 onOpen: function(_item, _node) {
-                                    topic.publish("adminFilter_<%= resID %>/nodeexpand", {node: _node, item: _item});
+                                    //Si el nodo está seleccionado o el nodo está deshabilitado, deshabilitar los hijos
+                                    if (_node.isCheckboxActive() || _item.enabled === false) {
+                                        _node.disableChilds();
+                                    }
                                 },
                                 getSelectedItems: function() {
                                     return store.getSelectedChilds();
@@ -214,15 +275,22 @@ save.setParameter("id", resID);
 
                         return {};
                     };
-
-                    var server_<%= resID %>, menus_<%= resID %>, dirs_<%= resID %>, behave_<%= resID %>;
-
+                    
                     xhr("<%= data%>", {
                         handleAs: "json"
                     }).then(function(_data) {
-                        console.log(_data.paths);
                         //Create server tree
-                        if (_data.sites) server_<%= resID %> = new TreeWidget(_data.sites, 'serverTree_<%= resID %>', _data.sitesRoot);
+                        if (_data.sites) {
+                            server_<%= resID %> = new TreeWidget(_data.sites, 'serverTree_<%= resID %>', _data.sitesRoot);
+                            server_<%= resID %>.onLoadDeferred.then(function() {
+                                _data.paths.forEach(function(item, idx){
+                                    console.log(item);
+                                });
+                                //console.log(_data.paths);
+                                // TODO: Expandir paths
+                                //server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(_data.paths[1][0])]);
+                            });
+                        }
                         //Create menues tree
                         if (_data.menus) {
                             menus_<%= resID %> = new TreeWidget(_data.menus, 'menuTree_<%= resID %>', _data.menusRoot);
@@ -240,46 +308,6 @@ save.setParameter("id", resID);
                         standby.hide();
                     }, function(err){
                         alert("Ha ocurrido un error. Intente nuevamente.");
-                    });
-
-                    topic.subscribe("adminFilter_<%= resID %>/nodechange", function(args) {
-                        var state = args.state || false;
-                        if (args.node) {
-                            state ? args.node.disableChilds() : args.node.enableChilds();
-                            state ? dojo.addClass(args.node.labelNode, "styleChecked") : dojo.removeClass(args.node.labelNode, "styleChecked");
-                            state && dojo.removeClass(args.node.labelNode, "styleHighlight");
-                            args.node.isExpanded && args.node.highlightParents(state);    
-                        }
-                    });
-                    topic.subscribe("adminFilter_<%= resID %>/nodeexpand", function(args) {
-                        if (args.node.isCheckboxActive()) {
-                            args.node.disableChilds();
-                        }
-                    });
-                    topic.subscribe("adminFilter_<%= resID %>/update", function(args) {
-                        var xhrhttp = new XMLHttpRequest(), payload = {id: <%= af.getId() %>};
-                        xhrhttp.open("POST", '<%= save %>', true);
-                        xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-
-                        if (server_<%= resID %>.getSelectedItems().total > 0) {
-                            payload.server = server_<%= resID %>.getSelectedItems();
-                        }
-                        if (menus_<%= resID %>.getSelectedItems().total > 0) {
-                            payload.menus = menus_<%= resID %>.getSelectedItems();
-                        }
-                        if (behave_<%= resID %>.getSelectedItems().total > 0) {
-                            payload.elements = behave_<%= resID %>.getSelectedItems();
-                        }
-                        if (dirs_<%= resID %>.getSelectedItems().total > 0) {
-                            payload.dirs = dirs_<%= resID %>.getSelectedItems();
-                        }
-                        console.log(payload);
-                        xhrhttp.send(JSON.stringify(payload));
-                        xhrhttp.onreadystatechange = function() {
-                            if (xhrhttp.readyState == 4 && xhrhttp.status == 200) {
-                              console.log(xhrhttp.responseText);
-                            }
-                        };
                     });
                 });
             </script>
