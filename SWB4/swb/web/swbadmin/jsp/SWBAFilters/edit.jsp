@@ -192,6 +192,7 @@ save.setParameter("id", resID);
                                 tnode.toggleCheckbox(obj.target.checked);
                                 tnode.item.selected=obj.target.checked;
                                 store.put(tnode.item);
+                                console.log(tnode.item);
                                 obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
                                 //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
                                 //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
@@ -230,7 +231,6 @@ save.setParameter("id", resID);
                                 getItemPath: function(id) {
                                     var ret = [], parent = undefined, query;
                                     query = this.store.query({uuid: id});
-                                    
                                     if (query.total === 1) {
                                         parent = query[0];
                                     }
@@ -283,27 +283,39 @@ save.setParameter("id", resID);
                         if (_data.sites) {
                             server_<%= resID %> = new TreeWidget(_data.sites, 'serverTree_<%= resID %>', _data.sitesRoot);
                             server_<%= resID %>.onLoadDeferred.then(function() {
-                                _data.paths.forEach(function(item, idx){
-                                    console.log(item);
+                                _data.paths.sites && _data.paths.sites.forEach(function(item, idx) {
+                                    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
                                 });
-                                //console.log(_data.paths);
-                                // TODO: Expandir paths
-                                //server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(_data.paths[1][0])]);
                             });
                         }
                         //Create menues tree
                         if (_data.menus) {
                             menus_<%= resID %> = new TreeWidget(_data.menus, 'menuTree_<%= resID %>', _data.menusRoot);
+                            menus_<%= resID %>.onLoadDeferred.then(function() {
+                                _data.paths.menus && _data.paths.menus.forEach(function(item, idx) {
+                                    menus_<%= resID %>.set('paths', [menus_<%= resID %>.model.getItemPath(item)]);
+                                });
+                            });
                         }
 
                         //Create behaviours tree
                         if (_data.elements) {
                             behave_<%= resID %> = new TreeWidget(_data.elements, 'viewTree_<%= resID %>', _data.elementsRoot);
+                            behave_<%= resID %>.onLoadDeferred.then(function() {
+                                _data.paths.elements && _data.paths.elements.forEach(function(item, idx) {
+                                    behave_<%= resID %>.set('paths', [behave_<%= resID %>.model.getItemPath(item)]);
+                                });
+                            });
                         }
 
                         //Create files tree
                         if (_data.dirs) {
                             dirs_<%= resID %> = new TreeWidget(_data.dirs, 'filesTree_<%= resID %>', _data.dirsRoot);
+                            dirs_<%= resID %>.onLoadDeferred.then(function() {
+                                _data.paths.dirs && _data.paths.dirs.forEach(function(item, idx) {
+                                    dirs_<%= resID %>.set('paths', [dirs_<%= resID %>.model.getItemPath(item)]);
+                                });
+                            });
                         }
                         standby.hide();
                     }, function(err){

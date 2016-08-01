@@ -17,6 +17,16 @@ if (!SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite())
     %>Recurso de administración<%
 } else if (null != user) {
     UserRepository map = SWBContext.getAdminRepository();
+
+    String removed = (String) request.getSession().getAttribute("removedId");
+    if (null != removed && !removed.isEmpty()) {
+        %>
+        <script>
+            closeTab('<%= removed %>');
+            showStatus('Se ha eliminado correctamente el filtro');
+        </script>
+        <%
+    }
     %>
     <style type="text/css">
         table.swbafilters {

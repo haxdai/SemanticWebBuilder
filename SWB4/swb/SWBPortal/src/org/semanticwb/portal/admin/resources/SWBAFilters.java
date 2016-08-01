@@ -86,15 +86,15 @@ public class SWBAFilters extends GenericResource {
         AdminFilter af = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), map);
         
         if (SWBResourceURL.Action_REMOVE.equals(action)) {
-            if (null != af) af.remove();
+            if (null != af) {
+                request.getSession().setAttribute("removedId", af.getURI());
+                af.remove();
+            }
             if (null != request.getParameter("suri")) {
                 response.setRenderParameter("suri", request.getParameter("suri"));
             }
         } else if ("updateFilter".equals(action)) {
             if (null != af) {
-                //System.out.println("------Updating filter "+af.getId()+"------");
-                //System.out.println("-----dom filter------");
-                //System.out.println(SWBUtils.XML.domToXml(af.getDom()));
                 BufferedReader reader = request.getReader();
                 String line = null;
                 StringBuilder body = new StringBuilder();
@@ -106,16 +106,11 @@ public class SWBAFilters extends GenericResource {
                 try {
                     JSONObject payload = new JSONObject(body.toString());
                     res = getXMLFilterData(payload);
-                    System.out.println("------payload XML------");
-                    System.out.println(res);
-                    //System.out.println(payload.toString(2));
                 } catch (JSONException jsex) {
                     log.error("Error getting response body", jsex);
                 }
 
                 if (null != res) af.setXml(res);
-                //System.out.println("-------Filter data after save -------");
-                //System.out.println(SWBUtils.XML.domToXml(af.getDom()));
                 if (null != request.getParameter("suri")) {
                     response.setRenderParameter("suri", request.getParameter("suri"));
                 }
@@ -617,7 +612,6 @@ public class SWBAFilters extends GenericResource {
         for (int i = 0; i < elements.length(); i++) {
             JSONObject item = elements.getJSONObject(i);
             String id = item.getString(idProperty);
-            //System.out.println("Matching ");
             //TODO: Se tiene que hacer esto porque el XML actualmente almacena ID en lugar de URI
             if (tryAsWebPage) {
                 WebPage wp = (WebPage) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(id);
@@ -625,8 +619,11 @@ public class SWBAFilters extends GenericResource {
             }
             
             if (treeData.containsKey(id)) {
-                item.put("selected", true);
-                paths.put(item.optString(TreenodeFields.UID));
+                JSONObject obj = treeData.get(id);
+                if (obj.optString(TreenodeFields.RELOAD, "").equals(item.optString(TreenodeFields.RELOAD, ""))) { //Pueden repetirse los IDs, reload los diferencia
+                    item.put("selected", true);
+                    paths.put(item.getString(TreenodeFields.UID));
+                }
             }
         }
         return paths;
@@ -643,7 +640,7 @@ public class SWBAFilters extends GenericResource {
     private void getMergedFilter(AdminFilter filter, JSONObject treeData) throws JSONException {
         JSONObject ret = treeData;
         JSONObject filterData = getJSONFilter(filter);
-        JSONArray paths = ret.getJSONArray("paths");
+        JSONObject paths = new JSONObject();
         
         HashMap<String, JSONObject> objTable = new HashMap<>();
         JSONArray src = filterData.getJSONArray("menus");
@@ -652,7 +649,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.ID), item);
         }
 
-        paths.put(matchElements(objTable, ret.getJSONArray("menus"), TreenodeFields.ID, true));
+        paths.put("menus", matchElements(objTable, ret.getJSONArray("menus"), TreenodeFields.ID, true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("sites");
@@ -661,7 +658,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.PATH), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("sites"), TreenodeFields.PATH, false));
+        paths.put("sites",matchElements(objTable, ret.getJSONArray("sites"), TreenodeFields.PATH, false));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("elements");
@@ -670,7 +667,7 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.ID), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("elements"), TreenodeFields.ID, true));
+        paths.put("elements", matchElements(objTable, ret.getJSONArray("elements"), TreenodeFields.ID, true));
         
         objTable = new HashMap<>();
         src = filterData.getJSONArray("dirs");
@@ -679,7 +676,8 @@ public class SWBAFilters extends GenericResource {
             objTable.put(item.getString(TreenodeFields.PATH), item);
         }
         
-        paths.put(matchElements(objTable, ret.getJSONArray("dirs"), TreenodeFields.PATH, false));
+        paths.put("dirs", matchElements(objTable, ret.getJSONArray("dirs"), TreenodeFields.PATH, false));
+        treeData.put("paths", paths);
     }
 
     /**
