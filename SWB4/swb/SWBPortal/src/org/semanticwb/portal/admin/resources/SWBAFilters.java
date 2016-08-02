@@ -284,7 +284,7 @@ public class SWBAFilters extends GenericResource {
         
         if (obj.instanceOf(WebPage.sclass)) {
             //Agregar webpages
-            JSONArray pages = getWebPageChilds(node, user, false);
+            JSONArray pages = getWebPageChilds(node, user, false, true);
             for (int i = 0; i < pages.length(); i++) {
                 ret.add(pages.getJSONObject(i));
             }
@@ -388,10 +388,11 @@ public class SWBAFilters extends GenericResource {
      * @param root objeto JSON con los datos de una página Web.
      * @param user Usuario para hacer validaciones de acceso.
      * @param activeChilds Indica si se deberán incluir sólo los hijos activos.
+     * @param useURIs Indica si se deben usar uris en reload y topicmap
      * @return Arreglo de objetos JSON con los hijos de la página Web abstraída en el objeto JSON.
      * @throws JSONException 
      */
-    private JSONArray getWebPageChilds(JSONObject root, User user, boolean activeChilds) throws JSONException {
+    private JSONArray getWebPageChilds(JSONObject root, User user, boolean activeChilds, boolean useURIs) throws JSONException {
         String lang = "es";
         JSONArray ret = new JSONArray();
         SemanticObject obj = SemanticObject.createSemanticObject(root.getString(TreenodeFields.ID));
@@ -434,8 +435,15 @@ public class SWBAFilters extends GenericResource {
                         add = user.haveAccess(child) && !child.isDeleted() && !child.isHidden() && (activeChilds && child.isActive()) || !activeChilds;
                         
                         if (add) {
-                            JSONObject cobj = createNodeObject(child.getURI(), child.getDisplayName(lang), "getTopic." + child.getWebSiteId()+"."+child.getId(), root.getString(TreenodeFields.UID));
-                            cobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
+                            String reload = "getTopic." + child.getWebSiteId()+"."+child.getId();
+                            String tmap = _root.getWebSiteId();
+                            if (useURIs) { //Esto es necesario porque no hay consistencia entre si se almacenan URIs o IDs
+                                reload = "getSemanticObject."+child.getURI();
+                                tmap = _root.getURI();
+                            }
+                            
+                            JSONObject cobj = createNodeObject(child.getURI(), child.getDisplayName(lang), reload, root.getString(TreenodeFields.UID));
+                            cobj.put(TreenodeFields.TOPICMAP, tmap);
 
                             String path = root.optString(TreenodeFields.PATH);
                             if (null != path && !path.isEmpty()) {
@@ -447,7 +455,7 @@ public class SWBAFilters extends GenericResource {
                             ret.put(cobj);
 
                             //Add childs recursively
-                            JSONArray recChilds = getWebPageChilds(cobj, user, activeChilds);
+                            JSONArray recChilds = getWebPageChilds(cobj, user, activeChilds, useURIs);
                             for (int i = 0; i < recChilds.length(); i++) {
                                 ret.put(recChilds.get(i));
                             }
@@ -479,7 +487,7 @@ public class SWBAFilters extends GenericResource {
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
-            JSONArray childs = getWebPageChilds(root, user, true);
+            JSONArray childs = getWebPageChilds(root, user, true, false);
             for (int i = 0; i < childs.length(); i++) {
                 ret.put(childs.get(i));
             }
@@ -507,7 +515,7 @@ public class SWBAFilters extends GenericResource {
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
-            JSONArray childs = getWebPageChilds(root, user, true);
+            JSONArray childs = getWebPageChilds(root, user, true, false);
             for (int i = 0; i < childs.length(); i++) {
                 ret.put(childs.get(i));
             }
@@ -719,6 +727,8 @@ public class SWBAFilters extends GenericResource {
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
+                System.out.println("----filter XML----");
+                System.out.println(SWBUtils.XML.domToXml(af.getDom(), true));
                 
                 try {
                     _ret.put("filterId", af.getURI());
