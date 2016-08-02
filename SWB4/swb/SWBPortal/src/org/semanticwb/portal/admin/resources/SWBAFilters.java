@@ -727,8 +727,6 @@ public class SWBAFilters extends GenericResource {
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
-                System.out.println("----filter XML----");
-                System.out.println(SWBUtils.XML.domToXml(af.getDom(), true));
                 
                 try {
                     _ret.put("filterId", af.getURI());
