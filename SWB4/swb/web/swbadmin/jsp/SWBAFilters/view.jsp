@@ -20,10 +20,11 @@ if (!SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite())
 
     String removed = (String) request.getSession().getAttribute("removedId");
     if (null != removed && !removed.isEmpty()) {
+        request.getSession().removeAttribute("removedId");
         %>
         <script>
             closeTab('<%= removed %>');
-            showStatus('Se ha eliminado correctamente el filtro');
+            showStatus('<%= paramRequest.getLocaleString("msgDeleted") %>');
         </script>
         <%
     }
@@ -43,8 +44,8 @@ if (!SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite())
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th><%= paramRequest.getLocaleString("msgFilter") %></th>
-                        <th><%= paramRequest.getLocaleString("msgDescription") %></th>
+                        <th><%= paramRequest.getLocaleString("lblFilter") %></th>
+                        <th><%= paramRequest.getLocaleString("lblDescription") %></th>
                         <th></th>
                     </tr>
                 </thead>
@@ -64,8 +65,8 @@ if (!SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite())
                                 <td><%= filter.getDisplayTitle(lang)%></td>
                                 <td><%= filter.getDisplayDescription(lang) != null ? filter.getDisplayDescription(lang) : ""%></td>
                                 <td style="width:60px;">
-                                    <a href="#" title="<%= paramRequest.getLocaleString("msgLinkEdit") %>"onclick="addNewTab('<%= filter.getURI() %>','<%= SWBPlatform.getContextPath() %>/swbadmin/jsp/objectTab.jsp','<%= filter.getDisplayTitle(user.getLanguage()) %>'); return false;"><img src="<%= SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif" %>" /></a>
-                                    <a href="#" title="<%= paramRequest.getLocaleString("msgLinkRemove") %>" onclick="if (confirm('<%= paramRequest.getLocaleString("msgAlertShureRemoveFilter") %>')) {submitUrl('<%= remove %>',this); return false; } else { return false; };" ><img src="<%= SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif" %>" /></a>
+                                    <a href="#" title="<%= paramRequest.getLocaleString("lblEdit") %>"onclick="addNewTab('<%= filter.getURI() %>','<%= SWBPlatform.getContextPath() %>/swbadmin/jsp/objectTab.jsp','<%= filter.getDisplayTitle(user.getLanguage()) %>'); return false;"><img src="<%= SWBPlatform.getContextPath() + "/swbadmin/icons/editar_1.gif" %>" /></a>
+                                    <a href="#" title="<%= paramRequest.getLocaleString("lblRemove") %>" onclick="if (confirm('<%= paramRequest.getLocaleString("msgDelete") %>')) {submitUrl('<%= remove %>',this); return false; } else { return false; };" ><img src="<%= SWBPlatform.getContextPath() + "/swbadmin/images/delete.gif" %>" /></a>
                                 </td>
                             </tr>
                             <%
@@ -82,7 +83,7 @@ if (!SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite())
             String urlAddNew = SWBPlatform.getContextPath() + "/swbadmin/jsp/SemObjectEditor.jsp";
             urlAddNew += "?scls=" + AdminFilter.sclass.getEncodedURI() + "&sref=" + map.getEncodedURI() + "&reloadTab=true";
             %>
-            <button dojoType="dijit.form.Button" onclick="showDialog('<%= urlAddNew %>','<%= AdminFilter.sclass.getDisplayName(lang) %>'); reloadTab('<%= paramRequest.getResourceBase().getURI() %>'); return false;"><%= paramRequest.getLocaleString("msgBtnAdd") %></button>
+            <button dojoType="dijit.form.Button" onclick="showDialog('<%= urlAddNew %>','<%= AdminFilter.sclass.getDisplayName(lang) %>'); reloadTab('<%= paramRequest.getResourceBase().getURI() %>'); return false;"><%= paramRequest.getLocaleString("lblAdd") %></button>
         </fieldset>
     </div>
     <%

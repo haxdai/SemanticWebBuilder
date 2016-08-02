@@ -53,16 +53,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         </div>
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="mainPanel_<%= resID %>" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
-                <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre sitios" data-dojo-props="selected:true">
+                <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblSiteTab") %>" data-dojo-props="selected:true">
                     <div class="adminFilterTree" id="serverTree_<%= resID %>"></div>
                 </div>
-                <div data-dojo-type="dijit/layout/ContentPane" title="Filtro sobre menus">
+                <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblMenuTab") %>">
                     <div class="adminFilterTree" id="menuTree_<%= resID %>"></div>
                 </div>
-                <div data-dojo-type="dijit/layout/ContentPane" title="Configuración de vista">
+                <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblViewTab") %>">
                     <div class="adminFilterTree" id="viewTree_<%= resID %>"></div>
                 </div>
-                <div data-dojo-type="dijit/layout/ContentPane" title="Documentos del servidor">
+                <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblServerTab") %>">
                     <div class="adminFilterTree" id="filesTree_<%= resID %>"></div>
                 </div>
                 <script type="dojo/method">
@@ -74,7 +74,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         var saveButton_<%= resID %>;
 
                         saveButton_<%= resID %> = new Button({
-                            label: "Guardar Filtro",
+                            label: "<%= paramRequest.getLocaleString("lblSave") %>",
                             iconClass:'dijitEditorIcon dijitEditorIconSave',
                             onClick: function(evt) {
                                 var payload = {id: '<%= af.getId() %>'}, xhrhttp = new XMLHttpRequest(), btn = this;;
@@ -99,9 +99,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 xhrhttp.onreadystatechange = function() {
                                     if (xhrhttp.readyState == 4) {
                                         if (xhrhttp.status == 200) {
-                                            showStatus('Se ha actualizado correctamente el filtro');
+                                            showStatus('<%= paramRequest.getLocaleString("msgUpdated") %>');
                                         } else {
-                                            alert("Ha ocurrido un error, intente nuevamente");
+                                            alert("<%= paramRequest.getLocaleString("msgError") %>");
                                         }
                                         btn.busy(false);
                                     }
@@ -326,7 +326,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             }
                             standby.hide();
                         }, function(err){
-                            alert("Ha ocurrido un error. Intente nuevamente.");
+                            alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                     });
                 </script>
