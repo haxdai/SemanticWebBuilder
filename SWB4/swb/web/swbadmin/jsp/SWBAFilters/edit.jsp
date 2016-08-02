@@ -6,7 +6,6 @@
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
-<!--%@page contentType="text/html" pageEncoding="UTF-8"%-->
 <%
 AdminFilter af = (AdminFilter) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
 String resID = af.getId();
@@ -22,30 +21,11 @@ User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
     <style>
-        .noIcon {
-            display: none !important;
-        }
-
-        .adminFilterTree .dijitTreeRowSelected .dijitTreeLabel {
-            background: none !important;
-            outline: none !important;
-        }
-
-        .adminFilterTree .dijitTreeNodeFocused .dijitTreeLabel {
-            background: none !important;
-            outline: none !important;
-        }
-
-        .styleChecked {
-            color: darkblue;
-            font-style: italic;
-            font-weight: bold !important;
-        }
-
-        .styleHighlight {
-            font-style: italic;
-            font-weight: bold !important;
-        }
+        .noIcon { display: none !important; }
+        .adminFilterTree .dijitTreeRowSelected .dijitTreeLabel { background: none !important; outline: none !important; }
+        .adminFilterTree .dijitTreeNodeFocused .dijitTreeLabel { background: none !important; outline: none !important; }
+        .styleChecked { color: darkblue; font-style: italic; font-weight: bold !important; }
+        .styleHighlight { font-style: italic; font-weight: bold !important; }
     </style>
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
@@ -71,8 +51,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         'dojox/widget/Standby', 'dojo/topic', 'dijit/form/Button', 'dijit/registry'],
                     function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button, registry) {
                         var server_<%= resID %>, menus_<%= resID %>, dirs_<%= resID %>, behave_<%= resID %>;
-                        var saveButton_<%= resID %>;
+                        var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"});;
 
+                        document.body.appendChild(standby.domNode);
+                        standby.startup();
+                        standby.show();
+                        
                         saveButton_<%= resID %> = new Button({
                             label: "<%= paramRequest.getLocaleString("lblSave") %>",
                             iconClass:'dijitEditorIcon dijitEditorIconSave',
@@ -94,7 +78,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 if (dirs_<%= resID %>.getSelectedItems().total > 0) {
                                     payload.dirs = dirs_<%= resID %>.getSelectedItems();
                                 }
-                                //console.log(payload);
+                                
                                 xhrhttp.send(JSON.stringify(payload));
                                 xhrhttp.onreadystatechange = function() {
                                     if (xhrhttp.readyState == 4) {
@@ -113,36 +97,19 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             }
                         }, "saveButton_<%= resID %>").startup();
 
-                        var standby = new StandBy({target: "container_<%= resID %>"});
-                        document.body.appendChild(standby.domNode);
-                        standby.startup();
-                        standby.show();
-
                         //TODO: Mover la función de creación de árboles a una biblioteca para que el navegador no almacene la definición varias veces
                         function TreeWidget (treeData, placeHolder, rootId) {
                             var store, model;
 
                             function createTreeNode(args) {
-                                var tnode, cb;
-
-                                tnode = new dijit._TreeNode(args);
+                                var tnode = new dijit._TreeNode(args), cb = new dijit.form.CheckBox();
+                                
                                 tnode.labelNode.innerHTML = args.label;
-                                cb = new dijit.form.CheckBox();
                                 cb.placeAt(tnode.labelNode, "first");
 
-                                tnode.isCheckboxActive = function() {
-                                    return cb && cb.get("checked") === true;
-                                };
-
-                                tnode.toggleCheckbox = function(val, recurse) {
-                                    cb && cb.set("checked", val);
-                                };
-
-                                tnode.toggleCheckBoxState = function(val, recurse) {
-                                    var _val = val || false;
-                                    cb.set("disabled", _val);
-                                };
-
+                                tnode.isCheckboxActive = function() { return cb && cb.get("checked") === true; };
+                                tnode.toggleCheckbox = function(val) { cb && cb.set("checked", val); };
+                                tnode.toggleCheckBoxState = function(val) { cb.set("disabled", val || false); };
                                 tnode.disableChilds = function() {
                                     if (this.isExpanded) {
                                         var childs = this.getChildren();
@@ -160,7 +127,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         }
                                     }
                                 };
-
                                 tnode.enableChilds = function() {
                                     if (this.isExpanded) {
                                         var childs = this.getChildren();
@@ -174,7 +140,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         }
                                     }
                                 };
-
                                 tnode.highlightParents = function(val) {
                                     var parentId = tnode.item.parent || false, parent;
                                     var enable = val || false;
@@ -199,7 +164,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     tnode.toggleCheckbox(obj.target.checked);
                                     tnode.item.selected=obj.target.checked;
                                     store.put(tnode.item);
-                                    //console.log(tnode.item);
                                     obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
                                     //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
                                     //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
@@ -220,27 +184,18 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 store = new Memory({
                                     data: treeData,
                                     idProperty: "uuid",
-                                    getChildren: function(object) {
-                                        return this.query({parent: object.uuid});
-                                    },
-                                    getSelectedChilds: function() {
-                                        return this.query({selected: true});
-                                    }
+                                    getChildren: function(object) { return this.query({parent: object.uuid}); },
+                                    getSelectedChilds: function() { return this.query({selected: true}); }
                                 });
 
                                 model = new ObjectStoreModel({
                                     store: store,
                                     query: {uuid: rootId},
                                     labelAttr: "name",
-                                    mayHaveChildren: function(item) {
-                                        return model.store.getChildren(item).total > 0;
-                                    },
+                                    mayHaveChildren: function(item) { return model.store.getChildren(item).total > 0; },
                                     getItemPath: function(id) {
-                                        var ret = [], parent = undefined, query;
-                                        query = this.store.query({uuid: id});
-                                        if (query.total === 1) {
-                                            parent = query[0];
-                                        }
+                                        var ret = [], parent = undefined, query = this.store.query({uuid: id});
+                                        if (query.total === 1) parent = query[0];
 
                                         while (parent) {
                                             ret.push(parent.uuid);
@@ -259,9 +214,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                                 var ret = new Tree({
                                     model: model,
-                                    getIconClass: function(item, opened) {
-                                        return "noIcon";
-                                    },
+                                    getIconClass: function(item, opened) { return "noIcon"; },
                                     getRowClass: function(item,opened) {},
                                     _createTreeNode: createTreeNode,
                                     onOpen: function(_item, _node) {
