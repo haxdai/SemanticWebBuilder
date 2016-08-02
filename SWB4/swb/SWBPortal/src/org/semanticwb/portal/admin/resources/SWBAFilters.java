@@ -162,6 +162,7 @@ public class SWBAFilters extends GenericResource {
         JSONObject ret = new JSONObject();
         
         ret.put(TreenodeFields.UID, UUID.randomUUID().toString());
+        ret.put(TreenodeFields.ENABLED, true);
         if (null != id && !id.isEmpty()) ret.put(TreenodeFields.ID, id);
         if (null != name && !name.isEmpty()) ret.put(TreenodeFields.NAME, name);
         if (null != reload && !reload.isEmpty()) ret.put(TreenodeFields.RELOAD, reload);
@@ -929,5 +930,7 @@ public class SWBAFilters extends GenericResource {
         public static String ACCESS = "access";
         //Atributo topicmap, para fines de almacenar el filtro
         public static String TOPICMAP = "topicmap";
+        //Atributo enabled, para validaciones en el UI
+        public static String ENABLED = "enabled";
     }
 }

@@ -115,11 +115,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         var childs = this.getChildren();
                                         if (childs.length) {
                                             dojo.forEach(childs, function (child) {
-                                                child.toggleCheckbox(false);
                                                 child.toggleCheckBoxState(true);
                                                 dojo.removeClass(child.labelNode, "styleChecked");
                                                 dojo.removeClass(child.labelNode, "styleHighlight");
-                                                child.item.selected=false;
                                                 child.item.enabled=false;
                                                 store.put(child.item);
                                                 child.disableChilds();
@@ -185,7 +183,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     data: treeData,
                                     idProperty: "uuid",
                                     getChildren: function(object) { return this.query({parent: object.uuid}); },
-                                    getSelectedChilds: function() { return this.query({selected: true}); }
+                                    getSelectedChilds: function() { return this.query({selected: true, enabled: true}); }
                                 });
 
                                 model = new ObjectStoreModel({
