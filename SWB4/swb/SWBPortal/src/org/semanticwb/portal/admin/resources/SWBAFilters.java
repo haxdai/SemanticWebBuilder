@@ -71,8 +71,8 @@ public class SWBAFilters extends GenericResource {
     /**
      * The log.
      */
-    private Logger log = SWBUtils.getLogger(SWBAFilters.class);
-    static final String [] actions = {"add", "edit", "delete"};
+    private final Logger log = SWBUtils.getLogger(SWBAFilters.class);
+    static final String [] actions = {AdminFilter.ACTION_ADD, AdminFilter.ACTION_EDIT, AdminFilter.ACTION_DELETE};
 
     /**
      * Creates a new instance of WBAFilters.
@@ -82,10 +82,9 @@ public class SWBAFilters extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        UserRepository map = SWBContext.getAdminRepository();
-        AdminFilter af = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), map);
+        AdminFilter af = AdminFilter.ClassMgr.getAdminFilter(request.getParameter("id"), SWBContext.getAdminRepository());
         
-        if (SWBResourceURL.Action_REMOVE.equals(action)) {
+        if (SWBResourceURL.Action_REMOVE.equals(action)) { //Delete filter
             if (null != af) {
                 request.getSession().setAttribute("removedId", af.getURI());
                 af.remove();
@@ -93,8 +92,9 @@ public class SWBAFilters extends GenericResource {
             if (null != request.getParameter("suri")) {
                 response.setRenderParameter("suri", request.getParameter("suri"));
             }
-        } else if ("updateFilter".equals(action)) {
+        } else if ("updateFilter".equals(action)) { //Update filter
             if (null != af) {
+                //Se recibe el JSON con los nodos seleccionados en la vista.
                 BufferedReader reader = request.getReader();
                 String line = null;
                 StringBuilder body = new StringBuilder();
@@ -102,6 +102,8 @@ public class SWBAFilters extends GenericResource {
                     body.append(line);
                 }
                 reader.close();
+                
+                //Se transforma el JSON de la petición a XML y se guarda en el objeto del filtro
                 String res = null;
                 try {
                     JSONObject payload = new JSONObject(body.toString());
@@ -296,14 +298,12 @@ public class SWBAFilters extends GenericResource {
      */
     private JSONArray getServerJSON(User user) throws JSONException {
         //Si crees en Dios, pide que se apiade de quien tenga que mantener este método y los métodos que llama
-        JSONObject server = null;
         JSONArray ret = new JSONArray();
         
         //Add server node
-        server = createNodeObject("server", "Server", "getServer", null);
+        JSONObject server = createNodeObject("server", "Server", "getServer", null);
         server.put(TreenodeFields.ACCESS, 2);
         server.put(TreenodeFields.PATH, "server");
-        //server.put(TreenodeFields.UID, "Server");
         ret.put(server);
 
         //Add websites
@@ -316,6 +316,7 @@ public class SWBAFilters extends GenericResource {
             }
         }
 
+        //Add user repositories
         Iterator<UserRepository> it2 = SWBContext.listUserRepositories();
         while (it2.hasNext()) {
             UserRepository urep = it2.next();
@@ -332,7 +333,8 @@ public class SWBAFilters extends GenericResource {
     }
     
     /**
-     * Obtiene el JSON correspondiente a la pestaña Documentos del Servidor del recurso. Los datos provienen de la lista de carpetas de la ruta de la aplicación.
+     * Obtiene el JSON correspondiente a la pestaña Documentos del Servidor del recurso.
+     * Los datos provienen de la lista de carpetas de la ruta de la aplicación.
      * <p>
      * Gets the JSON data for the Server Documents tab.
      * @param ret Arreglo de objetos JSON con el resultado del recorrido por las carpetas.
@@ -349,7 +351,6 @@ public class SWBAFilters extends GenericResource {
                 if (rootPath.equals(root.getAbsolutePath())) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length()); //App folder name
                     JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
-                    //obj.put(TreenodeFields.UID, rootPath);//Override UUID
                     obj.put(TreenodeFields.PATH, rootPath);
                     ret.put(obj);
                     parentUID = obj.getString(TreenodeFields.UID);
@@ -360,9 +361,6 @@ public class SWBAFilters extends GenericResource {
                 //Normalize path separator
                 if (rootPath.contains("//")) rootPath = rootPath.replace("//", "/");
                 if (rootPath.contains("\\")) rootPath = rootPath.replace('\\', '/');
-                //rootPath = rootPath.replace("/",".");
-                
-                //System.out.println("rootPath: "+rootPath);
                 
                 File [] childs = root.listFiles();
                 for (File f : childs) {
@@ -370,13 +368,9 @@ public class SWBAFilters extends GenericResource {
                         String path = f.getAbsolutePath().substring(appPath.length()); //Remove part of app path
                         path = path.replace("//", "/");
                         path = path.replace('\\', '/');
-                        //System.out.println("child path: "+path);
-                        //String id = path.replace("/",".");
                         
                         JSONObject obj = createNodeObject(path, f.getName(), null, parentUID);
-                        //obj.put(TreenodeFields.UID, id);//Override UUID
                         obj.put(TreenodeFields.PATH, path);
-                        //if (path.startsWith(".") && path.length() > 1) path = path.substring(1, path.length());
                         ret.put(obj);
                         
                         getDirectoriesJSON(ret, f, obj.getString(TreenodeFields.UID));
@@ -392,6 +386,7 @@ public class SWBAFilters extends GenericResource {
      * Gets the descendant list from a WebPage object represented as JSON object.
      * @param root objeto JSON con los datos de una página Web.
      * @param user Usuario para hacer validaciones de acceso.
+     * @param activeChilds Indica si se deberán incluir sólo los hijos activos.
      * @return Arreglo de objetos JSON con los hijos de la página Web abstraída en el objeto JSON.
      * @throws JSONException 
      */
@@ -424,9 +419,9 @@ public class SWBAFilters extends GenericResource {
                         }
 
                         if (scls.isSubClass(Activeable.swb_Activeable)) {
-                            JSONObject actobj = createNodeObject(scls.getClassId()+";active", getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|active", cobj.getString(TreenodeFields.UID));
+                            JSONObject actobj = createNodeObject(scls.getClassId()+";"+AdminFilter.ACTION_ACTIVE, getLocaleString("active", lang)+"/"+getLocaleString("unactive", lang), "getTopic.SCA|" + scls.getClassId()+"|"+AdminFilter.ACTION_ACTIVE, cobj.getString(TreenodeFields.UID));
                             actobj.put(TreenodeFields.TOPICMAP, _root.getWebSiteId());
-                            actobj.put(TreenodeFields.PATH, rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";active");
+                            actobj.put(TreenodeFields.PATH, rootPath + "|" + scls.getClassId() + "|" + scls.getClassId()+";"+AdminFilter.ACTION_ACTIVE);
                             ret.put(actobj);
                         }
                     }
@@ -465,7 +460,8 @@ public class SWBAFilters extends GenericResource {
     }
     
     /**
-     * Obtiene el JSON correspondiente a la pestaña Configuración de Menus del recurso. Los datos provienen de los menus y submenus definidos en los objetos en el sitio de administración.
+     * Obtiene el JSON correspondiente a la pestaña Configuración de Menus del recurso. 
+     * Los datos provienen de los menus y submenus definidos en los objetos en el sitio de administración.
      * <p>
      * Gets the JSON data for the Menus tab.
      * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
@@ -479,7 +475,6 @@ public class SWBAFilters extends GenericResource {
             //Add root object
             JSONObject root = createNodeObject(_root.getURI(), "Menus", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
             root.put(TreenodeFields.PATH, _root.getURI());
-            //root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
@@ -493,7 +488,8 @@ public class SWBAFilters extends GenericResource {
     }
     
     /**
-     * Obtiene el JSON correspondiente a la pestaña Configuración de Vista del recurso. Los datos provienen de los comportamientos asociados a los objetos en el sitio de administración.
+     * Obtiene el JSON correspondiente a la pestaña Configuración de Vista del recurso.
+     * Los datos provienen de los comportamientos asociados a los objetos en el sitio de administración.
      * <p>
      * Gets the JSON data for the Behaviours tab.
      * @param user Usuario que solicita los datos, sobre el cual se validará acceso.
@@ -507,7 +503,6 @@ public class SWBAFilters extends GenericResource {
             //Add root object
             JSONObject root = createNodeObject(_root.getURI(), "Comportamientos", "getTopic." + _root.getWebSiteId()+"."+_root.getId(), null);
             root.put(TreenodeFields.PATH, _root.getURI());
-            //root.put(TreenodeFields.UID, _root.getURI()); //Override uuid
             root.put(TreenodeFields.TOPICMAP, map.getURI());
             ret.put(root);
             
@@ -521,9 +516,31 @@ public class SWBAFilters extends GenericResource {
     }
     
     /**
-     * Obtiene un arreglo de objetos JSON con los hijos de un nodo XML. Cada hijo contiene los atributos correspondientes, de acuerdo al XML.
+     * Obtiene un arreglo de objetos JSON con los hijos de un nodo XML. 
+     * Cada hijo contiene los atributos correspondientes, de acuerdo al XML.
+     * La estructura del JSON es como sigue:
+     * <p>
+     * {
+     *   uuid: "7fa05029-252e-4b44-9dff-b4901920c984", //Usado como identificador para el árbol, útil sólo para la UI
+     *   id: "/swbadmin/js", //Identificador del objeto asociado o ruta del archivo asociado. Se utiliza para validaciones
+     *   name: "js", //Nombre del nodo, útil sólo para la UI
+     *   path: "/swbadmin/js", //Ruta jerárquica del objeto en el árbol (es única). Utilizada para validaciones y transformada para almacenar el filtro
+     *   parent: "cc554cdc-7c7f-48c6-92d1-a85c1861f613", //UID del nodo padre, útil sólo para la UI
+     *   selected: true //Indica si el nodo aparece en la configuración del filtro y debe ser activado en el UI
+     * }
      * <p>
      * Transforms an XML tree into a list of JSONObjects.
+     * JSON structure is as follows:
+     * <p>
+     * {
+     *   uuid: "7fa05029-252e-4b44-9dff-b4901920c984", //Unique IDfor the UI Tree
+     *   id: "/swbadmin/js", //Related object ID, used for validations
+     *   name: "js", //Node name for the UI Tree
+     *   path: "/swbadmin/js", //Tree path for the object (unique). Used for validations and processed for data storage in Filter
+     *   parent: "cc554cdc-7c7f-48c6-92d1-a85c1861f613", //Parent node UID for UI Tree
+     *   selected: true //Whether the filter is in configuration and must be checked at start
+     * }
+     * <p>
      * @param nodeName Nombre del tag de los nodos hijos.
      * @param root Elemento raíz a partir del cual obtener los hijos.
      * @return Arreglo con objetos JSON para cada hijo llamado "nodeName" del nodo "root".
@@ -563,8 +580,6 @@ public class SWBAFilters extends GenericResource {
         
         if (null != filter)  {
             Document dom = filter.getDom();
-            //System.out.println("-----dom filter on load------");
-            //System.out.println(SWBUtils.XML.domToXml(dom));
             JSONArray sites = new JSONArray();
             JSONArray menus = new JSONArray();
             JSONArray dirs = new JSONArray();
@@ -605,6 +620,8 @@ public class SWBAFilters extends GenericResource {
      * Compares a map of objects against an object list to set the selected attribute on matches.
      * @param treeData Tabla de objetos de referencia
      * @param elements Lista de objetos a buscar
+     * @param idProperty Propiedad a usar como ID en la comparación
+     * @param tryAsWebPage Indica si debe intentarse recuperar como WebPage
      * @throws JSONException 
      */
     private JSONArray matchElements(HashMap<String, JSONObject> treeData, JSONArray elements, String idProperty, boolean tryAsWebPage) throws JSONException {
@@ -739,9 +756,7 @@ public class SWBAFilters extends GenericResource {
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }
-                
             }
-            
             ret = _ret.toString();
         }
         out.print(ret);
@@ -764,7 +779,7 @@ public class SWBAFilters extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
-        //TODO: Para eficientar, almacenar en memoria los objetos que no cambian desde que se inicia el servidor (menus, comportamientos)
+        //TODO: Para eficientar, almacenar en memoria los objetos que no cambian desde que se inicia el servidor, siempre y cuando adminShow=false (menus, comportamientos)
         String jsp = "/swbadmin/jsp/SWBAFilters/view.jsp";
         GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
         if (null != gobj && gobj instanceof AdminFilter) {
