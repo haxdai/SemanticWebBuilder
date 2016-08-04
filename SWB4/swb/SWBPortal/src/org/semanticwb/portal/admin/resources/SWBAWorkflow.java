@@ -32,6 +32,9 @@ import org.w3c.dom.*;
 
 import java.util.*;
 import java.sql.*;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
@@ -46,6 +49,7 @@ import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.admin.resources.workflow.proxy.WorkflowResponse;
 import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.SWBResourceModes;
 import org.semanticwb.portal.api.SWBResourceURL;
 
 // TODO: Auto-generated Javadoc
@@ -735,6 +739,63 @@ public class SWBAWorkflow extends GenericResource
                 log.error("SWBAWorkflow - Error including view", sex);
             }
         }
+    }
+    
+    private JSONObject createNodeObject(String id, String name, String description) throws JSONException {
+        JSONObject ret = new JSONObject();
+        
+        if (null != id && !id.isEmpty()) ret.put("id", id);
+        if (null != name && !name.isEmpty()) ret.put("name", name);
+        if (null != description && !description.isEmpty()) ret.put("description", description);
+        return ret;
+    }
+    
+    /**
+     * Obtiene la configuración en XML del flujo y la transforma en un objeto JSON.
+     * @param flow Flujo de publicación
+     * @return Objeto JSON con los datos del flujo.
+     */
+    private JSONObject getWorkFlowData(PFlow flow) throws JSONException {
+        JSONObject ret = new JSONObject();
+        Document doc = flow.getDom();
+        if (null != doc) {
+            
+        }
+        return ret;
+    }
+    
+    /**
+     * Obtiene la información para la configuración de un flujo de publicación.
+     * @param flow Flujo de publicación
+     * @return Objeto JSON con la información del flujo, sus actividades y recursos asociados.
+     * @throws JSONException 
+     */
+    private JSONObject getWorkflowJSON(PFlow flow) throws JSONException {
+        JSONObject ret = new JSONObject();
+        JSONArray rtypes = new JSONArray();
+        String tm = flow.getWebSite().getId();
+        
+        HashSet<String> resources = new HashSet<String>();
+        WebSite map = SWBContext.getWebSite(tm);
+        Iterator<ResourceType> elements = map.listResourceTypes();//TODO: Checar qué pasa con sitios eliminados
+        while (elements.hasNext()) {
+            ResourceType obj = elements.next();
+            if (obj.getResourceMode() == ResourceType.MODE_CONTENT || obj.getResourceMode() == ResourceType.MODE_SYSTEM) {
+                String id = obj.getId();
+                String description = obj.getDescription();//= "_";
+                if (null == description || description.isEmpty()) description = "_";
+
+                if (!resources.contains(id)) {
+                    resources.add(obj.getId());
+                    
+                    JSONObject ele = createNodeObject(obj.getId(), obj.getTitle(), description);
+                    rtypes.put(ele);
+                }
+            }
+        }
+        
+        ret.put("resourceTypes", rtypes);
+        return ret;
     }
     
     /**

@@ -101,6 +101,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         }, function(err){
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });*/
+                        standby.hide();
                     });
                 </script>
             </div>
