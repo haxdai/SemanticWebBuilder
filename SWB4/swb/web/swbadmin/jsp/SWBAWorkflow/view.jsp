@@ -7,7 +7,7 @@
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="java.io.File"%>
 <%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.model.AdminFilter"%>
+<%@page import="org.semanticwb.model.PFlow"%>
 <%@page import="org.semanticwb.model.User"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
@@ -47,7 +47,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry'],
-                    function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button, registry) {
+                    function(Memory, ObjectStoreModel, ready, dom, xhr, StandBy, Button, registry) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"});;
 
                         document.body.appendChild(standby.domNode);
