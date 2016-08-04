@@ -731,6 +731,15 @@ public class SWBAWorkflow extends GenericResource
 
         if (null != gobj && gobj instanceof PFlow) {
             initializePFlow((PFlow)gobj);
+            
+            try {
+                JSONObject fd = getWorkFlowData((PFlow)gobj);
+                System.out.println("--pflow config--");
+                System.out.println(fd.toString(2));
+            } catch (JSONException jsex) {
+                log.error("error", jsex);
+            }
+            
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             try {
                 request.setAttribute("paramRequest", paramRequest);
@@ -756,10 +765,26 @@ public class SWBAWorkflow extends GenericResource
      * @return Objeto JSON con los datos del flujo.
      */
     private JSONObject getWorkFlowData(PFlow flow) throws JSONException {
-        JSONObject ret = new JSONObject();
+        JSONObject ret = null;
         Document doc = flow.getDom();
         if (null != doc) {
-            
+            NodeList nodes = doc.getElementsByTagName("workflow");
+            if (nodes.getLength() > 0) {
+                Element root = (Element) nodes.item(0);
+                String id = root.getAttribute("id");
+                String name = root.getAttribute("name");
+                String version = root.getAttribute("version");
+                String description = "_";
+                NodeList descNode = root.getElementsByTagName("description");
+                if (descNode.getLength() > 0) {
+                    description = descNode.item(0).getTextContent();
+                }
+                
+                ret = createNodeObject(id, name, description);
+                ret.put("version", version);
+                
+                //TODO: Obtener lista de resourceTypes del flujo
+            }
         }
         return ret;
     }
