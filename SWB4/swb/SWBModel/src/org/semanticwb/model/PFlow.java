@@ -25,7 +25,9 @@ package org.semanticwb.model;
 //~--- non-JDK imports --------------------------------------------------------
 
 import org.semanticwb.model.base.*;
+import static org.semanticwb.model.base.XMLableBase.swb_xml;
 import org.semanticwb.platform.SemanticObject;
+import org.w3c.dom.Document;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -40,5 +42,15 @@ public class PFlow extends PFlowBase {
      */
     public PFlow(SemanticObject base) {
         super(base);
+    }
+    
+    /**
+     * Obtiene un DOM a partir del atributo xml del objeto.
+     * <p>
+     * Gets a DOM Object from xml attribute.
+     * @return the dom
+     */
+    public Document getDom() {
+        return getSemanticObject().getDomProperty(swb_xml);
     }
 }

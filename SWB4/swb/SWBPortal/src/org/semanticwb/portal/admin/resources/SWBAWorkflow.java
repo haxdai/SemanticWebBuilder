@@ -715,11 +715,55 @@ public class SWBAWorkflow extends GenericResource
         }
         out.print(new String(ret.getBytes()));
     }
+    
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+        
+        String jsp = "/swbadmin/jsp/SWBAWorkflow/view.jsp";
+        GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+
+        if (null != gobj && gobj instanceof PFlow) {
+            initializePFlow((PFlow)gobj);
+            RequestDispatcher rd = request.getRequestDispatcher(jsp);
+            try {
+                request.setAttribute("paramRequest", paramRequest);
+                rd.include(request, response);
+            } catch (ServletException sex) {
+                log.error("SWBAWorkflow - Error including view", sex);
+            }
+        }
+    }
+    
+    /**
+     * Inicializa la configuración de un flujo de publicación
+     * @param flow Flujo de publicación
+     */
+    private void initializePFlow(PFlow flow) {
+        String sflow = flow.getXml();
+        if (flow != null && (sflow == null || (sflow != null && sflow.isEmpty()))) {
+            Document newdoc = SWBUtils.XML.getNewDocument();
+            Element wfs = newdoc.createElement("workflows");
+            Element wf = newdoc.createElement("workflow");
+            wf.setAttribute("id", flow.getURI());
+            wf.setAttribute("name", flow.getTitle());
+            wf.setAttribute("version", "1.0");
+            wfs.appendChild(wf);
+            Element edes = newdoc.createElement("description");
+            edes.appendChild(newdoc.createTextNode(flow.getDescription() != null ? flow.getDescription() : "_"));
+            wf.appendChild(edes);
+            newdoc.appendChild(wfs);
+            String xmlpflow = SWBUtils.XML.domToXml(newdoc);
+            flow.setXml(xmlpflow);
+        }
+    }
 
     /* (non-Javadoc)
      * @see org.semanticwb.portal.api.GenericResource#doView(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.semanticwb.portal.api.SWBParamRequest)
      */
-    @Override
+    /*@Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
         String id = request.getParameter("suri");
@@ -800,7 +844,7 @@ public class SWBAWorkflow extends GenericResource
             log.error(e);
             return;
         }
-    }
+    }*/
 
     /**
      * The Class OrdenaUsuarios.
