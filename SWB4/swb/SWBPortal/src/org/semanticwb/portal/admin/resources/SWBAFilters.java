@@ -346,30 +346,27 @@ public class SWBAFilters extends GenericResource {
         if (null != root && root.exists()) { //Verifica que el archivo existe
             if (root.isDirectory()) { //Sólo se listan directorios
                 String appPath = SWBUtils.getApplicationPath(); //App path. i.e. /Users/xxx/apache-tomcat/webapps/ROOT
-
                 String rootPath = appPath;
+
+                //Normalize path separator (Windows problem)
+                String dirPath = SWBUtils.IO.normalizePath(root.getAbsolutePath());
+                
                 if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1); //Trim trailing slash
-                if (rootPath.equals(root.getAbsolutePath())) { //App root folder
+                if (rootPath.equals(dirPath)) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length()); //App folder name
                     JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
                     obj.put(TreenodeFields.PATH, rootPath);
                     ret.put(obj);
                     parentUID = obj.getString(TreenodeFields.UID);
                 } else {
-                    rootPath = root.getAbsolutePath().substring(appPath.length());
+                    rootPath = dirPath.substring(appPath.length());
                 }
-                
-                //Normalize path separator
-                if (rootPath.contains("//")) rootPath = rootPath.replace("//", "/");
-                if (rootPath.contains("\\")) rootPath = rootPath.replace('\\', '/');
-                
+
                 File [] childs = root.listFiles();
                 for (File f : childs) {
                     if (f.isDirectory()) {
-                        String path = f.getAbsolutePath().substring(appPath.length()); //Remove part of app path
-                        path = path.replace("//", "/");
-                        path = path.replace('\\', '/');
-                        
+                        String path = SWBUtils.IO.normalizePath(f.getAbsolutePath()).substring(appPath.length()); //Remove part of app path
+
                         JSONObject obj = createNodeObject(path, f.getName(), null, parentUID);
                         obj.put(TreenodeFields.PATH, path);
                         ret.put(obj);
