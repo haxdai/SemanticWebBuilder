@@ -566,7 +566,10 @@ public class SWBAFilters extends GenericResource {
             if ("dir".equals(nodeName)) idObj = path.replace("/",".");
 
             JSONObject e = createNodeObject(idObj, null, reload, null);
-            if (!path.isEmpty()) e.put(TreenodeFields.PATH, path);
+            if (!path.isEmpty()) {
+                if ("/".equals(path)) path = "ROOT";
+                e.put(TreenodeFields.PATH, path);
+            }
             if (!tmap.isEmpty()) e.put(TreenodeFields.TOPICMAP, tmap);
             ret.put(e);
         }
@@ -840,6 +843,7 @@ public class SWBAFilters extends GenericResource {
         
         if ("dir".equals(element.getNodeName())) {
             path = id.replace(".", "/");
+            if ("ROOT".equals(path)) path = "/";
         }
 
         if (null != id && !"dir".equals(element.getNodeName())) element.setAttribute(TreenodeFields.ID, id);
