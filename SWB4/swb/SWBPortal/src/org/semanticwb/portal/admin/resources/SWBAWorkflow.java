@@ -38,6 +38,7 @@ import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
+import org.semanticwb.model.AdminFilter;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.PFlow;
 import org.semanticwb.model.ResourceType;
@@ -46,6 +47,7 @@ import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
+import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.admin.resources.workflow.proxy.WorkflowResponse;
 import org.semanticwb.portal.api.GenericResource;
@@ -381,40 +383,6 @@ public class SWBAWorkflow extends GenericResource
     }
 
     /**
-     * Gets the resource type cat.
-     * 
-     * @param res the res
-     * @param tm the tm
-     * @return the resource type cat
-     */
-    public void getResourceTypeCat(Element res, String tm)
-    {
-        HashSet<String> resources = new HashSet<String>();
-        WebSite map = SWBContext.getWebSite(tm);
-        Iterator<ResourceType> elements = map.listResourceTypes();
-        while (elements.hasNext())
-        {
-            ResourceType obj = elements.next();
-            if (obj.getResourceMode() == 1 || obj.getResourceMode() == 3)
-            {
-                if (!resources.contains(obj.getId()))
-                {
-                    resources.add(obj.getId());
-                    Element erole = addNode("resourceType", "" + obj.getId(), obj.getTitle(), res);
-                    erole.setAttribute("topicmap", map.getId());
-                    erole.setAttribute("topicmapname", map.getTitle());
-                    String description = "_";
-                    if (obj.getDescription() != null)
-                    {
-                        description = obj.getDescription();
-                    }
-                    addElement("description", description, erole);
-                }
-            }
-        }
-    }
-
-    /**
      * Gets the document.
      * 
      * @param user the user
@@ -448,7 +416,7 @@ public class SWBAWorkflow extends GenericResource
             }
             else if (cmd.equals("getResourceTypeCat"))
             {
-                getResourceTypeCat(res, tm);
+                //getResourceTypeCat(res, tm);
             }
             else if (cmd.equals("getcatUsers"))
             {
@@ -679,45 +647,26 @@ public class SWBAWorkflow extends GenericResource
      */
     public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
     {
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        ServletInputStream in = request.getInputStream();
-        Document dom = SWBUtils.XML.xmlToDom(in);
-//        System.out.println("gateway: " + SWBUtils.XML.domToXml(dom));
-        if (!dom.getFirstChild().getNodeName().equals("req"))
-        {
-            response.sendError(404, request.getRequestURI());
-            return;
-        }
-        String cmd = null;
-        if (dom.getElementsByTagName("cmd").getLength() > 0)
-        {
-            cmd = dom.getElementsByTagName("cmd").item(0).getFirstChild().getNodeValue();
-        }
-
-        if (cmd == null)
-        {
-            response.sendError(404, request.getRequestURI());
-            return;
-        }
         String ret = "";
-        try
-        {
-            Document res = getService(cmd, dom, paramRequest.getUser(), request, response, paramRequest);
-            if (res == null)
-            {
-                ret = SWBUtils.XML.domToXml(getError(3));
+        String action = paramRequest.getAction();
+        
+        if ("getWorkflow".equals(action)) {
+            JSONObject _ret = new JSONObject();
+            SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
+            if (null != obj && obj.instanceOf(PFlow.sclass)) {
+                PFlow flow = (PFlow)obj.createGenericInstance();
+                try {
+                    _ret = getWorkFlowData(flow, paramRequest.getUser());
+                    System.out.println(_ret.toString(2));
+                } catch (JSONException jsex) {
+                    log.error("Error al generar JSON del componente", jsex);
+                }
             }
-            else
-            {
-                ret = SWBUtils.XML.domToXml(res, true);
-            }
-//            System.out.println("ret:" + ret);
+            ret = _ret.toString();
         }
-        catch (Exception e)
-        {
-            log.error(e);
-        }
-        out.print(new String(ret.getBytes()));
+        out.print(ret);
     }
     
     @Override
@@ -731,14 +680,6 @@ public class SWBAWorkflow extends GenericResource
 
         if (null != gobj && gobj instanceof PFlow) {
             initializePFlow((PFlow)gobj);
-            
-            try {
-                JSONObject fd = getWorkFlowData((PFlow)gobj);
-                System.out.println("--pflow config--");
-                System.out.println(fd.toString(2));
-            } catch (JSONException jsex) {
-                log.error("error", jsex);
-            }
             
             RequestDispatcher rd = request.getRequestDispatcher(jsp);
             try {
@@ -759,12 +700,84 @@ public class SWBAWorkflow extends GenericResource
         return ret;
     }
     
+    JSONArray getNodeElements(String nodeName, Element root) throws JSONException {
+        JSONArray ret = new JSONArray();
+        NodeList nodes = root.getElementsByTagName(nodeName);
+        
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element enode = (Element) nodes.item(i);
+            String idObj = enode.getAttribute("id");
+            String name = enode.getAttribute("name");
+            String topicmap = enode.getAttribute("topicmap");
+            String from = enode.getAttribute("from");
+            String to = enode.getAttribute("to");
+            String type = enode.getAttribute("type");
+            String publish = enode.getAttribute("publish");
+            String days = enode.getAttribute("days");
+            String hours = enode.getAttribute("hours");
+
+            JSONObject e = createNodeObject(idObj, name, null);
+            if (!idObj.isEmpty()) e.put("id", idObj);
+            if (!name.isEmpty()) e.put("name", name);
+            if (!topicmap.isEmpty()) e.put("topicmap", topicmap);
+            if (!from.isEmpty()) e.put("from", from);
+            if (!to.isEmpty()) e.put("to", to);
+            if (!type.isEmpty()) e.put("type", type);
+            if (!publish.isEmpty()) e.put("publish", publish);
+            if (!days.isEmpty()) e.put("days", days);
+            if (!hours.isEmpty()) e.put("hours", hours);
+            
+            ret.put(e);
+        }
+        
+        return ret;
+    }
+    
+    public JSONArray getResourceTypeCat(JSONArray filterRTypes, WebSite map, User user) throws JSONException {
+        JSONArray ret = new JSONArray();
+        HashMap<String, JSONObject> filterTypes = new HashMap<>();
+        String lang = "es";
+        if (null != user && null != user.getLanguage()) lang = user.getLanguage();
+        
+        //Hash of filter configured types
+        if (null != filterRTypes) {
+            for (int i = 0; i < filterRTypes.length(); i++) {
+                JSONObject obj = filterRTypes.getJSONObject(i);
+                String id = obj.optString("id", null);
+                if (!filterTypes.containsKey(id)) {
+                    filterTypes.put(id, obj);
+                }
+            }
+        }
+        
+        //Check all resourceTypes
+        Iterator<ResourceType> elements = map.listResourceTypes();
+        while (elements.hasNext()) {
+            ResourceType obj = elements.next();
+            if (obj.getResourceMode() == ResourceType.MODE_CONTENT || obj.getResourceMode() == ResourceType.MODE_SYSTEM) {
+                JSONObject _obj = null;
+                if (filterTypes.containsKey(obj.getId())) {
+                    _obj = filterTypes.get(obj.getId());
+                    _obj.put("selected", true);
+                } else {
+                    _obj = createNodeObject(obj.getId(), obj.getDisplayTitle(lang), obj.getDescription() != null ? obj.getDescription() : "_");
+                    _obj.put("topicmap", obj.getWebSite().getId());
+                    _obj.put("selected", false);
+                }
+                
+                if (null != _obj) ret.put(_obj);
+            }
+        }
+        
+        return ret;
+    }
+    
     /**
      * Obtiene la configuración en XML del flujo y la transforma en un objeto JSON.
      * @param flow Flujo de publicación
      * @return Objeto JSON con los datos del flujo.
      */
-    private JSONObject getWorkFlowData(PFlow flow) throws JSONException {
+    private JSONObject getWorkFlowData(PFlow flow, User user) throws JSONException {
         JSONObject ret = null;
         Document doc = flow.getDom();
         if (null != doc) {
@@ -783,7 +796,9 @@ public class SWBAWorkflow extends GenericResource
                 ret = createNodeObject(id, name, description);
                 ret.put("version", version);
                 
-                //TODO: Obtener lista de resourceTypes del flujo
+                //Obtener lista conciliada de resourceTypes del flujo
+                JSONArray rtypes = getResourceTypeCat(getNodeElements("resourceType", root), flow.getWebSite(), user);
+                ret.put("resourceTypes", rtypes);
             }
         }
         return ret;

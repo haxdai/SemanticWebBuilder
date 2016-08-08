@@ -3,6 +3,7 @@
     Created on : 04-ago-2016, 16:25:14
     Author     : hasdai
 --%>
+<%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.SWBContext"%>
 <%@page import="org.semanticwb.SWBUtils"%>
 <%@page import="java.io.File"%>
@@ -15,16 +16,24 @@
 PFlow af = (PFlow) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
 String resID = af.getId();
 
-SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getFilter");
+SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getWorkflow");
 data.setParameter("suri", request.getParameter("suri"));
 
-SWBResourceURL save = paramRequest.getActionUrl().setAction("updateFilter");
+SWBResourceURL save = paramRequest.getActionUrl().setAction("updateWorkflow");
 save.setParameter("suri", request.getParameter("suri"));
 save.setParameter("id", resID);
 
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
+    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/Grid.css" rel="stylesheet" />
+    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/soriaGrid.css" rel="stylesheet" />
+    <style>
+        .soria .dojoxGridRowOver .dojoxGridCell {
+            background-color: none !important;
+            color: black !important;
+        }
+    </style>
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
@@ -32,10 +41,29 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="mainPanel_<%= resID %>" data-dojo-type="dijit/layout/TabContainer" style="width: 100%; height:100%;">
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblPropsTab") %>" data-dojo-props="selected:true">
-                    <div class="adminFilterTree" id="serverTree_<%= resID %>"></div>
+                    <div class="swbform">
+                        <fieldset>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <td>Nombre:</td>
+                                        <td>xxx</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Descripción:</td>
+                                        <td>yyy</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Versión:</td>
+                                        <td>zzz</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </fieldset>
+                    </div>
                 </div>
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblRTypesTab") %>">
-                    <div class="adminFilterTree" id="menuTree_<%= resID %>"></div>
+                    <div id="resourceTypes_<%= resID %>"></div>
                 </div>
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblActivitiesTab") %>">
                     <div class="adminFilterTree" id="viewTree_<%= resID %>"></div>
@@ -44,12 +72,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     <div class="adminFilterTree" id="filesTree_<%= resID %>"></div>
                 </div>
                 <script type="dojo/method">
-                    require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 
+                    require(['dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
-                        'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry'],
-                    function(Memory, ObjectStoreModel, ready, dom, xhr, StandBy, Button, registry) {
+                        'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
+                        'dojox/grid/DataGrid', 'dijit/form/CheckBox'],
+                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, DataGrid, CheckBox) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"});;
-
+                        var storeResTypes_<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
@@ -94,13 +123,58 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             }
                         }, "saveButton_<%= resID %>").startup();
 
-                        /*xhr("<%= data%>", {
+                        xhr("<%= data %>", {
                             handleAs: "json"
                         }).then(function(_data) {
-                            standby.hide();
+                            storeResTypes_<%= resID %> = new ObjectStore({ objectStore:new Memory({ data: _data.resourceTypes }) });
+                            
+                            var grid = new DataGrid({
+                                store: storeResTypes_<%= resID %>,
+                                query: {id:"*"},
+                                selectionMode: "none",
+                                structure: [
+                                    {
+                                        name: "Tipo de recurso", 
+                                        field: "name", width: "33%"
+                                    },
+                                    {
+                                        name: "Descripción",
+                                        field: "description", width: "33%"
+                                    },
+                                    {
+                                        name: "Utilizar", field: "_item", width: "33%",
+                                        formatter: function(item) {
+                                            console.log(item);
+                                            var w = new CheckBox({
+                                                label:"Check",
+                                                checked: item.selected,
+                                                onClick: function (evt) {
+                                                    if (evt.target.checked) {
+                                                        console.log("Must enable item in store");
+                                                        item.selected = true;
+                                                    } else {
+                                                        console.log("Must disable item in store");
+                                                        item.selected = false;
+                                                    }
+                                                    storeResTypes_<%= resID %>.put(item);
+                                                }
+                                            });
+                                            w._destroyOnRemove=true;
+                                            return w;
+                                        }
+                                    }
+                                ]
+                            }, "resourceTypes_<%= resID %>");
+
+                            /*append the new grid to the div*/
+                            //grid.placeAt("resourceTypes_<%= resID %>");
+
+                            /*Call startup() to render the grid*/
+                            grid.startup();
+                            
                         }, function(err){
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
-                        });*/
+                        });
                         standby.hide();
                     });
                 </script>
