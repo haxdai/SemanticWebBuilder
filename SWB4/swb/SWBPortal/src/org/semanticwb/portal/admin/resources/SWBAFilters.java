@@ -347,19 +347,17 @@ public class SWBAFilters extends GenericResource {
             if (root.isDirectory()) { //Sólo se listan directorios
                 String appPath = SWBUtils.getApplicationPath(); //App path. i.e. /Users/xxx/apache-tomcat/webapps/ROOT
                 String rootPath = appPath;
-
                 //Normalize path separator (Windows problem)
                 String dirPath = SWBUtils.IO.normalizePath(root.getAbsolutePath());
                 
                 if (rootPath.endsWith("/")) rootPath = rootPath.substring(0, rootPath.length() - 1); //Trim trailing slash
+                if (appPath.endsWith("/")) appPath = appPath.substring(0, appPath.length() - 1); //Trim trailing slash
                 if (rootPath.equals(dirPath)) { //App root folder
                     rootPath = rootPath.substring(rootPath.lastIndexOf("/")+1, rootPath.length()); //App folder name
-                    JSONObject obj = createNodeObject(rootPath, rootPath, null, null);
-                    obj.put(TreenodeFields.PATH, rootPath);
+                    JSONObject obj = createNodeObject("/", rootPath, null, null);
+                    obj.put(TreenodeFields.PATH, "/");
                     ret.put(obj);
                     parentUID = obj.getString(TreenodeFields.UID);
-                } else {
-                    rootPath = dirPath.substring(appPath.length());
                 }
 
                 File [] childs = root.listFiles();
@@ -566,10 +564,7 @@ public class SWBAFilters extends GenericResource {
             if ("dir".equals(nodeName)) idObj = path.replace("/",".");
 
             JSONObject e = createNodeObject(idObj, null, reload, null);
-            if (!path.isEmpty()) {
-                if ("/".equals(path)) path = "ROOT";
-                e.put(TreenodeFields.PATH, path);
-            }
+            if (!path.isEmpty()) e.put(TreenodeFields.PATH, path);
             if (!tmap.isEmpty()) e.put(TreenodeFields.TOPICMAP, tmap);
             ret.put(e);
         }
@@ -727,7 +722,6 @@ public class SWBAFilters extends GenericResource {
             SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
             if (null != obj && obj.instanceOf(AdminFilter.sclass)) {
                 AdminFilter af = (AdminFilter)obj.createGenericInstance();
-                
                 try {
                     _ret.put("filterId", af.getURI());
                     _ret.put("paths", new JSONArray());
@@ -841,10 +835,7 @@ public class SWBAFilters extends GenericResource {
             }
         }
         
-        if ("dir".equals(element.getNodeName())) {
-            path = id.replace(".", "/");
-            if ("ROOT".equals(path)) path = "/";
-        }
+        if ("dir".equals(element.getNodeName())) path = id.replace(".", "/");
 
         if (null != id && !"dir".equals(element.getNodeName())) element.setAttribute(TreenodeFields.ID, id);
         if (null != reload) element.setAttribute(TreenodeFields.RELOAD, reload);
