@@ -694,6 +694,7 @@ public class SWBAWorkflow extends GenericResource
     private JSONObject createNodeObject(String id, String name, String description) throws JSONException {
         JSONObject ret = new JSONObject();
         
+        ret.put("uuid", UUID.randomUUID().toString());
         if (null != id && !id.isEmpty()) ret.put("id", id);
         if (null != name && !name.isEmpty()) ret.put("name", name);
         if (null != description && !description.isEmpty()) ret.put("description", description);

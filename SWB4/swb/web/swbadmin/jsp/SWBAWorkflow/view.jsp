@@ -46,16 +46,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             <table>
                                 <tbody>
                                     <tr>
-                                        <td>Nombre:</td>
-                                        <td>xxx</td>
+                                        <td><b>Nombre:</b></td>
+                                        <td id="filterName_<%= resID %>">&nbsp;</td>
                                     </tr>
                                     <tr>
-                                        <td>Descripción:</td>
-                                        <td>yyy</td>
+                                        <td><b>Descripción:</b></td>
+                                        <td id="filterDesc_<%= resID %>"></td>
                                     </tr>
                                     <tr>
-                                        <td>Versión:</td>
-                                        <td>zzz</td>
+                                        <td><b>Versión:</b></td>
+                                        <td id="filterVersion_<%= resID %>">&nbsp;</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -128,6 +128,11 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         }).then(function(_data) {
                             storeResTypes_<%= resID %> = new ObjectStore({ objectStore:new Memory({ data: _data.resourceTypes }) });
                             
+                            console.log(dom.byId("filterName_<%= resID %>"));
+                            dom.byId("filterName_<%= resID %>").innerHTML = _data.name;
+                            dom.byId("filterDesc_<%= resID %>").innerHTML = _data.description;
+                            dom.byId("filterVersion_<%= resID %>").innerHTML = _data.version;
+                            
                             var grid = new DataGrid({
                                 store: storeResTypes_<%= resID %>,
                                 query: {id:"*"},
@@ -156,7 +161,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                                         console.log("Must disable item in store");
                                                         item.selected = false;
                                                     }
-                                                    storeResTypes_<%= resID %>.put(item);
                                                 }
                                             });
                                             w._destroyOnRemove=true;
@@ -166,10 +170,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 ]
                             }, "resourceTypes_<%= resID %>");
 
-                            /*append the new grid to the div*/
-                            //grid.placeAt("resourceTypes_<%= resID %>");
-
-                            /*Call startup() to render the grid*/
                             grid.startup();
                             
                         }, function(err){
