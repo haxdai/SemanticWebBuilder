@@ -31,14 +31,12 @@ import org.semanticwb.portal.api.SWBResourceException;
 import org.w3c.dom.*;
 
 import java.util.*;
-import java.sql.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
-import org.semanticwb.model.AdminFilter;
 import org.semanticwb.model.GenericObject;
 import org.semanticwb.model.PFlow;
 import org.semanticwb.model.ResourceType;
@@ -48,11 +46,8 @@ import org.semanticwb.model.User;
 import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.admin.resources.workflow.proxy.WorkflowResponse;
 import org.semanticwb.portal.api.GenericResource;
-import org.semanticwb.portal.api.SWBResourceModes;
-import org.semanticwb.portal.api.SWBResourceURL;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,18 +58,14 @@ import org.semanticwb.portal.api.SWBResourceURL;
  *
  * @author Victor Lorenzana
  */
-public class SWBAWorkflow extends GenericResource
-{
-
+public class SWBAWorkflow extends GenericResource {
     /** The log. */
     private Logger log = SWBUtils.getLogger(SWBAWorkflow.class);
 
     /**
      * Creates a new instance of WBAWorkflow.
      */
-    public SWBAWorkflow()
-    {
-    }
+    public SWBAWorkflow() {}
 
     /**
      * Process request.
@@ -86,116 +77,13 @@ public class SWBAWorkflow extends GenericResource
      * @throws SWBResourceException the sWB resource exception
      */
     @Override
-    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException
-    {
-        if (paramRequest.getMode().equals("gateway"))
-        {
+    public void processRequest(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        if (paramRequest.getMode().equals("gateway")) {
             doGateway(request, response, paramRequest);
-        }
-        else
-        {
+        } else {
             super.processRequest(request, response, paramRequest);
         }
-
     }
-
-    /**
-     * Gets the service.
-     * 
-     * @param cmd the cmd
-     * @param src the src
-     * @param user the user
-     * @param request the request
-     * @param response the response
-     * @param paramRequest the param request
-     * @return the service
-     * @return
-     */
-    private Document getService(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest)
-    {
-        return getDocument(user, src, cmd, paramRequest, request);
-    }
-
-    /**
-     * Gets the permisos gral.
-     * 
-     * @param res the res
-     * @param root the root
-     * @return the permisos gral
-     */
-    public void getPermisosGral(Element res, WebPage root)
-    {
-
-        ArrayList arr = new ArrayList((Collection) root.listChilds());
-
-        for (int i = 0; i < arr.size(); i++)
-        {
-            WebPage child = (WebPage) arr.get(i);
-            Element etopic = addNode("topic", child.getId(), child.getDisplayName(), res);
-            getPermisosGral(etopic, child);
-        }
-    }
-
-    /**
-     * Gets the catalog roles.
-     * 
-     * @param res the res
-     * @param tm the tm
-     * @return the catalog roles
-     */
-    public void getCatalogRoles(Element res, String tm)
-    {        
-        Vector<Role> roles = new Vector<Role>();     
-        //WebSite map = SWBContext.getWebSite(tm);
-        WebSite map = SWBContext.getAdminWebSite();
-
-        Iterator<Role> it = map.getUserRepository().listRoles();
-        while (it.hasNext())
-        {
-            Role role = it.next();
-            roles.add(role);
-        }
-        //Collections.sort(roles, new OrdenaRole());
-        Iterator itRoles = roles.iterator();
-        while (itRoles.hasNext())
-        {
-            Role role = (Role) itRoles.next();
-            Element erole = addNode("role", "" + role.getId(), role.getTitle(), res);
-            erole.setAttribute("id", "" + role.getId());
-            erole.setAttribute("repository", "" + role.getUserRepository().getId());
-        }
-
-    }
-//    /**
-//     *
-//     * @param res
-//     * @param tm
-//     * @param src
-//     */
-//    public void getProcessCount(Element res,String tm,Document src)
-//    {
-//        if(src.getElementsByTagName("workflow").getLength()>0)
-//        {
-//            Element workflow=(Element)src.getElementsByTagName("workflow").item(0);
-//            String workflowID=workflow.getAttribute("id");
-//            String topicmap="";
-//            String version=workflow.getAttribute("version");
-//            try
-//            {
-//                //TODO:WBProxyWorkflow.getProcessList
-////                ArrayList processes=WBProxyWorkflow.getProcessList(topicmap, workflowID, version);
-////                addElement("err",String.valueOf(processes.size()), res);
-//                addElement("err","1", res);
-//            }
-//            catch(Exception e)
-//            {
-//                e.printStackTrace(System.out);
-//                log.error(e);
-//                addElement("err",e.getMessage(), res);
-//            }
-//        }
-//        addElement("err","The element workflow was not found", res);
-//    }
 
     /**
  * Gets the workflow.
@@ -295,48 +183,6 @@ public class SWBAWorkflow extends GenericResource
     }
 
     /**
-     * Update.
-     * 
-     * @param res the res
-     * @param src the src
-     * @param user the user
-     * @param tm the tm
-     * @param paramRequest the param request
-     * @param request the request
-     */
-//    public void add(Element res,Element wf,User user,String tm,SWBParamRequest paramRequest,HttpServletRequest request)
-//    {
-//        //PFlowSrv srv=new PFlowSrv();
-//        String name=wf.getAttribute("name");
-//        String description="";
-//        if(wf.getElementsByTagName("description").getLength()>0)
-//        {
-//            Element edesc=(Element)wf.getElementsByTagName("description").item(0);
-//            Text etext=(Text)edesc.getFirstChild();
-//            description=etext.getNodeValue();
-//
-//        }
-//        try
-//        {
-//            WebSite ws = SWBContext.getWebSite(tm);
-//            PFlow pflow=ws.createPFlow();
-//            pflow.setTitle(name);
-//            pflow.setDescription(description);
-//            pflow.setXml(SWBUtils.XML.domToXml(wf.getOwnerDocument()));
-//            //TODO:
-//            //PFlow pflow=srv.createPFlow(tm, name, description, wf.getOwnerDocument(), user.getId());
-//            addElement("workflowid",  String.valueOf(pflow.getId()), res);
-//            addElement("version", "1", res);
-//        }
-//        catch(Exception e)
-//        {
-//            log.error(e);
-//            e.printStackTrace(System.out);
-//            addElement("err", java.util.ResourceBundle.getBundle("org/semanticwb/portal/admin/resources/SWBAWorkflow").getString("msg1"), res);
-//        }
-//
-//    }
-    /**
      *
      * @param res
      * @param src
@@ -410,15 +256,7 @@ public class SWBAWorkflow extends GenericResource
             Element res = dom.createElement("res");
             dom.appendChild(res);
 
-            if (cmd.equals("getcatRoles"))
-            {
-                getCatalogRoles(res, tm);
-            }
-            else if (cmd.equals("getResourceTypeCat"))
-            {
-                //getResourceTypeCat(res, tm);
-            }
-            else if (cmd.equals("getcatUsers"))
+            if (cmd.equals("getcatUsers"))
             {
                 getCatalogUsers(res, tm);
             }
@@ -432,54 +270,6 @@ public class SWBAWorkflow extends GenericResource
             {
                 update(res, src, user, tm, paramRequest, request);
             }
-        }
-        catch (Exception e)
-        {
-            log.error(e);
-            return getError(3);
-        }
-        return dom;
-    }
-
-    /**
-     * Gets the path.
-     * 
-     * @param user the user
-     * @param src the src
-     * @param action the action
-     * @return the path
-     * @return
-     */
-    public Document getPath(User user, Document src, String action)
-    {
-        Document dom = null;
-        try
-        {
-            dom = SWBUtils.XML.getNewDocument();
-            Element res = dom.createElement("res");
-            dom.appendChild(res);
-
-            StringTokenizer st = new StringTokenizer(action, ".");
-            String cmd = st.nextToken();
-
-            if (cmd.equals("topic"))
-            {
-                String tmid = st.nextToken();
-                String tpid = st.nextToken();
-
-                StringBuffer ret = new StringBuffer();
-                WebPage tp = SWBContext.getWebSite(tmid).getWebPage(tpid);
-                ret.append(tp.getId());
-                while (tp != tp.getWebSite().getHomePage())
-                {
-                    tp = tp.getParent();
-                    ret.insert(0, tp.getId() + ".");
-                }
-                ret.insert(0, tmid + ".");
-                res.appendChild(dom.createTextNode(ret.toString()));
-            }
-
-
         }
         catch (Exception e)
         {
@@ -708,25 +498,38 @@ public class SWBAWorkflow extends GenericResource
         for (int i = 0; i < nodes.getLength(); i++) {
             Element enode = (Element) nodes.item(i);
             String idObj = enode.getAttribute("id");
-            String name = enode.getAttribute("name");
             String topicmap = enode.getAttribute("topicmap");
+            String name = enode.getAttribute("name");
             String from = enode.getAttribute("from");
             String to = enode.getAttribute("to");
-            String type = enode.getAttribute("type");
             String publish = enode.getAttribute("publish");
-            String days = enode.getAttribute("days");
-            String hours = enode.getAttribute("hours");
-
+            String type = enode.getAttribute("type");
+            
             JSONObject e = createNodeObject(idObj, name, null);
-            if (!idObj.isEmpty()) e.put("id", idObj);
-            if (!name.isEmpty()) e.put("name", name);
-            if (!topicmap.isEmpty()) e.put("topicmap", topicmap);
-            if (!from.isEmpty()) e.put("from", from);
-            if (!to.isEmpty()) e.put("to", to);
-            if (!type.isEmpty()) e.put("type", type);
-            if (!publish.isEmpty()) e.put("publish", publish);
-            if (!days.isEmpty()) e.put("days", days);
-            if (!hours.isEmpty()) e.put("hours", hours);
+            
+            //Activity properties
+            if ("activity".equals(nodeName)) {
+                String days = enode.getAttribute("days");
+                String hours = enode.getAttribute("hours");
+                
+                //Get description
+                NodeList childNodes = enode.getElementsByTagName("description");
+                if (childNodes.getLength() > 0) {
+                    String description = childNodes.item(0).getTextContent();
+                    if (null != description && !description.isEmpty()) e.put("description", description);
+                }
+                
+                //TODO:Get users and roles
+                
+                if (null != days && !days.isEmpty()) e.put("days", days);
+                if (null != hours && !hours.isEmpty()) e.put("hours", hours);
+            }
+            
+            if (null != topicmap && !topicmap.isEmpty()) e.put("topicmap", topicmap);
+            if (null != from && !from.isEmpty()) e.put("from", from);
+            if (null != to && !to.isEmpty()) e.put("to", to);
+            if (null != publish && !publish.isEmpty()) e.put("publish", publish);
+            if (null != type && !type.isEmpty()) e.put("type", type);
             
             ret.put(e);
         }
@@ -800,6 +603,10 @@ public class SWBAWorkflow extends GenericResource
                 //Obtener lista conciliada de resourceTypes del flujo
                 JSONArray rtypes = getResourceTypeCat(getNodeElements("resourceType", root), flow.getWebSite(), user);
                 ret.put("resourceTypes", rtypes);
+                
+                //Obtener lista de actividades del flujo
+                JSONArray activities = getNodeElements("activity", root);
+                ret.put("activities", activities);
             }
         }
         return ret;
