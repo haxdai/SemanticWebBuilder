@@ -105,6 +105,7 @@ public class SWBAFilterResource extends SWBATree {
                 res = updateFilter(cmd, dom, paramRequest.getUser(), request, response);
             } else if (cmd.equals("getFilter")) {
                 res = getFilter(cmd, dom, paramRequest.getUser(), request, response);
+                System.out.println(SWBUtils.XML.domToXml(res, true));
             } else {
                 res = getService(cmd, dom, paramRequest.getUser(), request, response);
             }
@@ -395,7 +396,7 @@ public class SWBAFilterResource extends SWBATree {
      * @throws IOException Signals that an I/O exception has occurred.
      * @throws SWBResourceException the sWB resource exception
      */
-    @Override
+    /*@Override
     public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
@@ -405,6 +406,23 @@ public class SWBAFilterResource extends SWBATree {
             getIniForm(request, response, paramRequest, paramRequest.getUser());
         } else if (strWBAction != null && strWBAction.equals("add")) {
         } else if (strWBAction != null && strWBAction.equals("edit")) {
+        }
+    }*/
+    
+    @Override
+    public void doView(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
+        response.setContentType("text/html; charset=ISO-8859-1");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Pragma", "no-cache");
+
+        String jsp = "/swbadmin/jsp/SWBAResourceFilter/edit.jsp";
+
+        RequestDispatcher rd = request.getRequestDispatcher(jsp);
+        try {
+            request.setAttribute("paramRequest", paramRequest);
+            rd.include(request, response);
+        } catch (ServletException sex) {
+            log.error("SWBAFilters - Error including view", sex);
         }
     }
 
