@@ -28,8 +28,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
     %>
     <style>
         .noIcon { display: none !important; }
-        .adminFilterTree .dijitTreeRowSelected .dijitTreeLabel { background: none !important; outline: none !important; }
-        .adminFilterTree .dijitTreeNodeFocused .dijitTreeLabel { background: none !important; outline: none !important; }
+        .resourceFilterTree .dijitTreeRowSelected .dijitTreeLabel { background: none !important; outline: none !important; }
+        .resourceFilterTree .dijitTreeNodeFocused .dijitTreeLabel { background: none !important; outline: none !important; }
         .styleChecked { color: darkblue; font-style: italic; font-weight: bold !important; }
         .styleHighlight { font-style: italic; font-weight: bold !important; }
     </style>
@@ -38,14 +38,14 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             <button id="saveButton_<%= resID %>" type="button"></button>
             <input type="checkbox" data-dojo-type="dijit/form/CheckBox" />Dar acceso a elementos no seleccionados
         </div>
-        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
+        <div class="resourceFilterTree" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="serverTree_<%= resID %>"></div>
             <script type="dojo/method">
                 require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 
                     'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                     'dojox/widget/Standby', 'dojo/topic', 'dijit/form/Button', 'dijit/registry'],
                 function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button, registry) {
-                    var server_<%= resID %>, menus_<%= resID %>, dirs_<%= resID %>, behave_<%= resID %>;
+                    var server_<%= resID %>;
                     var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"});;
 
                     document.body.appendChild(standby.domNode);
@@ -62,16 +62,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             btn.busy(true);
                             if (server_<%= resID %>.getSelectedItems().total > 0) {
                                 payload.sites = server_<%= resID %>.getSelectedItems();
-                            }
-                            if (menus_<%= resID %>.getSelectedItems().total > 0) {
-                                payload.menus = menus_<%= resID %>.getSelectedItems();
-                            }
-                            if (behave_<%= resID %>.getSelectedItems().total > 0) {
-                                payload.elements = behave_<%= resID %>.getSelectedItems();
-                            }
-
-                            if (dirs_<%= resID %>.getSelectedItems().total > 0) {
-                                payload.dirs = dirs_<%= resID %>.getSelectedItems();
                             }
 
                             xhrhttp.send(JSON.stringify(payload));
@@ -100,7 +90,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             var tnode = new dijit._TreeNode(args), cb = new dijit.form.CheckBox();
 
                             tnode.labelNode.innerHTML = args.label;
-                            cb.placeAt(tnode.labelNode, "first");
+                            cb.placeAt(tnode.contentNode, "first");
 
                             tnode.isCheckboxActive = function() { return cb && cb.get("checked") === true; };
                             tnode.toggleCheckbox = function(val) { cb && cb.set("checked", val); };
@@ -207,7 +197,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                             var ret = new Tree({
                                 model: model,
-                                getIconClass: function(item, opened) { return "noIcon"; },
+                                getIconClass: function(item, opened) { return item.cssIcon; },
                                 getRowClass: function(item,opened) {},
                                 _createTreeNode: createTreeNode,
                                 onOpen: function(_item, _node) {
@@ -229,23 +219,24 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         return {};
                     };
 
-                    /*
+                    
                     xhr("<%= data%>", {
                         handleAs: "json"
                     }).then(function(_data) {
                         //Create server tree
-                        if (_data.sites) {
-                            server_<%= resID %> = new TreeWidget(_data.sites, 'serverTree_<%= resID %>', _data.sitesRoot);
+                        if (_data.topics) {
+                            server_<%= resID %> = new TreeWidget(_data.topics, 'serverTree_<%= resID %>', _data.sitesRoot);
                             server_<%= resID %>.onLoadDeferred.then(function() {
-                                _data.paths.sites && _data.paths.sites.forEach(function(item, idx) {
-                                    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
-                                });
+                                //_data.paths.sites && _data.paths.sites.forEach(function(item, idx) {
+                                //    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
+                                //});
                             });
                         }
                         standby.hide();
+                         console.log(_data);
                     }, function(err){
                         alert("<%= paramRequest.getLocaleString("msgError") %>");
-                    });*/
+                    });
                 });
             </script>
         </div>
