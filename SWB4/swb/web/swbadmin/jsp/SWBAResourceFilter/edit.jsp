@@ -1,3 +1,4 @@
+<%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.Resource"%>
 <%@page import="org.semanticwb.model.ResourceFilter"%>
 <%@page import="org.semanticwb.model.SWBContext"%>
@@ -26,7 +27,17 @@ save.setParameter("id", resID);
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
+    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dijit/tests/css/dijitTests.css" rel="stylesheet" />
+    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/form/resources/TriStateCheckBox.css" rel="stylesheet" />
     <style>
+        .swbIconServer {
+            background-repeat: no-repeat;
+            width:20px;
+            height: 18px;
+            text-align: center;
+            padding-right:0px;
+            background-image: url('<%= SWBPortal.getContextPath() %>/swbadmin/icons/icons20x18.png'); background-position: -120px -197px;
+        }
         .noIcon { display: none !important; }
         .resourceFilterTree .dijitTreeRowSelected .dijitTreeLabel { background: none !important; outline: none !important; }
         .resourceFilterTree .dijitTreeNodeFocused .dijitTreeLabel { background: none !important; outline: none !important; }
@@ -38,13 +49,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             <button id="saveButton_<%= resID %>" type="button"></button>
             <input type="checkbox" data-dojo-type="dijit/form/CheckBox" />Dar acceso a elementos no seleccionados
         </div>
-        <div class="resourceFilterTree" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
+        <div class="resourceFilterTree claro" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="serverTree_<%= resID %>"></div>
             <script type="dojo/method">
                 require(['dojo/store/Memory','dijit/tree/ObjectStoreModel', 
                     'dijit/Tree', 'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
-                    'dojox/widget/Standby', 'dojo/topic', 'dijit/form/Button', 'dijit/registry'],
-                function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button, registry) {
+                    'dojox/widget/Standby', 'dojo/topic', 'dijit/form/Button', 'dijit/registry', 'dojox/form/TriStateCheckBox'],
+                function(Memory, ObjectStoreModel, Tree, ready, dom, xhr, StandBy, topic, Button, registry, TriStateCheckBox) {
                     var server_<%= resID %>;
                     var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"});;
 
@@ -83,14 +94,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     }, "saveButton_<%= resID %>").startup();
 
                     //TODO: Mover la función de creación de árboles a una biblioteca para que el navegador no almacene la definición varias veces
-                    function TreeWidget (treeData, placeHolder, rootId) {
+                    function TreeWidget (treeData, siteId, placeHolder, rootId) {
                         var store, model;
 
                         function createTreeNode(args) {
-                            var tnode = new dijit._TreeNode(args), cb = new dijit.form.CheckBox();
-
+                            var tnode = new dijit._TreeNode(args), cb;
                             tnode.labelNode.innerHTML = args.label;
-                            cb.placeAt(tnode.contentNode, "first");
+                               
+                            if (tnode.item.id !== "Server" && tnode.item.id !== siteId) {
+                                cb = new TriStateCheckBox({
+                                    states: ["mixed", false, true],
+                                    checked: false
+                                });
+                                cb.placeAt(tnode.contentNode, "first");
+                            }
 
                             tnode.isCheckboxActive = function() { return cb && cb.get("checked") === true; };
                             tnode.toggleCheckbox = function(val) { cb && cb.set("checked", val); };
@@ -143,21 +160,34 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
 
-                            dojo.connect(cb, "onClick", function(obj) {
-                                tnode.toggleCheckbox(obj.target.checked);
-                                tnode.item.selected=obj.target.checked;
-                                store.put(tnode.item);
-                                obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
+                            //dojo.connect(cb, "onClick", function(obj) {
+                                /*if (!tnode.item.clicks || tnode.item.clicks > 2) tnode.item.clicks=0;
+                                tnode.item.clicks++;
+
+                                console.log(tnode.item.clicks);
+                                if (tnode.item.clicks === 1) {
+                                    console.log("must check button");
+                                    cb && cb.set("checked", true);
+                                    //tnode.toggleCheckbox(true);
+                                } else if (tnode.item.clicks === 2) {
+                                    console.log("must check button and childs");
+                                } else if (tnode.item.clicks === 3) {
+                                    console.log("must uncheck button");
+                                }
+                                //tnode.item.selected=obj.target.checked;
+                                store.put(tnode.item);*/
+                                //obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
                                 //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
                                 //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
-                                obj.stopPropagation()
-                            });
+                                //obj.preventDefault();
+                                //obj.stopPropagation();
+                            //});
 
                             if(args.item.selected) {
-                                args.item.enabled = true;
-                                store.put(args.item);
+                                //args.item.enabled = true;
+                                //store.put(args.item);
                                 tnode.toggleCheckbox(args.item.selected);
-                                args.item.selected ? tnode.disableChilds() : tnode.enableChilds();
+                                //args.item.selected ? tnode.disableChilds() : tnode.enableChilds();
                             }
 
                             return tnode;
@@ -225,7 +255,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     }).then(function(_data) {
                         //Create server tree
                         if (_data.topics) {
-                            server_<%= resID %> = new TreeWidget(_data.topics, 'serverTree_<%= resID %>', _data.sitesRoot);
+                            server_<%= resID %> = new TreeWidget(_data.topics, _data.id, 'serverTree_<%= resID %>', _data.sitesRoot);
                             server_<%= resID %>.onLoadDeferred.then(function() {
                                 //_data.paths.sites && _data.paths.sites.forEach(function(item, idx) {
                                 //    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
