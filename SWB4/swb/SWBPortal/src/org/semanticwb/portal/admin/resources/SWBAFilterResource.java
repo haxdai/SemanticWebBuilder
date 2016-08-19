@@ -22,14 +22,12 @@
  */
 package org.semanticwb.portal.admin.resources;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.UUID;
-import java.util.Vector;
 
 import org.w3c.dom.*;
 
@@ -52,7 +50,7 @@ import org.semanticwb.portal.api.*;
  * WebBuilder administration resource that allows select the topics to show the
  * selected resource.
  */
-public class SWBAFilterResource extends SWBATree {
+public class SWBAFilterResource extends GenericResource {
 
     /** The log. */
     private Logger log = SWBUtils.getLogger(SWBAFilterResource.class);
@@ -119,10 +117,9 @@ public class SWBAFilterResource extends SWBATree {
     
     private JSONObject getMergedFilter(ResourceFilter filter, JSONArray pages) throws JSONException {
         JSONObject filterData = getJSONFilter(filter);
-        //JSONObject paths = new JSONObject();
-        
         HashMap<String, JSONObject> objTable = new HashMap<>();
         JSONArray src = filterData.getJSONArray("topics");
+        JSONArray paths = new JSONArray();
         
         if (null != src && null != pages) {
             for (int i = 0; i < src.length(); i++) {
@@ -137,9 +134,12 @@ public class SWBAFilterResource extends SWBATree {
                     JSONObject obj = objTable.get(key);
                     item.put("selected", true);
                     item.put("childs", obj.optBoolean("childs", false));
-                    //paths.put(item.getString("uuid"));
+                    paths.put(item.getString("uuid"));
                 }
             }
+            
+            //Put paths
+            filterData.put("paths", paths);
             
             //Put server and site nodes
             JSONObject server = createNodeObject("Server", "Server", null, null);
