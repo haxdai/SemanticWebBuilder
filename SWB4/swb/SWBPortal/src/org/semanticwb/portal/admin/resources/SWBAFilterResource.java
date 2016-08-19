@@ -52,7 +52,7 @@ import org.semanticwb.portal.api.*;
  */
 public class SWBAFilterResource extends GenericResource {
     private Logger log = SWBUtils.getLogger(SWBAFilterResource.class);
-
+    
     /**
      * Process request.
      * 
@@ -140,13 +140,15 @@ public class SWBAFilterResource extends GenericResource {
     private JSONObject getMergedFilter(ResourceFilter filter, JSONArray pages) throws JSONException {
         JSONObject filterData = getJSONFilter(filter);
         HashMap<String, JSONObject> objTable = new HashMap<>();
-        JSONArray src = filterData.getJSONArray("topics");
+        JSONArray src = filterData.optJSONArray("topics");
         JSONArray paths = new JSONArray();
         
-        if (null != src && null != pages) {
-            for (int i = 0; i < src.length(); i++) {
-                JSONObject item = src.getJSONObject(i);
-                objTable.put(item.getString("id"), item);
+        if (null != pages) {
+            if (null != src) {
+                for (int i = 0; i < src.length(); i++) {
+                    JSONObject item = src.getJSONObject(i);
+                    objTable.put(item.getString("id"), item);
+                }
             }
             
             for (int i = 0; i < pages.length(); i++) {
@@ -159,6 +161,9 @@ public class SWBAFilterResource extends GenericResource {
                     paths.put(item.getString("uuid"));
                 }
             }
+            
+            //Put modelId in filter object if not present (empty filter)
+            if (null == filterData.optString("id", null)) filterData.put("id", filter.getWebSite().getId());
             
             //Put paths
             filterData.put("paths", paths);
