@@ -71,6 +71,17 @@ public class SWBAFilterResource extends GenericResource {
         }
     }
     
+    /**
+     * Crea un objeto JSON con las propiedades proporcionadas.
+     * <p>
+     * Creates a JSON object with the given properties.
+     * @param id ID del objeto
+     * @param name Nombre del objeto
+     * @param negative Atributo negative "true" / "false"
+     * @param childs Atributo childs "true" / "false"
+     * @return Objeto JSON con las propiedades existentes.
+     * @throws JSONException 
+     */
     private JSONObject createNodeObject(String id, String name, String negative, String childs) throws JSONException {
         JSONObject ret = new JSONObject();
         boolean bNegative = false, bChilds = false;
@@ -92,6 +103,14 @@ public class SWBAFilterResource extends GenericResource {
         return ret;
     }
     
+    /**
+     * Obtiene un objeto JSON con la estructura de páginas de un sitio.
+     * @param root Raíz para el recorrido en el árbol de páginas.
+     * @param parentuid ID del padre del nodo actual.
+     * @param pages JSONArray donde se guardarán los resultados del recorrido.
+     * @param lang Idioma del usuario
+     * @throws JSONException 
+     */
     private void getWebPagesJSON(WebPage root, String parentuid, JSONArray pages, String lang) throws JSONException {
         if (null != root && null != pages) {
             JSONObject pg = createNodeObject(root.getId(), root.getDisplayTitle(lang), null, null);
@@ -109,6 +128,15 @@ public class SWBAFilterResource extends GenericResource {
         }
     }
     
+    /**
+     * Concila la información contenida en la configuración del filtro con la del despliegue en la vista de árbol.
+     * <p>
+     * Reconciles filter and tree data for the resource view.
+     * @param filter ResourceFilter
+     * @param pages Lista de páginas Web para el despliegue en el árbol
+     * @return Objeto JSON con información del filtro conciliada.
+     * @throws JSONException 
+     */
     private JSONObject getMergedFilter(ResourceFilter filter, JSONArray pages) throws JSONException {
         JSONObject filterData = getJSONFilter(filter);
         HashMap<String, JSONObject> objTable = new HashMap<>();
@@ -157,6 +185,16 @@ public class SWBAFilterResource extends GenericResource {
         return filterData;
     }
     
+    /**
+     * Método para invocaciones a servicios del recurso.
+     * <p>
+     * Method for resource services invocation.
+     * @param request
+     * @param response
+     * @param paramRequest
+     * @throws SWBResourceException
+     * @throws IOException 
+     */
     public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
@@ -175,7 +213,6 @@ public class SWBAFilterResource extends GenericResource {
                     JSONArray pages = new JSONArray();
                     getWebPagesJSON(res.getWebSite().getHomePage(), null, pages, lang);
                     _ret = getMergedFilter(rf, pages);
-                    System.out.println(_ret.toString(2));
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }
@@ -185,6 +222,42 @@ public class SWBAFilterResource extends GenericResource {
         out.print(ret);
     }
     
+    /**
+     * Obtiene un arreglo de objetos JSON con los hijos de un nodo XML. 
+     * Cada hijo contiene los atributos correspondientes, de acuerdo al XML.
+     * Un ejemplo de la estructura del JSON es como sigue:
+     * <p>
+     * {
+     *   uuid: "7fa05029-252e-4b44-9dff-b4901920c984", //Usado como identificador para el árbol, útil sólo para la UI
+     *   id: "demo", //Identificador del objeto asociado
+     *   name: "demo", //Nombre del nodo, útil sólo para la UI
+     *   parent: "cc554cdc-7c7f-48c6-92d1-a85c1861f613", //UID del nodo padre, útil sólo para la UI
+     *   selected: true //Indica si el nodo aparece en la configuración del filtro y debe ser activado en el UI
+     *   enabled: true //Indica si el nodo estará habilitado en la UI
+     *   childs: true //Indica si los hijos del nodo estarán habilidados
+     *   negative: true //Para el filtro indica si la configuración se aplica a los elementos no seleccionados en el UI
+     * }
+     * <p>
+     * Transforms an XML tree into a list of JSONObjects.
+     * Sample JSON structure is as follows:
+     * <p>
+     * {
+     *   uuid: "7fa05029-252e-4b44-9dff-b4901920c984", //Unique IDfor the UI Tree
+     *   id: "demo", //Related object ID, used for validations
+     *   name: "demo", //Node name for the UI Tree
+     *   parent: "cc554cdc-7c7f-48c6-92d1-a85c1861f613", //Parent node UID for UI Tree
+     *   selected: true //Whether the filter is in configuration and must be checked at start
+     *   enabled: true //Whether the node is enabled in UI
+     *   childs: true //Whether node childs must be selected or disabled in UI
+     *   negative: true //For a filter it sets the rule to non-selected nodes
+     * 
+     * }
+     * <p>
+     * @param nodeName Nombre del tag de los nodos hijos.
+     * @param root Elemento raíz a partir del cual obtener los hijos.
+     * @return Arreglo con objetos JSON para cada hijo llamado "nodeName" del nodo "root".
+     * @throws JSONException 
+     */
     JSONArray getNodeElements(String nodeName, Element root) throws JSONException {
         JSONArray ret = new JSONArray();
         NodeList nodes = root.getElementsByTagName(nodeName);
@@ -202,6 +275,14 @@ public class SWBAFilterResource extends GenericResource {
         return ret;
     }
     
+    
+    /**
+     * Obtiene la configuración del filtro en formato JSON para su conciliación con los datos para el árbol.
+     * <p>
+     * Gets filter configuration for data reconciliation.
+     * @param rf Filtro de administración.
+     * @return Objeto JSON con la configuración del filtro.
+     */
     private JSONObject getJSONFilter(ResourceFilter rf) throws JSONException {
         JSONObject ret = new JSONObject();
         String xml = rf.getXml();
@@ -219,7 +300,7 @@ public class SWBAFilterResource extends GenericResource {
                         String id = root.getAttribute("id");
                         String negative = root.getAttribute("negative");
 
-                        ret = createNodeObject(id, negative, null, null);
+                        ret = createNodeObject(id, null, negative, null);
                         ret.put("topics", getNodeElements("topic", root));
                     }
                 }
@@ -228,6 +309,10 @@ public class SWBAFilterResource extends GenericResource {
         return ret;
     }
     
+    /**
+     * Inicializa la información del filtro en el recurso, si éste no existe, es creado
+     * @param res Recurso al que se asociará el filtro
+     */
     private void initializeResourceFilter(Resource res) {
         ResourceFilter rf = res.getResourceFilter();
         String strXml = null;
@@ -276,6 +361,11 @@ public class SWBAFilterResource extends GenericResource {
         }
     }
     
+    /**
+     * Transforma los datos del árbol de filtro de recurso a formato XML para su almacenamiento en el objeto.
+     * @param treeData JSON con la selección de nodos en el árbol de la vista.
+     * @return Cadena XML que representa la configuración del árbol a escribir en el objeto del filtro.
+     */
     private String getXMLFilterData(JSONObject treeData) throws JSONException {
         Document ret = SWBUtils.XML.xmlToDom("<resource><filter></filter></resource>");
         
@@ -322,7 +412,6 @@ public class SWBAFilterResource extends GenericResource {
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
         String action = response.getAction();
-        //ResourceFilter rf = ResourceFilter.ClassMgr.getResourceFilter(request.getParameter("id"), );
         
         if ("updateFilter".equals(action)) { //Update filter
             //Se recibe el JSON con los nodos seleccionados en la vista.
@@ -343,10 +432,6 @@ public class SWBAFilterResource extends GenericResource {
                     ResourceFilter filter = ResourceFilter.ClassMgr.getResourceFilter(payload.optString("id"), site);
                     if (null != filter) {
                         res = getXMLFilterData(payload);
-                        //System.out.println("---payload---");
-                        //System.out.println(payload.toString(2));
-                        //System.out.println("---filter XML---");
-                        //System.out.println(res);
                         filter.setXml(res);
                     }
                 }
