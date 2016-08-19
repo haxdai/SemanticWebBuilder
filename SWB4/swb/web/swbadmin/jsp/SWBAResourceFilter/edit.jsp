@@ -109,7 +109,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 cb.placeAt(tnode.contentNode, "first");
                             }
 
-                            tnode.isCheckboxActive = function() { return cb && cb.get("checked") === true; };
+                            tnode.getCheckboxState = function() { return cb ? cb.get("checked") : undefined; };
                             tnode.toggleCheckbox = function(val) { cb && cb.set("checked", val); };
                             tnode.toggleCheckBoxState = function(val) { cb.set("disabled", val || false); };
                             tnode.disableChilds = function() {
@@ -135,7 +135,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                             child.item.enabled = true;
                                             store.put(child.item);
                                             child.toggleCheckBoxState(false);
-                                            child.enableChilds();
+                                            if (child.getCheckboxState() !== "mixed") {
+                                                child.enableChilds();
+                                            }
                                         });
                                     }
                                 }
@@ -160,34 +162,21 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
 
-                            //dojo.connect(cb, "onClick", function(obj) {
-                                /*if (!tnode.item.clicks || tnode.item.clicks > 2) tnode.item.clicks=0;
-                                tnode.item.clicks++;
-
-                                console.log(tnode.item.clicks);
-                                if (tnode.item.clicks === 1) {
-                                    console.log("must check button");
-                                    cb && cb.set("checked", true);
-                                    //tnode.toggleCheckbox(true);
-                                } else if (tnode.item.clicks === 2) {
-                                    console.log("must check button and childs");
-                                } else if (tnode.item.clicks === 3) {
-                                    console.log("must uncheck button");
+                            dojo.connect(cb, "onChange", function(obj) {
+                                if ("mixed" === obj || true === obj) {
+                                    tnode.item.selected = true;
                                 }
-                                //tnode.item.selected=obj.target.checked;
-                                store.put(tnode.item);*/
-                                //obj.target.checked ? tnode.disableChilds() : tnode.enableChilds();
+                                
+                                "mixed" === obj ? tnode.disableChilds() : tnode.enableChilds();
+                                tnode.item.childs = ("mixed" === obj);
+                                store.put(tnode.item);
                                 //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
                                 //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
-                                //obj.preventDefault();
-                                //obj.stopPropagation();
-                            //});
+                            });
 
                             if(args.item.selected) {
-                                //args.item.enabled = true;
-                                //store.put(args.item);
-                                tnode.toggleCheckbox(args.item.selected);
-                                //args.item.selected ? tnode.disableChilds() : tnode.enableChilds();
+                                tnode.toggleCheckbox(args.item.childs && args.item.childs === true ? "mixed" : true);
+                                args.item.childs && args.item.childs === true ? tnode.disableChilds() : tnode.enableChilds();
                             }
 
                             return tnode;
@@ -232,7 +221,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 _createTreeNode: createTreeNode,
                                 onOpen: function(_item, _node) {
                                     //Si el nodo está seleccionado o el nodo está deshabilitado, deshabilitar los hijos
-                                    if (_node.isCheckboxActive() || _item.enabled === false) {
+                                    if ("mixed" === _node.getCheckboxState() || _item.enabled === false) {
                                         _node.disableChilds();
                                     }
                                 },
@@ -263,7 +252,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             });
                         }
                         standby.hide();
-                         console.log(_data);
                     }, function(err){
                         alert("<%= paramRequest.getLocaleString("msgError") %>");
                     });
