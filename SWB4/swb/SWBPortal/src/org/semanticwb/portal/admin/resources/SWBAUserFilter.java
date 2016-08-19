@@ -293,8 +293,8 @@ public class SWBAUserFilter extends SWBATree {
     @SuppressWarnings({"static-access", "static-access"})
     public boolean isNameValid(Element e) {
 
-        for (int i = 0; i < SWBAFilterResource.namevalids.length; i++) {
-            if (e.getNodeName().equals(SWBAFilterResource.namevalids[i])) {
+        for (int i = 0; i < namevalids.length; i++) {
+            if (e.getNodeName().equals(namevalids[i])) {
                 return true;
             }
         }
@@ -316,8 +316,8 @@ public class SWBAUserFilter extends SWBATree {
         StringTokenizer st = new StringTokenizer(path, ".");
         if (st.countTokens() > 0) {
             String pathinit = st.nextToken();
-            for (int i = 0; i < SWBAFilterResource.pathValids.length; i++) {
-                if (pathinit.equals(SWBAFilterResource.pathValids[i])) {
+            for (int i = 0; i < pathValids.length; i++) {
+                if (pathinit.equals(pathValids[i])) {
                     return true;
                 }
             }
