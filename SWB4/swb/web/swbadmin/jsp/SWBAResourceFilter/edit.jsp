@@ -27,7 +27,6 @@ save.setParameter("id", resID);
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
-    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dijit/tests/css/dijitTests.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/form/resources/TriStateCheckBox.css" rel="stylesheet" />
     <style>
         .swbIconServer {
@@ -47,7 +46,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
-            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" />Dar acceso a elementos no seleccionados
+            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="negative_<%= resID %>"/>Dar acceso a elementos no seleccionados
         </div>
         <div class="resourceFilterTree claro" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="serverTree_<%= resID %>"></div>
@@ -61,19 +60,22 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                     document.body.appendChild(standby.domNode);
                     standby.startup();
-                    //standby.show();
+                    standby.show();
 
                     saveButton_<%= resID %> = new Button({
                         label: "Guardar filtro",
                         iconClass:'dijitEditorIcon dijitEditorIconSave',
                         onClick: function(evt) {
-                            var payload = {id: '<%= rf.getId() %>'}, xhrhttp = new XMLHttpRequest(), btn = this;;
+                            var payload = {id: '<%= rf.getId() %>', negative: registry.byId('negative_<%= resID %>').attr("checked")};
+                            var xhrhttp = new XMLHttpRequest(), btn = this;
+                            if (server_<%= resID %>.getSelectedItems().total > 0) {
+                                payload.topics = server_<%= resID %>.getSelectedItems();
+                            }
+                            payload.siteId = server_<%= resID %>.site;
+
                             xhrhttp.open("POST", '<%= save %>', true);
                             xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
                             btn.busy(true);
-                            if (server_<%= resID %>.getSelectedItems().total > 0) {
-                                payload.sites = server_<%= resID %>.getSelectedItems();
-                            }
 
                             xhrhttp.send(JSON.stringify(payload));
                             xhrhttp.onreadystatechange = function() {
@@ -86,7 +88,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     btn.busy(false);
                                 }
                             };
-                        }, 
+                        },
                         busy: function(val) {
                             this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
                             this.set("disabled", val);
@@ -170,8 +172,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 "mixed" === obj ? tnode.disableChilds() : tnode.enableChilds();
                                 tnode.item.childs = ("mixed" === obj);
                                 store.put(tnode.item);
-                                //obj.target.checked ? dojo.addClass(tode.labelNode, "styleChecked") : dojo.removeClass(tode.labelNode, "styleChecked");
-                                //obj.target.checked && dojo.removeClass(tnode.labelNode, "styleHighlight");
                             });
 
                             if(args.item.selected) {
@@ -227,7 +227,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 },
                                 getSelectedItems: function() {
                                     return store.getSelectedChilds();
-                                }
+                                },
+                                site: siteId
                             });
 
                             ret.placeAt(placeHolder);
@@ -235,9 +236,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             return ret;
                         }
 
-                        return {};
+                        return { };
                     };
-
                     
                     xhr("<%= data%>", {
                         handleAs: "json"
@@ -250,6 +250,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
                                 });
                             });
+                        }
+                        if (_data.negative && _data.negative === true) {
+                            registry.byId('negative_<%= resID %>').set("checked", "checked");
                         }
                         standby.hide();
                     }, function(err){

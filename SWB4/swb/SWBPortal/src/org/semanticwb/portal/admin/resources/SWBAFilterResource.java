@@ -22,11 +22,11 @@
  */
 package org.semanticwb.portal.admin.resources;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.StringTokenizer;
 import java.util.UUID;
 
 import org.w3c.dom.*;
@@ -40,24 +40,18 @@ import org.semanticwb.*;
 
 import org.semanticwb.model.*;
 import org.semanticwb.platform.SemanticObject;
-import org.semanticwb.platform.SemanticOntology;
 import org.semanticwb.portal.api.*;
 
-// TODO: Auto-generated Javadoc
-/** Recurso para la administarci�n de WebBuilder que permite seleccionar los t�picos
- * en los cuales se mostrar� el recurso seleccionado.
+/** Recurso para la administración de WebBuilder que permite seleccionar las páginas Web
+ *  en los cuales se mostrará el recurso seleccionado.
  *
- * WebBuilder administration resource that allows select the topics to show the
- * selected resource.
+ * Admin resource that enables to select the Web pages on which the selected resource will be displayed.
+ * @author Juan Fernández
+ * @author Javier Solís
+ * @author Hasdai Pacheco {ebenezer.sanchez@infotec.mx}
  */
 public class SWBAFilterResource extends GenericResource {
-
-    /** The log. */
     private Logger log = SWBUtils.getLogger(SWBAFilterResource.class);
-    /** The Constant pathValids. */
-    static final String[] pathValids = {"getServer", "getTopic", "getTopicMap"};
-    /** The Constant namevalids. */
-    static final String[] namevalids = {"node", "config", "icons", "icon", "res", "events", "willExpand"};
 
     /**
      * Process request.
@@ -233,128 +227,6 @@ public class SWBAFilterResource extends GenericResource {
         }
         return ret;
     }
-
-    /**
-     * Adds the.
-     * 
-     * @param cmd the cmd
-     * @param src the src
-     * @param user the user
-     * @param request the request
-     * @param response the response
-     * @return the document
-     * @return
-     */
-    public Document add(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response) {
-        Document doc = null;
-        try {
-            doc = SWBUtils.XML.getNewDocument();
-            Element res = doc.createElement("res");
-            doc.appendChild(res);
-        } catch (Exception e) {
-            e.printStackTrace(System.out);
-            log.error(e);
-        }
-        return doc;
-    }
-
-    /**
-     * Update filter.
-     * 
-     * @param cmd the cmd
-     * @param src the src
-     * @param user the user
-     * @param request the request
-     * @param response the response
-     * @return the document
-     * @return
-     */
-    public Document updateFilter(String cmd, Document src, User user, HttpServletRequest request, HttpServletResponse response) {
-
-        if (src.getElementsByTagName("filter").getLength() > 0) {
-            String id = src.getElementsByTagName("id").item(0).getFirstChild().getNodeValue();
-            String tm = src.getElementsByTagName("tm").item(0).getFirstChild().getNodeValue();
-            Resource recres = null;
-            WebSite map = SWBContext.getWebSite(tm);
-            SemanticOntology ont = SWBPlatform.getSemanticMgr().getOntology();
-            GenericObject gobj = ont.getGenericObject(id);
-
-            if (gobj instanceof Resource) {
-                recres = (Resource) gobj;
-                map = recres.getWebSite();
-            } else {
-                return null;
-            }
-
-
-            log.debug("updateFilter...id:" + id + ", tm:" + tm);
-            String xml = "<resource><filter/></resource>";
-            ResourceFilter pfil = recres.getResourceFilter();
-            if (pfil != null) {
-                xml = pfil.getXml();
-            }
-
-            try {
-                Document docxmlConf = null;
-                Element eResource = null;
-                if (xml == null || xml.equals("")) {
-                    docxmlConf = SWBUtils.XML.getNewDocument();
-                    eResource = docxmlConf.createElement("resource");
-                    docxmlConf.appendChild(eResource);
-                } else {
-
-                    //System.out.println("XML antes de actualizar:\n"+xml);
-
-                    if(xml.indexOf("<resource>")==-1)
-                    {
-                        int intIniIdx = xml.indexOf("<filter>");
-                        int intEndIdx = xml.lastIndexOf("</filter>");
-                        if (intIniIdx != -1 && intEndIdx != -1) {
-                            xml = xml.substring(intIniIdx,intEndIdx+9);
-                            xml = "<resource>"+xml+"</resource>";
-                            //System.out.println("XML:"+xml);
-                        }
-                    }
-
-                    docxmlConf = SWBUtils.XML.xmlToDom(xml);
-                    if (docxmlConf.getElementsByTagName("resource").getLength() > 0) {
-                        eResource = (Element) docxmlConf.getElementsByTagName("resource").item(0);
-                    } else {
-                        eResource = docxmlConf.createElement("resource");
-                        docxmlConf.appendChild(eResource);
-                    }
-                }
-                NodeList filters = eResource.getElementsByTagName("filter");
-                for (int i = 0; i < filters.getLength(); i++) {
-                    Element filter = (Element) filters.item(i);
-                    filter.getParentNode().removeChild(filter);
-                }
-                filters = src.getElementsByTagName("filter");
-                for (int i = 0; i < filters.getLength(); i++) {
-                    Element filter = (Element) filters.item(i);
-                    filter = (Element) docxmlConf.importNode(filter, true);
-                    eResource.appendChild(filter);
-                }
-
-                log.debug(SWBUtils.XML.domToXml(docxmlConf));
-
-                pfil = recres.getResourceFilter();
-                if (null != recres && null != pfil) {
-                    pfil.setXml(SWBUtils.XML.domToXml(docxmlConf));
-                }
-                Document docresp = SWBUtils.XML.getNewDocument();
-                Element filterresp = docresp.createElement("filter");
-                org.w3c.dom.Text t = docresp.createTextNode(id);
-                filterresp.appendChild(t);
-                docresp.appendChild(filterresp);
-                return docresp;
-            } catch (Exception e) {
-                e.printStackTrace(System.out);
-                log.error(e);
-            }
-        }
-        return null;
-    }
     
     private void initializeResourceFilter(Resource res) {
         ResourceFilter rf = res.getResourceFilter();
@@ -403,6 +275,41 @@ public class SWBAFilterResource extends GenericResource {
             log.error("SWBAFilters - Error including view", sex);
         }
     }
+    
+    private String getXMLFilterData(JSONObject treeData) throws JSONException {
+        Document ret = SWBUtils.XML.xmlToDom("<resource><filter></filter></resource>");
+        
+        //Get root node
+        Element root = (Element) ret.getElementsByTagName("filter").item(0);
+        String tmId = treeData.optString("siteId", null);
+        
+        if (null != tmId && !tmId.isEmpty()) {
+            Element tm = ret.createElement("topicmap");
+            tm.setAttribute("id", tmId);
+            tm.setAttribute("negative", treeData.optBoolean("negative", false) == true ? "true" : "false");
+            
+            //Add filtered pages
+            JSONArray nodes = treeData.optJSONArray("topics");
+            if (null != nodes) {
+                for (int i = 0; i < nodes.length(); i++) {
+                    JSONObject node = nodes.getJSONObject(i);
+                    boolean hasChilds = node.optBoolean("childs", false);
+                    String id = node.optString("id", null);
+                    
+                    if (null != id && !id.isEmpty()) {
+                        Element ele = ret.createElement("topic");
+                        ele.setAttribute("id", id);
+                        ele.setAttribute("childs", hasChilds ? "true" : "false");
+                        tm.appendChild(ele);
+                    }
+                }
+            }
+            
+            root.appendChild(tm);
+        }
+        
+        return SWBUtils.XML.domToXml(ret);
+    }
 
     /**
      * Process action.
@@ -414,122 +321,44 @@ public class SWBAFilterResource extends GenericResource {
      */
     @Override
     public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
-        //String strWBAction=request.getParameter("act");
-        //System.out.println("Llego aqui");
-        String tm = request.getParameter("tm");
-        String[] strTopics = request.getParameterValues("tps");
-        Document dom = null;
-        Element elmRes = null;
-        String id = "0";
-        if (request.getParameter("id") != null) {
-            id = request.getParameter("id");
-        }
-        Resource recRes = SWBContext.getWebSite(tm).getResource(id);
-        ResourceFilter pfil = recRes.getResourceFilter();
-        String strXml = null;
-        if (null != pfil) {
-            strXml = pfil.getXml();
-        }
-        // Se genera el XML
-        if (strXml == null || strXml != null && strXml.equals("")) {
+        String action = response.getAction();
+        //ResourceFilter rf = ResourceFilter.ClassMgr.getResourceFilter(request.getParameter("id"), );
+        
+        if ("updateFilter".equals(action)) { //Update filter
+            //Se recibe el JSON con los nodos seleccionados en la vista.
+            BufferedReader reader = request.getReader();
+            String line = null;
+            StringBuilder body = new StringBuilder();
+            while((line = reader.readLine()) != null) {
+                body.append(line);
+            }
+            reader.close();
+            
+            //Se transforma el JSON de la petición a XML y se guarda en el objeto del filtro
+            String res = null;
             try {
-
-                dom = SWBUtils.XML.getNewDocument();
-                elmRes = dom.createElement("resource");
-                dom.appendChild(elmRes);
-                Element filter = dom.createElement("filter");
-                elmRes.appendChild(filter);
-                String strTm = null;
-                String strTp = null;
-                if (strTopics != null) {
-                    for (int counter = 0; counter < strTopics.length; counter++) {
-                        StringTokenizer st = new StringTokenizer(strTopics[counter], "|");
-                        while (st.hasMoreTokens()) {
-                            strTm = st.nextToken();
-                            strTp = st.nextToken();
-                        }
-                        dom = setElement(dom, strTm, strTp, "add");
+                JSONObject payload = new JSONObject(body.toString());
+                WebSite site = WebSite.ClassMgr.getWebSite(payload.optString("siteId"));
+                if (null != site) {
+                    ResourceFilter filter = ResourceFilter.ClassMgr.getResourceFilter(payload.optString("id"), site);
+                    if (null != filter) {
+                        res = getXMLFilterData(payload);
+                        //System.out.println("---payload---");
+                        //System.out.println(payload.toString(2));
+                        //System.out.println("---filter XML---");
+                        //System.out.println(res);
+                        filter.setXml(res);
                     }
                 }
-                pfil.setXml(SWBUtils.XML.domToXml(dom));
-                response.setRenderParameter("confirm", "added");
-            } catch (Exception e) {
-                log.error("Error while updating resource with id:" + id + "- SWBAFilterResource:processAction", e);
+            } catch (JSONException jsex) {
+                log.error("Error getting response body", jsex);
+            }
+
+            if (null != request.getParameter("suri")) {
+                response.setRenderParameter("suri", request.getParameter("suri"));
             }
         } else {
-            try {
-                int intIniIdx = strXml.indexOf("<filter>");
-                int intEndIdx = strXml.lastIndexOf("</filter>");
-                if (intIniIdx != -1 && intEndIdx != -1) {
-                    strXml = strXml.substring(intIniIdx,intEndIdx + 9);
-                }
-                dom = SWBUtils.XML.xmlToDom(strXml);
-                elmRes = (Element) dom.getFirstChild();
-                String strTm = null;
-                String strTp = null;
-                if (strTopics != null) {
-                    for (int counter = 0; counter < strTopics.length; counter++) {
-                        StringTokenizer st = new StringTokenizer(strTopics[counter], "|");
-                        while (st.hasMoreTokens()) {
-                            strTm = st.nextToken();
-                            strTp = st.nextToken();
-                        }
-                        dom = setElement(dom, strTm, strTp, "update");
-                    }
-                }
-                pfil = recRes.getWebSite().createResourceFilter();
-                pfil.setXml(SWBUtils.XML.domToXml(dom));
-                recRes.setResourceFilter(pfil);
-                response.setRenderParameter("confirm", "added");
-            } catch (Exception e) {
-                log.error("Error while updating resource with id:" + id + "- SWBAFilterResource:processAction", e);
-            }
+            super.processAction(request, response);
         }
-        response.setRenderParameter("id", id);
-        response.setRenderParameter("suri", id);
-        response.setRenderParameter("tm", tm);
-        //System.out.println("Lo guardo");
     }
-
-    /**
-     * Sets the element.
-     * 
-     * @param dom the dom
-     * @param tm the tm
-     * @param tp the tp
-     * @param action the action
-     * @return the document
-     */
-    private Document setElement(Document dom, String tm, String tp, String action) {
-        Element res = null;
-        Element eTm = null;
-        Element eTp = null;
-        if (action != null && action.equals("add")) {
-            NodeList nodelist = dom.getFirstChild().getChildNodes();
-            for (int i = 0; i < nodelist.getLength(); i++) {
-                if (nodelist.item(i).getNodeName().equals("filter")) {
-                    res = (Element) nodelist.item(i);
-                    eTm = dom.createElement("topicmap");
-                    eTm.setAttribute("id", tm);
-                    res.appendChild(eTm);
-                    eTp = dom.createElement("topic");
-                    eTp.setAttribute("id", tp);
-                    eTp.setAttribute("childs", "true");
-                    eTm.appendChild(eTp);
-                }
-            }
-        } else if (action != null && action.equals("update")) {
-            res = (Element) dom.getFirstChild();
-            Element filter = dom.createElement("filter");
-            res.appendChild(filter);
-            eTm = dom.createElement("topicmap");
-            eTm.setAttribute("id", tm);
-            filter.appendChild(eTm);
-            eTp = dom.createElement("topic");
-            eTp.setAttribute("id", tp);
-            eTp.setAttribute("childs", "true");
-            eTm.appendChild(eTp);
-        }
-        return dom;
-    }      
 }
