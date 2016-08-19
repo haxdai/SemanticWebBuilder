@@ -246,9 +246,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         if (_data.topics) {
                             server_<%= resID %> = new TreeWidget(_data.topics, _data.id, 'serverTree_<%= resID %>', _data.sitesRoot);
                             server_<%= resID %>.onLoadDeferred.then(function() {
-                                //_data.paths.sites && _data.paths.sites.forEach(function(item, idx) {
-                                //    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
-                                //});
+                                _data.paths && _data.paths.forEach(function(item, idx) {
+                                    server_<%= resID %>.set('paths', [server_<%= resID %>.model.getItemPath(item)]);
+                                });
                             });
                         }
                         standby.hide();
