@@ -1,3 +1,4 @@
+<%@page import="org.semanticwb.model.GenericObject"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.Resource"%>
 <%@page import="org.semanticwb.model.ResourceFilter"%>
@@ -9,13 +10,17 @@
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-ResourceFilter rf = null;
-Resource res = (Resource) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-if (null != res) {
-    rf = res.getResourceFilter();
+String resID = "";
+GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+if (null != gobj) {
+    if (gobj instanceof Resource) {
+        Resource res = (Resource) gobj;
+        resID = res.getResourceFilter().getId();
+    } else if (gobj instanceof User) {
+        User user = (User) gobj;
+        resID = user.getUserFilter().getId();
+    }
 }
-
-String resID = rf.getId();
 
 SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getFilter");
 data.setParameter("suri", request.getParameter("suri"));
@@ -66,7 +71,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         label: "Guardar filtro",
                         iconClass:'dijitEditorIcon dijitEditorIconSave',
                         onClick: function(evt) {
-                            var payload = {id: '<%= rf.getId() %>', negative: registry.byId('negative_<%= resID %>').attr("checked")};
+                            var payload = {id: '<%= resID %>', negative: registry.byId('negative_<%= resID %>').attr("checked")};
                             var xhrhttp = new XMLHttpRequest(), btn = this;
                             if (server_<%= resID %>.getSelectedItems().total > 0) {
                                 payload.topics = server_<%= resID %>.getSelectedItems();
