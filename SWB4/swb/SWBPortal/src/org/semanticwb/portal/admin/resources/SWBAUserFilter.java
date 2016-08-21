@@ -100,6 +100,40 @@ public class SWBAUserFilter extends GenericResource {
         return ret;
     }
     
+    private void getWebPagesJSON(User user, JSONArray pages) throws JSONException {
+        if (null == user || null == pages) return;
+        UserRepository urep = user.getUserRepository();
+        String lang = user.getLanguage();
+        if (null == lang) lang = "es";
+        
+        boolean addAll = true;
+        Iterator<WebSite> sites = SWBContext.listWebSites();
+        while (sites.hasNext() && addAll) {
+            WebSite next = sites.next();
+            if (urep.getURI().equals(next.getUserRepository().getURI())) {
+                addAll = false;
+            }
+        }
+        
+        sites = addAll ? SWBContext.listWebSites() : SWBContext.listWebSites(false);
+        JSONObject server = createNodeObject("Server", "Server", null, null);
+        server.put("cssIcon", "swbIconServer");
+        pages.put(server);
+        
+        while (sites.hasNext()) {
+            WebSite site = sites.next();
+            if (addAll || (!addAll && urep.getURI().equals(site.getUserRepository().getURI()))) {
+                JSONObject obj = createNodeObject(site.getId(), site.getDisplayTitle(lang), null, null);
+
+                obj.put("cssIcon", "swbIconWebSite");
+                obj.put("parent", server.getString("uuid"));
+                pages.put(obj);
+
+                getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang);
+            }
+        }
+    }
+    
     /**
      * Obtiene un objeto JSON con la estructura de páginas de un sitio.
      * @param root Raíz para el recorrido en el árbol de páginas.
@@ -112,6 +146,7 @@ public class SWBAUserFilter extends GenericResource {
         if (null != root && null != pages) {
             JSONObject pg = createNodeObject(root.getId(), root.getDisplayTitle(lang), null, null);
             pg.put("cssIcon", "swbIconWebPage");
+            pg.put("topicmap", root.getWebSiteId());
             if (null != parentuid && !parentuid.isEmpty()) {
                 pg.put("parent", parentuid);
             }
@@ -136,7 +171,9 @@ public class SWBAUserFilter extends GenericResource {
      */
     private JSONObject getMergedFilter(User user, JSONArray pages) throws JSONException {
         UserFilter filter = user.getUserFilter();
-        JSONArray filterData = getJSONFilter(filter);
+        JSONObject filterData = getJSONFilter(filter);
+        System.out.println("----Sites JSON Data---");
+        System.out.println(pages.toString(2));
         System.out.println("----filter JSON Data---");
         System.out.println(filterData.toString(2));
         /*HashMap<String, JSONObject> objTable = new HashMap<>();
@@ -211,9 +248,9 @@ public class SWBAUserFilter extends GenericResource {
             JSONObject _ret = new JSONObject();
             User usr = (User) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
             if (null != usr && null != usr.getUserFilter()) {
-                
                 try {
                     JSONArray pages = new JSONArray();
+                    getWebPagesJSON(usr, pages);
                     //getWebPagesJSON(res.getWebSite().getHomePage(), null, pages, lang);
                     _ret = getMergedFilter(usr, pages);
                 } catch (JSONException jsex) {
@@ -286,11 +323,11 @@ public class SWBAUserFilter extends GenericResource {
      * @param rf Filtro de usuario.
      * @return Objeto JSON con la configuración del filtro.
      */
-    private JSONArray getJSONFilter(UserFilter rf) throws JSONException {
-        JSONArray ret = new JSONArray();
+    private JSONObject getJSONFilter(UserFilter rf) throws JSONException {
+        JSONObject ret = new JSONObject();
         String xml = rf.getXml();
-        System.out.println("----XML data----");
-        System.out.println(xml);
+        //System.out.println("----XML data----");
+        //System.out.println(xml);
         if (null != xml && !xml.isEmpty()) {
             Document dom = SWBUtils.XML.xmlToDom(xml);
             if (dom.getElementsByTagName("resource").getLength() > 0) {
@@ -301,19 +338,26 @@ public class SWBAUserFilter extends GenericResource {
                     
                     NodeList tmaps = root.getElementsByTagName("topicmap");
                     if (null != tmaps && tmaps.getLength() > 0) {
+                        JSONArray topics = new JSONArray();
+                        ret.put("topics", topics);
+                        
                         for (int i = 0; i < tmaps.getLength(); i++) {
                             root = (Element) tmaps.item(i);
                             String id = root.getAttribute("id");
-                            String negative = root.getAttribute("negative");
                             
-                            JSONObject map = createNodeObject(id, null, negative, null);
-                            JSONArray topics = getNodeElements("topic", root); 
-                            for (int j = 0; j < topics.length(); j++) {
-                                JSONObject topic = topics.getJSONObject(j);
-                                topic.put("topicmap", id);
+                            if (i == 0) {
+                                String negative = root.getAttribute("negative");
+                                if (!negative.isEmpty()) ret.put("negative", negative.equalsIgnoreCase("true"));
                             }
-                            map.put("topics", topics);
-                            ret.put(map);
+                            
+                            JSONArray childs = getNodeElements("topic", root); 
+                            for (int j = 0; j < childs.length(); j++) {
+                                JSONObject topic = childs.getJSONObject(j);
+                                topic.put("topicmap", id);
+                                topics.put(topic);
+                            }
+                            JSONObject map = createNodeObject(id, null, null, null);
+                            topics.put(map);
                         }
                     }
                 }
@@ -323,17 +367,17 @@ public class SWBAUserFilter extends GenericResource {
     }
     
     /**
-     * Inicializa la información del filtro en el recurso, si éste no existe, es creado
-     * @param res Recurso al que se asociará el filtro
+     * Inicializa la información del filtro en el usuario, si éste no existe, es creado
+     * @param usr Usuario al que se asociará el filtro
      */
-    private void initializeResourceFilter(Resource res) {
-        ResourceFilter rf = res.getResourceFilter();
+    private void initializeUserFilter(User usr) {
+        UserFilter rf = usr.getUserFilter();
         String strXml = null;
         
-        //Create resourcefilter if not already created
+        //Create userfilter if not already created
         if (null == rf) {
-            rf = res.getWebSite().createResourceFilter();
-            res.setResourceFilter(rf);
+            rf = UserFilter.ClassMgr.createUserFilter(usr.getUserRepository());
+            usr.setUserFilter(rf);
         }
         
         strXml = rf.getXml();
@@ -361,8 +405,8 @@ public class SWBAUserFilter extends GenericResource {
         
         //Initialize resourceFilter data
         SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
-        if (null != obj && obj.instanceOf(Resource.sclass)) {
-            initializeResourceFilter((Resource)obj.createGenericInstance());
+        if (null != obj && obj.instanceOf(User.sclass)) {
+            initializeUserFilter((User)obj.createGenericInstance());
         }
         
         RequestDispatcher rd = request.getRequestDispatcher(jsp);
