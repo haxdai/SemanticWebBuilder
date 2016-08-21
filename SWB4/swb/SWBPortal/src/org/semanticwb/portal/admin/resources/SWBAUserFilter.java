@@ -134,9 +134,12 @@ public class SWBAUserFilter extends GenericResource {
      * @return Objeto JSON con información del filtro conciliada.
      * @throws JSONException 
      */
-    private JSONObject getMergedFilter(ResourceFilter filter, JSONArray pages) throws JSONException {
-        JSONObject filterData = getJSONFilter(filter);
-        HashMap<String, JSONObject> objTable = new HashMap<>();
+    private JSONObject getMergedFilter(User user, JSONArray pages) throws JSONException {
+        UserFilter filter = user.getUserFilter();
+        JSONArray filterData = getJSONFilter(filter);
+        System.out.println("----filter JSON Data---");
+        System.out.println(filterData.toString(2));
+        /*HashMap<String, JSONObject> objTable = new HashMap<>();
         JSONArray src = filterData.optJSONArray("topics");
         JSONArray paths = new JSONArray();
         
@@ -184,7 +187,8 @@ public class SWBAUserFilter extends GenericResource {
             filterData.put("sitesRoot", server.getString("uuid"));
         }
         
-        return filterData;
+        return filterData;*/
+        return new JSONObject();
     }
     
     /**
@@ -200,21 +204,18 @@ public class SWBAUserFilter extends GenericResource {
     public void doGateway(HttpServletRequest request, HttpServletResponse response, SWBParamRequest paramRequest) throws SWBResourceException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        String ret = "";
+        String ret = "{}";
         String action = paramRequest.getAction();
-        String lang = "es";
-        if (null != paramRequest.getUser() && null != paramRequest.getUser().getLanguage()) lang = paramRequest.getUser().getLanguage();
         
         if ("getFilter".equals(action)) {
             JSONObject _ret = new JSONObject();
-            Resource res = (Resource) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-            if (null != res && null != res.getResourceFilter()) {
-                ResourceFilter rf = res.getResourceFilter();
+            User usr = (User) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+            if (null != usr && null != usr.getUserFilter()) {
                 
                 try {
                     JSONArray pages = new JSONArray();
-                    getWebPagesJSON(res.getWebSite().getHomePage(), null, pages, lang);
-                    _ret = getMergedFilter(rf, pages);
+                    //getWebPagesJSON(res.getWebSite().getHomePage(), null, pages, lang);
+                    _ret = getMergedFilter(usr, pages);
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }
@@ -282,13 +283,14 @@ public class SWBAUserFilter extends GenericResource {
      * Obtiene la configuración del filtro en formato JSON para su conciliación con los datos para el árbol.
      * <p>
      * Gets filter configuration for data reconciliation.
-     * @param rf Filtro de administración.
+     * @param rf Filtro de usuario.
      * @return Objeto JSON con la configuración del filtro.
      */
-    private JSONObject getJSONFilter(ResourceFilter rf) throws JSONException {
-        JSONObject ret = new JSONObject();
+    private JSONArray getJSONFilter(UserFilter rf) throws JSONException {
+        JSONArray ret = new JSONArray();
         String xml = rf.getXml();
-        
+        System.out.println("----XML data----");
+        System.out.println(xml);
         if (null != xml && !xml.isEmpty()) {
             Document dom = SWBUtils.XML.xmlToDom(xml);
             if (dom.getElementsByTagName("resource").getLength() > 0) {
@@ -297,13 +299,22 @@ public class SWBAUserFilter extends GenericResource {
                 if (root.getElementsByTagName("filter").getLength() > 0) {
                     root = (Element) dom.getElementsByTagName("filter").item(0);
                     
-                    if (root.getElementsByTagName("topicmap").getLength() > 0) {
-                        root = (Element) dom.getElementsByTagName("topicmap").item(0);
-                        String id = root.getAttribute("id");
-                        String negative = root.getAttribute("negative");
-
-                        ret = createNodeObject(id, null, negative, null);
-                        ret.put("topics", getNodeElements("topic", root));
+                    NodeList tmaps = root.getElementsByTagName("topicmap");
+                    if (null != tmaps && tmaps.getLength() > 0) {
+                        for (int i = 0; i < tmaps.getLength(); i++) {
+                            root = (Element) tmaps.item(i);
+                            String id = root.getAttribute("id");
+                            String negative = root.getAttribute("negative");
+                            
+                            JSONObject map = createNodeObject(id, null, negative, null);
+                            JSONArray topics = getNodeElements("topic", root); 
+                            for (int j = 0; j < topics.length(); j++) {
+                                JSONObject topic = topics.getJSONObject(j);
+                                topic.put("topicmap", id);
+                            }
+                            map.put("topics", topics);
+                            ret.put(map);
+                        }
                     }
                 }
             }
