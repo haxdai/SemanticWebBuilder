@@ -174,6 +174,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             dojo.connect(cb, "onChange", function(obj) {
                                 if ("mixed" === obj || true === obj) {
                                     tnode.item.selected = true;
+                                } else {
+                                    tnode.item.selected = false;
                                 }
                                 
                                 "mixed" === obj ? tnode.disableChilds() : tnode.enableChilds();
