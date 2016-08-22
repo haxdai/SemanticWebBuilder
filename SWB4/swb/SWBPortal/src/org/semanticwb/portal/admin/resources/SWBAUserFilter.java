@@ -123,14 +123,16 @@ public class SWBAUserFilter extends GenericResource {
         while (sites.hasNext()) {
             WebSite site = sites.next();
             if (addAll || (!addAll && urep.getURI().equals(site.getUserRepository().getURI()))) {
-                JSONObject obj = createNodeObject(site.getId(), site.getDisplayTitle(lang), null, null);
+                if (!SWBContext.getGlobalWebSite().getURI().equals(site.getURI())) {
+                    JSONObject obj = createNodeObject(site.getId(), site.getDisplayTitle(lang), null, null);
 
-                obj.put("cssIcon", site.isActive() ? "swbIconWebSite" : "swbIconWebSiteU");
-                obj.put("parent", server.getString("uuid"));
-                obj.put("type", "website");
-                pages.put(obj);
+                    obj.put("cssIcon", site.isActive() ? "swbIconWebSite" : "swbIconWebSiteU");
+                    obj.put("parent", server.getString("uuid"));
+                    obj.put("type", "website");
+                    pages.put(obj);
 
-                getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang, true);
+                    getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang, true);
+                }
             }
         }
     }

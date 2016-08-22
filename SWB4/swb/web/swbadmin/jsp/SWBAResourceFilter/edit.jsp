@@ -1,3 +1,4 @@
+<%@page import="java.util.UUID"%>
 <%@page import="org.semanticwb.model.GenericObject"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.Resource"%>
@@ -10,15 +11,16 @@
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
-String resID = "";
+String resID = UUID.randomUUID().toString().replace("-","_");
+String objId = "";
 GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
 if (null != gobj) {
     if (gobj instanceof Resource) {
         Resource res = (Resource) gobj;
-        resID = res.getResourceFilter().getId();
+        objId = res.getResourceFilter().getId();
     } else if (gobj instanceof User) {
         User user = (User) gobj;
-        resID = user.getUserFilter().getId();
+        objId = user.getUserFilter().getId();
     }
 }
 
@@ -27,7 +29,7 @@ data.setParameter("suri", request.getParameter("suri"));
 
 SWBResourceURL save = paramRequest.getActionUrl().setAction("updateFilter");
 save.setParameter("suri", request.getParameter("suri"));
-save.setParameter("id", resID);
+save.setParameter("id", objId);
 
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
@@ -107,8 +109,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         function createTreeNode(args) {
                             var tnode = new dijit._TreeNode(args), cb;
                             tnode.labelNode.innerHTML = args.label;
-                               
-                            if (tnode.item.id !== "Server" && tnode.item.id !== siteId) {
+                            if (!tnode.item.type) tnode.item.type = tnode.item.type || "";
+                            if ((tnode.item.type === "" || tnode.item.type !== "website") && tnode.item.id !== "Server") {
                                 cb = new TriStateCheckBox({
                                     states: ["mixed", false, true],
                                     checked: false
