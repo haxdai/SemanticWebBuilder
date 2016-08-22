@@ -125,11 +125,12 @@ public class SWBAUserFilter extends GenericResource {
             if (addAll || (!addAll && urep.getURI().equals(site.getUserRepository().getURI()))) {
                 JSONObject obj = createNodeObject(site.getId(), site.getDisplayTitle(lang), null, null);
 
-                obj.put("cssIcon", "swbIconWebSite");
+                obj.put("cssIcon", site.isActive() ? "swbIconWebSite" : "swbIconWebSiteU");
                 obj.put("parent", server.getString("uuid"));
+                obj.put("type", "website");
                 pages.put(obj);
 
-                getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang);
+                getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang, true);
             }
         }
     }
@@ -142,10 +143,10 @@ public class SWBAUserFilter extends GenericResource {
      * @param lang Idioma del usuario
      * @throws JSONException 
      */
-    private void getWebPagesJSON(WebPage root, String parentuid, JSONArray pages, String lang) throws JSONException {
+    private void getWebPagesJSON(WebPage root, String parentuid, JSONArray pages, String lang, boolean isHome) throws JSONException {
         if (null != root && null != pages) {
             JSONObject pg = createNodeObject(root.getId(), root.getDisplayTitle(lang), null, null);
-            pg.put("cssIcon", "swbIconWebPage");
+            pg.put("cssIcon", isHome ? root.isActive() ? "swbIconHomePage" : "swbIconHomePageU" : root.isActive() ? "swbIconWebPage" : "swbIconWebPageU");
             pg.put("topicmap", root.getWebSiteId());
             if (null != parentuid && !parentuid.isEmpty()) {
                 pg.put("parent", parentuid);
@@ -155,7 +156,7 @@ public class SWBAUserFilter extends GenericResource {
             Iterator<WebPage> childs = SWBComparator.sortSortableObjectSet(root.listChilds()).iterator();
             while (childs.hasNext()) {
                 WebPage child = childs.next();
-                getWebPagesJSON(child, pg.getString("uuid"), pages, lang);
+                getWebPagesJSON(child, pg.getString("uuid"), pages, lang, false);
             }
         }
     }
@@ -172,11 +173,7 @@ public class SWBAUserFilter extends GenericResource {
     private JSONObject getMergedFilter(User user, JSONArray pages) throws JSONException {
         UserFilter filter = user.getUserFilter();
         JSONObject filterData = getJSONFilter(filter);
-        System.out.println("----Sites JSON Data---");
-        System.out.println(pages.toString(2));
-        System.out.println("----filter JSON Data---");
-        System.out.println(filterData.toString(2));
-        /*HashMap<String, JSONObject> objTable = new HashMap<>();
+        HashMap<String, JSONObject> objTable = new HashMap<>();
         JSONArray src = filterData.optJSONArray("topics");
         JSONArray paths = new JSONArray();
         
@@ -184,48 +181,30 @@ public class SWBAUserFilter extends GenericResource {
             if (null != src) {
                 for (int i = 0; i < src.length(); i++) {
                     JSONObject item = src.getJSONObject(i);
-                    objTable.put(item.getString("id"), item);
+                    String id = item.getString("id");
+                    String tmap = item.optString("topicmap", "");
+                    objTable.put(tmap+"|"+id, item);
                 }
             }
             
             for (int i = 0; i < pages.length(); i++) {
                 JSONObject item = pages.getJSONObject(i);
                 String key = item.getString("id");
-                if (objTable.containsKey(key)) {
-                    JSONObject obj = objTable.get(key);
+                String map = item.optString("topicmap", "");
+                if (objTable.containsKey(map+"|"+key)) {
+                    JSONObject obj = objTable.get(map+"|"+key);
                     item.put("selected", true);
                     item.put("childs", obj.optBoolean("childs", false));
                     paths.put(item.getString("uuid"));
                 }
             }
-            
-            //Put modelId in filter object if not present (empty filter)
-            if (null == filterData.optString("id", null)) filterData.put("id", filter.getWebSite().getId());
-            
+                        
             //Put paths
             filterData.put("paths", paths);
-            
-            //Put server and site nodes
-            JSONObject server = createNodeObject("Server", "Server", null, null);
-            server.put("cssIcon", "swbIconServer");
-            
-            JSONObject site = createNodeObject(filter.getWebSite().getId(), filter.getWebSite().getTitle(), null, null);
-            site.put("cssIcon", "swbIconWebSite");
-            site.put("parent", server.getString("uuid"));
-            
-            JSONObject home = pages.getJSONObject(0);
-            home.put("cssIcon", "swbIconHomePage");
-            home.put("parent", site.getString("uuid"));
-
-            pages.put(site);
-            pages.put(server);
-            
             filterData.put("topics", pages);
-            filterData.put("sitesRoot", server.getString("uuid"));
+            filterData.put("sitesRoot", pages.getJSONObject(0).getString("uuid"));
         }
-        
-        return filterData;*/
-        return new JSONObject();
+        return filterData;
     }
     
     /**
@@ -326,8 +305,6 @@ public class SWBAUserFilter extends GenericResource {
     private JSONObject getJSONFilter(UserFilter rf) throws JSONException {
         JSONObject ret = new JSONObject();
         String xml = rf.getXml();
-        //System.out.println("----XML data----");
-        //System.out.println(xml);
         if (null != xml && !xml.isEmpty()) {
             Document dom = SWBUtils.XML.xmlToDom(xml);
             if (dom.getElementsByTagName("resource").getLength() > 0) {
@@ -356,8 +333,6 @@ public class SWBAUserFilter extends GenericResource {
                                 topic.put("topicmap", id);
                                 topics.put(topic);
                             }
-                            JSONObject map = createNodeObject(id, null, null, null);
-                            topics.put(map);
                         }
                     }
                 }
