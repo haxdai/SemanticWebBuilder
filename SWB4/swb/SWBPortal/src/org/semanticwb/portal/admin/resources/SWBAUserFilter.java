@@ -402,36 +402,47 @@ public class SWBAUserFilter extends GenericResource {
      */
     private String getXMLFilterData(JSONObject treeData) throws JSONException {
         Document ret = SWBUtils.XML.xmlToDom("<resource><filter></filter></resource>");
-        
+        String negative = treeData.optString("negative", "false");
+                
         //Get root node
         Element root = (Element) ret.getElementsByTagName("filter").item(0);
-        String tmId = treeData.optString("siteId", null);
+        HashMap<String, Element> tmaps = new HashMap<>();
         
-        if (null != tmId && !tmId.isEmpty()) {
-            Element tm = ret.createElement("topicmap");
-            tm.setAttribute("id", tmId);
-            tm.setAttribute("negative", treeData.optBoolean("negative", false) == true ? "true" : "false");
-            
-            //Add filtered pages
-            JSONArray nodes = treeData.optJSONArray("topics");
-            if (null != nodes) {
-                for (int i = 0; i < nodes.length(); i++) {
-                    JSONObject node = nodes.getJSONObject(i);
-                    boolean hasChilds = node.optBoolean("childs", false);
-                    String id = node.optString("id", null);
+        //Add filtered pages
+        JSONArray nodes = treeData.optJSONArray("topics");
+        if (null != nodes) {
+            //get all nodes
+            for (int i = 0; i < nodes.length(); i++) {
+                JSONObject node = nodes.getJSONObject(i);
+                String tmap = node.optString("topicmap", null);
+                
+                if (null != tmap) { //All webpage nodes must contain topicmap key and value
+                    Element topicmap = tmaps.get(tmap);
                     
-                    if (null != id && !id.isEmpty()) {
-                        Element ele = ret.createElement("topic");
-                        ele.setAttribute("id", id);
-                        ele.setAttribute("childs", hasChilds ? "true" : "false");
-                        tm.appendChild(ele);
+                    if (null == topicmap) { //Create topicmap element if not already created
+                        topicmap = ret.createElement("topicmap");
+                        topicmap.setAttribute("id", tmap);
+                        topicmap.setAttribute("negative", negative);
+                        root.appendChild(topicmap);
+
+                        //Add topicmap to hash table
+                        tmaps.put(tmap, topicmap);
                     }
+
+                    //Create topic element
+                    Element topic = ret.createElement("topic");
+                    topic.setAttribute("id", node.getString("id"));
+                    
+                    boolean hasChilds = node.optBoolean("childs", false);
+                    topic.setAttribute("childs", hasChilds ? "true" : "false");
+                    topicmap.appendChild(topic);
+                    
+                    root.appendChild(topicmap);
                 }
             }
-            
-            root.appendChild(tm);
         }
         
+
         return SWBUtils.XML.domToXml(ret);
     }
 
@@ -461,13 +472,12 @@ public class SWBAUserFilter extends GenericResource {
             String res = null;
             try {
                 JSONObject payload = new JSONObject(body.toString());
-                WebSite site = WebSite.ClassMgr.getWebSite(payload.optString("siteId"));
-                if (null != site) {
-                    ResourceFilter filter = ResourceFilter.ClassMgr.getResourceFilter(payload.optString("id"), site);
-                    if (null != filter) {
-                        res = getXMLFilterData(payload);
-                        filter.setXml(res);
-                    }
+                User user = (User) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                
+                if (null != user && null != user.getUserFilter()) {
+                    UserFilter uf = user.getUserFilter();
+                    res = getXMLFilterData(payload);
+                    uf.setXml(res);
                 }
             } catch (JSONException jsex) {
                 log.error("Error getting response body", jsex);
