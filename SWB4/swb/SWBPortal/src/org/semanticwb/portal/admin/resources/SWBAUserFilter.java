@@ -46,6 +46,9 @@ import org.semanticwb.portal.api.*;
  * en las cuales se mostrará el recurso seleccionado.
  *<p>
  * Admin resource to enable the selection of Web pages on which the resource should be displayed.
+ * @author Juan Fernández
+ * @author Javier Solís
+ * @author Hasdai Pacheco {ebenezer.sanchez@infotec.mx}
  */
 public class SWBAUserFilter extends GenericResource {
     private Logger log = SWBUtils.getLogger(SWBAFilterResource.class);
@@ -100,6 +103,12 @@ public class SWBAUserFilter extends GenericResource {
         return ret;
     }
     
+    /**
+     * Obtiene un objeto JSON con la estructura de páginas de los sitios disponibles para el filtro de usuario.
+     * @param user Usuario
+     * @param pages JSONArray donde se guardarán los resultados del recorrido
+     * @throws JSONException
+     */
     private void getWebPagesJSON(User user, JSONArray pages) throws JSONException {
         if (null == user || null == pages) return;
         UserRepository urep = user.getUserRepository();
@@ -139,10 +148,11 @@ public class SWBAUserFilter extends GenericResource {
     
     /**
      * Obtiene un objeto JSON con la estructura de páginas de un sitio.
-     * @param root Raíz para el recorrido en el árbol de páginas.
-     * @param parentuid ID del padre del nodo actual.
-     * @param pages JSONArray donde se guardarán los resultados del recorrido.
+     * @param root Raíz para el recorrido en el árbol de páginas
+     * @param parentuid ID del padre del nodo actual
+     * @param pages JSONArray donde se guardarán los resultados del recorrido
      * @param lang Idioma del usuario
+     * @param isHome Indica si la raíz es la página principal del sitio
      * @throws JSONException 
      */
     private void getWebPagesJSON(WebPage root, String parentuid, JSONArray pages, String lang, boolean isHome) throws JSONException {
@@ -164,12 +174,12 @@ public class SWBAUserFilter extends GenericResource {
     }
     
     /**
-     * Concila la información contenida en la configuración del filtro con la del despliegue en la vista de árbol.
+     * Concila la información contenida en la configuración del filtro de usuario con la del despliegue en la vista de árbol.
      * <p>
      * Reconciles filter and tree data for the resource view.
-     * @param filter ResourceFilter
+     * @param user Usuario
      * @param pages Lista de páginas Web para el despliegue en el árbol
-     * @return Objeto JSON con información del filtro conciliada.
+     * @return Objeto JSON con información del filtro conciliada
      * @throws JSONException 
      */
     private JSONObject getMergedFilter(User user, JSONArray pages) throws JSONException {
@@ -300,7 +310,7 @@ public class SWBAUserFilter extends GenericResource {
     /**
      * Obtiene la configuración del filtro en formato JSON para su conciliación con los datos para el árbol.
      * <p>
-     * Gets filter configuration for data reconciliation.
+     * Gets filter configuration for data conciliation.
      * @param rf Filtro de usuario.
      * @return Objeto JSON con la configuración del filtro.
      */
@@ -320,6 +330,7 @@ public class SWBAUserFilter extends GenericResource {
                         JSONArray topics = new JSONArray();
                         ret.put("topics", topics);
                         
+                        //Process topicmaps
                         for (int i = 0; i < tmaps.getLength(); i++) {
                             root = (Element) tmaps.item(i);
                             String id = root.getAttribute("id");
@@ -329,6 +340,7 @@ public class SWBAUserFilter extends GenericResource {
                                 if (!negative.isEmpty()) ret.put("negative", negative.equalsIgnoreCase("true"));
                             }
                             
+                            //Add topics
                             JSONArray childs = getNodeElements("topic", root); 
                             for (int j = 0; j < childs.length(); j++) {
                                 JSONObject topic = childs.getJSONObject(j);
@@ -380,7 +392,7 @@ public class SWBAUserFilter extends GenericResource {
         response.setHeader("Pragma", "no-cache");
         String jsp = "/swbadmin/jsp/SWBAResourceFilter/edit.jsp";
         
-        //Initialize resourceFilter data
+        //Initialize userFilter data
         SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
         if (null != obj && obj.instanceOf(User.sclass)) {
             initializeUserFilter((User)obj.createGenericInstance());
@@ -396,7 +408,7 @@ public class SWBAUserFilter extends GenericResource {
     }
     
     /**
-     * Transforma los datos del árbol de filtro de recurso a formato XML para su almacenamiento en el objeto.
+     * Transforma los datos del árbol de filtro de usuario a formato XML para su almacenamiento en el objeto.
      * @param treeData JSON con la selección de nodos en el árbol de la vista.
      * @return Cadena XML que representa la configuración del árbol a escribir en el objeto del filtro.
      */
