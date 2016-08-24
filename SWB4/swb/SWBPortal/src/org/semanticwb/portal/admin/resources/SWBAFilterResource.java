@@ -377,14 +377,14 @@ public class SWBAFilterResource extends GenericResource {
         //Get root node
         Element root = (Element) ret.getElementsByTagName("filter").item(0);
         String tmId = treeData.optString("siteId", null);
+        JSONArray nodes = treeData.optJSONArray("topics");
         
-        if (null != tmId && !tmId.isEmpty()) {
+        if (null != tmId && !tmId.isEmpty() && null != nodes) {
             Element tm = ret.createElement("topicmap");
             tm.setAttribute("id", tmId);
             tm.setAttribute("negative", treeData.optBoolean("negative", false) == true ? "true" : "false");
             
             //Add filtered pages
-            JSONArray nodes = treeData.optJSONArray("topics");
             if (null != nodes) {
                 for (int i = 0; i < nodes.length(); i++) {
                     JSONObject node = nodes.getJSONObject(i);

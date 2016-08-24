@@ -171,7 +171,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
 
-                            dojo.connect(cb, "onChange", function(obj) {
+                            dojo.connect(cb, "onChange", function(obj, evt) {
                                 if ("mixed" === obj || true === obj) {
                                     tnode.item.selected = true;
                                 } else {
