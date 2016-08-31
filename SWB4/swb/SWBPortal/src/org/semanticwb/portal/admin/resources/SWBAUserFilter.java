@@ -50,7 +50,7 @@ import org.semanticwb.portal.api.*;
  * @author Javier Solís
  * @author Hasdai Pacheco {ebenezer.sanchez@infotec.mx}
  */
-public class SWBAUserFilter extends GenericResource {
+public class SWBAUserFilter extends GenericAdmResource {
     private Logger log = SWBUtils.getLogger(SWBAFilterResource.class);
     
     /**
@@ -390,7 +390,13 @@ public class SWBAUserFilter extends GenericResource {
         response.setContentType("text/html; charset=ISO-8859-1");
         response.setHeader("Cache-Control", "no-cache");
         response.setHeader("Pragma", "no-cache");
+        String action = paramRequest.getAction();
+        boolean isMultiple = Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"));
         String jsp = "/swbadmin/jsp/SWBAResourceFilter/edit.jsp";
+        
+        if (isMultiple) {
+            jsp = "editFilter".equals(action) ? "/swbadmin/jsp/SWBAResourceFilter/edit.jsp" : "/swbadmin/jsp/SWBAResourceFilter/searchUser.jsp";
+        }
         
         //Initialize userFilter data
         SemanticObject obj = SWBPlatform.getSemanticMgr().getOntology().getSemanticObject(request.getParameter("suri"));
@@ -403,7 +409,7 @@ public class SWBAUserFilter extends GenericResource {
             request.setAttribute("paramRequest", paramRequest);
             rd.include(request, response);
         } catch (ServletException sex) {
-            log.error("SWBAFilters - Error including view", sex);
+            log.error("SWBAUserFilters - Error including view", sex);
         }
     }
     
