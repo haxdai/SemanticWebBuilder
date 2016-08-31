@@ -147,6 +147,45 @@ public class SWBAUserFilter extends GenericAdmResource {
     }
     
     /**
+     * Obtiene un objeto JSON con la estructura de páginas de los sitios disponibles para el repositorio proporcionado.
+     * @param urep Repositorio de usuarios para obtener la información.
+     * @param pages JSONArray donde se guardarán los resultados del recorrido
+     * @param lang Idioma para recuperar la información.
+     * @throws JSONException
+     */
+    private void getWebPagesJSON(UserRepository urep, JSONArray pages, String lang) throws JSONException {        
+        boolean addAll = true;
+        Iterator<WebSite> sites = SWBContext.listWebSites();
+        while (sites.hasNext() && addAll) {
+            WebSite next = sites.next();
+            if (urep.getURI().equals(next.getUserRepository().getURI())) {
+                addAll = false;
+            }
+        }
+        
+        sites = addAll ? SWBContext.listWebSites() : SWBContext.listWebSites(false);
+        JSONObject server = createNodeObject("Server", "Server", null, null);
+        server.put("cssIcon", "swbIconServer");
+        pages.put(server);
+        
+        while (sites.hasNext()) {
+            WebSite site = sites.next();
+            if (addAll || (!addAll && urep.getURI().equals(site.getUserRepository().getURI()))) {
+                if (!SWBContext.getGlobalWebSite().getURI().equals(site.getURI())) {
+                    JSONObject obj = createNodeObject(site.getId(), site.getDisplayTitle(lang), null, null);
+
+                    obj.put("cssIcon", site.isActive() ? "swbIconWebSite" : "swbIconWebSiteU");
+                    obj.put("parent", server.getString("uuid"));
+                    obj.put("type", "website");
+                    pages.put(obj);
+
+                    getWebPagesJSON(site.getHomePage(), obj.getString("uuid"), pages, lang, true);
+                }
+            }
+        }
+    }
+    
+    /**
      * Obtiene un objeto JSON con la estructura de páginas de un sitio.
      * @param root Raíz para el recorrido en el árbol de páginas
      * @param parentuid ID del padre del nodo actual
@@ -183,13 +222,15 @@ public class SWBAUserFilter extends GenericAdmResource {
      * @throws JSONException 
      */
     private JSONObject getMergedFilter(User user, JSONArray pages) throws JSONException {
-        UserFilter filter = user.getUserFilter();
-        JSONObject filterData = getJSONFilter(filter);
         HashMap<String, JSONObject> objTable = new HashMap<>();
-        JSONArray src = filterData.optJSONArray("topics");
         JSONArray paths = new JSONArray();
+        JSONObject filterData = new JSONObject();
         
-        if (null != pages) {
+        if (null != user) {
+            UserFilter filter = user.getUserFilter();
+            filterData = getJSONFilter(filter);
+            JSONArray src = filterData.optJSONArray("topics");
+            
             if (null != src) {
                 for (int i = 0; i < src.length(); i++) {
                     JSONObject item = src.getJSONObject(i);
@@ -198,7 +239,9 @@ public class SWBAUserFilter extends GenericAdmResource {
                     objTable.put(tmap+"|"+id, item);
                 }
             }
-            
+        }
+        
+        if (null != pages) {
             for (int i = 0; i < pages.length(); i++) {
                 JSONObject item = pages.getJSONObject(i);
                 String key = item.getString("id");
@@ -234,18 +277,29 @@ public class SWBAUserFilter extends GenericAdmResource {
         PrintWriter out = response.getWriter();
         String ret = "{}";
         String action = paramRequest.getAction();
+        String lang = "es";
+        if (null != paramRequest.getUser() && null != paramRequest.getUser().getLanguage()) lang = paramRequest.getUser().getLanguage();
         
         if ("getFilter".equals(action)) {
             JSONObject _ret = new JSONObject();
-            User usr = (User) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-            if (null != usr && null != usr.getUserFilter()) {
-                try {
-                    JSONArray pages = new JSONArray();
-                    getWebPagesJSON(usr, pages);
-                    //getWebPagesJSON(res.getWebSite().getHomePage(), null, pages, lang);
-                    _ret = getMergedFilter(usr, pages);
-                } catch (JSONException jsex) {
-                    log.error("Error al generar JSON del componente", jsex);
+            GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+            if (null != gobj) {
+                JSONArray pages = new JSONArray();
+                if (gobj instanceof User && null != ((User)gobj).getUserFilter()) {
+                    try {
+                        getWebPagesJSON((User)gobj, pages);
+                        _ret = getMergedFilter((User)gobj, pages);
+                    } catch (JSONException jsex) {
+                        log.error("Error al generar JSON del componente", jsex);
+                    }
+                } else if (gobj instanceof UserRepository) {
+                    try {
+
+                        getWebPagesJSON((UserRepository)gobj, pages, lang);
+                        _ret = getMergedFilter(null, pages);
+                    } catch (JSONException jsex) {
+                        log.error("Error al generar JSON del componente", jsex);
+                    }
                 }
             }
             ret = _ret.toString();
@@ -496,6 +550,8 @@ public class SWBAUserFilter extends GenericAdmResource {
                     UserFilter uf = user.getUserFilter();
                     res = getXMLFilterData(payload);
                     uf.setXml(res);
+                } else if (Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"))) {
+                    //Get repID 
                 }
             } catch (JSONException jsex) {
                 log.error("Error getting response body", jsex);

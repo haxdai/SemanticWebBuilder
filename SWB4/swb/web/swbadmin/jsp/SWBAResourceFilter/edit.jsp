@@ -1,14 +1,11 @@
+<%@page import="org.semanticwb.SWBPortal"%>
+<%@page import="org.semanticwb.model.SWBContext"%>
+<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
+<%@page import="org.semanticwb.model.User"%>
+<%@page import="org.semanticwb.SWBPlatform"%>
+<%@page import="org.semanticwb.model.Resource"%>
 <%@page import="java.util.UUID"%>
 <%@page import="org.semanticwb.model.GenericObject"%>
-<%@page import="org.semanticwb.SWBPortal"%>
-<%@page import="org.semanticwb.model.Resource"%>
-<%@page import="org.semanticwb.model.ResourceFilter"%>
-<%@page import="org.semanticwb.model.SWBContext"%>
-<%@page import="org.semanticwb.SWBUtils"%>
-<%@page import="java.io.File"%>
-<%@page import="org.semanticwb.SWBPlatform"%>
-<%@page import="org.semanticwb.model.User"%>
-<%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 String resID = UUID.randomUUID().toString().replace("-","_");
@@ -248,7 +245,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         return { };
                     };
                     
-                    xhr("<%= data%>", {
+                    xhr("<%= data %>", {
                         handleAs: "json"
                     }).then(function(_data) {
                         //Create server tree
