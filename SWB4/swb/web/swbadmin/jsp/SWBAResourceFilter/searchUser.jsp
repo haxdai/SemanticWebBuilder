@@ -57,7 +57,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     %>
                 </select>
                 <button data-dojo-type="dijit/form/Button" type="submit">Cargar usuarios</button>
-                <button id="editFilter_<%= resID %>" data-dojo-type="dijit/form/Button" type="button">Editar filtro</button>
+                <button id="editFilter_<%= resID %>" data-dojo-type="dijit/form/Button" type="button" <%= null == urep ? "disabled=\"disabled\"" : "" %>>Editar filtro</button>
             </form>
         </div>
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false" style="width:500px;">
@@ -104,9 +104,10 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 });
 
                                 ids = ids.join("|");
+                                submitUrl('<%= paramRequest.getRenderUrl().setAction("editFilter") %>?suri=<%= null != urep ? urep.getEncodedURI() : "" %>&ids='+ids,this);
+                            } else {
+                                alert("No ha seleccionado algún usuario");
                             }
-                            submitUrl('<%= paramRequest.getRenderUrl().setAction("editFilter") %>?suri='+encodeURIComponent(repSelect.value)+'&ids='+ids,this);
-                            console.log(grid.selection.getSelected());
                         }
                         evt.preventDefault(); 
                     });

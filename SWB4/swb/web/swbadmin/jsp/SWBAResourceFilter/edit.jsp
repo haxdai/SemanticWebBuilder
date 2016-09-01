@@ -9,26 +9,16 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 String resID = UUID.randomUUID().toString().replace("-","_");
-String objId = "";
-GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-if (null != gobj) {
-    if (gobj instanceof Resource) {
-        Resource res = (Resource) gobj;
-        objId = res.getResourceFilter().getId();
-    } else if (gobj instanceof User) {
-        User user = (User) gobj;
-        objId = user.getUserFilter().getId();
-    }
-}
 
 SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getFilter");
 data.setParameter("suri", request.getParameter("suri"));
 
 SWBResourceURL save = paramRequest.getActionUrl().setAction("updateFilter");
 save.setParameter("suri", request.getParameter("suri"));
-save.setParameter("id", objId);
+save.setParameter("ids", request.getParameter("ids"));
 
 User user = SWBContext.getAdminUser();
+boolean isMultiple = Boolean.valueOf(paramRequest.getResourceBase().getAttribute("multiple", "false"));
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/form/resources/TriStateCheckBox.css" rel="stylesheet" />
@@ -49,6 +39,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
     </style>
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
+            <% if (isMultiple) {
+                %>
+                <button id="back_<%= resID %>" type="button">Regresar</button>
+                <%
+            }
+            %>
             <button id="saveButton_<%= resID %>" type="button"></button>
             <input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="negative_<%= resID %>"/>Dar acceso a elementos no seleccionados
         </div>
@@ -65,6 +61,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     document.body.appendChild(standby.domNode);
                     standby.startup();
                     standby.show();
+
+                    <%
+                    if (isMultiple) {
+                        %>
+                        new Button({
+                            onClick: function (evt) {
+                                if (confirm('Se perderá la configuración del filtro. ¿Desea regresar?')) {
+                                    submitUrl('<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>', this.domNode);
+                                }
+                            }
+                        }, "back_<%= resID %>").startup();
+                        <%
+                    }
+                    %>
 
                     saveButton_<%= resID %> = new Button({
                         label: "Guardar filtro",

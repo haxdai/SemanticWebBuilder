@@ -25,6 +25,7 @@ package org.semanticwb.portal.admin.resources;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.UUID;
@@ -544,14 +545,36 @@ public class SWBAUserFilter extends GenericAdmResource {
             String res = null;
             try {
                 JSONObject payload = new JSONObject(body.toString());
-                User user = (User) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                res = getXMLFilterData(payload);
                 
-                if (null != user && null != user.getUserFilter()) {
-                    UserFilter uf = user.getUserFilter();
-                    res = getXMLFilterData(payload);
-                    uf.setXml(res);
-                } else if (Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"))) {
-                    //Get repID 
+                if (null != gobj) {
+                    if (gobj instanceof User && null != ((User)gobj).getUserFilter()) { //Specific User filter assignment
+                        UserFilter uf = ((User)gobj).getUserFilter();
+                        uf.setXml(res);
+                    } else if (gobj instanceof UserRepository && Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"))) { //Multiple userilfer assignment
+                        UserRepository urep = (UserRepository) gobj;
+                        String userIds = request.getParameter("ids");
+                        if (null != userIds && !userIds.isEmpty()) {
+                            ArrayList<User> users = new ArrayList<>();
+                            if (userIds.contains("|")) {
+                                String []ids = userIds.split("\\|");
+                                for (String id : ids) {
+                                    User user = urep.getUser(id);
+                                    if (null != user) users.add(user);
+                                }
+                            } else {
+                                User user = urep.getUser(userIds);
+                                if (null != user) users.add(user);
+                            }
+                            
+                            for (User user: users) {
+                                initializeUserFilter(user);
+                                UserFilter uf = user.getUserFilter();
+                                uf.setXml(res);
+                            }
+                        }
+                    }
                 }
             } catch (JSONException jsex) {
                 log.error("Error getting response body", jsex);
