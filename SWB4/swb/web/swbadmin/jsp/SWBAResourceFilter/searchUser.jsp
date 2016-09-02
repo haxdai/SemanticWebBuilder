@@ -56,7 +56,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     }
                     %>
                 </select>
-                <button data-dojo-type="dijit/form/Button" type="submit">Cargar usuarios</button>
                 <button id="editFilter_<%= resID %>" data-dojo-type="dijit/form/Button" type="button" <%= null == urep ? "disabled=\"disabled\"" : "" %>>Editar filtro</button>
             </form>
         </div>
@@ -89,14 +88,29 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         grid = new EnhancedGrid(cfg, container);
                         grid.startup();
 
-                        return {};
+                        return {
+                            setSelectedItems: function (items) {
+                                var rows = grid.rowCount;
+                                for (var i = 0; i < rows; i++) {
+                                    var item = grid.getItem(i);
+                                    if (item && items.indexOf(item.id) >= 0) {
+                                        grid.selection.setSelected(i, true);
+                                    }
+                                }
+                                grid.render();
+                            }
+                        };
                     };
 
+                    on(registry.byId('repCombo_<%= resID %>'), "change", function(evt) {
+                        submitForm('searchForm_<%= resID %>');
+                    });
+
                     on(dom.byId('editFilter_<%= resID %>'), "click", function(evt) {
-                        var repSelect = registry.byId('repCombo_<%= resID %>'), grid = registry.byId('users_<%= resID %>');
+                        var grid = registry.byId('users_<%= resID %>');
                         var items, ids = [];
 
-                        if (repSelect && grid) {
+                        if (grid) {
                             items = grid.selection.getSelected();
                             if (items.length) {
                                 ids = dojo.map(items, function(item) {
@@ -121,6 +135,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             { name: "Apellido materno", field: "lastName", width: "20%", datatype:"string" },
                             { name: "Nombre", field: "name", width: "20%", datatype:"string" }
                         ], "users_<%= resID %>", true);
+                        
+                        <%
+                        String users = request.getParameter("ids");
+                        if (null != users && !users.isEmpty()) {
+                            %>
+                            //users_<%= resID %>.setSelectedItems('<%= users %>'.split('|'));
+                            <%
+                        }
+                        %>
                     }
                 });
             </script>

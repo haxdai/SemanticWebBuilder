@@ -17,6 +17,10 @@ SWBResourceURL save = paramRequest.getActionUrl().setAction("updateFilter");
 save.setParameter("suri", request.getParameter("suri"));
 save.setParameter("ids", request.getParameter("ids"));
 
+SWBResourceURL back = paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW);
+back.setParameter("suri", request.getParameter("suri"));
+if (null != request.getParameter("ids") && !request.getParameter("ids").isEmpty()) back.setParameter("ids", request.getParameter("ids"));
+
 User user = SWBContext.getAdminUser();
 boolean isMultiple = Boolean.valueOf(paramRequest.getResourceBase().getAttribute("multiple", "false"));
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
@@ -67,9 +71,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         %>
                         new Button({
                             onClick: function (evt) {
-                                if (confirm('Se perderá la configuración del filtro. ¿Desea regresar?')) {
-                                    submitUrl('<%= paramRequest.getRenderUrl().setMode(SWBResourceURL.Mode_VIEW) %>', this.domNode);
-                                }
+                                submitUrl('<%= back %>', this.domNode);
                             }
                         }, "back_<%= resID %>").startup();
                         <%
