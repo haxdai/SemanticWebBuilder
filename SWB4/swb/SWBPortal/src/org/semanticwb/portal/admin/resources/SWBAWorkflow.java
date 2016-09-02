@@ -583,7 +583,7 @@ public class SWBAWorkflow extends GenericResource {
      */
     private JSONObject getWorkFlowData(PFlow flow, User user) throws JSONException {
         JSONObject ret = null;
-        Document doc = flow.getDom();
+        Document doc = SWBUtils.XML.xmlToDom(flow.getXml());
         if (null != doc) {
             NodeList nodes = doc.getElementsByTagName("workflow");
             if (nodes.getLength() > 0) {
