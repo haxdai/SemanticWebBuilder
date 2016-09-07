@@ -26,6 +26,7 @@ save.setParameter("id", resID);
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
+    <script>require(['dijit/Dialog', 'dijit/registry']);</script>
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/Grid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/soriaGrid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/css/fontawesome/font-awesome.css" rel="stylesheet" />
@@ -35,6 +36,62 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             color: black !important;
         }
     </style>
+    <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad" execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+        <div class="swbform">
+            <div id="addActivityTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
+                <div data-dojo-type="dijit.layout.ContentPane" title="Propiedades" id="propertiesPane_<%= resID %>">
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Nombre:</label>
+                                </td>
+                                <td>
+                                    <input name="title" id="title" data-dojo-type="dijit.form.TextBox"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label>Descripción:</label>
+                                </td>
+                                <td>
+                                    <textarea name="description" id="description" data-dojo-type="dijit.form.Textarea"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset><legend>Duración</legend>
+                        <table>
+                            <tr>
+                                <td>
+                                    <label>Días:</label>
+                                </td>
+                                <td>
+                                    <input name="days" id="days" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                </td>
+                                <td>
+                                    <label>Horas:</label>
+                                </td>
+                                <td>
+                                    <input name="hours" id="hours" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                </div>
+                <div data-dojo-type="dijit.layout.ContentPane" title="Usuarios">
+                    <div id="activityUsers_<%= resID %>"></div>
+                </div>
+                <div data-dojo-type="dijit.layout.ContentPane" title="Roles">
+                    <div id="activityRoles_<%= resID %>"></div>
+                </div>
+            </div>
+            <fieldset>
+                <button data-dojo-type="dijit.form.Button" type="submit">Aceptar</button>
+                <button id="addActivityDialogCancel_<%= resID %>">Cancelar</button>
+            </fieldset>
+        </div>
+    </div>
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
@@ -145,7 +202,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                         </div>
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
-                            <button id="addActivity_<%= resID %>" type="button"></button>
+                            <button id="addActivity_<%= resID %>" type="button"></button><button id="addASequence_<%= resID %>" data-dojo-type="dijit/form/Button" type="button">Agregar secuencia</button>
                             <div id="activities_<%= resID %>"></div>
                         </div>
                     </div>
@@ -154,8 +211,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     require(['dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
-                        'dojox/grid/DataGrid', 'dijit/form/CheckBox', 'dojo/dom-construct'],
-                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, DataGrid, CheckBox, DomConstruct) {
+                        'dojox/grid/DataGrid', 'dijit/form/CheckBox'],
+                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, DataGrid, CheckBox) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
                             rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>;
                         document.body.appendChild(standby.domNode);
@@ -215,7 +272,19 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         var addActivity_<%= resID %> = new Button({
                             label: "Agregar actividad",
                             iconClass:'fa fa-plus-sign',
+                            onClick: function(evt) {
+                                registry.byId('addActivityDialog_<%= resID %>').show();
+                            }
                         }, "addActivity_<%= resID %>").startup();
+                        
+                        new Button({
+                            label: "Cancelar",
+                            onClick: function(evt) {
+                                registry.byId('addActivityDialog_<%= resID %>').hide();
+                                registry.byId('addActivityDialog_<%= resID %>').reset();
+                                registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
+                            }
+                        }, "addActivityDialogCancel_<%= resID %>").startup();
                         
                         saveButton_<%= resID %> = new Button({
                             label: "<%= paramRequest.getLocaleString("lblSave") %>",
@@ -228,6 +297,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 this.set("disabled", val);
                             }
                         }, "saveButton_<%= resID %>").startup();
+
+                        activityUsers_<%= resID %> = new GridWidget([{id:"e.sanchez"},{id:"c.lopez"},{id:"l.sanchez"}], 
+                            [
+                                { name: "Acciones", field: "_item", formatter: createActions, width: "10%" },
+                                { name: "id", field: "id", width: "20%" }
+                            ], "activityUsers_<%= resID %>");
 
                         xhr("<%= data %>", {
                             handleAs: "json"
