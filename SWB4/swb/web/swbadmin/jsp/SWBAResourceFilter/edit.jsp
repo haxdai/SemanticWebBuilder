@@ -1,3 +1,4 @@
+<%@page import="org.semanticwb.model.UserRepository"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.SWBContext"%>
 <%@page import="org.semanticwb.portal.api.SWBResourceURL"%>
@@ -35,6 +36,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             padding-right:0px;
             background-image: url('<%= SWBPortal.getContextPath() %>/swbadmin/icons/icons20x18.png'); background-position: -120px -197px;
         }
+        .label-default {
+            background-color: #e1ebfb;
+        }
+        .label {
+            display: inline-block;
+            padding: .2em .6em .3em;
+            font-size: 85%;
+            font-weight: 700;
+            line-height: 1;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+            border-radius: .25em;
+        }
         .noIcon { display: none !important; }
         .resourceFilterTree .dijitTreeRowSelected .dijitTreeLabel { background: none !important; outline: none !important; }
         .resourceFilterTree .dijitTreeNodeFocused .dijitTreeLabel { background: none !important; outline: none !important; }
@@ -51,6 +66,30 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             %>
             <button id="saveButton_<%= resID %>" type="button"></button>
             <input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="negative_<%= resID %>"/>Dar acceso a elementos no seleccionados
+            <%
+            String ids = request.getParameter("ids");
+            if (null != ids) {
+                %>
+                <br>
+                <fieldset><legend>Usuarios seleccionados:</legend>
+                <div style="max-height:100px; overflow: scroll;">
+                <%
+                UserRepository urep = (UserRepository) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                if (null != urep) {
+                    String uids [] = ids.split("\\|");
+                    for (int i = 0; i < uids.length; i++) {
+                        User usr = urep.getUser(uids[i]);
+                        if (null != usr) {
+                            %><span class="label label-default"><%= usr.getLogin() %><%= null != usr.getFullName() ? " ("+usr.getFullName()+")" : "" %></span>&nbsp<%
+                        }
+                    }
+                }
+                %>
+                </div>
+                </fieldset>
+                <%
+            }
+            %>
         </div>
         <div class="resourceFilterTree claro" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
             <div id="serverTree_<%= resID %>"></div>
