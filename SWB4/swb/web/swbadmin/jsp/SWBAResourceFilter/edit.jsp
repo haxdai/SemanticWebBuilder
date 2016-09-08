@@ -60,32 +60,32 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <% if (isMultiple) {
                 %>
-                <button id="back_<%= resID %>" type="button">Regresar</button>
+                <button id="back_<%= resID %>" type="button"><%= paramRequest.getLocaleString("lblBack") %></button>
                 <%
             }
             %>
             <button id="saveButton_<%= resID %>" type="button"></button>
-            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="negative_<%= resID %>"/>Dar acceso a elementos no seleccionados
+            <input type="checkbox" data-dojo-type="dijit/form/CheckBox" id="negative_<%= resID %>"/><%= paramRequest.getLocaleString("lblNegate") %>
             <%
             String ids = request.getParameter("ids");
             if (null != ids) {
                 %>
                 <br>
-                <fieldset><legend>Usuarios seleccionados:</legend>
-                <div style="max-height:100px; overflow: scroll;">
-                <%
-                UserRepository urep = (UserRepository) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-                if (null != urep) {
-                    String uids [] = ids.split("\\|");
-                    for (int i = 0; i < uids.length; i++) {
-                        User usr = urep.getUser(uids[i]);
-                        if (null != usr) {
-                            %><span class="label label-default"><%= usr.getLogin() %><%= null != usr.getFullName() ? " ("+usr.getFullName()+")" : "" %></span>&nbsp<%
+                <fieldset><legend><%= paramRequest.getLocaleString("lblSelectedUsers") %>:</legend>
+                    <div style="max-height:100px; overflow: scroll;">
+                    <%
+                    UserRepository urep = (UserRepository) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                    if (null != urep) {
+                        String uids [] = ids.split("\\|");
+                        for (int i = 0; i < uids.length; i++) {
+                            User usr = urep.getUser(uids[i]);
+                            if (null != usr) {
+                                %><span class="label label-default"><%= usr.getLogin() %><%= null != usr.getFullName() ? " ("+usr.getFullName()+")" : "" %></span>&nbsp<%
+                            }
                         }
                     }
-                }
-                %>
-                </div>
+                    %>
+                    </div>
                 </fieldset>
                 <%
             }
@@ -118,7 +118,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     %>
 
                     saveButton_<%= resID %> = new Button({
-                        label: "Guardar filtro",
+                        label: "<%= paramRequest.getLocaleString("lblSave") %>",
                         iconClass:'dijitEditorIcon dijitEditorIconSave',
                         onClick: function(evt) {
                             var payload = {id: '<%= resID %>', negative: registry.byId('negative_<%= resID %>').attr("checked")};

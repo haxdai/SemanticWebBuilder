@@ -28,7 +28,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 User usr = users.next();
                 usrdata+="{\"id\":\""+usr.getId()+"\",";
                 usrdata+="\"login\":\""+usr.getLogin()+"\",";
-                usrdata+="\"firstName\":\""+usr.getLastName()+"\",";
+                usrdata+="\"firstName\":\""+null!=usr.getLastName()?usr.getLastName():""+"\",";
                 if (null != usr.getSecondLastName() && !usr.getSecondLastName().isEmpty()) {
                     usrdata+="\"lastName\":\""+usr.getSecondLastName()+"\",";
                 }
@@ -45,7 +45,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <form id="searchForm_<%= resID %>" data-dojo-type="dijit/form/Form" action="<%= paramRequest.getRenderUrl() %>" onsubmit="submitForm('searchForm_<%= resID %>'); return false;">
                 <select id="repCombo_<%= resID %>" name="suri" data-dojo-type="dijit/form/Select">
-                    <option value="-1">Seleccione un repositorio</option>
+                    <option value="-1"><%= paramRequest.getLocaleString("lblPromptSelect") %></option>
                     <%
                     Iterator<UserRepository> repos = SWBContext.listUserRepositories();
                     while(repos.hasNext()) {
@@ -56,10 +56,17 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     }
                     %>
                 </select>
-                <button id="editFilter_<%= resID %>" data-dojo-type="dijit/form/Button" type="button" <%= null == urep ? "disabled=\"disabled\"" : "" %>>Editar filtro</button>
+                    <button id="editFilter_<%= resID %>" data-dojo-type="dijit/form/Button" type="button" <%= null == urep ? "disabled=\"disabled\"" : "" %>><%= paramRequest.getLocaleString("lblEdit") %></button>
             </form>
         </div>
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false" style="width:500px;">
+            <%
+            if (null != urep && "[]".equals(usrdata)) {
+                %>
+                <span style="color: red;"><%= paramRequest.getLocaleString("msgNoUsers") %></span>
+                <%
+            }
+            %>
             <div id="users_<%= resID %>"></div>
             <script type="dojo/method">
                 require(['dojo/store/Memory','dojo/data/ObjectStore', 
@@ -120,7 +127,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 ids = ids.join("|");
                                 submitUrl('<%= paramRequest.getRenderUrl().setAction("editFilter") %>?suri=<%= null != urep ? urep.getEncodedURI() : "" %>&ids='+ids,this);
                             } else {
-                                alert("No ha seleccionado algún usuario");
+                                alert("<%= paramRequest.getLocaleString("msgNoUserSelected") %>");
                             }
                         }
                         evt.preventDefault(); 
@@ -130,10 +137,10 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     if (data.length) {
                         var users_<%= resID %> = new GridWidget(data, 
                         [
-                            { name: "Login", field: "login", width: "20%", datatype:"string" },
-                            { name: "Apellido paterno", field: "firstName", width: "20%", datatype:"string" },
-                            { name: "Apellido materno", field: "lastName", width: "20%", datatype:"string" },
-                            { name: "Nombre", field: "name", width: "20%", datatype:"string" }
+                            { name: "<%= paramRequest.getLocaleString("lblColLogin") %>", field: "login", width: "20%", datatype:"string" },
+                            { name: "<%= paramRequest.getLocaleString("lblColLastName") %>", field: "firstName", width: "20%", datatype:"string" },
+                            { name: "<%= paramRequest.getLocaleString("lblColSecondLastName") %>", field: "lastName", width: "20%", datatype:"string" },
+                            { name: "<%= paramRequest.getLocaleString("lblColName") %>", field: "name", width: "20%", datatype:"string" }
                         ], "users_<%= resID %>", true);
                         
                         <%
