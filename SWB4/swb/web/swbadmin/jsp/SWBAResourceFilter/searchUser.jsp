@@ -28,7 +28,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 User usr = users.next();
                 usrdata+="{\"id\":\""+usr.getId()+"\",";
                 usrdata+="\"login\":\""+usr.getLogin()+"\",";
-                usrdata+="\"firstName\":\""+null!=usr.getLastName()?usr.getLastName():""+"\",";
+                if (null != usr.getSecondLastName() && !usr.getSecondLastName().isEmpty()) {
+                    usrdata+="\"firstName\":\""+(null!=usr.getLastName()?usr.getLastName():"")+"\",";
+                }
                 if (null != usr.getSecondLastName() && !usr.getSecondLastName().isEmpty()) {
                     usrdata+="\"lastName\":\""+usr.getSecondLastName()+"\",";
                 }
