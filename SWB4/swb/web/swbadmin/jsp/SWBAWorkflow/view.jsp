@@ -27,7 +27,7 @@ User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
     <script>require(['dijit/Dialog', 'dijit/registry']);</script>
-    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/Grid.css" rel="stylesheet" />
+    <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/soriaGrid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/css/fontawesome/font-awesome.css" rel="stylesheet" />
     <style>
@@ -211,62 +211,30 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     require(['dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
-                        'dojox/grid/DataGrid', 'dijit/form/CheckBox'],
-                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, DataGrid, CheckBox) {
+                        'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojox/grid/enhanced/plugins/IndirectSelection'],
+                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
                             rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
                         
-                        var createActions = function (rowObj) {
-                            console.log(rowObj);
-                            var div = document.createElement("div");
-    
-                            var btn = new Button({
-                                iconClass: "fa fa-pencil",
-                                showLabel: false,
-                                name: "idBtn"
-                            });
-
-                            var btn2 = new Button({
-                                showLabel: false,
-                                iconClass: "fa fa-arrow-up",
-                                name: "idBtn2"
-                            });
-                            
-                            var btn3 = new Button({
-                                showLabel: false,
-                                iconClass: "fa fa-arrow-down",
-                                name: "idBtn3"
-                            });
-
-                            div.appendChild(btn.domNode);
-                            div.appendChild(btn2.domNode);
-                            div.appendChild(btn3.domNode);
-                            return div.innerHTML;
-                        };
-                        
                         function GridWidget (_data, structure, container) {
                             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
-                            var grid = new DataGrid({
+                            var grid = new EnhancedGrid({
                                 store: store,
                                 query: {id:"*"},
-                                selectionMode: "none",
+                                selectionMode: "multiple",
                                 structure: structure,
+                                keepSelection: true,
+                                plugins: {
+                                    indirectSelection: true
+                                }
                             }, container);
 
                             grid.startup();
                             
-                            return {
-                                getSelectedItems: function() {
-                                    console.log("Get the selected items from store ");
-                                    console.log(store);
-                                },
-                                selectItem: function(item) {
-                                    
-                                }
-                            };
+                            return {};
                         };
                         
                         var addActivity_<%= resID %> = new Button({
@@ -300,7 +268,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                         activityUsers_<%= resID %> = new GridWidget([{id:"e.sanchez"},{id:"c.lopez"},{id:"l.sanchez"}], 
                             [
-                                { name: "Acciones", field: "_item", formatter: createActions, width: "10%" },
+                                { name: "Acciones", field: "_item", width: "10%" },
                                 { name: "id", field: "id", width: "20%" }
                             ], "activityUsers_<%= resID %>");
 
@@ -311,32 +279,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             
                             rtypesGrid_<%= resID %> = new GridWidget(_data.resourceTypes, 
                                 [
-                                    { name: "Utilizar", field: "_item", width: "5%",
-                                        formatter: function(item) {
-                                            var w = new CheckBox({
-                                                label:"Check",
-                                                checked: item.selected,
-                                                onClick: function (evt) {
-                                                    if (evt.target.checked) {
-                                                        console.log("Must enable item in store");
-                                                        item.selected = true;
-                                                    } else {
-                                                        console.log("Must disable item in store");
-                                                        item.selected = false;
-                                                    }
-                                                }
-                                            });
-                                            w._destroyOnRemove=true;
-                                            return w;
-                                        }
-                                    },
                                     { name: "Tipo de recurso", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
                             
                                 activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
                                 [
-                                    { name: "Acciones", field: "_item", formatter: createActions, width: "10%" },
                                     { name: "Actividad", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "20%" },
                                     { name: "Usuarios", field: "_item", width: "20%" },
