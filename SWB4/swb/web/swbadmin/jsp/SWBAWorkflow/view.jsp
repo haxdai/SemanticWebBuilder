@@ -3,6 +3,9 @@
     Created on : 04-ago-2016, 16:25:14
     Author     : hasdai
 --%>
+<%@page import="org.semanticwb.model.Role"%>
+<%@page import="java.util.Iterator"%>
+<%@page import="org.semanticwb.model.UserRepository"%>
 <%@page import="org.semanticwb.SWBPortal"%>
 <%@page import="org.semanticwb.model.SWBContext"%>
 <%@page import="org.semanticwb.SWBUtils"%>
@@ -95,6 +98,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
+            <button id="addActivity_<%= resID %>" type="button"></button>
+            <button id="addASequence_<%= resID %>" data-dojo-type="dijit/form/Button" type="button">Agregar secuencia</button>
             <div style="float: right;"><b><%= paramRequest.getLocaleString("lblFlowVersion") %>:</b><span id="filterVersion_<%= resID %>"></span></div>
         </div>
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
@@ -202,7 +207,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                         </div>
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
-                            <button id="addActivity_<%= resID %>" type="button"></button><button id="addASequence_<%= resID %>" data-dojo-type="dijit/form/Button" type="button">Agregar secuencia</button>
                             <div id="activities_<%= resID %>"></div>
                         </div>
                     </div>
@@ -239,7 +243,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         
                         var addActivity_<%= resID %> = new Button({
                             label: "Agregar actividad",
-                            iconClass:'fa fa-plus-sign',
+                            iconClass:'fa fa-plus',
                             onClick: function(evt) {
                                 registry.byId('addActivityDialog_<%= resID %>').show();
                             }
@@ -256,7 +260,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         
                         saveButton_<%= resID %> = new Button({
                             label: "<%= paramRequest.getLocaleString("lblSave") %>",
-                            iconClass:'dijitEditorIcon dijitEditorIconSave',
+                            iconClass:'fa fa-save',
                             onClick: function(evt) {
                                 
                             }, 
@@ -265,12 +269,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 this.set("disabled", val);
                             }
                         }, "saveButton_<%= resID %>").startup();
-
-                        activityUsers_<%= resID %> = new GridWidget([{id:"e.sanchez"},{id:"c.lopez"},{id:"l.sanchez"}], 
-                            [
-                                { name: "Acciones", field: "_item", width: "10%" },
-                                { name: "id", field: "id", width: "20%" }
-                            ], "activityUsers_<%= resID %>");
 
                         xhr("<%= data %>", {
                             handleAs: "json"
@@ -283,7 +281,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
                             
-                                activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
+                            activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
                                 [
                                     { name: "Actividad", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "20%" },
@@ -294,7 +292,49 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                         standby.hide();
-                    });
+                        
+                        //Create users and roles grid
+                        <%
+                        String usrdata = "[]";
+                        UserRepository adminRep = SWBContext.getAdminRepository();
+                        Iterator<User> adminUsers = adminRep.listUsers();
+                        if (adminUsers.hasNext()) {
+                            usrdata =  "[";
+                            while (adminUsers.hasNext()) {
+                                User usr = adminUsers.next();
+                                usrdata+="{\"id\":\""+usr.getId()+"\",";
+                                usrdata+="\"login\":\""+usr.getLogin()+"\"}";
+                                if (adminUsers.hasNext()) usrdata+=",";
+                            }
+                            usrdata += "]";
+                        }
+                        
+                        String roledata = "[]";
+                        Iterator<Role> adminRoles = adminRep.listRoles();
+                        if (adminRoles.hasNext()) {
+                            roledata =  "[";
+                            while (adminRoles.hasNext()) {
+                                Role role = adminRoles.next();
+                                roledata+="{\"id\":\""+role.getId()+"\",";
+                                roledata+="\"name\":\""+role.getTitle()+"\"}";
+                                if (adminRoles.hasNext()) roledata+=",";
+                            }
+                            roledata += "]";
+                        }
+
+                        %>
+                        var usrData = <%= usrdata %>;
+                        var roleData = <%= roledata %>;
+                        new GridWidget(usrData, 
+                            [
+                                { name: "Usuario", field: "login", width: "80%" }
+                            ], "activityUsers_<%= resID %>");
+                        
+                        new GridWidget(roleData, 
+                            [
+                                { name: "Rol", field: "name", width: "80%" }
+                            ], "activityRoles_<%= resID %>");
+                        });
                 </script>
             </div>
         </div>
