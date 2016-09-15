@@ -39,48 +39,50 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             color: black !important;
         }
     </style>
-    <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad" execute="alert('submitted w/args:\n' + dojo.toJson(arguments[0], true));">
+    <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
         <div class="swbform">
             <div id="addActivityTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
                 <div data-dojo-type="dijit.layout.ContentPane" title="Propiedades" id="propertiesPane_<%= resID %>">
-                    <fieldset>
-                        <table>
-                            <tr>
-                                <td>
-                                    <label>Nombre:</label>
-                                </td>
-                                <td>
-                                    <input name="title" id="title" data-dojo-type="dijit.form.TextBox"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label>Descripción:</label>
-                                </td>
-                                <td>
-                                    <textarea name="description" id="description" data-dojo-type="dijit.form.Textarea"></textarea>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                    <fieldset><legend>Duración</legend>
-                        <table>
-                            <tr>
-                                <td>
-                                    <label>Días:</label>
-                                </td>
-                                <td>
-                                    <input name="days" id="days" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
-                                </td>
-                                <td>
-                                    <label>Horas:</label>
-                                </td>
-                                <td>
-                                    <input name="hours" id="hours" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
+                    <form data-dojo-type="dijit.form.Form" id="addActivity_form<%= resID %>">
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Nombre:</label>
+                                    </td>
+                                    <td>
+                                        <input name="name" id="name" data-dojo-type="dijit.form.TextBox"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label>Descripción:</label>
+                                    </td>
+                                    <td>
+                                        <textarea name="description" id="description" data-dojo-type="dijit.form.Textarea"></textarea>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset><legend>Duración</legend>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <label>Días:</label>
+                                    </td>
+                                    <td>
+                                        <input name="days" id="days" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                    </td>
+                                    <td>
+                                        <label>Horas:</label>
+                                    </td>
+                                    <td>
+                                        <input name="hours" id="hours" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </form>
                 </div>
                 <div data-dojo-type="dijit.layout.ContentPane" title="Usuarios">
                     <div id="activityUsers_<%= resID %>"></div>
@@ -90,7 +92,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 </div>
             </div>
             <fieldset>
-                <button data-dojo-type="dijit.form.Button" type="submit">Aceptar</button>
+                <button id="addActivityDialogOk_<%= resID %>">Aceptar</button>
                 <button id="addActivityDialogCancel_<%= resID %>">Cancelar</button>
             </fieldset>
         </div>
@@ -223,6 +225,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         standby.startup();
                         standby.show();
                         
+                        function guid() {
+                            function s4() {
+                                return Math.floor((1 + Math.random()) * 0x10000)
+                                    .toString(16)
+                                    .substring(1);
+                            }
+                            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+                        }
+                        
                         function GridWidget (_data, structure, container) {
                             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
                             var grid = new EnhancedGrid({
@@ -238,7 +249,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                             grid.startup();
                             
-                            return {};
+                            return {
+                                updateData: function(_data) {
+                                    store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
+                                    grid.setStore(store);
+                                    grid.render();
+                                },
+                                addRowItem: function(item) {
+                                    if (item) {
+                                        console.log(grid);
+                                        item.uuid = guid();
+                                        store.newItem(item);
+                                    }
+                                }
+                            };
                         };
                         
                         var addActivity_<%= resID %> = new Button({
@@ -257,6 +281,38 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
                             }
                         }, "addActivityDialogCancel_<%= resID %>").startup();
+                        
+                        new Button({
+                            label: "Aceptar",
+                            onClick: function(evt) {
+                                //Get form values
+                                var payload = {};
+                                payload = registry.byId('addActivity_form<%= resID %>').getValues();
+                                payload.type = "Activity";
+                                console.log(registry.byId('addActivity_form<%= resID %>').getValues());
+                                
+                                //Get selected users
+                                var gd = registry.byId('activityUsers_<%= resID %>');
+                                var items = gd.selection.getSelected();
+                                if (items.length) {
+                                    payload.users = items.map(function(i) { return i.login; });
+                                }
+                                gd.selection.clear();
+    
+                                //Get selected roles
+                                gd = registry.byId('activityRoles_<%= resID %>');
+                                var items = gd.selection.getSelected();
+                                if (items.length) {
+                                    payload.roles = items.map(function(i) { return i.id; });
+                                }
+                                gd.selection.clear();
+                                console.log(payload);
+                                activitiesGrid_<%= resID %>.addRowItem(payload);
+                                registry.byId('addActivityDialog_<%= resID %>').reset();
+                                registry.byId('addActivityDialog_<%= resID %>').hide();
+                                evt.preventDefault();
+                            }
+                        }, "addActivityDialogOk_<%= resID %>").startup();
                         
                         saveButton_<%= resID %> = new Button({
                             label: "<%= paramRequest.getLocaleString("lblSave") %>",
@@ -285,15 +341,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 [
                                     { name: "Actividad", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "20%" },
-                                    { name: "Usuarios", field: "_item", width: "20%" },
-                                    { name: "Roles", field: "_item", width: "20%" }
+                                    { name: "Usuarios", field: "users", width: "20%" },
+                                    { name: "Roles", field: "roles", width: "20%" }
                                 ], "activities_<%= resID %>");
                         }, function(err){
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                         standby.hide();
                         
-                        //Create users and roles grid
+                        //Create users and roles grid for addActivityDialog
                         <%
                         String usrdata = "[]";
                         UserRepository adminRep = SWBContext.getAdminRepository();
