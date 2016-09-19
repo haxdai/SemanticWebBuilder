@@ -29,7 +29,7 @@ save.setParameter("id", resID);
 User user = SWBContext.getAdminUser();
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
-    <script>require(['dijit/Dialog', 'dijit/registry']);</script>
+    <script>require(['dijit/Dialog', 'dijit/registry', 'dijit/form/Select']);</script>
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/enhanced/resources/EnhancedGrid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/js/dojo/dojox/grid/resources/soriaGrid.css" rel="stylesheet" />
     <link href="<%= SWBPortal.getContextPath() %>/swbadmin/css/fontawesome/font-awesome.css" rel="stylesheet" />
@@ -97,11 +97,85 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             </fieldset>
         </div>
     </div>
+    
+    <!-- Transition Dialog -->
+    <div id="addTransitionDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar secuencia">
+        <div class="swbform">
+            <div id="addTransitionTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
+                <div data-dojo-type="dijit.layout.ContentPane" title="Transición" id="infoPane_<%= resID %>">
+                    <form data-dojo-type="dijit.form.Form" id="addTransition_form<%= resID %>">
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Terminar flujo</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Publicar automáticamente</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Autorizado</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                        <fieldset>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <select name="nextAct" id="nextAct" data-dojo-type="dijit/form/Select">
+                                            <option value="1">Actividad 1</option>
+                                            <option value="2">Actividad 2</option>
+                                            <option value="3">Actividad 3</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </fieldset>
+                    </form>
+                </div>
+                <div data-dojo-type="dijit.layout.ContentPane" title="Avisos">
+                    <div id="notifications_<%= resID %>">
+                        <div data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
+                            <div data-dojo-type="dijit.layout.ContentPane" title="Usuarios">
+                                <div id="sequenceNotificationUsers_<%= resID %>"></div>
+                            </div>
+                            <div data-dojo-type="dijit.layout.ContentPane" title="Roles">
+                                <div id="sequenceNotificationRoles_<%= resID %>"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <fieldset>
+                <button >Aceptar</button>
+                <button >Cancelar</button>
+            </fieldset>
+        </div>
+    </div>
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
             <button id="addActivity_<%= resID %>" type="button"></button>
-            <button id="addASequence_<%= resID %>" data-dojo-type="dijit/form/Button" type="button">Agregar secuencia</button>
+            <button id="addSequence_<%= resID %>" type="button">Agregar secuencia</button>
             <div style="float: right;"><b><%= paramRequest.getLocaleString("lblFlowVersion") %>:</b><span id="filterVersion_<%= resID %>"></span></div>
         </div>
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
@@ -273,6 +347,14 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             }
                         }, "addActivity_<%= resID %>").startup();
                         
+                        var addSequence_<%= resID %> = new Button({
+                            label: "Agregar secuencia",
+                            iconClass:'fa fa-plus',
+                            onClick: function(evt) {
+                                registry.byId('addTransitionDialog_<%= resID %>').show();
+                            }
+                        }, "addSequence_<%= resID %>").startup();
+                        
                         new Button({
                             label: "Cancelar",
                             onClick: function(evt) {
@@ -390,6 +472,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             [
                                 { name: "Rol", field: "name", width: "80%" }
                             ], "activityRoles_<%= resID %>");
+                        
+                        new GridWidget(usrData, 
+                            [
+                                { name: "Usuario", field: "login", width: "80%" }
+                            ], "sequenceNotificationUsers_<%= resID %>");
+                        
+                        new GridWidget(roleData, 
+                            [
+                                { name: "Rol", field: "name", width: "80%" }
+                            ], "sequenceNotificationRoles_<%= resID %>");
                         });
                 </script>
             </div>
