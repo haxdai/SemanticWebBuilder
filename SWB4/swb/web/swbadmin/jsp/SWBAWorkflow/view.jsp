@@ -51,7 +51,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         <label>Nombre:</label>
                                     </td>
                                     <td>
-                                        <input name="name" id="name" data-dojo-type="dijit.form.TextBox"/>
+                                        <input name="name" id="name<%= resID %>" data-dojo-type="dijit.form.TextBox"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -59,7 +59,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         <label>Descripción:</label>
                                     </td>
                                     <td>
-                                        <textarea name="description" id="description" data-dojo-type="dijit.form.Textarea"></textarea>
+                                        <textarea name="description" id="description<%= resID %>" data-dojo-type="dijit.form.Textarea"></textarea>
                                     </td>
                                 </tr>
                             </table>
@@ -71,13 +71,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         <label>Días:</label>
                                     </td>
                                     <td>
-                                        <input name="days" id="days" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                        <input name="days" id="days<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
                                     </td>
                                     <td>
                                         <label>Horas:</label>
                                     </td>
                                     <td>
-                                        <input name="hours" id="hours" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                        <input name="hours" id="hours<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
                                     </td>
                                 </tr>
                             </table>
@@ -141,7 +141,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 </tr>
                                 <tr>
                                     <td>
-                                        <select name="nextAct" id="nextAct" data-dojo-type="dijit/form/Select">
+                                        <select name="nextAct" id="nextAct<%= resID %>" data-dojo-type="dijit/form/Select">
                                             <option value="1">Actividad 1</option>
                                             <option value="2">Actividad 2</option>
                                             <option value="3">Actividad 3</option>
