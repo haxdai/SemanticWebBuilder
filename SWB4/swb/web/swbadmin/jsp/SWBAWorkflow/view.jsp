@@ -38,6 +38,23 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             background-color: none !important;
             color: black !important;
         }
+        
+        .activityTable {
+            width: 100%;
+        }
+        
+        .activityTable th {
+            width:20%;
+            padding: 5px;
+        }
+        
+        .activityTable th.actions {
+            width:5% !important;
+        }
+        
+        .activityTable tbody tr:nth-child(even) {
+           background-color: #E1EBFB;
+        }
     </style>
     <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
         <div class="swbform">
@@ -142,9 +159,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 <tr>
                                     <td>
                                         <select name="nextAct" id="nextAct<%= resID %>" data-dojo-type="dijit/form/Select">
-                                            <option value="1">Actividad 1</option>
-                                            <option value="2">Actividad 2</option>
-                                            <option value="3">Actividad 3</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -283,7 +297,18 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
 
                         </div>
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
-                            <div id="activities_<%= resID %>"></div>
+                            <table class="activityTable">
+                                <thead>
+                                    <tr>
+                                        <th class="actions"></th>
+                                        <th>Actividad</th>
+                                        <th>Descripción</th>
+                                        <th>Usuarios</th>
+                                        <th>Roles</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="activities_<%= resID %>"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -291,10 +316,11 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     require(['dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
-                        'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojox/grid/enhanced/plugins/IndirectSelection'],
-                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox) {
+                        'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojo/dom-construct',
+                        'dojox/grid/enhanced/plugins/IndirectSelection'],
+                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
-                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>;
+                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, activitiesStore<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
@@ -308,9 +334,73 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
                         }
                         
-                        function GridWidget (_data, structure, container) {
+                        //Custom Table for activities
+                        function DataTable (items, placeholder) {
+                            var _items = items.splice(0),
+                                tpl = "<tr><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
+                            
+                            function render() {
+                                domConstruct.empty(placeholder);
+                                
+                                _items.forEach(function(item) {
+                                    if(!item.hasOwnProperty("uuid")) {
+                                        item.uuid = guid();
+                                    }
+                                    var cuid = item.uuid.replace(/-/g,"_");
+                                    var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
+                                        .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
+                                        .replace("__itemid__", cuid);
+                                    var d = domConstruct.toDom(t);
+                                        
+                                    domConstruct.place(d, placeholder);
+
+                                    //Bind button events
+                                    var btn = new Button({
+                                        iconClass: "fa fa-pencil",
+                                        showLabel: false,
+                                        onClick: function(evt) {
+                                            console.log("clicked");
+                                        }
+                                    });
+                                    
+                                    dojo.place(btn.domNode, cuid);
+                                    btn.startup();
+                                });
+                            };
+                            
+                            return {
+                                getItems: function() {
+                                    return _items;
+                                },
+                                init: function() {
+                                    render();
+                                    return this;
+                                },
+                                addItem: function(item, idx) {
+                                    if (item !== undefined) {
+                                        //console.log(item);
+                                        if (idx && idx > 0 && idx < _items.length) {
+                                            console.log("splice");
+                                            //console.log(item);
+                                            _items.splice(idx, 0, item);
+                                        } else {
+                                            _items.push(item);
+                                        }
+                                    }
+                                    console.log("_items on addItem");
+                                    console.log(_items);
+                                    render();
+                                    return this;
+                                },
+                                removeItem: function (uuid) {
+                                    return this;
+                                }
+                            };
+                        };
+                        
+                        function GridWidget (_data, structure, container, sortKeys) {
                             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
-                            var grid = new EnhancedGrid({
+                            var options = {
                                 store: store,
                                 query: {id:"*"},
                                 selectionMode: "multiple",
@@ -319,9 +409,11 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 plugins: {
                                     indirectSelection: true
                                 }
-                            }, container);
-
+                            };
+                            
+                            var grid = new EnhancedGrid(options, container);
                             grid.startup();
+                            grid.render();
                             
                             return {
                                 updateData: function(_data) {
@@ -331,10 +423,22 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 },
                                 addRowItem: function(item) {
                                     if (item) {
-                                        console.log(grid);
                                         item.uuid = guid();
                                         store.newItem(item);
+                                        grid.render();
                                     }
+                                },
+                                getItems4Select: function() {
+                                    if (store.objectStore.data.length) {
+                                        return store.objectStore.data.map(function(item) {
+                                            return {
+                                                label: item.name,
+                                                value: item.uuid,
+                                                selected:false
+                                            }
+                                        });
+                                    }
+                                    return [];
                                 }
                             };
                         };
@@ -388,10 +492,14 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     payload.roles = items.map(function(i) { return i.id; });
                                 }
                                 gd.selection.clear();
-                                console.log(payload);
+                                //console.log(payload);
                                 activitiesGrid_<%= resID %>.addRowItem(payload);
                                 registry.byId('addActivityDialog_<%= resID %>').reset();
                                 registry.byId('addActivityDialog_<%= resID %>').hide();
+                                
+                                //registry.byId('nextAct<%= resID %>').attr("options",[]);
+                                registry.byId('nextAct<%= resID %>').addOption(activitiesGrid_<%= resID %>.getItems4Select());
+                                
                                 evt.preventDefault();
                             }
                         }, "addActivityDialogOk_<%= resID %>").startup();
@@ -419,19 +527,24 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
                             
-                            activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
+                            /*activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
                                 [
                                     { name: "Actividad", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "20%" },
                                     { name: "Usuarios", field: "users", width: "20%" },
                                     { name: "Roles", field: "roles", width: "20%" }
-                                ], "activities_<%= resID %>");
-                        }, function(err){
+                                ], "activities_<%= resID %>", [{attribute: "description", descending:true}]);*/
+                                activitiesStore<%= resID %> = _data.activities;
+                                var iiii = new DataTable(_data.activities, 'activities_<%= resID %>').init();
+                                iiii.addItem({name:"insert test", description: "jjjjj"});
+                            
+                            registry.byId('nextAct<%= resID %>').addOption(test);
+                        }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                         standby.hide();
                         
-                        //Create users and roles grid for addActivityDialog
+                        //Create users and roles grid for Dialogs
                         <%
                         String usrdata = "[]";
                         UserRepository adminRep = SWBContext.getAdminRepository();
