@@ -49,7 +49,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         }
         
         .activityTable th.actions {
-            width:5% !important;
+            width:10% !important;
         }
         
         .activityTable tbody tr:nth-child(even) {
@@ -320,10 +320,49 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
                     function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
-                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, activitiesStore<%= resID %>;
+                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
+                        
+                        function hideDialog(dialog) {
+                            registry.byId(dialog).reset();
+                            registry.byId(dialog).hide();
+                        };
+                        
+                        function showAddDialog() {
+                            dialogData<%= resID %> = {};
+                            registry.byId('addActivityDialog_<%= resID %>').show();
+                        };
+                        
+                        function saveAddDialogData() {
+                            //Get form values
+                            var payload = {};
+                            payload = registry.byId('addActivity_form<%= resID %>').getValues();
+                            payload.type = "Activity";
+
+                            //Get selected users from users grid
+                            var gd = registry.byId('activityUsers_<%= resID %>');
+                            var items = gd.selection.getSelected();
+                            if (items.length) {
+                                payload.users = items.map(function(i) { return i.login; });
+                            }
+                            gd.selection.clear();
+
+                            //Get selected roles from roles grid
+                            gd = registry.byId('activityRoles_<%= resID %>');
+                            var items = gd.selection.getSelected();
+                            if (items.length) {
+                                payload.roles = items.map(function(i) { return i.id; });
+                            }
+                            gd.selection.clear();
+                            
+                            //Add item to grid store
+                            activitiesGrid<%= resID %>.addItem(payload);
+                            
+                            //Close dialog and update activity select in sequence dialog
+                            hideDialog('addActivityDialog_<%= resID %>');
+                        }
                         
                         function guid() {
                             function s4() {
@@ -332,17 +371,45 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     .substring(1);
                             }
                             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-                        }
+                        };
+                        
+                        function updateViews() {
+                            registry.byId('nextAct<%= resID %>').set("options", activitiesGrid<%= resID %>.getItems4Select()).reset();
+                            //registry.byId('nextAct<%= resID %>').addOption();
+                        };
                         
                         //Custom Table for activities
                         function DataTable (items, placeholder) {
                             var _items = items.splice(0),
                                 tpl = "<tr><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
+                        
+                            //Splice start and end activity
+                            var _startEnd = _items.splice(-2,2);
+                            
+                            function moveUp(idx) {
+                                if ((idx - 1) > -1) {
+                                    var tmp = _items[idx - 1];
+                                    _items[idx - 1] = _items[idx];
+                                    _items[idx] = tmp;
+                                }
+                                render();
+                                updateViews();
+                            }
+                            
+                            function moveDown(idx) {
+                                if ((idx + 1) < _items.length) {
+                                    var tmp = _items[idx + 1];
+                                    _items[idx + 1] = _items[idx];
+                                    _items[idx] = tmp;
+                                }
+                                render();
+                                updateViews();
+                            }
                             
                             function render() {
                                 domConstruct.empty(placeholder);
                                 
-                                _items.forEach(function(item) {
+                                _items.forEach(function(item, idx) {
                                     if(!item.hasOwnProperty("uuid")) {
                                         item.uuid = guid();
                                     }
@@ -351,10 +418,10 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
                                         .replace("__itemid__", cuid);
                                     var d = domConstruct.toDom(t);
-                                        
+                                    
                                     domConstruct.place(d, placeholder);
 
-                                    //Bind button events
+                                    //Create action buttons
                                     var btn = new Button({
                                         iconClass: "fa fa-pencil",
                                         showLabel: false,
@@ -365,6 +432,32 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     
                                     dojo.place(btn.domNode, cuid);
                                     btn.startup();
+                                    
+                                    if (idx < _items.length - 1) {
+                                        btn = new Button({
+                                            iconClass: "fa fa-arrow-down",
+                                            showLabel: false,
+                                            onClick: function(evt) {
+                                                moveDown(idx);
+                                            }
+                                        });
+
+                                        //Place and start button separately because dojo fails when startup is done on create function
+                                        dojo.place(btn.domNode, cuid, "last");
+                                        btn.startup();
+                                    }
+                                    
+                                    if (idx > 0) {
+                                        btn = new Button({
+                                            iconClass: "fa fa-arrow-up",
+                                            showLabel: false,
+                                            onClick: function(evt) {
+                                                moveUp(idx);
+                                            }
+                                        });
+                                        dojo.place(btn.domNode, cuid, "last");
+                                        btn.startup();
+                                    }
                                 });
                             };
                             
@@ -378,21 +471,25 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 },
                                 addItem: function(item, idx) {
                                     if (item !== undefined) {
-                                        //console.log(item);
-                                        if (idx && idx > 0 && idx < _items.length) {
-                                            console.log("splice");
-                                            //console.log(item);
-                                            _items.splice(idx, 0, item);
-                                        } else {
-                                            _items.push(item);
-                                        }
+                                        _items.push(item);
                                     }
-                                    console.log("_items on addItem");
-                                    console.log(_items);
                                     render();
+                                    updateViews();
                                     return this;
                                 },
+                                getItems4Select: function() {
+                                    var t =  _items.map(function(item) {
+                                        return {
+                                            label: item.name,
+                                            value: item.uuid,
+                                            selected: false
+                                        }
+                                    });
+                                    return t;
+                                },
                                 removeItem: function (uuid) {
+                                    render();
+                                    updateViews();
                                     return this;
                                 }
                             };
@@ -447,7 +544,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             label: "Agregar actividad",
                             iconClass:'fa fa-plus',
                             onClick: function(evt) {
-                                registry.byId('addActivityDialog_<%= resID %>').show();
+                                showAddDialog();
                             }
                         }, "addActivity_<%= resID %>").startup();
                         
@@ -471,35 +568,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         new Button({
                             label: "Aceptar",
                             onClick: function(evt) {
-                                //Get form values
-                                var payload = {};
-                                payload = registry.byId('addActivity_form<%= resID %>').getValues();
-                                payload.type = "Activity";
-                                console.log(registry.byId('addActivity_form<%= resID %>').getValues());
-                                
-                                //Get selected users
-                                var gd = registry.byId('activityUsers_<%= resID %>');
-                                var items = gd.selection.getSelected();
-                                if (items.length) {
-                                    payload.users = items.map(function(i) { return i.login; });
-                                }
-                                gd.selection.clear();
-    
-                                //Get selected roles
-                                gd = registry.byId('activityRoles_<%= resID %>');
-                                var items = gd.selection.getSelected();
-                                if (items.length) {
-                                    payload.roles = items.map(function(i) { return i.id; });
-                                }
-                                gd.selection.clear();
-                                //console.log(payload);
-                                activitiesGrid_<%= resID %>.addRowItem(payload);
-                                registry.byId('addActivityDialog_<%= resID %>').reset();
-                                registry.byId('addActivityDialog_<%= resID %>').hide();
-                                
-                                //registry.byId('nextAct<%= resID %>').attr("options",[]);
-                                registry.byId('nextAct<%= resID %>').addOption(activitiesGrid_<%= resID %>.getItems4Select());
-                                
+                                saveAddDialogData();
                                 evt.preventDefault();
                             }
                         }, "addActivityDialogOk_<%= resID %>").startup();
@@ -527,18 +596,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
                             
-                            /*activitiesGrid_<%= resID %> = new GridWidget(_data.activities, 
-                                [
-                                    { name: "Actividad", field: "name", width: "20%" },
-                                    { name: "Descripción", field: "description", width: "20%" },
-                                    { name: "Usuarios", field: "users", width: "20%" },
-                                    { name: "Roles", field: "roles", width: "20%" }
-                                ], "activities_<%= resID %>", [{attribute: "description", descending:true}]);*/
-                                activitiesStore<%= resID %> = _data.activities;
-                                var iiii = new DataTable(_data.activities, 'activities_<%= resID %>').init();
-                                iiii.addItem({name:"insert test", description: "jjjjj"});
-                            
-                            registry.byId('nextAct<%= resID %>').addOption(test);
+                                activitiesGrid<%= resID %> = new DataTable(_data.activities, 'activities_<%= resID %>').init();
+                                
+                                updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
