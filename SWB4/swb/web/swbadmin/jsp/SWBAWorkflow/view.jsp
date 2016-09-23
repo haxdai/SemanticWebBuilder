@@ -66,6 +66,14 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             -khtml-user-select: none; /* webkit (konqueror) browsers */
             -ms-user-select: none; /* IE10+ */
         }
+        
+        div#svgContainer {
+            width: 100%;
+        }
+        
+        div#svgContainer svg {
+            width: 100%;
+        }
     </style>
     <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
         <div class="swbform">
@@ -246,7 +254,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
                     function(d3Lib, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
-                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>;
+                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>,
+                            activitiesLinks<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
@@ -329,7 +338,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .append("feMergeNode")
                                 .attr("in", "SourceGraphic");*/
                             
-                            
                             var g = svgContainer.selectAll("groups")
                                 .data(acts)
                                 .enter()
@@ -340,7 +348,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     return "translate("+xt+", "+50+")";
                                 });
                             
-                                var rects = g.append("rect");
+                            var rects = g.append("rect");
                                 rects.attr("x", 0)
                                 .attr("y", 0)
                                 //rects.attr("cx", function(d, i) {
@@ -363,6 +371,32 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         return w/2;
                                     })
                                     .text(function(d, i){return i+1});
+                            
+                                var acceptFlows = svgContainer.selectAll("paths")
+                                    .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="authorized"}))
+                                    .enter()
+                                    .append("path")
+                                    .on("dblclick", function(d){console.log("editing...");})
+                                    .attr("d", function(d, i) {
+                                        var xt = i * 2 * w;
+                                        return "M"+(xt + w/2)+",50 A80,130 0 0,1 "+(xt + 2.5 *w)+",50";
+                                    })
+                                    .attr("fill", "none")
+                                    .attr("stroke", "green")
+                                    .attr("stroke-width", 3);
+                            
+                                var rejectFlows = svgContainer.selectAll("paths")
+                                    .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="unauthorized"}))
+                                    .enter()
+                                    .append("path")
+                                    .on("dblclick", function(d){console.log("editing...");})
+                                    .attr("d", function(d, i) {
+                                        var xt = i * 2 * w;
+                                        return "M"+(xt + w/2)+","+2*h+" A80,130 0 0,0 "+(xt + 2.5 *w)+","+2*h;
+                                    })
+                                    .attr("fill", "none")
+                                    .attr("stroke", "red")
+                                    .attr("stroke-width", 3);
                         };
                         
                         //Custom Table for activities
@@ -595,6 +629,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 ], "resourceTypes_<%= resID %>");
 
                                 activitiesGrid<%= resID %> = new DataTable(_data.activities, 'activities_<%= resID %>').init();
+                                activitiesLinks<%= resID %> = _data.links;
+                                
                                 updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
