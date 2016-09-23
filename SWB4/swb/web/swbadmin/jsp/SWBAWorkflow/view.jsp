@@ -52,8 +52,19 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             width:10% !important;
         }
         
+        .activityTable th.steps {
+            width:5% !important;
+        }
+        
         .activityTable tbody tr:nth-child(even) {
            background-color: #E1EBFB;
+        }
+        
+        rect.docActivity {
+            -webkit-user-select: none; /* webkit (safari, chrome) browsers */
+            -moz-user-select: none; /* mozilla browsers */
+            -khtml-user-select: none; /* webkit (konqueror) browsers */
+            -ms-user-select: none; /* IE10+ */
         }
     </style>
     <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
@@ -200,106 +211,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblDesignTab") %>">
                     <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
-                            <svg
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   version="1.1"
-   id="svg2"
-   viewBox="0 0 1212.0243 252.29062"
-   height="35.202019mm"
-   width="342.06018mm">
-  <defs
-     id="defs4" />
-  <g
-     transform="translate(-155.98444,-182.10917)"
-     id="layer1">
-    <rect
-       transform="scale(1,-1)"
-       y="-370.34192"
-       x="156.48444"
-       height="122.85714"
-       width="85.714287"
-       id="rect4138"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4140"
-       width="85.714287"
-       height="122.85714"
-       x="311.03778"
-       y="-370.34192"
-       transform="scale(1,-1)" />
-    <rect
-       transform="scale(1,-1)"
-       y="-370.34192"
-       x="468.62155"
-       height="122.85714"
-       width="85.714287"
-       id="rect4142"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
-       id="path4144"
-       d="m 195.96959,246.26047 c 0,0 18.19012,-62.69462 78.7919,-63.63961 64.78084,-1.01016 79.80205,63.63961 79.80205,63.63961"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#008000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#008000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 355.96959,246.26047 c 0,0 18.19012,-62.69462 78.7919,-63.63961 64.78084,-1.01016 79.80205,63.63961 79.80205,63.63961"
-       id="path4146" />
-    <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       d="m 195.96959,370.24849 c 0,0 18.19012,62.69462 78.7919,63.63961 64.78084,1.01016 79.80205,-63.63961 79.80205,-63.63961"
-       id="path4148" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4147"
-       width="85.714287"
-       height="122.85714"
-       x="603.98199"
-       y="-370.34192"
-       transform="scale(1,-1)" />
-    <rect
-       transform="scale(1,-1)"
-       y="-370.34192"
-       x="755.50488"
-       height="122.85714"
-       width="85.714287"
-       id="rect4149"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4151"
-       width="85.714287"
-       height="122.85714"
-       x="922.18005"
-       y="-370.34192"
-       transform="scale(1,-1)" />
-    <rect
-       transform="scale(1,-1)"
-       y="-370.34192"
-       x="1092.8959"
-       height="122.85714"
-       width="85.714287"
-       id="rect4153"
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
-       id="rect4155"
-       width="85.714287"
-       height="122.85714"
-       x="1281.7944"
-       y="-370.34192"
-       transform="scale(1,-1)" />
-  </g>
-</svg>
-
-
-
-
+                            <div id="svgContainer"></div>
                         </div>
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
                             <table class="activityTable">
                                 <thead>
                                     <tr>
+                                        <th class="steps">Paso</th>
                                         <th class="actions"></th>
                                         <th>Actividad</th>
                                         <th>Descripción</th>
@@ -313,12 +231,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     </div>
                 </div>
                 <script type="dojo/method">
-                    require(['dojo/store/Memory','dojo/data/ObjectStore', 
+                    require({
+                        packages: [
+                            {
+                                name: "d3",
+                                location: "<%= SWBPlatform.getContextPath() %>/swbadmin/js/d3/",
+                                main: "d3"
+                            }
+                        ]
+                    }, ['d3', 'dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
                         'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojo/dom-construct',
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
-                    function(Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
+                    function(d3Lib, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
                             rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>;
                         document.body.appendChild(standby.domNode);
@@ -375,13 +301,74 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         
                         function updateViews() {
                             registry.byId('nextAct<%= resID %>').set("options", activitiesGrid<%= resID %>.getItems4Select()).reset();
-                            //registry.byId('nextAct<%= resID %>').addOption();
+                            renderGraph();
+                        };
+                        
+                        function renderGraph() {
+                            d3.select("#svgContainer svg").remove();
+                            var acts = activitiesGrid<%= resID %>.getItems();
+                            var w = 40, h = 50, xoff = w/2, startX = 80, endX;
+                            
+                            var svgContainer = d3Lib.select("#svgContainer").append("svg");
+                            /*svgContainer.append("defs")
+                                .append("filter")
+                                    .attr("id", "drop-shadow")
+                                    .attr("height", "130%")
+                                .append("feGaussianBlur")
+                                    .attr("in", "SourceAlpha")
+                                    .attr("stdDeviation", 5)
+                                    .attr("result", "blur")
+                                .append("feOffset")
+                                    .attr("in", "blur")
+                                    .attr("dx", 5)
+                                    .attr("dy", 5)
+                                    .attr("result", "offsetBlur")
+                                .append("feMerge")
+                                .append("feMergeNode")
+                                    .attr("in", "offsetBlur")
+                                .append("feMergeNode")
+                                .attr("in", "SourceGraphic");*/
+                            
+                            
+                            var g = svgContainer.selectAll("groups")
+                                .data(acts)
+                                .enter()
+                                .append("g")
+                                .attr("transform", function(d, i) {
+                                    var xt = i * 2 * w + startX;
+                                    //if (i === 0) xt += startX;
+                                    return "translate("+xt+", "+50+")";
+                                });
+                            
+                                var rects = g.append("rect");
+                                rects.attr("x", 0)
+                                .attr("y", 0)
+                                //rects.attr("cx", function(d, i) {
+                                //    return d.type !== "Activity" ? 0 : null;
+                                //})
+                                //.attr("cy", function(d) {return d.type!=="Activity" ? 25:null})
+                                //.attr("r", function(d) {return d.type!=="Activity" ? w/2:null})
+                                .attr("width", w)
+                                .attr("class", "docActivity")
+                                .attr("height", h)
+                                .attr("fill", "white")
+                                .attr("stroke", "black")
+                                .on("dblclick", function(d){console.log("editing...");})
+                                .append("svg:title")
+                                    .text(function(d) { return d.name });
+                                
+                                var labels = g.append("text")
+                                    .attr("text-anchor", "middle")
+                                    .attr("x", function(d) {
+                                        return w/2;
+                                    })
+                                    .text(function(d, i){return i+1});
                         };
                         
                         //Custom Table for activities
                         function DataTable (items, placeholder) {
                             var _items = items.splice(0),
-                                tpl = "<tr><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
+                                tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
                         
                             //Splice start and end activity
                             var _startEnd = _items.splice(-2,2);
@@ -416,7 +403,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
-                                        .replace("__itemid__", cuid);
+                                        .replace("__itemid__", cuid).replace("__itemidx__", idx+1);
                                     var d = domConstruct.toDom(t);
                                     
                                     domConstruct.place(d, placeholder);
@@ -458,6 +445,17 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         dojo.place(btn.domNode, cuid, "last");
                                         btn.startup();
                                     }
+                                    
+                                    var btn = new Button({
+                                        iconClass: "fa fa-trash-o",
+                                        showLabel: false,
+                                        onClick: function(evt) {
+                                            console.log("clicked");
+                                        }
+                                    });
+                                    
+                                    dojo.place(btn.domNode, cuid);
+                                    btn.startup();
                                 });
                             };
                             
@@ -539,7 +537,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
                         };
-                        
+
                         var addActivity_<%= resID %> = new Button({
                             label: "Agregar actividad",
                             iconClass:'fa fa-plus',
@@ -547,7 +545,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 showAddDialog();
                             }
                         }, "addActivity_<%= resID %>").startup();
-                        
+
                         var addSequence_<%= resID %> = new Button({
                             label: "Agregar secuencia",
                             iconClass:'fa fa-plus',
@@ -555,7 +553,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 registry.byId('addTransitionDialog_<%= resID %>').show();
                             }
                         }, "addSequence_<%= resID %>").startup();
-                        
+
                         new Button({
                             label: "Cancelar",
                             onClick: function(evt) {
@@ -564,7 +562,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
                             }
                         }, "addActivityDialogCancel_<%= resID %>").startup();
-                        
+
                         new Button({
                             label: "Aceptar",
                             onClick: function(evt) {
@@ -572,12 +570,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 evt.preventDefault();
                             }
                         }, "addActivityDialogOk_<%= resID %>").startup();
-                        
+
                         saveButton_<%= resID %> = new Button({
                             label: "<%= paramRequest.getLocaleString("lblSave") %>",
                             iconClass:'fa fa-save',
                             onClick: function(evt) {
-                                
+
                             }, 
                             busy: function(val) {
                                 this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
@@ -589,21 +587,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             handleAs: "json"
                         }).then(function(_data) {
                             dom.byId("filterVersion_<%= resID %>").innerHTML = _data.version;
-                            
+
                             rtypesGrid_<%= resID %> = new GridWidget(_data.resourceTypes, 
                                 [
                                     { name: "Tipo de recurso", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
-                            
+
                                 activitiesGrid<%= resID %> = new DataTable(_data.activities, 'activities_<%= resID %>').init();
-                                
                                 updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                         standby.hide();
-                        
+
                         //Create users and roles grid for Dialogs
                         <%
                         String usrdata = "[]";
@@ -619,7 +616,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             }
                             usrdata += "]";
                         }
-                        
+
                         String roledata = "[]";
                         Iterator<Role> adminRoles = adminRep.listRoles();
                         if (adminRoles.hasNext()) {
@@ -640,22 +637,23 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             [
                                 { name: "Usuario", field: "login", width: "80%" }
                             ], "activityUsers_<%= resID %>");
-                        
+
                         new GridWidget(roleData, 
                             [
                                 { name: "Rol", field: "name", width: "80%" }
                             ], "activityRoles_<%= resID %>");
-                        
+
                         new GridWidget(usrData, 
                             [
                                 { name: "Usuario", field: "login", width: "80%" }
                             ], "sequenceNotificationUsers_<%= resID %>");
-                        
+
                         new GridWidget(roleData, 
                             [
                                 { name: "Rol", field: "name", width: "80%" }
                             ], "sequenceNotificationRoles_<%= resID %>");
-                        });
+                    });
+                        
                 </script>
             </div>
         </div>
