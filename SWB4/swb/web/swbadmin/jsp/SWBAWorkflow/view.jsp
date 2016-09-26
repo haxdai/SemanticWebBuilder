@@ -219,7 +219,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblDesignTab") %>">
                     <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
-                            <div id="svgContainer"></div>
+                            <div id="svgContainer">
+                                <svg></svg>
+                            </div>
                         </div>
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:false">
                             <table class="activityTable">
@@ -319,24 +321,26 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             var w = 40, h = 50, xoff = w/2, startX = 80, endX;
                             
                             var svgContainer = d3Lib.select("#svgContainer").append("svg");
-                            /*svgContainer.append("defs")
-                                .append("filter")
-                                    .attr("id", "drop-shadow")
-                                    .attr("height", "130%")
-                                .append("feGaussianBlur")
-                                    .attr("in", "SourceAlpha")
-                                    .attr("stdDeviation", 5)
-                                    .attr("result", "blur")
-                                .append("feOffset")
-                                    .attr("in", "blur")
-                                    .attr("dx", 5)
-                                    .attr("dy", 5)
-                                    .attr("result", "offsetBlur")
-                                .append("feMerge")
-                                .append("feMergeNode")
-                                    .attr("in", "offsetBlur")
-                                .append("feMergeNode")
-                                .attr("in", "SourceGraphic");*/
+                            var defs = svgContainer.append("defs");
+                                
+                            defs.append("g")
+                                .attr("id", "book")
+                                .attr("transform", "translate(0,-1001.8766)")
+                            .append("path")
+                                .attr("d", "m 6.0264005,1046.7649 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -33.22907463,-20.2925 29.77758063,0 9.516387,9.7216 0,39.5724 -39.29396763,0 z m 29.68429763,0.1135 0,9.7014 9.608209,0")
+                                .attr("fill", "white")
+                                .attr("stroke", "black");
+                            
+                            defs.append("marker")
+                                .attr("id", "arrow")
+                                .attr("markerWidth", 13)
+                                .attr("markerHeight", 13)
+                                .attr("refX", 2)
+                                .attr("refY", 6)
+                                .attr("orient", "auto")
+                            .append("path")
+                                .attr("d", "M2,2 L2,11 L10,6 L2,2");
+
                             
                             var g = svgContainer.selectAll("groups")
                                 .data(acts)
@@ -348,14 +352,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     return "translate("+xt+", "+50+")";
                                 });
                             
-                            var rects = g.append("rect");
+                            var test = g.append("use")
+                                .attr("xlink:href", "#book")
+                                .on("dblclick", function(d){console.log("editing...");})
+                                .append("svg:title")
+                                    .text(function(d) { return d.name });
+                            
+                            /*var rects = g.append("rect");
                                 rects.attr("x", 0)
                                 .attr("y", 0)
-                                //rects.attr("cx", function(d, i) {
-                                //    return d.type !== "Activity" ? 0 : null;
-                                //})
-                                //.attr("cy", function(d) {return d.type!=="Activity" ? 25:null})
-                                //.attr("r", function(d) {return d.type!=="Activity" ? w/2:null})
                                 .attr("width", w)
                                 .attr("class", "docActivity")
                                 .attr("height", h)
@@ -363,14 +368,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .attr("stroke", "black")
                                 .on("dblclick", function(d){console.log("editing...");})
                                 .append("svg:title")
-                                    .text(function(d) { return d.name });
+                                    .text(function(d) { return d.name });*/
                                 
                                 var labels = g.append("text")
                                     .attr("text-anchor", "middle")
                                     .attr("x", function(d) {
                                         return w/2;
                                     })
-                                    .text(function(d, i){return i+1});
+                                    .attr("y", "15")
+                                        .text(function(d, i){return i+1});
                             
                                 var acceptFlows = svgContainer.selectAll("paths")
                                     .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="authorized"}))
@@ -384,6 +390,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     .attr("fill", "none")
                                     .attr("stroke", "green")
                                     .attr("stroke-width", 3);
+                                    //.attr("marker-end", "url(#markerArrow)");
                             
                                 var rejectFlows = svgContainer.selectAll("paths")
                                     .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="unauthorized"}))
