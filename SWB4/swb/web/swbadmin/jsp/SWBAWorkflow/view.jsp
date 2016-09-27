@@ -295,7 +295,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     return t;
                                 },
                                 removeItem: function (uuid) {
-                                    var idx = _items.findIndex(function(item) { return item.id === uuid; });
+                                    var idx = _items.findIndex(function(item) { return item.uuid === uuid; });
                                     if (idx > -1) {
                                         return _items.splice(idx, 1)[0];
                                     }
@@ -358,16 +358,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             gd.selection.clear();
                             
                             //Add item to grid store
-                            activitiesGrid<%= resID %>.addItem(payload);
+                            activitiesModel<%= resID %>.addItem(payload);
+                            updateViews();
                             
                             //Close dialog and update activity select in sequence dialog
                             hideDialog('addActivityDialog_<%= resID %>');
                         }
-                        
-                        function updateViews() {
-                            registry.byId('nextAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
-                            renderGraph();
-                        };
                         
                         function renderGraph() {
                             d3.select("#svgContainer svg").remove();
@@ -460,41 +456,39 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     .attr("stroke-width", 3);
                         };
                         
+                        function updateViews() {
+                            registry.byId('nextAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
+                            activitiesGrid<%= resID %>.init();
+                            renderGraph();
+                        };
+                        
                         //Custom Table for activities
                         function DataTable (model, placeholder) {
                             var _model = model,
-                            //var _items = items.splice(0),
                                 tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
-                        
-                            //Splice start and end activity
-                            //var _startEnd = _items.splice(-2,2);
                             
                             function moveUp(idx) {
                                 if ((idx - 1) > -1) {
-                                    model.swapItems(idx - 1, idx);
+                                    _model.swapItems(idx - 1, idx);
                                 }
                                 render();
-                                updateViews();
                             }
                             
                             function moveDown(idx) {
                                 if ((idx + 1) < _items.length) {
-                                    model.swapItems(idx + 1, idx);
+                                    _model.swapItems(idx + 1, idx);
                                 }
                                 render();
-                                updateViews();
                             }
                             
                             function render() {
                                 domConstruct.empty(placeholder);
-                                
                                 _model.getItems(function(item){return item.type==="Activity"}).forEach(function(item, idx) {
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
                                         .replace("__itemid__", cuid).replace("__itemidx__", idx+1);
                                     var d = domConstruct.toDom(t);
-                                    
                                     domConstruct.place(d, placeholder);
 
                                     //Create action buttons
@@ -506,6 +500,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         }
                                     });
                                     
+                                    btn._destroyOnRemove = true;
                                     dojo.place(btn.domNode, cuid);
                                     btn.startup();
                                     
@@ -515,9 +510,10 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                             showLabel: false,
                                             onClick: function(evt) {
                                                 moveDown(idx);
+                                                renderGraph();
                                             }
                                         });
-
+                                        btn._destroyOnRemove = true;
                                         //Place and start button separately because dojo fails when startup is done on create function
                                         dojo.place(btn.domNode, cuid, "last");
                                         btn.startup();
@@ -529,21 +525,26 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                             showLabel: false,
                                             onClick: function(evt) {
                                                 moveUp(idx);
+                                                renderGraph();
                                             }
                                         });
+                                        
+                                        btn._destroyOnRemove = true;
                                         dojo.place(btn.domNode, cuid, "last");
                                         btn.startup();
                                     }
                                     
-                                    var btn = new Button({
+                                    btn = new Button({
                                         iconClass: "fa fa-trash-o",
                                         showLabel: false,
                                         onClick: function(evt) {
-                                            console.log("clicked");
+                                            _model.removeItem(item.uuid);
+                                            updateViews();
                                         }
                                     });
                                     
-                                    dojo.place(btn.domNode, cuid);
+                                    btn._destroyOnRemove = true;
+                                    dojo.place(btn.domNode, cuid, "last");
                                     btn.startup();
                                 });
                             };
@@ -554,38 +555,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     return this;
                                 }
                             };
-                            /*return {
-                                getItems: function() {
-                                    return _items;
-                                },
-                                init: function() {
-                                    render();
-                                    return this;
-                                },
-                                addItem: function(item, idx) {
-                                    if (item !== undefined) {
-                                        _items.push(item);
-                                    }
-                                    render();
-                                    updateViews();
-                                    return this;
-                                },
-                                getItems4Select: function() {
-                                    var t =  _items.map(function(item) {
-                                        return {
-                                            label: item.name,
-                                            value: item.uuid,
-                                            selected: false
-                                        }
-                                    });
-                                    return t;
-                                },
-                                removeItem: function (uuid) {
-                                    render();
-                                    updateViews();
-                                    return this;
-                                }
-                            };*/
                         };
                         
                         function GridWidget (_data, structure, container, sortKeys) {
@@ -692,7 +661,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 activitiesModel<%= resID %> = new PFlowDataModel(_data.activities);
                                 activitiesGrid<%= resID %> = new DataTable(activitiesModel<%= resID %>, 'activities_<%= resID %>').init();
                                 activitiesLinks<%= resID %> = _data.links;
-                                
                                 updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
