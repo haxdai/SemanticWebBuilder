@@ -241,26 +241,89 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     </div>
                 </div>
                 <script type="dojo/method">
-                    require({
-                        packages: [
-                            {
-                                name: "d3",
-                                location: "<%= SWBPlatform.getContextPath() %>/swbadmin/js/d3/",
-                                main: "d3"
-                            }
-                        ]
-                    }, ['d3', 'dojo/store/Memory','dojo/data/ObjectStore', 
+                    require({packages: [{name: "d3",location: "<%= SWBPlatform.getContextPath() %>/swbadmin/js/d3/",main: "d3"}]}, 
+                        ['d3', 'dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
                         'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojo/dom-construct',
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
-                    function(d3Lib, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
+                    function(d3, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
                             rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>,
-                            activitiesLinks<%= resID %>;
+                            activitiesLinks<%= resID %>, activitiesModel<%= resID %>;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
+                        
+                        function guid() {
+                            function s4() {
+                                return Math.floor((1 + Math.random()) * 0x10000)
+                                    .toString(16)
+                                    .substring(1);
+                            }
+                            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+                        };
+                        
+                        //DataModel Object
+                        function PFlowDataModel (data) {
+                            var _items = data;
+                            
+                            return {
+                                getItems: function(filter) {
+                                    if (filter && typeof filter == "function") {
+                                        return _items.filter(filter);
+                                    }
+                                    return _items;
+                                },
+                                addItem: function(item, idx) {
+                                    if (item !== undefined) {
+                                        if(!item.hasOwnProperty("uuid")) {
+                                            item.uuid = guid();
+                                        }
+                                        _items.push(item);
+                                    }
+                                    return this;
+                                },
+                                getItems4Select: function() {
+                                    var t =  _items.map(function(item) {
+                                        return {
+                                            label: item.name,
+                                            value: item.uuid,
+                                            selected: false
+                                        }
+                                    });
+                                    return t;
+                                },
+                                removeItem: function (uuid) {
+                                    var idx = _items.findIndex(function(item) { return item.id === uuid; });
+                                    if (idx > -1) {
+                                        return _items.splice(idx, 1)[0];
+                                    }
+                                    return undefined;
+                                },
+                                getItem: function(uuid) {
+                                    return _items.find(function(item) { return item.id === uuid; });
+                                },
+                                getItemIndex: function(uuid) {
+                                    return _items.findIndex(function(item) { return item.id === uuid; });
+                                },
+                                swapItems: function(index1, index2) {
+                                    var tmp = _items[index1];
+                                    _items[index1] = _items[index2];
+                                    _items[index2] = tmp;
+                                },
+                                getItems4Select: function() {
+                                    var t =  _items.filter(function(item){return item.type==="Activity"}).map(function(item) {
+                                        return {
+                                            label: item.name,
+                                            value: item.uuid,
+                                            selected: false
+                                        }
+                                    });
+                                    return t;
+                                }
+                            }
+                        }
                         
                         function hideDialog(dialog) {
                             registry.byId(dialog).reset();
@@ -301,26 +364,17 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             hideDialog('addActivityDialog_<%= resID %>');
                         }
                         
-                        function guid() {
-                            function s4() {
-                                return Math.floor((1 + Math.random()) * 0x10000)
-                                    .toString(16)
-                                    .substring(1);
-                            }
-                            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-                        };
-                        
                         function updateViews() {
-                            registry.byId('nextAct<%= resID %>').set("options", activitiesGrid<%= resID %>.getItems4Select()).reset();
+                            registry.byId('nextAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
                             renderGraph();
                         };
                         
                         function renderGraph() {
                             d3.select("#svgContainer svg").remove();
-                            var acts = activitiesGrid<%= resID %>.getItems();
+                            var acts = activitiesModel<%= resID %>.getItems(function(item){return item.type==="Activity"});
                             var w = 40, h = 50, xoff = w/2, startX = 80, endX;
                             
-                            var svgContainer = d3Lib.select("#svgContainer").append("svg");
+                            var svgContainer = d3.select("#svgContainer").append("svg");
                             var defs = svgContainer.append("defs");
                                 
                             defs.append("g")
@@ -407,18 +461,17 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         };
                         
                         //Custom Table for activities
-                        function DataTable (items, placeholder) {
-                            var _items = items.splice(0),
+                        function DataTable (model, placeholder) {
+                            var _model = model,
+                            //var _items = items.splice(0),
                                 tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
                         
                             //Splice start and end activity
-                            var _startEnd = _items.splice(-2,2);
+                            //var _startEnd = _items.splice(-2,2);
                             
                             function moveUp(idx) {
                                 if ((idx - 1) > -1) {
-                                    var tmp = _items[idx - 1];
-                                    _items[idx - 1] = _items[idx];
-                                    _items[idx] = tmp;
+                                    model.swapItems(idx - 1, idx);
                                 }
                                 render();
                                 updateViews();
@@ -426,9 +479,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             
                             function moveDown(idx) {
                                 if ((idx + 1) < _items.length) {
-                                    var tmp = _items[idx + 1];
-                                    _items[idx + 1] = _items[idx];
-                                    _items[idx] = tmp;
+                                    model.swapItems(idx + 1, idx);
                                 }
                                 render();
                                 updateViews();
@@ -437,10 +488,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             function render() {
                                 domConstruct.empty(placeholder);
                                 
-                                _items.forEach(function(item, idx) {
-                                    if(!item.hasOwnProperty("uuid")) {
-                                        item.uuid = guid();
-                                    }
+                                _model.getItems(function(item){return item.type==="Activity"}).forEach(function(item, idx) {
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
@@ -461,7 +509,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     dojo.place(btn.domNode, cuid);
                                     btn.startup();
                                     
-                                    if (idx < _items.length - 1) {
+                                    if (idx < _model.getItems().length - 1) {
                                         btn = new Button({
                                             iconClass: "fa fa-arrow-down",
                                             showLabel: false,
@@ -501,6 +549,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             };
                             
                             return {
+                                init: function() {
+                                    render();
+                                    return this;
+                                }
+                            };
+                            /*return {
                                 getItems: function() {
                                     return _items;
                                 },
@@ -531,7 +585,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     updateViews();
                                     return this;
                                 }
-                            };
+                            };*/
                         };
                         
                         function GridWidget (_data, structure, container, sortKeys) {
@@ -635,7 +689,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
 
-                                activitiesGrid<%= resID %> = new DataTable(_data.activities, 'activities_<%= resID %>').init();
+                                activitiesModel<%= resID %> = new PFlowDataModel(_data.activities);
+                                activitiesGrid<%= resID %> = new DataTable(activitiesModel<%= resID %>, 'activities_<%= resID %>').init();
                                 activitiesLinks<%= resID %> = _data.links;
                                 
                                 updateViews();
