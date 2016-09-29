@@ -373,24 +373,48 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             var svgContainer = d3.select("#svgContainer").append("svg");
                             var defs = svgContainer.append("defs");
                                 
-                            defs.append("g")
+                            var reviewer = defs.append("g")
                                 .attr("id", "book")
-                                .attr("transform", "translate(0,-1001.8766)")
-                            .append("path")
+                                .attr("transform", "translate(0,-1001.8766)");
+                            
+                            reviewer.append("path")
                                 .attr("d", "m 6.0264005,1046.7649 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -33.22907463,-20.2925 29.77758063,0 9.516387,9.7216 0,39.5724 -39.29396763,0 z m 29.68429763,0.1135 0,9.7014 9.608209,0")
                                 .attr("fill", "white")
                                 .attr("stroke", "black");
+                        
+                            reviewer.append("path")
+                                .attr("d", "m 19.403859,1018.2197 c -5.977286,-8e-4 -10.8230216,4.845 -10.8222646,10.8222 3.21e-4,5.9766 4.8457416,10.8211 10.8222646,10.8204 1.310261,-0 2.609336,-0.2412 3.833985,-0.7071 1.278681,-0.6057 2.111197,-0.8486 3.0625,-1.7871 2.481982,-2.053 3.920306,-5.1051 3.923828,-8.3262 7.57e-4,-5.9765 -4.84379,-10.8219 -10.820313,-10.8222 z m 6.896485,19.1484 c -0.915625,0.7601 -1.950347,1.3639 -3.0625,1.7871 l 5.486328,9.7344 3.08789,-1.7402 z")
+                                .attr("fill", "white")
+                                .attr("stroke", "black");
                             
-                            defs.append("marker")
-                                .attr("id", "arrow")
-                                .attr("markerWidth", 13)
-                                .attr("markerHeight", 13)
-                                .attr("refX", 2)
-                                .attr("refY", 6)
-                                .attr("orient", "auto")
-                            .append("path")
-                                .attr("d", "M2,2 L2,11 L10,6 L2,2");
+                            var publish = defs.append("g")
+                                .attr("id", "bookOk")
+                                .attr("transform", "translate(0,-1001.8766)");
+                            
+                            publish.append("path")
+                                .attr("d", "m 6.0264005,1046.7649 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -27.7985085,-6 27.7985085,0 m -33.22907463,-20.2925 29.77758063,0 9.516387,9.7216 0,39.5724 -39.29396763,0 z m 29.68429763,0.1135 0,9.7014 9.608209,0")
+                                .attr("fill", "white")
+                                .attr("stroke", "black");
+                        
+                            publish.append("path")
+                                .attr("d", "m 5.5970149,1032.5861 9.5149251,10.2612 19.029851,-23.8806")
+                                .attr("fill", "none")
+                                .attr("stroke", "red")
+                                .attr("stroke-width", "3");
 
+                            var publisher = defs.append("g")
+                                .attr("id", "bookPublisher")
+                                .attr("transform", "translate(0,-1001.8766)");
+                        
+                            publisher.append("path")
+                                .attr("d", "m 30.280132,1002.5859 0,9.7014 9.608209,0 m -39.29250663,-9.8149 29.77758063,0 9.516387,9.7216 0,39.5724 -39.29396763,0 z m 5.43056613,20.2925 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0")
+                                .attr("fill", "white")
+                                .attr("stroke", "green");
+                            publisher.append("path")
+                                .attr("d", "m 20.244038,1023.5071 -3.434804,5.9468 -3.432363,5.9468 4.301439,0 0,10.4925 5.129016,0 0,-10.4925 4.301439,0 -3.432363,-5.9468 -3.432364,-5.9468 z")
+                                .attr("fill", "white")
+                                .attr("stroke", "green");
+                        
                             
                             var g = svgContainer.selectAll("groups")
                                 .data(acts)
@@ -398,7 +422,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .append("g")
                                 .attr("transform", function(d, i) {
                                     var xt = i * 2 * w + startX;
-                                    //if (i === 0) xt += startX;
                                     return "translate("+xt+", "+50+")";
                                 });
                             
@@ -407,28 +430,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .on("dblclick", function(d){console.log("editing...");})
                                 .append("svg:title")
                                     .text(function(d) { return d.name });
-                            
-                            /*var rects = g.append("rect");
-                                rects.attr("x", 0)
-                                .attr("y", 0)
-                                .attr("width", w)
-                                .attr("class", "docActivity")
-                                .attr("height", h)
-                                .attr("fill", "white")
-                                .attr("stroke", "black")
-                                .on("dblclick", function(d){console.log("editing...");})
-                                .append("svg:title")
-                                    .text(function(d) { return d.name });*/
                                 
-                                var labels = g.append("text")
-                                    .attr("text-anchor", "middle")
-                                    .attr("x", function(d) {
-                                        return w/2;
-                                    })
-                                    .attr("y", "15")
-                                        .text(function(d, i){return i+1});
+                            var labels = g.append("text")
+                                .attr("text-anchor", "middle")
+                                .attr("x", function(d) {
+                                    return w/2;
+                                })
+                                .attr("y", "15")
+                                    .text(function(d, i){return i+1});
                             
-                                var acceptFlows = svgContainer.selectAll("paths")
+                                /*var acceptFlows = svgContainer.selectAll("paths")
                                     .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="authorized"}))
                                     .enter()
                                     .append("path")
@@ -453,7 +464,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     })
                                     .attr("fill", "none")
                                     .attr("stroke", "red")
-                                    .attr("stroke-width", 3);
+                                    .attr("stroke-width", 3);*/
                         };
                         
                         function updateViews() {
