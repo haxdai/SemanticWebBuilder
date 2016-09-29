@@ -267,6 +267,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         //DataModel Object
                         function PFlowDataModel (data) {
                             var _items = data;
+                            if (_items.length > 2) {
+                                var tmp = _items[_items.length - 2];
+                                _items[_items.length - 2] = _items[0];
+                                _items[0] = tmp;
+                            }
+                            
+                            console.log(_items);
                             
                             return {
                                 getItems: function(filter) {
@@ -280,7 +287,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         if(!item.hasOwnProperty("uuid")) {
                                             item.uuid = guid();
                                         }
-                                        _items.push(item);
+                                        _items.splice(_items.length - 1, 0, item);
                                     }
                                     return this;
                                 },
@@ -367,7 +374,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         
                         function renderGraph() {
                             d3.select("#svgContainer svg").remove();
-                            var acts = activitiesModel<%= resID %>.getItems(function(item){return item.type==="Activity"});
+                            var acts = activitiesModel<%= resID %>.getItems();
                             var w = 40, h = 50, xoff = w/2, startX = 80, endX;
                             
                             var svgContainer = d3.select("#svgContainer").append("svg");
@@ -409,7 +416,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             publisher.append("path")
                                 .attr("d", "m 30.280132,1002.5859 0,9.7014 9.608209,0 m -39.29250663,-9.8149 29.77758063,0 9.516387,9.7216 0,39.5724 -39.29396763,0 z m 5.43056613,20.2925 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0 m -27.7985085,6 27.7985085,0")
                                 .attr("fill", "white")
-                                .attr("stroke", "green");
+                                .attr("stroke", "black");
                             publisher.append("path")
                                 .attr("d", "m 20.244038,1023.5071 -3.434804,5.9468 -3.432363,5.9468 4.301439,0 0,10.4925 5.129016,0 0,-10.4925 4.301439,0 -3.432363,-5.9468 -3.432364,-5.9468 z")
                                 .attr("fill", "white")
@@ -426,7 +433,15 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 });
                             
                             var test = g.append("use")
-                                .attr("xlink:href", "#book")
+                                .attr("xlink:href", function(item) {
+                                    if (item.type==="Activity") {
+                                        return "#book";
+                                    } else if (item.type==="AuthorActivity") {
+                                        return "#bookPublisher";
+                                    } else if (item.type==="EndActivity") {
+                                        return "#bookOk";
+                                    }
+                                })
                                 .on("dblclick", function(d){console.log("editing...");})
                                 .append("svg:title")
                                     .text(function(d) { return d.name });
@@ -480,7 +495,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             
                             function render() {
                                 domConstruct.empty(placeholder);
-                                var finalItems = _model.getItems(function(item){return item.type==="Activity"});
+                                var finalItems = _model.getItems();
                                 finalItems.forEach(function(item, idx) {
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
@@ -490,7 +505,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     domConstruct.place(d, placeholder);
 
                                     //Create action buttons
-                                    if (idx < finalItems.length - 1) {
+                                    if (idx > 0 && idx < finalItems.length - 2) {
                                         var btn = new Button({
                                             iconClass: "fa fa-arrow-down",
                                             showLabel: false,
@@ -505,7 +520,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         btn.startup();
                                     }
                                     
-                                    if (idx > 0) {
+                                    if (idx > 1 && idx < finalItems.length - 1) {
                                         var btn = new Button({
                                             iconClass: "fa fa-arrow-up",
                                             showLabel: false,
@@ -520,18 +535,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         btn.startup();
                                     }
                                     
-                                    var btn = new Button({
-                                        iconClass: "fa fa-trash-o",
-                                        showLabel: false,
-                                        onClick: function(evt) {
-                                            _model.removeItem(item.uuid);
-                                            updateViews();
-                                        }
-                                    });
-                                    
-                                    btn._destroyOnRemove = true;
-                                    dojo.place(btn.domNode, cuid, "last");
-                                    btn.startup();
+                                    if (idx > 0 && idx < finalItems.length - 1) {
+                                        var btn = new Button({
+                                            iconClass: "fa fa-trash-o",
+                                            showLabel: false,
+                                            onClick: function(evt) {
+                                                _model.removeItem(item.uuid);
+                                                updateViews();
+                                            }
+                                        });
+
+                                        btn._destroyOnRemove = true;
+                                        dojo.place(btn.domNode, cuid, "last");
+                                        btn.startup();
+                                    }
                                 });
                             };
                             
