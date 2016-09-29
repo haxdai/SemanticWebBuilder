@@ -467,23 +467,10 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             var _model = model,
                                 tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
                             
-                            function moveUp(idx) {
-                                if ((idx - 1) > -1) {
-                                    _model.swapItems(idx - 1, idx);
-                                }
-                                render();
-                            }
-                            
-                            function moveDown(idx) {
-                                if ((idx + 1) < _items.length) {
-                                    _model.swapItems(idx + 1, idx);
-                                }
-                                render();
-                            }
-                            
                             function render() {
                                 domConstruct.empty(placeholder);
-                                _model.getItems(function(item){return item.type==="Activity"}).forEach(function(item, idx) {
+                                var finalItems = _model.getItems(function(item){return item.type==="Activity"});
+                                finalItems.forEach(function(item, idx) {
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
@@ -492,25 +479,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     domConstruct.place(d, placeholder);
 
                                     //Create action buttons
-                                    var btn = new Button({
-                                        iconClass: "fa fa-pencil",
-                                        showLabel: false,
-                                        onClick: function(evt) {
-                                            console.log("clicked");
-                                        }
-                                    });
-                                    
-                                    btn._destroyOnRemove = true;
-                                    dojo.place(btn.domNode, cuid);
-                                    btn.startup();
-                                    
-                                    if (idx < _model.getItems().length - 1) {
-                                        btn = new Button({
+                                    if (idx < finalItems.length - 1) {
+                                        var btn = new Button({
                                             iconClass: "fa fa-arrow-down",
                                             showLabel: false,
                                             onClick: function(evt) {
-                                                moveDown(idx);
-                                                renderGraph();
+                                                _model.swapItems(idx + 1, idx);
+                                                updateViews();
                                             }
                                         });
                                         btn._destroyOnRemove = true;
@@ -520,12 +495,12 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     }
                                     
                                     if (idx > 0) {
-                                        btn = new Button({
+                                        var btn = new Button({
                                             iconClass: "fa fa-arrow-up",
                                             showLabel: false,
                                             onClick: function(evt) {
-                                                moveUp(idx);
-                                                renderGraph();
+                                                _model.swapItems(idx - 1, idx);
+                                                updateViews();
                                             }
                                         });
                                         
@@ -534,7 +509,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         btn.startup();
                                     }
                                     
-                                    btn = new Button({
+                                    var btn = new Button({
                                         iconClass: "fa fa-trash-o",
                                         showLabel: false,
                                         onClick: function(evt) {
