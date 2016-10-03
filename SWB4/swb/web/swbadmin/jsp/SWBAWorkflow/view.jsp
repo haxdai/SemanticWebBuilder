@@ -250,7 +250,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                     function(d3, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
                             rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>,
-                            activitiesLinks<%= resID %>, activitiesModel<%= resID %>;
+                            activitiesModel<%= resID %>, startX = 40, w = 40, h = 50;
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
@@ -265,15 +265,24 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         };
                         
                         //DataModel Object
-                        function PFlowDataModel (data) {
-                            var _items = data;
+                        function PFlowDataModel (nodes, links) {
+                            var _items = nodes, _links = links;
+                            
+                            function setCoordinates() {
+                                _items.forEach(function(item, idx) {
+                                    console.log(item);
+                                    item.x = idx * 2 * w + startX;
+                                    item.y = 50;
+                                });
+                            };
+                            
                             if (_items.length > 2) {
                                 var tmp = _items[_items.length - 2];
-                                _items[_items.length - 2] = _items[0];
-                                _items[0] = tmp;
+                                _items.splice(2,1);
+                                _items.splice(0,0,tmp);
                             }
                             
-                            console.log(_items);
+                            setCoordinates();
                             
                             return {
                                 getItems: function(filter) {
@@ -289,27 +298,23 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         }
                                         _items.splice(_items.length - 1, 0, item);
                                     }
+                                    setCoordinates();
                                     return this;
-                                },
-                                getItems4Select: function() {
-                                    var t =  _items.map(function(item) {
-                                        return {
-                                            label: item.name,
-                                            value: item.uuid,
-                                            selected: false
-                                        }
-                                    });
-                                    return t;
                                 },
                                 removeItem: function (uuid) {
                                     var idx = _items.findIndex(function(item) { return item.uuid === uuid; });
                                     if (idx > -1) {
-                                        return _items.splice(idx, 1)[0];
+                                        var ret = _items.splice(idx, 1)[0];
+                                        setCoordinates();
+                                        return ret;
                                     }
                                     return undefined;
                                 },
                                 getItem: function(uuid) {
                                     return _items.find(function(item) { return item.id === uuid; });
+                                },
+                                getItemByName: function(iname) {
+                                    return _items.find(function(item) { return item.name === iname; });
                                 },
                                 getItemIndex: function(uuid) {
                                     return _items.findIndex(function(item) { return item.id === uuid; });
@@ -318,6 +323,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     var tmp = _items[index1];
                                     _items[index1] = _items[index2];
                                     _items[index2] = tmp;
+                                    setCoordinates();
                                 },
                                 getItems4Select: function() {
                                     var t =  _items.filter(function(item){return item.type==="Activity"}).map(function(item) {
@@ -328,6 +334,13 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                         }
                                     });
                                     return t;
+                                },
+                                getLinks: function(linkType) {
+                                    if (linkType) {
+                                        return _links.filter(function(item){return item.type===linkType});
+                                    }
+                                    
+                                    return _links;
                                 }
                             }
                         }
@@ -375,8 +388,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         function renderGraph() {
                             d3.select("#svgContainer svg").remove();
                             var acts = activitiesModel<%= resID %>.getItems();
-                            var w = 40, h = 50, xoff = w/2, startX = 80, endX;
-                            
                             var svgContainer = d3.select("#svgContainer").append("svg");
                             var defs = svgContainer.append("defs");
                                 
@@ -428,8 +439,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .enter()
                                 .append("g")
                                 .attr("transform", function(d, i) {
-                                    var xt = i * 2 * w + startX;
-                                    return "translate("+xt+", "+50+")";
+                                    return "translate("+d.x+", "+d.y+")";
                                 });
                             
                             var test = g.append("use")
@@ -451,24 +461,48 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 .attr("x", function(d) {
                                     return w/2;
                                 })
-                                .attr("y", "15")
-                                    .text(function(d, i){return i+1});
+                                .attr("y", "13")
+                                    .text(function(d, i){return i > 0 && i < acts.length - 1 ? i : null});
                             
-                                /*var acceptFlows = svgContainer.selectAll("paths")
-                                    .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="authorized"}))
+                            /*activitiesModel<%= resID %>.getLinks().forEach(function(item) {
+                                if (item.type==="authorized") {
+                                    console.log("from:"+item.from);
+                                    console.log(activitiesModel<%= resID %>.getItemByName(item.from));
+                                    console.log(activitiesModel<%= resID %>.getItemByName(item.from).x);
+                                    console.log("to:"+item.to);
+                                    console.log(activitiesModel<%= resID %>.getItemByName(item.to));
+                                    console.log(activitiesModel<%= resID %>.getItemByName(item.to).x);
+                                }
+                            });*/
+                                
+                                var acceptFlows = svgContainer.selectAll("paths")
+                                    .data(activitiesModel<%= resID %>.getLinks())
                                     .enter()
                                     .append("path")
                                     .on("dblclick", function(d){console.log("editing...");})
                                     .attr("d", function(d, i) {
-                                        var xt = i * 2 * w;
-                                        return "M"+(xt + w/2)+",50 A80,130 0 0,1 "+(xt + 2.5 *w)+",50";
+                                        var fromX = activitiesModel<%= resID %>.getItemByName(d.from).x;
+                                        var toX = activitiesModel<%= resID %>.getItemByName(d.to).x;
+                                        
+                                        if (fromX > toX) {
+                                            var tmp = fromX;
+                                            fromX = toX;
+                                            toX = tmp;
+                                        }
+                                        
+                                        if (d.type === "authorized") {
+                                            return "M"+(fromX + w/2)+",50 A"+(toX-fromX)+",130 0 0,1 "+(toX + w/2)+",50";
+                                        } else if (d.type === "unauthorized") {
+                                            return "M"+(fromX + w/2)+",100 A"+(toX-fromX)+",130 0 0,0 "+(toX + w/2)+",100";
+                                        }
+                                        return null;
                                     })
                                     .attr("fill", "none")
-                                    .attr("stroke", "green")
+                                    .attr("stroke", function(d){ return d.type === "authorized" ? "green" : "red"})
                                     .attr("stroke-width", 3);
                                     //.attr("marker-end", "url(#markerArrow)");
                             
-                                var rejectFlows = svgContainer.selectAll("paths")
+                                /*var rejectFlows = svgContainer.selectAll("paths")
                                     .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="unauthorized"}))
                                     .enter()
                                     .append("path")
@@ -500,7 +534,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     var cuid = item.uuid.replace(/-/g,"_");
                                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
                                         .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
-                                        .replace("__itemid__", cuid).replace("__itemidx__", idx+1);
+                                        .replace("__itemid__", cuid).replace("__itemidx__", idx > 0 && idx < finalItems.length - 1 ? idx : "");
                                     var d = domConstruct.toDom(t);
                                     domConstruct.place(d, placeholder);
 
@@ -661,9 +695,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
 
-                                activitiesModel<%= resID %> = new PFlowDataModel(_data.activities);
+                                activitiesModel<%= resID %> = new PFlowDataModel(_data.activities, _data.links);
                                 activitiesGrid<%= resID %> = new DataTable(activitiesModel<%= resID %>, 'activities_<%= resID %>').init();
-                                activitiesLinks<%= resID %> = _data.links;
                                 updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
