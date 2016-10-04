@@ -72,7 +72,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         }
         
         div#svgContainer svg {
-            width: 100%;
+            width: 1280px;
         }
     </style>
     <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
@@ -199,8 +199,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 </div>
             </div>
             <fieldset>
-                <button >Aceptar</button>
-                <button >Cancelar</button>
+                <button>Aceptar</button>
+                <button>Cancelar</button>
             </fieldset>
         </div>
     </div>
@@ -268,6 +268,9 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         function PFlowDataModel (nodes, links) {
                             var _items = nodes, _links = links;
                             
+                            _links.push({type:"startLink"});
+                            console.log(_links);
+                            
                             function setCoordinates() {
                                 _items.forEach(function(item, idx) {
                                     console.log(item);
@@ -318,6 +321,11 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 },
                                 getItemIndex: function(uuid) {
                                     return _items.findIndex(function(item) { return item.id === uuid; });
+                                },
+                                getItemAt: function(index) {
+                                    if (_items.length && index >= 0 && index < _items.length) {
+                                        return _items[index];
+                                    }
                                 },
                                 swapItems: function(index1, index2) {
                                     var tmp = _items[index1];
@@ -479,10 +487,17 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                     .data(activitiesModel<%= resID %>.getLinks())
                                     .enter()
                                     .append("path")
-                                    .on("dblclick", function(d){console.log("editing...");})
+                                    .on("dblclick", function(d) { console.log("editing..."); })
                                     .attr("d", function(d, i) {
-                                        var fromX = activitiesModel<%= resID %>.getItemByName(d.from).x;
-                                        var toX = activitiesModel<%= resID %>.getItemByName(d.to).x;
+                                        var fromX, toX;
+                                        
+                                        if (d.type==="startLink") {
+                                            fromX = activitiesModel<%= resID %>.getItemAt(0).x;
+                                            toX = activitiesModel<%= resID %>.getItemAt(1).x;
+                                        } else {
+                                            fromX = activitiesModel<%= resID %>.getItemByName(d.from).x;
+                                            toX = activitiesModel<%= resID %>.getItemByName(d.to).x;
+                                        }
                                         
                                         if (fromX > toX) {
                                             var tmp = fromX;
@@ -490,30 +505,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                             toX = tmp;
                                         }
                                         
-                                        if (d.type === "authorized") {
+                                        if (d.type === "authorized" || d.type === "startLink") {
                                             return "M"+(fromX + w/2)+",50 A"+(toX-fromX)+",130 0 0,1 "+(toX + w/2)+",50";
                                         } else if (d.type === "unauthorized") {
                                             return "M"+(fromX + w/2)+",100 A"+(toX-fromX)+",130 0 0,0 "+(toX + w/2)+",100";
                                         }
-                                        return null;
+                                        return "";
                                     })
                                     .attr("fill", "none")
-                                    .attr("stroke", function(d){ return d.type === "authorized" ? "green" : "red"})
+                                    .attr("stroke", function(d) { return d.type === "authorized" || d.type === "startLink" ? "green" : "red"})
                                     .attr("stroke-width", 3);
-                                    //.attr("marker-end", "url(#markerArrow)");
-                            
-                                /*var rejectFlows = svgContainer.selectAll("paths")
-                                    .data(activitiesLinks<%= resID %>.filter(function(d){return d.type==="unauthorized"}))
-                                    .enter()
-                                    .append("path")
-                                    .on("dblclick", function(d){console.log("editing...");})
-                                    .attr("d", function(d, i) {
-                                        var xt = i * 2 * w;
-                                        return "M"+(xt + w/2)+","+2*h+" A80,130 0 0,0 "+(xt + 2.5 *w)+","+2*h;
-                                    })
-                                    .attr("fill", "none")
-                                    .attr("stroke", "red")
-                                    .attr("stroke-width", 3);*/
                         };
                         
                         function updateViews() {
