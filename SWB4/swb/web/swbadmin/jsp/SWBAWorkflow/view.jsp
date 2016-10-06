@@ -27,6 +27,9 @@ save.setParameter("suri", request.getParameter("suri"));
 save.setParameter("id", resID);
 
 User user = SWBContext.getAdminUser();
+String pathAct = SWBPlatform.getContextPath()+"/swbadmin/jsp/SWBAWorkflow/activity.jsp";
+String pathTrans = SWBPlatform.getContextPath()+"/swbadmin/jsp/SWBAWorkflow/transition.jsp";
+
 if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) && null != user) {
     %>
     <script>require(['dijit/Dialog', 'dijit/registry', 'dijit/form/Select']);</script>
@@ -75,135 +78,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             width: 1280px;
         }
     </style>
-    <div id="addActivityDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar actividad">
-        <div class="swbform">
-            <div id="addActivityTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
-                <div data-dojo-type="dijit.layout.ContentPane" title="Propiedades" id="propertiesPane_<%= resID %>">
-                    <form data-dojo-type="dijit.form.Form" id="addActivity_form<%= resID %>">
-                        <fieldset>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label>Nombre:</label>
-                                    </td>
-                                    <td>
-                                        <input name="name" id="name<%= resID %>" data-dojo-type="dijit.form.TextBox"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <label>Descripción:</label>
-                                    </td>
-                                    <td>
-                                        <textarea name="description" id="description<%= resID %>" data-dojo-type="dijit.form.Textarea"></textarea>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                        <fieldset><legend>Duración</legend>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <label>Días:</label>
-                                    </td>
-                                    <td>
-                                        <input name="days" id="days<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
-                                    </td>
-                                    <td>
-                                        <label>Horas:</label>
-                                    </td>
-                                    <td>
-                                        <input name="hours" id="hours<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                    </form>
-                </div>
-                <div data-dojo-type="dijit.layout.ContentPane" title="Usuarios">
-                    <div id="activityUsers_<%= resID %>"></div>
-                </div>
-                <div data-dojo-type="dijit.layout.ContentPane" title="Roles">
-                    <div id="activityRoles_<%= resID %>"></div>
-                </div>
-            </div>
-            <fieldset>
-                <button id="addActivityDialogOk_<%= resID %>">Aceptar</button>
-                <button id="addActivityDialogCancel_<%= resID %>">Cancelar</button>
-            </fieldset>
-        </div>
-    </div>
-    
-    <!-- Transition Dialog -->
-    <div id="addTransitionDialog_<%= resID %>" data-dojo-type="dijit.Dialog" title="Agregar secuencia">
-        <div class="swbform">
-            <div id="addTransitionTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
-                <div data-dojo-type="dijit.layout.ContentPane" title="Transición" id="infoPane_<%= resID %>">
-                    <form data-dojo-type="dijit.form.Form" id="addTransition_form<%= resID %>">
-                        <fieldset>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Terminar flujo</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Publicar automáticamente</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Autorizado</label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                        <fieldset>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                        <fieldset>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select name="nextAct" id="nextAct<%= resID %>" data-dojo-type="dijit/form/Select">
-                                        </select>
-                                    </td>
-                                </tr>
-                            </table>
-                        </fieldset>
-                    </form>
-                </div>
-                <div data-dojo-type="dijit.layout.ContentPane" title="Avisos">
-                    <div id="notifications_<%= resID %>">
-                        <div data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
-                            <div data-dojo-type="dijit.layout.ContentPane" title="Usuarios">
-                                <div id="sequenceNotificationUsers_<%= resID %>"></div>
-                            </div>
-                            <div data-dojo-type="dijit.layout.ContentPane" title="Roles">
-                                <div id="sequenceNotificationRoles_<%= resID %>"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <fieldset>
-                <button>Aceptar</button>
-                <button>Cancelar</button>
-            </fieldset>
-        </div>
-    </div>
+    <jsp:include page="<%= pathAct %>" />
+    <jsp:include page="<%= pathTrans %>" />
     <div id="container_<%= resID %>" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
             <button id="saveButton_<%= resID %>" type="button"></button>
@@ -254,7 +130,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 main: "workflow"
                             }
                             ]}, 
-                        ['d3', 'workflow', 'dojo/store/Memory','dojo/data/ObjectStore', 
+                        ['d3','workflow', 'dojo/store/Memory','dojo/data/ObjectStore', 
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
                         'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
                         'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojo/dom-construct',
@@ -298,7 +174,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 payload.roles = items.map(function(i) { return i.id; });
                             }
                             gd.selection.clear();
-                            
+                            console.log(payload);
                             //Add item to grid store
                             activitiesModel<%= resID %>.addItem(payload);
                             updateViews();
@@ -384,7 +260,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
                         };
-
+                        
                         var addActivity_<%= resID %> = new Button({
                             label: "Agregar actividad",
                             iconClass:'fa fa-plus',
@@ -413,7 +289,27 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         new Button({
                             label: "Aceptar",
                             onClick: function(evt) {
-                                saveAddDialogData();
+                                var res = workflowApp.validateForm(dojo.byId('addActivity_form<%= resID %>'), {required:["name", "description"]});
+                                var valid = false, msg;
+                                if(res.isSuccessful()) {
+                                    valid = true;
+                                    var gd = registry.byId('activityUsers_<%= resID %>');
+                                    var itemUsers = gd.selection.getSelected();
+                                    gd = registry.byId('activityRoles_<%= resID %>');
+                                    var itemRoles = gd.selection.getSelected();
+                                    if (itemUsers.length || itemRoles.length) {
+                                        saveAddDialogData();
+                                    } else {
+                                        valid = false;
+                                        msg="Debe seleccionar usuarios o roles";
+                                    }
+                                } else if (res.hasMissing()) {
+                                    msg = "Verifique que ha introducido los campos requeridos";
+                                }
+                                
+                                if (!valid) {
+                                    alert(msg);
+                                }
                                 evt.preventDefault();
                             }
                         }, "addActivityDialogOk_<%= resID %>").startup();

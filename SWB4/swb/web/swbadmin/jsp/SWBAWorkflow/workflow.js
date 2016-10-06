@@ -1,5 +1,5 @@
-define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/EnhancedGrid"],
-    function (d3, ObjectStore, Memory, EnhancedGrid) {
+define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
+    function (d3, ObjectStore, Memory, EnhancedGrid, validate) {
         var startX = 40, w = 40, h = 50;
         
         function GridWidget (_data, structure, container, sortKeys) {
@@ -79,7 +79,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                 addItem: function(item, idx) {
                     if (item !== undefined) {
                         if(!item.hasOwnProperty("uuid")) {
-                            item.uuid = guid();
+                            item.uuid = _uuid();
                         }
                         _items.splice(_items.length - 1, 0, item);
                     }
@@ -249,11 +249,12 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
         };
         
         function s4() { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); }
+        function _uuid () { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4(); };
         
         var workflowApp = {
             version:"0.0.1",
             uuid: function () {
-                return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+                return _uuid();
             },
             createWorkFlowModel: function(name, nodes, links) {
                 return new PFlowDataModel(name, nodes, links);
@@ -263,6 +264,9 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
             },
             createGridWidget: function(_data, structure, container, sortKeys) {
                 return new GridWidget (_data, structure, container, sortKeys);
+            },
+            validateForm: function(form, profile) {
+                return validate.check(form, profile);
             }
         };
 
