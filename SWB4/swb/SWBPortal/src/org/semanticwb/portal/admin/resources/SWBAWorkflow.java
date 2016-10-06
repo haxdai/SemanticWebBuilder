@@ -43,7 +43,6 @@ import org.semanticwb.model.ResourceType;
 import org.semanticwb.model.Role;
 import org.semanticwb.model.SWBContext;
 import org.semanticwb.model.User;
-import org.semanticwb.model.WebPage;
 import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.admin.resources.workflow.proxy.WorkflowResponse;
@@ -634,6 +633,10 @@ public class SWBAWorkflow extends GenericResource {
                 //Obtener lista de actividades del flujo
                 JSONArray activities = getNodeElements("activity", root);
                 ret.put("activities", activities);
+                
+                //Obtener lista de secuencias del flujo
+                JSONArray links = getNodeElements("link", root);
+                ret.put("links", links);
             }
         }
         return ret;
