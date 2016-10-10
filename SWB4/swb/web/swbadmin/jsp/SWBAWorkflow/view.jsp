@@ -130,22 +130,20 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 main: "workflow"
                             }
                             ]}, 
-                        ['d3','workflow', 'dojo/store/Memory','dojo/data/ObjectStore', 
+                        ['d3','workflow',
                         'dojo/domReady!', 'dojo/dom', 'dojo/request/xhr', 
-                        'dojox/widget/Standby', 'dijit/form/Button', 'dijit/registry',
-                        'dojox/grid/EnhancedGrid', 'dijit/form/CheckBox', 'dojo/dom-construct',
+                        'dojox/widget/Standby', 'dijit/registry',
+                        'dijit/form/CheckBox', 'dojo/dom-construct',
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
-                    function(d3, workflowApp, Memory, ObjectStore, ready, dom, xhr, StandBy, Button, registry, EnhancedGrid, CheckBox, domConstruct) {
+                    function(d3, workflowApp, ready, dom, xhr, StandBy, registry, CheckBox, domConstruct) {
                         var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
-                            rtypesGrid_<%= resID %>, activitiesGrid_<%= resID %>, dialogData<%= resID %>, activitiesGrid<%= resID %>,
-                            activitiesModel<%= resID %>, startX = 40, w = 40, h = 50;
+                            rtypesGrid_<%= resID %>, dialogData<%= resID %>;
+                    
                         document.body.appendChild(standby.domNode);
                         standby.startup();
                         standby.show();
                         
-                        workflowApp.initUI("<%= resID %>");
-                        
-                        function saveAddDialogData() {
+                        /*function saveAddDialogData() {
                             //Get form values
                             var payload = {};
                             payload = registry.byId('addActivity_form<%= resID %>').getValues();
@@ -169,105 +167,22 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             console.log(payload);
                             //Add item to grid store
                             activitiesModel<%= resID %>.addItem(payload);
-                            updateViews();
+                            //updateViews();
                             
                             //Close dialog and update activity select in sequence dialog
                             hideDialog('addActivityDialog_<%= resID %>');
-                        }
-                        
-                        function updateViews() {
-                            registry.byId('nextAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
-                            registry.byId('fromAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
-                            activitiesGrid<%= resID %>.init();
-                            workflowApp.renderFlow(activitiesModel<%= resID %>, "svgContainer");
-                        };
-                        
-                        //Custom Table for activities
-                        function DataTable (model, placeholder) {
-                            var _model = model,
-                                tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
-                            
-                            function render() {
-                                domConstruct.empty(placeholder);
-                                var finalItems = _model.getItems();
-                                finalItems.forEach(function(item, idx) {
-                                    var cuid = item.uuid.replace(/-/g,"_");
-                                    var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
-                                        .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
-                                        .replace("__itemid__", cuid).replace("__itemidx__", idx > 0 && idx < finalItems.length - 1 ? idx : "");
-                                    var d = domConstruct.toDom(t);
-                                    domConstruct.place(d, placeholder);
-
-                                    //Create action buttons
-                                    if (idx > 0 && idx < finalItems.length - 2) {
-                                        var btn = new Button({
-                                            iconClass: "fa fa-arrow-down",
-                                            showLabel: false,
-                                            onClick: function(evt) {
-                                                _model.swapItems(idx + 1, idx);
-                                                updateViews();
-                                            }
-                                        });
-                                        btn._destroyOnRemove = true;
-                                        //Place and start button separately because dojo fails when startup is done on create function
-                                        dojo.place(btn.domNode, cuid, "last");
-                                        btn.startup();
-                                    }
-                                    
-                                    if (idx > 1 && idx < finalItems.length - 1) {
-                                        var btn = new Button({
-                                            iconClass: "fa fa-arrow-up",
-                                            showLabel: false,
-                                            onClick: function(evt) {
-                                                _model.swapItems(idx - 1, idx);
-                                                updateViews();
-                                            }
-                                        });
-                                        
-                                        btn._destroyOnRemove = true;
-                                        dojo.place(btn.domNode, cuid, "last");
-                                        btn.startup();
-                                    }
-                                    
-                                    if (idx > 0 && idx < finalItems.length - 1) {
-                                        var btn = new Button({
-                                            iconClass: "fa fa-trash-o",
-                                            showLabel: false,
-                                            onClick: function(evt) {
-                                                _model.removeItem(item.uuid);
-                                                updateViews();
-                                            }
-                                        });
-
-                                        btn._destroyOnRemove = true;
-                                        dojo.place(btn.domNode, cuid, "last");
-                                        btn.startup();
-                                    }
-                                });
-                            };
-                            
-                            return {
-                                init: function() {
-                                    render();
-                                    return this;
-                                }
-                            };
-                        };
+                        }*/
 
                         xhr("<%= data %>", {
                             handleAs: "json"
                         }).then(function(_data) {
-                            dom.byId("filterVersion_<%= resID %>").innerHTML = _data.version;
+                            workflowApp.initUI("<%= resID %>", _data);
 
                             rtypesGrid_<%= resID %> = workflowApp.createGridWidget(_data.resourceTypes, 
                                 [
                                     { name: "Tipo de recurso", field: "name", width: "20%" },
                                     { name: "Descripción", field: "description", width: "30%" }
                                 ], "resourceTypes_<%= resID %>");
-
-                                activitiesModel<%= resID %> = workflowApp.createWorkFlowModel("activities", _data.activities, _data.links);//new PFlowDataModel(_data.activities, _data.links);
-                                activitiesGrid<%= resID %> = new DataTable(activitiesModel<%= resID %>, 'activities_<%= resID %>').init();
-                                updateViews();
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });

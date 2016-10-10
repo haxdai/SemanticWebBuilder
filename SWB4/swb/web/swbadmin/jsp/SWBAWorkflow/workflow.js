@@ -1,8 +1,80 @@
-define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dijit/registry" ,"dojo/store/Memory", "dojox/grid/EnhancedGrid", 
+define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/registry",
+    "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojo/dom-construct",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
-    function (d3, ObjectStore, Button, registry, Memory, EnhancedGrid, validate) {
-        var startX = 40, w = 40, h = 50, _appID, started = false;
+    function (d3, ObjectStore, Button, dom, registry, Memory, EnhancedGrid, domConstruct, validate) {
+        var startX = 40, w = 40, h = 50, _appID, started = false, activitiesGrid, activitiesModel;
         var _locale = {};
+        
+        //Custom Table for activities
+        function DataTable (placeholder) {
+            var tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
+
+            function render() {
+                domConstruct.empty(placeholder);
+                var finalItems = activitiesModel.getItems();
+                finalItems.forEach(function(item, idx) {
+                    var cuid = item.uuid.replace(/-/g,"_");
+                    var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
+                        .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
+                        .replace("__itemid__", cuid).replace("__itemidx__", idx > 0 && idx < finalItems.length - 1 ? idx : "");
+                    var d = domConstruct.toDom(t);
+                    domConstruct.place(d, placeholder);
+
+                    //Create action buttons
+                    if (idx > 0 && idx < finalItems.length - 2) {
+                        var btn = new Button({
+                            iconClass: "fa fa-arrow-down",
+                            showLabel: false,
+                            onClick: function(evt) {
+                                activitiesModel.swapItems(idx + 1, idx);
+                                updateUI();
+                            }
+                        });
+                        btn._destroyOnRemove = true;
+                        //Place and start button separately because dojo fails when startup is done on create function
+                        dojo.place(btn.domNode, cuid, "last");
+                        btn.startup();
+                    }
+
+                    if (idx > 1 && idx < finalItems.length - 1) {
+                        var btn = new Button({
+                            iconClass: "fa fa-arrow-up",
+                            showLabel: false,
+                            onClick: function(evt) {
+                                activitiesModel.swapItems(idx - 1, idx);
+                                updateUI();
+                            }
+                        });
+
+                        btn._destroyOnRemove = true;
+                        dojo.place(btn.domNode, cuid, "last");
+                        btn.startup();
+                    }
+
+                    if (idx > 0 && idx < finalItems.length - 1) {
+                        var btn = new Button({
+                            iconClass: "fa fa-trash-o",
+                            showLabel: false,
+                            onClick: function(evt) {
+                                activitiesModel.removeItem(item.uuid);
+                                updateUI();
+                            }
+                        });
+
+                        btn._destroyOnRemove = true;
+                        dojo.place(btn.domNode, cuid, "last");
+                        btn.startup();
+                    }
+                });
+            };
+
+            return {
+                init: function() {
+                    render();
+                    return this;
+                }
+            };
+        };
         
         function GridWidget (_data, structure, container, sortKeys) {
             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
@@ -135,7 +207,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dijit/registry" ,"d
                     return _links;
                 }
             };
-        }
+        };
         
         function renderGraph(model, placeholder) {
             d3.select("#"+placeholder+" svg").remove();
@@ -254,15 +326,24 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dijit/registry" ,"d
         function _uuid () { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4(); };
         function showDialog(dId) { registry.byId(dId).show(); };
         function hideDialog(dId) { registry.byId(dId).hide(); };
-        
+        function updateUI() {
+            registry.byId('nextAct'+_appID).set("options", activitiesModel.getItems4Select()).reset();
+            registry.byId('fromAct'+_appID).set("options", activitiesModel.getItems4Select()).reset();
+            activitiesGrid.init();
+            renderGraph(activitiesModel, "svgContainer");
+        };
         
         //App definition
         var workflowApp = { version:"0.0.2" };
         
         //App methods
-        workflowApp.initUI = function(appID, locale) {
+        workflowApp.initUI = function(appID, data, locale) {
+            console.log("init...");
             if (started) return;
+            
             _appID = appID;
+            activitiesModel = new PFlowDataModel("activities", data.activities, data.links);//createWorkFlowModel("activities", flowNodes, flowLinks);
+            activitiesGrid = new DataTable('activities_'+_appID).init();
             
             if (locale) _locale = locale;
             
@@ -354,12 +435,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dijit/registry" ,"d
                 }
             }, "addActivityDialogOk_"+_appID).startup();
             
+            dom.byId("filterVersion_"+_appID).innerHTML = data.version;
+            updateUI();
             started = true;
         };
         workflowApp.getAppID = function() { return _appID; };
-        workflowApp.uuid = function() { return _uuid(); };
-        workflowApp.createWorkFlowModel = function(name, nodes, links) { return new PFlowDataModel(name, nodes, links); };
-        workflowApp.renderFlow = function(model, placeholder) { renderGraph(model, placeholder); };
         workflowApp.createGridWidget = function(_data, structure, container, sortKeys) { return new GridWidget (_data, structure, container, sortKeys); };
         workflowApp.validateForm = function(form, profile) { return validate.check(form, profile); };
         
