@@ -136,8 +136,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         'dijit/form/CheckBox', 'dojo/dom-construct',
                         'dojox/grid/enhanced/plugins/IndirectSelection'],
                     function(d3, workflowApp, ready, dom, xhr, StandBy, registry, CheckBox, domConstruct) {
-                        var saveButton_<%= resID %>, standby = new StandBy({target: "container_<%= resID %>"}),
-                            rtypesGrid_<%= resID %>, dialogData<%= resID %>;
+                        var standby = new StandBy({target: "container_<%= resID %>"});
                     
                         document.body.appendChild(standby.domNode);
                         standby.startup();
@@ -177,12 +176,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             handleAs: "json"
                         }).then(function(_data) {
                             workflowApp.initUI("<%= resID %>", _data);
-
-                            rtypesGrid_<%= resID %> = workflowApp.createGridWidget(_data.resourceTypes, 
-                                [
-                                    { name: "Tipo de recurso", field: "name", width: "20%" },
-                                    { name: "Descripción", field: "description", width: "30%" }
-                                ], "resourceTypes_<%= resID %>");
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });

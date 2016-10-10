@@ -2,7 +2,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
     "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojo/dom-construct",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
     function (d3, ObjectStore, Button, dom, registry, Memory, EnhancedGrid, domConstruct, validate) {
-        var startX = 40, w = 40, h = 50, _appID, started = false, activitiesGrid, activitiesModel;
+        var startX = 40, w = 40, h = 50, _appID, started = false, activitiesGrid, activitiesModel, rtypesGrid;
         var _locale = {};
         
         //Custom Table for activities
@@ -338,12 +338,16 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
         
         //App methods
         workflowApp.initUI = function(appID, data, locale) {
-            console.log("init...");
             if (started) return;
             
             _appID = appID;
             activitiesModel = new PFlowDataModel("activities", data.activities, data.links);//createWorkFlowModel("activities", flowNodes, flowLinks);
             activitiesGrid = new DataTable('activities_'+_appID).init();
+            rtypesGrid = new GridWidget(data.resourceTypes, 
+                [
+                    { name: "Tipo de recurso", field: "name", width: "20%" },
+                    { name: "Descripción", field: "description", width: "30%" }
+                ], "resourceTypes_"+_appID);
             
             if (locale) _locale = locale;
             
