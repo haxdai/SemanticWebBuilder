@@ -17,7 +17,7 @@
 <jsp:useBean id="paramRequest" scope="request" type="org.semanticwb.portal.api.SWBParamRequest"/>
 <%
 PFlow af = (PFlow) SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-String resID = af.getId();
+String resID = af.getWebSite().getId()+"_"+af.getId();
 
 SWBResourceURL data = paramRequest.getRenderUrl().setCallMethod(SWBResourceURL.Call_DIRECT).setMode("gateway").setAction("getWorkflow");
 data.setParameter("suri", request.getParameter("suri"));
@@ -143,15 +143,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         standby.startup();
                         standby.show();
                         
-                        function hideDialog(dialog) {
-                            registry.byId(dialog).reset();
-                            registry.byId(dialog).hide();
-                        };
-                        
-                        function showAddDialog() {
-                            dialogData<%= resID %> = {};
-                            registry.byId('addActivityDialog_<%= resID %>').show();
-                        };
+                        workflowApp.initUI("<%= resID %>");
                         
                         function saveAddDialogData() {
                             //Get form values
@@ -185,6 +177,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         
                         function updateViews() {
                             registry.byId('nextAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
+                            registry.byId('fromAct<%= resID %>').set("options", activitiesModel<%= resID %>.getItems4Select()).reset();
                             activitiesGrid<%= resID %>.init();
                             workflowApp.renderFlow(activitiesModel<%= resID %>, "svgContainer");
                         };
@@ -260,71 +253,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                                 }
                             };
                         };
-                        
-                        var addActivity_<%= resID %> = new Button({
-                            label: "Agregar actividad",
-                            iconClass:'fa fa-plus',
-                            onClick: function(evt) {
-                                showAddDialog();
-                            }
-                        }, "addActivity_<%= resID %>").startup();
-
-                        var addSequence_<%= resID %> = new Button({
-                            label: "Agregar secuencia",
-                            iconClass:'fa fa-plus',
-                            onClick: function(evt) {
-                                registry.byId('addTransitionDialog_<%= resID %>').show();
-                            }
-                        }, "addSequence_<%= resID %>").startup();
-
-                        new Button({
-                            label: "Cancelar",
-                            onClick: function(evt) {
-                                registry.byId('addActivityDialog_<%= resID %>').hide();
-                                registry.byId('addActivityDialog_<%= resID %>').reset();
-                                registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
-                            }
-                        }, "addActivityDialogCancel_<%= resID %>").startup();
-
-                        new Button({
-                            label: "Aceptar",
-                            onClick: function(evt) {
-                                var res = workflowApp.validateForm(dojo.byId('addActivity_form<%= resID %>'), {required:["name", "description"]});
-                                var valid = false, msg;
-                                if(res.isSuccessful()) {
-                                    valid = true;
-                                    var gd = registry.byId('activityUsers_<%= resID %>');
-                                    var itemUsers = gd.selection.getSelected();
-                                    gd = registry.byId('activityRoles_<%= resID %>');
-                                    var itemRoles = gd.selection.getSelected();
-                                    if (itemUsers.length || itemRoles.length) {
-                                        saveAddDialogData();
-                                    } else {
-                                        valid = false;
-                                        msg="Debe seleccionar usuarios o roles";
-                                    }
-                                } else if (res.hasMissing()) {
-                                    msg = "Verifique que ha introducido los campos requeridos";
-                                }
-                                
-                                if (!valid) {
-                                    alert(msg);
-                                }
-                                evt.preventDefault();
-                            }
-                        }, "addActivityDialogOk_<%= resID %>").startup();
-
-                        saveButton_<%= resID %> = new Button({
-                            label: "<%= paramRequest.getLocaleString("lblSave") %>",
-                            iconClass:'fa fa-save',
-                            onClick: function(evt) {
-
-                            }, 
-                            busy: function(val) {
-                                this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
-                                this.set("disabled", val);
-                            }
-                        }, "saveButton_<%= resID %>").startup();
 
                         xhr("<%= data %>", {
                             handleAs: "json"

@@ -1,6 +1,8 @@
-define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
-    function (d3, ObjectStore, Memory, EnhancedGrid, validate) {
-        var startX = 40, w = 40, h = 50;
+define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dijit/registry" ,"dojo/store/Memory", "dojox/grid/EnhancedGrid", 
+    "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
+    function (d3, ObjectStore, Button, registry, Memory, EnhancedGrid, validate) {
+        var startX = 40, w = 40, h = 50, _appID, started = false;
+        var _locale = {};
         
         function GridWidget (_data, structure, container, sortKeys) {
             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
@@ -27,7 +29,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                 },
                 addRowItem: function(item) {
                     if (item) {
-                        item.uuid = workflowApp.uuid();
+                        item.uuid = _uuid();
                         store.newItem(item);
                         grid.render();
                     }
@@ -39,7 +41,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                                 label: item.name,
                                 value: item.uuid,
                                 selected:false
-                            }
+                            };
                         });
                     }
                     return [];
@@ -71,7 +73,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
 
             return {
                 getItems: function(filter) {
-                    if (filter && typeof filter == "function") {
+                    if (filter && typeof filter === "function") {
                         return _items.filter(filter);
                     }
                     return _items;
@@ -116,23 +118,23 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                     setCoordinates();
                 },
                 getItems4Select: function() {
-                    var t =  _items.filter(function(item){return item.type==="Activity"}).map(function(item) {
+                    var t =  _items.filter(function(item){return item.type==="Activity";}).map(function(item) {
                         return {
                             label: item.name,
                             value: item.uuid,
                             selected: false
-                        }
+                        };
                     });
                     return t;
                 },
                 getLinks: function(linkType) {
                     if (linkType) {
-                        return _links.filter(function(item){return item.type===linkType});
+                        return _links.filter(function(item){return item.type===linkType;});
                     }
 
                     return _links;
                 }
-            }
+            };
         }
         
         function renderGraph(model, placeholder) {
@@ -204,7 +206,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                 })
                 .on("dblclick", function(d){console.log("editing...");})
                 .append("svg:title")
-                    .text(function(d) { return d.name });
+                    .text(function(d) { return d.name; });
 
             var labels = g.append("text")
                 .attr("text-anchor", "middle")
@@ -212,7 +214,7 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                     return w/2;
                 })
                 .attr("y", "13")
-                    .text(function(d, i){return i > 0 && i < acts.length - 1 ? i : null});
+                    .text(function(d, i){return i > 0 && i < acts.length - 1 ? i : null; });
 
             var acceptFlows = svgContainer.selectAll("paths")
                 .data(model.getLinks())
@@ -244,31 +246,122 @@ define(["d3", "dojo/data/ObjectStore", "dojo/store/Memory", "dojox/grid/Enhanced
                     return "";
                 })
                 .attr("fill", "none")
-                .attr("stroke", function(d) { return d.type === "authorized" || d.type === "startLink" ? "green" : "red"})
+                .attr("stroke", function(d) { return d.type === "authorized" || d.type === "startLink" ? "green" : "red"; })
                 .attr("stroke-width", 3);
         };
         
         function s4() { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); }
         function _uuid () { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4(); };
+        function showDialog(dId) { registry.byId(dId).show(); };
+        function hideDialog(dId) { registry.byId(dId).hide(); };
         
-        var workflowApp = {
-            version:"0.0.1",
-            uuid: function () {
-                return _uuid();
-            },
-            createWorkFlowModel: function(name, nodes, links) {
-                return new PFlowDataModel(name, nodes, links);
-            },
-            renderFlow: function(model, placeholder) {
-                renderGraph(model, placeholder);
-            },
-            createGridWidget: function(_data, structure, container, sortKeys) {
-                return new GridWidget (_data, structure, container, sortKeys);
-            },
-            validateForm: function(form, profile) {
-                return validate.check(form, profile);
-            }
-        };
+        
+        //App definition
+        var workflowApp = { version:"0.0.2" };
+        
+        //App methods
+        workflowApp.initUI = function(appID, locale) {
+            if (started) return;
+            _appID = appID;
+            
+            if (locale) _locale = locale;
+            
+            //Main bar buttons
+            new Button({
+                label: "Agregar actividad",
+                iconClass:'fa fa-plus',
+                onClick: function(evt) {
+                    showDialog && showDialog("addActivityDialog_"+_appID);
+                }
+            }, "addActivity_"+_appID).startup();
+            
+            new Button({
+                label: "Agregar secuencia",
+                iconClass:'fa fa-plus',
+                onClick: function(evt) {
+                    showDialog && showDialog("addTransitionDialog_"+_appID);
+                }
+            }, "addSequence_"+_appID).startup();
+            
+            new Button({
+                label: "Guardar flujo",
+                iconClass:'fa fa-save',
+                onClick: function(evt) {
 
+                }, 
+                busy: function(val) {
+                    this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
+                    this.set("disabled", val);
+                }
+            }, "saveButton_"+_appID).startup();
+            
+            
+            //Add transition Dialog buttons
+            new Button({
+                label: "Cancelar",
+                onClick: function(evt) {
+                    hideDialog && hideDialog("addTransitionDialog_"+_appID);
+                    //registry.byId('addTransitionDialog_<%= resID %>').reset();
+                    //registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
+                }
+            }, "addSequenceCancel_"+_appID).startup();
+
+            new Button({
+                label: "Aceptar",
+                onClick: function(evt) {
+                    hideDialog && hideDialog("addTransitionDialog_"+_appID);
+                    //registry.byId('addTransitionDialog_<%= resID %>').hide();
+                    //registry.byId('addTransitionDialog_<%= resID %>').reset();
+                    //registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
+                }
+            }, "addSequenceAccept_"+_appID).startup();
+            
+            //Add activity dialog buttons
+            new Button({
+                label: "Cancelar",
+                onClick: function(evt) {
+                    hideDialog && hideDialog("addActivityDialog_"+_appID);
+                    registry.byId('addActivityDialog_'+_appID).reset();
+                    registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
+                }
+            }, "addActivityDialogCancel_"+_appID).startup();
+            
+            new Button({
+                label: "Aceptar",
+                onClick: function(evt) {
+                    var res = workflowApp.validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]});
+                    var valid = false, msg;
+                    if(res.isSuccessful()) {
+                        valid = true;
+                        var gd = registry.byId('activityUsers_'+_appID);
+                        var itemUsers = gd.selection.getSelected();
+                        gd = registry.byId('activityRoles_'+_appID);
+                        var itemRoles = gd.selection.getSelected();
+                        if (itemUsers.length || itemRoles.length) {
+                            saveAddDialogData();
+                        } else {
+                            valid = false;
+                            msg="Debe seleccionar usuarios o roles";
+                        }
+                    } else if (res.hasMissing()) {
+                        msg = "Verifique que ha introducido los campos requeridos";
+                    }
+
+                    if (!valid) {
+                        alert(msg);
+                    }
+                    evt.preventDefault();
+                }
+            }, "addActivityDialogOk_"+_appID).startup();
+            
+            started = true;
+        };
+        workflowApp.getAppID = function() { return _appID; };
+        workflowApp.uuid = function() { return _uuid(); };
+        workflowApp.createWorkFlowModel = function(name, nodes, links) { return new PFlowDataModel(name, nodes, links); };
+        workflowApp.renderFlow = function(model, placeholder) { renderGraph(model, placeholder); };
+        workflowApp.createGridWidget = function(_data, structure, container, sortKeys) { return new GridWidget (_data, structure, container, sortKeys); };
+        workflowApp.validateForm = function(form, profile) { return validate.check(form, profile); };
+        
         return workflowApp;
 });
