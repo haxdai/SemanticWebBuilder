@@ -1,14 +1,16 @@
-define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/registry",
+define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "dojo/dom","dijit/registry",
     "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojo/dom-construct",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
-    function (d3, ObjectStore, Button, dom, registry, Memory, EnhancedGrid, domConstruct, validate) {
-        var startX = 40, w = 40, h = 50, _appID, started = false, activitiesGrid, activitiesModel, rtypesGrid;
+    function (d3, ObjectStore, Form, Button, dom, registry, Memory, EnhancedGrid, domConstruct, validate) {
+        var startX = 40, w = 40, h = 50, _appID, activitiesGrid, activitiesModel, rtypesGrid, actUserGrid, 
+            actRoleGrid, flowUserGrid, flowRoleGrid;
         var _locale = {};
         
         //Custom Table for activities
         function DataTable (placeholder) {
             var tpl = "<tr><td>__itemidx__</td><td><span id='__itemid__'></span></td><td>__name__</td><td>__desc__</td><td>__users__</td><td>__roles__</td></tr>";
 
+            //Render table
             function render() {
                 domConstruct.empty(placeholder);
                 var finalItems = activitiesModel.getItems();
@@ -76,6 +78,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
             };
         };
         
+        //Grid Widget builder based on enhanced grid
         function GridWidget (_data, structure, container, sortKeys) {
             var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
             var options = {
@@ -117,12 +120,22 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                         });
                     }
                     return [];
+                },
+                setSelectedItems: function (items, field) {
+                    var rows = grid.rowCount;
+                    for (var i = 0; i < rows; i++) {
+                        var item = grid.getItem(i);
+                        if (item && items.indexOf(item[field]) >= 0) {
+                            grid.selection.setSelected(i, true);
+                        }
+                    }
+                    grid.render();
                 }
             };
         };
         
         
-        //DataModel Object
+        //DataModel Object for nodes and links
         function PFlowDataModel (name, nodes, links) {
             var _items = nodes, _links = links;
 
@@ -209,6 +222,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
             };
         };
         
+        //Function to render flow diagram
         function renderGraph(model, placeholder) {
             d3.select("#"+placeholder+" svg").remove();
             var acts = model.getItems();
@@ -276,7 +290,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                         return "#bookOk";
                     }
                 })
-                .on("dblclick", function(d){console.log("editing...");})
+                .on("dblclick", function(d) {
+                    if (d.type==="Activity") {
+                        setActivityFormData(d);
+                    }
+                })
                 .append("svg:title")
                     .text(function(d) { return d.name; });
 
@@ -322,6 +340,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                 .attr("stroke-width", 3);
         };
         
+        /*********** utility functions ***********/
         function s4() { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); }
         function _uuid () { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4(); };
         function showDialog(dId) { registry.byId(dId).show(); };
@@ -333,15 +352,29 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
             renderGraph(activitiesModel, "svgContainer");
         };
         
+        function setActivityFormData(config) {
+            //Set form values
+            registry.byId("activityName"+_appID).set("value", config.name);
+            registry.byId("activityDescription"+_appID).set("value", config.description);
+            if (config.hours > 0) registry.byId("activityHours"+_appID).set("value", config.hours);
+            if (config.days > 0) registry.byId("activityDays"+_appID).set("value", config.days);
+            if (config.users) {
+                actUserGrid.setSelectedItems(config.users.split("|"),"login");
+            }
+            if (config.roles) {
+                actRoleGrid.setSelectedItems(config.roles.split("|"),"id");
+            }
+            
+            showDialog && showDialog("addActivityDialog_"+_appID);
+        };
+        
         //App definition
         var workflowApp = { version:"0.0.2" };
         
         //App methods
         workflowApp.initUI = function(appID, data, locale) {
-            if (started) return;
-            
             _appID = appID;
-            activitiesModel = new PFlowDataModel("activities", data.activities, data.links);//createWorkFlowModel("activities", flowNodes, flowLinks);
+            activitiesModel = new PFlowDataModel("activities", data.activities, data.links);
             activitiesGrid = new DataTable('activities_'+_appID).init();
             rtypesGrid = new GridWidget(data.resourceTypes, 
                 [
@@ -386,8 +419,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                 label: "Cancelar",
                 onClick: function(evt) {
                     hideDialog && hideDialog("addTransitionDialog_"+_appID);
-                    //registry.byId('addTransitionDialog_<%= resID %>').reset();
-                    //registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
+                    registry.byId('addTransitionDialog_'+_appID).reset();
+                    registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
                 }
             }, "addSequenceCancel_"+_appID).startup();
 
@@ -395,9 +428,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                 label: "Aceptar",
                 onClick: function(evt) {
                     hideDialog && hideDialog("addTransitionDialog_"+_appID);
-                    //registry.byId('addTransitionDialog_<%= resID %>').hide();
-                    //registry.byId('addTransitionDialog_<%= resID %>').reset();
-                    //registry.byId('addActivityTabContainer_<%= resID %>').selectChild(registry.byId('propertiesPane_<%= resID %>'));
+                    registry.byId('addTransitionDialog_'+_appID).reset();
+                    registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
                 }
             }, "addSequenceAccept_"+_appID).startup();
             
@@ -414,7 +446,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
             new Button({
                 label: "Aceptar",
                 onClick: function(evt) {
-                    var res = workflowApp.validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]});
+                    var res = validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]});
                     var valid = false, msg;
                     if(res.isSuccessful()) {
                         valid = true;
@@ -439,13 +471,33 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Button", "dojo/dom","dijit/re
                 }
             }, "addActivityDialogOk_"+_appID).startup();
             
+            //Add users and roles grids
+            actUserGrid = new GridWidget(data.users, 
+                [
+                    { name: "Usuario", field: "login", width: "80%" }
+                ], "activityUsers_"+_appID);
+
+            actRoleGrid = new GridWidget(data.roles, 
+                [
+                    { name: "Rol", field: "name", width: "80%" }
+                ], "activityRoles_"+_appID);
+
+            flowUserGrid = new GridWidget(data.users, 
+                [
+                    { name: "Usuario", field: "login", width: "80%" }
+                ], "sequenceNotificationUsers_"+_appID);
+
+            flowRoleGrid = new GridWidget(data.roles, 
+                [
+                    { name: "Rol", field: "name", width: "80%" }
+                ], "sequenceNotificationRoles_"+_appID);
+            
+            
             dom.byId("filterVersion_"+_appID).innerHTML = data.version;
             updateUI();
-            started = true;
         };
         workflowApp.getAppID = function() { return _appID; };
-        workflowApp.createGridWidget = function(_data, structure, container, sortKeys) { return new GridWidget (_data, structure, container, sortKeys); };
-        workflowApp.validateForm = function(form, profile) { return validate.check(form, profile); };
+        validateForm = function(form, profile) { return validate.check(form, profile); };
         
         return workflowApp;
 });

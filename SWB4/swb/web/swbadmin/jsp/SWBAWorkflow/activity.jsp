@@ -27,7 +27,7 @@ save.setParameter("id", resID);
                                     <label>Nombre *:</label>
                                 </td>
                                 <td>
-                                    <input name="name" id="name<%= resID %>" data-dojo-type="dijit.form.TextBox"/>
+                                    <input name="name" id="activityName<%= resID %>" data-dojo-type="dijit.form.TextBox"/>
                                 </td>
                             </tr>
                             <tr>
@@ -35,7 +35,7 @@ save.setParameter("id", resID);
                                     <label>Descripción *:</label>
                                 </td>
                                 <td>
-                                    <textarea name="description" id="description<%= resID %>" data-dojo-type="dijit.form.Textarea"></textarea>
+                                    <textarea name="description" id="activityDescription<%= resID %>" data-dojo-type="dijit.form.Textarea"></textarea>
                                 </td>
                             </tr>
                         </table>
@@ -47,13 +47,13 @@ save.setParameter("id", resID);
                                     <label>Días:</label>
                                 </td>
                                 <td>
-                                    <input name="days" id="days<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                    <input name="days" id="activityDays<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
                                 </td>
                                 <td>
                                     <label>Horas:</label>
                                 </td>
                                 <td>
-                                    <input name="hours" id="hours<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
+                                    <input name="hours" id="activityHours<%= resID %>" data-dojo-type="dijit.form.TextBox" style="width:3em;"/>
                                 </td>
                             </tr>
                         </table>

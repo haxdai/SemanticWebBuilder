@@ -142,6 +142,38 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         standby.startup();
                         standby.show();
                         
+                        //Create users and roles data for grids
+                        <%
+                        String usrdata = "[]";
+                        UserRepository adminRep = SWBContext.getAdminRepository();
+                        Iterator<User> adminUsers = adminRep.listUsers();
+                        if (adminUsers.hasNext()) {
+                            usrdata =  "[";
+                            while (adminUsers.hasNext()) {
+                                User usr = adminUsers.next();
+                                usrdata+="{\"id\":\""+usr.getId()+"\",";
+                                usrdata+="\"login\":\""+usr.getLogin()+"\"}";
+                                if (adminUsers.hasNext()) usrdata+=",";
+                            }
+                            usrdata += "]";
+                        }
+
+                        String roledata = "[]";
+                        Iterator<Role> adminRoles = adminRep.listRoles();
+                        if (adminRoles.hasNext()) {
+                            roledata =  "[";
+                            while (adminRoles.hasNext()) {
+                                Role role = adminRoles.next();
+                                roledata+="{\"id\":\""+role.getId()+"\",";
+                                roledata+="\"name\":\""+role.getTitle()+"\"}";
+                                if (adminRoles.hasNext()) roledata+=",";
+                            }
+                            roledata += "]";
+                        }
+                        %>
+                        var usrData_<%= resID %> = <%= usrdata %>;
+                        var roleData_<%= resID %> = <%= roledata %>;
+                        
                         /*function saveAddDialogData() {
                             //Get form values
                             var payload = {};
@@ -171,67 +203,19 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             //Close dialog and update activity select in sequence dialog
                             hideDialog('addActivityDialog_<%= resID %>');
                         }*/
+    
+                        
 
                         xhr("<%= data %>", {
                             handleAs: "json"
                         }).then(function(_data) {
+                            _data.users = usrData_<%= resID %>;
+                            _data.roles = roleData_<%= resID %>;
                             workflowApp.initUI("<%= resID %>", _data);
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });
                         standby.hide();
-
-                        //Create users and roles grid for Dialogs
-                        <%
-                        String usrdata = "[]";
-                        UserRepository adminRep = SWBContext.getAdminRepository();
-                        Iterator<User> adminUsers = adminRep.listUsers();
-                        if (adminUsers.hasNext()) {
-                            usrdata =  "[";
-                            while (adminUsers.hasNext()) {
-                                User usr = adminUsers.next();
-                                usrdata+="{\"id\":\""+usr.getId()+"\",";
-                                usrdata+="\"login\":\""+usr.getLogin()+"\"}";
-                                if (adminUsers.hasNext()) usrdata+=",";
-                            }
-                            usrdata += "]";
-                        }
-
-                        String roledata = "[]";
-                        Iterator<Role> adminRoles = adminRep.listRoles();
-                        if (adminRoles.hasNext()) {
-                            roledata =  "[";
-                            while (adminRoles.hasNext()) {
-                                Role role = adminRoles.next();
-                                roledata+="{\"id\":\""+role.getId()+"\",";
-                                roledata+="\"name\":\""+role.getTitle()+"\"}";
-                                if (adminRoles.hasNext()) roledata+=",";
-                            }
-                            roledata += "]";
-                        }
-
-                        %>
-                        var usrData = <%= usrdata %>;
-                        var roleData = <%= roledata %>;
-                        workflowApp.createGridWidget(usrData, 
-                            [
-                                { name: "Usuario", field: "login", width: "80%" }
-                            ], "activityUsers_<%= resID %>");
-
-                        workflowApp.createGridWidget(roleData, 
-                            [
-                                { name: "Rol", field: "name", width: "80%" }
-                            ], "activityRoles_<%= resID %>");
-
-                        workflowApp.createGridWidget(usrData, 
-                            [
-                                { name: "Usuario", field: "login", width: "80%" }
-                            ], "sequenceNotificationUsers_<%= resID %>");
-
-                        workflowApp.createGridWidget(roleData, 
-                            [
-                                { name: "Rol", field: "name", width: "80%" }
-                            ], "sequenceNotificationRoles_<%= resID %>");
                     });
                 </script>
             </div>
