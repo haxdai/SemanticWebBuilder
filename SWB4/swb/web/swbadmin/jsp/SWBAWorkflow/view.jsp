@@ -174,38 +174,6 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         var usrData_<%= resID %> = <%= usrdata %>;
                         var roleData_<%= resID %> = <%= roledata %>;
                         
-                        /*function saveAddDialogData() {
-                            //Get form values
-                            var payload = {};
-                            payload = registry.byId('addActivity_form<%= resID %>').getValues();
-                            payload.type = "Activity";
-
-                            //Get selected users from users grid
-                            var gd = registry.byId('activityUsers_<%= resID %>');
-                            var items = gd.selection.getSelected();
-                            if (items.length) {
-                                payload.users = items.map(function(i) { return i.login; });
-                            }
-                            gd.selection.clear();
-
-                            //Get selected roles from roles grid
-                            gd = registry.byId('activityRoles_<%= resID %>');
-                            var items = gd.selection.getSelected();
-                            if (items.length) {
-                                payload.roles = items.map(function(i) { return i.id; });
-                            }
-                            gd.selection.clear();
-                            console.log(payload);
-                            //Add item to grid store
-                            activitiesModel<%= resID %>.addItem(payload);
-                            //updateViews();
-                            
-                            //Close dialog and update activity select in sequence dialog
-                            hideDialog('addActivityDialog_<%= resID %>');
-                        }*/
-    
-                        
-
                         xhr("<%= data %>", {
                             handleAs: "json"
                         }).then(function(_data) {

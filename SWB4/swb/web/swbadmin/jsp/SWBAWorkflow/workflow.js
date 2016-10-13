@@ -341,13 +341,14 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
         };
         
         /*********** utility functions ***********/
+        function validateForm(form, profile) { return validate.check(form, profile); };
         function s4() { return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1); }
         function _uuid () { return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4(); };
         function showDialog(dId) { registry.byId(dId).show(); };
         function hideDialog(dId) { registry.byId(dId).hide(); };
         function updateUI() {
-            registry.byId('nextAct'+_appID).set("options", activitiesModel.getItems4Select()).reset();
-            registry.byId('fromAct'+_appID).set("options", activitiesModel.getItems4Select()).reset();
+            registry.byId('nextAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
+            registry.byId('fromAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
             activitiesGrid.init();
             renderGraph(activitiesModel, "svgContainer");
         };
@@ -359,16 +360,46 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
             if (config.hours > 0) registry.byId("activityHours"+_appID).set("value", config.hours);
             if (config.days > 0) registry.byId("activityDays"+_appID).set("value", config.days);
             if (config.users) {
-                actUserGrid.setSelectedItems(config.users.split("|"),"login");
+                actUserGrid.setSelectedItems(config.users,"login");
             }
             if (config.roles) {
-                actRoleGrid.setSelectedItems(config.roles.split("|"),"id");
+                actRoleGrid.setSelectedItems(config.roles,"id");
             }
             
             showDialog && showDialog("addActivityDialog_"+_appID);
         };
         
-        //App definition
+        function saveActivity() {
+            //Get form values
+            var payload = {};
+            payload = registry.byId('addActivity_form'+_appID).getValues();
+            payload.type = "Activity";
+
+            //Get selected users from users grid
+            var gd = registry.byId('activityUsers_'+_appID);
+            var items = gd.selection.getSelected();
+            if (items.length) {
+                payload.users = items.map(function(i) { return i.login; });
+            }
+            gd.selection.clear();
+
+            //Get selected roles from roles grid
+            gd = registry.byId('activityRoles_'+_appID);
+            var items = gd.selection.getSelected();
+            if (items.length) {
+                payload.roles = items.map(function(i) { return i.id; });
+            }
+            gd.selection.clear();
+            
+            //Add item to grid store
+            activitiesModel.addItem(payload);
+            updateUI();
+
+            //Close dialog and update activity select in sequence dialog
+            hideDialog('addActivityDialog_'+_appID);
+        };
+        
+        /*************App definition*************/
         var workflowApp = { version:"0.0.2" };
         
         //App methods
@@ -455,7 +486,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                         gd = registry.byId('activityRoles_'+_appID);
                         var itemRoles = gd.selection.getSelected();
                         if (itemUsers.length || itemRoles.length) {
-                            saveAddDialogData();
+                            saveActivity();
                         } else {
                             valid = false;
                             msg="Debe seleccionar usuarios o roles";
@@ -494,10 +525,36 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
             
             
             dom.byId("filterVersion_"+_appID).innerHTML = data.version;
+            registry.byId("endflowRadio_"+_appID).on("change", function(isChecked){
+                //Enable checkboxes and disable activity select
+                if (isChecked) {
+                    registry.byId("autoPublish_"+_appID).set("disabled",false);
+                    registry.byId("authorized_"+_appID).set("disabled",false);
+                    registry.byId("nextAct_"+_appID).set("disabled",true);
+                }
+            });
+            
+            registry.byId("startflowRadio_"+_appID).on("change", function(isChecked) {
+                //Disable checkboxes and activity select
+                if (isChecked) {
+                    registry.byId("autoPublish_"+_appID).set("disabled",true);
+                    registry.byId("authorized_"+_appID).set("disabled",true);
+                    registry.byId("nextAct_"+_appID).set("disabled",true);
+                }
+            });
+            
+            registry.byId("redirectflowRadio_"+_appID).on("change", function(isChecked){
+                //Disable checkboxes, enable select
+                if (isChecked) {
+                     registry.byId("autoPublish_"+_appID).set("disabled",true);
+                     registry.byId("authorized_"+_appID).set("disabled",true);
+                     registry.byId("nextAct_"+_appID).set("disabled",false);
+                 }
+            });
+            
             updateUI();
         };
-        workflowApp.getAppID = function() { return _appID; };
-        validateForm = function(form, profile) { return validate.check(form, profile); };
         
+        workflowApp.getAppID = function() { return _appID; };
         return workflowApp;
 });

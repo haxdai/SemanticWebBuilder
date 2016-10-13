@@ -518,33 +518,39 @@ public class SWBAWorkflow extends GenericResource {
                 }
                 
                 //Get Users
+                JSONArray uArray = new JSONArray();
                 childNodes = enode.getElementsByTagName("user");
                 if (childNodes.getLength() > 0) {
-                    String userString [] = new String[childNodes.getLength()];
+                    //String userString [] = new String[childNodes.getLength()];
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
                         if (!id.isEmpty() && !name.isEmpty()) {
-                            userString[j] = nm;
+                            uArray.put(nm);
+                            //userString[j] = nm;
                         }
                     }
-                    e.put("users", String.join(",", userString));
+                    //e.put("users", String.join(",", userString));
+                    e.put("users", uArray);
                 }
                 
                 //Get Roles
+                JSONArray rArray = new JSONArray();
                 childNodes = enode.getElementsByTagName("role");
                 if (childNodes.getLength() > 0) {
-                    String rolesString [] = new String[childNodes.getLength()];
+                    //String rolesString [] = new String[childNodes.getLength()];
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
                         if (!id.isEmpty() && !name.isEmpty()) {
-                            rolesString[j] = nm;
+                            //rolesString[j] = nm;
+                            rArray.put(nm);
                         }
                     }
-                    e.put("roles", String.join(",", rolesString));
+                    //e.put("roles", String.join(",", rolesString));
+                    e.put("roles", rArray);
                 }
                 
                 if (null != days && !days.isEmpty()) e.put("days", days);

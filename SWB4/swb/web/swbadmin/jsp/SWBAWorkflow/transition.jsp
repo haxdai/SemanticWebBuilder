@@ -28,7 +28,7 @@ save.setParameter("id", resID);
                                     Origen *:
                                 </td>
                                 <td>
-                                    <select name="fromAct" id="fromAct<%= resID %>" data-dojo-type="dijit/form/Select"></select>
+                                    <select name="fromAct" id="fromAct_<%= resID %>" data-dojo-type="dijit/form/Select" required="true"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -36,7 +36,7 @@ save.setParameter("id", resID);
                                     Tipo:
                                 </td>
                                 <td>
-                                    <select name="linkType" id="linkAct<%= resID %>" data-dojo-type="dijit/form/Select">
+                                    <select name="linkType" id="linkAct<%= resID %>" data-dojo-type="dijit/form/Select" required="true">
                                         <option value="1">Aprobación</option>
                                         <option value="2">Rechazo</option>
                                     </select>
@@ -48,26 +48,17 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Terminar flujo</label>
+                                    <input name="name2" id="endflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton" checked="true"/><label>Terminar flujo</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Publicar automáticamente</label>
+                                    <input type="checkbox" id="autoPublish_<%= resID %>" data-dojo-type="dijit.form.CheckBox"/><label>Publicar automáticamente</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <input type="checkbox" data-dojo-type="dijit.form.CheckBox"/><label>Autorizado</label>
-                                </td>
-                            </tr>
-                        </table>
-                    </fieldset>
-                    <fieldset>
-                        <table>
-                            <tr>
-                                <td>
-                                    <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
+                                    <input type="checkbox" id="authorized_<%= resID %>" data-dojo-type="dijit.form.CheckBox"/><label>Autorizado</label>
                                 </td>
                             </tr>
                         </table>
@@ -76,12 +67,21 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
+                                    <input name="name2" id="startflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </fieldset>
+                    <fieldset>
+                        <table>
+                            <tr>
+                                <td>
+                                    <input name="name2" id="redirectflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <select name="nextAct" id="nextAct<%= resID %>" data-dojo-type="dijit/form/Select">
+                                    <select name="nextAct" id="nextAct_<%= resID %>" data-dojo-type="dijit/form/Select">
                                     </select>
                                 </td>
                             </tr>
