@@ -20,6 +20,8 @@ save.setParameter("id", resID);
         <div id="addActivityTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
             <div data-dojo-type="dijit.layout.ContentPane" title="Propiedades" id="propertiesPane_<%= resID %>">
                 <form data-dojo-type="dijit.form.Form" id="addActivity_form<%= resID %>">
+                    <input type="hidden" name="uuid" id="uuidActivity_<%= resID %>" />
+                    <input type="hidden" name="action" id="activityAct_<%= resID %>" />
                     <fieldset>
                         <table>
                             <tr>

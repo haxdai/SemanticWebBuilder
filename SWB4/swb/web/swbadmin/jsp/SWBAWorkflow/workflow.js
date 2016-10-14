@@ -1,7 +1,8 @@
-define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "dojo/dom","dijit/registry",
-    "dojo/store/Memory", "dojox/grid/EnhancedGrid", "dojo/dom-construct",
+define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", 
+    "dojo/dom", "dojo/dom-attr", "dijit/registry", "dojo/store/Memory",
+    "dojox/grid/EnhancedGrid", "dojo/dom-construct",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
-    function (d3, ObjectStore, Form, Button, dom, registry, Memory, EnhancedGrid, domConstruct, validate) {
+    function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, EnhancedGrid, domConstruct, validate) {
         var startX = 40, w = 40, h = 50, _appID, activitiesGrid, activitiesModel, rtypesGrid, actUserGrid, 
             actRoleGrid, flowUserGrid, flowRoleGrid;
         var _locale = {};
@@ -147,6 +148,13 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                     item.y = 50;
                 });
             };
+            
+            function updateLinkNodeEnds(oldid, newid) {
+                _links.forEach(function(item) {
+                    if (item.from === oldid) item.from = newid;
+                    if (item.to === oldid) item.to = newid;
+                });
+            }
 
             if (_items.length > 2) {
                 var tmp = _items[_items.length - 2];
@@ -162,6 +170,18 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                         return _items.filter(filter);
                     }
                     return _items;
+                },
+                updateItem: function(nitem) {
+                    if (nitem !== undefined) {
+                        var idx = _items.findIndex(function(item) { return item.uuid === nitem.uuid; });
+                        if (idx > -1) {
+                            var oldname = _items[idx].name;
+                            _items.splice(idx, 1, nitem);
+                            updateLinkNodeEnds(oldname, nitem.name);
+                            setCoordinates();
+                        }
+                    }
+                    return this;
                 },
                 addItem: function(item, idx) {
                     if (item !== undefined) {
@@ -182,14 +202,17 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                     }
                     return undefined;
                 },
+                itemExists: function(name) {
+                    return this.getItemByName(name) ? true : false;
+                },
                 getItem: function(uuid) {
-                    return _items.find(function(item) { return item.id === uuid; });
+                    return _items.find(function(item) { return item.uuid === uuid; });
                 },
                 getItemByName: function(iname) {
                     return _items.find(function(item) { return item.name === iname; });
                 },
                 getItemIndex: function(uuid) {
-                    return _items.findIndex(function(item) { return item.id === uuid; });
+                    return _items.findIndex(function(item) { return item.uuid === uuid; });
                 },
                 getItemAt: function(index) {
                     if (_items.length && index >= 0 && index < _items.length) {
@@ -357,6 +380,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
             //Set form values
             registry.byId("activityName"+_appID).set("value", config.name);
             registry.byId("activityDescription"+_appID).set("value", config.description);
+            domAttr.set("uuidActivity_"+_appID, "value", config.uuid);
+            domAttr.set("activityAct_"+_appID, "value", "update");
+
             if (config.hours > 0) registry.byId("activityHours"+_appID).set("value", config.hours);
             if (config.days > 0) registry.byId("activityDays"+_appID).set("value", config.days);
             if (config.users) {
@@ -371,32 +397,46 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
         
         function saveActivity() {
             //Get form values
-            var payload = {};
-            payload = registry.byId('addActivity_form'+_appID).getValues();
-            payload.type = "Activity";
-
+            var payload = registry.byId('addActivity_form'+_appID).getValues();
+            var gd1 = registry.byId('activityUsers_'+_appID);
+            var gd2 = registry.byId('activityRoles_'+_appID);
+            var action = domAttr.get("activityAct_"+_appID, "value");
             //Get selected users from users grid
-            var gd = registry.byId('activityUsers_'+_appID);
-            var items = gd.selection.getSelected();
+            var items = gd1.selection.getSelected();
             if (items.length) {
                 payload.users = items.map(function(i) { return i.login; });
             }
-            gd.selection.clear();
 
             //Get selected roles from roles grid
-            gd = registry.byId('activityRoles_'+_appID);
-            var items = gd.selection.getSelected();
+            var items = gd2.selection.getSelected();
             if (items.length) {
                 payload.roles = items.map(function(i) { return i.id; });
             }
-            gd.selection.clear();
+            
+            console.log("action: "+action);
+            
+            if (!activitiesModel.itemExists(payload.name)) {
+                payload.type = "Activity";
+            } else {
+                payload.uuid = domAttr.get("uuidActivity_"+_appID, "value");
+            }
             
             //Add item to grid store
-            activitiesModel.addItem(payload);
+            if (action === "update") {
+                activitiesModel.updateItem(payload);
+            } else {
+                activitiesModel.addItem(payload);
+            }
             updateUI();
+            
+            gd1.selection.clear();
+            gd2.selection.clear();
+            domAttr.set("uuidActivity_"+_appID, "value", "");
+            domAttr.set("activityAct_"+_appID, "value", "");
 
             //Close dialog and update activity select in sequence dialog
             hideDialog('addActivityDialog_'+_appID);
+            registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
         };
         
         /*************App definition*************/
@@ -420,6 +460,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                 label: "Agregar actividad",
                 iconClass:'fa fa-plus',
                 onClick: function(evt) {
+                    domAttr.set("activityAct_"+_appID, "value", "insert");
                     showDialog && showDialog("addActivityDialog_"+_appID);
                 }
             }, "addActivity_"+_appID).startup();
@@ -498,6 +539,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", "
                     if (!valid) {
                         alert(msg);
                     }
+                    
+                    registry.byId('addActivityDialog_'+_appID).reset();
                     evt.preventDefault();
                 }
             }, "addActivityDialogOk_"+_appID).startup();

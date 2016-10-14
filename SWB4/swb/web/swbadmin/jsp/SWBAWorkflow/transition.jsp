@@ -21,6 +21,8 @@ save.setParameter("id", resID);
         <div id="addTransitionTabContainer_<%= resID %>" data-dojo-type="dijit.layout.TabContainer" style="width: 400px; height: 300px;">
             <div data-dojo-type="dijit.layout.ContentPane" title="Transición" id="infoPane_<%= resID %>">
                 <form data-dojo-type="dijit.form.Form" id="addTransition_form<%= resID %>">
+                    <input type="hidden" name="uuid" id="uuidFlow_<%= resID %>" />
+                    <input type="hidden" name="action" id="flowAction_<%= resID %>" />
                     <fieldset>
                         <table>
                             <tr>
