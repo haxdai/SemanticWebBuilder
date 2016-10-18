@@ -131,6 +131,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                         }
                     }
                     grid.render();
+                },
+                clearSelection: function() {
+                    grid.selection.clear();
                 }
             };
         };
@@ -377,6 +380,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         };
         
         function setActivityFormData(config) {
+            //Clear selections
+            actUserGrid.clearSelection();
+            actRoleGrid.clearSelection();
             //Set form values
             registry.byId("activityName"+_appID).set("value", config.name);
             registry.byId("activityDescription"+_appID).set("value", config.description);
@@ -509,6 +515,10 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             new Button({
                 label: "Cancelar",
                 onClick: function(evt) {
+                    console.log("Cancel");
+                    //Clear selections
+                    actUserGrid.clearSelection();
+                    actRoleGrid.clearSelection();
                     hideDialog && hideDialog("addActivityDialog_"+_appID);
                     registry.byId('addActivityDialog_'+_appID).reset();
                     registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
