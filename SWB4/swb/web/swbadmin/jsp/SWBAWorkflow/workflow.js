@@ -212,7 +212,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     return _items.find(function(item) { return item.uuid === uuid; });
                 },
                 getItemByName: function(iname) {
-                    return _items.find(function(item) { return item.name === iname; });
+                    var ret = _items.find(function(item) { return item.name === iname; }) || null; 
+                    return ret;
                 },
                 getItemIndex: function(uuid) {
                     return _items.findIndex(function(item) { return item.uuid === uuid; });
@@ -402,47 +403,58 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         };
         
         function saveActivity() {
-            //Get form values
-            var payload = registry.byId('addActivity_form'+_appID).getValues();
-            var gd1 = registry.byId('activityUsers_'+_appID);
-            var gd2 = registry.byId('activityRoles_'+_appID);
-            var action = domAttr.get("activityAct_"+_appID, "value");
-            //Get selected users from users grid
-            var items = gd1.selection.getSelected();
-            if (items.length) {
-                payload.users = items.map(function(i) { return i.login; });
-            }
+            var msg, valid = false,
+                res = validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]}),
+                action = domAttr.get("activityAct_"+_appID, "value"),
+                itemUsers, itemRoles, gd1 = registry.byId('activityUsers_'+_appID),
+                gd2 = registry.byId('activityRoles_'+_appID);
 
-            //Get selected roles from roles grid
-            var items = gd2.selection.getSelected();
-            if (items.length) {
-                payload.roles = items.map(function(i) { return i.id; });
+            //Form validation passed, check users and roles
+            if(res.isSuccessful()) {
+                //Get users or roles selected
+                itemUsers = gd1.selection.getSelected();
+                itemRoles = gd2.selection.getSelected();
+                
+                valid = itemUsers.length || itemRoles.length;
+            } else if (res.hasMissing()) {
+                valid = false;
+                msg = "Verifique que ha introducido los campos requeridos";
             }
             
-            console.log("action: "+action);
-            
-            if (!activitiesModel.itemExists(payload.name)) {
+            if (valid) {
+                var payload = registry.byId('addActivity_form'+_appID).getValues();
+                payload.users = itemUsers.map(function(i) { return i.login; });
+                payload.roles = itemRoles.map(function(i) { return i.id; });
                 payload.type = "Activity";
-            } else {
-                payload.uuid = domAttr.get("uuidActivity_"+_appID, "value");
-            }
-            
-            //Add item to grid store
-            if (action === "update") {
-                activitiesModel.updateItem(payload);
-            } else {
-                activitiesModel.addItem(payload);
-            }
-            updateUI();
-            
-            gd1.selection.clear();
-            gd2.selection.clear();
-            domAttr.set("uuidActivity_"+_appID, "value", "");
-            domAttr.set("activityAct_"+_appID, "value", "");
+                
+                if (action === "update") {    
+                    var uid = domAttr.get("uuidActivity_"+_appID, "value");//dom.byId("uuidActivity_"+_appID).;
+                    payload.uuid = uid;
+                    activitiesModel.updateItem(payload);
+                } else if (action === "insert") {
+                    var foundItem = activitiesModel.getItemByName(payload.name);
+                    if (foundItem && foundItem.uuid) {
+                        valid = false;
+                        msg = "Ya existe una actividad con ese nombre";
+                    } else {
+                        activitiesModel.addItem(payload);
+                    }
+                }
+                
+                gd1.selection.clear();
+                gd2.selection.clear();
+                domAttr.set("uuidActivity_"+_appID, "value", "");
+                domAttr.set("activityAct_"+_appID, "value", "");
 
-            //Close dialog and update activity select in sequence dialog
-            hideDialog('addActivityDialog_'+_appID);
-            registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
+                //Close dialog and update activity select in sequence dialog
+                registry.byId('addActivityDialog_'+_appID).reset();
+                registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
+                hideDialog('addActivityDialog_'+_appID);
+                
+                updateUI();
+            } else {
+                alert(msg);
+            }
         };
         
         /*************App definition*************/
@@ -515,7 +527,6 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             new Button({
                 label: "Cancelar",
                 onClick: function(evt) {
-                    console.log("Cancel");
                     //Clear selections
                     actUserGrid.clearSelection();
                     actRoleGrid.clearSelection();
@@ -528,29 +539,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             new Button({
                 label: "Aceptar",
                 onClick: function(evt) {
-                    var res = validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]});
-                    var valid = false, msg;
-                    if(res.isSuccessful()) {
-                        valid = true;
-                        var gd = registry.byId('activityUsers_'+_appID);
-                        var itemUsers = gd.selection.getSelected();
-                        gd = registry.byId('activityRoles_'+_appID);
-                        var itemRoles = gd.selection.getSelected();
-                        if (itemUsers.length || itemRoles.length) {
-                            saveActivity();
-                        } else {
-                            valid = false;
-                            msg="Debe seleccionar usuarios o roles";
-                        }
-                    } else if (res.hasMissing()) {
-                        msg = "Verifique que ha introducido los campos requeridos";
-                    }
-
-                    if (!valid) {
-                        alert(msg);
-                    }
-                    
-                    registry.byId('addActivityDialog_'+_appID).reset();
+                    saveActivity();
                     evt.preventDefault();
                 }
             }, "addActivityDialogOk_"+_appID).startup();
