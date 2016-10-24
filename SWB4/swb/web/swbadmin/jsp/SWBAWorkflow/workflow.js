@@ -264,11 +264,14 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 },
                 updateLink: function(nitem) {
                     if (nitem !== undefined) {
-                        var idx = _links.findIndex(function(item) { return item.uuid === nitem.uuid; });
+                        var idx = _links.findIndex(function(item) { return item.uuid === nitem.uuid; }),
+                            from = _items.find(function(item){ return item.uuid === nitem.from}),
+                            to = _items.find(function(item){ return item.uuid === nitem.to});
+                        
                         if (idx > -1) {
-                            _items[idx].from = nitem.from;
-                            _items[idx].to = nitem.to;
-                            _items[idx].type = nitem.type;
+                            _links[idx].from = from.name;
+                            _links[idx].to = to.name;
+                            _links[idx].type = nitem.type;
                         }
                     }
                     return this;
@@ -472,7 +475,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             domAttr.set("flowAction_"+_appID, "value", "update");
 
             if (config.users) {
-                flowUserGrid.setSelectedItems(config.users,"login");
+                flowUserGrid.setSelectedItems(config.users,"id");
             }
             if (config.roles) {
                 flowRoleGrid.setSelectedItems(config.roles,"id");
@@ -514,14 +517,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             //Form validation passed, check users and roles
             if(res.isSuccessful()) {
                 //Get users or roles selected
+                valid = true;
                 itemUsers = gd1.selection.getSelected();
                 itemRoles = gd2.selection.getSelected();
-
-                if (itemUsers.length || itemRoles.length) {
-                    valid = true;
-                } else {
-                    msg = "Debe seleccionar usuarios o roles";
-                }
             } else if (res.hasMissing()) {
                 valid = false;
                 msg = "Verifique que ha introducido los campos requeridos";
@@ -532,12 +530,21 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 payload.users = itemUsers.map(function(i) { return i.login; });
                 payload.roles = itemRoles.map(function(i) { return i.id; });
                 payload.type = payload.linkType;
-                //TOTO:
+                
+                //Update flow target
+                if (domAttr.get("startflowRadio_"+_appID,"checked")) {
+                    payload.to = activitiesModel.getItemByName("Generador de contenido").uuid;
+                }
+                if (domAttr.get("endflowRadio_"+_appID,"checked")) {
+                    payload.to = activitiesModel.getItemByName("Terminar flujo").uuid;
+                }
+                
                 if (action === "update") {
                     var uid = domAttr.get("uuidFlow_"+_appID, "value");
                     payload.uuid = uid;
-                    //activitiesModel.updateItem(payload);
+                    activitiesModel.updateLink(payload);
                 } else if (action === "insert") {
+                    //TODO:
                     //var foundItem = activitiesModel.getItemByName(payload.name);
                     //if (foundItem && foundItem.uuid) {
                     //    valid = false;
@@ -557,9 +564,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 //registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
                 //hideDialog('addActivityDialog_'+_appID);
                 
-                //updateUI();
+                updateUI();
                 
-                console.log(payload);
+                //console.log(payload);
             } else {
                 alert(msg);
             }
