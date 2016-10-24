@@ -30,7 +30,7 @@ save.setParameter("id", resID);
                                     Origen *:
                                 </td>
                                 <td>
-                                    <select name="fromAct" id="fromAct_<%= resID %>" data-dojo-type="dijit/form/Select" required="true"></select>
+                                    <select name="from" id="fromAct_<%= resID %>" data-dojo-type="dijit/form/Select" required="true"></select>
                                 </td>
                             </tr>
                             <tr>
@@ -50,7 +50,7 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" id="endflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Terminar flujo</label>
+                                    <input id="endflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton" checked="true"/><label>Terminar flujo</label>
                                 </td>
                             </tr>
                             <tr>
@@ -69,7 +69,7 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" id="startflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
+                                    <input id="startflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar al autor del contenido</label>
                                 </td>
                             </tr>
                         </table>
@@ -78,12 +78,12 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" id="redirectflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
+                                    <input id="redirectflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Enviar a otra actividad</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <select name="toAct" id="toAct_<%= resID %>" data-dojo-type="dijit/form/Select"></select>
+                                    <select name="to" id="toAct_<%= resID %>" data-dojo-type="dijit/form/Select"></select>
                                 </td>
                             </tr>
                         </table>
