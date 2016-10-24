@@ -141,9 +141,12 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         
         //DataModel Object for nodes and links
         function PFlowDataModel (name, nodes, links) {
-            var _items = nodes, _links = links;
+            var _items = nodes, _links = links, stlink = {};
 
-            _links.push({type:"startLink"});
+            stlink.type = "startLink";
+            stlink.from="Generador de contenido";
+            stlink.to=nodes[0].name;
+            _links.splice(0,0,stlink);
 
             function setCoordinates() {
                 _items.forEach(function(item, idx) {
@@ -227,6 +230,10 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     var tmp = _items[index1];
                     _items[index1] = _items[index2];
                     _items[index2] = tmp;
+
+                    if (index1 === 1) _links[0].to = _items[index1].name;
+                    if (index2 === 1) _links[0].to = _items[index2].name;
+
                     setCoordinates();
                 },
                 getItems4Select: function() {
@@ -337,17 +344,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 .data(model.getLinks())
                 .enter()
                 .append("path")
-                .on("dblclick", function(d) { console.log("editing..."); })
                 .attr("d", function(d, i) {
                     var fromX, toX;
 
-                    if (d.type==="startLink") {
-                        fromX = model.getItemAt(0).x;
-                        toX = model.getItemAt(1).x;
-                    } else {
-                        fromX = model.getItemByName(d.from).x;
-                        toX = model.getItemByName(d.to).x;
-                    }
+                    fromX = model.getItemByName(d.from).x;
+                    toX = model.getItemByName(d.to).x;
 
                     if (fromX > toX) {
                         var tmp = fromX;
@@ -364,7 +365,12 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 })
                 .attr("fill", "none")
                 .attr("stroke", function(d) { return d.type === "authorized" || d.type === "startLink" ? "green" : "red"; })
-                .attr("stroke-width", 3);
+                .attr("stroke-width", 3)
+                .on("dblclick", function(d) {
+                    if (d.type !== "startLink") {
+                        setSequenceFormData(d);
+                    }
+                });
         };
         
         /*********** utility functions ***********/
@@ -374,10 +380,85 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         function showDialog(dId) { registry.byId(dId).show(); };
         function hideDialog(dId) { registry.byId(dId).hide(); };
         function updateUI() {
-            registry.byId('nextAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
+            registry.byId('toAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
             registry.byId('fromAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
             activitiesGrid.init();
             renderGraph(activitiesModel, "svgContainer");
+        };
+        function toggleEndFlowOptions(enable) {
+            if (enable) {
+                domAttr.set("endflowRadio_"+_appID, "checked", true);
+                registry.getEnclosingWidget(dom.byId("endflowRadio_"+_appID)).set("checked", true);
+                registry.byId("autoPublish_"+_appID).set("disabled",false);
+                registry.byId("authorized_"+_appID).set("disabled",false);
+                toggleSendToOtherOptions(false);
+                toggleSendStartOptions(false);
+            } else {
+                domAttr.remove("endflowRadio_"+_appID, "checked");
+                registry.byId("autoPublish_"+_appID).set("disabled",true);
+                registry.byId("authorized_"+_appID).set("disabled",true);
+            }
+        };
+        
+        function toggleSendToOtherOptions(enable) {
+            if (enable) {
+                domAttr.set("redirectflowRadio_"+_appID, "checked", true);
+                registry.getEnclosingWidget(dom.byId("redirectflowRadio_"+_appID)).set("checked", true);
+                registry.byId("toAct_"+_appID).set("disabled",false);
+                toggleSendStartOptions(false);
+                toggleEndFlowOptions(false);
+            } else {
+                domAttr.remove("redirectflowRadio_"+_appID, "checked");
+                registry.byId("toAct_"+_appID).set("disabled",true);
+            }
+        };
+        
+        function toggleSendStartOptions(enable) {
+            if (enable) {
+                domAttr.set("startflowRadio_"+_appID, "checked", "checked");
+                registry.getEnclosingWidget(dom.byId("startflowRadio_"+_appID)).set("checked", true);
+                toggleEndFlowOptions(false);
+                toggleSendToOtherOptions(false);
+            } else {
+                domAttr.remove("startflowRadio_"+_appID, "checked");
+            }
+        };
+        
+        function setSequenceFormData(config) {
+            //Clear selections
+            flowUserGrid.clearSelection();
+            flowRoleGrid.clearSelection();
+            //Set form values
+            var fromObj, toObj;
+                fromObj = activitiesModel.getItemByName(config.from);
+                toObj = activitiesModel.getItemByName(config.to);
+            
+            registry.byId("fromAct_"+_appID).set("value", fromObj.uuid);
+            registry.byId("toAct_"+_appID).set("value", toObj.uuid);
+            
+            if (toObj.name === "Generador de contenido") {
+                toggleSendStartOptions(true);
+            } else  if (toObj.name === "Terminar flujo") {
+                toggleEndFlowOptions(true);
+            } else {
+                toggleSendToOtherOptions(true);
+            }
+            
+            if (config.type && config.type !== "startLink") {
+                registry.byId("linkAct_"+_appID).set("value", config.type);
+            }
+            
+            domAttr.set("uuidFlow_"+_appID, "value", config.uuid);
+            domAttr.set("flowAction_"+_appID, "value", "update");
+
+            if (config.users) {
+                flowUserGrid.setSelectedItems(config.users,"login");
+            }
+            if (config.roles) {
+                flowRoleGrid.setSelectedItems(config.roles,"id");
+            }
+            
+            showDialog && showDialog("addTransitionDialog_"+_appID);
         };
         
         function setActivityFormData(config) {
@@ -567,30 +648,21 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             
             
             dom.byId("filterVersion_"+_appID).innerHTML = data.version;
-            registry.byId("endflowRadio_"+_appID).on("change", function(isChecked){
-                //Enable checkboxes and disable activity select
+            registry.byId("endflowRadio_"+_appID).on("change", function(isChecked) {
                 if (isChecked) {
-                    registry.byId("autoPublish_"+_appID).set("disabled",false);
-                    registry.byId("authorized_"+_appID).set("disabled",false);
-                    registry.byId("nextAct_"+_appID).set("disabled",true);
+                    toggleEndFlowOptions(true);
                 }
             });
             
             registry.byId("startflowRadio_"+_appID).on("change", function(isChecked) {
-                //Disable checkboxes and activity select
                 if (isChecked) {
-                    registry.byId("autoPublish_"+_appID).set("disabled",true);
-                    registry.byId("authorized_"+_appID).set("disabled",true);
-                    registry.byId("nextAct_"+_appID).set("disabled",true);
+                    toggleSendStartOptions(true);
                 }
             });
             
-            registry.byId("redirectflowRadio_"+_appID).on("change", function(isChecked){
-                //Disable checkboxes, enable select
+            registry.byId("redirectflowRadio_"+_appID).on("change", function(isChecked) {
                 if (isChecked) {
-                     registry.byId("autoPublish_"+_appID).set("disabled",true);
-                     registry.byId("authorized_"+_appID).set("disabled",true);
-                     registry.byId("nextAct_"+_appID).set("disabled",false);
+                    toggleSendToOtherOptions(true);
                  }
             });
             

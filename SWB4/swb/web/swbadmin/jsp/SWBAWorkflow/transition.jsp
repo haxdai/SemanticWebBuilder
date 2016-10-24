@@ -38,9 +38,9 @@ save.setParameter("id", resID);
                                     Tipo:
                                 </td>
                                 <td>
-                                    <select name="linkType" id="linkAct<%= resID %>" data-dojo-type="dijit/form/Select" required="true">
-                                        <option value="1">Aprobación</option>
-                                        <option value="2">Rechazo</option>
+                                    <select name="linkType" id="linkAct_<%= resID %>" data-dojo-type="dijit/form/Select" required="true">
+                                        <option value="authorized">Aprobación</option>
+                                        <option value="unauthorized">Rechazo</option>
                                     </select>
                                 </td>
                             </tr>
@@ -50,7 +50,7 @@ save.setParameter("id", resID);
                         <table>
                             <tr>
                                 <td>
-                                    <input name="name2" id="endflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton" checked="true"/><label>Terminar flujo</label>
+                                    <input name="name2" id="endflowRadio_<%= resID %>" type="radio" data-dojo-type="dijit.form.RadioButton"/><label>Terminar flujo</label>
                                 </td>
                             </tr>
                             <tr>
@@ -83,8 +83,7 @@ save.setParameter("id", resID);
                             </tr>
                             <tr>
                                 <td>
-                                    <select name="nextAct" id="nextAct_<%= resID %>" data-dojo-type="dijit/form/Select">
-                                    </select>
+                                    <select name="toAct" id="toAct_<%= resID %>" data-dojo-type="dijit/form/Select"></select>
                                 </td>
                             </tr>
                         </table>
