@@ -162,10 +162,17 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 });
             }
 
+            //Sort elements, put authorActivity frst and EndActivity last
             if (_items.length > 2) {
-                var tmp = _items[_items.length - 2];
-                _items.splice(2,1);
-                _items.splice(0,0,tmp);
+                var tmp, idx;
+                
+                idx = _items.findIndex(function(item) { return item.type === "AuthorActivity"; });
+                tmp = _items.splice(idx, 1);
+                _items.splice(0,0,tmp[0]);
+                
+                idx = _items.findIndex(function(item) { return item.type === "EndActivity"; });
+                tmp = _items.splice(idx, 1);
+                _items.push(tmp[0]);
             }
 
             setCoordinates();
@@ -250,8 +257,21 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     if (linkType) {
                         return _links.filter(function(item){return item.type===linkType;});
                     }
-
                     return _links;
+                },
+                getLink: function(uid) {
+                    return _links.find(function(item) { return item.uuid === uid; });
+                },
+                updateLink: function(nitem) {
+                    if (nitem !== undefined) {
+                        var idx = _links.findIndex(function(item) { return item.uuid === nitem.uuid; });
+                        if (idx > -1) {
+                            _items[idx].from = nitem.from;
+                            _items[idx].to = nitem.to;
+                            _items[idx].type = nitem.type;
+                        }
+                    }
+                    return this;
                 }
             };
         };
@@ -483,6 +503,68 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             showDialog && showDialog("addActivityDialog_"+_appID);
         };
         
+        function saveSequenceFlow() {
+            var valid = false, msg,
+                res = validateForm(dojo.byId('addTransition_form'+_appID), {required:["from", "linkType"]}),
+                action = domAttr.get("flowAction_"+_appID, "value"), itemUsers, itemRoles,
+                gd1 = registry.byId("sequenceNotificationUsers_"+_appID),
+                gd2 = registry.byId("sequenceNotificationRoles_"+_appID);
+
+
+            //Form validation passed, check users and roles
+            if(res.isSuccessful()) {
+                //Get users or roles selected
+                itemUsers = gd1.selection.getSelected();
+                itemRoles = gd2.selection.getSelected();
+
+                if (itemUsers.length || itemRoles.length) {
+                    valid = true;
+                } else {
+                    msg = "Debe seleccionar usuarios o roles";
+                }
+            } else if (res.hasMissing()) {
+                valid = false;
+                msg = "Verifique que ha introducido los campos requeridos";
+            }
+            
+            if (valid) {
+                var payload = registry.byId('addTransition_form'+_appID).getValues();
+                payload.users = itemUsers.map(function(i) { return i.login; });
+                payload.roles = itemRoles.map(function(i) { return i.id; });
+                payload.type = payload.linkType;
+                //TOTO:
+                if (action === "update") {
+                    var uid = domAttr.get("uuidFlow_"+_appID, "value");
+                    payload.uuid = uid;
+                    //activitiesModel.updateItem(payload);
+                } else if (action === "insert") {
+                    //var foundItem = activitiesModel.getItemByName(payload.name);
+                    //if (foundItem && foundItem.uuid) {
+                    //    valid = false;
+                    //    msg = "Ya existe una actividad con ese nombre";
+                    //} else {
+                    //    activitiesModel.addItem(payload);
+                    //}
+                }
+                
+                gd1.selection.clear();
+                gd2.selection.clear();
+                domAttr.set("uuidFlow_"+_appID, "value", "");
+                domAttr.set("flowAction_"+_appID, "value", "");
+
+                //Close dialog and update activity select in sequence dialog
+                //registry.byId('addActivityDialog_'+_appID).reset();
+                //registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
+                //hideDialog('addActivityDialog_'+_appID);
+                
+                //updateUI();
+                
+                console.log(payload);
+            } else {
+                alert(msg);
+            }
+        };
+        
         function saveActivity() {
             var msg, valid = false,
                 res = validateForm(dojo.byId('addActivity_form'+_appID), {required:["name", "description"]}),
@@ -496,7 +578,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 itemUsers = gd1.selection.getSelected();
                 itemRoles = gd2.selection.getSelected();
                 
-                valid = itemUsers.length || itemRoles.length;
+                if (itemUsers.length || itemRoles.length) {
+                    valid = true;
+                } else {
+                    msg = "Debe seleccionar usuarios o roles";
+                }
             } else if (res.hasMissing()) {
                 valid = false;
                 msg = "Verifique que ha introducido los campos requeridos";
@@ -508,7 +594,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 payload.roles = itemRoles.map(function(i) { return i.id; });
                 payload.type = "Activity";
                 
-                if (action === "update") {    
+                if (action === "update") {
                     var uid = domAttr.get("uuidActivity_"+_appID, "value");//dom.byId("uuidActivity_"+_appID).;
                     payload.uuid = uid;
                     activitiesModel.updateItem(payload);
@@ -568,6 +654,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Agregar secuencia",
                 iconClass:'fa fa-plus',
                 onClick: function(evt) {
+                    toggleEndFlowOptions(true);
                     showDialog && showDialog("addTransitionDialog_"+_appID);
                 }
             }, "addSequence_"+_appID).startup();
@@ -598,9 +685,10 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             new Button({
                 label: "Aceptar",
                 onClick: function(evt) {
-                    hideDialog && hideDialog("addTransitionDialog_"+_appID);
-                    registry.byId('addTransitionDialog_'+_appID).reset();
-                    registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
+                    saveSequenceFlow();
+                    //hideDialog && hideDialog("addTransitionDialog_"+_appID);
+                    //registry.byId('addTransitionDialog_'+_appID).reset();
+                    //registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
                 }
             }, "addSequenceAccept_"+_appID).startup();
             
