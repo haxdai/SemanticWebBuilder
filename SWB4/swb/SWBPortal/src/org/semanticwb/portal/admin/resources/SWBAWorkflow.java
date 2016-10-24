@@ -498,15 +498,41 @@ public class SWBAWorkflow extends GenericResource {
             String idObj = enode.getAttribute("id");
             String topicmap = enode.getAttribute("topicmap");
             String name = enode.getAttribute("name");
-            String from = enode.getAttribute("from");
-            String to = enode.getAttribute("to");
-            String publish = enode.getAttribute("publish");
             String type = enode.getAttribute("type");
             
             JSONObject e = createNodeObject(idObj, name, null);
             
             //Activity properties
-            if ("activity".equals(nodeName)) {
+            if ("link".equals(nodeName)) {
+                String from = enode.getAttribute("from");
+                String to = enode.getAttribute("to");
+                String publish = enode.getAttribute("publish");
+                
+                if (null != from && !from.isEmpty()) e.put("from", from);
+                if (null != to && !to.isEmpty()) e.put("to", to);
+                if (null != publish && !publish.isEmpty()) e.put("publish", publish);
+                
+                //Get Users and roles notifications
+                JSONArray uArray = new JSONArray();
+                JSONArray rArray = new JSONArray();
+                NodeList childNodes = enode.getElementsByTagName("notification");
+                if (childNodes.getLength() > 0) {
+                    for (int j = 0; j < childNodes.getLength(); j++) {
+                        Element el = (Element)childNodes.item(j);
+                        String notificationTo = el.getAttribute("to");
+                        String notificationType = el.getAttribute("type");
+                        if (!notificationTo.isEmpty() && !notificationType.isEmpty()) {
+                            if ("user".equals(notificationType)) {
+                                uArray.put(notificationTo);
+                            } else if ("role".equals(notificationType)) {
+                                rArray.put(notificationTo);
+                            }
+                        }
+                    }
+                    e.put("users", uArray);
+                    e.put("roles", rArray);
+                }
+            } else if ("activity".equals(nodeName)) {
                 String days = enode.getAttribute("days");
                 String hours = enode.getAttribute("hours");
                 
@@ -521,17 +547,14 @@ public class SWBAWorkflow extends GenericResource {
                 JSONArray uArray = new JSONArray();
                 childNodes = enode.getElementsByTagName("user");
                 if (childNodes.getLength() > 0) {
-                    //String userString [] = new String[childNodes.getLength()];
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
                         if (!id.isEmpty() && !name.isEmpty()) {
                             uArray.put(nm);
-                            //userString[j] = nm;
                         }
                     }
-                    //e.put("users", String.join(",", userString));
                     e.put("users", uArray);
                 }
                 
@@ -539,17 +562,14 @@ public class SWBAWorkflow extends GenericResource {
                 JSONArray rArray = new JSONArray();
                 childNodes = enode.getElementsByTagName("role");
                 if (childNodes.getLength() > 0) {
-                    //String rolesString [] = new String[childNodes.getLength()];
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
                         if (!id.isEmpty() && !name.isEmpty()) {
-                            //rolesString[j] = nm;
                             rArray.put(nm);
                         }
                     }
-                    //e.put("roles", String.join(",", rolesString));
                     e.put("roles", rArray);
                 }
                 
@@ -558,9 +578,6 @@ public class SWBAWorkflow extends GenericResource {
             }
             
             if (null != topicmap && !topicmap.isEmpty()) e.put("topicmap", topicmap);
-            if (null != from && !from.isEmpty()) e.put("from", from);
-            if (null != to && !to.isEmpty()) e.put("to", to);
-            if (null != publish && !publish.isEmpty()) e.put("publish", publish);
             if (null != type && !type.isEmpty()) e.put("type", type);
             
             ret.put(e);
