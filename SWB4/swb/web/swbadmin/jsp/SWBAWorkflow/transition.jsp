@@ -106,6 +106,7 @@ save.setParameter("id", resID);
         <fieldset>
             <button id="addSequenceAccept_<%= resID %>">Aceptar</button>
             <button id="addSequenceCancel_<%= resID %>">Cancelar</button>
+            <button id="addSequenceDelete_<%= resID %>">Eliminar</button>
         </fieldset>
     </div>
 </div>

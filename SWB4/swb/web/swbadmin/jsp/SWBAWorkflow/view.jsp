@@ -70,11 +70,11 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
             -ms-user-select: none; /* IE10+ */
         }
         
-        div#svgContainer {
+        div.svgContainer {
             width: 100%;
         }
         
-        div#svgContainer svg {
+        div.svgContainer svg {
             width: 1280px;
         }
     </style>
@@ -95,7 +95,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                 <div data-dojo-type="dijit/layout/ContentPane" title="<%= paramRequest.getLocaleString("lblDesignTab") %>">
                     <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="gutters:true, liveSplitters:false">
                         <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top', splitter:false">
-                            <div id="svgContainer">
+                            <div id="svgContainer_<%= resID %>" class="svgContainer">
                                 <svg></svg>
                             </div>
                         </div>

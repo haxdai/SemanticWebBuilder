@@ -655,6 +655,19 @@ public class SWBAWorkflow extends GenericResource {
                 
                 //Obtener lista de actividades del flujo
                 JSONArray activities = getNodeElements("activity", root);
+                if (activities.length() == 0) {
+                    //Agregar actividades por defecto
+                    JSONObject startAct = createNodeObject(null, "Generador de contenido", "");
+                    startAct.put("topicmap", flow.getWebSite().getId());
+                    startAct.put("type", "AuthorActivity");
+                    
+                    JSONObject endAct = createNodeObject(null, "Terminar flujo", "");
+                    endAct.put("topicmap", flow.getWebSite().getId());
+                    endAct.put("type", "EndActivity");
+                    
+                    activities.put(startAct);
+                    activities.put(endAct);
+                }
                 ret.put("activities", activities);
                 
                 //Obtener lista de secuencias del flujo

@@ -143,10 +143,12 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         function PFlowDataModel (name, nodes, links) {
             var _items = nodes, _links = links, stlink = {};
 
-            stlink.type = "startLink";
-            stlink.from="Generador de contenido";
-            stlink.to=nodes[0].name;
-            _links.splice(0,0,stlink);
+            if (nodes.length > 2) {
+                stlink.type = "startLink";
+                stlink.from="Generador de contenido";
+                stlink.to=nodes[0].name;
+                _links.splice(0,0,stlink);
+            }
 
             function setCoordinates() {
                 _items.forEach(function(item, idx) {
@@ -406,7 +408,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             registry.byId('toAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
             registry.byId('fromAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
             activitiesGrid.init();
-            renderGraph(activitiesModel, "svgContainer");
+            renderGraph(activitiesModel, "svgContainer_"+_appID);
         };
         function toggleEndFlowOptions(enable) {
             if (enable) {
@@ -637,8 +639,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         //App methods
         workflowApp.initUI = function(appID, data, locale) {
             _appID = appID;
+            console.log("....1");
             activitiesModel = new PFlowDataModel("activities", data.activities, data.links);
+            console.log("....2");
             activitiesGrid = new DataTable('activities_'+_appID).init();
+            console.log("....3");
             rtypesGrid = new GridWidget(data.resourceTypes, 
                 [
                     { name: "Tipo de recurso", field: "name", width: "20%" },
@@ -670,7 +675,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Guardar flujo",
                 iconClass:'fa fa-save',
                 onClick: function(evt) {
-
+                    console.log(activitiesModel);
                 }, 
                 busy: function(val) {
                     this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
@@ -698,6 +703,13 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     //registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
                 }
             }, "addSequenceAccept_"+_appID).startup();
+            
+            new Button({
+                label: "Eliminar",
+                onClick: function(evt) {
+                   //TODO:desactivar y activar dependeindo de la acción
+                }
+            }, "addSequenceDelete_"+_appID).startup();
             
             //Add activity dialog buttons
             new Button({
