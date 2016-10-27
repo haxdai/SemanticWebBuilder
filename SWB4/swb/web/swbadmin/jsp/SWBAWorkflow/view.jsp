@@ -179,7 +179,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                         }).then(function(_data) {
                             _data.users = usrData_<%= resID %>;
                             _data.roles = roleData_<%= resID %>;
-                            workflowApp.initUI("<%= resID %>", _data);
+                            workflowApp.initUI("<%= resID %>", _data, "es", '<%= save %>');
                         }, function(err) {
                             alert("<%= paramRequest.getLocaleString("msgError") %>");
                         });

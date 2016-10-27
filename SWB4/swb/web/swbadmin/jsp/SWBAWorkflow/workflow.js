@@ -1,10 +1,10 @@
 define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button", 
-    "dojo/dom", "dojo/dom-attr", "dijit/registry", "dojo/store/Memory",
+    "dojo/dom", "dojo/dom-attr", "dijit/registry", "dojo/store/Memory", 'dojo/request/xhr',
     "dojox/grid/EnhancedGrid", "dojo/dom-construct",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
-    function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, EnhancedGrid, domConstruct, validate) {
+    function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, xhr, EnhancedGrid, domConstruct, validate) {
         var startX = 40, w = 40, h = 50, _appID, activitiesGrid, activitiesModel, rtypesGrid, actUserGrid, 
-            actRoleGrid, flowUserGrid, flowRoleGrid;
+            actRoleGrid, flowUserGrid, flowRoleGrid, _saveUrl;
         var _locale = {};
         
         //Custom Table for activities
@@ -692,8 +692,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         var workflowApp = { version:"0.0.2" };
         
         //App methods
-        workflowApp.initUI = function(appID, data, locale) {
+        workflowApp.initUI = function(appID, data, locale, saveUrl) {
             _appID = appID;
+            _saveUrl = saveUrl;
             activitiesModel = new PFlowDataModel("activities", data.activities, data.links);
             activitiesGrid = new DataTable('activities_'+_appID).init();
             rtypesGrid = new GridWidget(data.resourceTypes, 
@@ -729,7 +730,23 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Guardar flujo",
                 iconClass:'fa fa-save',
                 onClick: function(evt) {
-                    console.log(activitiesModel);
+                    var payload = {};
+                    payload.activities = activitiesModel.getItems();
+                    payload.links = activitiesModel.getLinks();
+                    
+                    var xhrhttp = new XMLHttpRequest();
+                    xhrhttp.open("POST", _saveUrl, true);
+                    xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                    xhrhttp.send(JSON.stringify(payload));
+                    xhrhttp.onreadystatechange = function() {
+                        if (xhrhttp.readyState == 4) {
+                            if (xhrhttp.status == 200) {
+                                showStatus('Se ha actualizado el filtro');
+                            } else {
+                                alert("Ha ocurrido un error");
+                            }
+                        }
+                    };
                 }, 
                 busy: function(val) {
                     this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");

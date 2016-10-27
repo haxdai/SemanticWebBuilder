@@ -47,6 +47,7 @@ import org.semanticwb.model.WebSite;
 import org.semanticwb.platform.SemanticObject;
 import org.semanticwb.portal.admin.resources.workflow.proxy.WorkflowResponse;
 import org.semanticwb.portal.api.GenericResource;
+import org.semanticwb.portal.api.SWBActionResponse;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -83,6 +84,70 @@ public class SWBAWorkflow extends GenericResource {
             super.processRequest(request, response, paramRequest);
         }
     }
+
+    @Override
+    public void processAction(HttpServletRequest request, SWBActionResponse response) throws SWBResourceException, IOException {
+        String act = response.getAction();
+        if ("updateWorkflow".equals(act)) {
+            //Se recibe el JSON con los nodos seleccionados en la vista.
+            BufferedReader reader = request.getReader();
+            String line = null;
+            StringBuilder body = new StringBuilder();
+            while((line = reader.readLine()) != null) {
+                body.append(line);
+            }
+            reader.close();
+            
+            System.out.println("------");
+            System.out.println(body);
+            System.out.println("------");
+            //Se transforma el JSON de la petición a XML y se guarda en el objeto del filtro
+//            String res = null;
+//            try {
+//                JSONObject payload = new JSONObject(body.toString());
+//                GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+//                res = getXMLFilterData(payload);
+//                
+//                if (null != gobj) {
+//                    if (gobj instanceof User && null != ((User)gobj).getUserFilter()) { //Specific User filter assignment
+//                        UserFilter uf = ((User)gobj).getUserFilter();
+//                        uf.setXml(res);
+//                    } else if (gobj instanceof UserRepository && Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"))) { //Multiple userilfer assignment
+//                        UserRepository urep = (UserRepository) gobj;
+//                        String userIds = request.getParameter("ids");
+//                        if (null != userIds && !userIds.isEmpty()) {
+//                            ArrayList<User> users = new ArrayList<>();
+//                            if (userIds.contains("|")) {
+//                                String []ids = userIds.split("\\|");
+//                                for (String id : ids) {
+//                                    User user = urep.getUser(id);
+//                                    if (null != user) users.add(user);
+//                                }
+//                            } else {
+//                                User user = urep.getUser(userIds);
+//                                if (null != user) users.add(user);
+//                            }
+//                            
+//                            for (User user: users) {
+//                                initializeUserFilter(user);
+//                                UserFilter uf = user.getUserFilter();
+//                                uf.setXml(res);
+//                            }
+//                        }
+//                    }
+//                }
+//            } catch (JSONException jsex) {
+//                log.error("Error getting response body", jsex);
+//            }
+//
+//            if (null != request.getParameter("suri")) {
+//                response.setRenderParameter("suri", request.getParameter("suri"));
+//            }
+        } else {
+            super.processAction(request, response);
+        }
+    }
+    
 
     /**
  * Gets the workflow.
