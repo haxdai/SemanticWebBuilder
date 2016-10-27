@@ -255,6 +255,15 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     });
                     return t;
                 },
+                addLink: function(item) {
+                    if (item !== undefined) {
+                        if(!item.hasOwnProperty("uuid")) {
+                            item.uuid = _uuid();
+                        }
+                        _links.splice(_links.length - 1, 0, item);
+                    }
+                    return this;
+                },
                 getLinks: function(linkType) {
                     if (linkType) {
                         return _links.filter(function(item){return item.type===linkType;});
@@ -371,7 +380,6 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 .append("path")
                 .attr("d", function(d, i) {
                     var fromX, toX;
-
                     fromX = model.getItemByName(d.from).x;
                     toX = model.getItemByName(d.to).x;
 
@@ -546,14 +554,10 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     payload.uuid = uid;
                     activitiesModel.updateLink(payload);
                 } else if (action === "insert") {
-                    //TODO:
-                    //var foundItem = activitiesModel.getItemByName(payload.name);
-                    //if (foundItem && foundItem.uuid) {
-                    //    valid = false;
-                    //    msg = "Ya existe una actividad con ese nombre";
-                    //} else {
-                    //    activitiesModel.addItem(payload);
-                    //}
+                    payload.from = activitiesModel.getItem(payload.from).name;
+                    payload.to = activitiesModel.getItem(payload.to).name;
+                    //TODO: revisar que no se inserten dos secuencias iguales
+                    activitiesModel.addLink(payload);
                 }
                 
                 gd1.selection.clear();
@@ -562,13 +566,11 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 domAttr.set("flowAction_"+_appID, "value", "");
 
                 //Close dialog and update activity select in sequence dialog
-                //registry.byId('addActivityDialog_'+_appID).reset();
-                //registry.byId('addActivityTabContainer_'+_appID).selectChild(registry.byId('propertiesPane_'+_appID));
-                //hideDialog('addActivityDialog_'+_appID);
+                registry.byId('addTransitionDialog_'+_appID).reset();
+                registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
+                hideDialog('addTransitionDialog_'+_appID);
                 
                 updateUI();
-                
-                //console.log(payload);
             } else {
                 alert(msg);
             }
@@ -666,6 +668,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Agregar secuencia",
                 iconClass:'fa fa-plus',
                 onClick: function(evt) {
+                    domAttr.set("flowAction_"+_appID, "value", "insert");
                     toggleEndFlowOptions(true);
                     showDialog && showDialog("addTransitionDialog_"+_appID);
                 }
