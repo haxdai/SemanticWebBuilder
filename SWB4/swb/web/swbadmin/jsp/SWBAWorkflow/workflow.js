@@ -142,14 +142,22 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         //DataModel Object for nodes and links
         function PFlowDataModel (name, nodes, links) {
             var _items = nodes, _links = links, stlink = {};
-
-            if (nodes.length > 2) {
-                stlink.type = "startLink";
-                stlink.from="Generador de contenido";
-                stlink.to=nodes[0].name;
-                _links.splice(0,0,stlink);
-            }
-
+            
+            function setupLinks() {
+                if (_items.length > 2) {
+                    stlink.type = "startLink";
+                    stlink.from = "Generador de contenido";
+                    stlink.to = _items[1].name;
+                    if (_links.length && _links.length > 0) {
+                        if (_links[0].type !== "startLink") {
+                            _links.splice(0,0,stlink);
+                        }
+                    } else {
+                        _links.push(stlink);
+                    }
+                }
+            };
+            
             function setCoordinates() {
                 _items.forEach(function(item, idx) {
                     item.x = idx * 2 * w + startX;
@@ -162,7 +170,30 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     if (item.from === oldid) item.from = newid;
                     if (item.to === oldid) item.to = newid;
                 });
-            }
+            };
+            
+            function checkSequencesAtRemove(item) {
+                var toRemove = [];
+                _links.forEach(function(it){
+                    if (it.from === item.name || it.to === item.name) {
+                        toRemove.push(it);
+                    }
+                });
+                
+                toRemove.forEach(function(item) {
+                    removeLink(item.uuid);
+                });
+            };
+            
+            function removeLink(uuid) {
+                var idx = _links.findIndex(function(item) { return item.uuid === uuid; });
+                if (idx > -1) {
+                    var ret = _links.splice(idx, 1)[0];
+                    setupLinks();
+                    return ret;
+                }
+                return undefined;
+            };
 
             //Sort elements, put authorActivity frst and EndActivity last
             if (_items.length > 2) {
@@ -177,6 +208,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 _items.push(tmp[0]);
             }
 
+            setupLinks();
             setCoordinates();
 
             return {
@@ -193,6 +225,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                             var oldname = _items[idx].name;
                             _items.splice(idx, 1, nitem);
                             updateLinkNodeEnds(oldname, nitem.name);
+                            setupLinks();
                             setCoordinates();
                         }
                     }
@@ -205,6 +238,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                         }
                         _items.splice(_items.length - 1, 0, item);
                     }
+                    setupLinks();
                     setCoordinates();
                     return this;
                 },
@@ -212,6 +246,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     var idx = _items.findIndex(function(item) { return item.uuid === uuid; });
                     if (idx > -1) {
                         var ret = _items.splice(idx, 1)[0];
+                        //TODO: check associated flows and delete them
+                        checkSequencesAtRemove(ret);
+                        setupLinks();
                         setCoordinates();
                         return ret;
                     }
@@ -242,7 +279,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
 
                     if (index1 === 1) _links[0].to = _items[index1].name;
                     if (index2 === 1) _links[0].to = _items[index2].name;
-
+                    
+                    setupLinks();
                     setCoordinates();
                 },
                 getItems4Select: function() {
@@ -285,6 +323,19 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                             _links[idx].type = nitem.type;
                         }
                     }
+                    return this;
+                },
+                removeLink: function(uuid) {
+                    return removeLink(uuid);
+                },
+                getLinkCount: function() {
+                    return _links.length;
+                },
+                getItemCount: function() {
+                    return _items.length;
+                },
+                setupLinks: function() {
+                    setupLinks();
                     return this;
                 }
             };
@@ -492,6 +543,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             }
             
             showDialog && showDialog("addTransitionDialog_"+_appID);
+            registry.byId("addSequenceDelete_"+_appID).set("disabled", false);
         };
         
         function setActivityFormData(config) {
@@ -616,6 +668,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                         msg = "Ya existe una actividad con ese nombre";
                     } else {
                         activitiesModel.addItem(payload);
+                        activitiesModel.setupLinks();
                     }
                 }
                 
@@ -641,11 +694,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         //App methods
         workflowApp.initUI = function(appID, data, locale) {
             _appID = appID;
-            console.log("....1");
             activitiesModel = new PFlowDataModel("activities", data.activities, data.links);
-            console.log("....2");
             activitiesGrid = new DataTable('activities_'+_appID).init();
-            console.log("....3");
             rtypesGrid = new GridWidget(data.resourceTypes, 
                 [
                     { name: "Tipo de recurso", field: "name", width: "20%" },
@@ -671,6 +721,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     domAttr.set("flowAction_"+_appID, "value", "insert");
                     toggleEndFlowOptions(true);
                     showDialog && showDialog("addTransitionDialog_"+_appID);
+                    registry.byId("addSequenceDelete_"+_appID).set("disabled", true);
                 }
             }, "addSequence_"+_appID).startup();
             
@@ -701,16 +752,22 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Aceptar",
                 onClick: function(evt) {
                     saveSequenceFlow();
-                    //hideDialog && hideDialog("addTransitionDialog_"+_appID);
-                    //registry.byId('addTransitionDialog_'+_appID).reset();
-                    //registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
                 }
             }, "addSequenceAccept_"+_appID).startup();
             
             new Button({
                 label: "Eliminar",
                 onClick: function(evt) {
-                   //TODO:desactivar y activar dependeindo de la acción
+                    console.log(activitiesModel.getLinks());
+                    var uid = domAttr.get("uuidFlow_"+_appID, "value");
+                    if (uid.length) {
+                        activitiesModel.removeLink(uid);
+                    }
+                    hideDialog && hideDialog("addTransitionDialog_"+_appID);
+                    registry.byId('addTransitionDialog_'+_appID).reset();
+                    registry.byId('addTransitionTabContainer_'+_appID).selectChild(registry.byId('infoPane_'+_appID));
+                    updateUI();
+                    evt.preventDefault();
                 }
             }, "addSequenceDelete_"+_appID).startup();
             
