@@ -4,7 +4,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
     "dojox/validate/web", "dojox/validate/us", "dojox/validate/check"],
     function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, xhr, EnhancedGrid, domConstruct, validate) {
         var startX = 40, w = 40, h = 50, _appID, activitiesGrid, activitiesModel, rtypesGrid, actUserGrid, 
-            actRoleGrid, flowUserGrid, flowRoleGrid, _saveUrl;
+            actRoleGrid, flowUserGrid, flowRoleGrid, _saveUrl, _flowName, _flowVersion;
         var _locale = {};
         
         //Custom Table for activities
@@ -134,6 +134,10 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 },
                 clearSelection: function() {
                     grid.selection.clear();
+                },
+                getSelectedItems: function() {
+                    console.log(grid.selection.getSelected());
+                    return grid.selection.getSelected();
                 }
             };
         };
@@ -695,6 +699,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         workflowApp.initUI = function(appID, data, locale, saveUrl) {
             _appID = appID;
             _saveUrl = saveUrl;
+            _flowName = data.name;
+            _flowVersion = data.version;
+            
             activitiesModel = new PFlowDataModel("activities", data.activities, data.links);
             activitiesGrid = new DataTable('activities_'+_appID).init();
             rtypesGrid = new GridWidget(data.resourceTypes, 
@@ -730,23 +737,35 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Guardar flujo",
                 iconClass:'fa fa-save',
                 onClick: function(evt) {
-                    var payload = {};
-                    payload.activities = activitiesModel.getItems();
-                    payload.links = activitiesModel.getLinks();
+                    //TODO: hacer validaciones sobre el flujo (flujo correcto)
+                    //Validar si tiene al menos una actividd
+                    //Validar si tiene al menos un flujo de término
+                    //Validar si tiene al menos un flujo de rechazo
                     
-                    var xhrhttp = new XMLHttpRequest();
-                    xhrhttp.open("POST", _saveUrl, true);
-                    xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-                    xhrhttp.send(JSON.stringify(payload));
-                    xhrhttp.onreadystatechange = function() {
-                        if (xhrhttp.readyState == 4) {
-                            if (xhrhttp.status == 200) {
-                                showStatus('Se ha actualizado el filtro');
-                            } else {
-                                alert("Ha ocurrido un error");
+                    if (rtypesGrid.getSelectedItems().length > 0) {
+                        var payload = {name: _flowName, version: _flowVersion};
+                        payload.activities = activitiesModel.getItems();
+                        payload.links = activitiesModel.getLinks();
+                        payload.resourceTypes = rtypesGrid.getSelectedItems();
+                        
+                        this.busy(true);
+                        var xhrhttp = new XMLHttpRequest();
+                        xhrhttp.open("POST", _saveUrl, true);
+                        xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+                        xhrhttp.send(JSON.stringify(payload));
+                        xhrhttp.onreadystatechange = function() {
+                            if (xhrhttp.readyState === 4) {
+                                if (xhrhttp.status === 200) {
+                                    showStatus('Se ha actualizado el filtro');
+                                } else {
+                                    alert("Ha ocurrido un error");
+                                }
+                                this.busy(false);
                             }
-                        }
-                    };
+                        };
+                    } else {
+                        alert("No ha seleccionado ningún tipo de recurso");
+                    }
                 }, 
                 busy: function(val) {
                     this.set("iconClass", val ? "dijitIconLoading" : "dijitEditorIcon dijitEditorIconSave");
