@@ -81,13 +81,18 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         
         //Grid Widget builder based on enhanced grid
         function GridWidget (_data, structure, container, sortKeys) {
-            var store = new ObjectStore({ objectStore:new Memory({ data: _data }) });
+            var store = new ObjectStore({ objectStore:new Memory({ data: _data }) }),
+                selected = _data.filter(function(item) {
+                    return item.selected;
+                });
+            
             var options = {
                 store: store,
                 query: {id:"*"},
                 selectionMode: "multiple",
                 structure: structure,
                 keepSelection: true,
+                canSort: function() {return false},
                 plugins: {
                     indirectSelection: true
                 }
@@ -95,6 +100,26 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
 
             var grid = new EnhancedGrid(options, container);
             grid.startup();
+            
+            dojo.connect(grid.selection, 'onSelected', function(rowIndex) {
+                var it = grid.getItem(rowIndex);
+                if (it) it.selected = true;
+            });
+            
+            dojo.connect(grid.selection, 'onDeselected', function(rowIndex) {
+                var it = grid.getItem(rowIndex);
+                if (it) it.selected = false;
+            });
+            
+            if (selected.length && selected.length > 0) {
+                var rows = store.objectStore.data.length;
+                for (var i = 0; i < rows; i++) {
+                    var item = store.objectStore.data[i];
+                    if (item && item.selected) {
+                        grid.rowSelectCell.toggleRow(i, true);
+                    }
+                }
+            }
             grid.render();
 
             return {
@@ -133,11 +158,19 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     grid.render();
                 },
                 clearSelection: function() {
-                    grid.selection.clear();
+                    //clear selection in model
+                    store.objectStore.data.forEach(function(item, i) {
+                       item.selected = false;
+                       grid.rowSelectCell.toggleRow(i, false);
+                    });
+                    //grid.selection.clear();
                 },
                 getSelectedItems: function() {
-                    console.log(grid.selection.getSelected());
-                    return grid.selection.getSelected();
+                    var ret = store.objectStore.data.filter(function(item) {
+                        return item.selected;
+                    });
+                    return ret;
+                    //return grid.selection.getSelected();
                 }
             };
         };
@@ -743,12 +776,12 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     //Validar si tiene al menos un flujo de rechazo
                     
                     if (rtypesGrid.getSelectedItems().length > 0) {
-                        var payload = {name: _flowName, version: _flowVersion};
+                        var payload = {name: _flowName, version: _flowVersion}, btn = this;
                         payload.activities = activitiesModel.getItems();
                         payload.links = activitiesModel.getLinks();
                         payload.resourceTypes = rtypesGrid.getSelectedItems();
                         
-                        this.busy(true);
+                        btn.busy(true);
                         var xhrhttp = new XMLHttpRequest();
                         xhrhttp.open("POST", _saveUrl, true);
                         xhrhttp.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
@@ -760,7 +793,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                                 } else {
                                     alert("Ha ocurrido un error");
                                 }
-                                this.busy(false);
+                                btn.busy(false);
                             }
                         };
                     } else {

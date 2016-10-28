@@ -98,57 +98,156 @@ public class SWBAWorkflow extends GenericResource {
             }
             reader.close();
             
-            System.out.println("------");
-            System.out.println(body);
-            System.out.println("------");
-            //Se transforma el JSON de la petición a XML y se guarda en el objeto del filtro
-//            String res = null;
-//            try {
-//                JSONObject payload = new JSONObject(body.toString());
-//                GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
-//                res = getXMLFilterData(payload);
-//                
-//                if (null != gobj) {
-//                    if (gobj instanceof User && null != ((User)gobj).getUserFilter()) { //Specific User filter assignment
-//                        UserFilter uf = ((User)gobj).getUserFilter();
-//                        uf.setXml(res);
-//                    } else if (gobj instanceof UserRepository && Boolean.valueOf(getResourceBase().getAttribute("multiple", "false"))) { //Multiple userilfer assignment
-//                        UserRepository urep = (UserRepository) gobj;
-//                        String userIds = request.getParameter("ids");
-//                        if (null != userIds && !userIds.isEmpty()) {
-//                            ArrayList<User> users = new ArrayList<>();
-//                            if (userIds.contains("|")) {
-//                                String []ids = userIds.split("\\|");
-//                                for (String id : ids) {
-//                                    User user = urep.getUser(id);
-//                                    if (null != user) users.add(user);
-//                                }
-//                            } else {
-//                                User user = urep.getUser(userIds);
-//                                if (null != user) users.add(user);
-//                            }
-//                            
-//                            for (User user: users) {
-//                                initializeUserFilter(user);
-//                                UserFilter uf = user.getUserFilter();
-//                                uf.setXml(res);
-//                            }
-//                        }
-//                    }
-//                }
-//            } catch (JSONException jsex) {
-//                log.error("Error getting response body", jsex);
-//            }
-//
-//            if (null != request.getParameter("suri")) {
-//                response.setRenderParameter("suri", request.getParameter("suri"));
-//            }
+            String res = null;
+            try {
+                JSONObject payload = new JSONObject(body.toString());
+                GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
+                
+                System.out.println("------");
+                System.out.println(payload.toString(2));
+                System.out.println("------");
+                
+                res = getXMLWorkflowData(gobj.getURI(), payload);
+                System.out.println("------XML transform-----");
+                System.out.println(res);
+                System.out.println("------");
+                
+                
+                if (null != gobj && gobj instanceof PFlow) {
+                    PFlow flow = (PFlow)gobj;
+                    //Set XML data on pflow
+                }
+            } catch (JSONException jsex) {
+                log.error("Error getting response body", jsex);
+            }
+            
+            if (null != request.getParameter("suri")) {
+                response.setRenderParameter("suri", request.getParameter("suri"));
+            }
         } else {
             super.processAction(request, response);
         }
     }
     
 
+    public String getXMLWorkflowData(String flowUri, JSONObject payload) throws JSONException {
+        Document ret = SWBUtils.XML.xmlToDom("<?xml version=\"1.0\" encoding=\"UTF-8\"?><res><workflow id=\""+flowUri+"\"><description>_</description></workflow></res>");
+        Element root = (Element) ret.getElementsByTagName("workflow").item(0);
+        root.setAttribute("name", payload.optString("name"));
+        root.setAttribute("version", payload.optString("version"));
+        
+        //Add activities
+        JSONArray arr =  payload.optJSONArray("activities");
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject item = arr.getJSONObject(i);
+            String name = item.optString("name");
+            String type = item.optString("type");
+            String description = item.optString("description");
+            
+            if ((!name.isEmpty() && !description.isEmpty()) || "AuthorActivity".equals(type) || "EndActivity".equals(type)) {
+                Element act = ret.createElement("activity");
+                act.setAttribute("type", item.optString("type"));
+                act.setAttribute("name", item.optString("name"));
+                act.setAttribute("days", item.optString("days"));
+                act.setAttribute("hours", item.optString("hours"));
+                
+                if (!"AuthorActivity".equals(type) && !"EndActivity".equals(type)) {
+                    Element desc = ret.createElement("description");
+                    desc.setTextContent(description);
+                    act.appendChild(desc);
+                }
+                
+                //Get roles
+                JSONArray actRoles = item.optJSONArray("roles");
+                if (null != actRoles && actRoles.length() > 0) {
+                    for (int j = 0; j < actRoles.length(); j++) {
+                        JSONObject uitem = actRoles.getJSONObject(j);
+                        String uid = uitem.optString("id");
+                        String uname = uitem.optString("name");
+                        String repo = uitem.optString("repository");
+                        if (repo.isEmpty()) repo = SWBContext.getAdminRepository().getId();
+                        
+                        if (!uid.isEmpty() && !uname.isEmpty()) {
+                            Element role = ret.createElement("role");
+                            role.setAttribute("id", uid);
+                            role.setAttribute("name", uname);    
+                            role.setAttribute("repository", repo);
+                            act.appendChild(role);
+                        }
+                    }
+                }
+                
+                //Get users
+                JSONArray actUsers = item.optJSONArray("users");
+                if (null != actUsers && actUsers.length() > 0) {
+                    for (int j = 0; j < actUsers.length(); j++) {
+                        JSONObject uitem = actUsers.getJSONObject(j);
+                        String uid = uitem.optString("id");
+                        String uname = uitem.optString("name");
+                        if (!uid.isEmpty() && !uname.isEmpty()) {
+                            Element usr = ret.createElement("user");
+                            usr.setAttribute("id", uid);
+                            usr.setAttribute("name", uname);
+                            act.appendChild(usr);
+                        }
+                    }
+                }
+                
+                root.appendChild(act);
+            }
+        }
+        
+        //Add links
+        arr =  payload.optJSONArray("links");
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject link = arr.getJSONObject(i);
+            boolean authorized = link.optBoolean("authorized");
+            boolean publish = link.optBoolean("publish");
+            String type = link.optString("type");
+            String from = link.optString("from");
+            String to = link.optString("to");
+            
+            if (!type.isEmpty() && !from.isEmpty() && !to.isEmpty()) {
+                if (!type.equals("startLink")) {
+                    Element elink = ret.createElement("link");
+                    elink.setAttribute("authorized", String.valueOf(authorized));
+                    elink.setAttribute("from", from);
+                    elink.setAttribute("publish", String.valueOf(publish));
+                    elink.setAttribute("to", to);
+                    elink.setAttribute("type", type);
+                    
+                    Element service = ret.createElement("service");
+                    service.setTextContent("mail");
+                    elink.appendChild(service);
+                    
+                    if (publish) {
+                        service = ret.createElement("service");
+                        service.setTextContent("publish");
+                        elink.appendChild(service);
+                    }
+                    service = ret.createElement("service");
+                    service.setTextContent(authorized ? "authorize" : "noauthorize");
+                    elink.appendChild(service);
+                    
+                    root.appendChild(elink);
+                }
+            }
+        }
+        
+        //Add resource types
+        arr =  payload.optJSONArray("resourceTypes");
+        for (int i = 0; i < arr.length(); i++) {
+            JSONObject item = arr.getJSONObject(i);
+            Element rt = ret.createElement("resourceType");
+            rt.setAttribute("id", item.optString("id"));
+            rt.setAttribute("name", item.optString("name"));
+            rt.setAttribute("topicmap", item.optString("topicmap"));
+            root.appendChild(rt);
+        }
+        
+        return SWBUtils.XML.domToXml(ret);
+    };
+    
     /**
  * Gets the workflow.
  * 
@@ -567,7 +666,7 @@ public class SWBAWorkflow extends GenericResource {
             
             JSONObject e = createNodeObject(idObj, name, null);
             
-            //Activity properties
+            //Link properties
             if ("link".equals(nodeName)) {
                 String from = enode.getAttribute("from");
                 String to = enode.getAttribute("to");
@@ -598,6 +697,7 @@ public class SWBAWorkflow extends GenericResource {
                     e.put("roles", rArray);
                 }
             } else if ("activity".equals(nodeName)) {
+                //Activity properties
                 String days = enode.getAttribute("days");
                 String hours = enode.getAttribute("hours");
                 
@@ -617,7 +717,10 @@ public class SWBAWorkflow extends GenericResource {
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
                         if (!id.isEmpty() && !name.isEmpty()) {
-                            uArray.put(nm);
+                            JSONObject usr = new JSONObject();
+                            usr.put("id", id);
+                            usr.put("name", nm);
+                            uArray.put(usr);
                         }
                     }
                     e.put("users", uArray);
@@ -631,8 +734,13 @@ public class SWBAWorkflow extends GenericResource {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
                         String nm = el.getAttribute("name");
+                        String urep = el.getAttribute("repository");
                         if (!id.isEmpty() && !name.isEmpty()) {
-                            rArray.put(nm);
+                            JSONObject role = new JSONObject();
+                            role.put("id", id);
+                            role.put("name", nm);
+                            role.put("repository", urep);
+                            rArray.put(role);
                         }
                     }
                     e.put("roles", rArray);

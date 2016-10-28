@@ -165,7 +165,8 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             while (adminRoles.hasNext()) {
                                 Role role = adminRoles.next();
                                 roledata+="{\"id\":\""+role.getId()+"\",";
-                                roledata+="\"name\":\""+role.getTitle()+"\"}";
+                                roledata+="\"name\":\""+role.getTitle()+"\",";
+                                roledata+="\"repository\":\""+role.getUserRepository().getId()+"\"}";
                                 if (adminRoles.hasNext()) roledata+=",";
                             }
                             roledata += "]";
