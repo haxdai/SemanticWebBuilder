@@ -152,7 +152,7 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
                             while (adminUsers.hasNext()) {
                                 User usr = adminUsers.next();
                                 usrdata+="{\"id\":\""+usr.getId()+"\",";
-                                usrdata+="\"login\":\""+usr.getLogin()+"\"}";
+                                usrdata+="\"name\":\""+usr.getLogin()+"\"}";
                                 if (adminUsers.hasNext()) usrdata+=",";
                             }
                             usrdata += "]";

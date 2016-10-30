@@ -16,9 +16,16 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 domConstruct.empty(placeholder);
                 var finalItems = activitiesModel.getItems();
                 finalItems.forEach(function(item, idx) {
-                    var cuid = item.uuid.replace(/-/g,"_");
+                    var cuid = item.uuid.replace(/-/g,"_"), users, roles;
+                    if (item.users && item.users.length > 0) {
+                        users = item.users.map(function(it) {return it.name}).join(",");
+                    }
+                    if (item.roles && item.roles.length > 0) {
+                        roles = item.roles.map(function(it) {return it.name}).join(",");
+                    }
+                    
                     var t = tpl.replace("__name__", item.name || "").replace("__desc__", item.description || "")
-                        .replace("__users__", item.users || "").replace("__roles__", item.roles || "")
+                        .replace("__users__", users || "").replace("__roles__", roles || "")
                         .replace("__itemid__", cuid).replace("__itemidx__", idx > 0 && idx < finalItems.length - 1 ? idx : "");
                     var d = domConstruct.toDom(t);
                     domConstruct.place(d, placeholder);
@@ -569,6 +576,14 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 registry.byId("linkAct_"+_appID).set("value", config.type);
             }
             
+            if (config.publish) {
+                domAttr.set("autoPublish_"+_appID, "checked", true);
+                registry.getEnclosingWidget(dom.byId("autoPublish_"+_appID)).set("checked", true);
+            } else {
+                domAttr.remove("autoPublish_"+_appID, "checked");
+                registry.getEnclosingWidget(dom.byId("autoPublish_"+_appID)).set("checked", false);
+            }
+            
             domAttr.set("uuidFlow_"+_appID, "value", config.uuid);
             domAttr.set("flowAction_"+_appID, "value", "update");
 
@@ -595,11 +610,13 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
 
             if (config.hours > 0) registry.byId("activityHours"+_appID).set("value", config.hours);
             if (config.days > 0) registry.byId("activityDays"+_appID).set("value", config.days);
-            if (config.users) {
-                actUserGrid.setSelectedItems(config.users,"login");
+            if (config.users && config.users.length > 0) {
+                var users = config.users.map(function(it) { return it.name; });
+                actUserGrid.setSelectedItems(users,"name");
             }
-            if (config.roles) {
-                actRoleGrid.setSelectedItems(config.roles,"id");
+            if (config.roles && config.roles.length > 0) {
+                var roles = config.roles.map(function(it){ return it.id; });
+                actRoleGrid.setSelectedItems(roles,"id");
             }
             
             showDialog && showDialog("addActivityDialog_"+_appID);
@@ -690,8 +707,8 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             
             if (valid) {
                 var payload = registry.byId('addActivity_form'+_appID).getValues();
-                payload.users = itemUsers.map(function(i) { return i.login; });
-                payload.roles = itemRoles.map(function(i) { return i.id; });
+                payload.users = itemUsers;//.map(function(i) { return i.login; });
+                payload.roles = itemRoles;//.map(function(i) { return i.id; });
                 payload.type = "Activity";
                 
                 if (action === "update") {
@@ -726,7 +743,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
         };
         
         /*************App definition*************/
-        var workflowApp = { version:"0.0.2" };
+        var workflowApp = { version:"1.0.0" };
         
         //App methods
         workflowApp.initUI = function(appID, data, locale, saveUrl) {
@@ -770,10 +787,26 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 label: "Guardar flujo",
                 iconClass:'fa fa-save',
                 onClick: function(evt) {
+                    if (activitiesModel.getItems().length === 2) {
+                        alert("El flujo no tiene actividades definidas");
+                        return;
+                    }
+                    if (activitiesModel.getLinks().length === 1) {
+                        alert("No existen transiciones en el flujo");
+                        return;
+                    } else {
+                        var endFlow = false, rejectFlow = false;
+                        activitiesModel.getLinks().forEach(function(item) {
+                            if (item.to === "Terminar flujo") endFlow = true;
+                            if (item.type === "") rejectFlow = true;
+                        });
+                        if (!endFlow || !rejectFlow) {
+                            alert("El flujo es incorrecto");
+                            return;
+                        }
+                    }
                     //TODO: hacer validaciones sobre el flujo (flujo correcto)
-                    //Validar si tiene al menos una actividd
-                    //Validar si tiene al menos un flujo de término
-                    //Validar si tiene al menos un flujo de rechazo
+                    //Validar si cada actividad tiene flujo de aprobación y de rechazo
                     
                     if (rtypesGrid.getSelectedItems().length > 0) {
                         var payload = {name: _flowName, version: _flowVersion}, btn = this;
@@ -827,7 +860,6 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             new Button({
                 label: "Eliminar",
                 onClick: function(evt) {
-                    console.log(activitiesModel.getLinks());
                     var uid = domAttr.get("uuidFlow_"+_appID, "value");
                     if (uid.length) {
                         activitiesModel.removeLink(uid);
@@ -864,7 +896,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
             //Add users and roles grids
             actUserGrid = new GridWidget(data.users, 
                 [
-                    { name: "Usuario", field: "login", width: "80%" }
+                    { name: "Usuario", field: "name", width: "80%" }
                 ], "activityUsers_"+_appID);
 
             actRoleGrid = new GridWidget(data.roles, 
@@ -874,7 +906,7 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
 
             flowUserGrid = new GridWidget(data.users, 
                 [
-                    { name: "Usuario", field: "login", width: "80%" }
+                    { name: "Usuario", field: "name", width: "80%" }
                 ], "sequenceNotificationUsers_"+_appID);
 
             flowRoleGrid = new GridWidget(data.roles, 

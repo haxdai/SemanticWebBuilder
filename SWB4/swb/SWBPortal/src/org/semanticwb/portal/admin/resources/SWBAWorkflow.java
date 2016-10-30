@@ -103,19 +103,20 @@ public class SWBAWorkflow extends GenericResource {
                 JSONObject payload = new JSONObject(body.toString());
                 GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
                 
-                System.out.println("------");
-                System.out.println(payload.toString(2));
-                System.out.println("------");
-                
+//                System.out.println("------");
+//                System.out.println(payload.toString(2));
+//                System.out.println("------");
+//                
                 res = getXMLWorkflowData(gobj.getURI(), payload);
-                System.out.println("------XML transform-----");
-                System.out.println(res);
-                System.out.println("------");
+//                System.out.println("------XML transform-----");
+//                System.out.println(res);
+//                System.out.println("------");
                 
                 
                 if (null != gobj && gobj instanceof PFlow) {
                     PFlow flow = (PFlow)gobj;
-                    //Set XML data on pflow
+                    //Set PFlow XML data
+                    flow.setXml(res);
                 }
             } catch (JSONException jsex) {
                 log.error("Error getting response body", jsex);
@@ -674,7 +675,7 @@ public class SWBAWorkflow extends GenericResource {
                 
                 if (null != from && !from.isEmpty()) e.put("from", from);
                 if (null != to && !to.isEmpty()) e.put("to", to);
-                if (null != publish && !publish.isEmpty()) e.put("publish", publish);
+                if (null != publish && !publish.isEmpty()) e.put("publish", Boolean.valueOf(publish));
                 
                 //Get Users and roles notifications
                 JSONArray uArray = new JSONArray();
@@ -698,8 +699,13 @@ public class SWBAWorkflow extends GenericResource {
                 }
             } else if ("activity".equals(nodeName)) {
                 //Activity properties
-                String days = enode.getAttribute("days");
-                String hours = enode.getAttribute("hours");
+                if ("Activity".equals(type)) {
+                    String days = enode.getAttribute("days");
+                    String hours = enode.getAttribute("hours");
+
+                    if (null != days && !days.isEmpty()) e.put("days", days);
+                    if (null != hours && !hours.isEmpty()) e.put("hours", hours);
+                }
                 
                 //Get description
                 NodeList childNodes = enode.getElementsByTagName("description");
@@ -715,7 +721,7 @@ public class SWBAWorkflow extends GenericResource {
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
-                        String nm = el.getAttribute("name");
+                        String nm = el.getAttribute("name");//TODO: Name must come from model
                         if (!id.isEmpty() && !name.isEmpty()) {
                             JSONObject usr = new JSONObject();
                             usr.put("id", id);
@@ -733,7 +739,7 @@ public class SWBAWorkflow extends GenericResource {
                     for (int j = 0; j < childNodes.getLength(); j++) {
                         Element el = (Element)childNodes.item(j);
                         String id = el.getAttribute("id");
-                        String nm = el.getAttribute("name");
+                        String nm = el.getAttribute("name");//TODO: Name must come from model
                         String urep = el.getAttribute("repository");
                         if (!id.isEmpty() && !name.isEmpty()) {
                             JSONObject role = new JSONObject();
@@ -744,10 +750,7 @@ public class SWBAWorkflow extends GenericResource {
                         }
                     }
                     e.put("roles", rArray);
-                }
-                
-                if (null != days && !days.isEmpty()) e.put("days", days);
-                if (null != hours && !hours.isEmpty()) e.put("hours", hours);
+                }   
             }
             
             if (null != topicmap && !topicmap.isEmpty()) e.put("topicmap", topicmap);
