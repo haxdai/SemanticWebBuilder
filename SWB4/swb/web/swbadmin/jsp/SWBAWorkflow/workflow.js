@@ -641,8 +641,17 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 msg = "Verifique que ha introducido los campos requeridos";
             }
             
+            var payload;
             if (valid) {
-                var payload = registry.byId('addTransition_form'+_appID).getValues();
+                payload = registry.byId('addTransition_form'+_appID).getValues();
+                
+                if (payload.from === payload.to) {
+                    valid = false;
+                    msg = "La actividad de inicio y destino no puede ser la misma";
+                }
+            }
+            
+            if (valid) {                
                 payload.users = itemUsers.map(function(i) { return i.login; });
                 payload.roles = itemRoles.map(function(i) { return i.id; });
                 payload.type = payload.linkType;
