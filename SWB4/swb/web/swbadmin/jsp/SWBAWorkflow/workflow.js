@@ -355,6 +355,9 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 getLink: function(uid) {
                     return _links.find(function(item) { return item.uuid === uid; });
                 },
+                getLink: function(from, to, type) {
+                    return _links.find(function(item) { return item.from === from && item.to === to && item.type === type; });
+                },
                 updateLink: function(nitem) {
                     if (nitem !== undefined) {
                         var idx = _links.findIndex(function(item) { return item.uuid === nitem.uuid; }),
@@ -649,12 +652,6 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                     valid = false;
                     msg = "La actividad de inicio y destino no puede ser la misma";
                 }
-            }
-            
-            if (valid) {                
-                payload.users = itemUsers.map(function(i) { return i.login; });
-                payload.roles = itemRoles.map(function(i) { return i.id; });
-                payload.type = payload.linkType;
                 
                 //Update flow target
                 if (domAttr.get("startflowRadio_"+_appID,"checked")) {
@@ -663,6 +660,19 @@ define(["d3", "dojo/data/ObjectStore", "dijit/form/Form" ,"dijit/form/Button",
                 if (domAttr.get("endflowRadio_"+_appID,"checked")) {
                     payload.to = activitiesModel.getItemByName("Terminar flujo").uuid;
                 }
+            }
+            
+            //Check existing flows to avoid duplicates
+            var l = activitiesModel.getLink(activitiesModel.getItem(payload.from).name, activitiesModel.getItem(payload.to).name, payload.linkType);
+            if (l && l.from.length) {
+                valid = false;
+                msg = "La secuencia ya existe";
+            }
+            
+            if (valid) {                
+                payload.users = itemUsers.map(function(i) { return i.login; });
+                payload.roles = itemRoles.map(function(i) { return i.id; });
+                payload.type = payload.linkType;
                 
                 if (action === "update") {
                     var uid = domAttr.get("uuidFlow_"+_appID, "value");
