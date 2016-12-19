@@ -467,14 +467,20 @@ function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, xhr, En
       } else if (item.type==="EndActivity") {
         return "#bookOk";
       }
-    })
-    .on("dblclick", function(d) {
-      if (d.type==="Activity") {
-        setActivityFormData(d);
-      }
-    })
-    .append("svg:title")
+    });
+    
+    test.append("svg:title")
     .text(function(d) { return d.name; });
+    
+    //Fix to get event working on chrome
+    var cc = clickcancel();
+    g.call(cc);
+    
+    cc.on("dblclick", function(d, i) {
+        if (d.type==="Activity") {
+            setActivityFormData(d);
+        }
+    });
 
     var labels = g.append("text")
     .attr("text-anchor", "middle")
@@ -527,7 +533,46 @@ function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, xhr, En
     registry.byId('fromAct_'+_appID).set("options", activitiesModel.getItems4Select()).reset();
     activitiesGrid.init();
     renderGraph(activitiesModel, "svgContainer_"+_appID);
+    dom.byId("filterVersion_"+_appID).innerHTML = _flowVersion;
   };
+  
+  function clickcancel() {
+    // we want to a distinguish single/double click
+    // details http://bl.ocks.org/couchand/6394506
+    var event = d3.dispatch('click', 'dblclick');
+    function cc(selection) {
+        var down, tolerance = 5, last, wait = null, args;
+        // euclidean distance
+        function dist(a, b) {
+            return Math.sqrt(Math.pow(a[0] - b[0], 2), Math.pow(a[1] - b[1], 2));
+        }
+        selection.on('mousedown', function() {
+            down = d3.mouse(document.body);
+            last = +new Date();
+            args = arguments;
+        });
+        selection.on('mouseup', function() {
+            if (dist(down, d3.mouse(document.body)) > tolerance) {
+                return;
+            } else {
+                if (wait) {
+                    window.clearTimeout(wait);
+                    wait = null;
+                    event.dblclick.apply(this, args);
+                } else {
+                    wait = window.setTimeout((function() {
+                        return function() {
+                            event.click.apply(this, args);
+                            wait = null;
+                        };
+                    })(), 300);
+                }
+            }
+        });
+    };
+    return d3.rebind(cc, event, 'on');
+  };
+  
   function toggleEndFlowOptions(enable) {
     if (enable) {
       domAttr.set("endflowRadio_"+_appID, "checked", true);
@@ -864,6 +909,9 @@ function (d3, ObjectStore, Form, Button, dom, domAttr, registry, Memory, xhr, En
               if (xhrhttp.readyState === 4) {
                 if (xhrhttp.status === 200) {
                   showStatus('Se ha actualizado el filtro');
+                  var newVer = parseFloat(_flowVersion) + 1;
+                  _flowVersion = newVer +".0";
+                  updateUI();
                 } else {
                   alert("Ha ocurrido un error");
                 }
