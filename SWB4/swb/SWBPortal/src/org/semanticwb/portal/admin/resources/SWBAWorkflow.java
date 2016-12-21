@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.semanticwb.Logger;
+import org.semanticwb.SWBException;
 import org.semanticwb.SWBPlatform;
 import org.semanticwb.SWBUtils;
 import org.semanticwb.model.GenericObject;
@@ -103,23 +104,16 @@ public class SWBAWorkflow extends GenericResource {
                 JSONObject payload = new JSONObject(body.toString());
                 GenericObject gobj = SWBPlatform.getSemanticMgr().getOntology().getGenericObject(request.getParameter("suri"));
                 
-//                System.out.println("------");
-//                System.out.println(payload.toString(2));
-//                System.out.println("------");
-//                
-                res = getXMLWorkflowData(gobj.getURI(), payload);
-//                System.out.println("------XML transform-----");
-//                System.out.println(res);
-//                System.out.println("------");
-                
-                
                 if (null != gobj && gobj instanceof PFlow) {
                     PFlow flow = (PFlow)gobj;
+                    res = getXMLWorkflowData(flow, payload);
                     //Set PFlow XML data
                     flow.setXml(res);
                 }
             } catch (JSONException jsex) {
                 log.error("Error getting response body", jsex);
+            } catch (SWBException swbex) {
+                log.error("Error getting response body", swbex);
             }
             
             if (null != request.getParameter("suri")) {
@@ -131,11 +125,20 @@ public class SWBAWorkflow extends GenericResource {
     }
     
 
-    public String getXMLWorkflowData(String flowUri, JSONObject payload) throws JSONException {
-        Document ret = SWBUtils.XML.xmlToDom("<?xml version=\"1.0\" encoding=\"UTF-8\"?><res><workflow id=\""+flowUri+"\"><description>_</description></workflow></res>");
-        Element root = (Element) ret.getElementsByTagName("workflow").item(0);
+    public String getXMLWorkflowData(PFlow flow, JSONObject payload) throws JSONException, SWBException {
+        Document old = SWBUtils.XML.copyDom(flow.getDom());
+        Element oldFlows = (Element) old.getElementsByTagName("workflows").item(0);
+        
+        Element root = old.createElement("workflow");
+        root.setAttribute("id", flow.getURI());
         root.setAttribute("name", payload.optString("name"));
-        root.setAttribute("version", payload.optString("version"));
+        double verNum = Double.parseDouble(payload.optString("version", "1.0"));
+        root.setAttribute("version", String.valueOf(verNum + 1));
+        
+        Element desc = old.createElement("description");
+        desc.setTextContent("_");
+        
+        root.appendChild(desc);
         
         //Add activities
         JSONArray arr =  payload.optJSONArray("activities");
@@ -145,18 +148,18 @@ public class SWBAWorkflow extends GenericResource {
             String type = item.optString("type");
             String description = item.optString("description");
             
-            if ((!name.isEmpty() && !description.isEmpty()) || "AuthorActivity".equals(type) || "EndActivity".equals(type)) {
-                Element act = ret.createElement("activity");
+            //Ignore start and end activities because SWBDocumentsToAuthorize expects XML activities in this order
+            if ((!name.isEmpty() && !description.isEmpty()) && !"AuthorActivity".equals(type) && !"EndActivity".equals(type)) {
+                Element act = old.createElement("activity");
                 act.setAttribute("type", item.optString("type"));
                 act.setAttribute("name", item.optString("name"));
+                
+                Element descr = old.createElement("description");
+                descr.setTextContent(description);
                 act.setAttribute("days", item.optString("days"));
                 act.setAttribute("hours", item.optString("hours"));
-                
-                if (!"AuthorActivity".equals(type) && !"EndActivity".equals(type)) {
-                    Element desc = ret.createElement("description");
-                    desc.setTextContent(description);
-                    act.appendChild(desc);
-                }
+                act.appendChild(descr);
+
                 
                 //Get roles
                 JSONArray actRoles = item.optJSONArray("roles");
@@ -169,7 +172,7 @@ public class SWBAWorkflow extends GenericResource {
                         if (repo.isEmpty()) repo = SWBContext.getAdminRepository().getId();
                         
                         if (!uid.isEmpty() && !uname.isEmpty()) {
-                            Element role = ret.createElement("role");
+                            Element role = old.createElement("role");
                             role.setAttribute("id", uid);
                             role.setAttribute("name", uname);    
                             role.setAttribute("repository", repo);
@@ -186,7 +189,7 @@ public class SWBAWorkflow extends GenericResource {
                         String uid = uitem.optString("id");
                         String uname = uitem.optString("name");
                         if (!uid.isEmpty() && !uname.isEmpty()) {
-                            Element usr = ret.createElement("user");
+                            Element usr = old.createElement("user");
                             usr.setAttribute("id", uid);
                             usr.setAttribute("name", uname);
                             act.appendChild(usr);
@@ -198,11 +201,22 @@ public class SWBAWorkflow extends GenericResource {
             }
         }
         
+        //Add start and end activities
+        Element startAct = old.createElement("activity");
+        startAct.setAttribute("name", "Generador de contenido");
+        startAct.setAttribute("type", "AuthorActivity");
+        root.appendChild(startAct);
+
+        Element endAct = old.createElement("activity");
+        endAct.setAttribute("name", "Terminar flujo");
+        endAct.setAttribute("type", "EndActivity");
+        root.appendChild(endAct);
+        
+        
         //Add links
         arr =  payload.optJSONArray("links");
         for (int i = 0; i < arr.length(); i++) {
             JSONObject link = arr.getJSONObject(i);
-            boolean authorized = link.optBoolean("authorized");
             boolean publish = link.optBoolean("publish");
             String type = link.optString("type");
             String from = link.optString("from");
@@ -210,25 +224,36 @@ public class SWBAWorkflow extends GenericResource {
             
             if (!type.isEmpty() && !from.isEmpty() && !to.isEmpty()) {
                 if (!type.equals("startLink")) {
-                    Element elink = ret.createElement("link");
-                    elink.setAttribute("authorized", String.valueOf(authorized));
+                    String authorized = "authorized".equals(type) ? "true" : "false";
+                    Element elink = old.createElement("link");
+                    elink.setAttribute("authorized", authorized);
                     elink.setAttribute("from", from);
                     elink.setAttribute("publish", String.valueOf(publish));
                     elink.setAttribute("to", to);
                     elink.setAttribute("type", type);
                     
-                    Element service = ret.createElement("service");
-                    service.setTextContent("mail");
-                    elink.appendChild(service);
+                    Element mailService = old.createElement("service");
+                    mailService.setTextContent("mail");
+                    elink.appendChild(mailService);
                     
-                    if (publish) {
-                        service = ret.createElement("service");
-                        service.setTextContent("publish");
+                    if (to.equals("Generador de contenido")) {
+                        Element service = old.createElement("service");
+                        service.setTextContent("true".equals(authorized) ? "authorize" : "noauthorize");
                         elink.appendChild(service);
+                    } else if (to.equals("Terminar flujo")) {
+                        Element service = old.createElement("service");
+                        if (publish) {
+                            service.setTextContent("publish");
+                            elink.appendChild(service);
+                        }
+                        
+                        service = old.createElement("service");
+                        service.setTextContent("true".equals(authorized) ? "authorize" : "noauthorize");
+                        elink.appendChild(service);
+                    } else if (!"true".equals(authorized)) {
+                        Element service = old.createElement("service");
+                        service.setTextContent("noauthorize");
                     }
-                    service = ret.createElement("service");
-                    service.setTextContent(authorized ? "authorize" : "noauthorize");
-                    elink.appendChild(service);
                     
                     root.appendChild(elink);
                 }
@@ -239,14 +264,15 @@ public class SWBAWorkflow extends GenericResource {
         arr =  payload.optJSONArray("resourceTypes");
         for (int i = 0; i < arr.length(); i++) {
             JSONObject item = arr.getJSONObject(i);
-            Element rt = ret.createElement("resourceType");
+            Element rt = old.createElement("resourceType");
             rt.setAttribute("id", item.optString("id"));
             rt.setAttribute("name", item.optString("name"));
             rt.setAttribute("topicmap", item.optString("topicmap"));
             root.appendChild(rt);
         }
         
-        return SWBUtils.XML.domToXml(ret);
+        oldFlows.insertBefore(root, oldFlows.getFirstChild()); //This is because PFlowManager expects first child to be the last version
+        return SWBUtils.XML.domToXml(old);
     };
     
     /**
@@ -613,7 +639,7 @@ public class SWBAWorkflow extends GenericResource {
                 PFlow flow = (PFlow)obj.createGenericInstance();
                 try {
                     _ret = getWorkFlowData(flow, paramRequest.getUser());
-                    System.out.println(_ret.toString(2));
+                    //System.out.println(_ret.toString(2));
                 } catch (JSONException jsex) {
                     log.error("Error al generar JSON del componente", jsex);
                 }
@@ -809,43 +835,55 @@ public class SWBAWorkflow extends GenericResource {
     private JSONObject getWorkFlowData(PFlow flow, User user) throws JSONException {
         JSONObject ret = null;
         Document doc = SWBUtils.XML.xmlToDom(flow.getXml());
+        
         if (null != doc) {
-            NodeList nodes = doc.getElementsByTagName("workflow");
-            if (nodes.getLength() > 0) {
-                Element root = (Element) nodes.item(0);
+            Element root = null;
+            double verNum = 0;
+            NodeList wfs = doc.getElementsByTagName("workflows");
+            if (wfs.getLength() > 0) {
+                NodeList wfNodes = doc.getElementsByTagName("workflow");
+                for (int i = 0; i < wfNodes.getLength(); i++) {
+                    Element ele = (Element) wfNodes.item(i);
+                    String verString = ele.getAttribute("version");
+                    if (Double.parseDouble(verString) > verNum) {
+                        verNum = Double.parseDouble(verString);
+                        root = ele;
+                    }
+                }
+            }
+
+            if (null != root) {
                 String id = root.getAttribute("id");
                 String name = root.getAttribute("name");
-                String version = root.getAttribute("version");
+                String version = String.valueOf(verNum);
                 String description = "_";
                 NodeList descNode = root.getElementsByTagName("description");
                 if (descNode.getLength() > 0) {
                     description = descNode.item(0).getTextContent();
                 }
-                
+
                 ret = createNodeObject(id, name, description);
                 ret.put("version", version);
-                
+
                 //Obtener lista conciliada de resourceTypes del flujo
                 JSONArray rtypes = getResourceTypeCat(getNodeElements("resourceType", root), flow.getWebSite(), user);
                 ret.put("resourceTypes", rtypes);
-                
+
                 //Obtener lista de actividades del flujo
                 JSONArray activities = getNodeElements("activity", root);
                 if (activities.length() == 0) {
                     //Agregar actividades por defecto
                     JSONObject startAct = createNodeObject(null, "Generador de contenido", "");
-                    startAct.put("topicmap", flow.getWebSite().getId());
                     startAct.put("type", "AuthorActivity");
-                    
+
                     JSONObject endAct = createNodeObject(null, "Terminar flujo", "");
-                    endAct.put("topicmap", flow.getWebSite().getId());
                     endAct.put("type", "EndActivity");
-                    
+
                     activities.put(startAct);
                     activities.put(endAct);
                 }
                 ret.put("activities", activities);
-                
+
                 //Obtener lista de secuencias del flujo
                 JSONArray links = getNodeElements("link", root);
                 ret.put("links", links);

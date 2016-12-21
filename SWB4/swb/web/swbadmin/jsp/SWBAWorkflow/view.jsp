@@ -77,6 +77,16 @@ if (SWBContext.getAdminWebSite().equals(paramRequest.getWebPage().getWebSite()) 
         div.svgContainer svg {
             width: 1280px;
         }
+        
+        svg text {
+            -webkit-user-select: none;
+               -moz-user-select: none;
+                -ms-user-select: none;
+                    user-select: none;
+        }
+        svg text::selection {
+            background: none;
+        }
     </style>
     <jsp:include page="<%= pathAct %>" />
     <jsp:include page="<%= pathTrans %>" />

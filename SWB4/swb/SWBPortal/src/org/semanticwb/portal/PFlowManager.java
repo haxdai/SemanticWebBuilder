@@ -216,13 +216,18 @@ public class PFlowManager
             Iterator<PFlow> flows = site.listPFlows();
             while (flows.hasNext())
             {
-                PFlow flow = flows.next();                
+                PFlow flow = flows.next();
                 Iterator<PFlowInstance> instances = flow.listPFlowInstances();
                 while (instances.hasNext())
                 {
                     PFlowInstance instance = instances.next();
-                    Resource resource = instance.getPfinstResource();                    
-                    if (resource != null && isInFlow(resource) && this.isReviewer(resource, user))
+                    Resource resource = instance.getPfinstResource();
+                    boolean inFlow = isInFlow(resource);
+                    boolean reviewer = this.isReviewer(resource, user);
+                    
+                    //System.out.println("For flow "+flow);
+                    //System.out.println("isInFlow: "+inFlow+", isReviewer:"+reviewer);
+                    if (resource != null && inFlow && reviewer)
                     {
                         getContentsAtFlow.add(resource);
                     }
@@ -363,15 +368,19 @@ public class PFlowManager
         {
             String activityName = instance.getStep();
             PFlow flow = instance.getPflow();
-            int version = instance.getVersion();
+            String version = String.valueOf(instance.getVersion());
+            version += ".0";
+            //System.out.println("::isReviewer instance version: "+version+", activityName: "+activityName);
+            
             if (activityName != null)
             {
                 Document doc = SWBUtils.XML.xmlToDom(flow.getXml());
                 NodeList workflows = doc.getElementsByTagName("workflow");
                 for (int iworkflow = 0; iworkflow < workflows.getLength(); iworkflow++)
                 {
-                    Element eworkflow = (Element) doc.getElementsByTagName("workflow").item(iworkflow);
-                    if (eworkflow.getAttribute("version").equals(version + ".0"))
+                    Element eworkflow = (Element) workflows.item(iworkflow);
+                    //System.out.println("::isReviewer workflowVersion: "+eworkflow.getAttribute("version"));
+                    if (eworkflow.getAttribute("version").equals(version))
                     {
                         NodeList activities = eworkflow.getElementsByTagName("activity");
                         for (int i = 0; i < activities.getLength(); i++)
@@ -431,7 +440,9 @@ public class PFlowManager
         PFlowInstance instance = resource.getPflowInstance();
         if (instance != null && instance.getStatus() > 0)
         {
-            int version = instance.getVersion();
+            String version = String.valueOf(instance.getVersion());
+            version = version + ".0";
+            //System.out.println("::approveResource instance version: "+version);
             PFlow flow = instance.getPflow();
             if (this.isReviewer(resource, user))
             {
@@ -443,7 +454,8 @@ public class PFlowManager
                 {
                     Element workflow = (Element) workflows.item(i);
                     String wfVersion = workflow.getAttribute("version");
-                    if (wfVersion.equals(version + ".0"))
+                    //System.out.println("::approveResource workflow version: "+wfVersion);
+                    if (wfVersion.equals(version))
                     {
                         Element ecurrentActivity = null;
                         NodeList activities = workflow.getElementsByTagName("activity");
@@ -469,17 +481,23 @@ public class PFlowManager
                                     {
                                         try
                                         {
+                                            //System.out.println("::approveResource next activity: "+newActivity);
                                             instance.setStep(newActivity);
                                             long tinit = System.currentTimeMillis();
                                             instance.setTime(new Date(tinit));
                                             if (eactivity.getAttribute("type").equals("Activity"))
                                             {
-                                                long days = Long.parseLong(eactivity.getAttribute("days"));
+                                                long days = 0;
                                                 long hours = 0;
                                                 if (eactivity.getAttribute("hours") != null && !eactivity.getAttribute("hours").equals(""))
                                                 {
                                                     hours = Long.parseLong(eactivity.getAttribute("hours"));
                                                 }
+                                                if (eactivity.getAttribute("days") != null && !eactivity.getAttribute("days").equals(""))
+                                                {
+                                                    days = Long.parseLong(eactivity.getAttribute("days"));
+                                                }
+                                                
                                                 if (days > 0 || hours > 0)
                                                 {
                                                     long milliseconds = ((hours * 3600) + (days * 86400)) * 1000;
@@ -568,14 +586,17 @@ public class PFlowManager
     private void rejectContent(Resource resource, String activity, PFlow pflow, String msgReject)
     {
         PFlowInstance instance = resource.getPflowInstance();
-        int version = instance.getVersion();
+        String version = String.valueOf(instance.getVersion());
+        version += ".0";
+        //System.out.println("::rejectContent instance version: "+version);
         Document docxml = SWBUtils.XML.xmlToDom(pflow.getXml());
         NodeList workflows = docxml.getElementsByTagName("workflow");
         for (int i = 0; i < workflows.getLength(); i++)
         {
             Element workflow = (Element) workflows.item(i);
             String wfVersion = workflow.getAttribute("version");
-            if (wfVersion.equals(version + ".0"))
+            //System.out.println("::rejectContent workflow version: "+wfVersion);
+            if (wfVersion.equals(version))
             {
                 Element ecurrentActivity = null;
                 NodeList activities = workflow.getElementsByTagName("activity");
@@ -726,6 +747,7 @@ public class PFlowManager
     {
         PFlowInstance instance = resource.getPflowInstance();
         String version = String.valueOf(instance.getVersion());
+        version = version + ".0";
         String activity = null;
         String xml = pflow.getXml();
         Document docxml = SWBUtils.XML.xmlToDom(xml);
@@ -733,7 +755,10 @@ public class PFlowManager
         for (int i = 0; i < workflows.getLength(); i++)
         {
             Element workflow = (Element) workflows.item(i);
-            version = version + ".0";
+            /*System.out.println("XML to check");
+            System.out.println(SWBUtils.XML.domToXml(docxml));
+            System.out.println("Recovered version: "+version);
+            System.out.println("Flow version: "+workflow.getAttribute("version"));*/
             if ((workflow.getAttribute("version")).equals(version))
             {
                 Element ecurrentActivity = null;
@@ -750,11 +775,15 @@ public class PFlowManager
                     instance.setTime(new Date(tinit));
                     if (ecurrentActivity.getAttribute("type").equals("Activity"))
                     {
-                        long days = Long.parseLong(ecurrentActivity.getAttribute("days"));
+                        long days = 0;//Long.parseLong(ecurrentActivity.getAttribute("days"));
                         long hours = 0;
                         if (ecurrentActivity.getAttribute("hours") != null && !ecurrentActivity.getAttribute("hours").equals(""))
                         {
                             hours = Long.parseLong(ecurrentActivity.getAttribute("hours"));
+                        }
+                        if (ecurrentActivity.getAttribute("days") != null && !ecurrentActivity.getAttribute("days").equals(""))
+                        {
+                            days = Long.parseLong(ecurrentActivity.getAttribute("days"));
                         }
                         if (days > 0 || hours > 0)
                         {
@@ -1066,12 +1095,13 @@ public class PFlowManager
                 WebSite site = resource.getWebSite();
                 PFlow flow = resource.getPflowInstance().getPflow();
                 Document docdef = SWBUtils.XML.xmlToDom(flow.getXml());
-                int version = resource.getPflowInstance().getVersion();
+                String version = String.valueOf(resource.getPflowInstance().getVersion());
+                version += ".0";
                 NodeList workflows = docdef.getElementsByTagName("workflow");
                 for (int iworkflow = 0; iworkflow < workflows.getLength(); iworkflow++)
                 {
                     Element eworkflow = (Element) workflows.item(iworkflow);
-                    if (eworkflow.getAttribute("version").equals(version + ".0"))
+                    if (eworkflow.getAttribute("version").equals(version))
                     {
                         NodeList activities = eworkflow.getElementsByTagName("activity");
                         for (int i = 0; i < activities.getLength(); i++)
@@ -1246,7 +1276,9 @@ public class PFlowManager
         {
             instance.setStatus(3);
             String activityName = instance.getStep();
-            int version = instance.getVersion();
+            String version = String.valueOf(instance.getVersion());
+            version += ".0";
+            //System.out.println("::noauthorizeContent instance version:"+version);
             PFlow pflow = instance.getPflow();
             if (instance.getStep() != null)
             {
@@ -1255,7 +1287,8 @@ public class PFlowManager
                 for (int iworkflow = 0; iworkflow < workflows.getLength(); iworkflow++)
                 {
                     Element eworkflow = (Element) workflows.item(iworkflow);
-                    if (eworkflow.getAttribute("version").equals(version + ".0"))
+                    //System.out.println("::noauthorizeContent workflow version:"+eworkflow.getAttribute("version"));
+                    if (eworkflow.getAttribute("version").equals(version))
                     {
                         NodeList activities = eworkflow.getElementsByTagName("activity");
                         for (int i = 0; i < activities.getLength(); i++)
